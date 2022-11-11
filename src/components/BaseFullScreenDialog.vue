@@ -51,7 +51,7 @@
           <slot name="header" />
         </div>
         <v-flex class="float-right">
-          <v-flex class="float-left mt-1">
+          <v-flex class="float-left" :style="{ marginTop: '2px' }">
             <div v-if="Progress" :style="{ float: 'left' }">
               <v-progress-circular color="white" indeterminate size="20" width="3" />
             </div>
@@ -76,6 +76,7 @@
 
 <script>
   import { mapState } from 'vuex';
+  import { LOGO_WHITE } from '@/constants/platform';
 
   export default {
     name: 'BaseFullScreenDialog',
@@ -103,7 +104,7 @@
     },
     data() {
       return {
-        logo: this.$LOGO_WHITE,
+        logo: LOGO_WHITE,
       };
     },
     computed: {

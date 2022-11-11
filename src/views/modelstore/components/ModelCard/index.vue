@@ -19,7 +19,7 @@
       <v-col v-for="(item, index) in items" :key="index" class="pt-0" cols="3">
         <v-hover #default="{ hover }">
           <v-card class="mx-auto card__pos" :elevation="hover ? 5 : 0" flat height="100%">
-            <v-list-item three-line>
+            <v-list-item class="mb-5" three-line>
               <v-list-item-avatar size="80" tile>
                 <BaseLogo icon-name="ai-model" :ml="0" :width="60" />
               </v-list-item-avatar>
@@ -48,7 +48,7 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-card-actions class="pl-4 pr-2 py-0 mb-2">
+            <v-card-actions class="pl-4 pr-2 py-0 mb-2" :style="{ position: 'absolute', bottom: '0', width: '100%' }">
               <div>
                 <v-rating
                   background-color="orange lighten-3"
@@ -65,7 +65,10 @@
             </v-card-actions>
 
             <v-flex v-if="item.recommentContent" class="card__watermark-bg" />
-            <v-flex v-if="item.recommentContent" class="card__watermark font-weight-medium">
+            <v-flex
+              v-if="item.recommentContent"
+              :class="`${Locale === 'en' ? 'card__watermark-en' : 'card__watermark'} font-weight-medium`"
+            >
               {{ $t('tip.recommend') }}
             </v-flex>
           </v-card>
@@ -124,7 +127,7 @@
       };
     },
     computed: {
-      ...mapState(['Scale']),
+      ...mapState(['Scale', 'Locale']),
       height() {
         return parseInt((window.innerHeight - 148) / this.Scale);
       },
@@ -264,6 +267,16 @@
       position: absolute;
       top: 10px;
       right: 7px;
+      transform: rotate(47deg);
+      text-transform: uppercase;
+      color: white;
+      font-size: 12px;
+    }
+
+    &__watermark-en {
+      position: absolute;
+      top: 14px;
+      right: 0;
       transform: rotate(47deg);
       text-transform: uppercase;
       color: white;

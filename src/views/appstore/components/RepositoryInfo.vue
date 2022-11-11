@@ -62,19 +62,21 @@
       messages: messages,
     },
     mixins: [BaseSelect],
-    data: () => ({
-      title: '',
-      dialog: false,
-      valid: false,
-      obj: {
-        ChartRepoName: '',
-        URL: '',
-      },
-      objRules: {
-        chartRepoNameRules: [required],
-        urlRules: [required],
-      },
-    }),
+    data() {
+      return {
+        title: '',
+        dialog: false,
+        valid: false,
+        obj: {
+          ChartRepoName: '',
+          URL: '',
+        },
+        objRules: {
+          chartRepoNameRules: [required],
+          urlRules: [required],
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

@@ -55,21 +55,23 @@
   import { getSecretDetail, patchUpdateSecret } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
-  import SecretSchema from '@/views/resource/secret/mixins/schema';
+  import SecretSchema from '@/utils/schema/secret';
 
   export default {
     name: 'UpdateSecret',
     components: {
       SecretBaseForm,
     },
-    mixins: [BaseResource, SecretSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      item: null,
-      formComponent: 'SecretBaseForm',
-      switchKey: '',
-    }),
+    mixins: [BaseResource],
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        item: null,
+        formComponent: 'SecretBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },
@@ -94,7 +96,7 @@
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
             if (!this.m_resource_checkDataWithNS(data, this.item.metadata.namespace)) return;
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(SecretSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'SecretBaseForm') {
@@ -123,7 +125,7 @@
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
           this.m_resource_addNsToData(data, this.AdminViewport ? this.item.metadata.namespace : this.ThisNamespace);
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(SecretSchema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);
             return;

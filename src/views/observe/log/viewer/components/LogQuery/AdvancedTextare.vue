@@ -17,6 +17,7 @@
 <template>
   <div class="mx-2">
     <v-textarea
+      id="log_ql_global"
       ref="advanceTextarea"
       v-model="ql"
       auto-grow
@@ -85,47 +86,49 @@
         default: () => '',
       },
     },
-    data: () => ({
-      suggestShow: false,
-      filterItems: [],
-      originRangeFunctions: [
-        { text: 'rate', value: 'rate', t: 'normal' },
-        { text: 'count_over_time', value: 'count_over_time', t: 'time' },
-        { text: 'sum_over_time', value: 'sum_over_time', t: 'time' },
-        { text: 'avg_over_time', value: 'avg_over_time', t: 'time' },
-        { text: 'max_over_time', value: 'max_over_time', t: 'time' },
-        { text: 'min_over_time', value: 'min_over_time', t: 'time' },
-        { text: 'topk', value: 'topk', t: 'top' },
-        { text: 'sum', value: 'sum', t: 'normal' },
-        { text: 'min', value: 'min', t: 'normal' },
-        { text: 'max', value: 'max', t: 'normal' },
-        { text: 'avg', value: 'avg', t: 'normal' },
-        { text: 'stddev', value: 'stddev', t: 'normal' },
-        { text: 'stdvar', value: 'stdvar', t: 'normal' },
-        { text: 'count', value: 'count', t: 'normal' },
-        { text: 'bottomk', value: 'bottomk', t: 'top' },
-        { text: 'stdvar_over_time', value: 'stdvar_over_time', t: 'time' },
-        { text: 'stddev_over_time', value: 'stddev_over_time', t: 'time' },
-        { text: 'quantile_over_time', value: 'quantile_over_time', t: 'time' },
-      ],
-      originLabels: [],
-      originValues: [],
-      originPiplines: [
-        { text: 'json', value: 'json', t: 'none' },
-        { text: 'line_format', value: 'line_format', t: 'quote' },
-        { text: 'logfmt', value: 'logfmt', t: 'none' },
-        { text: 'regexp', value: 'regexp', t: 'quote' },
-        { text: 'label_format', value: 'label_format', t: 'space' },
-        { text: 'unwrap', value: 'unwrap', t: 'space' },
-      ],
-      loading: false,
-      tmpFilters: [],
-      keyword: '',
-      position: 0,
-      suggestTop: 190,
-      ql: '',
-      headers: [{ text: '', value: 'item', align: 'start' }],
-    }),
+    data() {
+      return {
+        suggestShow: false,
+        filterItems: [],
+        originRangeFunctions: [
+          { text: 'rate', value: 'rate', t: 'normal' },
+          { text: 'count_over_time', value: 'count_over_time', t: 'time' },
+          { text: 'sum_over_time', value: 'sum_over_time', t: 'time' },
+          { text: 'avg_over_time', value: 'avg_over_time', t: 'time' },
+          { text: 'max_over_time', value: 'max_over_time', t: 'time' },
+          { text: 'min_over_time', value: 'min_over_time', t: 'time' },
+          { text: 'topk', value: 'topk', t: 'top' },
+          { text: 'sum', value: 'sum', t: 'normal' },
+          { text: 'min', value: 'min', t: 'normal' },
+          { text: 'max', value: 'max', t: 'normal' },
+          { text: 'avg', value: 'avg', t: 'normal' },
+          { text: 'stddev', value: 'stddev', t: 'normal' },
+          { text: 'stdvar', value: 'stdvar', t: 'normal' },
+          { text: 'count', value: 'count', t: 'normal' },
+          { text: 'bottomk', value: 'bottomk', t: 'top' },
+          { text: 'stdvar_over_time', value: 'stdvar_over_time', t: 'time' },
+          { text: 'stddev_over_time', value: 'stddev_over_time', t: 'time' },
+          { text: 'quantile_over_time', value: 'quantile_over_time', t: 'time' },
+        ],
+        originLabels: [],
+        originValues: [],
+        originPiplines: [
+          { text: 'json', value: 'json', t: 'none' },
+          { text: 'line_format', value: 'line_format', t: 'quote' },
+          { text: 'logfmt', value: 'logfmt', t: 'none' },
+          { text: 'regexp', value: 'regexp', t: 'quote' },
+          { text: 'label_format', value: 'label_format', t: 'space' },
+          { text: 'unwrap', value: 'unwrap', t: 'space' },
+        ],
+        loading: false,
+        tmpFilters: [],
+        keyword: '',
+        position: 0,
+        suggestTop: 190,
+        ql: '',
+        headers: [{ text: '', value: 'item', align: 'start' }],
+      };
+    },
     watch: {
       logQL: {
         handler: function () {
@@ -168,6 +171,13 @@
       },
       focusInput() {
         const vue = this;
+        if (
+          this.originRangeFunctions.some((o) => {
+            return this.ql.indexOf(o.text) > -1;
+          })
+        ) {
+          return;
+        }
         setTimeout(() => {
           vue.suggestShow = true;
         }, 350);
@@ -223,6 +233,13 @@
         this.$refs.advanceTextarea.focus();
       },
       async onSuggestionInput(e) {
+        if (this.suggestTop <= this.$refs.advanceTextarea.$el.clientHeight + 250) {
+          const enters = [...this.ql.matchAll(new RegExp('\n', 'g'))];
+          this.suggestTop = 190 + 30 * enters.length;
+        } else {
+          this.suggestTop = this.$refs.advanceTextarea.$el.clientHeight + 4;
+        }
+
         if (!this.cluster.value) {
           this.$store.commit('SET_SNACKBAR', {
             text: this.$root.$t('tip.select_project_environment'),
@@ -230,12 +247,7 @@
           });
           return;
         }
-        // this.suggestTop = this.$refs.advanceTextarea.$el.clientHeight + 4
-        if (this.suggestTop <= this.$refs.advanceTextarea.$el.clientHeight + 90) {
-          this.suggestTop = e.key === 'Enter' ? this.suggestTop + 25 : this.suggestTop;
-        } else {
-          this.suggestTop = this.$refs.advanceTextarea.$el.clientHeight + 4;
-        }
+
         const p = e.srcElement.selectionStart;
         if (e.keyCode > 32 && e.keyCode <= 200) {
           this.keyword += e.key;

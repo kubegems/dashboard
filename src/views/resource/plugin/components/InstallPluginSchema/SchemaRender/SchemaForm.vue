@@ -30,16 +30,16 @@
 <script>
   import { mapGetters } from 'vuex';
 
+  import BaseYaml from '@/mixins/yaml';
   import { deepCopy } from '@/utils/helpers';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
-  import { YamlMixin } from '@/views/appstore/mixins/yaml';
 
   export default {
     name: 'SchemaForm',
     components: {
       JsonSchema,
     },
-    mixins: [YamlMixin],
+    mixins: [BaseYaml],
     props: {
       item: {
         type: Object,

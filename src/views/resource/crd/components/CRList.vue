@@ -19,7 +19,7 @@
     <v-card class="pa-0" flat>
       <v-card-title class="pa-0">
         <v-spacer />
-        <v-btn v-if="m_permisson_resourceAllow" color="primary" small text @click="addCR">
+        <v-btn v-if="m_permisson_resourceAllow()" color="primary" small text @click="addCR">
           <v-icon left>mdi-plus-box</v-icon>
           {{ $root.$t('operate.create_c', [$root.$t('resource.cr')]) }}
         </v-btn>
@@ -103,15 +103,17 @@
         default: () => null,
       },
     },
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-        noprocessing: true,
-      },
-    }),
+    data() {
+      return {
+        items: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+          noprocessing: true,
+        },
+      };
+    },
     computed: {
       headers() {
         const items = [
@@ -126,7 +128,7 @@
             sortable: false,
           });
         }
-        if (this.m_permisson_resourceAllow) {
+        if (this.m_permisson_resourceAllow()) {
           items.push({
             text: '',
             value: 'action',

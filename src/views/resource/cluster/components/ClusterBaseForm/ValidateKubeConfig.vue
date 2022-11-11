@@ -57,7 +57,6 @@
         lang="yaml"
         :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
         theme="chrome"
-        @init="$aceinit"
         @keydown.stop
       />
     </v-card-text>
@@ -81,30 +80,32 @@
         default: () => false,
       },
     },
-    data: () => ({
-      valid: false,
-      obj: {
-        ClusterID: 0,
-        ClusterName: '',
-        KubeConfig: '',
-        Primary: false,
-        Vendor: 'selfhosted',
-        ImageRepo: 'registry.cn-beijing.aliyuncs.com/kubegems',
-        DefaultStorageClass: 'local-path',
-        extend: {
-          storageClasses: [],
-          imageRepos: ['registry.cn-beijing.aliyuncs.com/kubegems', 'docker.io/kubegems'],
-          validate: 'progressing',
-          clusterName: '',
-          existInstaller: false,
+    data() {
+      return {
+        valid: false,
+        obj: {
+          ClusterID: 0,
+          ClusterName: '',
+          KubeConfig: '',
+          Primary: false,
+          Vendor: 'selfhosted',
+          ImageRepo: 'registry.cn-beijing.aliyuncs.com/kubegems',
+          DefaultStorageClass: 'local-path',
+          extend: {
+            storageClasses: [],
+            imageRepos: ['registry.cn-beijing.aliyuncs.com/kubegems', 'docker.io/kubegems'],
+            validate: 'progressing',
+            clusterName: '',
+            existInstaller: false,
+          },
         },
-      },
-      vendorItems: [
-        { vendor: 'Kubernetes Self-host', value: 'selfhosted' },
-        { vendor: 'Aliyun ACK', value: 'ack' },
-        { vendor: 'GoogleCloud GKE', value: 'gke' },
-      ],
-    }),
+        vendorItems: [
+          { vendor: 'Kubernetes Self-host', value: 'selfhosted' },
+          { vendor: 'Aliyun ACK', value: 'ack' },
+          { vendor: 'GoogleCloud GKE', value: 'gke' },
+        ],
+      };
+    },
     computed: {
       ...mapState(['Scale']),
     },

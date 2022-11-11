@@ -43,7 +43,7 @@
       <BaseInfoCard
         icon="mdi-nas"
         :large="false"
-        :num="gpuStorage ? gpuStorage : $t('tip.unallocated')"
+        :num="gpuStorage ? `${gpuStorage} Gi` : $t('tip.unallocated')"
         :title="$t('tip.allocated', [$root.$t('resource.video_memory')])"
       />
     </v-col>
@@ -74,11 +74,11 @@
       item: {
         handler(newValue) {
           if (newValue) {
-            if (newValue?.spec?.server?.resources?.limits?.[`limits.nvidia.com/gpu`]) {
-              this.gpu = parseFloat(newValue?.spec?.server?.resources?.limits?.[`limits.nvidia.com/gpu`]);
+            if (newValue?.spec?.server?.resources?.limits?.[`nvidia.com/gpu`]) {
+              this.gpu = parseFloat(newValue?.spec?.server?.resources?.limits?.[`nvidia.com/gpu`]);
             }
             if (newValue?.spec?.server?.resources?.limits?.[`tencent.com/vcuda-core`]) {
-              this.gpu += parseFloat(newValue?.spec?.server?.resources?.limits?.[`tencent.com/vcuda-core`]) / 100;
+              this.gpu = parseFloat(newValue?.spec?.server?.resources?.limits?.[`tencent.com/vcuda-core`]) / 100;
             }
             if (newValue?.spec?.server?.resources?.limits?.[`tencent.com/vcuda-memory`]) {
               this.gpuStorage =

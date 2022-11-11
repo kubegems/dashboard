@@ -26,7 +26,7 @@
           <span class="text-body-2 mx-2">
             {{ $root.$t('resource.mesh_c', [$root.$t('resource.role')]) }} :
             {{
-              $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole]
+              VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole]
                 ? $root.$t(`role.mesh.${m_permisson_virtualSpaceRole}`)
                 : $root.$t('data.unknown')
             }}
@@ -39,7 +39,7 @@
             <v-icon left small> mdi-logout </v-icon>
             {{ $root.$t('operate.return') }}
           </v-btn>
-          <v-menu v-if="m_permisson_tenantAllow || m_permisson_virtualSpaceAllow" left>
+          <v-menu v-if="m_permisson_tenantAllow() || m_permisson_virtualSpaceAllow()" left>
             <template #activator="{ on }">
               <v-btn icon>
                 <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
@@ -75,6 +75,7 @@
   import ManageUser from './components/ManageUser';
   import UpdateVirtualSpace from './components/UpdateVirtualSpace';
   import { deleteVirtualSpace, getVirtualSpaceDetail } from '@/api';
+  import { VIRTUALSPACE_ROLE } from '@/constants/platform';
   import BasePermission from '@/mixins/permission';
 
   export default {
@@ -86,9 +87,13 @@
       UpdateVirtualSpace,
     },
     mixins: [BasePermission],
-    data: () => ({
-      virtualspace: null,
-    }),
+    data() {
+      this.VIRTUALSPACE_ROLE = VIRTUALSPACE_ROLE;
+
+      return {
+        virtualspace: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       ...mapGetters(['VirtualSpace']),

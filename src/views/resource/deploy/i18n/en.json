@@ -51,7 +51,50 @@
     "step_status": "Task Step Status",
     "error_info": "Error message",
     "traffic_topology": "Traffic in VBL.",
-    "step_and_traffic": "Step &Traffic"
+    "step_and_traffic": "Step &Traffic",
+
+    "auto": "Auto",
+    "manual": "Manual",
+    "service_setting": "Service Setting",
+    "blue": "Active Service",
+    "green": "Preview Service",
+    "upgrade_policy": "Auto Promotion Enabled Rules",
+    "delay_time": "Auto Promotion Seconds",
+    "app_analysis": "Preview Service",
+    "post_analysis": "Pre Promotion Analysis",
+    "complete_analysis": "Post Promotion Analysis",
+
+    "traffic_setting": "Traffic Setting",
+    "traffic_route": "Traffic Routing",
+    "canary_weight": "Canary Weight",
+    "canary_service": "Canary Service ",
+    "online_service": "Stable Service",
+    "canary_setting": "Canary Setting",
+    "analysis": "Analysis",
+    "default": "Default",
+    "istio_gateway": "Istio Gateway",
+
+    "rolling_update_policy": "Rolling update policy",
+    "max_unavailable": "Max unavailable",
+    "max_surge": "Max surge",
+
+    "runtime": "Runtime",
+    "version": "Version",
+    "publish_soon": "Soon",
+    "auto_generate_version": "Auto Version Generated",
+    "unpublished": "UnPublished",
+
+    "regex_rule": "Match Rule",
+    "regex": "Match",
+    "regex_header": "Match Header",
+    "traffic_weight": "Traffic Weight",
+    "default_traffic_weight": "Default Traffic Weight",
+    "custom_traffic_weight": "Custom Traffic Weight",
+
+    "analysis_template": "Analysis Template",
+    "template_range": "Template Scope",
+    "params": "Parameter",
+    "cluster_level": "Cluster"
   },
   "operate": {
     "switch_deploy": "Switch Deployment Mode",
@@ -66,7 +109,11 @@
     "resource_live": "Resource Live",
     "resource_diff": "Resource Diff",
     "log": "Logs",
-    "app_status": "App Status"
+    "app_status": "App Status",
+
+    "traffic": "Default",
+    "header": "Header",
+    "uri": "Uri"
   },
   "table": {
     "name": "Name",

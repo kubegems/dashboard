@@ -17,6 +17,29 @@ import yaml from 'js-yaml';
 import _ from 'lodash';
 import moment from 'moment';
 import Vue from 'vue';
+import 'moment/dist/locale/zh-cn';
+import 'moment/dist/locale/ja';
+import 'moment/dist/locale/zh-tw';
+import 'brace/theme/chrome';
+import 'brace/ext/language_tools';
+import 'brace/ext/searchbox';
+import 'brace/ext/beautify';
+import 'brace/mode/yaml';
+import 'brace/mode/json';
+import 'brace/mode/xml';
+import 'brace/mode/ini';
+import 'brace/mode/html';
+import 'brace/mode/java';
+import 'brace/mode/python';
+import 'brace/mode/golang';
+import 'brace/mode/c_cpp';
+import 'brace/mode/csharp';
+import 'brace/mode/css';
+import 'brace/mode/javascript';
+import 'brace/mode/plain_text';
+import 'brace/mode/sass';
+import 'brace/mode/scss';
+import 'brace/snippets/json';
 
 import store from '@/store';
 
@@ -28,25 +51,18 @@ Vue.prototype.$aceOptions = {
   wrap: true,
   readOnly: false,
 };
-Vue.prototype.$aceinit = () => {
-  require('brace/theme/chrome');
-  require('brace/ext/language_tools');
-  require('brace/ext/searchbox');
-  require('brace/ext/beautify');
-  require('brace/mode/yaml');
-  require('brace/mode/json');
-  require('brace/mode/xml');
-  require('brace/mode/ini');
-  require('brace/mode/html');
-  require('brace/mode/java');
-  require('brace/mode/python');
-  require('brace/mode/golang');
-  require('brace/mode/c_cpp');
-  require('brace/mode/plain_text');
-  require('brace/snippets/json');
-};
 
-moment.locale(store.state.Locale === 'zh-Hans' ? 'zh-cn' : store.state.Locale);
+moment.locale(
+  (() => {
+    if (store.state.Locale === 'zh-Hans') {
+      return 'zh-cn';
+    }
+    if (store.state.Locale === 'zh-Hant') {
+      return 'zh-tw';
+    }
+    return store.state.Locale;
+  })(),
+);
 Vue.prototype.$moment = moment;
 
 Vue.prototype.$_ = _;
@@ -56,7 +72,7 @@ Vue.prototype.$yamlload = (data) => {
     const d = yaml.load(data);
     if (typeof d === 'string') {
       store.commit('SET_SNACKBAR', {
-        text: '不符合标准的yaml格式',
+        text: Vue.prototype.$_i18n.t('tip.not_based_yaml'),
         color: 'warning',
       });
       return null;

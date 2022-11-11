@@ -100,18 +100,20 @@
         default: () => null,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      retries: false,
-      timeout: false,
-      retriesDefault: {
-        attempts: 3,
-        perTryTimeout: '2s',
-      },
-      timeoutDefault: '2s',
-      obj: {},
-    }),
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        retries: false,
+        timeout: false,
+        retriesDefault: {
+          attempts: 3,
+          perTryTimeout: '2s',
+        },
+        timeoutDefault: '2s',
+        obj: {},
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport']),
       ...mapGetters(['Cluster']),

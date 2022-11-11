@@ -218,7 +218,7 @@
 
         const params = [cluster, namespace, { page: 1, size: 999 }];
         const res = await Promise.all([getOutputsData(...params), getClusterOutputsData(...params)]);
-        const list = res.reduce((pre, current) => pre.concat(current.List), []);
+        const list = res.reduce((pre, current) => pre.concat(current?.List || []), []);
         this.cacheAll = list.sort(
           (a, b) => Date.parse(b.metadata.creationTimestamp) - Date.parse(a.metadata.creationTimestamp),
         );

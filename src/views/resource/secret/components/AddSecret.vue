@@ -55,20 +55,22 @@
   import { postAddSecret } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';
-  import SecretSchema from '@/views/resource/secret/mixins/schema';
+  import SecretSchema from '@/utils/schema/secret';
 
   export default {
     name: 'AddSecret',
     components: {
       SecretBaseForm,
     },
-    mixins: [BaseResource, SecretSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'SecretBaseForm',
-      switchKey: '',
-    }),
+    mixins: [BaseResource],
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'SecretBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },
@@ -92,7 +94,7 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(SecretSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'SecretBaseForm') {
@@ -120,7 +122,7 @@
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
           this.m_resource_addNsToData(data, this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace);
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(SecretSchema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);
             return;

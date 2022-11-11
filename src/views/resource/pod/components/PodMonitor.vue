@@ -30,7 +30,7 @@
       <v-row>
         <v-col cols="6">
           <BaseAreaChart
-            id="cpu"
+            id="pod_cpu"
             label="container"
             :metrics="cpu"
             :title="$t('table.used', [$root.$t('resource.cpu')])"
@@ -39,21 +39,27 @@
         </v-col>
         <v-col cols="6">
           <BaseAreaChart
-            id="memory"
+            id="pod_memory"
             label="container"
             :metrics="memory"
             :title="$t('table.used', [$root.$t('resource.memory')])"
-            type="memory"
+            unit="Mi"
           />
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="6">
-          <BaseAreaChart id="networkin" label="pod" :metrics="networkin" :title="$t('tip.in_traffic')" type="network" />
+          <BaseAreaChart
+            id="pod_networkin"
+            label="pod"
+            :metrics="networkin"
+            :title="$t('tip.in_traffic')"
+            type="network"
+          />
         </v-col>
         <v-col cols="6">
           <BaseAreaChart
-            id="networkout"
+            id="pod_networkout"
             label="pod"
             :metrics="networkout"
             :title="$t('tip.out_traffic')"
@@ -69,14 +75,14 @@
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import {
     CONTAINER_CPU_USAGE_PROMQL,
     CONTAINER_MEMORY_USAGE_PROMQL,
     POD_NETWORK_IN_PROMQL,
     POD_NETWORK_OUT_PROMQL,
-  } from '@/utils/prometheus';
+  } from '@/constants/prometheus';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'PodMonitor',
@@ -90,19 +96,21 @@
         default: () => null,
       },
     },
-    data: () => ({
-      cpu: [],
-      memory: [],
-      networkin: [],
-      networkout: [],
-      date: [],
-      params: {
-        start: '',
-        end: '',
-        noprocessing: true,
-      },
-      timeinterval: null,
-    }),
+    data() {
+      return {
+        cpu: [],
+        memory: [],
+        networkin: [],
+        networkout: [],
+        date: [],
+        params: {
+          start: '',
+          end: '',
+          noprocessing: true,
+        },
+        timeinterval: null,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
     },

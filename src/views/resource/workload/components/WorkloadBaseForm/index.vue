@@ -54,10 +54,12 @@
         default: () => 0,
       },
     },
-    data: () => ({
-      valid: false,
-      steps: ['WorkloadBaseInfo', 'ContaninerImage', 'StorageMount', 'ScheduleSelector', 'DeployPolicy'],
-    }),
+    data() {
+      return {
+        valid: false,
+        steps: ['WorkloadBaseInfo', 'ContaninerImage', 'StorageMount', 'ScheduleSelector', 'DeployPolicy'],
+      };
+    },
     computed: {
       obj() {
         return this.$refs[this.steps[this.step]].getData();

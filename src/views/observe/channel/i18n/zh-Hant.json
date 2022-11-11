@@ -1,0 +1,34 @@
+{
+  "table": {
+    "name": "名稱",
+    "channel": "管道",
+    "default": "內置"
+  },
+  "tip": {
+    "email": "郵箱",
+    "send": "寄件者",
+    "recv": "收件者",
+    "smtp": "SMTP伺服器",
+    "port": "端口",
+    "yes": "是",
+    "no": "否",
+    "feishu": "飛書",
+    "user_id": "用戶Id",
+    "advanced_setting": "高級配置",
+    "get_feishu_id": "如何獲取飛書用戶Id",
+    "send_passwd": "寄件者郵箱密碼",
+    "test_success": "測試發送成功！",
+    "sign_secret": "校驗簽名",
+    "skip_verify": "跳過安全校驗"
+  },
+  "filter": {
+    "channel_name": "告警渠道"
+  },
+  "resource": {
+    "channel": "告警渠道"
+  },
+  "operate": {
+    "test_c": "測試 {0} 渠道",
+    "test": "測試"
+  }
+}

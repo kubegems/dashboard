@@ -28,7 +28,31 @@
     "delay_msg": "{0}の初期遅延&nbsp;{1}s&nbsp;周波数{2}s",
     "path": "パス",
     "port": "ポート",
-    "command": "コマンド"
+    "command": "コマンド",
+    "now_path": "現在のパス",
+    "file_upload": "<span class=\"filepond--label-action\">クリックしてファイルをアップロードしてください</span>",
+    "dest_dir": "ターゲット パス",
+    "path_tip": "パスが間違っていますか? pwd コマンドを使用して絶対パスを取得してください",
+    "download_tip": "指定したファイルをダブルクリックまたは選択してダウンロードします。パスが正しくありません。pwd コマンドを実行して絶対パスを解決してください",
+    "label_tap_to_retry": "リトライ",
+    "label_tap_to_cancel": "アップロードを停止",
+    "label_file_processing_complete": "アップロード完了",
+    "label_file_processing": "アップロード中",
+    "label_file_processing_error": "アップロードに失敗しました",
+
+    "gpu_core": "トータルコア",
+    "gpu_memory": "ビデオメモリの合計",
+    "gpu_resource": "GPU リソース",
+
+    "gpu_used": "{0}ご利用金額",
+    "gpu_used_prcent": "{0}利用方法",
+    "gpu_temp": "GPU 温度",
+    "gpu_power": "GPU パワー",
+    "limits": "{0}限界値",
+    "requests": "{0}リクエスト値",
+    "core": "芯",
+    "real_time": "特定の時間",
+    "datetime": "時間"
   },
   "table": {
     "container_name": "コンテナ名",

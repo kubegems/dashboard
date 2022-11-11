@@ -17,7 +17,7 @@
 <template>
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-      <BaseSubTitle title="当前运行时" />
+      <BaseSubTitle :title="$t('tip.runtime')" />
       <v-card-text class="pa-2">
         <v-sheet v-for="(image, index) in runningImages" :key="index" class="grey lighten-4 rounded mb-3">
           <v-list-item two-line>
@@ -29,7 +29,7 @@
                     <v-list-item-title class="text-subtitle-2 py-1">
                       {{ image }}
                     </v-list-item-title>
-                    <v-list-item-subtitle class="text-body-2 py-1"> 镜像 </v-list-item-subtitle>
+                    <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.image') }} </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item v-if="index === 0" class="float-right pa-0" two-line>
@@ -37,7 +37,7 @@
                     <v-list-item-title class="text-subtitle-2 py-1">
                       {{ runtime.istioVersion ? runtime.istioVersion : '' }}&nbsp;
                     </v-list-item-title>
-                    <v-list-item-subtitle class="text-body-2 py-1"> 版本号 </v-list-item-subtitle>
+                    <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.version') }} </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
               </v-list-item-subtitle>
@@ -46,10 +46,10 @@
           </v-list-item>
         </v-sheet>
         <v-sheet v-if="runningImages.length === 0" class="grey lighten-4 rounded mb-2 text-center py-5 text-subtitle-1">
-          暂无运行镜像
+          {{ $root.$t('data.no_data') }}
         </v-sheet>
       </v-card-text>
-      <BaseSubTitle title="即将发布" />
+      <BaseSubTitle :title="$t('tip.publish_soon')" />
       <v-card-text class="pa-2">
         <v-row>
           <v-col v-for="(image, index) in publishImages" :key="index" class="py-4" cols="12">
@@ -58,7 +58,7 @@
                 class="my-0"
                 dense
                 full-width
-                label="镜像"
+                :label="$t('tip.image')"
                 readonly
                 required
                 :rules="baseRules.publishRuler[image]"
@@ -76,7 +76,7 @@
                 hide-details
                 hide-selected
                 :items="tags[image]"
-                no-data-text="暂无可选数据"
+                :no-data-text="$root.$t('data.no_data')"
                 :search-input.sync="base.images[image].tagtext"
                 solo
                 @change="onTagChange(image)"
@@ -96,12 +96,14 @@
             <v-text-field
               v-model="base.istioVersion"
               class="my-0"
-              label="版本号"
+              :label="$t('tip.tip.version')"
               required
               :rules="baseRules.versionRules"
             >
               <template #append>
-                <v-btn color="primary" small text @click="generateVersion"> 自动生成版本号 </v-btn>
+                <v-btn color="primary" small text @click="generateVersion">
+                  {{ $t('tip.auto_generate_version') }}
+                </v-btn>
               </template>
             </v-text-field>
           </v-col>
@@ -114,11 +116,15 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../../i18n';
   import { getAppImageTags } from '@/api';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'BaseDeployInfoForm',
+    i18n: {
+      messages: messages,
+    },
     props: {
       runtime: {
         type: Object,
@@ -146,7 +152,9 @@
         };
         const publishRuler = {};
         this.publishImages.forEach((img) => {
-          publishRuler[img] = [(v) => !!(this.splitImage(this.base.images[v].publish, 'tag') !== '') || '必填项'];
+          publishRuler[img] = [
+            (v) => !!(this.splitImage(this.base.images[v].publish, 'tag') !== '') || this.$root.$t('ruler.required'),
+          ];
         });
         ruler['publishRuler'] = publishRuler;
         return ruler;
@@ -168,7 +176,7 @@
         });
         const tags = data.map((d) => {
           return {
-            text: d.unpublishable ? `${d.name}(不可发布)` : d.name,
+            text: d.unpublishable ? `${d.name}(${this.$t('tip.unpublished')})` : d.name,
             value: d.name,
             disabled: d.unpublishable,
             ...d,

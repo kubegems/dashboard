@@ -70,13 +70,7 @@
               >
                 {{ $root.$t('operate.detail') }}
               </v-btn>
-              <v-btn
-                color="primary"
-                :disabled="!clusterStatus[item.ClusterName]"
-                small
-                text
-                @click="updateCluster(item)"
-              >
+              <v-btn color="primary" small text @click="updateCluster(item)">
                 {{ $root.$t('operate.edit') }}
               </v-btn>
               <v-btn color="error" small text @click="removeCluster(item)"> {{ $root.$t('operate.delete') }} </v-btn>
@@ -86,7 +80,10 @@
             </v-card-actions>
 
             <v-flex v-if="item.Primary" class="cluster__watermark-bg" />
-            <v-flex v-if="item.Primary" class="cluster__watermark font-weight-medium">
+            <v-flex
+              v-if="item.Primary"
+              :class="`${Locale === 'en' ? 'cluster__watermark-en' : 'cluster__watermark'} font-weight-medium`"
+            >
               {{ $t('tip.control_cluster') }}
             </v-flex>
           </v-card>
@@ -136,14 +133,16 @@
       UpdateCluster,
     },
     mixins: [BaseResource, BaseSelect],
-    data: () => ({
-      items: [],
-      interval: null,
-      hasControllerCluster: false,
-      clusterStatus: {},
-    }),
+    data() {
+      return {
+        items: [],
+        interval: null,
+        hasControllerCluster: false,
+        clusterStatus: {},
+      };
+    },
     computed: {
-      ...mapState(['JWT']),
+      ...mapState(['JWT', 'Locale']),
       ...mapGetters(['Cluster']),
     },
     destroyed() {
@@ -262,6 +261,16 @@
       position: absolute;
       top: 17px;
       right: 1px;
+      transform: rotate(47deg);
+      text-transform: uppercase;
+      color: white;
+      font-size: 12px;
+    }
+
+    &__watermark-en {
+      position: absolute;
+      top: 18px;
+      right: -4px;
       transform: rotate(47deg);
       text-transform: uppercase;
       color: white;

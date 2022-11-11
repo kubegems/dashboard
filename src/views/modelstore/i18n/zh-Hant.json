@@ -36,7 +36,6 @@
     "port_name": "端口名稱",
     "port_name_hint": "推薦HTTP/grpc",
     "container_port": "容器端口",
-    "host_port": "主機端口",
     "mount_path": "掛載路徑",
     "volume_name": "卷名稱",
     "origin_path": "源路徑",
@@ -60,7 +59,12 @@
     "total": "總共",
     "core": "核心",
     "experience": "模型體驗",
-    "not_support": "暫不支援"
+    "not_support": "暫不支援",
+    "configmap_name": "配置名稱",
+
+    "upgrage_strategy": "更新策略",
+    "rollingupdate": "滾動更新",
+    "recreate": "重建"
   },
   "tab": {
     "description": "介紹",

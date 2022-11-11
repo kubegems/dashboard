@@ -1,15 +1,15 @@
 import axios from 'axios';
 
-import { TENANT_NETWORK_POLICY_GROUP } from '@/utils/gvk';
+import { TENANT_NETWORK_POLICY_GROUP } from '@/constants/gvk';
 import { getApiVersion } from '@/utils/helpers';
 
-const apiVersion = getApiVersion('tenantnetworkpolicy', `${TENANT_NETWORK_POLICY_GROUP}/v1beta1`);
-
 // 网络隔离策略详情
-export const getNetworkPolicyDetail = (clusterName, name, query = {}) =>
-  axios(`proxy/cluster/${clusterName}/${apiVersion}/tenantnetworkpolicies/${name}`, {
+export const getNetworkPolicyDetail = (clusterName, name, query = {}) => {
+  const apiVersion = getApiVersion('tenantnetworkpolicy', `${TENANT_NETWORK_POLICY_GROUP}/v1beta1`);
+  return axios(`proxy/cluster/${clusterName}/${apiVersion}/tenantnetworkpolicies/${name}`, {
     params: query,
   });
+};
 // 更新项目网络隔离策略
 export const postUpdateProjectNetworkPolicy = (projectid, body = {}) =>
   axios.post(`/project/${projectid}/action/networkisolate`, body);

@@ -50,10 +50,12 @@
       BroadcastBaseForm,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      formComponent: 'BroadcastBaseForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'BroadcastBaseForm',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

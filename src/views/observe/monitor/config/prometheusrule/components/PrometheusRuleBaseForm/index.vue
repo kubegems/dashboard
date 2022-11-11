@@ -64,17 +64,16 @@
         default: () => 0,
       },
     },
-    data: () => ({
-      valid: false,
-      steps: ['Rule', 'Receiver'],
-    }),
+    data() {
+      return {
+        valid: false,
+        steps: ['Rule', 'Receiver'],
+      };
+    },
     computed: {
       obj() {
         return this.$refs[this.steps[this.step]].getData();
       },
-    },
-    watch: {
-      item() {},
     },
     methods: {
       init(data) {

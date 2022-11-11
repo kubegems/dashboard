@@ -73,7 +73,9 @@
       },
       plugin: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
   };

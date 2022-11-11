@@ -38,7 +38,6 @@
       :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
       :style="{ height: `${height}px !important` }"
       theme="chrome"
-      @init="$aceinit"
       @keydown.stop
     />
   </div>
@@ -55,11 +54,13 @@
         default: null,
       },
     },
-    data: () => ({
-      mySelectFile: 'values.yaml',
-      code: null,
-      fileName: [],
-    }),
+    data() {
+      return {
+        mySelectFile: 'values.yaml',
+        code: null,
+        fileName: [],
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       height() {

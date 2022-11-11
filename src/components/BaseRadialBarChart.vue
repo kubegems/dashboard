@@ -16,7 +16,7 @@
 
 <template>
   <div :style="{ height: `${extendHeight}px`, position: 'relative', width: '100%' }">
-    <canvas :id="chartId" />
+    <canvas :id="chartId" @mouseout="clear" />
   </div>
 </template>
 
@@ -33,6 +33,14 @@
         type: String,
         default: () => '',
       },
+      cutout: {
+        type: Number,
+        default: () => 80,
+      },
+      defaultVal: {
+        type: Number,
+        default: () => 0,
+      },
       extendHeight: {
         type: Number,
         default: () => 150,
@@ -41,10 +49,6 @@
         type: Array,
         default: () => [],
       },
-      labelShow: {
-        type: Boolean,
-        default: () => true,
-      },
       metrics: {
         type: Array,
         default: () => [],
@@ -52,6 +56,10 @@
       title: {
         type: String,
         default: () => '',
+      },
+      tooltipExternal: {
+        type: Boolean,
+        default: () => false,
       },
       total: {
         type: Number,
@@ -70,12 +78,14 @@
       return {
         chart: null,
         chartId: '',
+        colorful: ['#00BCD4', '#1e88e5', '#fb8c00'],
+        triggerVal: 0,
       };
     },
     watch: {
       metrics: {
         handler(newValue) {
-          if (newValue) {
+          if (newValue && newValue?.length >= 0 && document.getElementById(this.chartId)) {
             this.loadChart();
           }
         },
@@ -87,7 +97,7 @@
         if (this.id) {
           this.chartId = this.id;
         } else {
-          this.chartId = randomString(4);
+          this.chartId = randomString(6);
         }
         const interval = setInterval(() => {
           if (document.getElementById(this.chartId)) {
@@ -133,7 +143,7 @@
                   ],
                 },
                 legend: {
-                  display: this.labelShow,
+                  display: false,
                   position: 'bottom',
                   labels: {
                     usePointStyle: true,
@@ -147,12 +157,17 @@
                   boxWidth: 8,
                   boxHeight: 8,
                   boxPadding: 4,
-                  mode: 'index',
+                  external: this.tooltipExternal
+                    ? (context) => {
+                        const { tooltip } = context;
+                        if (tooltip.dataPoints?.length > 0) {
+                          if (tooltip.dataPoints[0].dataset.data?.length > 0) {
+                            this.triggerVal = (tooltip.dataPoints[0].dataset.data[0] / 100) * this.total;
+                          }
+                        }
+                      }
+                    : null,
                 },
-              },
-              interaction: {
-                intersect: false,
-                mode: 'index',
               },
             },
           });
@@ -162,30 +177,45 @@
         }
       },
       loadDatasets() {
-        const datasets = [
-          {
-            data: this.metrics,
-            backgroundColor: ['#00BCD4', '#f4f4f4'],
-            cutout: '80%',
-          },
-        ];
+        const datasets = this.metrics.map((m, index) => {
+          return {
+            data: m,
+            backgroundColor: [this.colorful[index % 3], '#f4f4f4'],
+            cutout: `${this.cutout}%`,
+          };
+        });
 
         return datasets;
       },
       formatter() {
-        let tl = parseFloat(this.total).toFixed(2);
+        if (this.defaultVal && this.triggerVal === 0) {
+          return `${this.defaultVal.toFixed(1)} ${this.unit}`;
+        }
+
+        let tl = parseFloat(this.total).toFixed(1);
         if (parseInt(tl) === parseFloat(tl)) {
           tl = parseInt(tl);
         }
-        if (this.val === 0) {
-          return `0 / ${tl} ${this.unit}`;
+
+        if (this.val) {
+          if (this.val === 0) {
+            return `0 / ${tl} ${this.unit}`;
+          }
+        } else {
+          if (this.triggerVal === 0) {
+            return `0 / ${tl} ${this.unit}`;
+          }
         }
-        let used = parseFloat(this.val).toFixed(2);
+
+        let used = this.val ? parseFloat(this.val).toFixed(2) : this.triggerVal.toFixed(2);
         if (parseInt(used) === parseFloat(used)) {
           used = parseInt(used);
         }
 
         return `${used} / ${tl} ${this.unit}`;
+      },
+      clear() {
+        this.triggerVal = 0;
       },
     },
   };

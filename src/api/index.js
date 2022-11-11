@@ -6,7 +6,7 @@ import store from '@/store';
 import { validateJWT } from '@/utils/helpers';
 
 axios.defaults.baseURL = `${window.location.origin}/api/v1`;
-axios.defaults.timeout = 1000 * parseInt(process.env.VUE_APP_API_TIMEOUT);
+axios.defaults.timeout = 1000 * parseInt(import.meta.env.VUE_APP_API_TIMEOUT);
 
 axios.interceptors.request.use(function (config) {
   if (
@@ -16,6 +16,7 @@ axios.interceptors.request.use(function (config) {
     ) === -1
   ) {
     store.commit('CLEARALL');
+    store.commit('SET_VERSION', import.meta.env.VUE_APP_RELEASE);
     window.localStorage.clear();
     router.push({
       name: 'login',
@@ -27,7 +28,7 @@ axios.interceptors.request.use(function (config) {
       text: Vue.prototype.$_i18n.t('tip.token_expired'),
       color: 'error',
     });
-    return new Promise(() => {});
+    return new Promise();
   }
   if (
     new RegExp('undefined|//', 'g').test(config.url) ||
@@ -43,7 +44,7 @@ axios.interceptors.request.use(function (config) {
       text: Vue.prototype.$_i18n.t('tip.request_params_error'),
       color: 'error',
     });
-    return new Promise(() => {});
+    return new Promise();
   }
   if (config.method.toLocaleLowerCase() === 'get' && config.url.indexOf('callback') === -1) {
     if (!(config.params && config.params.noprocessing)) {
@@ -85,7 +86,7 @@ axios.interceptors.response.use(
       store.commit('SET_PROGRESS', false);
       store.commit('SET_CIRCULAR', false);
       store.commit('SET_SNACKBAR', {
-        text: response.data.Message || response.data.message,
+        text: response.data?.Message || response.data?.message || '',
         color: 'warning',
       });
     }
@@ -124,6 +125,7 @@ axios.interceptors.response.use(
             color: 'warning',
           });
           store.commit('CLEARALL');
+          store.commit('SET_VERSION', import.meta.env.VUE_APP_RELEASE);
           if (
             ['/login', '/403', '/404', '/white/page', '/white/tenant', '/whitecluster/cluster'].indexOf(
               window.location.pathname,
@@ -210,7 +212,7 @@ axios.interceptors.response.use(
           break;
       }
     }
-    return new Promise(() => {});
+    return new Promise();
   },
 );
 
@@ -226,4 +228,3 @@ export * from './visualization';
 export * from './integrated';
 export * from './modelstore';
 export * from './rule';
-('');

@@ -38,15 +38,17 @@
 
   import { postAddIstioGateway } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import IstioGatewaySchema from '@/views/microservice/istio/gateway/mixins/schema';
+  import IstioGatewaySchema from '@/utils/schema/gateway';
 
   export default {
     name: 'AddGateway',
-    mixins: [BaseResource, IstioGatewaySchema],
-    data: () => ({
-      dialog: false,
-      formComponent: 'BaseYamlForm',
-    }),
+    mixins: [BaseResource],
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'BaseYamlForm',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'EnvironmentFilter']),
       ...mapGetters(['VirtualSpace']),
@@ -61,7 +63,7 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(IstioGatewaySchema, data)) {
               return;
             }
             if (!this.m_resource_checkDataWithOutNS(data)) return;

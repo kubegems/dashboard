@@ -76,14 +76,14 @@
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import {
     ENVIRONMENT_CPU_USAGE_PROMQL,
     ENVIRONMENT_MEMORY_USAGE_PROMQL,
     ENVIRONMENT_NETWORK_IN_PROMQL,
     ENVIRONMENT_NETWORK_OUT_PROMQL,
-  } from '@/utils/prometheus';
+  } from '@/constants/prometheus';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'ResourceMonitor',
@@ -97,18 +97,20 @@
         default: () => false,
       },
     },
-    data: () => ({
-      cpu: [],
-      memory: [],
-      networkin: [],
-      networkout: [],
-      date: [],
-      params: {
-        start: '',
-        end: '',
-      },
-      timeinterval: null,
-    }),
+    data() {
+      return {
+        cpu: [],
+        memory: [],
+        networkin: [],
+        networkout: [],
+        date: [],
+        params: {
+          start: '',
+          end: '',
+        },
+        timeinterval: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Scale']),
       ...mapGetters(['Environment', 'Project']),

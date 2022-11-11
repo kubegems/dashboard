@@ -65,32 +65,34 @@
         default: () => null,
       },
     },
-    data: () => ({
-      dialog: false,
-      instance: undefined,
-      formComponent: '',
-      formConponentItems: {
-        openmmlab: SingleImage,
-        'text-generation': SingleText,
-        'text-classification': SingleText,
-        'text2text-generation': SingleText,
-        'token-classification': SingleTextInputs,
-        'question-anwser': QuestionAnswer,
-        'table-question-anwser': TableQuestionAnswer,
-        'feature-extraction': SingleText,
-        'visual-question-answering': VisualQuestionAnswer,
-        'fill-mask': SingleText,
-        summarization: SingleText,
-        'zero-shot-classification': ZeroShotClassification,
-        'image-classification': SingleImage,
-        'image-segmentation': ImageSegmentation,
-        'object-detection': ImageSegmentation,
-        conversation: Conversation,
-        translation: SingleText,
-        'audio-classification': SingleFile,
-        'automatic-speech-recognition': SingleFile,
-      },
-    }),
+    data() {
+      return {
+        dialog: false,
+        instance: undefined,
+        formComponent: '',
+        formConponentItems: {
+          openmmlab: SingleImage,
+          'text-generation': SingleText,
+          'text-classification': SingleText,
+          'text2text-generation': SingleText,
+          'token-classification': SingleTextInputs,
+          'question-anwser': QuestionAnswer,
+          'table-question-anwser': TableQuestionAnswer,
+          'feature-extraction': SingleText,
+          'visual-question-answering': VisualQuestionAnswer,
+          'fill-mask': SingleText,
+          summarization: SingleText,
+          'zero-shot-classification': ZeroShotClassification,
+          'image-classification': SingleImage,
+          'image-segmentation': ImageSegmentation,
+          'object-detection': ImageSegmentation,
+          conversation: Conversation,
+          translation: SingleText,
+          'audio-classification': SingleFile,
+          'automatic-speech-recognition': SingleFile,
+        },
+      };
+    },
     computed: {
       ...mapState(['JWT']),
     },
@@ -127,7 +129,9 @@
       init(item) {
         this.instance = item;
       },
-      dispose() {},
+      dispose() {
+        return;
+      },
     },
   };
 </script>

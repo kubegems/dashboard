@@ -55,6 +55,7 @@
         </v-row>
         <div class="mx-2">
           <BaseAreaChart
+            :animation="false"
             chart-type="line"
             :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
             colorful
@@ -76,7 +77,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import { getMetricsLabelValues, getMetricsLabels, getMetricsQueryrange, getRuleSearch } from '@/api';
@@ -87,27 +88,36 @@
       messages: messages,
     },
     props: {
+      dateLink: {
+        type: Array,
+        default: () => [],
+      },
       environment: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
-    data: () => ({
-      dialog: false,
-      graph: {},
-      namespace: '',
-      metrics: [],
-      timeinterval: null,
-      date: [],
-      params: {
-        start: null,
-        end: null,
-      },
-      labels: [],
-      labelpairs: {},
-    }),
+    data() {
+      return {
+        dialog: false,
+        graph: {},
+        namespace: '',
+        metrics: [],
+        timeinterval: null,
+        date: [],
+        params: {
+          start: null,
+          end: null,
+        },
+        labels: [],
+        labelpairs: {},
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Scale']),
+      ...mapGetters(['Tenant']),
       outerHeight() {
         return parseInt((window.innerHeight - 64) / this.Scale);
       },
@@ -115,14 +125,19 @@
         return window.innerHeight - 64 * this.Scale - 100;
       },
     },
+    watch: {
+      dateLink: {
+        handler(newValue) {
+          if (newValue && newValue.length > 0) {
+            this.date = newValue;
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
     destroyed() {
       this.clearInterval();
-    },
-    mounted() {
-      this.$nextTick(() => {
-        this.params.start = this.$moment(this.date[0]).utc().format();
-        this.params.end = this.$moment(this.date[1]).utc().format();
-      });
     },
     methods: {
       open() {
@@ -131,7 +146,7 @@
       async init(graph, namespace) {
         this.graph = graph;
         this.namespace = namespace;
-        this.loadMetrics();
+        this.onDatetimeChange();
         this.getLabel();
       },
       async loadMetrics(newParams = {}) {
@@ -159,9 +174,9 @@
               unit: this.graph.unit,
             };
         const data = await getMetricsQueryrange(this.environment.clusterName, this.namespace, {
-          ...this.params,
           ...params,
           ...newParams,
+          ...this.params,
         });
         this.metrics = data;
       },
@@ -189,7 +204,7 @@
             noprocessing: true,
           });
         } else {
-          resData = await getRuleSearch(this.graph.promqlGenerator);
+          resData = await getRuleSearch(this.Tenant().ID, this.graph.promqlGenerator);
           resData = resData.labels;
         }
         const labels = resData?.filter((d) => {

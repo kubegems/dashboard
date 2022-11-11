@@ -37,6 +37,11 @@
             {{ $t('operate.advanced_deploy') }}
           </v-btn>
 
+          <v-btn v-if="$route.query.kind === 'modelstore'" class="primary--text" small text @click="upgradeModel">
+            <v-icon left small> mdi-arrow-up-bold </v-icon>
+            {{ $t('operate.upgrade_model') }}
+          </v-btn>
+
           <v-btn
             v-if="
               app &&
@@ -116,6 +121,7 @@
             topkind: 'ModelDeployment',
             topname: app ? app.name || app.metadata.name : '',
           }"
+          type="ModelDeployment"
         />
       </v-col>
     </v-row>
@@ -128,6 +134,7 @@
     <Rollingback v-if="$route.query.kind === 'app'" ref="rollingback" />
     <ResourceYaml v-if="$route.query.kind === 'modelstore'" ref="resourceYaml" :item="app" />
     <UpdateModelRuntime ref="updateModelRuntime" @refresh="appRunningDetail" />
+    <UpgradeModel ref="upgradeModel" @refresh="appRunningDetail" />
   </v-container>
 </template>
 
@@ -140,6 +147,7 @@
   import Rollingback from './components/Rollingback';
   import ScaleReplicas from './components/ScaleReplicas';
   import UpdateModelRuntime from './components/UpdateModelRuntime';
+  import UpgradeModel from './components/UpgradeModel';
   import messages from './i18n';
   import { deleteApp, deleteAppStoreApp, deleteModelRuntime, getAppRunningDetail, getModelRuntimeDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
@@ -147,8 +155,10 @@
   import AppDeployList from '@/views/resource/appmanifest/components/AppDeployList';
   import AppImageSecurityReportList from '@/views/resource/appmanifest/components/AppImageSecurityReportList';
   import AppResourceFileList from '@/views/resource/appmanifest/components/AppResourceFileList';
+  import NvidiaGpuMonitor from '@/views/resource/components/common/NvidiaGpuMonitor';
   import PodList from '@/views/resource/components/common/PodList';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
+  import TkeGpuMonitor from '@/views/resource/components/common/TkeGpuMonitor';
   import DeployControlCenter from '@/views/resource/deploy/components/DeployControlCenter';
   import DeployStatus from '@/views/resource/deploy/components/DeployStatus';
 
@@ -165,18 +175,23 @@
       DeployStatus,
       ModelMonitor,
       ModelResourceInfo,
+      NvidiaGpuMonitor,
       PodList,
       ResourceInfo,
       ResourceYaml,
       Rollingback,
       ScaleReplicas,
+      TkeGpuMonitor,
       UpdateModelRuntime,
+      UpgradeModel,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      tab: 0,
-      app: null,
-    }),
+    data() {
+      return {
+        tab: 0,
+        app: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport', 'MessageStreamWS', 'Plugins']),
       ...mapGetters(['Tenant', 'Project', 'Environment']),
@@ -192,11 +207,20 @@
         } else if (this.$route.query.kind === 'appstore') {
           return [{ text: this.$t('tab.resource_status'), value: 'DeployStatus' }];
         } else if (this.$route.query.kind === 'modelstore') {
-          return [
+          const items = [
             { text: this.$t('tab.runtime'), value: 'ModelResourceInfo' },
             { text: this.$root.$t('tab.pod'), value: 'PodList' },
             { text: this.$root.$t('tab.monitor'), value: 'ModelMonitor' },
           ];
+
+          if (this.isTke()) {
+            items.push({ text: this.$root.$t('tab.gpu_monitor'), value: 'TkeGpuMonitor' });
+          }
+
+          if (this.isNvidia()) {
+            items.push({ text: this.$root.$t('tab.gpu_monitor'), value: 'NvidiaGpuMonitor' });
+          }
+          return items;
         }
         return [];
       },
@@ -207,11 +231,13 @@
           if (!updatingApp) return;
           const app = JSON.parse(updatingApp);
           if (app.MessageType !== 'objectChanged') return;
-          if (app.Content && this.app && app.Content.AppName === this.app.AppName) {
-            if (app.EventKind === 'delete') {
-              this.$router.push({ name: 'app-list', params: this.$route.params });
-            } else {
-              this.app.runtime.raw = app.Content;
+          if (app.InvolvedObject.Kind === 'Application') {
+            if (app.Content?.AppName === this.app?.AppName) {
+              if (app.EventKind === 'delete') {
+                this.$router.push({ name: 'app-list', params: this.$route.params });
+              } else {
+                if (this.app.runtime) this.app.runtime.raw = app.Content;
+              }
             }
           }
         },
@@ -335,6 +361,16 @@
       updateModelRuntime() {
         this.$refs.updateModelRuntime.init(this.app);
         this.$refs.updateModelRuntime.open();
+      },
+      upgradeModel() {
+        this.$refs.upgradeModel.init(this.app);
+        this.$refs.upgradeModel.open();
+      },
+      isTke() {
+        return this.app?.spec?.server?.resources?.limits['tencent.com/vcuda-core'];
+      },
+      isNvidia() {
+        return this.app?.spec?.server?.resources?.limits['nvidia.com/gpu'];
       },
     },
   };

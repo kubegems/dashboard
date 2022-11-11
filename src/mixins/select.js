@@ -189,6 +189,7 @@ const select = {
           projectName: ns.Project.ProjectName,
           disabled: ns.VirtualSpaceID > 0 && virtualspace,
           nsLabels: ns.NSLabels,
+          metaType: ns.MetaType,
         });
       });
       this.m_select_projectEnvironmentItems = projectEnvironmentSelect;
@@ -384,7 +385,9 @@ const select = {
             ports.push({ text: p.port, value: p.port });
           });
           s.spec.ports.forEach((p) => {
-            portNames.push({ text: p.name, value: p.name });
+            if (p.name) {
+              portNames.push({ text: p.name, value: p.name });
+            }
           });
           serviceSelect.push({
             text: s.metadata.name,
@@ -449,7 +452,7 @@ const select = {
     },
     async m_select_projectSelectData(tenantId = null, noprocessing = false) {
       let data = null;
-      if (this.Admin && this.AdminViewport) {
+      if (this.Admin && this.AdminViewport && tenantId === null) {
         data = await projectSelectData({ noprocessing: noprocessing });
       } else {
         data = await tenantProjectSelectData(tenantId || this.Tenant().ID, {

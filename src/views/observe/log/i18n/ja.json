@@ -48,7 +48,10 @@
     "config": "{0}の構成設定",
     "base_config": "基本設定",
     "plugin_type": "バナーの形式",
-    "no_log_data": "ログデータはまだありません"
+    "no_log_data": "ログデータはまだありません",
+
+    "feishu": "feishu",
+    "user_id": "ユーザーID"
   },
   "operate": {
     "download_log": "ログをダウンロード",
@@ -67,7 +70,8 @@
     "enable": "有効",
     "disable": "無効",
     "enable_c": "{0} を有効にする",
-    "disable_c": "{0} を無効化"
+    "disable_c": "{0} を無効化",
+    "timerange_query": "期間クエリ"
   },
   "table": {
     "name": "注文番号による検索",

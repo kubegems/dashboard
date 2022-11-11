@@ -27,7 +27,7 @@
         />
         <EnvironmentFilter />
         <v-spacer />
-        <v-menu v-if="m_permisson_virtualSpaceAllow" left>
+        <v-menu v-if="m_permisson_virtualSpaceAllow()" left>
           <template #activator="{ on }">
             <v-btn icon>
               <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
@@ -263,16 +263,19 @@
       UpdateVirtualService,
     },
     mixins: [BaseFilter, BasePermission],
-    data: () => ({
-      items: [],
-      valids: {},
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-      },
-      pass: false,
-    }),
+    data() {
+      return {
+        items: [],
+        valids: {},
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+        },
+        pass: { pass: false, time: '' },
+        timestamp: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
       ...mapGetters(['VirtualSpace']),
@@ -293,7 +296,8 @@
     watch: {
       pass: {
         handler(newValue) {
-          if (newValue) {
+          if (newValue && newValue.time !== this.timestamp) {
+            this.timestamp = newValue.time;
             this.serviceList();
           }
         },
@@ -305,6 +309,7 @@
         this.microServiceList(noprocess);
       },
       async microServiceList(noprocess) {
+        if (!this.VirtualSpace().ID) return;
         const data = await getMicroServiceList(
           this.VirtualSpace().ID,
           this.EnvironmentFilter?.value || this.$route.query?.environmentid,

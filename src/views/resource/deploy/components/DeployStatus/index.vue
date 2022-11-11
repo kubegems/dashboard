@@ -38,11 +38,13 @@
         default: () => null,
       },
     },
-    data: () => ({
-      statusTree: [],
-      appname: '',
-      statusSSE: null,
-    }),
+    data() {
+      return {
+        statusTree: [],
+        appname: '',
+        statusSSE: null,
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['Project', 'Tenant', 'Environment']),
@@ -71,7 +73,6 @@
         }/applications/${this.app.name}/resourcetree?token=${this.JWT}&watch=true`;
         const vue = this;
         this.statusSSE = new EventSource(url, { withCredentials: true });
-        this.statusSSE.onopen = () => {};
         this.statusSSE.addEventListener(
           'resourcetree',
           function (event) {

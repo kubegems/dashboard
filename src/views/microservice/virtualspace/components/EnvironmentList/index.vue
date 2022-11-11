@@ -19,7 +19,14 @@
     <v-card class="mt-6" flat>
       <BaseSubTitle :divider="false" :title="$root.$t('resource.environment')">
         <template #action>
-          <v-btn v-if="m_permisson_virtualSpaceAllow" class="mr-1" color="primary" small text @click="linkEnvironment">
+          <v-btn
+            v-if="m_permisson_virtualSpaceAllow()"
+            class="mr-1"
+            color="primary"
+            small
+            text
+            @click="linkEnvironment"
+          >
             <v-icon left>mdi-link</v-icon>
             {{ $t('operate.link_c', [$root.$t('resource.mesh')]) }}
           </v-btn>
@@ -101,7 +108,9 @@
     props: {
       virtualspace: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
     computed: {
@@ -120,7 +129,7 @@
           { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
           { text: this.$root.$t('resource.cluster'), value: 'cluster', align: 'start' },
         ];
-        if (this.m_permisson_virtualSpaceAllow) {
+        if (this.m_permisson_virtualSpaceAllow()) {
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
         }
         return items;

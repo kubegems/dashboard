@@ -69,11 +69,15 @@
     props: {
       currentApp: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       files: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       selectRepo: {
         type: String,
@@ -88,9 +92,11 @@
         default: () => [],
       },
     },
-    data: () => ({
-      dialog: false,
-    }),
+    data() {
+      return {
+        dialog: false,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       wizardHeight() {

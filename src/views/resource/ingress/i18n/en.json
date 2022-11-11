@@ -22,6 +22,8 @@
     "auto_domain": "Auto-generate domain"
   },
   "operate": {
-    "add_path": "Add Path"
+    "add_path": "Add Path",
+    "add_secret": "Add TLS Secret",
+    "remove_secret": "Remove TLS Secret"
   }
 }

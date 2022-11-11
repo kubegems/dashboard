@@ -85,7 +85,7 @@
                     {{ $t('operate.detail') }}
                   </v-btn>
                   <v-btn
-                    v-if="m_permisson_virtualSpaceAllow"
+                    v-if="m_permisson_virtualSpaceAllow()"
                     color="primary"
                     small
                     text
@@ -94,7 +94,7 @@
                     {{ $root.$t('operate.edit') }}
                   </v-btn>
                   <v-btn
-                    v-if="m_permisson_virtualSpaceAllow"
+                    v-if="m_permisson_virtualSpaceAllow()"
                     color="error"
                     small
                     text
@@ -106,7 +106,7 @@
               </v-card>
             </v-hover>
           </v-col>
-          <v-col v-if="m_permisson_virtualSpaceAllow" class="pt-0" cols="3">
+          <v-col v-if="m_permisson_virtualSpaceAllow()" class="pt-0" cols="3">
             <v-card class="kubegems__full-height" flat min-height="156">
               <v-card-text class="pa-0 kubegems__full-height">
                 <v-list-item class="kubegems__full-height" three-line>
@@ -154,11 +154,14 @@
       UpdateIstioGateway,
     },
     mixins: [BaseFilter, BasePermission],
-    data: () => ({
-      items: [],
-      params: {},
-      pass: false,
-    }),
+    data() {
+      return {
+        items: [],
+        params: {},
+        pass: { pass: false, time: '' },
+        timestamp: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
       ...mapGetters(['VirtualSpace']),
@@ -169,7 +172,8 @@
     watch: {
       pass: {
         handler(newValue) {
-          if (newValue) {
+          if (newValue && newValue.time !== this.timestamp) {
+            this.timestamp = newValue.time;
             this.istioGatewayInstanceList();
           }
         },
@@ -184,7 +188,7 @@
               item.Name && item.Name.toLocaleLowerCase().indexOf(this.$route.query.search.toLocaleLowerCase()) > -1
             );
           });
-          if (this.m_permisson_virtualSpaceAllow) {
+          if (this.m_permisson_virtualSpaceAllow()) {
             this.items.push({ add: true });
           }
         } else {
@@ -192,6 +196,7 @@
         }
       },
       async istioGatewayInstanceList() {
+        if (!this.VirtualSpace().ID) return;
         const data = await getIstioGatewayInstanceList(
           this.VirtualSpace().ID,
           this.EnvironmentFilter?.clusterid || this.$route.query?.clusterid,

@@ -83,7 +83,11 @@
 
             <template v-if="item.builtIn">
               <v-flex class="registry__watermarkbg" />
-              <v-flex class="registry__watermark font-weight-medium"> {{ $t('tip.inner') }} </v-flex>
+              <v-flex
+                :class="`${Locale === 'en' ? 'registry__watermark-en' : 'registry__watermark'} font-weight-medium`"
+              >
+                {{ $t('tip.inner') }}
+              </v-flex>
             </template>
           </v-card>
         </v-hover>
@@ -117,6 +121,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   import AddModelRegistry from './components/AddModelRegistry';
   import UpdateModelRegistry from './components/UpdateModelRegistry';
   import messages from './i18n';
@@ -128,6 +134,7 @@
     postAdminModelStoreSync,
     putAdminModelSource,
   } from '@/api';
+  import { LOGO_BLUE } from '@/constants/platform';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
@@ -144,6 +151,9 @@
         items: [],
         timeinterval: null,
       };
+    },
+    computed: {
+      ...mapState(['Locale']),
     },
     mounted() {
       this.$nextTick(() => {
@@ -286,7 +296,7 @@
             };
           default:
             return {
-              imgSrc: this.$LOGO_BLUE,
+              imgSrc: LOGO_BLUE,
               tip: this.$t('tip.kubegems'),
             };
         }
@@ -344,6 +354,16 @@
       position: absolute;
       top: 14px;
       right: -1px;
+      transform: rotate(47deg);
+      text-transform: uppercase;
+      color: white;
+      font-size: 12px;
+    }
+
+    &__watermark-en {
+      position: absolute;
+      top: 15px;
+      right: -3px;
       transform: rotate(47deg);
       text-transform: uppercase;
       color: white;

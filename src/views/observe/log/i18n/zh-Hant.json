@@ -49,7 +49,10 @@
     "base_config": "基本配置",
     "plugin_type": "外掛程式類型",
 
-    "no_log_data": "暫無日誌數據"
+    "no_log_data": "暫無日誌數據",
+
+    "feishu": "飛書",
+    "user_id": "用戶Id"
   },
   "operate": {
     "download_log": "下載日誌",
@@ -68,7 +71,8 @@
     "enable": "啟用",
     "disable": "禁用",
     "enable_c": "開啟{0}",
-    "disable_c": "關閉{0}"
+    "disable_c": "關閉{0}",
+    "timerange_query": "時間段查詢"
   },
   "table": {
     "name": "名稱",

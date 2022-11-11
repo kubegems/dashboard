@@ -36,8 +36,6 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { THEME_COLORS } from '@/utils/chart';
-
   export default {
     name: 'LogBar',
     props: {
@@ -60,7 +58,7 @@
     computed: {
       ...mapState(['Scale']),
       color() {
-        return THEME_COLORS;
+        return ['#00BCD4', '#1e88e5', '#fb8c00', '#ff5252', '#607d8b'];
       },
       series() {
         return [

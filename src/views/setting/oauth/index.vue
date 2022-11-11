@@ -29,7 +29,7 @@
               <v-list-item-content>
                 <v-list-item-title class="text-h6 mb-1">
                   <a>
-                    {{ $VENDOR[item.vendor] }}
+                    {{ VENDOR[item.vendor] }}
                   </a>
                 </v-list-item-title>
                 <v-list-item-subtitle>
@@ -69,6 +69,7 @@
   import ConfigAuthSource from './components/ConfigAuthSource';
   import messages from './i18n';
   import { getAuthSourceConfigList, putAuthSourceConfig } from '@/api';
+  import { VENDOR } from '@/constants/platform';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
@@ -79,37 +80,41 @@
     components: {
       ConfigAuthSource,
     },
-    data: () => ({
-      items: [
-        {
-          name: 'Kubegems',
-          kind: 'kubegems',
-          enabled: true,
-          forbid: true,
-          vendor: 'kubegems',
-        },
-        {
-          name: 'Oauth',
-          kind: 'OAUTH',
-          vendor: 'oauth',
-        },
-        {
-          name: 'OpenLdap',
-          kind: 'LDAP',
-          vendor: 'ldap',
-        },
-        {
-          name: 'GitLab',
-          kind: 'OAUTH',
-          vendor: 'gitlab',
-        },
-        {
-          name: 'GitHub',
-          kind: 'OAUTH',
-          vendor: 'github',
-        },
-      ],
-    }),
+    data() {
+      this.VENDOR = VENDOR;
+
+      return {
+        items: [
+          {
+            name: 'Kubegems',
+            kind: 'kubegems',
+            enabled: true,
+            forbid: true,
+            vendor: 'kubegems',
+          },
+          {
+            name: 'Oauth',
+            kind: 'OAUTH',
+            vendor: 'oauth',
+          },
+          {
+            name: 'OpenLdap',
+            kind: 'LDAP',
+            vendor: 'ldap',
+          },
+          {
+            name: 'GitLab',
+            kind: 'OAUTH',
+            vendor: 'gitlab',
+          },
+          {
+            name: 'GitHub',
+            kind: 'OAUTH',
+            vendor: 'github',
+          },
+        ],
+      };
+    },
     mounted() {
       this.$nextTick(() => {
         this.oauthSourceConfigList();

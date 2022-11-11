@@ -33,13 +33,13 @@
           <v-badge
             v-if="item.count > 1"
             bordered
-            :color="$EVENT_STATUS_COLOR[item.type]"
+            :color="EVENT_STATUS_COLOR[item.type]"
             :content="item.count > 99 ? '99+' : item.count"
             overlap
           >
             <v-chip
               class="white--text font-weight-medium chip-width"
-              :color="$EVENT_STATUS_COLOR[item.type]"
+              :color="EVENT_STATUS_COLOR[item.type]"
               label
               small
             >
@@ -49,7 +49,7 @@
           <v-chip
             v-else
             class="white--text font-weight-medium chip-width"
-            :color="$EVENT_STATUS_COLOR[item.type]"
+            :color="EVENT_STATUS_COLOR[item.type]"
             label
             small
           >
@@ -59,17 +59,35 @@
         <template #[`item.kind`]="{ item }">
           {{ item.involvedObject.kind }}
         </template>
-        <template #[`item.firstAt`]="{ item }">
-          {{
-            item.firstTimestamp
-              ? $moment(item.firstTimestamp, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
-              : item.eventTime
-              ? $moment(item.eventTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
-              : ''
-          }}
+        <template #[`item.firstAt`]="{ item, index }">
+          <RealDatetimeTip
+            :datetime="item.firstTimestamp || item.eventTime"
+            :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
+          >
+            <template #trigger>
+              <span>
+                {{
+                  item.firstTimestamp
+                    ? $moment(item.firstTimestamp, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+                    : item.eventTime
+                    ? $moment(item.eventTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+                    : ''
+                }}
+              </span>
+            </template>
+          </RealDatetimeTip>
         </template>
-        <template #[`item.lastAt`]="{ item }">
-          {{ item.lastTimestamp ? $moment(item.lastTimestamp, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
+        <template #[`item.lastAt`]="{ item, index }">
+          <RealDatetimeTip
+            :datetime="item.lastTimestamp"
+            :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
+          >
+            <template #trigger>
+              <span>
+                {{ item.lastTimestamp ? $moment(item.lastTimestamp, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
+              </span>
+            </template>
+          </RealDatetimeTip>
         </template>
         <template #[`item.message`]="{ item }">
           {{ item.message }}
@@ -91,12 +109,17 @@
 <script>
   import messages from '../i18n';
   import { getEventList } from '@/api';
+  import { EVENT_STATUS_COLOR } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
+  import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
 
   export default {
     name: 'EventList',
     i18n: {
       messages: messages,
+    },
+    components: {
+      RealDatetimeTip,
     },
     mixins: [BaseResource],
     props: {
@@ -106,18 +129,24 @@
       },
       selector: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-        noprocessing: true,
-      },
-    }),
+    data() {
+      this.EVENT_STATUS_COLOR = EVENT_STATUS_COLOR;
+
+      return {
+        items: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+          noprocessing: true,
+        },
+      };
+    },
     computed: {
       headers() {
         return [

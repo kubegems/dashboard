@@ -151,7 +151,6 @@
           :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
           :style="{ height: `${height}px !important` }"
           theme="chrome"
-          @init="$aceinit"
           @keydown.stop
         />
       </div>
@@ -201,9 +200,9 @@
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
+  import BaseYaml from '@/mixins/yaml';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
-  import { YamlMixin } from '@/views/appstore/mixins/yaml';
 
   import 'vue-form-wizard/dist/vue-form-wizard.min.css';
 
@@ -220,15 +219,19 @@
       TabContent,
       Tips,
     },
-    mixins: [BasePermission, BaseResource, BaseSelect, YamlMixin],
+    mixins: [BasePermission, BaseResource, BaseSelect, BaseYaml],
     props: {
       currentApp: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       files: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       selectRepo: {
         type: String,
@@ -239,30 +242,32 @@
         default: () => [],
       },
     },
-    data: () => ({
-      obj: {
-        AppName: '',
-        TenantProjectId: '',
-        EnvironmentId: '',
-        selectVersion: '',
-        app: null,
-      },
-      valid: false,
-      appValues: {},
-      appValuesOrigin: {},
-      appValuesYaml: null,
-      schemaJson: {},
-      yamlMode: false,
-      params: [],
-      currentStep: 1,
-      timeout: null,
-      deployDialog: false,
-      completed: false,
-      tab: 0,
-      filesCopy: {},
-    }),
+    data() {
+      return {
+        obj: {
+          AppName: '',
+          TenantProjectId: '',
+          EnvironmentId: '',
+          selectVersion: '',
+          app: null,
+        },
+        valid: false,
+        appValues: {},
+        appValuesOrigin: {},
+        appValuesYaml: null,
+        schemaJson: {},
+        yamlMode: false,
+        params: [],
+        currentStep: 1,
+        timeout: null,
+        deployDialog: false,
+        completed: false,
+        tab: 0,
+        filesCopy: {},
+      };
+    },
     computed: {
-      ...mapState(['Auth', 'Circular', 'AdminViewport', 'Scale']),
+      ...mapState(['Auth', 'Circular', 'AdminViewport', 'Scale', 'Locale']),
       ...mapGetters(['Tenant', 'Project', 'Environment']),
       objRules() {
         return {
@@ -290,8 +295,8 @@
       },
       tabItems() {
         return [
-          { text: this.$t('tab.form'), value: 'DeployForm' },
-          { text: 'Values', value: 'DeployFrom' },
+          { text: this.$t('tab.form'), value: 'SchemaForm' },
+          { text: 'Values', value: 'ValuesForm' },
         ];
       },
     },
@@ -321,6 +326,17 @@
         this.readme = this.filesCopy['README.md'] || {};
         if (this.filesCopy['values.schema.json']) {
           this.schemaJson = JSON.parse(this.filesCopy['values.schema.json']);
+        }
+        if (this.Locale !== 'zh-Hans' && this.Locale !== 'zh-Hant') {
+          if (this.filesCopy['i18n/values.en.json']) {
+            const enSchemaJson = JSON.parse(this.filesCopy['i18n/values.en.json']);
+            this.schemaJson = Object.assign(this.schemaJson, enSchemaJson);
+          } else {
+            this.$store.commit('SET_SNACKBAR', {
+              text: this.$t('tip.no_i18n_file'),
+              color: 'warning',
+            });
+          }
         }
         if (this.filesCopy['values.yaml']) {
           this.appValues = this.$yamlload(this.filesCopy['values.yaml']) || {};
@@ -428,7 +444,7 @@
         // 系统管理员->租户管理员->项目管理员(auth中有项目ID)->其他,断路判断是否启用环境过滤
         this.m_select_projectEnvironmentItems = this.m_select_projectEnvironmentItems.filter((projectEnv) => {
           return (
-            this.m_permisson_tenantAllow ||
+            this.m_permisson_tenantAllow() ||
             this.Auth.projects.some((p) => {
               return p.isAdmin && p.id === this.obj.TenantProjectId;
             }) ||

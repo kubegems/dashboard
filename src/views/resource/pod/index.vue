@@ -27,7 +27,7 @@
         />
         <NamespaceFilter />
         <v-spacer />
-        <v-menu v-if="m_permisson_resourceAllow" left>
+        <v-menu v-if="m_permisson_resourceAllow()" left>
           <template #activator="{ on }">
             <v-btn icon>
               <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
@@ -77,11 +77,18 @@
         </template>
         <template #[`item.name`]="{ item }">
           <v-flex class="float-left">
-            <a class="text-subtitle-2" @click.stop="podDetail(item)">
+            <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="podDetail(item)">
               {{ item.metadata.name }}
             </a>
-            <BaseLogo v-if="isTke(item)" absolute icon-name="tke" :mt="0" :width="20" />
-            <BaseLogo v-if="isNvidia(item)" absolute icon-name="nvidia" :mt="0" :width="20" />
+          </v-flex>
+          <v-flex v-if="isTke(item) || isNvidia(item)" class="float-left">
+            <GpuTip :allocated="false" :item="item" />
+          </v-flex>
+          <v-flex
+            v-if="item.metadata.annotations && item.metadata.annotations['sidecar.istio.io/inject'] === 'true'"
+            class="float-left"
+          >
+            <img class="ml-1" :src="`/icon/istio.svg`" width="18px" />
           </v-flex>
           <div class="kubegems__clear-float" />
         </template>
@@ -104,7 +111,7 @@
                   height: '10px',
                   minWidth: '10px',
                   width: '10px',
-                  backgroundColor: `${$POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'}`,
+                  backgroundColor: `${POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'}`,
                 }"
               />
               <span>
@@ -131,11 +138,28 @@
         <template #[`item.container`]="{ item }">
           {{ item.spec.containers.length }}
         </template>
-        <template #[`item.restart`]="{ item }">
-          {{ getRestart(item.status.containerStatuses) }}
+        <template #[`item.restart`]="{ item, index }">
+          <span class="mr-1">{{ getRestart(item.status.containerStatuses) }}</span>
+          <div v-if="getRestart(item.status.containerStatuses) > 0" class="float-right">
+            <v-flex :id="`re${item.metadata.resourceVersion}`" />
+            <RestartTip :item="item" :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)">
+              <template #trigger>
+                <v-icon color="orange" small>mdi-alert-circle</v-icon>
+              </template>
+            </RestartTip>
+          </div>
         </template>
-        <template #[`item.age`]="{ item }">
-          {{ item.status.startTime ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
+        <template #[`item.age`]="{ item, index }">
+          <RealDatetimeTip
+            :datetime="item.status.startTime"
+            :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
+          >
+            <template #trigger>
+              <span>
+                {{ item.status.startTime ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
+              </span>
+            </template>
+          </RealDatetimeTip>
         </template>
         <template #[`item.cpu`]="{ item }">
           <v-flex class="text-subtitle-2">
@@ -174,6 +198,8 @@
             <ContainerItems
               :container-statuses="item && item.status ? item.status.containerStatuses : []"
               :containers="item && item.spec.containers"
+              :init-container-statuses="item && item.status ? item.status.initContainerStatuses : []"
+              :init-containers="item && item.spec.initContainers"
               :item="item"
             />
           </td>
@@ -215,17 +241,21 @@
   import { mapGetters, mapState } from 'vuex';
 
   import ContainerItems from './components/ContainerItems';
+  import RestartTip from './components/RestartTip';
   import messages from './i18n';
   import { deletePod, getPodList } from '@/api';
+  import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@/constants/prometheus';
+  import { POD_STATUS_COLOR } from '@/constants/resource';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
   import { beautifyCpuUnit, beautifyStorageUnit } from '@/utils/helpers';
   import { stringifySelector } from '@/utils/k8s_selector';
-  import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
   import EventTip from '@/views/resource/components/common/EventTip';
+  import GpuTip from '@/views/resource/components/common/GpuTip';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
+  import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
 
   export default {
     name: 'Pod',
@@ -235,45 +265,52 @@
     components: {
       ContainerItems,
       EventTip,
+      GpuTip,
       NamespaceFilter,
+      RealDatetimeTip,
+      RestartTip,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-      },
-    }),
+    data() {
+      this.POD_STATUS_COLOR = POD_STATUS_COLOR;
+
+      return {
+        items: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+        },
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport', 'MessageStreamWS', 'Plugins']),
       ...mapGetters(['Environment']),
       headers() {
         const items = [
-          { text: this.$t('table.name'), value: 'name', align: 'start', width: 358 },
-          { text: this.$t('table.status'), value: 'status', align: 'start', width: 250 },
+          { text: this.$t('table.name'), value: 'name', align: 'start', width: 320 },
+          { text: this.$t('table.status'), value: 'status', align: 'start', width: 255 },
           { text: this.$t('table.container_count'), value: 'container', align: 'start', sortable: false },
-          { text: this.$t('table.restart_count'), value: 'restart', align: 'start', sortable: false },
+          { text: this.$t('table.restart_count'), value: 'restart', align: 'end', sortable: false, width: 90 },
           {
             text: this.$t('table.used', [this.$root.$t('resource.cpu')]),
             value: 'cpu',
             align: 'start',
-            width: 150,
+            width: 140,
             sortable: false,
           },
           {
             text: this.$t('table.used', [this.$root.$t('resource.memory')]),
             value: 'memory',
             align: 'start',
-            width: 150,
+            width: 140,
             sortable: false,
           },
           { text: 'Age', value: 'age', align: 'start' },
           { text: 'Pod IP', value: 'ip', align: 'start', sortable: false },
           { text: 'Node IP', value: 'nip', align: 'start', sortable: false },
         ];
-        if (this.m_permisson_resourceAllow) {
+        if (this.m_permisson_resourceAllow()) {
           items.push({
             text: '',
             value: 'action',
@@ -297,7 +334,24 @@
         return items;
       },
       filters() {
-        return [{ text: this.$t('filter.pod_name'), value: 'search', items: [] }];
+        return [
+          { text: this.$t('filter.pod_name'), value: 'search', items: [] },
+          {
+            text: this.$t('filter.status'),
+            value: 'fieldSelector',
+            items: ['Terminating', 'Running', 'Pending', 'CrashLoopBackOff', 'Error'].map((s) => {
+              return {
+                text: s,
+                value: stringifySelector({
+                  matchLabels: {
+                    phase: s,
+                  },
+                }),
+                parent: 'fieldSelector',
+              };
+            }),
+          },
+        ];
       },
     },
     watch: {
@@ -363,29 +417,10 @@
           }
           this.m_table_generateParams();
           this.podList();
-          this.generateFilters();
         });
       }
     },
     methods: {
-      generateFilters() {
-        const allStatus = ['Terminating', 'Running', 'Pending', 'CrashLoopBackOff', 'Error'].map((s) => {
-          return {
-            text: s,
-            value: stringifySelector({
-              matchLabels: {
-                phase: s,
-              },
-            }),
-            parent: 'fieldSelector',
-          };
-        });
-        this.filters.push({
-          text: this.$t('filter.status'),
-          value: 'fieldSelector',
-          items: allStatus,
-        });
-      },
       async podList(noprocess = false) {
         const data = await getPodList(
           this.ThisCluster,
@@ -395,7 +430,12 @@
             sort: this.m_table_generateResourceSortParamValue(),
           }),
         );
-        this.items = data.List;
+        this.items = data.List.map((d) => {
+          return {
+            ...d,
+            ...this.getGpuLimit(d),
+          };
+        });
         this.pageCount = Math.ceil(data.Total / this.params.size);
         this.params.page = data.CurrentPage;
         this.$router.replace({ query: { ...this.$route.query, ...this.params } });
@@ -565,13 +605,32 @@
       },
       isTke(item) {
         return item.spec.containers.some((c) => {
-          return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda'];
+          return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-core'];
         });
       },
       isNvidia(item) {
         return item.spec.containers.some((c) => {
           return c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu'];
         });
+      },
+      getGpuLimit(item) {
+        const gpu = {
+          TkeGpu: 0,
+          TkeMemory: 0,
+          NvidiaGpu: 0,
+        };
+        item.spec.containers.forEach((c) => {
+          if (c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu']) {
+            gpu.NvidiaGpu += parseFloat(c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu']);
+          }
+          if (c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-core']) {
+            gpu.TkeGpu += parseFloat(c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-core']);
+          }
+          if (c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-memory']) {
+            gpu.TkeMemory += parseFloat(c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-memory']);
+          }
+        });
+        return gpu;
       },
     },
   };

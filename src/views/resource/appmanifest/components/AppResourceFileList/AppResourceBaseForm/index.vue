@@ -91,10 +91,12 @@
         default: () => 0,
       },
     },
-    data: () => ({
-      valid: false,
-      steps: ['AppBaseInfo'],
-    }),
+    data() {
+      return {
+        valid: false,
+        steps: ['AppBaseInfo'],
+      };
+    },
     computed: {
       obj() {
         return this.$refs[this.steps[this.step]].getData();

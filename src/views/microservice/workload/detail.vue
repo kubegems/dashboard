@@ -72,12 +72,14 @@
       WorkloadLog,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      tab: 0,
-      workload: null,
-      services: null,
-      pass: false,
-    }),
+    data() {
+      return {
+        tab: 0,
+        workload: null,
+        services: null,
+        pass: { pass: false, time: '' },
+      };
+    },
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
       ...mapGetters(['VirtualSpace']),
@@ -104,6 +106,7 @@
     },
     methods: {
       async microAppWorkoladDetail() {
+        if (!this.VirtualSpace().ID) return;
         const data = await getMicroAppWorkoladDetail(
           this.VirtualSpace().ID,
           this.$route.query.environmentid,

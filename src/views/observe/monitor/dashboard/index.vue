@@ -25,7 +25,7 @@
             v-model="labelpairs"
             :variable="variable"
             :variable-values="variableValues"
-            @loadMetrics="loadMetrics"
+            @loadMetrics="refreshMetrics"
           />
           <ProjectEnvSelectCascade v-model="env" first :offset-y="4" reverse :tenant="tenant" />
 
@@ -89,7 +89,7 @@
         </v-card-text>
       </v-card>
 
-      <draggable v-model="items[tab].graphs" class="row mt-3 mb-1 pb-0" @end="onDraggableEnd">
+      <draggable v-if="items[tab]" v-model="items[tab].graphs" class="row mt-3 mb-1 pb-0" @end="onDraggableEnd">
         <v-col
           v-for="(graph, index) in items[tab] ? items[tab].graphs : []"
           :key="index"
@@ -97,7 +97,7 @@
           :cols="4"
         >
           <v-card class="kubegems__full-height" flat>
-            <v-card-text class="pa-2 kubegems__full-height">
+            <v-card-text class="px-2 py-0 kubegems__full-height">
               <div class="dash__btn">
                 <v-btn icon small @click.stop="openGraphInMaxScreen(graph)">
                   <v-icon color="primary" small> mdi-magnify-plus </v-icon>
@@ -110,8 +110,8 @@
                 </v-btn>
               </div>
               <BaseAreaChart
-                :id="`c${index}`"
                 :key="`c${index}${tab}`"
+                :animation="false"
                 chart-type="line"
                 :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
                 colorful
@@ -151,7 +151,7 @@
 
     <AddDashboard ref="addDashboard" :environment="environment" @refresh="dashboardList" />
     <UpdateDashboard ref="updateDashboard" :environment="environment" @refresh="dashboardList" />
-    <GraphMax ref="graphMax" :environment="environment" />
+    <GraphMax ref="graphMax" :date-link="date" :environment="environment" />
     <AddGraph
       ref="addGraph"
       :dashboard="items.length > 0 ? items[tab] : null"
@@ -241,6 +241,8 @@
               this.$route.meta?.dependencies || [],
             );
             if (this.missingPlugins?.length === 0) {
+              this.items = [];
+              this.labelpairs = {};
               this.dashboardList();
             } else {
               this.$store.commit('SET_SNACKBAR', {
@@ -278,13 +280,25 @@
         this.clearInterval();
         this.metrics = {};
         const dashboard = this.items[this.tab];
-        if (dashboard.variables && Object.keys(dashboard.variables).length > 0) {
+        if (dashboard?.variables && Object.keys(dashboard.variables).length > 0) {
           this.variable = Object.keys(dashboard.variables)[0];
           this.variableValues = dashboard.variables[this.variable].split(',').filter((v) => {
             return Boolean(v);
           });
+          this.labelpairs[`labelpairs[${this.variable}]`] = this.variableValues.reduce(
+            (pre, current, index, arr) =>
+              (pre || pre) + (current || current) + `${index === arr.length - 1 ? '' : '|'}`,
+            '',
+          );
+        } else {
+          this.variable = undefined;
+          this.variableValues = [];
         }
+        this.variableKey = randomString(4);
 
+        this.loadData();
+      },
+      loadData() {
         if (this.items?.length > 0 && this.items[this.tab] && this.items[this.tab].graphs) {
           this.items[this.tab].graphs.forEach((item, index) => {
             this.getMetrics(item, index);
@@ -300,6 +314,10 @@
           }
         }, 1000 * 30);
       },
+      refreshMetrics() {
+        this.clearInterval();
+        this.loadData();
+      },
       clearInterval() {
         if (this.timeinterval) clearInterval(this.timeinterval);
       },
@@ -312,6 +330,11 @@
             return i.name === this.$route.query.tab;
           });
           this.tab = index > -1 ? index : 0;
+          if (this.tab === 0) {
+            await this.$router.replace({ query: { ...this.$route.query, tab: null } });
+          }
+        } else {
+          this.tab = 0;
         }
         this.loadMetrics();
       },
@@ -425,14 +448,18 @@
         this.loadMetrics();
       },
       onTabChange() {
-        this.$refs.variableSelect.reset();
-        this.labelpairs = {};
-        this.variableKey = randomString(4);
-        this.loadMetrics();
-        this.$router.replace({
-          query: {
-            tab: this.items[this.tab]?.name || null,
-          },
+        this.$nextTick(() => {
+          if (this.tab > -1) {
+            this.$refs.variableSelect.reset();
+            this.labelpairs = {};
+            this.variableKey = randomString(4);
+            this.loadMetrics();
+            this.$router.replace({
+              query: {
+                tab: this.items[this.tab]?.name || null,
+              },
+            });
+          }
         });
       },
       getUnit(unit) {
@@ -474,7 +501,7 @@
     &__btn {
       position: absolute;
       right: 5px;
-      top: 6px;
+      top: 5px;
       z-index: 1;
     }
   }

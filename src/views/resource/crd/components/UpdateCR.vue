@@ -47,11 +47,13 @@ m
   export default {
     name: 'UpdateCR',
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      item: null,
-      crd: null,
-    }),
+    data() {
+      return {
+        dialog: false,
+        item: null,
+        crd: null,
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

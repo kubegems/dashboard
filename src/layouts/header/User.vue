@@ -63,7 +63,7 @@
                 </v-btn>
               </v-avatar>
               <span class="font-weight-medium primary--text kubegems__text">
-                {{ $VENDOR[User.SourceVendor] || 'Selfhosted' }}
+                {{ VENDOR[User.SourceVendor] || 'Selfhosted' }}
               </span>
             </v-chip>
             <div class="kubegems__clear-float" />
@@ -145,6 +145,7 @@
 
   import About from './components/About';
   import TenantSelect from './components/TenantSelect';
+  import { MANUAL, VENDOR } from '@/constants/platform';
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
 
@@ -156,6 +157,8 @@
     },
     mixins: [BasePermission, BaseSelect],
     data() {
+      this.VENDOR = VENDOR;
+
       return {
         menu: false,
         expand: false,
@@ -169,7 +172,7 @@
       async logout() {
         this.$store.commit('CLEARALL');
         await this.$router.push({ name: 'login' });
-        this.$store.commit('SET_VERSION', process.env.VUE_APP_RELEASE);
+        this.$store.commit('SET_VERSION', import.meta.env.VUE_APP_RELEASE);
       },
       showAbout() {
         this.$refs.about.init();
@@ -182,7 +185,7 @@
         this.closeUserMenu();
       },
       toBook() {
-        window.open(this.$MANUAL);
+        window.open(MANUAL);
         this.closeUserMenu();
       },
       toUserCenter() {

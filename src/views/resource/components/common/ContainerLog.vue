@@ -176,7 +176,6 @@
         "
         :style="{ height: `${height}px !important` }"
         theme="chrome"
-        @init="$aceinit"
         @keydown.stop
       />
     </template>
@@ -196,24 +195,26 @@
       messages: messages,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      container: '',
-      containers: [],
-      count: 100,
-      countText: '',
-      counts: [
-        { text: 100, value: 100 },
-        { text: 500, value: 500 },
-      ],
-      log: '',
-      logWebsocket: null,
-      item: null,
-      stream: false,
-      linenotbreak: false,
-      containerMenu: false,
-      countMenu: false,
-    }),
+    data() {
+      return {
+        dialog: false,
+        container: '',
+        containers: [],
+        count: 100,
+        countText: '',
+        counts: [
+          { text: 100, value: 100 },
+          { text: 500, value: 500 },
+        ],
+        log: '',
+        logWebsocket: null,
+        item: null,
+        stream: false,
+        linenotbreak: false,
+        containerMenu: false,
+        countMenu: false,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Scale']),
       height() {

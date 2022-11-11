@@ -25,15 +25,9 @@
     "byte_rate": "バイトレート",
     "time": "時間",
     "precent": "パーセント",
-    "email": "メール",
-    "send": "差出人",
-    "recv": "宛先",
-    "smtp": "SMTPサーバ",
     "alert_channel": "警察",
     "add_alert_channel": "通知チャンネルを追加してください。",
     "email_config": "メールアドレス設定",
-    "send_passwd": "差出人のパスワード",
-    "test_success": "テストEmailの送信",
     "rule_detail": "ルール詳細",
     "alert_trend": "警告推移",
     "alert_count": "警告回数",
@@ -65,7 +59,11 @@
     "endpoint": "エンドポイント",
     "port_type": "ポートの種類",
     "global_var": "グローバル変数",
-    "global_var_val": "変数値"
+    "global_var_val": "変数値",
+    "global_var_tip": "グローバル変数は、監視アイコンで監視データをフィルタリングするために使用されます",
+    "missing_template": "テンプレートがありません",
+
+    "app_performance_monitor": "アプリケーションのパフォーマンス監視"
   },
   "tab": {
     "generate_from_template": "テンプレート生成",
@@ -83,7 +81,8 @@
     "match_string": "一致した文字列（正規表現対応）",
     "dest_container": "対象コンテナ",
     "time": "期間",
-    "inhabit_label": "ラベルを抑制します。"
+    "inhabit_label": "ラベルを抑制します。",
+    "user_id": "ユーザーID(入力して作成)"
   },
   "operate": {
     "query": "クエリ",
@@ -93,7 +92,8 @@
     "enable": "有効",
     "disable": "無効",
     "enable_c": "{0} を有効にする",
-    "disable_c": "{0} を無効化"
+    "disable_c": "{0} を無効化",
+    "all": "すべて選択"
   },
   "filter": {
     "receiver_name": "受信機名",
@@ -101,8 +101,7 @@
     "servicemonitor_name": "採集器名"
   },
   "table": {
-    "name": "注文番号による検索",
-    "channel": "チャネル",
+    "name": "名前",
     "expr": "メトリクス",
     "for": "評価時間",
     "status": "状態",

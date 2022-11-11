@@ -65,7 +65,6 @@
           }"
           :no-data-text="$root.$t('data.no_data')"
           :rules="objRules.versionRules"
-          @change="onAppVersionChange"
         >
           <template #selection="{ item }">
             <v-chip color="primary" small>
@@ -138,6 +137,8 @@
           project: '',
           environment: '',
           version: '',
+          projectId: 0,
+          environmentId: 0,
         },
         pluginsPass: false,
       };
@@ -183,12 +184,11 @@
       onTenantProjectSelectFocus() {
         this.m_select_tenantProjectSelectData();
       },
-      onAppVersionChange() {},
       async onEnvSelectFocus() {
         await this.m_select_projectEnvironmentSelectData(this.projectId);
         this.m_select_projectEnvironmentItems = this.m_select_projectEnvironmentItems.filter((projectEnv) => {
           return (
-            this.m_permisson_tenantAllow ||
+            this.m_permisson_tenantAllow() ||
             this.Auth.projects.some((p) => {
               return p.isAdmin && p.id === this.projectId;
             }) ||
@@ -214,6 +214,8 @@
         if (env) {
           this.obj.cluster = env.clusterName;
           this.obj.namespace = env.namespace;
+          this.obj.projectId = env.projectid;
+          this.obj.environmentId = env.value;
           const missingPlugins = await this.m_permission_plugin_pass(env.clusterName, []);
           if (missingPlugins?.length === 0) {
             this.pluginsPass = true;

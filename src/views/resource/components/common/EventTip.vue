@@ -20,7 +20,7 @@
     :close-on-content-click="false"
     :disabled="disabled"
     left
-    max-width="200px"
+    max-width="210px"
     nudge-bottom="5px"
     offset-y
     open-on-hover
@@ -92,7 +92,9 @@
       },
       item: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       kind: {
         type: String,

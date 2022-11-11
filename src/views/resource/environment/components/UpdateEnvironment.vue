@@ -47,12 +47,14 @@
       EnvironmentBaseForm,
     },
     mixins: [BaseSelect],
-    data: () => ({
-      dialog: false,
-      formComponent: 'EnvironmentBaseForm',
-      users: [],
-      step: 0,
-    }),
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'EnvironmentBaseForm',
+        users: [],
+        step: 0,
+      };
+    },
     computed: {
       ...mapState(['Circular', 'User']),
       ...mapGetters(['Project', 'Tenant']),

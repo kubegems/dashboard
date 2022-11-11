@@ -20,7 +20,6 @@ import {
   deletePod,
   deleteProject,
   deletePrometheusRule,
-  deleteReceiver,
   deleteRepository,
   deleteSecret,
   deleteService,
@@ -52,7 +51,6 @@ const table = {
         VolumeSnapshot: deleteVolumeSnapshot,
         ServiceMonitor: deleteServiceMonitor,
         PrometheusRule: deletePrometheusRule,
-        Receiver: deleteReceiver,
         CustomResourceDefinition: deleteCRD,
         Repository: deleteRepository,
         Tenant: deleteTenant,
@@ -91,9 +89,9 @@ const table = {
       if (this.m_table_sortparam.name === 'name') {
         return `name${this.m_table_sortparam.desc ? 'Desc' : 'Asc'}`;
       } else if (this.m_table_sortparam.name === 'createAt') {
-        return `createTime${this.m_table_sortparam.desc ? 'Desc' : 'Asc'}`;
+        return `createTime${this.m_table_sortparam.desc ? 'Asc' : 'Desc'}`;
       } else if (this.m_table_sortparam.name === 'age') {
-        return `createTime${this.m_table_sortparam.desc ? 'Desc' : 'Asc'}`;
+        return `createTime${this.m_table_sortparam.desc ? 'Asc' : 'Desc'}`;
       } else if (this.m_table_sortparam.name === 'status') {
         return `status${this.m_table_sortparam.desc ? 'Desc' : 'Asc'}`;
       } else if (this.m_table_sortparam.name === 'appName') {

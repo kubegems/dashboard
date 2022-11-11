@@ -69,7 +69,9 @@
       "ops": "運維",
       "admin": "管理員",
       "sys": "系統管理員",
-      "tenantadmin": "租戶管理員"
+      "tenantadmin": "租戶管理員",
+      "projectadmin": "專案管理員",
+      "projectops": "項目運維"
     },
     "environment": {
       "operator": "操作成員",
@@ -224,7 +226,9 @@
     "sync_c": "同步{0}",
     "save": "保存",
     "detail": "詳情",
-    "reset": "重置"
+    "reset": "重置",
+    "upload": "文件上傳",
+    "download": "下載"
   },
   "form": {
     "definition": "{0}定義",
@@ -335,6 +339,7 @@
       "output": "日誌路由器",
       "flow": "日誌採集器",
       "monitor_app": "應用性能",
+      "channel": "告警渠道",
       "g_dashboard": "概覽",
       "g_integrated": "接入中心",
       "g_observability": "可視化",
@@ -441,7 +446,8 @@
     "prometheus_rule": "告警規則 （PrometheusRule） 通常是針對監控指標設置的Prometheus告警規則。",
     "flow": "日誌採集器 （Flow/ClusterFlow） 定義了一個帶有篩檢程式和輸出的日誌流。",
     "output": "日誌路由器 （Output/ClusterOutput） 定義您的流可以發送日誌消息的輸出。",
-    "dash_app": "應用監控（Jaeger）"
+    "dash_app": "應用監控（Jaeger）",
+    "alert_channel": "告警渠道提供多種告警消息發送方式通知用戶，包括(郵箱，飛書，webhook等)"
   },
   "metadata": {
     "description": "更便捷的雲原生管理平臺",
@@ -491,7 +497,10 @@
     "unknown_error": "未知錯誤",
     "start_end": "起止時間",
     "show": "顯示",
-    "hide": "摺疊"
+    "hide": "摺疊",
+    "need_login": "請登錄後訪問",
+    "gpu_allocated": "Gpu分配",
+    "not_based_yaml": "不符合標準的yaml格式"
   },
   "tab": {
     "overview": "概覽",
@@ -499,6 +508,7 @@
     "metadata": "元數據",
     "event": "事件",
     "pod": "容器組",
-    "monitor": "監控"
+    "monitor": "監控",
+    "gpu_monitor": "GPU監控"
   }
 }

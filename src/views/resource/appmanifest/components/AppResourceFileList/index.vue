@@ -37,8 +37,8 @@
             <v-flex v-else>
               <v-flex class="primary white--text rounded chip float-left mt-0" color="primary">
                 {{
-                  $APP_MENIFEST_TAG[item.kind] && $APP_MENIFEST_TAG[item.kind].value
-                    ? $APP_MENIFEST_TAG[item.kind].value
+                  APP_MENIFEST_TAG[item.kind] && APP_MENIFEST_TAG[item.kind].value
+                    ? APP_MENIFEST_TAG[item.kind].value
                     : item.kind
                 }}
               </v-flex>
@@ -104,7 +104,6 @@
           :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
           theme="chrome"
           :value="manifest"
-          @init="$aceinit"
           @keydown.stop
         />
       </v-col>
@@ -123,6 +122,7 @@
   import AppResourceFileHistory from './AppResourceFileHistory';
   import UpdateResourceFile from './UpdateResourceFile';
   import { deleteAppResourceFile, getAppResourceFiles, postRefreshAppResource, postSyncAppResource } from '@/api';
+  import { APP_MENIFEST_TAG } from '@/constants/resource';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
 
@@ -143,13 +143,17 @@
         default: () => null,
       },
     },
-    data: () => ({
-      tree: [],
-      active: [],
-      activeFile: '',
-      items: [],
-      historyView: false,
-    }),
+    data() {
+      this.APP_MENIFEST_TAG = APP_MENIFEST_TAG;
+
+      return {
+        tree: [],
+        active: [],
+        activeFile: '',
+        items: [],
+        historyView: false,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       ...mapGetters(['Project', 'Tenant', 'Environment']),
@@ -251,9 +255,9 @@
       },
       removeResourceFile(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.delete_c', [$t('table.resource_file')]),
+          title: this.$root.$t('operate.delete_c', [this.$t('table.resource_file')]),
           content: {
-            text: `${this.$root.$t('operate.delete_c', [$t('table.resource_file')])} ${item.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$t('table.resource_file')])} ${item.name}`,
             type: 'delete',
             name: item.name,
           },
@@ -278,7 +282,7 @@
       },
       syncAppResource() {
         this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.sync_c', [$root.$t('resource.app')]),
+          title: this.$root.$t('operate.sync_c', [this.$root.$t('resource.app')]),
           content: {
             text: this.$t('tip.sync_alert', [this.app.name]),
             type: 'confirm',
@@ -292,7 +296,7 @@
       },
       async refreshResource() {
         this.$store.commit('SET_CONFIRM', {
-          title: this.$t('operate.refresh_c', [$root.$t('resource.app')]),
+          title: this.$t('operate.refresh_c', [this.$root.$t('resource.app')]),
           content: {
             text: this.$t('tip.refresh_tip', [this.app.name]),
             type: 'confirm',

@@ -45,12 +45,16 @@
       },
       param: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
-    data: () => ({
-      myValue: false,
-    }),
+    data() {
+      return {
+        myValue: false,
+      };
+    },
     computed: {
       pathLevel() {
         return this.param.path.split('/').length;

@@ -20,7 +20,13 @@
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <v-btn v-if="m_permisson_resourceAllow" class="primary--text" small text @click="scalePersistentVolumeClaim">
+          <v-btn
+            v-if="m_permisson_resourceAllow()"
+            class="primary--text"
+            small
+            text
+            @click="scalePersistentVolumeClaim"
+          >
             <v-icon left small> mdi-arrow-up-down-bold </v-icon>
             {{ $t('operate.scale_pvc') }}
           </v-btn>
@@ -28,7 +34,7 @@
             <v-icon left small> mdi-code-json </v-icon>
             YAML
           </v-btn>
-          <v-menu v-if="m_permisson_resourceAllow" left>
+          <v-menu v-if="m_permisson_resourceAllow()" left>
             <template #activator="{ on }">
               <v-btn icon>
                 <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
@@ -129,10 +135,12 @@
       UpdatePersistentVolumeClaim,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      pvc: null,
-      tab: 0,
-    }),
+    data() {
+      return {
+        pvc: null,
+        tab: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       tabItems() {

@@ -18,7 +18,7 @@
   <v-flex>
     <v-row>
       <template v-for="(value, key) in annotations">
-        <v-col v-if="$ANNOTATION_IGNORE_ARRAY.indexOf(key) === -1" :key="key" class="pa-0" cols="6">
+        <v-col v-if="ANNOTATION_IGNORE_ARRAY.indexOf(key) === -1" :key="key" class="pa-0" cols="6">
           <v-flex class="grey lighten-4 rounded mt-3 mx-3">
             <v-list-item>
               <v-list-item-content class="kubegems__label-class-padding kubegems__break-all">
@@ -54,6 +54,7 @@
 
 <script>
   import messages from '../i18n';
+  import { ANNOTATION_IGNORE_ARRAY } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
 
   export default {
@@ -65,8 +66,15 @@
     props: {
       annotations: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
+    },
+    data() {
+      this.ANNOTATION_IGNORE_ARRAY = ANNOTATION_IGNORE_ARRAY;
+
+      return {};
     },
     methods: {
       updateAnnotations(key) {

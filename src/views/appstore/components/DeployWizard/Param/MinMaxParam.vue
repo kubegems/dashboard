@@ -58,12 +58,16 @@
       },
       param: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
-    data: () => ({
-      sliderVal: 0,
-    }),
+    data() {
+      return {
+        sliderVal: 0,
+      };
+    },
     computed: {
       pathLevel() {
         return this.param.path.split('/').length;

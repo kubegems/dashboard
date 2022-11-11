@@ -50,13 +50,14 @@
   </v-flex>
 </template>
 
-<script>
+<script lang="jsx">
   import { VueOkrTree } from 'vue-okr-tree';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../../i18n';
   import DeployLive from './DeployLive';
   import { deleteAppResource, getAppRunningResourceDetail, postSyncAppResource } from '@/api';
+  import { K8S_RESOURCE_ICON } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
 
   import 'vue-okr-tree/dist/vue-okr-tree.css';
@@ -149,7 +150,7 @@
         /* eslint-disable jsx-quotes */
         const div = (
           <div class="float-left img">
-            <div class="v-menu__content manuable__content__active imgtip">
+            <div class="v-menu__content manuable__content__active imgtip" onclick={this.kindCardClick}>
               <div class="v-card v-sheet theme--light text-center">
                 <div class="v-card__text pa-2">{kind}</div>
               </div>
@@ -161,7 +162,7 @@
         );
         const img = div.children[1];
         if (kind !== 'Application') {
-          img.data.attrs.src = `/icon/kubernetes/${this.$K8S_RESOURCE_ICON[kind] || 'cr'}.svg`;
+          img.data.attrs.src = `/icon/kubernetes/${K8S_RESOURCE_ICON[kind] || 'cr'}.svg`;
         }
         return div;
       },
@@ -236,6 +237,15 @@
           },
         });
       },
+      nameCardClick(e) {
+        e.stopPropagation();
+      },
+      messageCardClick(e) {
+        e.stopPropagation();
+      },
+      kindCardClick(e) {
+        e.stopPropagation();
+      },
       renderContent(h, node) {
         /* eslint-disable jsx-quotes */
         return (
@@ -274,7 +284,10 @@
                     <span></span>
                   )}
                   <span class="resource">
-                    <div class="v-menu__content theme--light manuable__content__active resourcetip">
+                    <div
+                      class="v-menu__content theme--light manuable__content__active resourcetip"
+                      onclick={this.nameCardClick}
+                    >
                       <div class="v-card v-sheet theme--light text-center">
                         <div class="v-card__text pa-2">{node.data.name}</div>
                       </div>
@@ -294,7 +307,7 @@
               <div class="datetime">
                 {node.data.conditions && node.data.conditions.length > 0 ? (
                   <span class="message">
-                    <div class="v-menu__content manuable__content__active messagetip">
+                    <div class="v-menu__content manuable__content__active messagetip" onclick={this.messageCardClick}>
                       <div class="v-card v-sheet theme--light text-center">
                         <div class="v-card__text pa-2">
                           {node.data.conditions

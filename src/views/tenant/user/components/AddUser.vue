@@ -79,15 +79,17 @@
     i18n: {
       messages: messages,
     },
-    data: () => ({
-      dialog: false,
-      valid: false,
-      obj: {
-        Username: '',
-        Password: '',
-        Email: '',
-      },
-    }),
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        obj: {
+          Username: '',
+          Password: '',
+          Email: '',
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       objRules() {

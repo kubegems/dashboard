@@ -89,6 +89,7 @@
   import messages from '../../i18n';
   import AppResourceBaseForm from './AppResourceBaseForm';
   import { patchAppResourceFile } from '@/api';
+  import { APP_MENIFEST_TAG } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
 
@@ -101,18 +102,20 @@
       AppResourceBaseForm,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'AppResourceBaseForm',
-      kind: '',
-      step: 0,
-      totalStep: 1,
-      app: null,
-      item: null,
-      file: null,
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'AppResourceBaseForm',
+        kind: '',
+        step: 0,
+        totalStep: 1,
+        app: null,
+        item: null,
+        file: null,
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },
@@ -133,8 +136,9 @@
             }
             kind = ['deployment', 'statefulset', 'daemonset'].indexOf(kind) > -1 ? 'workload' : kind;
 
-            const mixinjson = require(`@/views/resource/${kind}/mixins/schema.js`);
-            if (!this.m_resource_validateJsonSchema(mixinjson.default.data().schema, jsondata)) {
+            const modules = import.meta.globEager(`@/utils/schema/*.ts`);
+            const schema = modules[`/src/utils/schema/${kind}.ts`]?.default;
+            if (!this.m_resource_validateJsonSchema(schema, jsondata)) {
               return;
             }
             data = this.$yamldump(this.m_resource_beautifyData(jsondata));
@@ -156,7 +160,7 @@
           this.$emit('refresh');
         }
       },
-      onYamlSwitchChange() {
+      async onYamlSwitchChange() {
         if (this.yaml) {
           const data = this.$refs[this.formComponent].getData();
           this.formComponent = 'BaseYamlForm';
@@ -167,12 +171,13 @@
           const yaml = this.$refs[this.formComponent].kubeyaml;
           const data = this.$yamlload(yaml);
           if (this.kind) {
-            const mixinjson = require(`@/views/resource/${
+            const kind =
               ['deployment', 'statefulset', 'daemonset'].indexOf(this.kind.toLocaleLowerCase()) > -1
                 ? 'workload'
-                : this.kind.toLocaleLowerCase()
-            }/mixins/schema.js`);
-            if (!this.m_resource_validateJsonSchema(mixinjson.default.data().schema, data)) {
+                : this.kind.toLocaleLowerCase();
+            const modules = import.meta.globEager(`@/utils/schema/*.ts`);
+            const schema = modules[`/src/utils/schema/${kind}.ts`]?.default;
+            if (!this.m_resource_validateJsonSchema(schema, data)) {
               this.yaml = true;
               this.switchKey = randomString(6);
               return;
@@ -265,7 +270,7 @@
         this.app = deepCopy(app);
         this.file = deepCopy(file);
         this.item = deepCopy(this.$yamlload(file.manifest));
-        if (!this.$APP_MENIFEST_TAG[this.item?.kind]?.form) {
+        if (!APP_MENIFEST_TAG[this.item?.kind]?.form) {
           this.$store.commit('SET_SNACKBAR', {
             text: this.$t('tip.cannot_support'),
             color: 'warning',

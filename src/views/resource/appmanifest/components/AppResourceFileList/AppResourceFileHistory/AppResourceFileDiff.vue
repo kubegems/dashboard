@@ -52,17 +52,19 @@
       CodeDiff,
     },
     mixins: [BaseResource],
-    data: () => ({
-      panel: false,
-      diff: [
-        {
-          from: '',
-          to: '',
-        },
-      ],
-      app: null,
-      commit: null,
-    }),
+    data() {
+      return {
+        panel: false,
+        diff: [
+          {
+            from: '',
+            to: '',
+          },
+        ],
+        app: null,
+        commit: null,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
     },

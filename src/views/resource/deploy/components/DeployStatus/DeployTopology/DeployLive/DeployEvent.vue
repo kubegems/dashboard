@@ -32,15 +32,15 @@
         <v-badge
           v-if="item.count > 1"
           bordered
-          :color="$EVENT_STATUS_COLOR[item.type]"
+          :color="EVENT_STATUS_COLOR[item.type]"
           :content="item.count > 99 ? '99+' : item.count"
           overlap
         >
-          <v-chip class="mx-1 white--text" :color="$EVENT_STATUS_COLOR[item.type]" label small>
+          <v-chip class="mx-1 white--text" :color="EVENT_STATUS_COLOR[item.type]" label small>
             <span>{{ item.type }}</span>
           </v-chip>
         </v-badge>
-        <v-chip v-else class="mx-1 white--text" :color="$EVENT_STATUS_COLOR[item.type]" label small>
+        <v-chip v-else class="mx-1 white--text" :color="EVENT_STATUS_COLOR[item.type]" label small>
           <span>{{ item.type }}</span>
         </v-chip>
       </template>
@@ -78,6 +78,7 @@
 <script>
   import messages from '../../../../i18n';
   import { getEventList } from '@/api';
+  import { EVENT_STATUS_COLOR } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
 
   export default {
@@ -92,15 +93,19 @@
         default: () => null,
       },
     },
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-        noprocessing: true,
-      },
-    }),
+    data() {
+      this.EVENT_STATUS_COLOR = EVENT_STATUS_COLOR;
+
+      return {
+        items: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+          noprocessing: true,
+        },
+      };
+    },
     computed: {
       headers() {
         return [
@@ -135,7 +140,9 @@
         this.pageCount = Math.ceil(data.Total / this.params.size);
         this.params.page = data.CurrentPage;
       },
-      dispose() {},
+      dispose() {
+        return;
+      },
       onPageSizeChange(size) {
         this.params.page = 1;
         this.params.size = size;

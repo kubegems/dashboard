@@ -56,21 +56,21 @@
               <!-- panel-header -->
               <v-expansion-panel-header disable-icon-rotate>
                 <div>
-                  <v-btn class="mr-2" color="primary" depressed x-small>
+                  <v-btn class="mr-2 my-1" color="primary" depressed x-small>
                     {{ index + 1 }}
                   </v-btn>
                   <template v-if="item.resourceObj">
-                    <v-btn class="mr-2" color="success" depressed x-small>
+                    <v-btn class="mr-2 my-1" color="success" depressed x-small>
                       {{ item.resourceObj.resourceShowName }}
                     </v-btn>
-                    <v-btn color="success" depressed x-small>
+                    <v-btn class="my-1" color="success" depressed x-small>
                       {{ item.resourceObj.showName }}
                     </v-btn>
                   </template>
                 </div>
                 <template #actions>
-                  <v-icon v-if="metricsObject[item._$id]" color="success"> mdi-check </v-icon>
-                  <v-icon v-else>mdi-alert-circle</v-icon>
+                  <v-icon v-if="metricsObject[item._$id]" class="my-1" color="success"> mdi-check </v-icon>
+                  <v-icon v-else class="my-1">mdi-alert-circle</v-icon>
                 </template>
               </v-expansion-panel-header>
               <!-- panel-header -->
@@ -174,7 +174,7 @@
                       :rules="fieldRules.required"
                       solo
                     />
-                    <MetricsSuggestion
+                    <!-- <MetricsSuggestion
                       :cluster="
                         queryList[index].environment
                           ? queryList[index].environment.clusterName
@@ -185,7 +185,7 @@
                       :expr="queryList[index].expr"
                       :index="index"
                       @insertMetrics="insertMetrics"
-                    />
+                    /> -->
                   </template>
 
                   <template v-else>
@@ -284,7 +284,7 @@
   import messages from '../i18n';
   import ButtonInput from './components/ButtonInput';
   import MetricsItem from './components/MetricsItem';
-  import MetricsSuggestion from './components/MetricsSuggestion';
+  // import MetricsSuggestion from './components/MetricsSuggestion';
   import ResourceSelectCascade from './components/ResourceSelectCascade';
   import { getMetricsLabelValues, getMetricsLabels, getMetricsQueryrange } from '@/api';
   import BasePermission from '@/mixins/permission';
@@ -304,7 +304,7 @@
       AddPrometheusRule,
       ButtonInput,
       MetricsItem,
-      MetricsSuggestion,
+      // MetricsSuggestion,
       ProjectEnvSelectCascade,
       ResourceSelectCascade,
     },
@@ -621,6 +621,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    min-height: 900px;
 
     &__header {
       max-height: 64px;

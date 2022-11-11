@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-send" title="重建部署" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-send" :title="$t('tip.recreate')" :width="1000" @reset="reset">
     <template #content>
       <v-flex>
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
@@ -25,7 +25,7 @@
     </template>
     <template #action>
       <v-btn class="float-right" color="primary" :loading="Circular" text @click="strategyDeployEnvironmentApps">
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>
@@ -34,6 +34,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import BaseDeployInfoForm from './base/BaseDeployInfoForm';
   import { postStrategyDeployEnvironmentApps } from '@/api';
   import { deepCopy } from '@/utils/helpers';
@@ -41,6 +42,9 @@
 
   export default {
     name: 'Recreate',
+    i18n: {
+      messages: messages,
+    },
     components: {
       BaseDeployInfoForm,
     },

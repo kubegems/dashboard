@@ -18,7 +18,7 @@
   <v-card>
     <BaseSubTitle class="pt-2" :divider="false" :title="$root.$t('resource.project')">
       <template #action>
-        <v-btn v-if="m_permisson_tenantAllow" class="float-right mr-2" color="primary" small text @click="addProject">
+        <v-btn v-if="m_permisson_tenantAllow()" class="float-right mr-2" color="primary" small text @click="addProject">
           <v-icon left small> mdi-plus-box </v-icon>
           {{ $root.$t('operate.create_c', [$root.$t('resource.project')]) }}
         </v-btn>
@@ -33,7 +33,7 @@
               <span class="text-body-2 ml-3">{{ $t('project.table.alias') }} : {{ item.ProjectAlias }}</span>
               <span class="text-body-2 ml-3">{{ $t('project.table.remark') }} : {{ item.Remark }}</span>
               <v-btn
-                v-if="m_permisson_projectAllow"
+                v-if="m_permisson_projectAllow()"
                 class="float-right"
                 color="primary"
                 depressed
@@ -68,8 +68,8 @@
               <template #[`item.type`]="{ item }">
                 <v-chip
                   :color="
-                    $METATYPE_CN[item.MetaType] && $METATYPE_CN[item.MetaType].color
-                      ? $METATYPE_CN[item.MetaType].color
+                    METATYPE_CN[item.MetaType] && METATYPE_CN[item.MetaType].color
+                      ? METATYPE_CN[item.MetaType].color
                       : 'grey'
                   "
                   label
@@ -205,16 +205,17 @@
   import messages from '../../i18n';
   import Pagination from '../Pagination';
   import { getProjectEnvironmentList, getProjectEnvironmentQuotaList, getProjectList } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
-  import { beautifyCpuUnit, beautifyNetworkUnit, beautifyStorageUnit } from '@/utils/helpers';
+  import { METATYPE_CN } from '@/constants/platform';
   import {
     ENVIRONMENT_CPU_USAGE_PROMQL,
     ENVIRONMENT_MEMORY_USAGE_PROMQL,
     ENVIRONMENT_NETWORK_IN_PROMQL,
     ENVIRONMENT_NETWORK_OUT_PROMQL,
-  } from '@/utils/prometheus';
+  } from '@/constants/prometheus';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
+  import { beautifyCpuUnit, beautifyNetworkUnit, beautifyStorageUnit } from '@/utils/helpers';
   import AddEnvironment from '@/views/resource/environment/components/AddEnvironment';
   import AddProject from '@/views/resource/project/components/AddProject';
 
@@ -229,21 +230,24 @@
       Pagination,
     },
     mixins: [BasePermission, BaseResource, BaseSelect],
-    inject: ['reload'],
-    data: () => ({
-      projectItems: [],
-      environmentItems: [],
-      pageCount: 0,
-      pageParams: {
-        page: 1,
-        size: 5,
-      },
-      params: {
-        start: '',
-        end: '',
-      },
-      expand: null,
-    }),
+    data() {
+      this.METATYPE_CN = METATYPE_CN;
+
+      return {
+        projectItems: [],
+        environmentItems: [],
+        pageCount: 0,
+        pageParams: {
+          page: 1,
+          size: 5,
+        },
+        params: {
+          start: '',
+          end: '',
+        },
+        expand: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Admin']),
       ...mapGetters(['Tenant', 'Project']),
@@ -400,6 +404,7 @@
           Object.assign(this.params, {
             query: ENVIRONMENT_CPU_USAGE_PROMQL.replaceAll('$1', environments),
             noprocessing: true,
+            pass: true,
           }),
         );
         data.forEach((d) => {
@@ -424,6 +429,7 @@
           Object.assign(this.params, {
             query: ENVIRONMENT_MEMORY_USAGE_PROMQL.replaceAll('$1', environments),
             noprocessing: true,
+            pass: true,
           }),
         );
         data.forEach((d) => {
@@ -448,6 +454,7 @@
           Object.assign(this.params, {
             query: ENVIRONMENT_NETWORK_IN_PROMQL.replaceAll('$1', environments),
             noprocessing: true,
+            pass: true,
           }),
         );
         data.forEach((d) => {
@@ -472,6 +479,7 @@
           Object.assign(this.params, {
             query: ENVIRONMENT_NETWORK_OUT_PROMQL.replaceAll('$1', environments),
             noprocessing: true,
+            pass: true,
           }),
         );
         data.forEach((d) => {

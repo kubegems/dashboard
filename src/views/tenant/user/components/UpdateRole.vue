@@ -72,20 +72,22 @@
       messages: messages,
     },
     mixins: [BaseSelect],
-    data: () => ({
-      dialog: false,
-      valid: false,
-      systemRoleItems: [],
-      obj: {
-        UserID: 0,
-        Username: '',
-        SystemRoleID: 0,
-      },
-      objRules: {
-        userIDRules: [required],
-        systemRoleRules: [required],
-      },
-    }),
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        systemRoleItems: [],
+        obj: {
+          UserID: 0,
+          Username: '',
+          SystemRoleID: 0,
+        },
+        objRules: {
+          userIDRules: [required],
+          systemRoleRules: [required],
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

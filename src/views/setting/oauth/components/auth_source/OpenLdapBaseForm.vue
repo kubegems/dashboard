@@ -83,21 +83,23 @@
         default: () => null,
       },
     },
-    data: () => ({
-      valid: false,
-      show: false,
-      obj: {
-        config: {
-          enableTLS: true,
-          basedn: '',
-          binduser: '',
-          password: '',
-          ldapaddr: '',
-          filter: '',
+    data() {
+      return {
+        valid: false,
+        show: false,
+        obj: {
+          config: {
+            enableTLS: true,
+            basedn: '',
+            binduser: '',
+            password: '',
+            ldapaddr: '',
+            filter: '',
+          },
+          tokenType: 'Bearer',
         },
-        tokenType: 'Bearer',
-      },
-    }),
+      };
+    },
     computed: {
       objRules() {
         return {

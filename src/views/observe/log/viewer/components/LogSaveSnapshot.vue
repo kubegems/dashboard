@@ -50,14 +50,16 @@
     i18n: {
       messages: messages,
     },
-    data: () => ({
-      visible: false,
-      valid: false,
-      snapshotName: '',
-      objRules: {
-        SnapshotNameRules: [required],
-      },
-    }),
+    data() {
+      return {
+        visible: false,
+        valid: false,
+        snapshotName: '',
+        objRules: {
+          SnapshotNameRules: [required],
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular', 'Progress', 'User']),
       ...mapGetters(['Cluster']),

@@ -46,10 +46,12 @@
   export default {
     name: 'UpdateStorageClass',
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      item: null,
-    }),
+    data() {
+      return {
+        dialog: false,
+        item: null,
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

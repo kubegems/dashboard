@@ -62,8 +62,8 @@ const permission = {
           }
         }) > -1 ||
         this.Admin ||
-        this.m_permisson_projectAllow ||
-        this.m_permisson_tenantAllow
+        this.m_permisson_projectAllow() ||
+        this.m_permisson_tenantAllow()
       );
     },
     m_permisson_projectAllow(project = undefined) {
@@ -76,7 +76,7 @@ const permission = {
           }
         }) > -1 ||
         this.Admin ||
-        this.m_permisson_tenantAllow
+        this.m_permisson_tenantAllow()
       );
     },
     m_permisson_tenantAllow(tenant = undefined) {
@@ -102,14 +102,14 @@ const permission = {
       );
     },
     async m_permission_matrix(cluster, query = {}) {
-      if (this.Plugins?.['monitoring']) {
+      if (this.Plugins?.['monitoring'] || query.pass) {
         const data = await matrix(cluster, query);
         return data;
       }
       return [];
     },
     async m_permission_vector(cluster, query = {}) {
-      if (this.Plugins?.['monitoring']) {
+      if (this.Plugins?.['monitoring'] || query.pass) {
         const data = await vector(cluster, query);
         return data;
       }

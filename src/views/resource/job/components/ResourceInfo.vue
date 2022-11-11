@@ -58,7 +58,7 @@
             ? job.spec.template.spec.containers.concat(
                 job.spec.template.spec.initContainers
                   ? job.spec.template.spec.initContainers.map((i) => {
-                      return { ...i, showName: `${i.name} (init)` };
+                      return { ...i, showName: `${i.name}`, init: true };
                     })
                   : [],
               )

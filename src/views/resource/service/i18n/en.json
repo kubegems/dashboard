@@ -21,8 +21,6 @@
     "port_config": "Port Configuration",
     "port": "Port",
     "annotation": "Note",
-    "vip": "Internal IP Access to Cluster (VirtualIP)",
-    "headless": "Access via Service Backend EndpointIP (Headless)",
     "no_access": "Disable access",
     "protocol": "Application Protocol"
   },

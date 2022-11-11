@@ -55,9 +55,9 @@
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
+  import { PVC_USAGE_INODE_PROMQL, PVC_USAGE_PROMQL } from '@/constants/prometheus';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
-  import { PVC_USAGE_INODE_PROMQL, PVC_USAGE_PROMQL } from '@/utils/prometheus';
 
   export default {
     name: 'PersistentVolumeClaimMonitor',
@@ -71,17 +71,19 @@
         default: () => null,
       },
     },
-    data: () => ({
-      used: [],
-      inodeused: [],
-      date: [],
-      params: {
-        start: '',
-        end: '',
-        noprocessing: true,
-      },
-      timeinterval: null,
-    }),
+    data() {
+      return {
+        used: [],
+        inodeused: [],
+        date: [],
+        params: {
+          start: '',
+          end: '',
+          noprocessing: true,
+        },
+        timeinterval: null,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
     },

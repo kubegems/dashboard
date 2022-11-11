@@ -25,7 +25,6 @@
       lang="yaml"
       :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
       theme="chrome"
-      @init="$aceinit"
       @keydown.stop
     />
   </v-flex>
@@ -42,9 +41,11 @@
         default: () => null,
       },
     },
-    data: () => ({
-      kubeyaml: '',
-    }),
+    data() {
+      return {
+        kubeyaml: '',
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       height() {
@@ -63,7 +64,9 @@
       },
     },
     methods: {
-      dispose() {},
+      dispose() {
+        return;
+      },
     },
   };
 </script>

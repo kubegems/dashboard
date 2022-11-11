@@ -78,16 +78,18 @@
       ResourceQuota,
     },
     mixins: [BaseResource, BaseSelect],
-    data: () => ({
-      dialog: false,
-      valid: false,
-      expand: false,
-      obj: {
-        data: null,
-        statistics: null,
-        quota: null,
-      },
-    }),
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        expand: false,
+        obj: {
+          data: null,
+          statistics: null,
+          quota: null,
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular', 'User']),
       ...mapGetters(['Tenant']),

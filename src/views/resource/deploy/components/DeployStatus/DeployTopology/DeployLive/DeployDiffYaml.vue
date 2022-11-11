@@ -38,10 +38,12 @@
         default: () => null,
       },
     },
-    data: () => ({
-      normalizedLiveState: '',
-      predictedLiveState: '',
-    }),
+    data() {
+      return {
+        normalizedLiveState: '',
+        predictedLiveState: '',
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       height() {
@@ -61,7 +63,9 @@
       },
     },
     methods: {
-      dispose() {},
+      dispose() {
+        return;
+      },
     },
   };
 </script>

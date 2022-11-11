@@ -21,13 +21,43 @@
       <v-card-text class="px-0 pb-0 mt-2">
         <v-row>
           <v-col class="py-0" cols="4">
-            <VueApexCharts height="250" :options="cpuOptions" :series="cpuSeries" type="radialBar" />
+            <BaseRadialBarChart
+              class="my-3"
+              :cutout="75"
+              :default-val="quota ? quota.AllocatedCpu : 0"
+              :extend-height="180"
+              :metrics="cpuSeries"
+              :title="$root.$t('resource.cpu')"
+              tooltip-external
+              :total="quota ? quota.AllocatedCpu : 0"
+              unit="core"
+            />
           </v-col>
           <v-col class="py-0" cols="4">
-            <VueApexCharts height="250" :options="memoryOptions" :series="memorySeries" type="radialBar" />
+            <BaseRadialBarChart
+              class="my-3"
+              :cutout="75"
+              :default-val="quota ? quota.AllocatedMemory : 0"
+              :extend-height="180"
+              :metrics="memorySeries"
+              :title="$root.$t('resource.memory')"
+              tooltip-external
+              :total="quota ? quota.AllocatedMemory : 0"
+              unit="Gi"
+            />
           </v-col>
           <v-col class="py-0" cols="4">
-            <VueApexCharts height="250" :options="storageOptions" :series="storageSeries" type="radialBar" />
+            <BaseRadialBarChart
+              class="my-3"
+              :cutout="75"
+              :default-val="quota ? quota.AllocatedStorage : 0"
+              :extend-height="180"
+              :metrics="storageSeries"
+              :title="$root.$t('resource.storage')"
+              tooltip-external
+              :total="quota ? quota.AllocatedStorage : 0"
+              unit="Gi"
+            />
           </v-col>
         </v-row>
       </v-card-text>
@@ -113,13 +143,11 @@
 </template>
 
 <script>
-  import VueApexCharts from 'vue-apexcharts';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
   import { getClusterQuota, putUpdateCluster } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import { generateRadialBarChartOptions } from '@/utils/chart';
   import { deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
@@ -128,28 +156,27 @@
     i18n: {
       messages: messages,
     },
-    components: {
-      VueApexCharts,
-    },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      valid: false,
-      item: null,
-      quota: null,
-      overResource: {
-        cpu: 0,
-        memory: 0,
-        storage: 0,
-      },
-      obj: {
-        OversoldConfig: {
-          cpu: 1,
-          memory: 1,
-          storage: 1,
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        item: null,
+        quota: null,
+        overResource: {
+          cpu: 0,
+          memory: 0,
+          storage: 0,
         },
-      },
-    }),
+        obj: {
+          OversoldConfig: {
+            cpu: 1,
+            memory: 1,
+            storage: 1,
+          },
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       objRules() {
@@ -176,57 +203,54 @@
       },
       cpuSeries() {
         return this.quota
-          ? [(this.quota.Cpu / this.quota.AllocatedCpu) * 100, (this.quota.UsedCpu / this.quota.AllocatedCpu) * 100]
-          : [0, 0];
-      },
-      cpuOptions() {
-        return generateRadialBarChartOptions(
-          this.$t('tip.oversold', [this.$root.$t('resource.cpu')]),
-          [this.$t('tip.all', [this.$root.$t('resource.cpu')]), this.$t('tip.used', [this.$root.$t('resource.cpu')])],
-          this.quota ? this.quota.AllocatedCpu : 0,
-          'core',
-          true,
-        );
+          ? [
+              [
+                (this.quota.Cpu / this.quota.AllocatedCpu) * 100,
+                100 - (this.quota.Cpu / this.quota.AllocatedCpu) * 100,
+              ],
+              [
+                (this.quota.UsedCpu / this.quota.AllocatedCpu) * 100,
+                100 - (this.quota.UsedCpu / this.quota.AllocatedCpu) * 100,
+              ],
+            ]
+          : [
+              [0, 100],
+              [0, 100],
+            ];
       },
       memorySeries() {
         return this.quota
           ? [
-              (this.quota.Memory / this.quota.AllocatedMemory) * 100,
-              (this.quota.UsedMemory / this.quota.AllocatedMemory) * 100,
+              [
+                (this.quota.Memory / this.quota.AllocatedMemory) * 100,
+                100 - (this.quota.Memory / this.quota.AllocatedMemory) * 100,
+              ],
+              [
+                (this.quota.UsedMemory / this.quota.AllocatedMemory) * 100,
+                100 - (this.quota.UsedMemory / this.quota.AllocatedMemory) * 100,
+              ],
             ]
-          : [0, 0];
-      },
-      memoryOptions() {
-        return generateRadialBarChartOptions(
-          this.$t('tip.oversold', [this.$root.$t('resource.memory')]),
-          [
-            this.$t('tip.all', [this.$root.$t('resource.memory')]),
-            this.$t('tip.used', [this.$root.$t('resource.memory')]),
-          ],
-          this.quota ? this.quota.AllocatedMemory : 0,
-          'Gi',
-          true,
-        );
+          : [
+              [0, 100],
+              [0, 100],
+            ];
       },
       storageSeries() {
         return this.quota
           ? [
-              (this.quota.Storage / this.quota.AllocatedStorage) * 100,
-              (this.quota.UsedStorage / this.quota.AllocatedStorage) * 100,
+              [
+                (this.quota.Storage / this.quota.AllocatedStorage) * 100,
+                100 - (this.quota.Storage / this.quota.AllocatedStorage) * 100,
+              ],
+              [
+                (this.quota.UsedStorage / this.quota.AllocatedStorage) * 100,
+                100 - (this.quota.UsedStorage / this.quota.AllocatedStorage) * 100,
+              ],
             ]
-          : [0, 0];
-      },
-      storageOptions() {
-        return generateRadialBarChartOptions(
-          this.$t('tip.oversold', [this.$root.$t('resource.storage')]),
-          [
-            this.$t('tip.all', [this.$root.$t('resource.storage')]),
-            this.$t('tip.used', [this.$root.$t('resource.storage')]),
-          ],
-          this.quota ? this.quota.AllocatedStorage : 0,
-          'Gi',
-          true,
-        );
+          : [
+              [0, 100],
+              [0, 100],
+            ];
       },
     },
     methods: {
@@ -257,16 +281,16 @@
       async clusterQuota() {
         const data = await getClusterQuota(this.item.ID);
         this.quota = {
-          Cpu: sizeOfCpu(data.resources.capacity['cpu']),
-          UsedCpu: sizeOfCpu(data.resources.used['cpu']),
-          AllocatedCpu: sizeOfCpu(data.resources.capacity['cpu']) * this.obj.OversoldConfig.cpu,
-          Memory: sizeOfStorage(data.resources.capacity['memory']),
-          UsedMemory: sizeOfStorage(data.resources.used['memory']),
-          AllocatedMemory: sizeOfStorage(data.resources.capacity['memory']) * this.obj.OversoldConfig.memory,
-          Storage: sizeOfStorage(data.resources.capacity['ephemeral-storage']),
-          UsedStorage: sizeOfStorage(data.resources.used['ephemeral-storage']),
+          Cpu: sizeOfCpu(data.resources.capacity['limits.cpu']),
+          UsedCpu: sizeOfCpu(data.resources.used['limits.cpu']),
+          AllocatedCpu: sizeOfCpu(data.resources.capacity['limits.cpu']) * this.obj.OversoldConfig.cpu,
+          Memory: sizeOfStorage(data.resources.capacity['limits.memory']),
+          UsedMemory: sizeOfStorage(data.resources.used['limits.memory']),
+          AllocatedMemory: sizeOfStorage(data.resources.capacity['limits.memory']) * this.obj.OversoldConfig.memory,
+          Storage: sizeOfStorage(data.resources.capacity['limits.ephemeral-storage']),
+          UsedStorage: sizeOfStorage(data.resources.used['limits.ephemeral-storage']),
           AllocatedStorage:
-            sizeOfStorage(data.resources.capacity['ephemeral-storage']) * this.obj.OversoldConfig.storage,
+            sizeOfStorage(data.resources.capacity['limits.ephemeral-storage']) * this.obj.OversoldConfig.storage,
         };
         this.overResource = {
           cpu: this.quota.Cpu * this.obj.OversoldConfig.cpu,

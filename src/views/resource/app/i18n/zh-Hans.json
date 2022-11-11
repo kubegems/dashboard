@@ -8,15 +8,14 @@
     "scale_replicas": "调整副本数",
     "rollback": "回滚",
     "auto_scale_policy": "弹性伸缩策略",
-    "confirm_and_publish": "确定并发布"
+    "confirm_and_publish": "确定并发布",
+    "upgrade_model": "更新模型"
   },
   "tip": {
     "platform_app": "平台应用",
     "app_store_app": "应用商店应用",
     "model_store_app": "算法商店应用",
     "used": "{0}使用量",
-    "gpu_temp": "GPU温度",
-    "gpu_power": "GPU功率",
     "version": "版本",
     "replicas": "副本",
     "now_replicas": "当前副本数",

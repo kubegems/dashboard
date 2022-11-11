@@ -59,5 +59,10 @@
     "tip": {
       "copyed": "Copied to Clipboard"
     }
+  },
+  "token": {
+    "tip": {
+      "token_tip": "Time set to 0 means the token never expires"
+    }
   }
 }

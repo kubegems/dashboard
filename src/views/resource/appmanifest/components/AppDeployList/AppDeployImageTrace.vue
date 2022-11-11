@@ -72,17 +72,19 @@
     i18n: {
       messages: messages,
     },
-    data: () => ({
-      panel: false,
-      item: null,
-      items: [],
-      app: null,
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 1000,
-      },
-    }),
+    data() {
+      return {
+        panel: false,
+        item: null,
+        items: [],
+        app: null,
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 1000,
+        },
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       ...mapGetters(['Tenant', 'Project', 'Environment']),

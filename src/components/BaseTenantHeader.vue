@@ -23,7 +23,8 @@
           v-model="projectMenu"
           bottom
           content-class="tenant-header__bg"
-          max-width="220px"
+          max-height="310px"
+          max-width="400px"
           min-width="120px"
           nudge-bottom="5px"
           offset-y
@@ -109,8 +110,8 @@
             v-model="environmentMenu"
             bottom
             content-class="z-index-bg"
-            max-height="300px"
-            max-width="220px"
+            max-height="310px"
+            max-width="400px"
             min-width="120px"
             nudge-bottom="5px"
             offset-y
@@ -197,13 +198,13 @@
         <span v-if="environmented" class="text-body-2 kubegems__text">
           {{ $t('resource.project_c', [$t('resource.role')]) }}:
           {{
-            $RESOURCE_ROLE[m_permisson_resourceRole]
+            RESOURCE_ROLE[m_permisson_resourceRole]
               ? $t(`role.project.${m_permisson_resourceRole}`)
               : $t('data.unknown')
           }}
           <span class="ml-4">
             {{ $t('resource.environment_c', [$t('resource.type')]) }}:
-            {{ $METATYPE_CN[Environment().Type] ? $t(`metadata.environment_type.${Environment().Type}`) : '' }}
+            {{ METATYPE_CN[Environment().Type] ? $t(`metadata.environment_type.${Environment().Type}`) : '' }}
           </span>
           <span class="ml-4">{{ $t('resource.cluster') }} : {{ Environment().ClusterName }}</span>
           <span class="ml-4">{{ $t('resource.namespace') }} : {{ Environment().Namespace }}</span>
@@ -211,7 +212,7 @@
         <span v-else class="text-body-2 kubegems__text">
           {{ $t('resource.project_c', [$t('resource.role')]) }}:
           {{
-            $PROJECT_ROLE[m_permisson_projectRole] ? $t(`role.project.${m_permisson_resourceRole}`) : $t('data.unknown')
+            PROJECT_ROLE[m_permisson_projectRole] ? $t(`role.project.${m_permisson_resourceRole}`) : $t('data.unknown')
           }}
         </span>
       </v-sheet>
@@ -222,6 +223,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import { METATYPE_CN, PROJECT_ROLE, RESOURCE_ROLE } from '@/constants/platform';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -240,12 +242,18 @@
         default: () => true,
       },
     },
-    data: () => ({
-      projectMenu: false,
-      environmentMenu: false,
-      loadingPro: false,
-      loadingEnv: false,
-    }),
+    data() {
+      this.PROJECT_ROLE = PROJECT_ROLE;
+      this.RESOURCE_ROLE = RESOURCE_ROLE;
+      this.METATYPE_CN = METATYPE_CN;
+
+      return {
+        projectMenu: false,
+        environmentMenu: false,
+        loadingPro: false,
+        loadingEnv: false,
+      };
+    },
     computed: {
       ...mapState(['AdminViewport']),
       ...mapGetters(['Project', 'Environment', 'Tenant']),

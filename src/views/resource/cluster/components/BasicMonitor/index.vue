@@ -153,9 +153,9 @@
   import messages from '../../i18n';
   import Tips from './Tips';
   import { getClusterCertInfo, getClusterComponentStatus } from '@/api';
+  import { CLUSTER_API_SERVER_SUCCESS_RATE_PROMQL } from '@/constants/prometheus';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
-  import { CLUSTER_API_SERVER_SUCCESS_RATE_PROMQL } from '@/utils/prometheus';
 
   export default {
     name: 'BasicMonitor',
@@ -177,15 +177,17 @@
         default: () => null,
       },
     },
-    data: () => ({
-      timeinterval: null,
-      apiServerSuccessRate: [],
-      certInfo: {},
-      apiserver: null,
-      etcd: null,
-      scheduler: null,
-      controller: null,
-    }),
+    data() {
+      return {
+        timeinterval: null,
+        apiServerSuccessRate: [],
+        certInfo: {},
+        apiserver: null,
+        etcd: null,
+        scheduler: null,
+        controller: null,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       ...mapGetters(['Cluster']),

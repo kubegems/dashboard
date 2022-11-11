@@ -39,7 +39,9 @@
     props: {
       value: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
     data() {
@@ -52,6 +54,7 @@
         handler() {
           this.initLabels();
         },
+        deep: true,
         immediate: true,
       },
     },

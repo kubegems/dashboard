@@ -48,10 +48,12 @@
     components: {
       LinkAppBaseForm,
     },
-    data: () => ({
-      dialog: false,
-      formComponent: 'LinkAppBaseForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'LinkAppBaseForm',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       ...mapGetters(['Tenant', 'Environment', 'Project']),

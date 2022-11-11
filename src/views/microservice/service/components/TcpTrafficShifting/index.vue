@@ -54,11 +54,13 @@
         default: () => null,
       },
     },
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'TcpTrafficShiftingBaseForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'TcpTrafficShiftingBaseForm',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       ...mapGetters(['VirtualSpace']),

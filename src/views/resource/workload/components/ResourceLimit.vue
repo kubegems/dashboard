@@ -38,13 +38,13 @@
               >
                 <VueSlider
                   v-model="sliderItems[obj.name].cpu.value"
-                  :adsorb="true"
+                  adsorb
                   :enable-cross="false"
                   :interval="sliderItems[obj.name].cpu.interval"
                   :marks="sliderItems[obj.name].cpu.marks"
                   :max="sliderItems[obj.name].cpu.max"
-                  process-style="background-color:#3498db"
-                  :tooltip="'always'"
+                  :process-style="{ backgroundColor: '#1e88e5' }"
+                  tooltip="always"
                 >
                   <template #tooltip="props">
                     <div class="tooltip">
@@ -61,12 +61,12 @@
             >
               <VueSlider
                 v-model="sliderItems[obj.name].memory.value"
-                :adsorb="true"
+                adsorb
                 :enable-cross="false"
                 :marks="sliderItems[obj.name].memory.marks"
                 :max="sliderItems[obj.name].memory.max"
-                process-style="background-color:#3498db"
-                :tooltip="'always'"
+                :process-style="{ backgroundColor: '#1e88e5' }"
+                tooltip="always"
               >
                 <template #tooltip="props">
                   <div class="tooltip">
@@ -89,7 +89,7 @@
 </template>
 
 <script>
-  import VueSlider from 'vue-slider-component';
+  import VueSlider from 'vue-slider-component/src/vue2-slider';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
@@ -106,7 +106,7 @@
   import BaseSelect from '@/mixins/select';
   import { beautifyCpuUnit, beautifyStorageUnit, deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
-  import 'vue-slider-component/theme/default.css';
+  // import 'vue-slider-component/theme/default.css';
 
   export default {
     name: 'ResourceLimit',
@@ -117,16 +117,18 @@
       VueSlider,
     },
     mixins: [BaseResource, BaseSelect],
-    data: () => ({
-      dialog: false,
-      item: null,
-      workload: null,
-      type: '',
-      adviseItem: {},
-      sliderItems: {},
-      cpuRange: [1, 2, 4, 8, 16],
-      memoryRange: [1, 2, 4, 8, 16, 32, 64],
-    }),
+    data() {
+      return {
+        dialog: false,
+        item: null,
+        workload: null,
+        type: '',
+        adviseItem: {},
+        sliderItems: {},
+        cpuRange: [1, 2, 4, 8, 16],
+        memoryRange: [1, 2, 4, 8, 16, 32, 64],
+      };
+    },
     computed: {
       ...mapState(['Circular', 'Scale']),
       isArgoApp() {

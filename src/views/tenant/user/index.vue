@@ -88,7 +88,7 @@
               </v-btn>
             </v-avatar>
             <span class="font-weight-medium kubegems__text">
-              {{ $VENDOR[item.SourceVendor] || 'Selfhosted' }}
+              {{ VENDOR[item.SourceVendor] || 'Selfhosted' }}
             </span>
           </v-chip>
         </template>
@@ -172,6 +172,7 @@
   import UpdateRole from './components/UpdateRole';
   import messages from './i18n';
   import { deleteUser, getUserList } from '@/api';
+  import { VENDOR } from '@/constants/platform';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
@@ -188,14 +189,18 @@
       UpdateRole,
     },
     mixins: [BaseFilter, BaseResource, BaseTable],
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-      },
-    }),
+    data() {
+      this.VENDOR = VENDOR;
+
+      return {
+        items: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+        },
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       headers() {

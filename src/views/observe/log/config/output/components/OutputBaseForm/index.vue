@@ -71,7 +71,7 @@
         </v-col>
       </v-row>
 
-      <component :is="formComponent" :ref="formComponent" :edit="true" :item="obj" />
+      <component :is="formComponent" :ref="formComponent" :edit="edit" :item="obj" />
     </v-form>
   </div>
 </template>
@@ -83,8 +83,8 @@
   import Elasticsearch from './Elasticsearch';
   import Kafka from './Kafka';
   import Loki from './Loki';
+  import { SERVICE_LOGGING_NS } from '@/constants/namespace';
   import { deepCopy } from '@/utils/helpers';
-  import { SERVICE_LOGGING_NS } from '@/utils/namespace';
   import { required } from '@/utils/rules';
 
   export default {
@@ -153,7 +153,6 @@
           this.loadData();
         },
         deep: true,
-        immediate: true,
       },
     },
     methods: {

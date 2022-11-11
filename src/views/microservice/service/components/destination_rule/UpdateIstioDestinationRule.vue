@@ -40,20 +40,22 @@
   import { getIstioDestinationRuleDetail, patchUpdateIstioDestinationRule } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
-  import IstioDestinationRuleSchema from '@/views/microservice/service/mixins/schema';
+  import IstioDestinationRuleSchema from '@/utils/schema/destinationrule';
 
   export default {
     name: 'UpdateIstioDestinationRule',
     components: {
       IstioDestinationRuleBaseForm,
     },
-    mixins: [BaseResource, IstioDestinationRuleSchema],
-    data: () => ({
-      dialog: false,
-      yaml: null,
-      item: null,
-      formComponent: 'BaseYamlForm',
-    }),
+    mixins: [BaseResource],
+    data() {
+      return {
+        dialog: false,
+        yaml: null,
+        item: null,
+        formComponent: 'BaseYamlForm',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'EnvironmentFilter']),
     },
@@ -68,7 +70,7 @@
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
             if (!this.m_resource_checkDataWithOutNS(data)) return;
-            if (!this.m_resource_validateJsonSchema(this.destinationruleschema, data)) {
+            if (!this.m_resource_validateJsonSchema(IstioDestinationRuleSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'IstioDestinationRuleBaseForm') {

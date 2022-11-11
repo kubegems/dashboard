@@ -36,7 +36,6 @@
     "port_name": "ポート名",
     "port_name_hint": "HTTP/grpc を推奨します",
     "container_port": "コンテナポート",
-    "host_port": "ポート",
     "mount_path": "マウントパス",
     "volume_name": "ボリューム名",
     "origin_path": "ソースパス",
@@ -58,7 +57,12 @@
     "video_card": "ビデオカード",
     "can_use": "消耗品",
     "total": "合計",
-    "core": "コア"
+    "core": "コア",
+    "configmap_name": "構成名",
+
+    "upgrage_strategy": "更新策略",
+    "rollingupdate": "滚動更新",
+    "recreate": "再構築"
   },
   "tab": {
     "description": "はじめに",

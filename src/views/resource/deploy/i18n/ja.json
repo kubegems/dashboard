@@ -51,7 +51,50 @@
     "step_status": "タスクの状態",
     "error_info": "エラーメッセージ",
     "traffic_topology": "トポロジー",
-    "step_and_traffic": "ステップとトラフィック"
+    "step_and_traffic": "ステップとトラフィック",
+
+    "auto": "自動更新",
+    "manual": "手動更新",
+    "service_setting": "サービス設定",
+    "blue": "メジャー バージョン サービス (青)",
+    "green": "リリース版サービス（緑）",
+    "upgrade_policy": "更新戦略",
+    "delay_time": "遅延時間",
+    "app_analysis": "アプリケーション分析 (prometheus と istio を有効にする必要があります)",
+    "post_analysis": "更新中の分析",
+    "complete_analysis": "更新完了後の分析",
+
+    "traffic_setting": "トラフィック設定",
+    "traffic_route": "トラフィック ルーティング",
+    "canary_weight": "グレースケール流量比",
+    "canary_service": "グレースケール サービス",
+    "online_service": "オンラインサービス",
+    "canary_setting": "グレースケール構成",
+    "analysis": "アプリケーション分析",
+    "default": "デフォルト",
+    "istio_gateway": "istio ゲートウェイ",
+
+    "rolling_update_policy": "ロールオーバー ポリシー",
+    "max_unavailable": "使用できないコンテナー グループの最大数",
+    "max_surge": "コンテナー グループの最大超過数量",
+
+    "runtime": "当前現在のランタイム",
+    "version": "バージョンナンバー",
+    "publish_soon": "近日公開",
+    "auto_generate_version": "バージョン番号を自動的に生成する",
+    "unpublished": "公開不可",
+
+    "regex_rule": "マッチングルール",
+    "regex": "マッチ",
+    "regex_header": "マッチヘッダー",
+    "traffic_weight": "トラフィック比率",
+    "default_traffic_weight": "デフォルトのトラフィック比率",
+    "custom_traffic_weight": "カスタム トラフィック比率",
+
+    "analysis_template": "分析テンプレート",
+    "template_range": "テンプレート範囲",
+    "params": "パラメータ",
+    "cluster_level": "クラスタ レベル"
   },
   "operate": {
     "switch_deploy": "配置モードの切替",
@@ -66,7 +109,11 @@
     "resource_live": "データ投稿",
     "resource_diff": "リソース Diff",
     "log": "ログ",
-    "app_status": "アプリの状態"
+    "app_status": "アプリの状態",
+
+    "traffic": "フローによるグレースケール",
+    "header": "リクエストヘッダーによるグレースケール",
+    "uri": "要求 uri によるグレースケール"
   },
   "table": {
     "name": "注文番号による検索",

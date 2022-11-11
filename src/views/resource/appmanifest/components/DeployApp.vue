@@ -61,6 +61,7 @@
                 bottom
                 :close-on-content-click="false"
                 content-class="tag__menu"
+                max-width="200px"
                 nudge-bottom="5px"
                 offset-y
                 origin="top center"
@@ -113,7 +114,7 @@
                             :style="{ color: tag.image === value.publish ? `#1e88e5 !important` : `` }"
                             @click="setTag(tag.image, key, item.name, tag.unpublishable, item.index)"
                           >
-                            <v-list-item-content>
+                            <v-list-item-content class="tag__item">
                               <span>
                                 {{ tag.name }}
                                 <span v-if="tag.unpublishable" class="error--text"> ({{ $t('tip.no_deploy') }}) </span>
@@ -153,14 +154,16 @@
       messages: messages,
     },
     mixins: [BaseResource, BaseSelect],
-    data: () => ({
-      dialog: false,
-      items: [],
-      tagMenus: [],
-      tags: [],
-      environmentID: 0,
-      search: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        items: [],
+        tagMenus: [],
+        tags: [],
+        environmentID: 0,
+        search: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
       ...mapGetters(['Environment', 'Project', 'Tenant']),
@@ -352,5 +355,11 @@
 
   .deploy__table .v-data-table__wrapper {
     max-height: 500px;
+  }
+
+  .tag {
+    &__item {
+      word-break: break-all;
+    }
   }
 </style>

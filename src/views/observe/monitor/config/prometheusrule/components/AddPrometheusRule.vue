@@ -82,13 +82,15 @@
         default: () => 'monitor',
       },
     },
-    data: () => ({
-      dialog: false,
-      formComponent: 'PrometheusRuleBaseForm',
-      step: 0,
-      totalStep: 2,
-      generator: undefined,
-    }),
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'PrometheusRuleBaseForm',
+        step: 0,
+        totalStep: 2,
+        generator: undefined,
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
       ...mapGetters(['Project', 'Environment']),
@@ -101,6 +103,9 @@
       init(initData, generator) {
         this.$nextTick(() => {
           this.$refs[this.formComponent].setData(initData);
+          if (initData?.promqlGenerator?.labelpairs) {
+            this.$refs[this.formComponent].setLabelpairs(initData.promqlGenerator.labelpairs);
+          }
           this.$refs[this.formComponent].getInhibitLabels();
           this.generator = generator;
         });
@@ -112,9 +117,9 @@
           if (this.mode === 'monitor') {
             obj.source = 'kubegems-default-monitor-alert-rule';
             // 移除labelpairs中的空值
-            for (const key in obj.labelpairs) {
-              if (!obj.labelpairs[key]) {
-                delete obj.labelpairs[key];
+            for (const key in obj?.promqlGenerator?.labelpairs || []) {
+              if (!obj.promqlGenerator.labelpairs[key]) {
+                delete obj.promqlGenerator.labelpairs[key];
               }
             }
             await postAddPrometheusRule(this.$route.query.cluster, this.$route.query.namespace, obj);

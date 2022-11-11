@@ -137,22 +137,26 @@
     props: {
       virtualspace: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
-    data: () => ({
-      dialog: false,
-      tab: 0,
+    data() {
+      return {
+        dialog: false,
+        tab: 0,
 
-      allUsers: [],
-      allUsersCopy: [],
-      users: [],
-      usersCopy: [],
-      normalUsers: [],
-      adminUsers: [],
-      searchAllUser: '',
-      searchRoleUser: '',
-    }),
+        allUsers: [],
+        allUsersCopy: [],
+        users: [],
+        usersCopy: [],
+        normalUsers: [],
+        adminUsers: [],
+        searchAllUser: '',
+        searchRoleUser: '',
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Scale']),
       ...mapGetters(['VirtualSpace']),

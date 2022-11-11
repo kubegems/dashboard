@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="mdi-bell" title="Kubernetes事件" @dispose="dispose">
+  <BasePanel v-model="panel" icon="mdi-bell" :title="$t('tip.event')" @dispose="dispose">
     <template #action>
       <BaseDatetimePicker v-model="date" color="primary" :default-value="60" @change="onDatetimeChange(undefined)" />
     </template>
@@ -77,6 +77,7 @@
           }
         },
         deep: true,
+        immediate: true,
       },
     },
     methods: {
@@ -97,7 +98,10 @@
       onDatetimeChange() {
         this.eventList();
       },
-      dispose() {},
+      dispose() {
+        this.data = [];
+        this.$emit('clear');
+      },
     },
   };
 </script>

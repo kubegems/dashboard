@@ -15,6 +15,7 @@ import { projectWorkspace } from './project_workspace';
 import { tool } from './tool';
 import { userCenter } from './user_center';
 import { workspace } from './workspace';
+import { PLATFORM } from '@/constants/platform';
 import store from '@/store';
 
 const originalPush = Router.prototype.push;
@@ -49,7 +50,7 @@ const router = new Router({
 
 router.beforeResolve((to, from, next) => {
   if (window) {
-    window.document.title = `${Vue.prototype.$_i18n.t(to.meta.title)} - ${Vue.prototype.$PLATFORM}`;
+    window.document.title = `${Vue.prototype.$_i18n.t(to.meta.title)} - ${PLATFORM}`;
   }
   next();
 });
@@ -61,7 +62,7 @@ router.beforeEach(async (to, from, next) => {
   }
   if (to.meta.requireAuth && !store.state.JWT) {
     store.commit('SET_SNACKBAR', {
-      text: '请登录后访问',
+      text: Vue.prototype.$_i18n.t('tip.need_login'),
       color: 'warning',
     });
     next({ name: 'login', query: { redirect: to.fullPath } });

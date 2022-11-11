@@ -113,14 +113,7 @@
                   <template #activator="{ on }">
                     <div id="login_locale" />
                     <v-btn class="primary--text font-weight-medium mb-3" color="white" dark depressed small v-on="on">
-                      <BaseLogo
-                        class="primary--text logo__logo mr-2"
-                        default-logo="locale"
-                        :icon-name="Locale"
-                        :ml="0"
-                        :mt="1"
-                        :width="18"
-                      />
+                      <img class="locale__icon mr-2" :src="`/icon/i18n/${Locale}.svg`" />
                       {{ localeShow }}
                       <v-icon v-if="localeMenu" right> mdi-chevron-up </v-icon>
                       <v-icon v-else right> mdi-chevron-down </v-icon>
@@ -150,13 +143,7 @@
                             <v-list-item-content>
                               <div>
                                 <div class="float-left mr-2">
-                                  <BaseLogo
-                                    class="primary--text logo__logo"
-                                    default-logo="locale"
-                                    :icon-name="ln.locale"
-                                    :ml="0"
-                                    :width="20"
-                                  />
+                                  <img class="locale__icon" :src="`/icon/i18n/${ln.locale}.svg`" />
                                 </div>
                                 <div class="float-left locale">{{ ln.title }}</div>
                                 <div class="kubegems__clear-float" />
@@ -178,7 +165,7 @@
                   submit
                   @click="login(source)"
                 >
-                  {{ ldap ? $VENDOR[vendor] : '' }} {{ $t('login') }}
+                  {{ ldap ? VENDOR[vendor] : '' }} {{ $t('login') }}
                 </v-btn>
               </v-form>
               <div v-if="enableOauthItems && enableOauthItems.length > 0 && !ldap" class="mt-5">
@@ -208,7 +195,7 @@
         </div>
       </v-container>
       <h6 class="px-12 text-body-2 mt-4 login__copyright font-weight-medium kubegems__text">
-        © 2021 — {{ $PLATFORM }} by Kubegems.io
+        © 2021 — {{ PLATFORM }} by Kubegems.io
       </h6>
     </div>
   </div>
@@ -219,6 +206,7 @@
 
   import messages from './i18n';
   import { getLoginUserAuth, getLoginUserInfo, getOauthAddr, getSystemAuthSource, postLogin } from '@/api';
+  import { PLATFORM, VENDOR } from '@/constants/platform';
   import locales from '@/i18n/locales';
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
@@ -233,6 +221,8 @@
     mixins: [BasePermission, BaseSelect],
     data() {
       this.locales = locales;
+      this.VENDOR = VENDOR;
+      this.PLATFORM = PLATFORM;
 
       return {
         valid: true,
@@ -297,7 +287,7 @@
             source: this.source,
           });
           this.$store.commit('SET_JWT', data.token);
-          this.$store.commit('SET_VERSION', process.env.VUE_APP_RELEASE);
+          this.$store.commit('SET_VERSION', import.meta.env.VUE_APP_RELEASE);
           await this.loadData();
           this.$store.commit('SET_SNACKBAR', {
             text: this.$t('status.success'),
@@ -368,7 +358,7 @@
         this.$_i18n.locale = this.locale;
         this.$moment.locale(this.locale === 'zh-Hans' ? 'zh-cn' : this.locale);
         if (window) {
-          window.document.title = `${this.$t(this.$route.meta.title)} - ${this.$PLATFORM}`;
+          window.document.title = `${this.$t(this.$route.meta.title)} - ${PLATFORM}`;
         }
         this.$store.commit('SET_LOCALE', this.locale);
       },
@@ -616,5 +606,9 @@
 
   .locale {
     line-height: 20px;
+
+    &__icon {
+      margin-top: 2px;
+    }
   }
 </style>

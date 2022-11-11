@@ -48,7 +48,10 @@
     "config": "{0} configuration",
     "base_config": "Basic configuration",
     "plugin_type": "Plugin Type",
-    "no_log_data": "No log data yet"
+    "no_log_data": "No log data yet",
+
+    "feishu": "feishu",
+    "user_id": "User Id"
   },
   "operate": {
     "download_log": "Download Log",
@@ -67,7 +70,8 @@
     "enable": "Enabled",
     "disable": "Disabled",
     "enable_c": "Enable {0}",
-    "disable_c": "Disable {0}"
+    "disable_c": "Disable {0}",
+    "timerange_query": "Query with timerange"
   },
   "table": {
     "name": "Name",

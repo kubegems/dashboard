@@ -123,7 +123,13 @@
         </v-row>
       </v-card-text>
 
-      <LabelForm ref="labelForm" :data="obj.metadata.labels" @addData="addLabelData" @closeOverlay="closeExpand" />
+      <LabelForm
+        ref="labelForm"
+        class="kubegems__forminform"
+        :data="obj.metadata.labels"
+        @addData="addLabelData"
+        @closeOverlay="closeExpand"
+      />
       <BaseSubTitle :title="$t('tip.label')" />
       <v-card-text class="pa-2">
         <LabelItem
@@ -137,6 +143,7 @@
 
       <AnnotationForm
         ref="annotationForm"
+        class="kubegems__forminform"
         :data="obj.metadata.annotations"
         @addData="addAnnotationData"
         @closeOverlay="closeExpand"
@@ -183,7 +190,9 @@
     props: {
       app: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       edit: {
         type: Boolean,
@@ -206,31 +215,33 @@
         default: () => false,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      resourceKind: '',
-      accessMode: '',
-      obj: {
-        apiVersion: 'v1',
-        kind: 'PersistentVolumeClaim',
-        metadata: {
-          name: '',
-          namespace: null,
-          labels: {},
-          annotations: {},
-        },
-        spec: {
-          accessModes: [],
-          resources: {
-            requests: {
-              storage: '',
-            },
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        resourceKind: '',
+        accessMode: '',
+        obj: {
+          apiVersion: 'v1',
+          kind: 'PersistentVolumeClaim',
+          metadata: {
+            name: '',
+            namespace: null,
+            labels: {},
+            annotations: {},
           },
-          storageClassName: '',
+          spec: {
+            accessModes: [],
+            resources: {
+              requests: {
+                storage: '',
+              },
+            },
+            storageClassName: '',
+          },
         },
-      },
-    }),
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
       ...mapGetters(['Tenant', 'Cluster', 'Environment']),

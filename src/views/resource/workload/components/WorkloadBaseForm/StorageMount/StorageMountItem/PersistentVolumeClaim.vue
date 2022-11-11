@@ -80,11 +80,15 @@
     props: {
       item: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       pvcs: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
   };

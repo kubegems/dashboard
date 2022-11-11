@@ -111,10 +111,12 @@
       UpdateTenant,
     },
     mixins: [BaseFilter, BaseSelect],
-    data: () => ({
-      tenant: null,
-      tenantId: 0,
-    }),
+    data() {
+      return {
+        tenant: null,
+        tenantId: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['Tenant']),

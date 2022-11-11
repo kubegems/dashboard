@@ -71,7 +71,7 @@
                   height: '10px',
                   minWidth: '10px',
                   width: '10px',
-                  backgroundColor: `${$WORKLOAD_STATUS_COLOR[m_resource_getWorkloadStatus($route.query.type, item)]}`,
+                  backgroundColor: `${WORKLOAD_STATUS_COLOR[m_resource_getWorkloadStatus($route.query.type, item)]}`,
                 }"
               />
               <span>
@@ -118,7 +118,7 @@
                               height: '10px',
                               minWidth: '10px',
                               width: '10px',
-                              backgroundColor: `${$POD_STATUS_COLOR[m_resource_getPodStatus(pod)] || '#ff5252'}`,
+                              backgroundColor: `${POD_STATUS_COLOR[m_resource_getPodStatus(pod)] || '#ff5252'}`,
                             }"
                           />
                           {{ m_resource_getPodStatus(pod) }}
@@ -142,6 +142,7 @@
 <script>
   import messages from '../../i18n';
   import { getPodList } from '@/api';
+  import { POD_STATUS_COLOR, WORKLOAD_STATUS_COLOR } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
 
   export default {
@@ -157,6 +158,9 @@
       },
     },
     data() {
+      this.POD_STATUS_COLOR = POD_STATUS_COLOR;
+      this.WORKLOAD_STATUS_COLOR = WORKLOAD_STATUS_COLOR;
+
       return {
         podItems: [],
       };

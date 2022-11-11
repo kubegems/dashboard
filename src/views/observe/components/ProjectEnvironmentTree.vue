@@ -57,9 +57,9 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getAllProjectList, getProjectEnvironmentList, getProjectList } from '@/api';
+  import { getProjectEnvironmentList, getProjectList } from '@/api';
+  import { SERVICE_LOGGING_NS, SERVICE_MONITOR_NS } from '@/constants/namespace';
   import BaseSelect from '@/mixins/select';
-  import { SERVICE_LOGGING_NS, SERVICE_MONITOR_NS } from '@/utils/namespace';
 
   export default {
     name: 'ProjectEnvironmentTree',
@@ -103,12 +103,12 @@
     methods: {
       // 此接口中返回的env列表中没有集群信息，所以树采用懒加载方式
       async projectList() {
-        let data = {};
-        if (this.AdminViewport) {
-          data = await getAllProjectList({ size: 999 });
-        } else {
-          data = await getProjectList(this.Tenant().ID, { size: 999 });
-        }
+        // let data = {};
+        // if (this.AdminViewport) {
+        //   data = await getAllProjectList({ size: 999 });
+        // } else {
+        const data = await getProjectList(this.Tenant().ID, { size: 999 });
+        // }
         this.items = data.List.map((item) => ({
           type: 'project',
           treeId: `proj-${item.ProjectName}`,

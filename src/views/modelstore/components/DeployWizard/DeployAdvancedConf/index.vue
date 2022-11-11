@@ -88,11 +88,42 @@
           />
 
           <v-text-field
-            v-if="obj.server.kind === ''"
-            v-model="obj.model.license"
-            label="License"
-            :rules="objRules.licenseRules"
+            v-if="
+              obj.server.kind === '' &&
+              item.annotations &&
+              item.annotations['modelx.kubegems.io/token-required'] === 'true'
+            "
+            v-model="obj.model.token"
+            label="Token"
+            :rules="objRules.tokenRules"
           />
+        </v-col>
+      </v-row>
+    </v-card-text>
+
+    <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" :title="$t('tip.upgrage_strategy')" />
+    <v-card-text class="pa-2">
+      <v-row>
+        <v-col cols="12">
+          <v-autocomplete
+            v-model="obj.server.upgradeStrategy"
+            hide-no-data
+            hide-selected
+            :items="upgradeStrategyItems"
+            :label="$t('tip.upgrage_strategy')"
+            :menu-props="{
+              bottom: true,
+              left: true,
+              origin: `top center`,
+            }"
+            :rules="objRules.upgradeStrategyRules"
+          >
+            <template #selection="{ item }">
+              <v-chip class="my-1" color="primary" small text-color="white">
+                {{ item.text }}
+              </v-chip>
+            </template>
+          </v-autocomplete>
         </v-col>
       </v-row>
     </v-card-text>
@@ -219,7 +250,7 @@
             url: '',
             version: '',
             source: '',
-            license: '',
+            token: '',
           },
           server: {
             args: [],
@@ -230,12 +261,13 @@
             mountPath: '',
             protocol: 'v2',
             mounts: [],
-          },
-          resources: {
-            limits: {
-              cpu: 2,
-              memory: '4Gi',
+            resources: {
+              limits: {
+                cpu: 2,
+                memory: '4Gi',
+              },
             },
+            upgradeStrategy: 'RollingUpdate',
           },
           replicas: 1,
           ingress: {
@@ -249,7 +281,8 @@
           protocolRules: [required],
           implementationRules: [(v) => !!(v?.trim()?.length > 0 || v === '') || this.$t('tip.required')],
           gatewayRules: [required],
-          licenseRules: [required],
+          tokenRules: [required],
+          upgradeStrategyRules: [required],
         },
       };
     },
@@ -282,6 +315,12 @@
           { text: 'mlflow server', value: 'MLFLOW_SERVER', icon: 'mlflow' },
           { text: 'xgboost server', value: 'XGBOOST_SERVER', icon: 'xgboost' },
           { text: 'custom server', value: '', icon: 'kubegems' },
+        ];
+      },
+      upgradeStrategyItems() {
+        return [
+          { text: this.$t('tip.rollingupdate'), value: 'RollingUpdate' },
+          { text: this.$t('tip.recreate'), value: 'Recreate' },
         ];
       },
     },
@@ -322,7 +361,7 @@
       async gatewayList() {
         const data = await getGatewayOriginList(this.base.cluster, { size: 1000 });
         this.gatewayItems = data.List.map((d) => {
-          if (d.spec.tenant === this.Tenant().TenantName) {
+          if (d.spec.tenant === this.Tenant().TenantName || d.spec.tenant === 'notenant') {
             return { text: d.metadata.name, value: d.metadata.name, obj: d };
           }
         });

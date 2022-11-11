@@ -27,7 +27,7 @@
     "image_never": "Use local image only",
     "params": "Parameters",
     "access_control": "Access Control",
-    "prvileged": "Privileges mode running (Priivileged)",
+    "privileged": "Privileges mode running (Priivileged)",
     "allow_escalation": "Expansion of Privileges (AllowPrigeEscalation)",
     "root_readonly": "Root only read (ReadOnlyRootFilesystem)",
     "method": "Methodology",

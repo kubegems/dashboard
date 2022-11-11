@@ -130,21 +130,23 @@
       messages: messages,
     },
     mixins: [BaseFilter, BaseSelect],
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      date: [],
-      params: {
-        page: 1,
-        size: 20,
-        // todo
-        CreatedAt_gte: null,
-        CreatedAt_lte: null,
-        order: '-CreatedAt',
-      },
-      yaml: '',
-      userItems: [],
-    }),
+    data() {
+      return {
+        items: [],
+        pageCount: 0,
+        date: [],
+        params: {
+          page: 1,
+          size: 20,
+          // todo
+          CreatedAt_gte: null,
+          CreatedAt_lte: null,
+          order: '-CreatedAt',
+        },
+        yaml: '',
+        userItems: [],
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Admin', 'AdminViewport']),
       ...mapGetters(['Tenant']),

@@ -80,6 +80,7 @@
       <component
         :is="formComponent"
         :ref="formComponent"
+        class="kubegems__forminform"
         :data="obj.data"
         @addData="addData"
         @closeOverlay="closeExpand"
@@ -121,7 +122,9 @@
     props: {
       app: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       edit: {
         type: Boolean,
@@ -144,21 +147,23 @@
         default: () => false,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      resourceKind: '',
-      obj: {
-        apiVersion: 'v1',
-        kind: 'ConfigMap',
-        metadata: {
-          name: '',
-          namespace: null,
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        resourceKind: '',
+        obj: {
+          apiVersion: 'v1',
+          kind: 'ConfigMap',
+          metadata: {
+            name: '',
+            namespace: null,
+          },
+          data: {},
         },
-        data: {},
-      },
-      formComponent: 'DataForm',
-    }),
+        formComponent: 'DataForm',
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
       objRules() {

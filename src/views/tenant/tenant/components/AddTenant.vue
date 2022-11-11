@@ -69,14 +69,16 @@
       messages: messages,
     },
     mixins: [BaseResource, BaseSelect],
-    data: () => ({
-      dialog: false,
-      valid: false,
-      obj: {
-        TenantName: '',
-        Remark: '',
-      },
-    }),
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        obj: {
+          TenantName: '',
+          Remark: '',
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       objRules() {

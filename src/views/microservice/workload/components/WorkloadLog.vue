@@ -153,7 +153,6 @@
           width: 'auto',
         }"
         theme="chrome"
-        @init="$aceinit"
         @keydown.stop
       />
     </v-card-text>
@@ -178,18 +177,20 @@
         default: () => null,
       },
     },
-    data: () => ({
-      container: '',
-      containers: [],
-      pod: { metadata: {} },
-      pods: [],
-      log: '',
-      logWebsocket: null,
-      stream: true,
-      linenotbreak: true,
-      containerMenu: false,
-      podMenu: false,
-    }),
+    data() {
+      return {
+        container: '',
+        containers: [],
+        pod: { metadata: {} },
+        pods: [],
+        log: '',
+        logWebsocket: null,
+        stream: true,
+        linenotbreak: true,
+        containerMenu: false,
+        podMenu: false,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Scale']),
       height() {

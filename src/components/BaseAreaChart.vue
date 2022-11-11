@@ -17,7 +17,7 @@
 <template>
   <div :style="{ height: `${extendHeight}px`, position: 'relative', width: width }">
     <canvas v-if="mustCheckPremission" :id="chartId" />
-    <div v-else class="text-center kubegems__full-center">
+    <div v-else class="text-center kubegems__full-center text-caption">
       {{ $root.$t('plugin.missing', ['monitoring']) }}
     </div>
   </div>
@@ -26,15 +26,17 @@
 <script>
   import Chart from 'chart.js/auto';
   import { mapState } from 'vuex';
+  import 'chartjs-adapter-moment';
 
+  import { LINE_THEME_COLORS, LINE_THEME_FUL_COLORS } from '@/constants/chart';
   import { randomString } from '@/utils/helpers';
 
   export default {
     name: 'BaseAreaChart',
     props: {
-      id: {
-        type: String,
-        default: () => '',
+      animation: {
+        type: Boolean,
+        default: () => true,
       },
       beginAtZero: {
         type: Boolean,
@@ -60,6 +62,10 @@
         type: Boolean,
         default: () => true,
       },
+      id: {
+        type: String,
+        default: () => '',
+      },
       label: {
         type: String,
         default: () => null,
@@ -80,6 +86,10 @@
         type: Array,
         default: () => [],
       },
+      precision: {
+        type: Number,
+        default: () => 2,
+      },
       sample: {
         type: Boolean,
         default: () => false,
@@ -87,6 +97,10 @@
       singleTooptip: {
         type: Boolean,
         default: () => false,
+      },
+      timeDisplay: {
+        type: String,
+        default: () => 'HH:mm:ss',
       },
       title: {
         type: String,
@@ -121,8 +135,10 @@
           network: ['bps', 'Kbps', 'Mbps', 'Gbps'],
           timecost: ['us', 'ms', 's'],
           reqrate: ['req/s'],
+          count: ['', 'k', 'm'],
         },
         chartId: '',
+        legendIndexs: [],
       };
     },
     computed: {
@@ -134,108 +150,8 @@
     watch: {
       metrics: {
         handler(newValue) {
-          if (newValue) {
-            if (!this.mustCheckPremission) return;
-            if (!this.chart) {
-              const ctx = document.getElementById(this.chartId).getContext('2d');
-              this.chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                  labels: this.labels,
-                  datasets: this.loadDatasets(),
-                },
-                options: {
-                  responsive: true,
-                  maintainAspectRatio: false,
-                  plugins: {
-                    title: {
-                      align: 'start',
-                      display: true,
-                      text: this.title,
-                    },
-                    legend: {
-                      display: this.labelShow && !this.sample,
-                      position: 'bottom',
-                      labels: {
-                        usePointStyle: true,
-                        pointStyleWidth: 10,
-                        boxHeight: 7,
-                      },
-                      align: this.legendAlign,
-                      onClick: (e, legendItem, legend) => {
-                        const index = legendItem.datasetIndex;
-                        const ci = legend.chart;
-                        if (ci.isDatasetVisible(index)) {
-                          ci.hide(index);
-                          legendItem.hidden = true;
-                        } else {
-                          ci.show(index);
-                          legendItem.hidden = false;
-                        }
-                        legend.legendItems.forEach((item) => {
-                          const index = item.datasetIndex;
-                          if (ci.isDatasetVisible(index)) {
-                            ci.hide(index);
-                            item.hidden = true;
-                          } else {
-                            ci.show(index);
-                            item.hidden = false;
-                          }
-                        });
-                      },
-                    },
-                    tooltip: {
-                      enabled: !this.singleTooptip,
-                      usePointStyle: true,
-                      boxWidth: 8,
-                      boxHeight: 8,
-                      boxPadding: 4,
-                      callbacks: {
-                        label: (tooltipItem) => {
-                          return `${tooltipItem.dataset.label} : ${this.formatter(
-                            tooltipItem.dataset.data[tooltipItem.dataIndex].y,
-                          )}`;
-                        },
-                      },
-                      external: this.singleTooptip ? this.externalTooltipHandler : null,
-                      mode: this.singleTooptip ? 'nearest' : 'index',
-                    },
-                  },
-                  radius: 0,
-                  borderWidth: this.chartType === 'line' ? 2 : 1,
-                  interaction: {
-                    intersect: false,
-                    mode: 'index',
-                  },
-                  scales: {
-                    y: {
-                      display: !this.sample,
-                      grid: {
-                        borderDash: [8, 8, 8],
-                        drawBorder: false,
-                      },
-                      ticks: {
-                        callback: (value) => {
-                          return this.formatter(value);
-                        },
-                        maxTicksLimit: 8,
-                      },
-                      beginAtZero: this.beginAtZero,
-                      max: this.type === 'percent' || ['0-100', '0.0-1.0'].indexOf(this.unit) > -1 ? 100 : null,
-                    },
-                    x: {
-                      display: !this.sample,
-                      grid: {
-                        display: false,
-                      },
-                    },
-                  },
-                },
-              });
-            } else {
-              this.chart.data = { datasets: this.loadDatasets() };
-              this.chart.update('none');
-            }
+          if (newValue && newValue?.length >= 0 && document.getElementById(this.chartId)) {
+            this.loadChart();
           }
         },
         deep: true,
@@ -246,11 +162,143 @@
         if (this.id) {
           this.chartId = this.id;
         } else {
-          this.chartId = randomString(4);
+          this.chartId = randomString(6);
         }
+        const interval = setInterval(() => {
+          if (document.getElementById(this.chartId)) {
+            clearInterval(interval);
+            this.loadChart();
+          }
+        }, 300);
       });
     },
     methods: {
+      loadChart() {
+        if (!this.mustCheckPremission) return;
+        if (!this.chart) {
+          const ctx = document.getElementById(this.chartId).getContext('2d');
+          this.chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: this.labels,
+              datasets: this.loadDatasets(),
+            },
+            options: {
+              animation: this.animation,
+              spanGaps: true,
+              datasets: {
+                line: {
+                  pointRadius: 0,
+                },
+              },
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                title: {
+                  align: 'start',
+                  display: true,
+                  text: this.title,
+                },
+                legend: {
+                  display: this.labelShow && !this.sample,
+                  position: 'bottom',
+                  labels: {
+                    usePointStyle: true,
+                    pointStyleWidth: 10,
+                    boxHeight: 7,
+                  },
+                  align: this.legendAlign,
+                  onClick: (e, legendItem, legend) => {
+                    const ci = legend.chart;
+                    const index = legendItem.datasetIndex;
+                    const legendIndex = this.legendIndexs.indexOf(index);
+                    if (legendIndex > -1) {
+                      this.legendIndexs.splice(legendIndex, 1);
+                    } else {
+                      this.legendIndexs.push(index);
+                    }
+
+                    const showAll = this.legendIndexs.length === 0;
+
+                    legend.legendItems.forEach((item) => {
+                      const i = item.datasetIndex;
+                      if (showAll) {
+                        ci.show(i);
+                        item.hidden = false;
+                      } else {
+                        if (this.legendIndexs.indexOf(i) > -1) {
+                          ci.show(i);
+                          item.hidden = false;
+                        } else {
+                          ci.hide(i);
+                          item.hidden = true;
+                        }
+                      }
+                    });
+                  },
+                },
+                tooltip: {
+                  enabled: !this.singleTooptip,
+                  usePointStyle: true,
+                  boxWidth: 8,
+                  boxHeight: 8,
+                  boxPadding: 4,
+                  callbacks: {
+                    label: (tooltipItem) => {
+                      return `${tooltipItem.dataset.label} : ${this.formatter(
+                        tooltipItem.dataset.data[tooltipItem.dataIndex].y,
+                      )}`;
+                    },
+                  },
+                  external: this.singleTooptip ? this.externalTooltipHandler : null,
+                  mode: this.singleTooptip ? 'nearest' : 'index',
+                },
+              },
+              radius: 0,
+              borderWidth: this.chartType === 'line' ? 2 : 1,
+              interaction: {
+                intersect: false,
+                mode: 'index',
+              },
+              scales: {
+                y: {
+                  display: !this.sample,
+                  grid: {
+                    borderDash: [8, 8, 8],
+                    drawBorder: false,
+                  },
+                  ticks: {
+                    callback: (value) => {
+                      return this.formatter(value);
+                    },
+                    maxTicksLimit: 8,
+                  },
+                  beginAtZero: this.beginAtZero,
+                  min: this.type === 'percent' || ['0-100', '0.0-1.0'].indexOf(this.unit) > -1 ? 0 : null,
+                },
+                x: {
+                  display: !this.sample,
+                  grid: {
+                    display: false,
+                  },
+                  type: 'time',
+                  time: {
+                    unit: 'second',
+                    displayFormats: {
+                      second: this.timeDisplay,
+                    },
+                    tooltipFormat: 'YYYY-MM-DD HH:mm:ss',
+                    stepSize: 200,
+                  },
+                },
+              },
+            },
+          });
+        } else {
+          this.chart.data = { datasets: this.loadDatasets() };
+          this.chart.update('none');
+        }
+      },
       getOrCreateTooltip(chart) {
         let tooltipEl = chart.canvas.parentNode.querySelector('div');
 
@@ -313,7 +361,7 @@
             const td = document.createElement('td');
             td.style.borderWidth = 0;
 
-            const text = document.createTextNode(body);
+            const text = document.createTextNode(`${tooltip.title[0]} ${body}`);
 
             td.appendChild(span);
             td.appendChild(text);
@@ -366,23 +414,23 @@
           return {
             label: this.getMetricName(m, index),
             data: m.values.map((v) => {
-              return { x: this.$moment(new Date(v[0] * 1000)).format('LTS'), y: v[1] };
+              return { x: this.$moment(new Date(v[0] * 1000)), y: v[1] };
             }),
             borderColor:
               this.color.length > 0
                 ? this.color[index % this.color.length]
                 : this.colorful
-                ? this.$LINE_THEME_FUL_COLORS[index % 10]
-                : this.$LINE_THEME_COLORS[index % 12],
+                ? LINE_THEME_FUL_COLORS[index % 10]
+                : LINE_THEME_COLORS[index % 12],
             backgroundColor:
               this.color.length > 0
                 ? this.color[index % this.color.length]
                 : this.colorful
-                ? this.$LINE_THEME_FUL_COLORS[index % 10]
-                : this.$LINE_THEME_COLORS[index % 12],
+                ? LINE_THEME_FUL_COLORS[index % 10]
+                : LINE_THEME_COLORS[index % 12],
             fill: this.chartType === 'area',
-            cubicInterpolationMode: 'monotone',
-            tension: 0.4,
+            cubicInterpolationMode: 'default',
+            tension: 0.3,
           };
         });
 
@@ -424,7 +472,11 @@
           case 'duration':
             break;
           case '%':
-            return { scaleNum: `${parseFloat(value).toFixed(2)} ${unitType}`, unitType: null, newValue: value };
+            return {
+              scaleNum: `${parseFloat(value).toFixed(this.precision)} ${unitType}`,
+              unitType: null,
+              newValue: value,
+            };
             break;
           default:
             if (this.unit) {
@@ -433,13 +485,17 @@
                 return this.unitBase(scaleNum, unitType, value);
               } else {
                 return {
-                  scaleNum: `${parseFloat(value).toFixed(2)} ${this.unit}`,
+                  scaleNum: `${parseFloat(value).toFixed(this.precision)} ${this.unit}`,
                   unitType: null,
                   newValue: value,
                 };
               }
             }
-            return { scaleNum: `${parseFloat(value).toFixed(2)} ${unitType}`, unitType: null, newValue: value };
+            return {
+              scaleNum: `${parseFloat(value).toFixed(this.precision)} ${unitType}`,
+              unitType: null,
+              newValue: value,
+            };
         }
         if (this.unit) {
           const d = this.allUnit[unitType].findIndex((u) => {
@@ -464,28 +520,28 @@
         }
         return { scaleNum: scaleNum, unitType: unitType, newValue: value };
       },
-      beautifyUnit(num, sclaeNum, units = [], unitType = '', decimal = 2) {
+      beautifyUnit(num, sclaeNum, units = [], unitType = '') {
         let result = parseFloat(num);
         for (const index in units) {
           if (Math.abs(result) <= sclaeNum || parseInt(index) === parseInt(units.length - 1)) {
             if (unitType === 'percent') {
               // 特殊处理
               if (result > 1 && result < 1.2) {
-                return `${(result * 100).toFixed(decimal)} %`;
+                return `${(result * 100).toFixed(this.precision)} %`;
               } else {
-                return `${result.toFixed(decimal)} %`;
+                return `${result.toFixed(this.precision)} %`;
               }
             }
-            return `${result.toFixed(decimal)} ${units[index]}`;
+            return `${result.toFixed(this.precision)} ${units[index]}`;
           }
           result /= sclaeNum;
         }
         if (unitType === 'percent') {
-          return `${result.toFixed(decimal)} %`;
+          return `${result.toFixed(this.precision)} %`;
         }
-        return `${result.toFixed(decimal)} Yi`;
+        return `${result.toFixed(this.precision)} Yi`;
       },
-      beautifyDurationUnit(num, decimal = 2) {
+      beautifyDurationUnit(num) {
         let result = parseFloat(num);
         const units = ['ns', 'us', 'ms', 's', 'm', 'h', 'd', 'w'];
         let sclaeNum = 1000;
@@ -500,11 +556,11 @@
             sclaeNum = 7;
           }
           if (Math.abs(result) <= sclaeNum || parseInt(index) === parseInt(units.length - 1)) {
-            return `${result.toFixed(decimal)} ${units[index]}`;
+            return `${result.toFixed(this.precision)} ${units[index]}`;
           }
           result /= sclaeNum;
         }
-        return `${result.toFixed(decimal)} Yi`;
+        return `${result.toFixed(this.precision)} Yi`;
       },
       formatter(value) {
         if (value === 0) return '0';

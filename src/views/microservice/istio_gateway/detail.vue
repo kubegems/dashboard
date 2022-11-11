@@ -20,7 +20,7 @@
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <v-menu v-if="m_permisson_virtualSpaceAllow && pass" left>
+          <v-menu v-if="m_permisson_virtualSpaceAllow() && pass" left>
             <template #activator="{ on }">
               <v-btn icon>
                 <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
@@ -142,11 +142,13 @@
       VirtualServiceList,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      gateway: null,
-      tab: 0,
-      pass: false,
-    }),
+    data() {
+      return {
+        gateway: null,
+        tab: 0,
+        pass: { pass: false, time: '' },
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['VirtualSpace']),
@@ -171,6 +173,7 @@
     },
     methods: {
       async istioGatewayInstanceDetail() {
+        if (!this.VirtualSpace().ID) return;
         const data = await getIstioGatewayInstanceDetail(
           this.VirtualSpace().ID,
           this.$route.query.clusterid,

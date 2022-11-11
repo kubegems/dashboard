@@ -83,9 +83,11 @@
     i18n: {
       messages: messages,
     },
-    data: () => ({
-      auditItems: [],
-    }),
+    data() {
+      return {
+        auditItems: [],
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Admin']),
       ...mapGetters(['Tenant']),

@@ -22,16 +22,16 @@
           <span class="text-body-2 mx-2">
             {{ $root.$t('resource.project_c', [$root.$t('resource.role')]) }}:
             {{
-              $PROJECT_ROLE[m_permisson_projectRole]
+              PROJECT_ROLE[m_permisson_projectRole]
                 ? $root.$t(`role.project.${m_permisson_projectRole}`)
                 : $root.$t('data.unknown')
             }}
           </span>
-          <v-btn v-if="m_permisson_projectAllow" class="primary--text" small text @click="addEnvironment">
+          <v-btn v-if="m_permisson_projectAllow()" class="primary--text" small text @click="addEnvironment">
             <v-icon left small> mdi-plus-box </v-icon>
             {{ $root.$t('operate.create_c', [$root.$t('resource.environment')]) }}
           </v-btn>
-          <v-btn v-if="m_permisson_projectAllow" class="primary--text" small text @click="manageUser">
+          <v-btn v-if="m_permisson_projectAllow()" class="primary--text" small text @click="manageUser">
             <v-icon left small> mdi-account-settings </v-icon>
             {{ $root.$t('resource.project_c', [$root.$t('resource.member')]) }}
           </v-btn>
@@ -39,7 +39,7 @@
             <v-icon left small> mdi-format-list-text </v-icon>
             {{ $t('tip.resource_list') }}
           </v-btn>
-          <v-menu v-if="m_permisson_tenantAllow" left>
+          <v-menu v-if="m_permisson_tenantAllow()" left>
             <template #activator="{ on }">
               <v-btn icon>
                 <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
@@ -83,6 +83,8 @@
   import UpdateProject from './components/UpdateProject';
   import messages from './i18n';
   import { deleteProject, getProjectDetail, getProjectQuota } from '@/api';
+  import { PROJECT_ROLE } from '@/constants/platform';
+  import { RESOURCE_CN } from '@/constants/resource';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -104,13 +106,17 @@
       UpdateProject,
     },
     mixins: [BasePermission, BaseResource, BaseSelect],
-    data: () => ({
-      resources: [],
-      quota: {},
-      basic: {},
-      project: null,
-      ready: false,
-    }),
+    data() {
+      this.PROJECT_ROLE = PROJECT_ROLE;
+
+      return {
+        resources: [],
+        quota: {},
+        basic: {},
+        project: null,
+        ready: false,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       ...mapGetters(['Project']),
@@ -132,7 +138,7 @@
         this.quota = data.quota.used ? data.quota.used : {};
         this.basic = data.resource;
         this.resources = Object.keys(this.quota).filter((i) => {
-          return this.$RESOURCE_CN[i] !== undefined;
+          return RESOURCE_CN[i] !== undefined;
         });
       },
       updateProject() {

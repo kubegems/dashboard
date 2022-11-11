@@ -105,11 +105,13 @@
         default: () => '',
       },
     },
-    data: () => ({
-      panel: false,
-      resourceUseDetail: {},
-      itemsObj: {},
-    }),
+    data() {
+      return {
+        panel: false,
+        resourceUseDetail: {},
+        itemsObj: {},
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       ...mapGetters(['Environment', 'Project']),

@@ -45,12 +45,14 @@
       ResourceBaseForm,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      item: null,
-      quota: null,
-      cluster: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        item: null,
+        quota: null,
+        cluster: '',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },
@@ -72,7 +74,7 @@
         if (this.$refs.resource.validate()) {
           const data = deepCopy(this.$refs.resource.getData());
           data.Content['limits.memory'] = `${data.Content['limits.memory']}Gi`;
-          data.Content[`requests.storage`] = `${data.Content[`requests.storage`]}Gi`;
+          data.Content[`limits.storage`] = `${data.Content[`limits.storage`]}Gi`;
           data.ClusterID = this.item.ClusterID;
           data.TenantID = this.item.TenantID;
           await putUpdateTenantResourceQuota(this.item.TenantID, this.item.ClusterID, data);
@@ -98,17 +100,18 @@
         const content = {
           'limits.cpu': item.Cpu,
           'limits.memory': item.Memory,
-          'requests.storage': item.Storage,
+          'limits.storage': item.Storage,
         };
         if (item.NvidiaGpu) {
           content['limits.nvidia.com/gpu'] = item.NvidiaGpu;
         }
         if (item.TkeGpu) {
-          content['tencent.com/vcuda-core'] = item.TkeGpu;
+          content['limits.tencent.com/vcuda-core'] = item.TkeGpu;
         }
         if (item.TkeMemory) {
-          content['tencent.com/vcuda-memory'] = item.TkeMemory;
+          content['limits.tencent.com/vcuda-memory'] = item.TkeMemory;
         }
+
         this.$refs.resource.setContent(content);
       },
       reset() {

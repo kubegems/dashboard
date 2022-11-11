@@ -51,11 +51,19 @@
         <BaseTipChips :chips="item.alertResourceMap || {}" color="primary" icon="mdi-ruler" single-line />
       </template>
       <template #[`item.status`]="{ item }">
-        <StatusTag :l="item.logging" :m="item.monitoring" :s="item.serviceMesh" />
+        <StatusTag :item="item" :l="item.logging" :m="item.monitoring" :s="item.serviceMesh" />
+      </template>
+      <template #[`item.errorLogCount`]="{ item }">
+        {{ beautyLogCount(item.errorLogCount || 0) }}
+        <v-icon color="primary" small @click="showErrorLogRate(item)"> mdi-chart-line </v-icon>
+      </template>
+      <template #[`item.logRate`]="{ item }">
+        {{ beautyLogRate(item.logRate || 0) }}
+        <v-icon color="primary" small @click="showLogRate(item)"> mdi-chart-line </v-icon>
       </template>
       <template #[`item.eventCount`]="{ item }">
         {{ item.eventCount }}
-        <v-icon color="primary" small @click="onShowEvents(item)"> mdi-chart-pie </v-icon>
+        <v-icon color="primary" small @click="showEvents(item)"> mdi-chart-pie </v-icon>
       </template>
       <template #[`item.loggingCollectorCount`]="{ item }">
         {{ item.loggingCollectorCount }}
@@ -109,14 +117,18 @@
       @changesize="onPageSizeChange"
     />
 
-    <K8sEvents ref="k8sEvents" :env="env" />
+    <K8sEvents ref="k8sEvents" :env="env" @clear="env = null" />
+    <LogRateChart ref="logRateChart" :env="env" @clear="env = null" />
+    <ErrorLogRateChart ref="errorLogRateChart" :env="env" @clear="env = null" />
   </v-card>
 </template>
 
 <script>
   import messages from '../../i18n';
   import Duration from './Duration';
+  import ErrorLogRateChart from './ErrorLogRateChart';
   import K8sEvents from './K8sEvents';
+  import LogRateChart from './LogRateChart';
   import ProjectSelect from './ProjectSelect';
   import StatusTag from './StatusTag';
   import { getEnvironmentObservability } from '@/api';
@@ -129,7 +141,9 @@
     },
     components: {
       Duration,
+      ErrorLogRateChart,
       K8sEvents,
+      LogRateChart,
       ProjectSelect,
       StatusTag,
     },
@@ -163,12 +177,12 @@
           { text: this.$root.$t('resource.cpu'), value: 'cpu', align: 'start' },
           { text: this.$root.$t('resource.memory'), value: 'memory', align: 'start' },
           { text: this.$t('table.metrics_count'), value: 'monitorCollectorCount', align: 'start' },
-          { text: this.$t('table.alert_rule_count'), value: 'alertRuleCount', align: 'start', width: 80 },
-          { text: this.$t('table.living_alert_count'), value: 'alertLiving', align: 'start' },
+          { text: this.$t('table.alert_rule_count'), value: 'alertRuleCount', align: 'end', width: 100 },
+          { text: this.$t('table.living_alert_count'), value: 'alertLiving', align: 'end' },
           { text: this.$t('table.log_count'), value: 'loggingCollectorCount', align: 'start' },
-          { text: this.$t('table.error_log_count'), value: 'errorLogCount', align: 'start' },
-          { text: this.$t('table.log_rate'), value: 'logRate', align: 'start' },
-          { text: this.$t('table.event_count'), value: 'eventCount', align: 'start' },
+          { text: this.$t('table.error_log_count'), value: 'errorLogCount', align: 'end', width: 105 },
+          { text: this.$t('table.log_rate'), value: 'logRate', align: 'end', width: 130 },
+          { text: this.$t('table.event_count'), value: 'eventCount', align: 'end', width: 100 },
         ];
       },
     },
@@ -205,7 +219,7 @@
         if (index > -1) {
           this.$set(this.items, index, data);
         }
-        this.pageCount = parseInt(this.items.length / this.params.size + 1);
+        this.pageCount = Math.ceil(this.items.length / this.params.size);
       },
       onPageSizeChange(size) {
         this.params.page = 1;
@@ -214,24 +228,34 @@
       onPageIndexChange(page) {
         this.params.page = page;
       },
-      onShowEvents(item) {
+      showEvents(item) {
         this.env = item;
         this.$refs.k8sEvents.open();
       },
-      // async linkToAlertRule(item) {
-      //   await this.$router.push({
-      //     name: 'observe-monitor-config',
-      //     query: {
-      //       proj: '',
-      //       env: item.environmentName,
-      //       envid: '',
-      //       projid: this.project,
-      //       cluster: item.clusterName,
-      //       namespace: item.namespace,
-      //       tab: 'prometheusrule',
-      //     },
-      //   });
-      // },
+      showLogRate(item) {
+        this.env = item;
+        this.$refs.logRateChart.open();
+      },
+      showErrorLogRate(item) {
+        this.env = item;
+        this.$refs.errorLogRateChart.open();
+      },
+      beautyLogCount(count) {
+        let result = parseFloat(count);
+        const units = ['', 'k', 'm'];
+        for (const index in units) {
+          if (Math.abs(result) < 1000.0) {
+            return `${result.toFixed(1)} ${units[index]}`;
+          }
+          result /= 1000.0;
+        }
+        return `${result.toFixed(1)} Yi`;
+      },
+      beautyLogRate(rate) {
+        let result = rate ? parseInt(rate.replaceAll('/min', '')) : 0;
+        result = `${this.beautyLogCount(result)} /min`;
+        return result;
+      },
     },
   };
 </script>

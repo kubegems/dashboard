@@ -21,8 +21,6 @@
     "port_config": "端口配置",
     "port": "端口",
     "annotation": "注解",
-    "vip": "集群内部IP访问(VirtualIP)",
-    "headless": "通过服务后端EndpointIP访问(Headless)",
     "no_access": "禁止访问",
     "protocol": "应用协议"
   },

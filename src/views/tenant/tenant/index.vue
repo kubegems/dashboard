@@ -185,16 +185,18 @@
       UpdateTenant,
     },
     mixins: [BaseFilter, BaseResource, BaseSelect, BaseTable],
-    data: () => ({
-      items: [],
+    data() {
+      return {
+        items: [],
 
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-        containAllocatedResourcequota: true,
-      },
-    }),
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+          containAllocatedResourcequota: true,
+        },
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['Tenant']),
@@ -240,16 +242,22 @@
           t.Memory = 0;
           t.Storage = 0;
           t.ResourceQuotas.forEach((r) => {
+            if (!r.Content['limits.storage']) {
+              r.Content['limits.storage'] = r.Content['requests.storage'];
+            }
+
             t.Cpu += sizeOfCpu(r.Content['limits.cpu']);
             t.Memory += sizeOfStorage(r.Content['limits.memory']);
-            t.Storage += sizeOfStorage(r.Content['requests.storage']);
+            t.Storage += sizeOfStorage(r.Content['limits.storage']);
           });
+
+          if (t.AllocatedResourcequota && !t.AllocatedResourcequota['limits.storage']) {
+            t.AllocatedResourcequota['limits.storage'] = t.AllocatedResourcequota['requests.storage'];
+          }
 
           t.AllocatedCpu = t.AllocatedResourcequota ? sizeOfCpu(t.AllocatedResourcequota['requests.cpu']) : 0;
           t.AllocatedMemory = t.AllocatedResourcequota ? sizeOfStorage(t.AllocatedResourcequota['requests.memory']) : 0;
-          t.AllocatedStorage = t.AllocatedResourcequota
-            ? sizeOfStorage(t.AllocatedResourcequota['requests.storage'])
-            : 0;
+          t.AllocatedStorage = t.AllocatedResourcequota ? sizeOfStorage(t.AllocatedResourcequota['limits.storage']) : 0;
 
           t.CpuPercentage = t.Cpu > 0 ? ((t.AllocatedCpu / t.Cpu) * 100).toFixed(1) : 0;
           t.MemoryPercentage = t.Memory > 0 ? ((t.AllocatedMemory / t.Memory) * 100).toFixed(1) : 0;

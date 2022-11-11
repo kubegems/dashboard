@@ -15,14 +15,14 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-send" title="金丝雀部署" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-send" :title="$t('tip.canary')" :width="1000" @reset="reset">
     <template #content>
       <v-flex>
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-flex :class="expand ? 'kubegems__overlay' : ''" />
           <BaseDeployInfoForm ref="baseDeployInfoForm" :runtime="runtime" />
 
-          <BaseSubTitle title="流量设置" />
+          <BaseSubTitle :title="$t('tip.traffic_setting')" />
           <v-card-text class="pa-2">
             <v-row>
               <v-col cols="6">
@@ -32,8 +32,8 @@
                   color="primary"
                   hide-selected
                   :items="trafficRoutingItems"
-                  label="流量路由"
-                  no-data-text="暂无可选数据"
+                  :label="$t('tip.traffic_route')"
+                  :no-data-text="$root.$t('data.no_data')"
                   :rules="canaryRules.trafficRoutingRule"
                   @change="onTraffRoutingRuleChange"
                 >
@@ -48,7 +48,7 @@
                 <v-text-field
                   v-model="obj.strategy.canary.steps[0].setWeight"
                   class="my-0"
-                  label="灰度流量比例"
+                  :label="$t('tip.canary_weight')"
                   required
                   :rules="canaryRules.setWeightRule"
                   suffix="%"
@@ -65,8 +65,8 @@
                     color="primary"
                     hide-selected
                     :items="canaryServiceItems"
-                    label="灰度服务"
-                    no-data-text="暂无可选数据"
+                    :label="$t('tip.canary_service')"
+                    :no-data-text="$root.$t('data.no_data')"
                     :rules="canaryRules.canaryServiceRule"
                     :search-input.sync="canaryServiceText"
                     @change="onTrafficDataChange"
@@ -86,8 +86,8 @@
                     color="primary"
                     hide-selected
                     :items="stableServiceItems"
-                    label="线上服务"
-                    no-data-text="暂无可选数据"
+                    :label="$t('tip.online_service')"
+                    :no-data-text="$root.$t('data.no_data')"
                     :rules="canaryRules.stableServiceRule"
                     :search-input.sync="stableServiceText"
                     @change="onTrafficDataChange"
@@ -105,7 +105,7 @@
           </v-card-text>
 
           <template v-if="trafficRouting === 'istio'">
-            <BaseSubTitle title="灰度配置" />
+            <BaseSubTitle :title="$t('tip.canary_setting')" />
             <v-tabs v-model="tab" class="px-2 mt-2 mb-3 rounded-t" height="30" @change="onTabChange">
               <v-tab v-for="item in tabItems" :key="item.value">
                 {{ item.text }}
@@ -127,12 +127,12 @@
             @addData="addAnalysisData"
             @closeOverlay="closeExpand"
           />
-          <BaseSubTitle title="应用分析（需启用prometheus与istio）" />
+          <BaseSubTitle :title="$t('tip.app_analysis')" />
           <v-card-text class="pa-2">
             <AnalysisTemplateItem
               ref="analysisTemplateItem"
               :obj="obj.strategy.canary.analysis"
-              title="应用分析"
+              :title="$t('tip.analysis')"
               @expandCard="expandCard"
               @removeAnalysis="removeAnalysis"
               @updateAnalysis="updateAnalysis"
@@ -143,7 +143,7 @@
     </template>
     <template #action>
       <v-btn class="float-right" color="primary" :loading="Circular" text @click="strategyDeployEnvironmentApps">
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>
@@ -152,6 +152,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import AnalysisTemplateForm from './analysis_template/AnalysisTemplateForm';
   import AnalysisTemplateItem from './analysis_template/AnalysisTemplateItem';
   import BaseDeployInfoForm from './base/BaseDeployInfoForm';
@@ -165,6 +166,9 @@
   import StrategyDeploy from '@/views/resource/deploy/mixins/deploy';
 
   export default {
+    i18n: {
+      messages: messages,
+    },
     name: 'Canary',
     components: {
       AnalysisTemplateForm,
@@ -186,10 +190,6 @@
         stableServiceItems: [],
         stableServiceText: '',
         trafficRouting: 'default',
-        trafficRoutingItems: [
-          { text: '默认', value: 'default' },
-          { text: 'istio网关', value: 'istio' },
-        ],
         obj: {
           images: [],
           name: '',
@@ -209,11 +209,6 @@
           istioVersion: '',
         },
         tab: 0,
-        tabItems: [
-          { text: '按流量灰度', value: 'DefaultTraffic' },
-          { text: '按请求头灰度', value: 'HeaderTraffic' },
-          { text: '按请求uri灰度', value: 'UriTraffic' },
-        ],
       };
     },
     computed: {
@@ -228,6 +223,19 @@
           rule['stableServiceRule'] = [required];
         }
         return rule;
+      },
+      trafficRoutingItems() {
+        return [
+          { text: this.$t('tip.default'), value: 'default' },
+          { text: this.$t('tip.istio_gateway'), value: 'istio' },
+        ];
+      },
+      tabItems() {
+        return [
+          { text: this.$t('tab.traffic'), value: 'DefaultTraffic' },
+          { text: this.$t('tab.header'), value: 'HeaderTraffic' },
+          { text: this.$t('tab.uri'), value: 'UriTraffic' },
+        ];
       },
     },
     methods: {

@@ -29,7 +29,6 @@
     </v-tabs>
 
     <BaseAreaChart
-      :id="`api${tab}`"
       :key="key"
       :ref="`tab${tab}`"
       :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
@@ -46,8 +45,6 @@
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import {
     CLUSTER_API_SERVER_QPS_PROMQL,
     CLUSTER_API_SERVER_RT_PROMQL,
@@ -57,7 +54,9 @@
     CLUSTER_ETCD_RT_PROMQL,
     CLUSTER_MEMORY_USAGE_PROMQL,
     CLUSTER_POD_RUNNING_COUNT_PROMQL,
-  } from '@/utils/prometheus';
+  } from '@/constants/prometheus';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'MetricMonitor',
@@ -68,16 +67,19 @@
     props: {
       params: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
-
-    data: () => ({
-      tab: 0,
-      count: 0,
-      key: 0,
-      timeinterval: null,
-    }),
+    data() {
+      return {
+        tab: 0,
+        count: 0,
+        key: 0,
+        timeinterval: null,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       tabItems() {

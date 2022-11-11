@@ -16,12 +16,15 @@
 
 <template>
   <div :style="{ height: `${extendHeight}px`, position: 'relative', width: '100%' }">
-    <canvas :id="id" />
+    <canvas :id="chartId" />
   </div>
 </template>
 
 <script>
   import Chart from 'chart.js/auto';
+
+  import { LINE_THEME_COLORS, LINE_THEME_FUL_COLORS } from '@/constants/chart';
+  import { randomString } from '@/utils/helpers';
 
   export default {
     name: 'BasePieChart',
@@ -62,72 +65,87 @@
     data() {
       return {
         chart: null,
+        chartId: '',
       };
     },
     watch: {
       metrics: {
         handler(newValue) {
-          if (newValue) {
-            if (!this.chart) {
-              const ctx = document.getElementById(this.id).getContext('2d');
-              this.chart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                  labels: this.labels,
-                  datasets: this.loadDatasets(),
-                },
-                options: {
-                  responsive: true,
-                  maintainAspectRatio: false,
-                  plugins: {
-                    title: {
-                      align: 'start',
-                      display: true,
-                      text: this.title,
-                    },
-                    legend: {
-                      display: this.labelShow,
-                      position: 'bottom',
-                      labels: {
-                        usePointStyle: true,
-                        pointStyleWidth: 10,
-                        boxHeight: 7,
-                      },
-                    },
-                    tooltip: {
-                      usePointStyle: true,
-                      boxWidth: 8,
-                      boxHeight: 8,
-                      boxPadding: 4,
-                      mode: 'index',
-                    },
-                  },
-                  interaction: {
-                    intersect: false,
-                    mode: 'index',
-                  },
-                },
-              });
-            } else {
-              this.chart.data = { datasets: this.loadDatasets() };
-              this.chart.update('none');
-            }
+          if (newValue && newValue?.length >= 0 && document.getElementById(this.chartId)) {
+            this.loadChart();
           }
         },
         deep: true,
       },
     },
+    mounted() {
+      this.$nextTick(() => {
+        if (this.id) {
+          this.chartId = this.id;
+        } else {
+          this.chartId = randomString(6);
+        }
+        const interval = setInterval(() => {
+          if (document.getElementById(this.chartId)) {
+            clearInterval(interval);
+            this.loadChart();
+          }
+        }, 300);
+      });
+    },
     methods: {
+      loadChart() {
+        if (!this.chart) {
+          const ctx = document.getElementById(this.chartId).getContext('2d');
+          this.chart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+              labels: this.labels,
+              datasets: this.loadDatasets(),
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                title: {
+                  align: 'start',
+                  display: true,
+                  text: this.title,
+                },
+                legend: {
+                  display: this.labelShow,
+                  position: 'bottom',
+                  labels: {
+                    usePointStyle: true,
+                    pointStyleWidth: 10,
+                    boxHeight: 7,
+                  },
+                },
+                tooltip: {
+                  usePointStyle: true,
+                  boxWidth: 8,
+                  boxHeight: 8,
+                  boxPadding: 4,
+                  mode: 'index',
+                },
+              },
+              interaction: {
+                intersect: false,
+                mode: 'index',
+              },
+            },
+          });
+        } else {
+          this.chart.data = { datasets: this.loadDatasets() };
+          this.chart.update('none');
+        }
+      },
       loadDatasets() {
         const datasets = [
           {
             data: this.metrics,
             backgroundColor:
-              this.color.length > 0
-                ? this.color
-                : this.colorful
-                ? this.$LINE_THEME_FUL_COLORS
-                : this.$LINE_THEME_COLORS,
+              this.color.length > 0 ? this.color : this.colorful ? LINE_THEME_FUL_COLORS : LINE_THEME_COLORS,
             hoverOffset: 4,
           },
         ];

@@ -43,9 +43,9 @@
       </v-col>
       <v-col class="pb-0 pt-6" cols="3">
         <v-text-field
-          v-model="obj.ResourceQuota['requests.storage']"
+          v-model="obj.ResourceQuota['limits.storage']"
           :label="$t('tip.limit_value', [$root.$t('resource.storage')])"
-          :rules="resourceQuotaRules['requests.storage']"
+          :rules="resourceQuotaRules['limits.storage']"
           type="number"
         >
           <template #append>
@@ -82,14 +82,14 @@
       <template v-if="tke">
         <v-col class="py-0" cols="3">
           <v-text-field
-            v-model="obj.ResourceQuota['tencent.com/vcuda-core']"
+            v-model="obj.ResourceQuota['limits.tencent.com/vcuda-core']"
             :label="`Tke ${$t('tip.limit_value', [$root.$t('resource.gpu')])}`"
-            :rules="resourceQuotaRules['tencent.com/vcuda-core']"
+            :rules="resourceQuotaRules['limits.tencent.com/vcuda-core']"
             type="number"
           >
             <template #append>
               <span class="text-body-2 kubegems__text">
-                {{ parseInt(obj.ResourceQuota['tencent.com/vcuda-core'] || 0) / 100 }}Gpu
+                {{ parseInt(obj.ResourceQuota['limits.tencent.com/vcuda-core'] || 0) / 100 }}Gpu
               </span>
             </template>
           </v-text-field>
@@ -97,14 +97,14 @@
 
         <v-col class="py-0" cols="3">
           <v-text-field
-            v-model="obj.ResourceQuota['tencent.com/vcuda-memory']"
+            v-model="obj.ResourceQuota['limits.tencent.com/vcuda-memory']"
             :label="`Tke ${$t('tip.limit_value', [$root.$t('resource.video_memory')])}`"
-            :rules="resourceQuotaRules['tencent.com/vcuda-memory']"
+            :rules="resourceQuotaRules['limits.tencent.com/vcuda-memory']"
             type="number"
           >
             <template #append>
               <span class="text-body-2 kubegems__text">
-                {{ (parseInt(obj.ResourceQuota['tencent.com/vcuda-memory'] || 0) * 256) / 1024 }}Gi
+                {{ (parseInt(obj.ResourceQuota['limits.tencent.com/vcuda-memory'] || 0) * 256) / 1024 }}Gi
               </span>
             </template>
           </v-text-field>
@@ -146,7 +146,7 @@
             'limits.cpu': 0,
             'requests.memory': 0,
             'limits.memory': 0,
-            'requests.storage': 0,
+            'limits.storage': 0,
             'count/pods': 100,
           },
         },
@@ -164,11 +164,11 @@
           'limits.cpu': 0,
           'requests.memory': 0,
           'limits.memory': 0,
-          'requests.storage': 0,
+          'limits.storage': 0,
           'count/pods': 5120,
           'limits.nvidia.com/gpu': 0,
-          'tencent.com/vcuda-core': 0,
-          'tencent.com/vcuda-memory': 0,
+          'limits.tencent.com/vcuda-core': 0,
+          'limits.tencent.com/vcuda-memory': 0,
         },
       };
     },
@@ -201,11 +201,11 @@
             (v) =>
               parseFloat(v) <= this.apply.ApplyMemory + this.now['limits.memory'] || this.$t('form.limit_max_rule'),
           ],
-          'requests.storage': [
+          'limits.storage': [
             (v) => parseFloat(v) > 0 || this.$t('form.limit_min_rule'),
             positiveInteger,
             (v) =>
-              parseFloat(v) <= this.apply.ApplyStorage + this.now['requests.storage'] || this.$t('form.limit_max_rule'),
+              parseFloat(v) <= this.apply.ApplyStorage + this.now['limits.storage'] || this.$t('form.limit_max_rule'),
           ],
           'count/pods': [
             (v) => parseFloat(v) > 0 || this.$t('form.limit_min_rule'),
@@ -221,16 +221,16 @@
               parseFloat(v) <= this.apply.ApplyNvidiaGpu + (this.now['limits.nvidia.com/gpu'] || 0) ||
               this.$t('form.limit_max_rule'),
           ],
-          'tencent.com/vcuda-core': [
+          'limits.tencent.com/vcuda-core': [
             positiveInteger,
             (v) =>
-              parseFloat(v) <= this.apply.ApplyTkeGpu + (this.now['tencent.com/vcuda-core'] || 0) ||
+              parseFloat(v) <= this.apply.ApplyTkeGpu + (this.now['limits.tencent.com/vcuda-core'] || 0) ||
               this.$t('form.limit_max_rule'),
           ],
-          'tencent.com/vcuda-memory': [
+          'limits.tencent.com/vcuda-memory': [
             positiveInteger,
             (v) =>
-              parseFloat(v) <= this.apply.ApplyTkeMemory + (this.now['tencent.com/vcuda-memory'] || 0) ||
+              parseFloat(v) <= this.apply.ApplyTkeMemory + (this.now['limits.tencent.com/vcuda-memory'] || 0) ||
               this.$t('form.limit_max_rule'),
           ],
         };
@@ -241,6 +241,9 @@
         handler(newValue) {
           if (newValue) {
             this.obj = deepCopy(newValue);
+            if (!this.obj.ResourceQuota['limits.storage']) {
+              this.obj.ResourceQuota['limits.storage'] = this.obj.ResourceQuota['requests.storage'];
+            }
             if (!this.obj.ResourceQuota['count/pods']) {
               this.obj.ResourceQuota['count/pods'] = 5120;
             }
@@ -264,21 +267,21 @@
                 delete this.obj.ResourceQuota['limits.nvidia.com/gpu'];
               }
               if (newValue.TkeGpu || newValue.TkeMemory) {
-                this.obj.ResourceQuota['tencent.com/vcuda-core'] = 0;
-                this.obj.ResourceQuota['tencent.com/vcuda-memory'] = 0;
+                this.obj.ResourceQuota['limits.tencent.com/vcuda-core'] = 0;
+                this.obj.ResourceQuota['limits.memory'] = 0;
               } else {
-                delete this.obj.ResourceQuota['tencent.com/vcuda-core'];
-                delete this.obj.ResourceQuota['tencent.com/vcuda-memory'];
+                delete this.obj.ResourceQuota['limits.tencent.com/vcuda-core'];
+                delete this.obj.ResourceQuota['limits.tencent.com/vcuda-memory'];
               }
             } else {
               if (newValue.NvidiaGpu && !this.obj.ResourceQuota['limits.nvidia.com/gpu']) {
                 this.obj.ResourceQuota['limits.nvidia.com/gpu'] = 0;
               }
-              if (newValue.TkeGpu && !this.obj.ResourceQuota['tencent.com/vcuda-core']) {
-                this.obj.ResourceQuota['tencent.com/vcuda-core'] = 0;
+              if (newValue.TkeGpu && !this.obj.ResourceQuota['limits.tencent.com/vcuda-core']) {
+                this.obj.ResourceQuota['limits.tencent.com/vcuda-core'] = 0;
               }
-              if (newValue.TkeMemory && !this.obj.ResourceQuota['tencent.com/vcuda-memory']) {
-                this.obj.ResourceQuota['tencent.com/vcuda-memory'] = 0;
+              if (newValue.TkeMemory && !this.obj.ResourceQuota['limits.tencent.com/vcuda-memory']) {
+                this.obj.ResourceQuota['limits.tencent.com/vcuda-memory'] = 0;
               }
             }
           }
@@ -294,12 +297,12 @@
         resourceQuota['limits.cpu'] = `${sizeOfCpu(resourceQuota['limits.cpu'])}`;
         resourceQuota['requests.memory'] = `${sizeOfStorage(`${resourceQuota['limits.memory']}Gi`)}Gi`;
         resourceQuota['limits.memory'] = `${sizeOfStorage(`${resourceQuota['limits.memory']}Gi`)}Gi`;
-        resourceQuota['requests.storage'] = `${sizeOfStorage(`${resourceQuota['requests.storage']}Gi`)}Gi`;
-        if (resourceQuota['tencent.com/vcuda-core']) {
-          resourceQuota['tencent.com/vcuda-core'] = `${resourceQuota['tencent.com/vcuda-core']}`;
+        resourceQuota['limits.storage'] = `${sizeOfStorage(`${resourceQuota['limits.storage']}Gi`)}Gi`;
+        if (resourceQuota['limits.tencent.com/vcuda-core']) {
+          resourceQuota['limits.tencent.com/vcuda-core'] = `${resourceQuota['limits.tencent.com/vcuda-core']}`;
         }
-        if (resourceQuota['tencent.com/vcuda-memory']) {
-          resourceQuota['tencent.com/vcuda-memory'] = `${resourceQuota['tencent.com/vcuda-memory']}`;
+        if (resourceQuota['limits.tencent.com/vcuda-memory']) {
+          resourceQuota['limits.tencent.com/vcuda-memory'] = `${resourceQuota['limits.tencent.com/vcuda-memory']}`;
         }
         return resourceQuota;
       },
@@ -309,15 +312,15 @@
         resourceQuota['limits.cpu'] = sizeOfCpu(resourceQuota['limits.cpu']);
         resourceQuota['requests.memory'] = sizeOfStorage(resourceQuota['requests.memory']);
         resourceQuota['limits.memory'] = sizeOfStorage(resourceQuota['limits.memory']);
-        resourceQuota['requests.storage'] = sizeOfStorage(resourceQuota['requests.storage']);
+        resourceQuota['limits.storage'] = sizeOfStorage(resourceQuota['limits.storage']);
         if (resourceQuota['limits.nvidia.com/gpu']) {
           resourceQuota['limits.nvidia.com/gpu'] = parseInt(resourceQuota['limits.nvidia.com/gpu']);
         }
-        if (resourceQuota['tencent.com/vcuda-core']) {
-          resourceQuota['tencent.com/vcuda-core'] = parseInt(resourceQuota['tencent.com/vcuda-core']);
+        if (resourceQuota['limits.tencent.com/vcuda-core']) {
+          resourceQuota['limits.tencent.com/vcuda-core'] = parseInt(resourceQuota['limits.tencent.com/vcuda-core']);
         }
-        if (resourceQuota['tencent.com/vcuda-memory']) {
-          resourceQuota['tencent.com/vcuda-memory'] = parseInt(resourceQuota['tencent.com/vcuda-memory']);
+        if (resourceQuota['limits.tencent.com/vcuda-memory']) {
+          resourceQuota['limits.tencent.com/vcuda-memory'] = parseInt(resourceQuota['limits.tencent.com/vcuda-memory']);
         }
         this.obj.ResourceQuota = resourceQuota;
       },

@@ -20,7 +20,7 @@
       <BaseSubTitle class="pt-2" :divider="false" :title="`${$root.$t('resource.cluster')} ${cluster.ClusterName}`">
         <template #action>
           <v-switch
-            v-if="m_permisson_resourceAllow"
+            v-if="m_permisson_resourceAllow()"
             v-model="cluster.Isolation"
             class="float-right mt-2 mr-4"
             color="primary"
@@ -59,8 +59,8 @@
           <template #[`item.metaType`]="{ item }">
             <v-chip
               :color="
-                $METATYPE_CN[item.MetaType] && $METATYPE_CN[item.MetaType].color
-                  ? $METATYPE_CN[item.MetaType].color
+                METATYPE_CN[item.MetaType] && METATYPE_CN[item.MetaType].color
+                  ? METATYPE_CN[item.MetaType].color
                   : 'grey'
               "
               label
@@ -137,6 +137,7 @@
     postUpdateEnvironmentNetworkPolicy,
     postUpdateProjectNetworkPolicy,
   } from '@/api';
+  import { METATYPE_CN } from '@/constants/platform';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -149,21 +150,24 @@
       messages: messages,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseSelect],
-    inject: ['reload'],
     props: {
       ready: {
         type: Boolean,
         default: () => false,
       },
     },
-    data: () => ({
-      items: {},
-      clusters: [],
-      params: {
-        page: 1,
-        size: 1000,
-      },
-    }),
+    data() {
+      this.METATYPE_CN = METATYPE_CN;
+
+      return {
+        items: {},
+        clusters: [],
+        params: {
+          page: 1,
+          size: 1000,
+        },
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Admin', 'AdminViewport']),
       ...mapGetters(['Project', 'Tenant', 'Cluster']),
@@ -200,7 +204,7 @@
             width: 150,
           },
         ];
-        if (this.m_permisson_resourceAllow) {
+        if (this.m_permisson_resourceAllow()) {
           items.push({
             text: this.$t('environment.table.network_isolation'),
             value: 'isolation',

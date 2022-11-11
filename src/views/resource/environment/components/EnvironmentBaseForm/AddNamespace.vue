@@ -69,13 +69,15 @@
         default: () => null,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      namespace: '',
-      namespaceItems: [],
-      namespaceRule: [required],
-    }),
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        namespace: '',
+        namespaceItems: [],
+        namespaceRule: [required],
+      };
+    },
     computed: {
       ...mapGetters(['Tenant']),
       clusterName() {

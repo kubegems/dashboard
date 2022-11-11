@@ -90,16 +90,18 @@
       Deploy,
       Markdown,
     },
-    data: () => ({
-      allApps: [],
-      currentApp: {},
-      versions: [],
-      selectVersion: null,
-      appName: '',
-      selectRepo: '',
-      tab: 0,
-      item: { files: {} },
-    }),
+    data() {
+      return {
+        allApps: [],
+        currentApp: {},
+        versions: [],
+        selectVersion: null,
+        appName: '',
+        selectRepo: '',
+        tab: 0,
+        item: { files: {} },
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       reponame() {

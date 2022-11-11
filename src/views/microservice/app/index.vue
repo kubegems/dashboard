@@ -29,6 +29,7 @@
             <iframe
               v-if="$route.query.cluster"
               id="graph"
+              :key="iframeKey"
               allow
               class="iframe"
               :height="height"
@@ -46,6 +47,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import { randomString } from '@/utils/helpers';
   import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
   import PluginPass from '@/views/microservice/components/PluginPass';
 
@@ -59,10 +61,11 @@
       return {
         timeinterval: null,
         pass: false,
+        iframeKey: '',
       };
     },
     computed: {
-      ...mapState(['Scale']),
+      ...mapState(['Scale', 'Progress']),
       height() {
         return window.innerHeight - 250 * this.Scale - 1;
       },
@@ -76,8 +79,19 @@
           if (newValue) {
             this.$store.commit('SET_PROGRESS', true);
           } else {
-            this.$store.commit('SET_PROGRESS', false);
+            const interval = setInterval(() => {
+              if (this.Progress) {
+                this.$store.commit('SET_PROGRESS', false);
+                clearInterval(interval);
+              }
+            }, 1000);
           }
+        },
+        deep: true,
+      },
+      src: {
+        handler() {
+          this.iframeKey = randomString(4);
         },
         deep: true,
       },

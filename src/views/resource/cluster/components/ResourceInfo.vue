@@ -19,7 +19,7 @@
     <v-card-text class="d-flex pl-6 align-center flex-wrap" :style="{ height: `100%` }">
       <div class="d-flex align-center justify-start my-2" :style="{ width: `50%` }">
         <v-btn class="elevation-0 mr-2" color="primary" dark fab small>
-          <v-icon>{{ $RESOURCE_ICON['node'] }}</v-icon>
+          <v-icon>{{ RESOURCE_ICON['node'] }}</v-icon>
         </v-btn>
         <h6 class="text-large-size font-weight-regular">
           {{ $root.$t('resource.node') }} {{ workload && workload['node'] ? workload['node'] : '' }}
@@ -27,36 +27,40 @@
       </div>
       <div class="d-flex align-center justify-start my-2" :style="{ width: `50%` }">
         <v-btn class="elevation-0 mr-2" color="primary" dark fab small>
-          <v-icon>{{ $RESOURCE_ICON['cpu'] }}</v-icon>
+          <v-icon>{{ RESOURCE_ICON['cpu'] }}</v-icon>
         </v-btn>
         <div>
           <h5 class="text-size font-weight-regular">
             {{ $root.$t('resource.cpu_c', [$t('tip.physics')]) }}
-            {{ quota ? sizeOfCpu(quota.capacity.cpu).toFixed(1) : 0 }}
+            {{ quota ? sizeOfCpu(quota.capacity['limits.cpu']).toFixed(1) : 0 }}
             core (1:{{ cluster ? cluster.OversoldConfig.cpu : 1 }})
           </h5>
           <h5 class="text-size font-weight-regular">
             {{ $root.$t('resource.cpu_c', [$t('tip.virtual')]) }}
-            {{ quota && cluster ? (sizeOfCpu(quota.capacity.cpu) * cluster.OversoldConfig.cpu).toFixed(1) : 0 }}
+            {{
+              quota && cluster ? (sizeOfCpu(quota.capacity['limits.cpu']) * cluster.OversoldConfig.cpu).toFixed(1) : 0
+            }}
             core
           </h5>
         </div>
       </div>
       <div class="d-flex align-center justify-start my-2" :style="{ width: `50%` }">
         <v-btn class="elevation-0 mr-2" color="primary" dark fab small>
-          <v-icon>{{ $RESOURCE_ICON['storage'] }}</v-icon>
+          <v-icon>{{ RESOURCE_ICON['storage'] }}</v-icon>
         </v-btn>
         <div>
           <h5 class="text-size font-weight-regular">
             {{ $root.$t('resource.storage_c', [$t('tip.physics')]) }}
-            {{ quota ? sizeOfStorage(quota.capacity['ephemeral-storage']).toFixed(1) : 0 }}
+            {{ quota ? sizeOfStorage(quota.capacity['limits.ephemeral-storage']).toFixed(1) : 0 }}
             Gi (1:{{ cluster ? cluster.OversoldConfig.storage : 1 }})
           </h5>
           <h5 class="text-size font-weight-regular">
             {{ $root.$t('resource.storage_c', [$t('tip.virtual')]) }}
             {{
               quota && cluster
-                ? (sizeOfStorage(quota.capacity['ephemeral-storage']) * cluster.OversoldConfig.storage).toFixed(1)
+                ? (sizeOfStorage(quota.capacity['limits.ephemeral-storage']) * cluster.OversoldConfig.storage).toFixed(
+                    1,
+                  )
                 : 0
             }}
             Gi
@@ -65,18 +69,20 @@
       </div>
       <div class="d-flex align-center justify-start my-2" :style="{ width: `50%` }">
         <v-btn class="elevation-0 mr-2" color="primary" dark fab small>
-          <v-icon>{{ $RESOURCE_ICON['memory'] }}</v-icon>
+          <v-icon>{{ RESOURCE_ICON['memory'] }}</v-icon>
         </v-btn>
         <div>
           <h5 class="text-size font-weight-regular">
             {{ $root.$t('resource.memory_c', [$t('tip.physics')]) }}
-            {{ quota ? sizeOfStorage(quota.capacity.memory).toFixed(1) : 0 }}
+            {{ quota ? sizeOfStorage(quota.capacity['limits.memory']).toFixed(1) : 0 }}
             Gi (1:{{ cluster ? cluster.OversoldConfig.memory : 1 }})
           </h5>
           <h5 class="text-size font-weight-regular">
             {{ $root.$t('resource.memory_c', [$t('tip.virtual')]) }}
             {{
-              quota && cluster ? (sizeOfStorage(quota.capacity.memory) * cluster.OversoldConfig.memory).toFixed(1) : 0
+              quota && cluster
+                ? (sizeOfStorage(quota.capacity['limits.memory']) * cluster.OversoldConfig.memory).toFixed(1)
+                : 0
             }}
             Gi
           </h5>
@@ -88,6 +94,7 @@
 
 <script>
   import messages from '../i18n';
+  import { RESOURCE_ICON } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
   import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
@@ -110,6 +117,11 @@
         type: Object,
         default: () => null,
       },
+    },
+    data() {
+      this.RESOURCE_ICON = RESOURCE_ICON;
+
+      return {};
     },
     methods: {
       sizeOfCpu: sizeOfCpu,

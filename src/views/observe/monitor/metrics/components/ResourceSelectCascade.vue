@@ -133,6 +133,8 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
+
   import messages from '../../i18n';
   import { getRuleList, getRuleResourceList, getRuleScopeList, getRuleSearch } from '@/api';
   import BaseSelect from '@/mixins/select';
@@ -184,6 +186,7 @@
       };
     },
     computed: {
+      ...mapGetters(['Tenant']),
       resourceObj() {
         return this.resourceIndex > -1 ? this.resourceItems[this.resourceIndex] : null;
       },
@@ -238,7 +241,7 @@
     },
     methods: {
       async loadRule() {
-        const data = await getRuleSearch({
+        const data = await getRuleSearch(this.Tenant().ID, {
           scope: this.generator.scope,
           resource: this.generator.resource,
           rule: this.generator.rule,
@@ -252,8 +255,8 @@
       },
       async ruleScopeList() {
         const data = await getRuleScopeList(this.tenant.ID, { noprocessing: true, size: 1000, preload: 'Resources' });
-        this.scopeItems = data.List;
-        this.scopeItemsCopy = data.List;
+        this.scopeItems = data.List || [];
+        this.scopeItemsCopy = data.List || [];
       },
       async ruleResourceList(scopeId, resourceId = -1) {
         const data = await getRuleResourceList(this.tenant.ID, scopeId, {
@@ -261,8 +264,8 @@
           size: 1000,
           preload: 'Rules',
         });
-        this.resourceItems = data.List;
-        this.resourceItemsCopy = data.List;
+        this.resourceItems = data.List || [];
+        this.resourceItemsCopy = data.List || [];
         if (this.generator) {
           this.resourceIndex = this.resourceItems.findIndex((r) => {
             return r.id === resourceId;
@@ -271,8 +274,8 @@
       },
       async ruleList(resourceId, ruleId = -1) {
         const data = await getRuleList(this.tenant.ID, resourceId, { noprocessing: true, size: 1000 });
-        this.ruleItems = data.List;
-        this.ruleItemsCopy = data.List;
+        this.ruleItems = data.List || [];
+        this.ruleItemsCopy = data.List || [];
         if (this.generator) {
           this.ruleIndex = this.ruleItems.findIndex((r) => {
             return r.id === ruleId;
@@ -350,6 +353,7 @@
         this.resourceItems = [];
         this.ruleItems = [];
         this.maxWidth = 275;
+        this.resource = undefined;
       },
       getWidth() {
         if (this.showResource && this.showRule) {

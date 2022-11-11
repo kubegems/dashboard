@@ -65,7 +65,7 @@
               >
                 <template #append>
                   <span class="text-body-2 kubegems__text">
-                    {{ $t('tip.can_use') }} {{ gpuData.ApplyNvidiaGpu || 0 }}/{{ $t('tip.total') }}
+                    {{ $t('tip.can_use') }} {{ gpuData.NvidiaGpu - gpuData.UsedNvidiaGpu || 0 }}/{{ $t('tip.total') }}
                     {{ gpuData.NvidiaGpu || 0 }}
                   </span>
                 </template>
@@ -88,10 +88,8 @@
               >
                 <template #append>
                   <span class="text-body-2 kubegems__text">
-                    {{ $t('tip.can_use') }} {{ gpuData.ApplyTkeGpu / 100 || 0 }} {{ $t('tip.core') }}/{{
-                      $t('tip.total')
-                    }}
-                    {{ gpuData.TkeGpu / 100 || 0 }} {{ $t('tip.core') }}
+                    {{ $t('tip.can_use') }} {{ (gpuData.TkeGpu - gpuData.UsedTkeGpu) / 100 || 0 }}
+                    {{ $t('tip.core') }}/{{ $t('tip.total') }} {{ gpuData.TkeGpu / 100 || 0 }} {{ $t('tip.core') }}
                   </span>
                 </template>
               </v-text-field>
@@ -105,7 +103,9 @@
               >
                 <template #append>
                   <span class="text-body-2 kubegems__text">
-                    {{ $t('tip.can_use') }} {{ (gpuData.ApplyTkeMemory * 256) / 1024 || 0 }} Gi/{{ $t('tip.total') }}
+                    {{ $t('tip.can_use') }} {{ ((gpuData.TkeMemory - gpuData.UsedTkeMemory) * 256) / 1024 || 0 }} Gi/{{
+                      $t('tip.total')
+                    }}
                     {{ (gpuData.TkeMemory * 256) / 1024 || 0 }} Gi
                   </span>
                 </template>
@@ -122,6 +122,7 @@
   import { mapGetters } from 'vuex';
 
   import messages from '../../../i18n';
+  import { getEnvironmentQuota } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import { positiveInteger } from '@/utils/rules';
@@ -183,16 +184,21 @@
           nvidiaGpuRule: [
             positiveInteger,
             (v) => parseFloat(v) >= 0 || this.$t('form.gte_0_rule'),
-            (v) => parseFloat(v) <= parseFloat(this.gpuData.ApplyNvidiaGpu || 0) || this.$t('form.limit_max_rule'),
+            (v) =>
+              parseFloat(v) <= parseFloat((this.gpuData.NvidiaGpu || 0) - (this.gpuData.UsedNvidiaGpu || 0)) ||
+              this.$t('form.limit_max_rule'),
           ],
           vcudaGpuRule: [
             (v) => parseFloat(v) >= 0 || this.$t('form.gte_0_rule'),
-            (v) => parseFloat(v) <= parseFloat(this.gpuData.ApplyTkeGpu || 0) / 100 || this.$t('form.limit_max_rule'),
+            (v) =>
+              parseFloat(v) <= parseFloat((this.gpuData.TkeGpu || 0) - (this.gpuData.UsedTkeGpu || 0)) / 100 ||
+              this.$t('form.limit_max_rule'),
           ],
           vcudaMemoryRule: [
             (v) => parseFloat(v) >= 0 || this.$t('form.gte_0_rule'),
             (v) =>
-              parseFloat(v) <= (parseFloat(this.gpuData.ApplyTkeMemory || 0) * 256) / 1024 ||
+              parseFloat(v) <=
+                (parseFloat((this.gpuData.TkeMemory || 0) - (this.gpuData.UsedTkeMemory || 0)) * 256) / 1024 ||
               this.$t('form.limit_max_rule'),
           ],
         };
@@ -261,8 +267,42 @@
         this.$refs.form.resetValidation();
       },
       async getGpu() {
-        const data = await this.m_resource_tenantResourceQuota(this.base?.cluster, this.Tenant().TenantName);
-        this.gpuData = data;
+        const data = await getEnvironmentQuota(this.base?.projectId, this.base?.environmentId, {
+          noprocessing: true,
+        });
+        if (data.quota.status.hard) {
+          this.gpuData = {
+            NvidiaGpu: data.quota.status.hard['limits.nvidia.com/gpu']
+              ? parseFloat(data.quota.status.hard['limits.nvidia.com/gpu'])
+              : 0,
+            UsedNvidiaGpu: data.quota.status.used['requests.nvidia.com/gpu']
+              ? parseFloat(data.quota.status.used['requests.nvidia.com/gpu'])
+              : 0,
+
+            TkeGpu: data.quota.status.hard['limits.tencent.com/vcuda-core']
+              ? parseFloat(data.quota.status.hard['limits.tencent.com/vcuda-core'])
+              : 0,
+            UsedTkeGpu: data.quota.status.used['requests.tencent.com/vcuda-core']
+              ? parseFloat(data.quota.status.used['requests.tencent.com/vcuda-core'])
+              : 0,
+
+            TkeMemory: data.quota.status.hard['limits.tencent.com/vcuda-memory']
+              ? parseFloat(data.quota.status.hard['limits.tencent.com/vcuda-memory'])
+              : 0,
+            UsedTkeMemory: data.quota.status.used['requests.tencent.com/vcuda-memory']
+              ? parseFloat(data.quota.status.used['requests.tencent.com/vcuda-memory'])
+              : 0,
+          };
+        } else {
+          this.gpuData = {
+            NvidiaGpu: 0,
+            UsedNvidiaGpu: 0,
+            TkeGpu: 0,
+            UsedTkeGpu: 0,
+            TkeMemory: 0,
+            UsedTkeMemory: 0,
+          };
+        }
       },
     },
   };

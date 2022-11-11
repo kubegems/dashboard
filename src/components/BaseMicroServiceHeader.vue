@@ -24,8 +24,8 @@
           bottom
           content-class="micro-service-header__bg"
           left
-          max-height="300px"
-          max-width="220px"
+          max-height="310px"
+          max-width="400px"
           min-width="120px"
           nudge-bottom="5px"
           offset-y
@@ -140,7 +140,7 @@
         <span class="text-body-2 kubegems__text">
           {{ $t('resource.mesh_c', [$t('resource.role')]) }}:
           {{
-            $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole]
+            VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole]
               ? $t(`role.mesh.${m_permisson_virtualSpaceRole}`)
               : $t('data.unknown')
           }}
@@ -157,6 +157,7 @@
 <script>
   import { mapGetters } from 'vuex';
 
+  import { VIRTUALSPACE_ROLE } from '@/constants/platform';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -171,10 +172,14 @@
         default: () => true,
       },
     },
-    data: () => ({
-      virtualSpaceMenu: false,
-      loading: false,
-    }),
+    data() {
+      this.VIRTUALSPACE_ROLE = VIRTUALSPACE_ROLE;
+
+      return {
+        virtualSpaceMenu: false,
+        loading: false,
+      };
+    },
     computed: {
       ...mapGetters(['VirtualSpace']),
     },

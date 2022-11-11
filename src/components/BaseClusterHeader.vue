@@ -24,8 +24,8 @@
           bottom
           content-class="cluster-header__bg"
           left
-          max-height="300px"
-          max-width="220px"
+          max-height="310px"
+          max-width="400px"
           min-width="120px"
           nudge-bottom="5px"
           offset-y
@@ -121,10 +121,12 @@
         default: () => true,
       },
     },
-    data: () => ({
-      clusterMenu: false,
-      loading: false,
-    }),
+    data() {
+      return {
+        clusterMenu: false,
+        loading: false,
+      };
+    },
     computed: {
       ...mapGetters(['Cluster']),
     },

@@ -27,7 +27,7 @@
         />
         <EnvironmentFilter />
         <v-spacer />
-        <v-menu v-if="m_permisson_virtualSpaceAllow" left>
+        <v-menu v-if="m_permisson_virtualSpaceAllow()" left>
           <template #activator="{ on }">
             <v-btn icon>
               <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
@@ -172,15 +172,18 @@
       UpdateAuthorizationPolicy,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-      },
-      pass: false,
-    }),
+    data() {
+      return {
+        items: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+        },
+        pass: { pass: false, time: '' },
+        timestamp: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
       headers() {
@@ -196,7 +199,7 @@
           { text: this.$t('table.rule_count'), value: 'rules', align: 'start' },
           { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start', width: 180 },
         ];
-        if (this.m_permisson_virtualSpaceAllow) {
+        if (this.m_permisson_virtualSpaceAllow()) {
           items.push({
             text: '',
             value: 'action',
@@ -222,7 +225,8 @@
       },
       pass: {
         handler(newValue) {
-          if (newValue) {
+          if (newValue && newValue.time !== this.timestamp) {
+            this.timestamp = newValue.time;
             this.istioAuthorizationPolicyList();
           }
         },

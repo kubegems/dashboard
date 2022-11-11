@@ -63,13 +63,15 @@
         default: () => null,
       },
     },
-    data: () => ({
-      items: [],
-      params: {
-        page: 1,
-        size: 1000,
-      },
-    }),
+    data() {
+      return {
+        items: [],
+        params: {
+          page: 1,
+          size: 1000,
+        },
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       height() {
@@ -101,7 +103,9 @@
         const data = this.resource?.liveState?.status?.operationState?.syncResult?.resources || [];
         this.items = data;
       },
-      dispose() {},
+      dispose() {
+        return;
+      },
     },
   };
 </script>

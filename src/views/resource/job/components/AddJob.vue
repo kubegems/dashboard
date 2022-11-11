@@ -81,7 +81,7 @@
   import { postAddJob } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';
-  import JobSchema from '@/views/resource/job/mixins/schema';
+  import JobSchema from '@/utils/schema/job';
 
   export default {
     name: 'AddJob',
@@ -92,14 +92,16 @@
       JobBaseForm,
     },
     mixins: [BaseResource, JobSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'JobBaseForm',
-      step: 0,
-      totalStep: 4,
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'JobBaseForm',
+        step: 0,
+        totalStep: 4,
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },
@@ -113,7 +115,7 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(JobSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'JobBaseForm') {
@@ -141,7 +143,7 @@
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
           this.m_resource_addNsToData(data, this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace);
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(JobSchema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);
             return;

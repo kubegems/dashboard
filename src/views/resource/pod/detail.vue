@@ -24,7 +24,7 @@
             <v-icon left small> mdi-code-json </v-icon>
             YAML
           </v-btn>
-          <v-menu v-if="m_permisson_resourceAllow" left>
+          <v-menu v-if="m_permisson_resourceAllow()" left>
             <template #activator="{ on }">
               <v-btn icon>
                 <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
@@ -85,8 +85,10 @@
   import BaseResource from '@/mixins/resource';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
   import EventList from '@/views/resource/components/common/EventList';
+  import NvidiaGpuMonitor from '@/views/resource/components/common/NvidiaGpuMonitor';
   import PodList from '@/views/resource/components/common/PodList';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
+  import TkeGpuMonitor from '@/views/resource/components/common/TkeGpuMonitor';
   import Metadata from '@/views/resource/components/metadata/Metadata';
 
   export default {
@@ -99,26 +101,40 @@
       ContainerList,
       EventList,
       Metadata,
+      NvidiaGpuMonitor,
       PodList,
       PodMonitor,
       ResourceInfo,
       ResourceYaml,
+      TkeGpuMonitor,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      pod: null,
-      tab: 0,
-    }),
+    data() {
+      return {
+        pod: null,
+        tab: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'MessageStreamWS']),
       tabItems() {
-        return [
+        const items = [
           { text: this.$root.$t('tab.resource_info'), value: 'ResourceInfo' },
           { text: this.$root.$t('tab.metadata'), value: 'Metadata' },
           { text: this.$t('tab.container'), value: 'ContainerList' },
           { text: this.$root.$t('tab.event'), value: 'EventList' },
           { text: this.$root.$t('tab.monitor'), value: 'PodMonitor' },
         ];
+
+        if (this.isTke()) {
+          items.push({ text: this.$root.$t('tab.gpu_monitor'), value: 'TkeGpuMonitor' });
+        }
+
+        if (this.isNvidia()) {
+          items.push({ text: this.$root.$t('tab.gpu_monitor'), value: 'NvidiaGpuMonitor' });
+        }
+
+        return items;
       },
     },
     watch: {
@@ -181,6 +197,16 @@
             await deletePod(this.ThisCluster, this.$route.query.namespace, param.item.metadata.name);
             this.$router.push({ name: 'pod-list', params: this.$route.params });
           },
+        });
+      },
+      isTke() {
+        return this.pod?.spec?.containers.some((c) => {
+          return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-core'];
+        });
+      },
+      isNvidia() {
+        return this.pod?.spec?.containers.some((c) => {
+          return c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu'];
         });
       },
     },

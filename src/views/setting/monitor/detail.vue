@@ -28,6 +28,11 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
+                  <v-btn color="primary" small text @click="updateMonitorDashboardTemplate">
+                    {{ $root.$t('operate.edit') }}
+                  </v-btn>
+                </v-flex>
+                <v-flex>
                   <v-btn color="error" small text @click="removeMonitorTemplate">
                     {{ $root.$t('operate.delete') }}
                   </v-btn>
@@ -84,6 +89,8 @@
         <component :is="tabItems[tab].value" :ref="tabItems[tab].value" class="mt-3" :item="monitorTemplate" />
       </v-col>
     </v-row>
+
+    <UpdateMonitorTemplate ref="updateMonitorTemplate" @refresh="monitorTemplateDetail" />
   </v-container>
 </template>
 
@@ -91,6 +98,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import ResourceInfo from './components/ResourceInfo';
+  import UpdateMonitorTemplate from './components/UpdateMonitorTemplate';
   import messages from './i18n';
   import { deleteMonitorDashboardTemplate, getMonitorDashboardTemplateDetail } from '@/api';
 
@@ -101,11 +109,14 @@
     },
     components: {
       ResourceInfo,
+      UpdateMonitorTemplate,
     },
-    data: () => ({
-      monitorTemplate: null,
-      tab: 0,
-    }),
+    data() {
+      return {
+        monitorTemplate: null,
+        tab: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['Tenant']),
@@ -140,6 +151,10 @@
             this.$router.push({ name: 'monitor-template-list', params: this.$route.params });
           },
         });
+      },
+      updateMonitorDashboardTemplate() {
+        this.$refs.updateMonitorTemplate.init(this.monitorTemplate);
+        this.$refs.updateMonitorTemplate.open();
       },
     },
   };

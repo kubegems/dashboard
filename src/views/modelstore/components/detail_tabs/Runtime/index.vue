@@ -38,7 +38,7 @@
               height: '10px',
               minWidth: '10px',
               width: '10px',
-              backgroundColor: `${$POD_STATUS_COLOR[item.phase] || '#ff5252'}`,
+              backgroundColor: `${POD_STATUS_COLOR[item.phase] || '#ff5252'}`,
             }"
           />
           <span>
@@ -89,6 +89,7 @@
   import messages from '../../../i18n';
   import ModelExperience from './components/ModelExperience';
   import { getModelRuntimeList } from '@/api';
+  import { POD_STATUS_COLOR } from '@/constants/resource';
 
   export default {
     name: 'RuntimeList',
@@ -104,15 +105,19 @@
         default: () => null,
       },
     },
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-        noprocessing: true,
-      },
-    }),
+    data() {
+      this.POD_STATUS_COLOR = POD_STATUS_COLOR;
+
+      return {
+        items: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+          noprocessing: true,
+        },
+      };
+    },
     computed: {
       headers() {
         return [

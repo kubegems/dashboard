@@ -81,6 +81,7 @@
 <script>
   import messages from '../i18n';
   import { getAdminModelStoreSync } from '@/api';
+  import { LOGO_BLUE } from '@/constants/platform';
 
   export default {
     name: 'BasicResourceInfo',
@@ -162,7 +163,7 @@
             };
           default:
             return {
-              imgSrc: this.$LOGO_BLUE,
+              imgSrc: LOGO_BLUE,
               tip: this.$t('tip.kubegems'),
               address: '',
             };

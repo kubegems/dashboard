@@ -71,13 +71,17 @@
       },
       param: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
-    data: () => ({
-      items: [],
-      titleRule: [required],
-    }),
+    data() {
+      return {
+        items: [],
+        titleRule: [required],
+      };
+    },
     computed: {
       pathLevel() {
         return this.param.path.split('/').length;
