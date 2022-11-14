@@ -170,7 +170,8 @@
     "flow": "采集器",
     "output": "路由器",
     "monitor_template": "监控模版",
-    "service_monitor": "采集器"
+    "service_monitor": "采集器",
+    "host": "主机"
   },
 
   "header": {

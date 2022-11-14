@@ -15,14 +15,17 @@
 -->
 
 <template>
-  <v-card :flat="flat">
-    <v-card-text class="pa-5">
+  <v-card :elevation="elevation" :flat="flat" :height="!fullHeight || '100%'">
+    <v-card-text :class="{ 'pa-5': true, 'kubegems__full-center': fullCenter }">
       <div class="d-flex align-center">
         <v-btn class="elevation-0" color="primary" dark fab small>
           <v-icon>{{ icon }}</v-icon>
         </v-btn>
         <div class="ml-2 mr-1">
-          <h2 :class="{ 'text-subtitle-1': !large, 'text-h6': large, 'font-weight-medium': !large }">
+          <h2
+            :class="{ 'text-subtitle-1': !large, 'text-h6': large, 'font-weight-medium': !large }"
+            :style="{ wordBreak: 'break-all' }"
+          >
             {{ num }} {{ unit }}
           </h2>
           <h4 class="font-weight-regular mt-1"> {{ title }} </h4>
@@ -36,7 +39,19 @@
   export default {
     name: 'BaseInfoCard',
     props: {
+      elevation: {
+        type: Number,
+        default: () => 0,
+      },
       flat: {
+        type: Boolean,
+        default: () => false,
+      },
+      fullCenter: {
+        type: Boolean,
+        default: () => false,
+      },
+      fullHeight: {
         type: Boolean,
         default: () => false,
       },

@@ -170,7 +170,8 @@
     "flow": "Flow",
     "output": "Output",
     "monitor_template": "Monitor Template",
-    "service_monitor": "Service Monitor"
+    "service_monitor": "Service Monitor",
+    "host": "Host"
   },
 
   "header": {

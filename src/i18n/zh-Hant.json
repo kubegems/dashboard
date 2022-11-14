@@ -163,7 +163,8 @@
     "flow": "採集器",
     "output": "路由器",
     "monitor_template": "監控模版",
-    "service_monitor": "採集器"
+    "service_monitor": "採集器",
+    "host": "主機"
   },
   "header": {
     "workspace": "工作臺",

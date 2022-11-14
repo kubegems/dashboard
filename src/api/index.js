@@ -28,7 +28,9 @@ axios.interceptors.request.use(function (config) {
       text: Vue.prototype.$_i18n.t('tip.token_expired'),
       color: 'error',
     });
-    return new Promise();
+    return new Promise(() => {
+      return;
+    });
   }
   if (
     new RegExp('undefined|//', 'g').test(config.url) ||
@@ -44,7 +46,9 @@ axios.interceptors.request.use(function (config) {
       text: Vue.prototype.$_i18n.t('tip.request_params_error'),
       color: 'error',
     });
-    return new Promise();
+    return new Promise(() => {
+      return;
+    });
   }
   if (config.method.toLocaleLowerCase() === 'get' && config.url.indexOf('callback') === -1) {
     if (!(config.params && config.params.noprocessing)) {
@@ -212,7 +216,9 @@ axios.interceptors.response.use(
           break;
       }
     }
-    return new Promise();
+    return new Promise(() => {
+      return;
+    });
   },
 );
 
