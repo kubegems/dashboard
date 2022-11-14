@@ -29,7 +29,7 @@
     "used": "{0} Usage",
     "in_traffic": "Network access traffic",
     "out_traffic": "Network export traffic",
-    "container_monitor": "Container Monitor",
+    "container_monitor": "Log Container Monitor",
     "selcet_label": "Select Tags",
     "logql": "Query statement",
     "ws_connect_error": "websocket connection failed",
@@ -51,7 +51,20 @@
     "no_log_data": "No log data yet",
 
     "feishu": "feishu",
-    "user_id": "User Id"
+    "user_id": "User Id",
+
+    "load": "Load",
+    "cpu_rate": "CPU Usage",
+    "memory_rate": "Memory usage",
+    "network": "Network bandwidth",
+    "remain_storage": "Disk remaining capacity",
+    "disk_iops": "Disk IOPS",
+    "load_1": "1 minute load",
+    "load_5": "5 Minutes Load",
+    "load_15": "15 mins load",
+    "write_iops": "Write to IOPS",
+    "read_iops": "read IOPS",
+    "log_content": "Log Content"
   },
   "operate": {
     "download_log": "Download Log",

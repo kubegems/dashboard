@@ -51,7 +51,20 @@
     "no_log_data": "ログデータはまだありません",
 
     "feishu": "feishu",
-    "user_id": "ユーザーID"
+    "user_id": "ユーザーID",
+
+    "load": "負荷",
+    "cpu_rate": "CPU使用率",
+    "memory_rate": "メモリ使用率",
+    "network": "インターネット帯域幅",
+    "remain_storage": "残りのディスク容量",
+    "disk_iops": "ディスクIOPS",
+    "load_1": "1分間の負荷",
+    "load_5": "5分間の負荷",
+    "load_15": "15分使用率",
+    "write_iops": "IOPSの書き込み",
+    "read_iops": "IOPSの読み取り",
+    "log_content": "ログの内容"
   },
   "operate": {
     "download_log": "ログをダウンロード",

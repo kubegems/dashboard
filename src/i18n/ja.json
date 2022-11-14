@@ -163,7 +163,8 @@
     "flow": "採集器",
     "output": "ルーター",
     "monitor_template": "テンプレートをモニタリング",
-    "service_monitor": "採集器"
+    "service_monitor": "採集器",
+    "host": "ホスト"
   },
   "header": {
     "workspace": "作業台",

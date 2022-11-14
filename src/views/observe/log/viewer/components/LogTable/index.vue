@@ -43,7 +43,7 @@
             {{ item.info.timestampstr }}
           </span>
           <span class="v-chip v-size--small log-table__pod" :data-pod="item.stream.pod">
-            <v-btn class="log-table__btn" icon small @click="showPodMonitor(item)">
+            <v-btn class="log-table__btn" icon small @click="showMonitor(item)">
               <v-icon small>mdi-chart-areaspline</v-icon>
             </v-btn>
             {{ item.stream.pod }}
@@ -70,7 +70,7 @@
       </template>
     </v-data-table>
 
-    <LogPodMonitor ref="logPodMonitor" />
+    <LogMonitor ref="logMonitor" />
   </div>
 </template>
 
@@ -78,7 +78,7 @@
   import { mapState } from 'vuex';
 
   import messages from '../../../i18n';
-  import LogPodMonitor from './LogPodMonitor';
+  import LogMonitor from './LogMonitor';
 
   export default {
     name: 'LogTable',
@@ -86,7 +86,7 @@
       messages: messages,
     },
     components: {
-      LogPodMonitor,
+      LogMonitor,
     },
     props: {
       context: {
@@ -130,9 +130,6 @@
           return [{ text: '', value: 'info', align: 'start' }];
         }
       },
-      // height() {
-      //   return parseInt((window.innerHeight - 320) / this.Scale);
-      // },
     },
     methods: {
       handleShowContext(item) {
@@ -147,14 +144,9 @@
           // this.$refs.logLabelFilter.setLabelValue('pod', e.target.dataset.pod) && this.logQueryRange()
         }
       },
-      showPodMonitor(item) {
-        this.$refs.logPodMonitor.init({
-          timestamp: item.timestamp,
-          cluster: item.stream?.cluster,
-          namespace: item.stream?.namespace,
-          pod: item.stream?.pod,
-        });
-        this.$refs.logPodMonitor.open();
+      showMonitor(item) {
+        this.$refs.logMonitor.init(item);
+        this.$refs.logMonitor.open();
       },
     },
   };
