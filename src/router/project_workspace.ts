@@ -1,10 +1,12 @@
+import { RouteConfig } from 'vue-router';
+
 const prefix = 'tenants/:tenant?/projects/:project?';
 
-export const projectWorkspace = [
+export const projectWorkspace: RouteConfig[] = [
   {
     path: '/',
     name: 'project',
-    component: () => import('@/layouts/Layout'),
+    component: (): Promise<typeof import('*.vue')> => import('@/layouts/Layout.vue'),
     redirect: { name: 'project-detail' },
     children: [
       {
@@ -14,14 +16,14 @@ export const projectWorkspace = [
           title: 'routerbar.cluster.g_dashboard',
           icon: 'mdi-view-dashboard',
         },
-        component: () => import('@/layouts/Container'),
+        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
         redirect: { name: 'project-detail' },
         children: [
           // project
           {
             path: `${prefix}/dashboard-project`,
             name: 'project-detail',
-            component: () => import('@/views/resource/project/detail'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/project/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.project_dashboaed',
@@ -40,14 +42,14 @@ export const projectWorkspace = [
           title: 'routerbar.cluster.g_app',
           icon: 'mdi-view-grid',
         },
-        component: () => import('@/layouts/Container'),
+        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
         redirect: { name: 'appmanifest-list' },
         children: [
           // app
           {
             path: `${prefix}/appmanifests`,
             name: 'appmanifest-list',
-            component: () => import('@/views/resource/appmanifest/index'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/appmanifest/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.app_manifest',
@@ -60,7 +62,7 @@ export const projectWorkspace = [
           {
             path: `${prefix}/appmanifests/:name`,
             name: 'appmanifest-detail',
-            component: () => import('@/views/resource/appmanifest/detail'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/appmanifest/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.app_manifest',
@@ -74,7 +76,7 @@ export const projectWorkspace = [
           {
             path: `${prefix}/registrys`,
             name: 'registry-list',
-            component: () => import('@/views/resource/registry/index'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/registry/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.registry',

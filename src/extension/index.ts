@@ -41,7 +41,7 @@ import 'brace/mode/sass';
 import 'brace/mode/scss';
 import 'brace/snippets/json';
 
-import store from '@/store';
+import store from 'src/store';
 
 Vue.prototype.$aceOptions = {
   tabSize: 2,
@@ -67,9 +67,9 @@ Vue.prototype.$moment = moment;
 
 Vue.prototype.$_ = _;
 
-Vue.prototype.$yamlload = (data) => {
+Vue.prototype.$yamlload = (data: string): Record<string, unknown> | null => {
   try {
-    const d = yaml.load(data);
+    const d: Record<string, unknown> = yaml.load(data);
     if (typeof d === 'string') {
       store.commit('SET_SNACKBAR', {
         text: Vue.prototype.$_i18n.t('tip.not_based_yaml'),
@@ -86,9 +86,9 @@ Vue.prototype.$yamlload = (data) => {
     return null;
   }
 };
-Vue.prototype.$yamldump = (data) => {
+Vue.prototype.$yamldump = (data): string | null => {
   try {
-    const d = yaml.dump(data);
+    const d: string = yaml.dump(data);
     return d;
   } catch (e) {
     store.commit('SET_SNACKBAR', {

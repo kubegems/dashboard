@@ -19,15 +19,15 @@ import VueClipboard from 'vue-clipboard2';
 import VueMeta from 'vue-meta';
 import ACEEditor from 'vue2-ace-editor';
 
-import App from '@/App';
-import i18n from '@/i18n';
-import Icon from '@/icon';
-import '@/plugins/base';
-import '@/directives/hjs';
-import '@/extension';
-import vuetify from '@/plugins/vuetify';
-import router from '@/router';
-import store from '@/store';
+import App from './App.vue';
+import i18n from 'src/i18n';
+import Icon from 'src/icon';
+import 'src/plugins/base';
+import 'src/directives/hjs';
+import 'src/extension';
+import vuetify from 'src/plugins/vuetify';
+import router from 'src/router';
+import store from 'src/store';
 
 import '@/assets/styles/index.scss';
 

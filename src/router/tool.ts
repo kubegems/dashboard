@@ -1,16 +1,18 @@
+import { RouteConfig } from 'vue-router';
+
 const prefix = ':tenant?';
 
-export const tool = [
+export const tool: RouteConfig[] = [
   {
     path: '/tool',
     name: 'tool',
-    component: () => import('@/layouts/LayoutWithoutNavi'),
+    component: (): Promise<typeof import('*.vue')> => import('@/layouts/LayoutWithoutNavi.vue'),
     redirect: { name: 'log-viewer' },
     children: [
       {
         path: `${prefix}/audits`,
         name: 'audit-list',
-        component: () => import('@/views/tool/audit/index'),
+        component: (): Promise<typeof import('*.vue')> => import('@/views/tool/audit/index.vue'),
         meta: {
           requireAuth: true,
           smallTitle: 'header.audit',
@@ -22,7 +24,7 @@ export const tool = [
       {
         path: `${prefix}/events`,
         name: 'event-list',
-        component: () => import('@/views/tool/event/index'),
+        component: (): Promise<typeof import('*.vue')> => import('@/views/tool/event/index.vue'),
         meta: {
           requireAuth: true,
           smallTitle: 'header.event',

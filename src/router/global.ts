@@ -1,4 +1,6 @@
-export const global = [
+import { RouteConfig } from 'vue-router';
+
+export const global: RouteConfig[] = [
   {
     path: '/',
     name: 'index',
@@ -9,7 +11,7 @@ export const global = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/authentication/index'),
+    component: (): Promise<typeof import('*.vue')> => import('@/views/authentication/index.vue'),
     meta: {
       requireAuth: false,
       title: 'login',
@@ -18,19 +20,19 @@ export const global = [
   {
     path: '/oauth/callback',
     name: 'callback',
-    component: () => import('@/views/authentication/callback'),
+    component: (): Promise<typeof import('*.vue')> => import('@/views/authentication/callback.vue'),
     meta: { requireAuth: false },
   },
   {
     path: '/403',
     name: '403',
-    component: () => import('@/layouts/LayoutWithoutNavi'),
+    component: (): Promise<typeof import('*.vue')> => import('@/layouts/LayoutWithoutNavi.vue'),
     redirect: { name: 'c403' },
     children: [
       {
         path: '',
         name: 'c403',
-        component: () => import('@/views/authentication/403'),
+        component: (): Promise<typeof import('*.vue')> => import('@/views/authentication/403.vue'),
         meta: {
           requireAuth: false,
           title: '403',
@@ -41,13 +43,13 @@ export const global = [
   {
     path: '/404',
     name: '404',
-    component: () => import('@/layouts/LayoutWithoutNavi'),
+    component: (): Promise<typeof import('*.vue')> => import('@/layouts/LayoutWithoutNavi.vue'),
     redirect: { name: 'c404' },
     children: [
       {
         path: '',
         name: 'c404',
-        component: () => import('@/views/authentication/404'),
+        component: (): Promise<typeof import('*.vue')> => import('@/views/authentication/404.vue'),
         meta: {
           requireAuth: false,
           title: '404',
@@ -58,13 +60,13 @@ export const global = [
   {
     path: '/white',
     name: 'whitepage',
-    component: () => import('@/layouts/LayoutWithoutNavi'),
+    component: (): Promise<typeof import('*.vue')> => import('@/layouts/LayoutWithoutNavi.vue'),
     redirect: { name: 'page' },
     children: [
       {
         path: 'page',
         name: 'page',
-        component: () => import('@/views/resource/blank/white_page'),
+        component: (): Promise<typeof import('*.vue')> => import('@/views/resource/blank/white_page.vue'),
         meta: {
           requireAuth: true,
           title: 'data.no_tenant',
@@ -74,7 +76,7 @@ export const global = [
       {
         path: 'tenant',
         name: 'tenant-page',
-        component: () => import('@/views/resource/blank/white_tenant_page'),
+        component: (): Promise<typeof import('*.vue')> => import('@/views/resource/blank/white_tenant_page.vue'),
         meta: {
           requireAuth: true,
           title: 'data.no_tenant',
@@ -86,13 +88,13 @@ export const global = [
   {
     path: '/whitecluster',
     name: 'whiteclusterpage',
-    component: () => import('@/layouts/LayoutWithoutNavi'),
+    component: (): Promise<typeof import('*.vue')> => import('@/layouts/LayoutWithoutNavi.vue'),
     redirect: { name: 'cluster-page' },
     children: [
       {
         path: 'cluster',
         name: 'cluster-page',
-        component: () => import('@/views/resource/blank/white_cluster_page'),
+        component: (): Promise<typeof import('*.vue')> => import('@/views/resource/blank/white_cluster_page.vue'),
         meta: {
           requireAuth: true,
           title: 'data.no_cluster',

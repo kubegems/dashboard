@@ -1,17 +1,11 @@
 import Vue from 'vue';
-import Vuex, { Store } from 'vuex';
+import Vuex, { Store, ActionContext } from 'vuex';
 
-import {
-  getClusterSelectData,
-  getEnvironmentSelectData,
-  getProjectSelectData,
-  getTenantSelectData,
-  getVirtualSpaceSelectData,
-} from './server_data';
-import { getBroadcastlist, getClusterPluginsList, getPluginsList, getRESTMapping } from '@/api';
-import router from '@/router';
-import { delAllCookie, getCookie } from '@/utils/cookie';
-import { sleep } from '@/utils/helpers';
+import { useCluster, useEnvironment, useProject, useTenant, useVirtualSpace } from './server_data';
+import { getBroadcastlist, getClusterPluginsList, getPluginsList, getRESTMapping } from 'src/api';
+import router from 'src/router';
+import { delAllCookie, getCookie } from 'src/utils/cookie';
+import { sleep } from 'src/utils/helpers';
 
 Vue.use(Vuex);
 
@@ -96,48 +90,47 @@ export default new Store({
     StoreMode: window.localStorage.getItem(StoreMode) || 'app',
     GlobalPluginsInterval: null,
     Locale: window.localStorage.getItem(Locale) || 'zh-Hans',
-    BroadcastInterval: null,
     Broadcast: JSON.parse(window.localStorage.getItem(Broadcast)) || [],
   },
   mutations: {
-    SET_PLUGINS(state, payload) {
+    SET_PLUGINS(state: { [key: string]: any }, payload: { [key: string]: any }[]): void {
       state.Plugins = payload;
       window.localStorage.setItem(Plugins, JSON.stringify(payload));
     },
-    SET_BROADCAST(state, payload) {
+    SET_BROADCAST(state: { [key: string]: any }, payload: { [key: string]: any }[]): void {
       state.Broadcast = payload;
       window.localStorage.setItem(Broadcast, JSON.stringify(payload));
     },
-    SET_GLOBAL_PLUGINS(state, payload) {
+    SET_GLOBAL_PLUGINS(state: { [key: string]: any }, payload: { [key: string]: any }[]): void {
       state.GlobalPlugins = payload;
       window.localStorage.setItem(GlobalPlugins, JSON.stringify(payload));
     },
-    SET_DIALOG(state, payload) {
+    SET_DIALOG(state: { [key: string]: any }, payload: boolean) {
       state.DialogActive = payload;
     },
-    SET_STORE(state, payload) {
+    SET_STORE(state: { [key: string]: any }, payload: string): void {
       state.StoreMode = payload;
       window.localStorage.setItem(StoreMode, payload);
     },
-    SET_LOCALE(state, payload) {
+    SET_LOCALE(state: { [key: string]: any }, payload: string): void {
       state.Locale = payload;
       window.localStorage.setItem(Locale, payload);
     },
-    SET_VERSION(state, payload) {
+    SET_VERSION(state: { [key: string]: any }, payload: string): void {
       state.Version = payload;
       window.localStorage.setItem(Version, payload);
     },
-    SET_PANEL(state, payload) {
+    SET_PANEL(state: { [key: string]: any }, payload: boolean): void {
       state.PanelActive = payload;
     },
-    SET_FULL_DIALOG(state, payload) {
+    SET_FULL_DIALOG(state: { [key: string]: any }, payload: boolean): void {
       state.FullDialogActive = payload;
     },
-    SET_SIDEBAR_DRAWER(state, payload) {
+    SET_SIDEBAR_DRAWER(state: { [key: string]: any }, payload: any): void {
       state.SidebarDrawer = payload;
     },
     SET_CONFIRM(
-      state,
+      state: { [key: string]: any },
       {
         title,
         content,
@@ -146,8 +139,8 @@ export default new Store({
         doClose = () => {
           return;
         },
-      },
-    ) {
+      }: { [key: string]: any },
+    ): void {
       state.Confirm = {
         title,
         content,
@@ -157,51 +150,51 @@ export default new Store({
         doClose,
       };
     },
-    SET_CONFIRM_STATUS(state, paload) {
+    SET_CONFIRM_STATUS(state: { [key: string]: any }, paload: { [key: string]: any }): void {
       if (state.Confirm.content && state.Confirm.content.type === 'batch_delete') {
         state.Confirm.content.status[paload.key] = paload.value;
       }
     },
-    SET_PROGRESS(state, payload) {
+    SET_PROGRESS(state: { [key: string]: any }, payload: boolean): void {
       state.Progress = payload;
     },
-    SET_SCALE(state, payload) {
+    SET_SCALE(state: { [key: string]: any }, payload: number): void {
       state.Scale = payload;
     },
-    SET_NAMESPACE_FILTER(state, payload) {
+    SET_NAMESPACE_FILTER(state: { [key: string]: any }, payload: { [key: string]: any }): void {
       state.NamespaceFilter = payload;
     },
-    SET_ENVIRONMENT_FILTER(state, payload) {
+    SET_ENVIRONMENT_FILTER(state: { [key: string]: any }, payload: { [key: string]: any }): void {
       state.EnvironmentFilter = payload;
     },
-    SET_ADMIN(state, payload) {
+    SET_ADMIN(state: { [key: string]: any }, payload: boolean): void {
       state.Admin = payload;
-      window.localStorage.setItem(Admin, payload);
+      window.localStorage.setItem(Admin, String(payload));
     },
-    SET_ADMIN_VIEWPORT(state, payload) {
+    SET_ADMIN_VIEWPORT(state: { [key: string]: any }, payload: boolean): void {
       state.AdminViewport = payload;
-      window.localStorage.setItem(AdminViewport, payload);
+      window.localStorage.setItem(AdminViewport, String(payload));
     },
-    SET_LATEST_TENANT(state, payload) {
+    SET_LATEST_TENANT(state: { [key: string]: any }, payload: { [key: string]: string | number }): void {
       state.LatestTenant = payload;
       window.localStorage.setItem(LatestTenant, JSON.stringify(payload));
     },
-    SET_LATEST_PROJECT(state, payload) {
+    SET_LATEST_PROJECT(state: { [key: string]: any }, payload: { [key: string]: string | number }): void {
       state.LatestProject = payload;
       window.localStorage.setItem(LatestProject, JSON.stringify(payload));
     },
-    SET_LATEST_ENVIRONMENT(state, payload) {
+    SET_LATEST_ENVIRONMENT(state: { [key: string]: any }, payload: { [key: string]: string | number }): void {
       state.LatestEnvironment = payload;
       window.localStorage.setItem(LatestEnvironment, JSON.stringify(payload));
     },
-    SET_LATEST_CLUSTER(state, payload) {
+    SET_LATEST_CLUSTER(state: { [key: string]: any }, payload: { [key: string]: string | number }): void {
       state.LatestCluster = payload;
       window.localStorage.setItem(LatestCluster, JSON.stringify(payload));
     },
-    SET_CIRCULAR(state, payload) {
+    SET_CIRCULAR(state: { [key: string]: any }, payload: boolean): void {
       state.Circular = payload;
     },
-    SET_SNACKBAR(state, { text, color }) {
+    SET_SNACKBAR(state: { [key: string]: any }, { text, color }: { [key: string]: any }): void {
       if (!color) {
         return;
       }
@@ -219,15 +212,15 @@ export default new Store({
       }
       state.SnackBar = { text, color, value: true, collapse: true, icon: icon };
     },
-    SET_JWT(state, jwt) {
+    SET_JWT(state: { [key: string]: any }, jwt: string): void {
       state.JWT = jwt;
       window.localStorage.setItem(JWTName, jwt);
     },
-    SET_API_RESOURCES(state, payload) {
+    SET_API_RESOURCES(state: { [key: string]: any }, payload: { [key: string]: any }): void {
       state.ApiResources = payload;
       window.localStorage.setItem(ApiResources, JSON.stringify(payload));
     },
-    CLEARALL(state) {
+    CLEARALL(state: { [key: string]: any }): void {
       delAllCookie();
       const locale = window.localStorage.getItem(Locale) || 'zh-Hans';
       window.localStorage.clear();
@@ -255,22 +248,22 @@ export default new Store({
       state.Locale = locale;
       window.localStorage.setItem(Locale, locale);
     },
-    CLEAR_PLUGINS_INTERVAL(state) {
+    CLEAR_PLUGINS_INTERVAL(state: { [key: string]: any }): void {
       clearInterval(state.PluginsInterval);
       state.PluginsInterval = null;
     },
-    CLEAR_VIRTUAL_SPACE(state) {
+    CLEAR_VIRTUAL_SPACE(state: { [key: string]: any }): void {
       window.localStorage.removeItem(VirtualSpaceStore);
       state.VirtualSpaceStore = [];
       state.EnvironmentFilter = null;
     },
-    CLEAR_RESOURCE(state) {
+    CLEAR_RESOURCE(state: { [key: string]: any }): void {
       window.localStorage.removeItem(LatestCluster);
       clearInterval(state.PluginsInterval);
       state.PluginsInterval = null;
       state.LatestCluster = { cluster: '' };
     },
-    CLEAR_TENANT(state) {
+    CLEAR_TENANT(state: { [key: string]: any }): void {
       window.localStorage.removeItem(TenantStore);
       window.localStorage.removeItem(ProjectStore);
       window.localStorage.removeItem(EnvironmentStore);
@@ -288,13 +281,13 @@ export default new Store({
       state.LatestProject = { project: '' };
       state.LatestEnvoronment = { environment: '' };
     },
-    CLEAR_RESOURCEIRONMENT(state) {
+    CLEAR_RESOURCEIRONMENT(state: { [key: string]: any }): void {
       window.localStorage.removeItem(EnvironmentStore);
       state.EnvironmentStore = [];
       clearInterval(state.PluginsInterval);
       state.Plugins = null;
     },
-    CLEAR_CLUSTER(state) {
+    CLEAR_CLUSTER(state: { [key: string]: any }): void {
       window.localStorage.removeItem(ClusterStore);
       window.localStorage.removeItem(LatestCluster);
       state.ClusterStore = [];
@@ -302,62 +295,124 @@ export default new Store({
       state.Plugins = null;
       state.LatestCluster = { cluster: '' };
     },
-    SET_USER(state, user) {
+    SET_USER(state: { [key: string]: any }, user: { [key: string]: any }): void {
       state.User = user;
       window.localStorage.setItem(User, JSON.stringify(user));
     },
-    SET_USER_AUTH(state, auth) {
+    SET_USER_AUTH(state: { [key: string]: any }, auth: { [key: string]: any }): void {
       state.Auth = auth;
       window.localStorage.setItem(Auth, JSON.stringify(auth));
     },
-    SET_SIDEBAR_KEY(state) {
+    SET_SIDEBAR_KEY(state: { [key: string]: any }): void {
       state.SidebarKey = new Date().toJSON();
     },
-    SET_VIRTUAL_SPACE(state, payload) {
+    SET_VIRTUAL_SPACE(state: { [key: string]: any }, payload: { [key: string]: string | number }[]): void {
       state.VirtualSpaceStore = payload;
       window.localStorage.setItem(VirtualSpaceStore, JSON.stringify(payload));
     },
-    SET_CLUSTER(state, payload) {
+    SET_CLUSTER(state: { [key: string]: any }, payload: { [key: string]: string | number }[]): void {
       state.ClusterStore = payload;
       window.localStorage.setItem(ClusterStore, JSON.stringify(payload));
     },
-    SET_TENANT(state, payload) {
+    SET_TENANT(state: { [key: string]: any }, payload: { [key: string]: string | number }[]): void {
       state.TenantStore = payload;
       window.localStorage.setItem(TenantStore, JSON.stringify(payload));
     },
-    SET_PROJECT(state, payload) {
+    SET_PROJECT(state: { [key: string]: any }, payload: { [key: string]: string | number }[]): void {
       state.ProjectStore = payload;
       window.localStorage.setItem(ProjectStore, JSON.stringify(payload));
     },
-    SET_ENVIRONMENT(state, payload) {
+    SET_ENVIRONMENT(state: { [key: string]: any }, payload: { [key: string]: string | number }[]): void {
       state.EnvironmentStore = payload;
       window.localStorage.setItem(EnvironmentStore, JSON.stringify(payload));
     },
   },
   actions: {
-    async UPDATE_VIRTUALSPACE_DATA({ commit }) {
-      const data = await getVirtualSpaceSelectData();
+    async UPDATE_VIRTUALSPACE_DATA({
+      commit,
+    }: ActionContext<
+      {
+        [key: string]: any;
+      },
+      {
+        [key: string]: any;
+      }
+    >): Promise<void> {
+      const data: { [key: string]: string | number }[] = await useVirtualSpace();
       commit('SET_VIRTUAL_SPACE', data);
     },
-    async UPDATE_CLUSTER_DATA({ commit }) {
-      const data = await getClusterSelectData();
+    async UPDATE_CLUSTER_DATA({
+      commit,
+    }: ActionContext<
+      {
+        [key: string]: any;
+      },
+      {
+        [key: string]: any;
+      }
+    >): Promise<void> {
+      const data: { [key: string]: string | number }[] = await useCluster();
       commit('SET_CLUSTER', data);
     },
-    async UPDATE_TENANT_DATA({ state, commit }) {
-      const data = await getTenantSelectData(state.Admin, state.User.ID);
+    async UPDATE_TENANT_DATA({
+      state,
+      commit,
+    }: ActionContext<
+      {
+        [key: string]: any;
+      },
+      {
+        [key: string]: any;
+      }
+    >): Promise<void> {
+      const data: { [key: string]: string | number }[] = await useTenant(state.Admin, state.User.ID);
       commit('SET_TENANT', data);
     },
-    async UPDATE_PROJECT_DATA({ commit }, payload) {
-      const data = await getProjectSelectData(payload);
+    async UPDATE_PROJECT_DATA(
+      {
+        commit,
+      }: ActionContext<
+        {
+          [key: string]: any;
+        },
+        {
+          [key: string]: any;
+        }
+      >,
+      payload: number,
+    ): Promise<void> {
+      const data: { [key: string]: string | number }[] = await useProject(payload);
       commit('SET_PROJECT', data);
     },
-    async UPDATE_ENVIRONMENT_DATA({ commit }, payload) {
-      const data = await getEnvironmentSelectData(payload);
+    async UPDATE_ENVIRONMENT_DATA(
+      {
+        commit,
+      }: ActionContext<
+        {
+          [key: string]: any;
+        },
+        {
+          [key: string]: any;
+        }
+      >,
+      payload: number,
+    ): Promise<void> {
+      const data: { [key: string]: string | number }[] = await useEnvironment(payload);
       commit('SET_ENVIRONMENT', data);
     },
-    async INIT_GLOBAL_PLUGINS({ state, commit }) {
+    async INIT_GLOBAL_PLUGINS({
+      state,
+      commit,
+    }: ActionContext<
+      {
+        [key: string]: any;
+      },
+      {
+        [key: string]: any;
+      }
+    >): Promise<void> {
       const doFunc = async () => {
-        const data = await getPluginsList({
+        const data: any = await getPluginsList({
           noprocessing: true,
         });
         const p = {};
@@ -374,11 +429,26 @@ export default new Store({
         }
       }
     },
-    async INIT_PLUGINS({ state, getters, commit }, payload) {
-      const doFunc = async () => {
-        const cluster = payload;
+    async INIT_PLUGINS(
+      {
+        state,
+        getters,
+        commit,
+      }: ActionContext<
+        {
+          [key: string]: any;
+        },
+        {
+          [key: string]: any;
+        }
+      >,
+      payload: string,
+    ): Promise<void> {
+      type doHandle = () => Promise<boolean>;
+      const doFunc: doHandle = async (): Promise<boolean> => {
+        const cluster: string = payload;
         if (cluster && cluster.length > 0) {
-          const data = await getClusterPluginsList(cluster, {
+          const data: any = await getClusterPluginsList(cluster, {
             simple: true,
             noprocessing: true,
           });
@@ -395,15 +465,25 @@ export default new Store({
       }
       if ((!state.PluginsInterval && state.JWT) || refresh) {
         clearInterval(state.PluginsInterval);
-        const r = await doFunc();
+        const r: boolean = await doFunc();
         if (r) {
           state.PluginsInterval = setInterval(doFunc, 1000 * 30);
         }
       }
     },
-    async INIT_BROADCAST({ state, commit }) {
-      const doFunc = async () => {
-        const data = await getBroadcastlist({
+    async INIT_BROADCAST({
+      commit,
+    }: ActionContext<
+      {
+        [key: string]: any;
+      },
+      {
+        [key: string]: any;
+      }
+    >): Promise<void> {
+      type doHandle = () => Promise<void>;
+      const doFunc: doHandle = async (): Promise<void> => {
+        const data: { [key: string]: any } = await getBroadcastlist({
           size: 1000,
           noprocessing: true,
           active: true,
@@ -411,24 +491,29 @@ export default new Store({
         const items = data.List;
         commit('SET_BROADCAST', items);
       };
-      if (!state.BroadcastInterval && state.JWT) {
-        const r = await doFunc();
-        if (r) {
-          state.BroadcastInterval = setInterval(doFunc, 1000 * 60);
-        }
-      }
+      await doFunc();
     },
-    async INIT_MESSAGE_STREAM({ state, dispatch }) {
+    async INIT_MESSAGE_STREAM({
+      state,
+      dispatch,
+    }: ActionContext<
+      {
+        [key: string]: any;
+      },
+      {
+        [key: string]: any;
+      }
+    >): Promise<void> {
       if (!state.MessageStreamWS && state.JWT) {
-        const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-        const host = window.location.host;
+        const protocol: string = window.location.protocol === 'https:' ? 'wss' : 'ws';
+        const host: string = window.location.host;
         const wsuri = `${protocol}://${host}/realtime/v2/msgbus/notify?token=${state.JWT}`;
         state.MessageStreamWS = new WebSocket(wsuri);
         state.MessageStreamWS.binaryType = 'arraybuffer';
-        state.MessageStreamWS.onmessage = (e) => {
+        state.MessageStreamWS.onmessage = (e: any): void => {
           state.MessageStream = e.data;
         };
-        state.MessageStreamWS.onerror = async () => {
+        state.MessageStreamWS.onerror = async (): Promise<void> => {
           if (state.MessageStreamWS) state.MessageStreamWS.close();
           state.MessageStreamWS = null;
           if (state.ReconnectCount <= 5) {
@@ -437,7 +522,7 @@ export default new Store({
             state.ReconnectCount += 1;
           }
         };
-        state.MessageStreamWS.onclose = async () => {
+        state.MessageStreamWS.onclose = async (): Promise<void> => {
           state.MessageStreamWS = null;
           if (state.ReconnectCount <= 5) {
             await sleep(1000);
@@ -447,10 +532,22 @@ export default new Store({
         };
       }
     },
-    async LOAD_RESTMAPPING_RESOURCES({ commit }, payload) {
+    async LOAD_RESTMAPPING_RESOURCES(
+      {
+        commit,
+      }: ActionContext<
+        {
+          [key: string]: any;
+        },
+        {
+          [key: string]: any;
+        }
+      >,
+      payload: { [key: string]: string },
+    ): Promise<void> {
       if (!payload.clusterName) return;
-      const data = await getRESTMapping(payload.clusterName);
-      const resource = {};
+      const data: { [key: string]: any } = await getRESTMapping(payload.clusterName);
+      const resource: { [key: string]: string } = {};
       data.forEach((d) => {
         if (!d?.groupVersion.startsWith('apps.kruise.io') && d?.groupVersion.indexOf('knative') === -1) {
           d?.resources?.forEach((r) => {
@@ -462,14 +559,14 @@ export default new Store({
     },
   },
   getters: {
-    VirtualSpace: (state) => () => {
-      const store = state.VirtualSpaceStore;
+    VirtualSpace: (state) => (): { [key: string]: string | number } => {
+      const store: { [key: string]: string | number }[] = state.VirtualSpaceStore;
       let virtualSpace = window.location.pathname.split('/')[3];
       if (router) {
-        virtualSpace = router.history.current.params.virtualspace;
+        virtualSpace = router.currentRoute.params.virtualspace;
       }
       if (virtualSpace) {
-        const space = store.find((v) => {
+        const space: { [key: string]: string | number } = store.find((v) => {
           return v.VirtualSpaceName === virtualSpace;
         });
         if (space) {
@@ -503,11 +600,11 @@ export default new Store({
         VirtualSpaceName: '',
       };
     },
-    Cluster: (state) => () => {
-      const store = state.ClusterStore;
-      let cluster = window.location.pathname.split('/')[2];
+    Cluster: (state) => (): { [key: string]: string | number } => {
+      const store: { [key: string]: string | number }[] = state.ClusterStore;
+      let cluster: string = window.location.pathname.split('/')[2];
       if (router) {
-        cluster = router.history.current.params.cluster;
+        cluster = router.currentRoute.params.cluster;
       }
       if (!cluster && state.LatestCluster.cluster !== '') {
         cluster = state.LatestCluster.cluster;
@@ -544,11 +641,11 @@ export default new Store({
         Version: '',
       };
     },
-    Tenant: (state) => () => {
-      const store = state.TenantStore;
-      let tenant = window.location.pathname.split('/')[2];
+    Tenant: (state) => (): { [key: string]: string | number } => {
+      const store: { [key: string]: string | number }[] = state.TenantStore;
+      let tenant: string = window.location.pathname.split('/')[2];
       if (router) {
-        tenant = router.history.current.params.tenant;
+        tenant = router.currentRoute.params.tenant;
       }
 
       if (!tenant && state.LatestTenant.tenant !== '') {
@@ -573,11 +670,11 @@ export default new Store({
         TenantName: '',
       };
     },
-    Project: (state) => () => {
-      const store = state.ProjectStore;
-      let project = window.location.pathname.split('/')[4];
+    Project: (state) => (): { [key: string]: string | number } => {
+      const store: { [key: string]: string | number }[] = state.ProjectStore;
+      let project: string = window.location.pathname.split('/')[4];
       if (router) {
-        project = router.history.current.params.project;
+        project = router.currentRoute.params.project;
       }
       if (project) {
         const pro = store.find((v) => {
@@ -596,11 +693,11 @@ export default new Store({
         ProjectName: '',
       };
     },
-    Environment: (state) => () => {
-      const store = state.EnvironmentStore;
-      let environment = window.location.pathname.split('/')[6];
+    Environment: (state) => (): { [key: string]: string | number } => {
+      const store: { [key: string]: string | number }[] = state.EnvironmentStore;
+      let environment: string = window.location.pathname.split('/')[6];
       if (router) {
-        environment = router.history.current.params.environment || environment;
+        environment = router.currentRoute.params.environment || environment;
       }
       if (environment) {
         const env = store.find((v) => {

@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Router from 'vue-router';
+import Router, { Route, RawLocation } from 'vue-router';
 
 import { adminObserve } from './admin_observe';
 import { adminWorkspace } from './admin_workspace';
@@ -15,22 +15,24 @@ import { projectWorkspace } from './project_workspace';
 import { tool } from './tool';
 import { userCenter } from './user_center';
 import { workspace } from './workspace';
-import { PLATFORM } from '@/constants/platform';
-import store from '@/store';
+import { PLATFORM } from 'src/constants/platform';
+import store from 'src/store';
 
-const originalPush = Router.prototype.push;
-Router.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch((err) => err);
+type routerHandler = (_: RawLocation) => Promise<Route>;
+
+const originalPush: routerHandler = Router.prototype.push;
+Router.prototype.push = (location: RawLocation): Promise<Route> => {
+  return originalPush.call(router, location).catch((err) => console.log(err));
 };
 
-const originalReplace = Router.prototype.replace;
-Router.prototype.replace = function replace(location) {
-  return originalReplace.call(this, location).catch((err) => err);
+const originalReplace: routerHandler = Router.prototype.replace;
+Router.prototype.replace = (location: RawLocation): Promise<Route> => {
+  return originalReplace.call(router, location).catch((err) => err);
 };
 
 Vue.use(Router);
 
-const router = new Router({
+const router: Router = new Router({
   mode: 'history',
   routes: global
     .concat(platform) // 平台管理
@@ -48,14 +50,14 @@ const router = new Router({
     .concat(modelStore), //模型商店
 });
 
-router.beforeResolve((to, from, next) => {
+router.beforeResolve((to, from, next): void => {
   if (window) {
     window.document.title = `${Vue.prototype.$_i18n.t(to.meta.title)} - ${PLATFORM}`;
   }
   next();
 });
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, from, next): Promise<void> => {
   if (to.name === null) {
     next({ name: '404' });
     return;
@@ -88,12 +90,12 @@ router.beforeEach(async (to, from, next) => {
         await store.dispatch('INIT_PLUGINS', to.params.cluster);
       }
     }
-    let currentTenant = null;
+    let currentTenant: { [key: string]: string | number } = null;
     if (to.params.tenant) {
       if (store.state.TenantStore.length === 0 || store.state.LatestTenant.tenant !== to.params.tenant) {
         await store.dispatch('UPDATE_TENANT_DATA');
       }
-      const tenant =
+      const tenant: { [key: string]: string | number } =
         store.state.TenantStore &&
         store.state.TenantStore.find((t) => {
           return t.TenantName === to.params.tenant;
@@ -105,12 +107,12 @@ router.beforeEach(async (to, from, next) => {
       store.commit('SET_LATEST_TENANT', { tenant: tenant.TenantName });
       currentTenant = tenant;
     }
-    let currentProject = null;
+    let currentProject: { [key: string]: string | number } = null;
     if (to.params.project) {
       if (store.state.ProjectStore.length === 0 || store.state.LatestProject.project !== to.params.project) {
         await store.dispatch('UPDATE_PROJECT_DATA', currentTenant.ID);
       }
-      const project =
+      const project: { [key: string]: string | number } =
         store.state.ProjectStore &&
         store.state.ProjectStore.find((p) => {
           return p.ProjectName === to.params.project;
@@ -129,7 +131,7 @@ router.beforeEach(async (to, from, next) => {
       ) {
         await store.dispatch('UPDATE_ENVIRONMENT_DATA', currentProject.ID);
       }
-      const environment =
+      const environment: { [key: string]: string | number } =
         store.state.EnvironmentStore &&
         store.state.EnvironmentStore.find((e) => {
           return e.EnvironmentName === to.params.environment;
