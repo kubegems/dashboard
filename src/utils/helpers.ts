@@ -37,7 +37,7 @@ export function sizeOfTke(num: number | string, suffix = 's'): number {
   if (num === undefined) return 0;
   if (num === null) return 0;
   num = num.toString();
-  if (!isNaN(parseFloat(num))) {
+  if (new RegExp('^[0-9]+\\.?[0-9]*$', 'g').test(num)) {
     return parseFloat(num);
   }
   const units: string[] = ['s', 'k', 'M', 'T'];
@@ -108,7 +108,7 @@ export function sizeOfCpu(num: number | string, suffix = 'core'): number {
   if (num === undefined) return 0;
   if (num === null) return 0;
   num = num.toString();
-  if (!isNaN(parseFloat(num))) {
+  if (new RegExp('^[0-9]+\\.?[0-9]*$', 'g').test(num)) {
     return parseFloat(num);
   }
   const units: string[] = ['n', 'u', 'm', 'core', 'k'];
@@ -150,7 +150,7 @@ export function sizeOfNetwork(num: number | string, suffix = 'core'): number {
   if (num === undefined) return 0;
   if (num === null) return 0;
   num = num.toString();
-  if (!isNaN(parseFloat(num))) {
+  if (new RegExp('^[0-9]+\\.?[0-9]*$', 'g').test(num)) {
     return parseFloat(num);
   }
   const units: string[] = ['bps', 'Kbps', 'Mbps', 'Gbps'];

@@ -10,9 +10,12 @@
     "types": ["vite/client"],
     "removeComments": true,
     "moduleResolution": "node",
+    "baseUrl": "./",
+    "outDir": "./",
     "paths": {
-      "@": ["./src"]
+      "@": ["./src/"],
+      "src": ["./src/"]
     }
   },
-  "exclude": ["node_modules", "logs"]
+  "exclude": ["node_modules", "logs", "dist"]
 }

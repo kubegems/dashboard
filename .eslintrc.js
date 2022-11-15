@@ -24,10 +24,16 @@ module.exports = defineConfig({
   ],
   plugins: ['vue', '@typescript-eslint'],
   settings: {
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
     'import/resolver': {
       alias: {
         map: [['@', './src']],
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.vue', '.scss', '.css'],
+      },
+      typescript: {
+        alwaysTryTypes: true,
       },
     },
   },

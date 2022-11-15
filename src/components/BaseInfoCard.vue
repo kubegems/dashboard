@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <v-card :elevation="elevation" :flat="flat" :height="!fullHeight || '100%'">
+  <v-card :elevation="elevation" :flat="flat" :height="fullHeight ? '100%' : ''">
     <v-card-text :class="{ 'pa-5': true, 'kubegems__full-center': fullCenter }">
       <div class="d-flex align-center">
         <v-btn class="elevation-0" color="primary" dark fab small>

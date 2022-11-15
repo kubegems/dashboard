@@ -1,8 +1,10 @@
-export const platform = [
+import { RouteConfig } from 'vue-router';
+
+export const platform: RouteConfig[] = [
   {
     path: '/platform',
     name: 'platform',
-    component: () => import('@/layouts/Layout'),
+    component: (): Promise<typeof import('*.vue')> => import('@/layouts/Layout.vue'),
     redirect: { name: 'tenant-list' },
     children: [
       {
@@ -12,14 +14,14 @@ export const platform = [
           title: 'routerbar.administration.g_tenant',
           icon: 'mdi-account-settings',
         },
-        component: () => import('@/layouts/Container'),
+        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
         redirect: { name: 'tenant-list' },
         children: [
           // tenant
           {
             path: 'tenants',
             name: 'tenant-list',
-            component: () => import('@/views/tenant/tenant/index'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/tenant/tenant/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.administration.tenant',
@@ -33,7 +35,7 @@ export const platform = [
           {
             path: 'tenants/:name',
             name: 'tenant-detail',
-            component: () => import('@/views/tenant/tenant/detail'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/tenant/tenant/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.administration.user',
@@ -48,7 +50,7 @@ export const platform = [
           {
             path: 'users',
             name: 'user-list',
-            component: () => import('@/views/tenant/user/index'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/tenant/user/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.administration.user',
@@ -63,7 +65,7 @@ export const platform = [
           {
             path: 'roles',
             name: 'role-list',
-            component: () => import('@/views/tenant/role/index'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/tenant/role/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.administration.role',
@@ -83,14 +85,14 @@ export const platform = [
           title: 'routerbar.administration.g_space',
           icon: 'mdi-checkbox-multiple-blank',
         },
-        component: () => import('@/layouts/Container'),
+        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
         redirect: { name: 'platform-project-list' },
         children: [
           // project
           {
             path: `projects`,
             name: 'platform-project-list',
-            component: () => import('@/views/resource/project/index'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/project/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.administration.project',
@@ -105,7 +107,7 @@ export const platform = [
           {
             path: `environments`,
             name: 'platform-environment-list',
-            component: () => import('@/views/resource/environment/index'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/environment/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.administration.environment',
@@ -125,14 +127,14 @@ export const platform = [
           title: 'routerbar.administration.g_security',
           icon: 'mdi-security',
         },
-        component: () => import('@/layouts/Container'),
+        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
         redirect: { name: `admin-audit-list` },
         children: [
           // 审计
           {
             path: 'audits',
             name: `admin-audit-list`,
-            component: () => import('@/views/tool/audit/index'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/tool/audit/index.vue'),
             meta: {
               requireAuth: true,
               admin: true,
@@ -147,7 +149,7 @@ export const platform = [
           {
             path: 'events',
             name: `admin-event-list`,
-            component: () => import('@/views/tool/event/index'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/tool/event/index.vue'),
             meta: {
               requireAuth: true,
               admin: true,
@@ -169,14 +171,14 @@ export const platform = [
           title: 'routerbar.administration.g_integrated',
           icon: 'mdi-hexagon-multiple',
         },
-        component: () => import('@/layouts/Container'),
+        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
         redirect: { name: 'auth-setting' },
         children: [
           // 认证
           {
             path: 'oauth',
             name: 'oauth-setting',
-            component: () => import('@/views/setting/oauth/index'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/setting/oauth/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.administration.authorization',
@@ -190,7 +192,7 @@ export const platform = [
           {
             path: 'app/repositories',
             name: 'app-repository-list',
-            component: () => import('@/views/appstore/list'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/appstore/list.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.administration.app_store',
@@ -204,7 +206,7 @@ export const platform = [
           {
             path: 'model/repositories',
             name: 'model-repository-list',
-            component: () => import('@/views/setting/model_registry/index'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/setting/model_registry/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.administration.model_store',
@@ -217,7 +219,7 @@ export const platform = [
           {
             path: 'model/repositories/:name',
             name: 'model-repository-detail',
-            component: () => import('@/views/setting/model_registry/detail'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/setting/model_registry/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.administration.model_store',
@@ -234,14 +236,14 @@ export const platform = [
           title: 'routerbar.administration.g_template',
           icon: 'mdi-widgets',
         },
-        component: () => import('@/layouts/Container'),
+        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
         redirect: { name: 'repository-list' },
         children: [
           // prometheus
           {
             path: 'prometheus/templates',
             name: 'prometheus-template-list',
-            component: () => import('@/views/setting/prometheus/index'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/setting/prometheus/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.administration.prometheus_template',
@@ -254,7 +256,7 @@ export const platform = [
           {
             path: 'monitor/templates',
             name: 'monitor-template-list',
-            component: () => import('@/views/setting/monitor/index'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/setting/monitor/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.administration.monitor_template',
@@ -267,7 +269,7 @@ export const platform = [
           {
             path: 'monitor/templates/:name',
             name: 'monitor-template-detail',
-            component: () => import('@/views/setting/monitor/detail'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/setting/monitor/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.administration.monitor_template',
@@ -285,13 +287,13 @@ export const platform = [
           title: 'routerbar.administration.g_notice',
           icon: 'mdi-bulletin-board',
         },
-        component: () => import('@/layouts/Container'),
+        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
         redirect: { name: 'broadcast-list' },
         children: [
           {
             path: 'broadcasts',
             name: 'broadcast-list',
-            component: () => import('@/views/setting/broadcast/index'),
+            component: (): Promise<typeof import('*.vue')> => import('@/views/setting/broadcast/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.administration.broadcast',
