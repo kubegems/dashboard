@@ -63,7 +63,7 @@
       async addRegistry() {
         if (this.$refs[this.formComponent].validate()) {
           const data = this.$refs[this.formComponent].getData();
-          await postAddRegistry({ projectid: data.ProjectID }, data);
+          await postAddRegistry(data.ProjectID, data);
           this.reset();
           this.$emit('refresh');
         }

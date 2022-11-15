@@ -61,7 +61,7 @@
       async updateRegistry() {
         if (this.$refs[this.formComponent].validate()) {
           const data = this.$refs[this.formComponent].getData();
-          await putUpdateRegistry({ projectid: data.ProjectID, registryid: data.RegistryID }, data);
+          await putUpdateRegistry(data.ProjectID, data.RegistryID, data);
           this.reset();
           this.$emit('refresh');
         }
@@ -80,10 +80,7 @@
         return '';
       },
       async init(item) {
-        const data = await getRegistryDetail({
-          projectid: item.ProjectID,
-          registryid: item.ID,
-        });
+        const data = await getRegistryDetail(item.ProjectID, item.ID);
         this.$refs[this.formComponent].scheme = this.splitRegistry(data.RegistryAddress, 'scheme');
         this.$refs[this.formComponent].setData({
           EnableExtends: data.EnableExtends,
