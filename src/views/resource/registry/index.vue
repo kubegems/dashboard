@@ -243,10 +243,7 @@
           },
           param: { item },
           doFunc: async (param) => {
-            await deleteRegistry({
-              projectid: param.item.ProjectID,
-              registryid: param.item.ID,
-            });
+            await deleteRegistry(param.item.ProjectID, param.item.ID);
             this.registryList();
           },
         });
@@ -262,15 +259,9 @@
           },
           param: { item, isDefault },
           doFunc: async (param) => {
-            await patchSetDefaultRegistry(
-              {
-                projectid: param.item.ProjectID,
-                registryid: param.item.ID,
-              },
-              {
-                isDefault: param.isDefault,
-              },
-            );
+            await patchSetDefaultRegistry(param.item.ProjectID, param.item.ID, {
+              isDefault: param.isDefault,
+            });
             this.registryList();
           },
         });

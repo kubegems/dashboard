@@ -93,7 +93,7 @@
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { itemDetail, itemHistory, pubConfigItems } from '@/api';
+  import { getItemDetail, getItemHistory, postPubConfigItems } from '@/api';
 
   export default {
     name: 'HistoryView',
@@ -153,7 +153,7 @@
       },
       async getHistory() {
         if (this.historyItem && this.historyItem.key) {
-          const histories = await itemHistory(
+          const histories = await getItemHistory(
             this.historyItem.tenant,
             this.historyItem.project,
             this.historyItem.application,
@@ -171,7 +171,7 @@
         }
       },
       async getHistoryDetail(rev) {
-        const detail = await itemDetail(
+        const detail = await getItemDetail(
           this.historyItem.tenant,
           this.historyItem.project,
           this.historyItem.application,
@@ -203,7 +203,7 @@
           },
           param: { content },
           doFunc: async (param) => {
-            const res = await pubConfigItems(
+            const res = await postPubConfigItems(
               this.historyItem.tenant,
               this.historyItem.project,
               this.historyItem.application,

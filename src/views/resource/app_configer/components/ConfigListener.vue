@@ -42,7 +42,7 @@
 
 <script>
   import messages from '../i18n';
-  import { configListener } from '@/api';
+  import { getConfigListener } from '@/api';
 
   export default {
     name: 'ConfigListener',
@@ -66,7 +66,7 @@
     },
     methods: {
       async open(item) {
-        const ret = await configListener(item.tenant, item.project, item.application, item.environment, item.key);
+        const ret = await getConfigListener(item.tenant, item.project, item.application, item.environment, item.key);
         let listeners = [];
         for (let key in ret) {
           listeners.push({ ip: key, md5: ret[key] });

@@ -212,7 +212,7 @@
   import DeleteItem from './components/DeleteItem';
   import HistoryView from './components/HistoryView';
   import messages from './i18n';
-  import { baseInfo, delConfigItems, listConfigItems, pubConfigItems } from '@/api';
+  import { getConfigBaseInfo, deleteConfigItems, getConfigItemsList, postPubConfigItems } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import { deepCopy } from '@/utils/helpers';
 
@@ -292,7 +292,7 @@
     },
     methods: {
       async baseInfo() {
-        const data = await baseInfo(
+        const data = await getConfigBaseInfo(
           this.Tenant().TenantName || '',
           this.Project().ProjectName || '',
           this.Environment().EnvironmentName || '',
@@ -301,7 +301,7 @@
         this.baseInfoData = data;
       },
       async appConfigList() {
-        const datas = await listConfigItems(
+        const datas = await getConfigItemsList(
           this.Tenant().TenantName || '',
           this.Project().ProjectName || '',
           this.Environment().EnvironmentName || '',
@@ -382,7 +382,7 @@
         this.editor.currentHistoryItem = item;
       },
       async submitDeleteItem(idx) {
-        await delConfigItems(
+        await deleteConfigItems(
           this.editor.currentDeleteItem.tenant,
           this.editor.currentDeleteItem.project,
           this.editor.currentDeleteItem.application,
@@ -406,7 +406,7 @@
           this.closeEditDialog();
           return;
         }
-        const res = await pubConfigItems(
+        const res = await postPubConfigItems(
           editItem.tenant,
           editItem.project,
           editItem.application,
