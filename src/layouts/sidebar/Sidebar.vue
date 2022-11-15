@@ -117,7 +117,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { SIDEBAR_ITEMS } from './sidebar_items.js';
+  import { SIDEBAR_ITEMS } from './sidebar_items';
 
   export default {
     name: 'Sidebar',

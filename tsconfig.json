@@ -15,7 +15,8 @@
     "paths": {
       "@": ["./src/"],
       "src": ["./src/"]
-    }
+    },
+    "resolveJsonModule": true
   },
   "exclude": ["node_modules", "logs", "dist"]
 }
