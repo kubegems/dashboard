@@ -28,7 +28,7 @@
       </span>
     </template>
     <template #action>
-      <v-flex>
+      <v-flex class="float-right">
         <v-sheet class="text-body-1 text--darken-1 primary white--text">
           <BaseDatetimePicker
             v-model="date"
@@ -42,17 +42,32 @@
     <template #content>
       <v-card :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} mt-4`" flat>
         <v-card-text class="py-0">
-          <BaseAreaChart :extend-height="280" label="operation" :metrics="latency" title="latency" type="timecost" />
+          <BaseAreaChart
+            :extend-height="280"
+            :global-plugins-check="false"
+            label="operation"
+            :metrics="latency"
+            title="latency"
+            type="timecost"
+          />
 
           <BaseAreaChart
             :extend-height="280"
+            :global-plugins-check="false"
             label="operation"
             :metrics="requestRate"
             title="requestRate"
             type="percent"
           />
 
-          <BaseAreaChart :extend-height="280" label="operation" :metrics="errorRate" title="errorRate" type="reqrate" />
+          <BaseAreaChart
+            :extend-height="280"
+            :global-plugins-check="false"
+            label="operation"
+            :metrics="errorRate"
+            title="errorRate"
+            type="reqrate"
+          />
         </v-card-text>
       </v-card>
     </template>

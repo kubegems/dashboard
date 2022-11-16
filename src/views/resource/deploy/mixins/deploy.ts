@@ -1,8 +1,8 @@
 import { mapGetters, mapState } from 'vuex';
 
-import { getStrategyDeployEnvironmentAppsDetail } from '@/api';
+import { getStrategyDeployEnvironmentAppsDetail } from 'src/api';
 
-const deploy = {
+const deploy: { [key: string]: any } = {
   data() {
     return {
       runtime: {},
@@ -13,8 +13,8 @@ const deploy = {
     ...mapGetters(['Tenant', 'Project', 'Environment']),
   },
   methods: {
-    async strategyDeployEnvironmentAppsDetail() {
-      const data = await getStrategyDeployEnvironmentAppsDetail(
+    async strategyDeployEnvironmentAppsDetail(): Promise<void> {
+      const data: { [key: string]: any } = await getStrategyDeployEnvironmentAppsDetail(
         this.Tenant().ID,
         this.Project().ID,
         this.Environment().ID,

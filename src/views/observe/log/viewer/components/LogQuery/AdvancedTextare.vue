@@ -35,7 +35,7 @@
       </template>
     </v-textarea>
     <v-data-table
-      v-if="suggestShow"
+      v-if="suggestShow && false"
       class="suggestion-table kubegems__table-row-pointer"
       :custom-filter="filterKeyword"
       dense

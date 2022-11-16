@@ -19,7 +19,6 @@
     v-model="menu"
     bottom
     :close-on-content-click="false"
-    content-class="menu"
     max-height="450px"
     min-width="275px"
     nudge-bottom="5px"
@@ -199,10 +198,5 @@
         word-break: break-all !important;
       }
     }
-  }
-
-  .menu {
-    right: 10px !important;
-    left: auto !important;
   }
 </style>

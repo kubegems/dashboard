@@ -1,12 +1,12 @@
 import { mapGetters, mapState } from 'vuex';
 
-import { getClusterPluginsList, matrix, vector } from '@/api';
+import { getClusterPluginsList, matrix, vector } from 'src/api';
 
-const permission = {
+const permission: { [key: string]: any } = {
   computed: {
     ...mapState(['Auth', 'Admin', 'Plugins']),
     ...mapGetters(['VirtualSpace', 'Tenant', 'Project', 'Environment']),
-    m_permisson_resourceRole() {
+    m_permisson_resourceRole(): string {
       if (this.Admin) return 'sys';
       if (this.m_permisson_tenantRole === 'admin') return 'tenantadmin';
       if (this.m_permisson_projectRole === 'admin') return 'projectadmin';
@@ -19,7 +19,7 @@ const permission = {
       }
       return 'reader';
     },
-    m_permisson_projectRole() {
+    m_permisson_projectRole(): string {
       if (this.Admin) return 'sys';
       if (this.m_permisson_tenantRole === 'admin') return 'tenantadmin';
       const role = this.Auth.projects.find((t) => {
@@ -40,7 +40,7 @@ const permission = {
       }
       return 'ordinary';
     },
-    m_permisson_virtualSpaceRole() {
+    m_permisson_virtualSpaceRole(): string {
       if (this.Admin) return 'sys';
       const role = this.Auth.virtualSpaces.find((t) => {
         return t.id === this.VirtualSpace().ID;
@@ -52,7 +52,7 @@ const permission = {
     },
   },
   methods: {
-    m_permisson_resourceAllow(env = undefined) {
+    m_permisson_resourceAllow(env: string | undefined = undefined): boolean {
       return (
         this.Auth.environments.findIndex((t) => {
           if (env) {
@@ -66,7 +66,7 @@ const permission = {
         this.m_permisson_tenantAllow()
       );
     },
-    m_permisson_projectAllow(project = undefined) {
+    m_permisson_projectAllow(project: string | undefined = undefined): boolean {
       return (
         this.Auth.projects.findIndex((t) => {
           if (project) {
@@ -79,7 +79,7 @@ const permission = {
         this.m_permisson_tenantAllow()
       );
     },
-    m_permisson_tenantAllow(tenant = undefined) {
+    m_permisson_tenantAllow(tenant: string | undefined = undefined): boolean {
       return (
         this.Auth.tenant.findIndex((t) => {
           if (tenant) {
@@ -90,7 +90,7 @@ const permission = {
         }) > -1 || this.Admin
       );
     },
-    m_permisson_virtualSpaceAllow(virtualspace = undefined) {
+    m_permisson_virtualSpaceAllow(virtualspace: string | undefined = undefined): boolean {
       return (
         this.Auth.virtualSpaces.findIndex((t) => {
           if (virtualspace) {
@@ -101,21 +101,21 @@ const permission = {
         }) > -1 || this.Admin
       );
     },
-    async m_permission_matrix(cluster, query = {}) {
+    async m_permission_matrix(cluster: string, query: any = {}): Promise<any> {
       if (this.Plugins?.['monitoring'] || query.pass) {
         const data = await matrix(cluster, query);
         return data;
       }
       return [];
     },
-    async m_permission_vector(cluster, query = {}) {
+    async m_permission_vector(cluster: string, query: any = {}): Promise<any> {
       if (this.Plugins?.['monitoring'] || query.pass) {
         const data = await vector(cluster, query);
         return data;
       }
       return [];
     },
-    async m_permission_plugin_pass(cluster, plugins = []) {
+    async m_permission_plugin_pass(cluster: string, plugins: any = []): Promise<any> {
       if (plugins && plugins.length === 0) return [];
       const data = await getClusterPluginsList(cluster, {
         simple: true,

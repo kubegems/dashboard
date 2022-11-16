@@ -28,10 +28,12 @@ import {
   deleteTenant,
   deleteUser,
   deleteVolumeSnapshot,
-} from '@/api';
-import { convertStrToNum } from '@/utils/helpers';
+} from 'src/api';
+import { convertStrToNum } from 'src/utils/helpers';
 
-const table = {
+type listHandler = (..._: any[]) => Promise<void>;
+
+const table: { [key: string]: any } = {
   data() {
     return {
       m_table_sortparam: { name: null, desc: false },
@@ -72,20 +74,20 @@ const table = {
     ...mapGetters(['Cluster', 'Environment']),
   },
   methods: {
-    m_table_sortBy(name) {
+    m_table_sortBy(name: string): void {
       if (name) {
         this.m_table_sortparam['name'] = name;
         this.m_table_sortparam['desc'] = null;
       } else this.m_table_sortparam['name'] = null;
     },
-    m_table_sortDesc(desc) {
+    m_table_sortDesc(desc: boolean): void {
       if (desc) {
         this.m_table_sortparam['desc'] = desc;
       } else {
         this.m_table_sortparam['desc'] = null;
       }
     },
-    m_table_generateResourceSortParamValue() {
+    m_table_generateResourceSortParamValue(): string | null {
       if (this.m_table_sortparam.name === 'name') {
         return `name${this.m_table_sortparam.desc ? 'Desc' : 'Asc'}`;
       } else if (this.m_table_sortparam.name === 'createAt') {
@@ -101,9 +103,9 @@ const table = {
       }
       return null;
     },
-    m_table_batchRemoveResource(title, resourceType, listFunc) {
+    m_table_batchRemoveResource(title: string, resourceType: string, listFunc: listHandler): void {
       if (
-        Object.values(this.m_table_batchResources).filter((c) => {
+        Object.values(this.m_table_batchResources).filter((c: any) => {
           return c.checked;
         }).length === 0
       ) {
@@ -113,11 +115,11 @@ const table = {
         });
         return;
       }
-      const resources = Object.values(this.m_table_batchResources)
-        .filter((c) => {
+      const resources: any[] = Object.values(this.m_table_batchResources)
+        .filter((c: any) => {
           return c.checked;
         })
-        .map((c) => {
+        .map((c: any) => {
           return c.name;
         });
       this.$store.commit('SET_CONFIRM', {
@@ -129,8 +131,8 @@ const table = {
           status: {},
         },
         param: {},
-        doFunc: async () => {
-          const resources = Object.values(this.m_table_batchResources);
+        doFunc: async (): Promise<void> => {
+          const resources: any[] = Object.values(this.m_table_batchResources);
           for (const index in resources) {
             const resource = resources[index];
             if (resource.checked) {
@@ -156,17 +158,17 @@ const table = {
         },
       });
     },
-    m_table_batchRemoveNotK8SResource(title, resourceType, listFunc) {
-      if (!Object.values(this.m_table_batchResources).some((c) => c.checked)) {
+    m_table_batchRemoveNotK8SResource(title: string, resourceType: string, listFunc: listHandler): void {
+      if (!Object.values(this.m_table_batchResources).some((c: any) => c.checked)) {
         this.$store.commit('SET_SNACKBAR', {
           text: this.$t('tip.batch_select_c', [title]),
           color: 'warning',
         });
         return;
       }
-      const resources = Object.values(this.m_table_batchResources)
-        .filter((c) => c.checked)
-        .map((c) => c.name);
+      const resources: any[] = Object.values(this.m_table_batchResources)
+        .filter((c: any) => c.checked)
+        .map((c: any) => c.name);
       this.$store.commit('SET_CONFIRM', {
         title: this.$t('operate.batch_delete_c', [title]),
         content: {
@@ -176,7 +178,7 @@ const table = {
           status: {},
         },
         param: {},
-        doFunc: async () => {
+        doFunc: async (): Promise<void> => {
           for (const id in this.m_table_batchResources) {
             if (this.m_table_batchResources[id].checked) {
               try {
@@ -197,7 +199,7 @@ const table = {
         },
       });
     },
-    m_table_generateSelectResource() {
+    m_table_generateSelectResource(): void {
       this.m_table_batchResources = {};
       this.items.forEach((resource, index) => {
         const key = `${resource.metadata.name}-${index}`;
@@ -208,7 +210,7 @@ const table = {
         });
       });
     },
-    m_table_generateSelectResourceNoK8s(valueKey) {
+    m_table_generateSelectResourceNoK8s(valueKey): void {
       this.m_table_batchResources = {};
       this.items.forEach((resource, index) => {
         this.$set(this.m_table_batchResources, resource.ID || index, {
@@ -218,7 +220,7 @@ const table = {
         });
       });
     },
-    m_table_onResourceChange(checked, item, index) {
+    m_table_onResourceChange(checked: boolean, item: { [key: string]: any }, index: number): void {
       const key = `${item.metadata.name}-${index}`;
       this.$set(this.m_table_batchResources, key, {
         name: item.metadata.name,
@@ -226,14 +228,14 @@ const table = {
         checked: checked,
       });
     },
-    m_table_onNotK8SResourceChange(checked, item, valueKey, index = 0) {
+    m_table_onNotK8SResourceChange(checked: boolean, item: { [key: string]: any }, valueKey: string, index = 0): void {
       this.$set(this.m_table_batchResources, item.ID || index, {
         name: item.name,
         checked: checked,
         value: item[valueKey],
       });
     },
-    m_table_onResourceToggleSelect(checkObj) {
+    m_table_onResourceToggleSelect(checkObj: { [key: string]: any }): void {
       this.items.forEach((resource, index) => {
         const key = `${resource.metadata.name}-${index}`;
         this.m_table_batchResources[key] = {
@@ -243,7 +245,7 @@ const table = {
         };
       });
     },
-    m_table_onNotK8SResourceToggleSelect(checkObj, valueKey) {
+    m_table_onNotK8SResourceToggleSelect(checkObj: { [key: string]: any }, valueKey: string): void {
       this.items.forEach((resource, index) => {
         this.m_table_batchResources[resource.ID || index] = {
           name: resource.name,
@@ -252,7 +254,7 @@ const table = {
         };
       });
     },
-    m_table_generateParams() {
+    m_table_generateParams(): void {
       Object.assign(Object.assign(this.params, { noprocessing: false }), convertStrToNum(this.$route.query));
     },
   },

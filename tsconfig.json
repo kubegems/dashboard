@@ -18,5 +18,9 @@
     },
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules", "logs", "dist"]
+  "vueCompilerOptions": {
+    "target": 2.7,
+    "extensions": [".vue"]
+  },
+  "exclude": ["node_modules", "logs", "dist", "vite.config.js", "volar.config.js"]
 }
