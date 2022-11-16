@@ -117,7 +117,7 @@
       async errorLogRate() {
         const { offset, dur } = this.getParams();
         let data = await getMetricsQueryrange(this.env.clusterName, this.env.namespace, {
-          expr: `sum(sum_over_time(gems_loki_error_logs_count_last_1m{namespace="${this.env.namespace}"}[${this.duration}]))`,
+          expr: `sum(gems_loki_error_logs_count_last_1m{namespace="${this.env.namespace}"})by(container)`,
           start: this.$moment().utc().add(offset, dur).format(),
           end: this.$moment().utc().format(),
         });
