@@ -1,6 +1,6 @@
 import * as jsonpatch from 'fast-json-patch';
 import { isEmpty, set } from 'lodash';
-import YAML from 'yaml';
+import * as YAML from 'yaml';
 
 const yamlUtils = {
   methods: {

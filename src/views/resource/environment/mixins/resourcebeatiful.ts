@@ -1,8 +1,8 @@
-import { beautifyCpuUnit, beautifyStorageUnit, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
+import { beautifyCpuUnit, beautifyStorageUnit, sizeOfCpu, sizeOfStorage } from 'src/utils/helpers';
 
-const ResourceBeatifulMixin = {
+const ResourceBeatifulMixin: { [key: string]: any } = {
   methods: {
-    getResourceBeatiful(resourceUseDetail) {
+    getResourceBeatiful(resourceUseDetail: { [key: string]: any }): { [key: string]: any } {
       const obj = { cpuItems: [], memoryItems: [], storageItems: [], networkItems: [] };
       obj.cpuItems.push({
         max: beautifyCpuUnit(sizeOfCpu(resourceUseDetail.MaxCPUUsageCore + 'core', 'n')),

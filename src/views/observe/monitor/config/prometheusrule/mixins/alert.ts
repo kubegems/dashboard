@@ -1,10 +1,10 @@
-const alert = {
+const alert: { [key: string]: any } = {
   methods: {
-    severityMap(text) {
+    severityMap(text: string): { [key: string]: string } {
       const obj = { warning: '普通', error: '重要', critical: '紧急' };
       return obj[text];
     },
-    compareMap(text) {
+    compareMap(text: string): string {
       const obj = {
         '>': '大于',
         '<': '小于',

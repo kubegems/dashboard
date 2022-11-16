@@ -1,8 +1,8 @@
 import Ajv from 'ajv';
 import { mapGetters, mapState } from 'vuex';
 
-import { getClusterQuota, getTenantResourceQuota } from '@/api';
-import { sizeOfCpu, sizeOfStorage, sizeOfTke } from '@/utils/helpers';
+import { getClusterQuota, getTenantResourceQuota } from 'src/api';
+import { sizeOfCpu, sizeOfStorage, sizeOfTke } from 'src/utils/helpers';
 
 const resource = {
   computed: {
@@ -34,8 +34,8 @@ const resource = {
     },
   },
   methods: {
-    async m_resource_tenantResourceQuota(ClusterName, TenantName) {
-      const data = await getTenantResourceQuota(ClusterName, TenantName, {
+    async m_resource_tenantResourceQuota(ClusterName: string, TenantName: string): Promise<any> {
+      const data: { [key: string]: any } = await getTenantResourceQuota(ClusterName, TenantName, {
         noprocessing: true,
       });
       if (data.spec.hard) {
@@ -45,32 +45,34 @@ const resource = {
         if (!data.status.allocated[`limits.storage`]) {
           data.status.allocated[`limits.storage`] = data.status.allocated[`requests.storage`];
         }
-        const item = {
-          Cpu: parseFloat(sizeOfCpu(data.spec.hard['limits.cpu'])),
-          Memory: parseFloat(sizeOfStorage(data.spec.hard['limits.memory'])),
-          Storage: parseFloat(sizeOfStorage(data.spec.hard[`limits.storage`])),
+        const item: { [key: string]: any } = {
+          Cpu: parseFloat(sizeOfCpu(data.spec.hard['limits.cpu']).toString()),
+          Memory: parseFloat(sizeOfStorage(data.spec.hard['limits.memory']).toString()),
+          Storage: parseFloat(sizeOfStorage(data.spec.hard[`limits.storage`]).toString()),
           Pod: 5120,
-          AllocatedCpu: parseFloat(sizeOfCpu(data.status.allocated ? data.status.allocated['limits.cpu'] : 0)),
+          AllocatedCpu: parseFloat(
+            sizeOfCpu(data.status.allocated ? data.status.allocated['limits.cpu'] : 0).toString(),
+          ),
           AllocatedMemory: parseFloat(
-            sizeOfStorage(data.status.allocated ? data.status.allocated['limits.memory'] : 0),
+            sizeOfStorage(data.status.allocated ? data.status.allocated['limits.memory'] : 0).toString(),
           ),
           AllocatedStorage: parseFloat(
-            sizeOfStorage(data.status.allocated ? data.status.allocated[`limits.storage`] : 0),
+            sizeOfStorage(data.status.allocated ? data.status.allocated[`limits.storage`] : 0).toString(),
           ),
           AllocatedPod: 0,
           ApplyCpu:
-            parseFloat(sizeOfCpu(data.spec.hard['limits.cpu'])) -
-            parseFloat(sizeOfCpu(data.status.allocated ? data.status.allocated['limits.cpu'] : 0)),
+            parseFloat(sizeOfCpu(data.spec.hard['limits.cpu']).toString()) -
+            parseFloat(sizeOfCpu(data.status.allocated ? data.status.allocated['limits.cpu'] : 0).toString()),
           ApplyMemory:
-            parseFloat(sizeOfStorage(data.spec.hard['limits.memory'])) -
-            parseFloat(sizeOfStorage(data.status.allocated ? data.status.allocated['limits.memory'] : 0)),
+            parseFloat(sizeOfStorage(data.spec.hard['limits.memory']).toString()) -
+            parseFloat(sizeOfStorage(data.status.allocated ? data.status.allocated['limits.memory'] : 0).toString()),
           ApplyStorage:
-            parseFloat(sizeOfStorage(data.spec.hard[`limits.storage`])) -
-            parseFloat(sizeOfStorage(data.status.allocated ? data.status.allocated[`limits.storage`] : 0)),
+            parseFloat(sizeOfStorage(data.spec.hard[`limits.storage`]).toString()) -
+            parseFloat(sizeOfStorage(data.status.allocated ? data.status.allocated[`limits.storage`] : 0).toString()),
           ApplyPod: 0,
         };
         if (data.spec.hard[`limits.nvidia.com/gpu`] && parseInt(data.spec.hard[`limits.nvidia.com/gpu`]) > 0) {
-          item.NvidiaGpu = parseFloat(sizeOfCpu(data.spec.hard['limits.nvidia.com/gpu']));
+          item.NvidiaGpu = parseFloat(sizeOfCpu(data.spec.hard['limits.nvidia.com/gpu']).toString());
           item.AllocatedNvidiaGpu = parseFloat(
             data.status.allocated ? data.status.allocated['limits.nvidia.com/gpu'] || 0 : 0,
           );
@@ -84,46 +86,56 @@ const resource = {
           (data.spec.hard[`limits.tencent.com/vcuda-memory`] &&
             parseInt(data.spec.hard[`limits.tencent.com/vcuda-memory`]) > 0)
         ) {
-          item.TkeGpu = parseFloat(sizeOfTke(data.spec.hard['limits.tencent.com/vcuda-core']));
+          item.TkeGpu = parseFloat(sizeOfTke(data.spec.hard['limits.tencent.com/vcuda-core']).toString());
           item.AllocatedTkeGpu = parseFloat(
-            sizeOfTke(data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-core'] || 0 : 0),
+            sizeOfTke(
+              data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-core'] || 0 : 0,
+            ).toString(),
           );
           item.ApplyTkeGpu =
-            parseFloat(sizeOfTke(data.spec.hard['limits.tencent.com/vcuda-core'])) -
+            parseFloat(sizeOfTke(data.spec.hard['limits.tencent.com/vcuda-core']).toString()) -
             parseFloat(
-              sizeOfTke(data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-core'] || 0 : 0),
+              sizeOfTke(
+                data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-core'] || 0 : 0,
+              ).toString(),
             );
 
-          item.TkeMemory = parseFloat(sizeOfTke(data.spec.hard['limits.tencent.com/vcuda-memory']));
+          item.TkeMemory = parseFloat(sizeOfTke(data.spec.hard['limits.tencent.com/vcuda-memory']).toString());
           item.AllocatedTkeMemory = parseFloat(
-            sizeOfTke(data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-memory'] || 0 : 0),
+            sizeOfTke(
+              data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-memory'] || 0 : 0,
+            ).toString(),
           );
           item.ApplyTkeMemory =
-            parseFloat(sizeOfTke(data.spec.hard['limits.tencent.com/vcuda-memory'])) -
+            parseFloat(sizeOfTke(data.spec.hard['limits.tencent.com/vcuda-memory']).toString()) -
             parseFloat(
-              sizeOfTke(data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-memory'] || 0 : 0),
+              sizeOfTke(
+                data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-memory'] || 0 : 0,
+              ).toString(),
             );
         }
         return item;
       }
       return null;
     },
-    async m_resource_clusterQuota(clusterid, item) {
-      const data = await getClusterQuota(clusterid);
-      const quota = {};
+    async m_resource_clusterQuota(clusterid: number, item: { [key: string]: any }): Promise<any> {
+      const data: { [key: string]: any } = await getClusterQuota(clusterid);
+      const quota: { [key: string]: any } = {};
       if (data.resources) {
         quota.CpuRatio = data.oversoldConfig ? data.oversoldConfig.cpu : 1;
         quota.MemoryRatio = data.oversoldConfig ? data.oversoldConfig.memory : 1;
         quota.StorageRatio = data.oversoldConfig ? data.oversoldConfig.storage : 1;
-        quota.Cpu = parseFloat(sizeOfCpu(data.resources.capacity['limits.cpu'])) * quota.CpuRatio;
-        quota.UsedCpu = parseFloat(sizeOfCpu(data.resources.tenantAllocated['limits.cpu']));
+        quota.Cpu = parseFloat(sizeOfCpu(data.resources.capacity['limits.cpu']).toString()) * quota.CpuRatio;
+        quota.UsedCpu = parseFloat(sizeOfCpu(data.resources.tenantAllocated['limits.cpu']).toString());
         quota.AllocatedCpu = quota.Cpu - quota.UsedCpu + item.NowCpu;
-        quota.Memory = parseFloat(sizeOfStorage(data.resources.capacity['limits.memory'])) * quota.MemoryRatio;
-        quota.UsedMemory = parseFloat(sizeOfStorage(data.resources.tenantAllocated['limits.memory']));
+        quota.Memory =
+          parseFloat(sizeOfStorage(data.resources.capacity['limits.memory']).toString()) * quota.MemoryRatio;
+        quota.UsedMemory = parseFloat(sizeOfStorage(data.resources.tenantAllocated['limits.memory']).toString());
         quota.AllocatedMemory = quota.Memory - quota.UsedMemory + item.NowMemory;
         quota.Storage =
-          parseFloat(sizeOfStorage(data.resources.capacity['limits.ephemeral-storage'])) * quota.StorageRatio;
-        quota.UsedStorage = parseFloat(sizeOfStorage(data.resources.tenantAllocated['limits.storage']));
+          parseFloat(sizeOfStorage(data.resources.capacity['limits.ephemeral-storage']).toString()) *
+          quota.StorageRatio;
+        quota.UsedStorage = parseFloat(sizeOfStorage(data.resources.tenantAllocated['limits.storage']).toString());
         quota.AllocatedStorage = quota.Storage - quota.UsedStorage + item.NowStorage;
 
         if (
@@ -141,15 +153,17 @@ const resource = {
           (data.resources.capacity['limits.tencent.com/vcuda-memory'] &&
             parseInt(data.resources.capacity[`limits.tencent.com/vcuda-memory`]) > 0)
         ) {
-          quota.TkeGpu = parseFloat(sizeOfTke(data.resources.capacity['limits.tencent.com/vcuda-core']));
+          quota.TkeGpu = parseFloat(sizeOfTke(data.resources.capacity['limits.tencent.com/vcuda-core']).toString());
           quota.UsedTkeGpu = parseFloat(
-            sizeOfTke(data.resources.tenantAllocated['limits.tencent.com/vcuda-core'] || 0),
+            sizeOfTke(data.resources.tenantAllocated['limits.tencent.com/vcuda-core'] || 0).toString(),
           );
           quota.AllocatedTkeGpu = quota.TkeGpu - quota.UsedTkeGpu + (item.NowTkeGpu || 0);
 
-          quota.TkeMemory = parseFloat(sizeOfTke(data.resources.capacity['limits.tencent.com/vcuda-memory']));
+          quota.TkeMemory = parseFloat(
+            sizeOfTke(data.resources.capacity['limits.tencent.com/vcuda-memory']).toString(),
+          );
           quota.UsedTkeMemory = parseFloat(
-            sizeOfTke(data.resources.tenantAllocated['limits.tencent.com/vcuda-memory'] || 0),
+            sizeOfTke(data.resources.tenantAllocated['limits.tencent.com/vcuda-memory'] || 0).toString(),
           );
           quota.AllocatedTkeMemory = quota.TkeMemory - quota.UsedTkeMemory + (item.NowTkeMemory || 0);
         }
@@ -157,7 +171,7 @@ const resource = {
       }
       return null;
     },
-    m_resource_checkDataWithNS(data, ns) {
+    m_resource_checkDataWithNS(data: { [key: string]: any }, ns: string): boolean {
       if (!(data && data.metadata)) {
         this.$store.commit('SET_SNACKBAR', {
           text: this.$root.$t('tip.missing_metadata'),
@@ -184,13 +198,13 @@ const resource = {
       }
       return true;
     },
-    m_resource_addNsToData(data, ns) {
+    m_resource_addNsToData(data: { [key: string]: any }, ns: string): void {
       if (!data) return;
       if (!data?.metadata?.namespace) {
         data.metadata.namespace = ns || this.$route.query.namespace;
       }
     },
-    m_resource_checkDataWithOutNS(data) {
+    m_resource_checkDataWithOutNS(data: { [key: string]: any }): boolean {
       if (!(data && data.metadata)) {
         this.$store.commit('SET_SNACKBAR', {
           text: this.$root.$t('tip.missing_metadata'),
@@ -207,7 +221,7 @@ const resource = {
       }
       return true;
     },
-    m_resource_checkManifestCompleteness(djson) {
+    m_resource_checkManifestCompleteness(djson: { [key: string]: any }): boolean {
       if (djson.kind === 'PersistentVolumeClaim') {
         if (!djson.spec.storageClassName || (djson.spec.storageClassName && djson.spec.storageClassName === '')) {
           return false;
@@ -219,9 +233,9 @@ const resource = {
       }
       return true;
     },
-    m_resource_beautifyData(data) {
+    m_resource_beautifyData(data: { [key: string]: any }): { [key: string]: any } {
       const newdata = {};
-      for (var item in data) {
+      for (const item in data) {
         if (data[item] === null) continue;
         if (['pause', 'selfSigned', 'emptyDir'].indexOf(item) > -1 && JSON.stringify(data[item]) === '{}') {
           newdata[item] = {};
@@ -291,7 +305,7 @@ const resource = {
       }
       return newdata;
     },
-    m_resource_getPodStatus(podItem) {
+    m_resource_getPodStatus(podItem: { [key: string]: any }): string {
       /*
       根据pod生命周期，pod的生命周期分为 Pending, Running, Succeeded, Failed, Unknow 五个大状态
       容器又分为三种大状态 Waiting, Running, Terminated
@@ -313,7 +327,7 @@ const resource = {
       });
       return st;
     },
-    m_resource_getWorkloadStatus(kind, item) {
+    m_resource_getWorkloadStatus(kind: string, item: { [key: string]: any }): string {
       if (!item) return '';
       if (kind !== 'DaemonSet') {
         if ((item.status.availableReplicas || item.status.readyReplicas || 0) < item.spec.replicas) {
@@ -329,7 +343,7 @@ const resource = {
         }
       }
     },
-    m_resource_validateJsonSchema(schema, data) {
+    m_resource_validateJsonSchema(schema: { [key: string]: any }, data: { [key: string]: any }): boolean {
       if (!data) return false;
       const ajv = new Ajv();
       const validate = ajv.compile(schema);

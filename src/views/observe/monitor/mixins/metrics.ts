@@ -1,11 +1,11 @@
-const metrics = {
+const metrics: { [key: string]: any } = {
   data() {
     return {
       m_metrics_unitText: '',
     };
   },
   computed: {
-    m_metrics_unitItems() {
+    m_metrics_unitItems(): { [key: string]: string }[] {
       const items = [];
       Object.keys(this.m_metrics_units).forEach((unit) =>
         this.m_metrics_units[unit].value.forEach((u) => {
@@ -24,7 +24,7 @@ const metrics = {
       );
       return items;
     },
-    m_metrics_units() {
+    m_metrics_units(): { [key: string]: any } {
       return {
         short: {
           cn: this.$t('tip.default'),
@@ -50,7 +50,7 @@ const metrics = {
     },
   },
   methods: {
-    m_metrics_initItems(unit) {
+    m_metrics_initItems(unit: string): void {
       if (
         !this.m_metrics_unitItems.some((u) => {
           return u.value === unit;
@@ -62,7 +62,7 @@ const metrics = {
         });
       }
     },
-    m_metrics_createUnit() {
+    m_metrics_createUnit(): void {
       if (!this.m_metrics_unitText) return;
       if (
         !this.m_metrics_unitItems.some((u) => {

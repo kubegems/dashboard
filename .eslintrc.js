@@ -226,5 +226,6 @@ module.exports = defineConfig({
     'Dockerfile',
     'volar.config.js',
     '.eslintrc.js',
+    'vite.config.js',
   ],
 });

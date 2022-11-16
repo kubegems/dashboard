@@ -1,6 +1,6 @@
-const ParamsMixin = {
+const ParamsMixin: { [key: string]: any } = {
   methods: {
-    jsonParams(name, data) {
+    jsonParams(name: string, data: { [key: string]: any }): { [key: string]: any } {
       return {
         name,
         parameters: {
@@ -11,7 +11,7 @@ const ParamsMixin = {
         data: JSON.stringify(data),
       };
     },
-    imageParam(name, ...imagedatas) {
+    imageParam(name: string, ...imagedatas: { [key: string]: any }[]): { [key: string]: any } {
       return {
         name,
         parameters: {
@@ -22,7 +22,7 @@ const ParamsMixin = {
         data: imagedatas,
       };
     },
-    stringParam(name, ...elements) {
+    stringParam(name: string, ...elements: { [key: string]: any }[]): { [key: string]: any } {
       return {
         name,
         parameters: {
@@ -33,7 +33,7 @@ const ParamsMixin = {
         data: elements,
       };
     },
-    stringArrayParam(name, ...elements) {
+    stringArrayParam(name: string, ...elements: { [key: string]: any }[]): { [key: string]: any } {
       return {
         name: name,
         shape: [1],
@@ -41,7 +41,7 @@ const ParamsMixin = {
         data: elements,
       };
     },
-    conversationParam(name, ...elements) {
+    conversationParam(name: string, ...elements: { [key: string]: any }[]): { [key: string]: any } {
       return {
         name: name,
         parameters: {
@@ -52,7 +52,7 @@ const ParamsMixin = {
         data: JSON.stringify(elements),
       };
     },
-    audioParam(name, ...elements) {
+    audioParam(name: string, ...elements: { [key: string]: any }[]): { [key: string]: any } {
       return {
         name: name,
         parameters: {
@@ -63,7 +63,7 @@ const ParamsMixin = {
         data: elements,
       };
     },
-    composeInputs(...inputs) {
+    composeInputs(...inputs: { [key: string]: any }[]): { [key: string]: any } {
       return {
         inputs: inputs,
       };

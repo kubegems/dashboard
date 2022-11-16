@@ -110,8 +110,7 @@
                 :auto-draw-duration="200"
                 auto-line-width
                 color="rgba(29, 136, 229, 0.6)"
-                fill
-                :line-width="5"
+                :line-width="4"
                 smooth
                 type="trend"
                 :value="item.latency ? item.latency : []"
@@ -128,8 +127,7 @@
                 :auto-draw-duration="200"
                 auto-line-width
                 color="rgba(29, 136, 229, 0.6)"
-                fill
-                :line-width="5"
+                :line-width="4"
                 smooth
                 type="trend"
                 :value="item.requestRate ? item.requestRate : []"
@@ -146,8 +144,7 @@
                 :auto-draw-duration="200"
                 auto-line-width
                 color="rgba(29, 136, 229, 0.6)"
-                fill
-                :line-width="5"
+                :line-width="4"
                 smooth
                 type="trend"
                 :value="item.errorRate ? item.errorRate : []"
@@ -235,6 +232,7 @@
           if (newValue) {
             this.params.start = this.$moment(this.date[0]).utc().format();
             this.params.end = this.$moment(this.date[1]).utc().format();
+            this.items = [];
             this.loadData(true);
           }
         },
