@@ -27,6 +27,7 @@
           : []
       "
       :metrics="chartOptions.series"
+      unit=""
     />
 
     <div class="py-3 px-2">

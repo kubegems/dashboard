@@ -39,7 +39,7 @@ export const getClusterFlowDetailData = (clusterName, namespace, name, query = {
 // 新增flow
 export const postFlowData = (clusterName, namespace, name, body = {}) => {
   const apiVersion = getApiVersion('flow', 'logging.banzaicloud.io/v1beta1');
-  axios.post(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/flow/${name}`, body);
+  return axios.post(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/flow/${name}`, body);
 };
 
 // 删除flow
@@ -51,7 +51,7 @@ export const deleteFlowData = (clusterName, namespace, name) => {
 // 更新Flow
 export const patchFlowData = (clusterName, namespace, name, body = {}) => {
   const apiVersion = getApiVersion('flow', 'logging.banzaicloud.io/v1beta1');
-  axios.patch(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/flow/${name}`, body);
+  return axios.patch(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/flow/${name}`, body);
 };
 
 // 获取flow列表
