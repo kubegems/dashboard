@@ -52,7 +52,9 @@
     "no_log_data": "暫無日誌數據",
 
     "feishu": "飛書",
-    "user_id": "用戶Id"
+    "user_id": "用戶Id",
+    "channel_changed": "告警渠道已更改",
+    "channel_lost": "告警渠道已刪除"
   },
   "operate": {
     "download_log": "下載日誌",

@@ -280,7 +280,7 @@
                   grid: {
                     display: false,
                   },
-                  type: 'time',
+                  type: 'timeseries',
                   time: {
                     unit: 'second',
                     displayFormats: {

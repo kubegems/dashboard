@@ -51,7 +51,9 @@
     "no_log_data": "No log data yet",
 
     "feishu": "feishu",
-    "user_id": "User Id"
+    "user_id": "User Id",
+    "channel_changed": "Channel Changed",
+    "channel_lost": "Channel Lost"
   },
   "operate": {
     "download_log": "Download Log",

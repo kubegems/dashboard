@@ -51,7 +51,9 @@
     "no_log_data": "暂无日志数据",
 
     "feishu": "飞书",
-    "user_id": "用户Id"
+    "user_id": "用户Id",
+    "channel_changed": "告警渠道已更改",
+    "channel_lost": "告警渠道已删除"
   },
   "operate": {
     "download_log": "下载日志",

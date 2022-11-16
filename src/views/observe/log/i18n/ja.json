@@ -51,7 +51,9 @@
     "no_log_data": "ログデータはまだありません",
 
     "feishu": "feishu",
-    "user_id": "ユーザーID"
+    "user_id": "ユーザーID",
+    "channel_changed": "アラート チャネルが変更されました",
+    "channel_lost": "アラート チャネルが削除されました"
   },
   "operate": {
     "download_log": "ログをダウンロード",
