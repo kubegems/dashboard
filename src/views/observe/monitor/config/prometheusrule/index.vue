@@ -129,7 +129,7 @@
                 <v-menu nudge-right="20px" nudge-top="8px" open-on-hover right>
                   <template #activator="{ on }">
                     <span v-on="on">
-                      <v-icon color="orange" small>mdi-alpha-l-circle </v-icon>
+                      <v-icon color="orange" small> mdi-alert-decagram </v-icon>
                     </span>
                   </template>
                   <v-card>

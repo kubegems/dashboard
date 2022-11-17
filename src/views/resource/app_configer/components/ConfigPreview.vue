@@ -67,13 +67,13 @@
         title: '',
         suffix: '',
         suffixItems: [
-          { text: 'text', value: 'text' },
+          // { text: 'text', value: 'text' },
           { text: 'json', value: 'json' },
           { text: 'xml', value: 'xml' },
           { text: 'yaml', value: 'yaml' },
           { text: 'html', value: 'html' },
           { text: 'ini', value: 'ini' },
-          { text: 'properties', value: 'properties' },
+          // { text: 'properties', value: 'properties' },
         ],
       };
     },

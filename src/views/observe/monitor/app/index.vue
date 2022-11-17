@@ -30,40 +30,6 @@
         <v-col cols="4">
           <v-card class="pa-2">
             <BaseAreaChart
-              id="latency"
-              chart-type="line"
-              :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-              colorful
-              :extend-height="300"
-              :global-plugins-check="false"
-              label="name"
-              :metrics="latency"
-              title="Latency"
-              type="timecost"
-            />
-          </v-card>
-        </v-col>
-        <v-col cols="4">
-          <v-card class="pa-2">
-            <BaseAreaChart
-              id="error_rate"
-              begin-at-zero
-              chart-type="line"
-              :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-              colorful
-              :extend-height="300"
-              :global-plugins-check="false"
-              label="name"
-              :metrics="errorRate"
-              title="Error rate"
-              type="percent"
-            />
-          </v-card>
-        </v-col>
-        <v-col cols="4">
-          <v-card class="pa-2">
-            <BaseAreaChart
-              id="request_rate"
               chart-type="line"
               :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
               colorful
@@ -76,10 +42,43 @@
             />
           </v-card>
         </v-col>
+        <v-col cols="4">
+          <v-card class="pa-2">
+            <BaseAreaChart
+              begin-at-zero
+              chart-type="line"
+              :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+              colorful
+              :extend-height="300"
+              :global-plugins-check="false"
+              label="name"
+              :metrics="errorRate"
+              title="Error rate"
+              type="reqrate"
+            />
+          </v-card>
+        </v-col>
+
+        <v-col cols="4">
+          <v-card class="pa-2">
+            <BaseAreaChart
+              chart-type="line"
+              :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+              colorful
+              :extend-height="300"
+              :global-plugins-check="false"
+              label="name"
+              :metrics="latency"
+              title="Duration"
+              type="timecost"
+            />
+          </v-card>
+        </v-col>
       </v-row>
 
       <v-card class="mt-3 pa-4">
         <v-data-table
+          :custom-sort="customSort"
           :headers="headers"
           hide-default-footer
           :items="items"
@@ -102,7 +101,7 @@
           </template>
           <template #[`item.latency`]="{ item }">
             <v-flex class="text-subtitle-2 float-right table__item mx-2">
-              {{ item.latency && item.latency.length > 0 ? `${item.latency[0].toFixed(2)} us` : 0 }}
+              {{ item.latency && item.latency.length > 0 ? beautifyUnit(item.latency[0]) : 0 }}
             </v-flex>
             <span class="kubegems__pointer" @click="appPerformanceMonitor(item)">
               <v-sparkline
@@ -136,7 +135,7 @@
           </template>
           <template #[`item.errorRate`]="{ item }">
             <v-flex class="text-subtitle-2 float-right table__item mx-2">
-              {{ item.errorRate && item.errorRate.length > 0 ? item.errorRate[0].toFixed(2) : 0 }}
+              {{ item.errorRate && item.errorRate.length > 0 ? `${item.errorRate[0].toFixed(2)} req/s` : 0 }}
             </v-flex>
             <span class="kubegems__pointer" @click="appPerformanceMonitor(item)">
               <v-sparkline
@@ -205,10 +204,10 @@
       },
       headers() {
         return [
-          { text: 'Name', value: 'name', align: 'start' },
-          { text: 'P95 Latency', value: 'latency', align: 'start', width: 250 },
+          { text: 'Name', value: 'name', align: 'start', sortable: false },
           { text: 'Request Rate', value: 'requestRate', align: 'start', width: 250 },
           { text: 'Error Rate', value: 'errorRate', align: 'start', width: 250 },
+          { text: 'Duration', value: 'latency', align: 'start', width: 250 },
         ];
       },
     },
@@ -366,6 +365,39 @@
       appPerformanceMonitor(item) {
         this.$refs.appPerformanceMonitor.init(item);
         this.$refs.appPerformanceMonitor.open();
+      },
+      customSort(items, sortBy, sortDesc) {
+        const column = sortBy[0];
+        if (!column) return items;
+        if (column === 'requestRate' || column === 'errorRate' || column === 'latency') {
+          items.sort((a, b) => {
+            if (!sortDesc[0]) {
+              return a?.[column][a?.[column]?.length - 1] - b?.[column][a?.[column]?.length - 1];
+            } else {
+              return b?.[column][a?.[column]?.length - 1] - a?.[column][a?.[column]?.length - 1];
+            }
+          });
+        } else {
+          items.sort((a, b) => {
+            if (!sortDesc[0]) {
+              return a?.[column] > b?.[column];
+            } else {
+              return b?.[column] < a?.[column];
+            }
+          });
+        }
+        return items;
+      },
+      beautifyUnit(num) {
+        let result = parseFloat(num);
+        const units = ['us', 'ms', 's'];
+        for (const index in units) {
+          if (Math.abs(result) <= 1000 || parseInt(index) === parseInt(units.length - 1)) {
+            return `${result.toFixed(2)} ${units[index]}`;
+          }
+          result /= 1000;
+        }
+        return `${result.toFixed(2)} Yi`;
       },
     },
   };
