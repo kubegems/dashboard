@@ -277,20 +277,22 @@
       this.clearInterval();
     },
     methods: {
-      async loadMetrics(all = true) {
+      async loadMetrics(init = true) {
         this.metrics = {};
         const dashboard = this.items[this.tab];
         if (dashboard?.variables && Object.keys(dashboard.variables).length > 0) {
-          if (all) {
+          if (init) {
             this.variable = Object.keys(dashboard.variables)[0];
             this.variableValues = dashboard.variables[this.variable].split(',').filter((v) => {
               return Boolean(v);
             });
-            this.labelpairs[`labelpairs[${this.variable}]`] = this.variableValues.reduce(
-              (pre, current, index, arr) =>
-                (pre || pre) + (current || current) + `${index === arr.length - 1 ? '' : '|'}`,
-              '',
-            );
+            // this.labelpairs[`labelpairs[${this.variable}]`] = this.variableValues.reduce(
+            //   (pre, current, index, arr) =>
+            //     (pre || pre) + (current || current) + `${index === arr.length - 1 ? '' : '|'}`,
+            //   '',
+            // );
+            this.labelpairs[`labelpairs[${this.variable}]`] =
+              this.variableValues?.length > 0 ? this.variableValues[0] : '';
           }
         } else {
           this.variable = undefined;
@@ -332,7 +334,7 @@
         });
         this.dashboardList();
       },
-      async dashboardList(all = true) {
+      async dashboardList(init = true) {
         await this.getMonitorConfig();
         const data = await getMonitorDashboardList(this.environment.value);
         this.items = data;
@@ -347,7 +349,7 @@
         } else {
           this.tab = 0;
         }
-        this.loadMetrics(all);
+        this.loadMetrics(init);
       },
       getNamespace(item) {
         const namespace = item.promqlGenerator

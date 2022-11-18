@@ -294,7 +294,11 @@
         this.variableItemsCopy = deepCopy(this.variableItems);
       },
       selectItem(item, index) {
-        item.active = !item.active;
+        this.variableItemsCopy.forEach((item, index) => {
+          item.active = false;
+          this.$set(this.variableItemsCopy, index, item);
+        });
+        item.active = true;
         this.$set(this.variableItemsCopy, index, item);
       },
     },
