@@ -93,12 +93,12 @@
           <v-list-item-group v-model="resourceIndex" color="primary" @change="onResourceChange">
             <v-list-item v-for="(item, index) in resourceItemsCopy" :key="index" dense>
               <v-list-item-avatar class="mr-0" size="28">
-                <BaseLogo default-logo="kubegems" :icon-name="item.showName" :ml="0" :mt="1" :width="20" />
+                <BaseLogo default-logo="kubegems" :icon-name="item.name" :ml="0" :mt="1" :width="20" />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="select__list__title pl-2">
                   {{ item.showName }}
-                  <div class="float-right text-caption mt-n1">{{ item.rules.length }} 规则</div>
+                  <div class="float-right text-caption mt-n1">{{ item.rules ? item.rules.length : 0 }} 规则</div>
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>

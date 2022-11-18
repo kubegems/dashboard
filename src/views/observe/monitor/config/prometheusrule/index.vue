@@ -125,6 +125,20 @@
                   </v-card>
                 </v-menu>
               </v-flex>
+              <v-flex v-if="item.channelStatus > 0" class="float-left">
+                <v-menu nudge-right="20px" nudge-top="8px" open-on-hover right>
+                  <template #activator="{ on }">
+                    <span v-on="on">
+                      <v-icon color="orange" small> mdi-alert-decagram </v-icon>
+                    </span>
+                  </template>
+                  <v-card>
+                    <v-card-text class="pa-2 text-caption">
+                      {{ item.channelStatus === 1 ? $t('tip.channel_changed') : $t('tip.channel_lost') }}
+                    </v-card-text>
+                  </v-card>
+                </v-menu>
+              </v-flex>
             </v-flex>
           </template>
           <template v-if="AdminViewport" #[`item.namespace`]="{ item }">

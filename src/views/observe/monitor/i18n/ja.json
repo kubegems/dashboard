@@ -63,7 +63,9 @@
     "global_var_tip": "グローバル変数は、監視アイコンで監視データをフィルタリングするために使用されます",
     "missing_template": "テンプレートがありません",
 
-    "app_performance_monitor": "アプリケーションのパフォーマンス監視"
+    "app_performance_monitor": "アプリケーションのパフォーマンス監視",
+    "channel_changed": "アラート チャネルが変更されました",
+    "channel_lost": "アラート チャネルが削除されました"
   },
   "tab": {
     "generate_from_template": "テンプレート生成",

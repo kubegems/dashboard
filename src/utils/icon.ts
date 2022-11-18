@@ -18,6 +18,7 @@ export function getIconName(name: string, def = 'kubernetes'): string {
   if (name === 'es') return 'logos:elasticsearch';
   if (name.indexOf('mongodb') > -1) return 'logos:mongodb-icon';
   if (name === 'mongo') return 'logos:mongodb-icon';
+  if (name === 'k3s') return 'img:k3s.svg';
   if (name.indexOf('postgresql') > -1) return 'logos:postgresql';
   if (name.indexOf('postgres') > -1) return 'logos:postgresql';
   if (name.indexOf('kibana') > -1) return 'logos:kibana';
@@ -63,7 +64,7 @@ export function getIconName(name: string, def = 'kubernetes'): string {
   if (name.indexOf('wildfly') > -1) return 'logos:wildfly';
   if (name.indexOf('exporter') > -1) return 'logos:prometheus';
   if (name.indexOf('node_problem_detector') > -1) return 'logos:kubernetes';
-  if (name.indexOf('node') > -1) return 'logos:nodemon';
+  if (name.indexOf('nodejs') > -1) return 'logos:nodemon';
   if (name.indexOf('grafana') > -1) return 'logos:grafana';
   if (name.indexOf('phpbb') > -1) return 'logos:php';
   if (name.indexOf('pytorch') > -1) return 'logos:pytorch-icon';
@@ -151,6 +152,7 @@ export function getIconName(name: string, def = 'kubernetes'): string {
   if (name.indexOf('tracing') > -1) return 'img:jaeger.svg';
   if (name.indexOf('log collect') > -1) return 'img:kubegems.svg';
   if (name.indexOf('opentelemetry') > -1) return 'logos:opentelemetry';
+  if (name.indexOf('otel') > -1) return 'logos:opentelemetry-icon';
   if (name.indexOf('openkruise') > -1) return 'img:openkruise.svg';
   if (name.indexOf('ai-model') > -1) return 'img:ai-model.svg';
   if (name.indexOf('transformers') > -1) return 'img:transform.svg';

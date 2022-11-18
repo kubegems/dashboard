@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Router, { Route, RawLocation } from 'vue-router';
+import Router, { RawLocation, Route } from 'vue-router';
 
 import { adminObserve } from './admin_observe';
 import { adminWorkspace } from './admin_workspace';
@@ -165,4 +165,5 @@ router.beforeEach(async (to, from, next): Promise<void> => {
   }
 });
 
+export const useRouter = () => router;
 export default router;

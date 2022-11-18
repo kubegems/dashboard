@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Vuex, { Store, ActionContext } from 'vuex';
+import Vuex, { ActionContext, Store } from 'vuex';
 
 import { useCluster, useEnvironment, useProject, useTenant, useVirtualSpace } from './server_data';
 import { getBroadcastlist, getClusterPluginsList, getPluginsList, getRESTMapping } from 'src/api';
@@ -32,7 +32,7 @@ const StoreMode = 'store';
 const Locale = 'locale';
 const Broadcast = 'broadcast';
 
-export default new Store({
+const store: Store<{ [key: string]: any }> = new Store({
   state: {
     SidebarDrawer: null,
     Progress: false,
@@ -728,3 +728,6 @@ export default new Store({
     },
   },
 });
+
+export const useStore = () => store;
+export default store;

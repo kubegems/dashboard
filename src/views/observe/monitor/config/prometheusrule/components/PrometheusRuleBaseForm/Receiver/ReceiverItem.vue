@@ -23,7 +23,24 @@
             <v-list-item class="float-left py-0 pl-0" :style="{ width: `450px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 primary--text">
-                  {{ $root.$t('resource.receiver') }}
+                  <div class="float-left">
+                    {{ $root.$t('resource.receiver') }}
+                  </div>
+                  <v-flex v-if="item.channelStatus > 0" class="float-left ml-2" :style="{ marginTop: '-1px' }">
+                    <v-menu nudge-right="20px" nudge-top="8px" open-on-hover right>
+                      <template #activator="{ on }">
+                        <span v-on="on">
+                          <v-icon color="orange" small> mdi-alert-decagram </v-icon>
+                        </span>
+                      </template>
+                      <v-card>
+                        <v-card-text class="pa-2 text-caption">
+                          {{ item.channelStatus === 1 ? $t('tip.channel_changed') : $t('tip.channel_lost') }}
+                        </v-card-text>
+                      </v-card>
+                    </v-menu>
+                  </v-flex>
+                  <div class="kubegems__clear-float" />
                 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
                   {{ item.alertChannel.name }}
@@ -82,6 +99,7 @@
     },
     methods: {
       updateReceiver(index) {
+        console.log(this.receivers);
         this.$emit('updateReceiver', index);
       },
       removeReceiver(index) {

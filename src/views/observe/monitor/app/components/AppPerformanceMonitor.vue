@@ -57,7 +57,7 @@
             label="operation"
             :metrics="requestRate"
             title="requestRate"
-            type="percent"
+            type="reqrate"
           />
 
           <BaseAreaChart

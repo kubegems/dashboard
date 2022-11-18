@@ -39,13 +39,8 @@ module.exports = defineConfig({
   },
   rules: {
     'vue/script-setup-uses-vars': 'error',
-    'no-unused-vars': [
-      'error',
-      {
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-      },
-    ],
+    'no-unused-vars': ['off'],
+    '@typescript-eslint/no-unused-vars': ['warn'],
     'vue/html-self-closing': [
       'error',
       {

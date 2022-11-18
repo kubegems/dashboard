@@ -1,22 +1,25 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "module": "es2020",
-    "target": "es6",
+    "module": "ES2022",
+    "target": "ES2022",
     "sourceMap": true,
     "watch": false,
     "allowJs": true,
     "checkJs": false,
     "types": ["vite/client"],
+    "jsx": "preserve",
     "removeComments": true,
     "moduleResolution": "node",
     "baseUrl": "./",
     "outDir": "./",
     "paths": {
       "@": ["./src/"],
+      "@/*": ["src/*"],
       "src": ["./src/"]
     },
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "typeRoots": ["./types"]
   },
   "vueCompilerOptions": {
     "target": 2.7,
