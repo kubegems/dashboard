@@ -9,7 +9,6 @@ declare module 'vue' {
     BaseBarChart: typeof import('./src/components/BaseBarChart.vue')['default']
     BaseBreadcrumb: typeof import('./src/components/BaseBreadcrumb.vue')['default']
     BaseClusterHeader: typeof import('./src/components/BaseClusterHeader.vue')['default']
-    BaseClusterHeader1: typeof import('./src/components/BaseClusterHeader.vue')['default']
     BaseCollapseChips: typeof import('./src/components/BaseCollapseChips.vue')['default']
     BaseConfirm: typeof import('./src/components/BaseConfirm.vue')['default']
     BaseDatePicker: typeof import('./src/components/BaseDatePicker.vue')['default']
