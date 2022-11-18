@@ -298,8 +298,11 @@
           this.chart.update('none');
         }
       },
-      getOrCreateTooltip(chart) {
+      getOrCreateTooltip(chart, tooltip) {
         let tooltipEl = chart.canvas.parentNode.querySelector('div');
+
+        const width = chart.width;
+        const x = tooltip.caretX;
 
         if (!tooltipEl) {
           tooltipEl = document.createElement('div');
@@ -309,16 +312,21 @@
           tooltipEl.style.opacity = 1;
           tooltipEl.style.pointerEvents = 'none';
           tooltipEl.style.position = 'absolute';
-          tooltipEl.style.transform = 'translate(-50%, 0)';
+          tooltipEl.style.transform = `translate(-${(x / width) * 100}%, 0)`;
           tooltipEl.style.transition = 'all .1s ease';
           tooltipEl.style.fontSize = '12px';
           tooltipEl.style.zIndex = '15';
+          tooltipEl.style.minWidth = '300px';
+          // tooltipEl.style.maxWidth = '400px';
 
           const table = document.createElement('table');
           table.style.margin = '0px';
+          table.style.width = '100%';
 
           tooltipEl.appendChild(table);
           chart.canvas.parentNode.appendChild(tooltipEl);
+        } else {
+          tooltipEl.style.transform = `translate(-${(x / width) * 100}%, 0)`;
         }
 
         return tooltipEl;
@@ -327,7 +335,7 @@
       externalTooltipHandler(context) {
         // Tooltip Element
         const { chart, tooltip } = context;
-        const tooltipEl = this.getOrCreateTooltip(chart);
+        const tooltipEl = this.getOrCreateTooltip(chart, tooltip);
 
         // Hide if no tooltip
         if (tooltip.opacity === 0) {
@@ -341,17 +349,21 @@
 
           const tableBody = document.createElement('tbody');
           bodyLines.forEach((body, i) => {
+            const bodySlice = body[0].split(':');
+            const numberic = bodySlice[bodySlice.length - 1].trim();
             const colors = tooltip.labelColors[i];
 
-            const span = document.createElement('span');
-            span.style.background = colors.backgroundColor;
-            span.style.borderColor = colors.borderColor;
-            span.style.borderWidth = '2px';
-            span.style.marginRight = '10px';
-            span.style.height = '10px';
-            span.style.width = '10px';
-            span.style.display = 'inline-block';
-            span.style.borderRadius = '12px';
+            const divPoint = document.createElement('div');
+            divPoint.style.background = colors.backgroundColor;
+            divPoint.style.borderColor = colors.borderColor;
+            divPoint.style.borderWidth = '2px';
+            divPoint.style.marginRight = '10px';
+            divPoint.style.height = '12px';
+            divPoint.style.width = '12px';
+            divPoint.style.display = 'inline-block';
+            divPoint.style.borderRadius = '12px';
+            divPoint.style.float = 'left';
+            divPoint.style.marginTop = '4px';
 
             const tr = document.createElement('tr');
             tr.style.backgroundColor = 'inherit';
@@ -360,10 +372,41 @@
             const td = document.createElement('td');
             td.style.borderWidth = 0;
 
-            const text = document.createTextNode(`${tooltip.title[0]} ${body}`);
+            const divTitle = document.createElement('div');
+            divTitle.innerText = tooltip.title[0];
+            divTitle.style.float = 'left';
 
-            td.appendChild(span);
-            td.appendChild(text);
+            const divNumberic = document.createElement('div');
+            divNumberic.innerText = numberic;
+            divNumberic.style.float = 'right';
+
+            const divClear = document.createElement('div');
+            divClear.style.clear = 'both';
+
+            td.appendChild(divPoint);
+            td.appendChild(divTitle);
+            td.appendChild(divNumberic);
+            td.appendChild(divClear);
+
+            const datasetIndex = tooltip.dataPoints[0].datasetIndex;
+            const metric = this.metrics[datasetIndex].metric;
+            Object.keys(metric).forEach((label) => {
+              const div = document.createElement('div');
+              const divLeft = document.createElement('div');
+              divLeft.innerText = `${label} :`;
+              divLeft.style.float = 'left';
+              const divRight = document.createElement('div');
+              divRight.innerText = `${metric[label]}`;
+              divRight.style.float = 'left';
+              divRight.style.wordBreak = 'break-all';
+              const divClear = document.createElement('div');
+              divClear.style.clear = 'both';
+              div.appendChild(divLeft);
+              div.appendChild(divRight);
+              div.appendChild(divClear);
+              td.appendChild(div);
+            });
+
             tr.appendChild(td);
             tableBody.appendChild(tr);
           });
