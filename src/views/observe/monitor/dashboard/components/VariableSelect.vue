@@ -134,6 +134,10 @@
         type: Boolean,
         default: () => false,
       },
+      lp: {
+        type: Object,
+        default: () => {},
+      },
       offsetY: {
         type: Number,
         default: () => 0,
@@ -185,11 +189,19 @@
       variable: {
         handler(newValue) {
           if (newValue) {
+            const lps = Object.values(this.lp).map((l) => {
+              return l.split('|');
+            });
             const items = this.variableValues.map((d) => {
+              const active = lps.some((l) => {
+                return l.some((sl) => {
+                  return sl === d;
+                });
+              });
               return {
                 text: d,
                 value: d,
-                active: true,
+                active: active,
               };
             });
             this.variableItems = items;

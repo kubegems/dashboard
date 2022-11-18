@@ -39,6 +39,18 @@
             </template>
           </v-autocomplete>
         </v-col>
+        <template v-if="mode === 'ql'">
+          <v-col cols="6">
+            <v-text-field
+              v-model="obj.name"
+              class="my-0"
+              :label="$t('tip.name')"
+              :readonly="edit"
+              required
+              :rules="objRules.nameRule"
+            />
+          </v-col>
+        </template>
       </v-row>
 
       <v-row>
@@ -79,16 +91,6 @@
           </v-col>
         </template>
         <template v-if="mode === 'ql'">
-          <v-col cols="6">
-            <v-text-field
-              v-model="obj.name"
-              class="my-0"
-              :label="$t('tip.name')"
-              :readonly="edit"
-              required
-              :rules="objRules.nameRule"
-            />
-          </v-col>
           <v-col cols="12">
             <v-textarea v-model="obj.expr" auto-grow :label="$t('tip.query_ql')" :rules="objRules.exprRule" />
             <!-- <MetricsSuggestion
@@ -152,7 +154,7 @@
       },
       // environment: {
       //   type: Object,
-      //   default: () => {},
+      //   default: () => { return {} },
       // },
       generator: {
         type: Object,

@@ -83,7 +83,7 @@
           }
           await putUpdateMonitorDashboard(this.environment.value, data.id, data);
           this.reset();
-          this.$emit('refresh');
+          this.$emit('refresh', data.name);
         }
       },
       reset() {
