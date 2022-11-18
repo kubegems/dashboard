@@ -65,7 +65,9 @@
     "load_15": "15分鐘負載",
     "write_iops": "寫入IOPS",
     "read_iops": "讀取IOPS",
-    "log_content": "日誌內容"
+    "log_content": "日誌內容",
+    "channel_changed": "告警渠道已更改",
+    "channel_lost": "告警渠道已刪除"
   },
   "operate": {
     "download_log": "下載日誌",

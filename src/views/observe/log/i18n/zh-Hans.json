@@ -64,7 +64,9 @@
     "load_15": "15分钟负载",
     "write_iops": "写入IOPS",
     "read_iops": "读取IOPS",
-    "log_content": "日志内容"
+    "log_content": "日志内容",
+    "channel_changed": "告警渠道已更改",
+    "channel_lost": "告警渠道已删除"
   },
   "operate": {
     "download_log": "下载日志",

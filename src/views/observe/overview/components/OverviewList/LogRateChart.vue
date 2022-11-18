@@ -87,11 +87,9 @@
       },
       async logRate() {
         let data = await getMetricsQueryrange(this.env.clusterName, this.env.namespace, {
+          expr: `sum(gems_loki_logs_count_last_1m{namespace="${this.env.namespace}"})by(container)`,
           start: this.$moment(this.date[0]).utc().format(),
           end: this.$moment(this.date[1]).utc().format(),
-          resource: 'log',
-          rule: 'logCount',
-          scope: 'containers',
         });
         this.data = data;
       },

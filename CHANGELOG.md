@@ -1,3 +1,21 @@
+# 1.22.1 (2022-11-17)
+
+### Bug Fixes
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [fix: 🐛 fix app monitor sort not effect bug] | ([d4d5bce](https://github.com/chenshunliang/dashboard/commit/d4d5bce9fe02dc6c3858c7ae54837d91e2bb031a)) |
+| - | [fix: 🐛 fix line chart time series lost bug] | ([6507f56](https://github.com/chenshunliang/dashboard/commit/6507f56d2d7e7fd55802e0e795ed391c5f0bb78b)) |
+| - | [🐞 fix(obsv): log detail side chart] | ([1136339](https://github.com/chenshunliang/dashboard/commit/11363396ce9506f40280f74c90285b0c71c09d74)) |
+| - | [fix: 🐛 fix app monitor switch service not refresh bug] | ([83f2062](https://github.com/chenshunliang/dashboard/commit/83f2062a408f9005c6e9d432351effcd49e35741)) |
+
+### 🚀 性能优化
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | sync(otel): do not use recording rule | ([45d4255](https://github.com/chenshunliang/dashboard/commit/45d425585a4a7ade89e27f81aacfb7aaa325b673)) |
+| - | [perf: ⚡ hide log viewer suggestion | ([e37208b](https://github.com/chenshunliang/dashboard/commit/e37208beb2da648b2efc0186ca5b960a20c8b2e1)) |
+
 # 1.22.0 (2022-11-09)
 
 ### Bug Fixes

@@ -64,7 +64,9 @@
     "load_15": "15分使用率",
     "write_iops": "IOPSの書き込み",
     "read_iops": "IOPSの読み取り",
-    "log_content": "ログの内容"
+    "log_content": "ログの内容",
+    "channel_changed": "アラート チャネルが変更されました",
+    "channel_lost": "アラート チャネルが削除されました"
   },
   "operate": {
     "download_log": "ログをダウンロード",

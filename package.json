@@ -1,6 +1,6 @@
 {
   "name": "kubegems-dashboard",
-  "version": "1.22.0",
+  "version": "1.22.1",
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
@@ -67,7 +67,7 @@
     "vue-i18n": "^8.27.2",
     "vue-meta": "^2.4.0",
     "vue-okr-tree": "^1.0.12",
-    "vue-router": "^3.4.4",
+    "vue-router": "^3.6.5",
     "vue-slider-component": "^2.8.16",
     "vue-table-dynamic": "^0.4.10",
     "vue2-ace-editor": "^0.0.15",
@@ -84,6 +84,7 @@
     "@vitejs/plugin-vue2": "^2.0.0",
     "@vitejs/plugin-vue2-jsx": "^1.0.3",
     "@volar-plugins/vetur": "^0.1.0",
+    "@vueuse/core": "^9.5.0",
     "commitizen": "^4.2.4",
     "commitlint": "^13.2.0",
     "cz-conventional-changelog": "^3.3.0",

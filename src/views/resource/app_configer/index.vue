@@ -212,7 +212,7 @@
   import DeleteItem from './components/DeleteItem';
   import HistoryView from './components/HistoryView';
   import messages from './i18n';
-  import { getConfigBaseInfo, deleteConfigItems, getConfigItemsList, postPubConfigItems } from '@/api';
+  import { deleteConfigItems, getConfigBaseInfo, getConfigItemsList, postPubConfigItems } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import { deepCopy } from '@/utils/helpers';
 

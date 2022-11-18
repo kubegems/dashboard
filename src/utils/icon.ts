@@ -18,6 +18,7 @@ export function getIconName(name: string, def = 'kubernetes'): string {
   if (name === 'es') return 'logos:elasticsearch';
   if (name.indexOf('mongodb') > -1) return 'logos:mongodb-icon';
   if (name === 'mongo') return 'logos:mongodb-icon';
+  if (name === 'k3s') return 'img:k3s.svg';
   if (name.indexOf('postgresql') > -1) return 'logos:postgresql';
   if (name.indexOf('postgres') > -1) return 'logos:postgresql';
   if (name.indexOf('kibana') > -1) return 'logos:kibana';

@@ -98,7 +98,7 @@
               <v-list-item-content>
                 <v-list-item-title class="select__list__title pl-2">
                   {{ item.showName }}
-                  <div class="float-right text-caption mt-n1">{{ item.rules.length }} 规则</div>
+                  <div class="float-right text-caption mt-n1">{{ item.rules ? item.rules.length : 0 }} 规则</div>
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
