@@ -523,7 +523,8 @@
     "hide": "折叠",
     "need_login": "请登录后访问",
     "gpu_allocated": "Gpu分配",
-    "not_based_yaml": "不符合标准的yaml格式"
+    "not_based_yaml": "不符合标准的yaml格式",
+    "select_one_match": "选择一个匹配"
   },
   "tab": {
     "overview": "概览",

@@ -500,7 +500,8 @@
     "hide": "折り畳む",
     "need_login": "訪問するにはログインしてください",
     "gpu_allocated": "GPU 割り当て",
-    "not_based_yaml": "非標準の yaml 形式"
+    "not_based_yaml": "非標準の yaml 形式",
+    "select_one_match": "マッチを選択"
   },
   "tab": {
     "overview": "概要",

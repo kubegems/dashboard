@@ -17,6 +17,7 @@
 <template>
   <BaseFullScreenDialog
     v-model="dialog"
+    :action-top="4"
     icon="mdi-chart-areaspline-variant"
     :title="`${$t('tip.monitor_panel')}--${graph.name}`"
     @dispose="dispose"
@@ -26,33 +27,17 @@
     </template>
     <template #content>
       <v-card flat :height="outerHeight" :style="{ overflowY: 'auto' }">
-        <v-row class="pa-2 mt-0">
-          <v-col v-for="label in labels" :key="label.text" class="py-1 px-4" cols="2">
-            <v-autocomplete
-              attach
-              class="my-1"
-              dense
-              flat
-              hide-details
-              hide-selected
-              :items="label.items"
-              :label="label.text"
-              multiple
-              :no-data-text="$root.$t('data.no_data')"
-              solo
-              :value="labelpairs[label.text]"
-              @change="onLabelChange($event, label)"
-              @focus="getLabelItems(label)"
-            >
-              <template #selection="{ item, parent, index }">
-                <v-chip v-if="index === 0" class="my-1" color="primary" small>
-                  {{ item }}
-                </v-chip>
-                <v-chip v-if="index === 1" class="my-1" color="primary" small> +{{ parent.value.length - 1 }} </v-chip>
-              </template>
-            </v-autocomplete>
-          </v-col>
-        </v-row>
+        <div :style="{ height: '36px' }">
+          <BaseDropSelect
+            v-for="label in labels"
+            :key="label.text"
+            v-model="label.value"
+            :variable="label.text"
+            :variable-values="label.items"
+            @change="onLabelChange(label)"
+          />
+        </div>
+
         <div class="mx-2">
           <BaseAreaChart
             :animation="false"
@@ -94,7 +79,7 @@
       },
       environment: {
         type: Object,
-        default: () => {},
+        default: () => ({}),
       },
     },
     data() {
@@ -145,7 +130,8 @@
         this.graph = graph;
         this.namespace = namespace;
         this.onDatetimeChange();
-        this.getLabel();
+        await this.getLabel();
+        this.getLabelItems();
       },
       async loadMetrics(newParams = {}) {
         this.clearInterval();
@@ -213,27 +199,30 @@
             text: label,
             items: [],
             request: false,
+            value: [],
           };
           labelpairs[label] = {};
         });
         this.labels = data;
       },
-      async getLabelItems(label) {
-        const params = this.graph.promqlGenerator
-          ? this.graph.promqlGenerator
-          : {
-              expr: this.graph.expr,
-              unit: this.graph.unit,
-            };
-        const data = await getMetricsLabelValues(
-          this.environment.clusterName,
-          this.namespace,
-          Object.assign(params, { noprocessing: true, label: label.text }),
-        );
-        this.$set(this.labels[label.text], 'items', data);
+      getLabelItems() {
+        Object.keys(this.labels).forEach(async (label) => {
+          const params = this.graph.promqlGenerator
+            ? this.graph.promqlGenerator
+            : {
+                expr: this.graph.expr,
+                unit: this.graph.unit,
+              };
+          const data = await getMetricsLabelValues(
+            this.environment.clusterName,
+            this.namespace,
+            Object.assign(params, { noprocessing: true, label: label }),
+          );
+          this.$set(this.labels[label], 'items', data);
+        });
       },
-      onLabelChange(value, label) {
-        this.$set(this.labelpairs, label.text, value);
+      onLabelChange(label) {
+        this.$set(this.labelpairs, label.text, label.value);
         let newParams = {};
         for (const key in this.labelpairs) {
           if (this.labelpairs[key] && this.labelpairs[key].length) {

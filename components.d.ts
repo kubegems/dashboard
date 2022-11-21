@@ -15,6 +15,7 @@ declare module 'vue' {
     BaseDatetimePicker: typeof import('./src/components/BaseDatetimePicker.vue')['default']
     BaseDialog: typeof import('./src/components/BaseDialog.vue')['default']
     BaseDropProgress: typeof import('./src/components/BaseDropProgress.vue')['default']
+    BaseDropSelect: typeof import('./src/components/BaseDropSelect.vue')['default']
     BaseFilter: typeof import('./src/components/BaseFilter.vue')['default']
     BaseFullScreenDialog: typeof import('./src/components/BaseFullScreenDialog.vue')['default']
     BaseInfoCard: typeof import('./src/components/BaseInfoCard.vue')['default']
