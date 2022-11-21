@@ -190,9 +190,7 @@
     props: {
       app: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
       edit: {
         type: Boolean,

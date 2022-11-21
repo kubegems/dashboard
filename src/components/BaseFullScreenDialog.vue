@@ -51,7 +51,7 @@
           <slot name="header" />
         </div>
         <v-flex class="float-right">
-          <v-flex class="float-left" :style="{ marginTop: '2px' }">
+          <v-flex class="float-left" :style="{ marginTop: `${this.actionTop}px` }">
             <div v-if="Progress" :style="{ float: 'left' }">
               <v-progress-circular color="white" indeterminate size="20" width="3" />
             </div>
@@ -85,6 +85,10 @@
       event: 'click',
     },
     props: {
+      actionTop: {
+        type: Number,
+        default: () => 2,
+      },
       dialog: {
         type: Boolean,
         default: () => false,

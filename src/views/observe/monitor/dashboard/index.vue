@@ -23,6 +23,7 @@
             :key="variableKey"
             ref="variableSelect"
             v-model="labelpairs"
+            :lp="labelpairs"
             :variable="variable"
             :variable-values="variableValues"
             @loadMetrics="refreshMetrics"
@@ -150,19 +151,19 @@
     </div>
 
     <AddDashboard ref="addDashboard" :environment="environment" @refresh="dashboardList" />
-    <UpdateDashboard ref="updateDashboard" :environment="environment" @refresh="dashboardList" />
+    <UpdateDashboard ref="updateDashboard" :environment="environment" @refresh="refreshDashboardByName" />
     <GraphMax ref="graphMax" :date-link="date" :environment="environment" />
     <AddGraph
       ref="addGraph"
       :dashboard="items.length > 0 ? items[tab] : null"
       :environment="environment"
-      @refresh="dashboardList"
+      @refresh="dashboardList(false)"
     />
     <UpdateGraph
       ref="updateGraph"
       :dashboard="items.length > 0 ? items[tab] : null"
       :environment="environment"
-      @refresh="dashboardList"
+      @refresh="dashboardList(false)"
     />
   </v-container>
 </template>
@@ -276,20 +277,23 @@
       this.clearInterval();
     },
     methods: {
-      async loadMetrics() {
-        this.clearInterval();
+      async loadMetrics(init = true) {
         this.metrics = {};
         const dashboard = this.items[this.tab];
         if (dashboard?.variables && Object.keys(dashboard.variables).length > 0) {
-          this.variable = Object.keys(dashboard.variables)[0];
-          this.variableValues = dashboard.variables[this.variable].split(',').filter((v) => {
-            return Boolean(v);
-          });
-          this.labelpairs[`labelpairs[${this.variable}]`] = this.variableValues.reduce(
-            (pre, current, index, arr) =>
-              (pre || pre) + (current || current) + `${index === arr.length - 1 ? '' : '|'}`,
-            '',
-          );
+          if (init) {
+            this.variable = Object.keys(dashboard.variables)[0];
+            this.variableValues = dashboard.variables[this.variable].split(',').filter((v) => {
+              return Boolean(v);
+            });
+            // this.labelpairs[`labelpairs[${this.variable}]`] = this.variableValues.reduce(
+            //   (pre, current, index, arr) =>
+            //     (pre || pre) + (current || current) + `${index === arr.length - 1 ? '' : '|'}`,
+            //   '',
+            // );
+            this.labelpairs[`labelpairs[${this.variable}]`] =
+              this.variableValues?.length > 0 ? this.variableValues[0] : '';
+          }
         } else {
           this.variable = undefined;
           this.variableValues = [];
@@ -299,20 +303,21 @@
         this.loadData();
       },
       loadData() {
+        this.clearInterval();
         if (this.items?.length > 0 && this.items[this.tab] && this.items[this.tab].graphs) {
           this.items[this.tab].graphs.forEach((item, index) => {
             this.getMetrics(item, index);
           });
         }
-        this.timeinterval = setInterval(() => {
-          this.params.start = this.$moment(this.params.start).utc().add(30, 'seconds').format();
-          this.params.end = this.$moment(this.params.end).utc().add(30, 'seconds').format();
-          if (this.items?.length > 0 && this.items[this.tab] && this.items[this.tab].graphs) {
-            this.items[this.tab].graphs.forEach((item, index) => {
-              this.getMetrics(item, index);
-            });
-          }
-        }, 1000 * 30);
+        // this.timeinterval = setInterval(() => {
+        //   this.params.start = this.$moment(this.params.start).utc().add(30, 'seconds').format();
+        //   this.params.end = this.$moment(this.params.end).utc().add(30, 'seconds').format();
+        //   if (this.items?.length > 0 && this.items[this.tab] && this.items[this.tab].graphs) {
+        //     this.items[this.tab].graphs.forEach((item, index) => {
+        //       this.getMetrics(item, index);
+        //     });
+        //   }
+        // }, 1000 * 30);
       },
       refreshMetrics() {
         this.clearInterval();
@@ -321,7 +326,15 @@
       clearInterval() {
         if (this.timeinterval) clearInterval(this.timeinterval);
       },
-      async dashboardList() {
+      async refreshDashboardByName(name) {
+        await this.$router.replace({
+          query: {
+            tab: name,
+          },
+        });
+        this.dashboardList();
+      },
+      async dashboardList(init = true) {
         await this.getMonitorConfig();
         const data = await getMonitorDashboardList(this.environment.value);
         this.items = data;
@@ -336,7 +349,7 @@
         } else {
           this.tab = 0;
         }
-        this.loadMetrics();
+        this.loadMetrics(init);
       },
       getNamespace(item) {
         const namespace = item.promqlGenerator
@@ -445,7 +458,7 @@
       onDatetimeChange() {
         this.params.start = this.$moment(this.date[0]).utc().format();
         this.params.end = this.$moment(this.date[1]).utc().format();
-        this.loadMetrics();
+        this.loadMetrics(false);
       },
       onTabChange() {
         this.$nextTick(() => {
@@ -479,7 +492,7 @@
         await putUpdateMonitorDashboard(this.environment.value, this.items[this.tab].id, this.items[this.tab]);
       },
       refresh() {
-        this.loadMetrics();
+        this.loadMetrics(false);
       },
     },
   };

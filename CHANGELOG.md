@@ -1,3 +1,19 @@
+# 1.22.2 (2022-11-21)
+
+### Bug Fixes
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [fix: 🐛 fix monitor dashboard update dashboard name occured global variable error bug] | ([6bb7440](https://github.com/chenshunliang/dashboard/commit/6bb744033769adbe3baa6c665c76bcf81fe626cb)) |
+
+### 🚀 性能优化
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [perf: ⚡ add base drop select component] | ([1813404](https://github.com/chenshunliang/dashboard/commit/18134040ddfdfd985bdf46f1f0ca240fa449426c)) |
+| - | [perf: ⚡ optimization base area chart tooltip style] | ([17f658f](https://github.com/chenshunliang/dashboard/commit/17f658f8759b89dee5e786bfbe84ca85b3e3d2a2)) |
+| - | [perf: ⚡ optimization monitor dashboard global variable selector component] | ([187a3bd](https://github.com/chenshunliang/dashboard/commit/187a3bdc683eca6513ac4d5d105ae8fc8268b219)) |
+
 # 1.22.1 (2022-11-17)
 
 ### Bug Fixes

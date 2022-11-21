@@ -99,7 +99,6 @@
     },
     methods: {
       updateReceiver(index) {
-        console.log(this.receivers);
         this.$emit('updateReceiver', index);
       },
       removeReceiver(index) {

@@ -67,9 +67,7 @@
     props: {
       params: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
     },
     data() {

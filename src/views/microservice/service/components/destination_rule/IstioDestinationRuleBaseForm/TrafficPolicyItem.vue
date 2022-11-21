@@ -94,9 +94,7 @@
     props: {
       trafficPolicy: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
     },
     methods: {

@@ -4,7 +4,7 @@ import { IUserRole, ResourceRole } from './role';
 import { User } from './user';
 
 export class Tenant implements IUserRole<Tenant> {
-  constructor(tenant: { [key: string]: any }) {
+  constructor(tenant?: { [key: string]: any }) {
     Object.assign(this, tenant);
   }
 

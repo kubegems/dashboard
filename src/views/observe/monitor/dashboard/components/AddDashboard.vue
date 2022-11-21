@@ -51,9 +51,7 @@
     props: {
       environment: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
     },
     data() {

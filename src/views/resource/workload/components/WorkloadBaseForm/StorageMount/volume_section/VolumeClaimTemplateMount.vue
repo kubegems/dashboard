@@ -116,9 +116,7 @@
     props: {
       data: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
       template: {
         type: Object,

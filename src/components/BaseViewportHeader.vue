@@ -40,7 +40,12 @@
     computed: {
       ...mapState(['AdminViewport']),
       component() {
-        const component = this.AdminViewport || this.clusterable ? 'BaseClusterHeader' : 'BaseTenantHeader';
+        const component =
+          this.AdminViewport || this.clusterable
+            ? 'BaseClusterHeader'
+            : this.environmented
+            ? 'BaseEnvironmentHeader'
+            : 'BaseProjectHeader';
         return component;
       },
     },

@@ -52,9 +52,7 @@
     props: {
       appValues: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
       clusterName: {
         type: String,

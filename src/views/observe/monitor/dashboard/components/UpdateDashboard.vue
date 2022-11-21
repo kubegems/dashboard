@@ -51,9 +51,7 @@
     props: {
       environment: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
     },
     data() {
@@ -85,7 +83,7 @@
           }
           await putUpdateMonitorDashboard(this.environment.value, data.id, data);
           this.reset();
-          this.$emit('refresh');
+          this.$emit('refresh', data.name);
         }
       },
       reset() {

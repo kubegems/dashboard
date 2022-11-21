@@ -4,7 +4,7 @@ import { IUserRole, ResourceRole } from './role';
 import { User } from './user';
 
 export class Environment implements IUserRole<Environment> {
-  constructor(environment: { [key: string]: any }) {
+  constructor(environment?: { [key: string]: any }) {
     Object.assign(this, environment);
   }
 
