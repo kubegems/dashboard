@@ -5,8 +5,12 @@ import { IUserRole, ResourceRole } from './role';
 import { Tenant } from './tenant';
 import { User } from './user';
 
-export class Project implements IUserRole<Project> {
-  constructor(project: { [key: string]: any }) {
+interface IEnvironmnetInProject {
+  getEnvironmentList(params: KubePaginationRequest): Promise<KubePaginationResponse<Environment[]>>;
+}
+
+export class Project implements IUserRole<Project>, IEnvironmnetInProject {
+  constructor(project?: { [key: string]: any }) {
     Object.assign(this, project);
   }
 
@@ -76,5 +80,11 @@ export class Project implements IUserRole<Project> {
 
   public async deleteUser(user: User): Promise<void> {
     await axios.delete(`project/${this.ID}/user/${user.ID}`);
+  }
+
+  // IEnvironmnetInProject
+  public async getEnvironmentList(params: KubePaginationRequest): Promise<KubePaginationResponse<Environment[]>> {
+    const data: { [key: string]: any } = await axios(`project/${this.ID}/environment`, { params: params });
+    return data as KubePaginationResponse<Environment[]>;
   }
 }

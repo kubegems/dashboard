@@ -223,15 +223,11 @@
     props: {
       currentApp: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
       files: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
       selectRepo: {
         type: String,

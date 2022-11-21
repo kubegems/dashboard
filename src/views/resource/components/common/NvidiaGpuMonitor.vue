@@ -64,9 +64,7 @@
     props: {
       item: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
       type: {
         type: String,

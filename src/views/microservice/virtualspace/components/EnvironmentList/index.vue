@@ -108,9 +108,7 @@
     props: {
       virtualspace: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
     },
     computed: {

@@ -520,7 +520,7 @@
       },
       // 设置label查询值
       onLabelChange(data, id) {
-        this.$set(this.labelpairs[id], data.label, data.value);
+        this.$set(this.labelpairs[id], data.label.text, data.label.value);
         this.onSearch(id, false);
       },
       onClusterChange(index) {
@@ -542,6 +542,7 @@
             Object.assign(params, { noprocessing: true }),
           );
           this.$set(this.labelObject[id][label], 'items', data);
+          this.$set(this.labelObject[id][label], 'value', []);
           this.$set(this.labelObject[id][label], 'request', true);
         }
       },

@@ -84,9 +84,7 @@
       },
       param: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
     },
     data() {

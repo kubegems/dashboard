@@ -63,9 +63,7 @@
     props: {
       labels: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
     },
     methods: {

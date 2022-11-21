@@ -134,9 +134,7 @@
     props: {
       item: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
       title: {
         type: String,

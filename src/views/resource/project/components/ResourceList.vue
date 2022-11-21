@@ -61,9 +61,7 @@
     props: {
       quota: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
       resources: {
         type: Array,

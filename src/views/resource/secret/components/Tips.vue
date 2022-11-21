@@ -102,9 +102,7 @@
     props: {
       item: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
       top: {
         type: Boolean,

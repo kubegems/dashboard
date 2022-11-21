@@ -525,7 +525,8 @@
     "hide": "Hide",
     "need_login": "Please login first",
     "gpu_allocated": "GPU allocation",
-    "not_based_yaml": "Non-standard yaml format"
+    "not_based_yaml": "Non-standard yaml format",
+    "select_one_match": "Select a match"
   },
   "tab": {
     "overview": "Overview",

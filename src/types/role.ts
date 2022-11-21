@@ -11,6 +11,17 @@ export enum ResourceRole {
   Normal = 'normal',
 }
 
+export class Auth {
+  constructor(auth?: { [key: string]: any }) {
+    Object.assign(this, auth);
+  }
+
+  id: number;
+  isAdmin: boolean;
+  name: string;
+  role: string;
+}
+
 export interface IUserRole<T> {
   getUserList(params: KubePaginationRequest): Promise<T[]>;
   addUser(user: User, role: ResourceRole): Promise<any>;

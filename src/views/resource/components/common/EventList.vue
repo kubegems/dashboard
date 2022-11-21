@@ -129,9 +129,7 @@
       },
       selector: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
     },
     data() {

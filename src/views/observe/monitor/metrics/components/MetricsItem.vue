@@ -20,33 +20,17 @@
       <span class="text-body-1 kubegems__text">{{ title }}</span>
       <v-btn color="primary" small @click="setAlert"> {{ $t('operate.set_alert') }} </v-btn>
     </div>
-    <v-row :style="{ maxHeight: `${maxHeight}px` }">
-      <v-col v-for="label in labels" :key="label.text" class="py-1 px-4" cols="4">
-        <v-autocomplete
-          attach
-          class="my-1"
-          dense
-          flat
-          hide-details
-          hide-selected
-          :items="label.items"
-          :label="label.text"
-          multiple
-          :no-data-text="$root.$t('data.no_data')"
-          solo
-          :value="labelpairs[label.text]"
-          @change="onLabelChange($event, label.text)"
-          @focus="onLoadLabelFocus(label.text)"
-        >
-          <template #selection="{ item, parent, index }">
-            <v-chip v-if="index === 0" class="my-1" color="primary" small>
-              {{ item }}
-            </v-chip>
-            <v-chip v-if="index === 1" class="my-1" color="primary" small> +{{ parent.value.length - 1 }} </v-chip>
-          </template>
-        </v-autocomplete>
-      </v-col>
-    </v-row>
+
+    <div :style="{ maxHeight: `${maxHeight}px` }">
+      <BaseDropSelect
+        v-for="label in labels"
+        :key="label.text"
+        v-model="label.value"
+        :variable="label.text"
+        :variable-values="label.items"
+        @change="onLabelChange(label)"
+      />
+    </div>
 
     <div class="metrics-item__chart">
       <div ref="container" class="metrics-item__container">
@@ -84,9 +68,7 @@
     props: {
       data: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
       labelpairs: {
         type: Object,
@@ -121,11 +103,22 @@
         return Object.values(this.labelObject);
       },
       maxHeight() {
-        if (this.labels.length % 3 === 0) {
-          return (48 * this.labels.length) / 3;
+        if (this.labels.length % 4 === 0) {
+          return (36 * this.labels.length) / 4;
         } else {
-          return 48 * parseInt(this.labels.length / 3 + 1);
+          return 36 * parseInt(this.labels.length / 4 + 1);
         }
+      },
+    },
+    watch: {
+      labels: {
+        handler(newValue) {
+          if (newValue?.length > 0) {
+            this.getLabelItems();
+          }
+        },
+        deep: true,
+        immediate: true,
       },
     },
     mounted() {
@@ -193,11 +186,13 @@
           },
         });
       },
-      onLoadLabelFocus(label) {
-        this.$emit('loadLabel', label);
+      getLabelItems() {
+        this.labels.forEach((label) => {
+          this.$emit('loadLabel', label.text);
+        });
       },
-      onLabelChange(value, label) {
-        this.$emit('change', { label, value });
+      onLabelChange(label) {
+        this.$emit('change', { label });
       },
       onRefresh() {
         this.$emit('refresh');

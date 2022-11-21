@@ -22,7 +22,7 @@ type routerHandler = (_: RawLocation) => Promise<Route>;
 
 const originalPush: routerHandler = Router.prototype.push;
 Router.prototype.push = (location: RawLocation): Promise<Route> => {
-  return originalPush.call(router, location).catch((err) => console.log(err));
+  return originalPush.call(router, location).catch((err) => err);
 };
 
 const originalReplace: routerHandler = Router.prototype.replace;

@@ -5,7 +5,7 @@ interface IUser {
 }
 
 export class User implements IUser {
-  constructor(user: { [key: string]: any }) {
+  constructor(user?: { [key: string]: any }) {
     Object.assign(this, user);
   }
 

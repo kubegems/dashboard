@@ -66,9 +66,7 @@
     props: {
       annotations: {
         type: Object,
-        default: () => {
-          return {};
-        },
+        default: () => ({}),
       },
     },
     data() {

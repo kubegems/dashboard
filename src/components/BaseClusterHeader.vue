@@ -48,9 +48,13 @@
             </v-btn>
           </template>
           <v-card class="pa-2" flat height="350px">
-            <div class="select__left" :style="{ width: show ? '45%' : '100%' }">
+            <div class="select__left" :style="{ width: '220px' }">
               <div class="text-subtitle-2 kubegems__text select__title">
-                <div> 选择一个集群 </div>
+                <div class="float-left"> 选择一个集群 </div>
+                <div v-if="state.loading" class="float-right">
+                  <v-progress-circular color="primary" indeterminate size="18" width="3" />
+                </div>
+                <div class="kubegems__clear-float" />
               </div>
               <div class="text-caption pa-1 mt-2">集群类型</div>
               <v-divider class="mb-2" />
@@ -73,7 +77,7 @@
               </v-list>
             </div>
             <v-divider v-if="show" class="float-left select__divider" vertical />
-            <div v-if="show" class="select__right">
+            <div v-if="show" class="select__right" :style="{ width: '250px' }">
               <div class="text-caption pa-1">集群</div>
               <v-text-field
                 v-model="state.search"
@@ -154,7 +158,7 @@
   const state = reactive({
     menu: false,
     search: undefined,
-    width: 180,
+    width: 220,
     clusterPagination: undefined,
     clusterType: undefined,
     cluster: undefined,
@@ -162,9 +166,10 @@
       { text: 'Kubernetes', icon: 'kubernetes', value: 'k8s' },
       { text: 'Edge Cluster', icon: 'k3s', value: 'edge' },
     ],
+    loading: false,
   });
 
-  const show = computed(() => {
+  const show: ComputedRef<boolean> = computed(() => {
     return state.clusterType > -1 || state.clusterPagination?.length > 0;
   });
 
@@ -172,10 +177,16 @@
     return state.clusterPagination as Cluster[];
   });
 
+  const cluster: ComputedRef<Cluster> = computed(() => {
+    return state.clusterPagination[state.cluster] as Cluster;
+  });
+
   watch(
     () => route.params.cluster,
     async (value) => {
-      state.clusterPagination = await useClusterPagination(1, 100);
+      state.loading = true;
+      state.clusterPagination = await useClusterPagination(new Cluster(), 1, 100);
+      state.loading = false;
       state.clusterType = 0;
       state.cluster = state.clusterPagination.findIndex((cluster: Cluster) => {
         return cluster.ClusterName === value;
@@ -188,19 +199,20 @@
 
   const selectClusterType = async (): Promise<void> => {
     if (state.clusterType > -1) {
-      state.width = 400;
-      state.clusterPagination = await useClusterPagination(1, 100);
+      state.width = 470;
+      state.loading = true;
+      state.clusterPagination = await useClusterPagination(new Cluster(), 1, 100);
+      state.loading = false;
     } else {
-      state.width = state.clusterPagination?.length > 0 ? 400 : 180;
+      state.width = state.clusterPagination?.length > 0 ? 470 : 220;
     }
   };
 
-  const selectCluster = async () => {
+  const selectCluster = async (): Promise<void> => {
     if (state.cluster > -1) {
       store.commit('SET_NAMESPACE_FILTER', null);
-      const item: Cluster = state.clusterPagination[state.cluster];
       await router.replace({
-        params: { cluster: item.ClusterName },
+        params: { cluster: cluster.value.ClusterName },
         query: { ...route.query, namespace: null, page: '1' },
       });
       await store.dispatch('UPDATE_CLUSTER_DATA');
@@ -209,7 +221,7 @@
     }
   };
 
-  const search = () => {
+  const search = (): void => {
     if (state.search) {
       state.clusterPagination = state.clusterPagination.filter((cluster: Cluster) => {
         return cluster.ClusterName.indexOf(state.search) > -1;
