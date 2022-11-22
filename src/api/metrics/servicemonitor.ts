@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getApiVersion } from 'src/utils/helpers';
+import { getApiVersion } from '@/utils/helpers';
 
 // 服务监控列表
 export const getServiceMonitorList = (

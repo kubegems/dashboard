@@ -18,11 +18,11 @@ import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 
 // Messages
-import * as en from 'src/i18n/en.json';
-import * as ja from 'src/i18n/ja.json';
-import * as zhHans from 'src/i18n/zh-Hans.json';
-import * as zhHant from 'src/i18n/zh-Hant.json';
-import store from 'src/store';
+import * as en from '@/i18n/en.json';
+import * as ja from '@/i18n/ja.json';
+import * as zhHans from '@/i18n/zh-Hans.json';
+import * as zhHant from '@/i18n/zh-Hant.json';
+import store from '@/store';
 
 Vue.use(VueI18n);
 

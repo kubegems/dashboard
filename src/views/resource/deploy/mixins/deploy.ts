@@ -1,6 +1,6 @@
 import { mapGetters, mapState } from 'vuex';
 
-import { getStrategyDeployEnvironmentAppsDetail } from 'src/api';
+import { getStrategyDeployEnvironmentAppsDetail } from '@/api';
 
 const deploy: { [key: string]: any } = {
   data() {

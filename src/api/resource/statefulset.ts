@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getApiVersion } from 'src/utils/helpers';
+import { getApiVersion } from '@/utils/helpers';
 
 // sts列表
 export const getStatefulSetList = (

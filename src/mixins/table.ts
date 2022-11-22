@@ -28,8 +28,8 @@ import {
   deleteTenant,
   deleteUser,
   deleteVolumeSnapshot,
-} from 'src/api';
-import { convertStrToNum } from 'src/utils/helpers';
+} from '@/api';
+import { convertStrToNum } from '@/utils/helpers';
 
 type listHandler = (..._: any[]) => Promise<void>;
 

@@ -7,6 +7,9 @@ declare global {
     Data: T;
     Message: string;
     ErrorData: U;
+
+    data: T;
+    message: string;
   };
 
   type KubePaginationRequest = {
@@ -20,6 +23,11 @@ declare global {
     CurrentPage: number;
     CurrentSize: number;
     Total: number;
+
+    list: T;
+    page: number;
+    size: number;
+    total: number;
   };
 }
 

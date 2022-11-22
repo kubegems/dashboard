@@ -186,13 +186,13 @@
 <script lang="ts" setup>
   import { ComputedRef, computed, defineProps, inject, reactive, watch } from 'vue';
 
+  import { useEnvironmentRole } from '@/composition/permission';
+  import { useEnvironmentListInProject, useProjectPagination } from '@/composition/project';
+  import { useRoute, useRouter } from '@/composition/router';
+  import { RESOURCE_ROLE, METATYPE_CN } from '@/constants/platform';
+  import { useStore } from '@/store';
+  import { Environment } from '@/types/environment';
   import { Project } from '@/types/project';
-  import { useEnvironmentRole } from 'src/composition/permission';
-  import { useEnvironmentListInProject, useProjectPagination } from 'src/composition/project';
-  import { useRoute, useRouter } from 'src/composition/router';
-  import { RESOURCE_ROLE, METATYPE_CN } from 'src/constants/platform';
-  import { useStore } from 'src/store';
-  import { Environment } from 'src/types/environment';
 
   withDefaults(
     defineProps<{
