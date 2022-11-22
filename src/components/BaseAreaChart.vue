@@ -569,7 +569,7 @@
           if (Math.abs(result) <= sclaeNum || parseInt(index) === parseInt(units.length - 1)) {
             if (unitType === 'percent') {
               // 特殊处理
-              if (result > 1 && result < 1.2) {
+              if (result > 1 && result < 1.001) {
                 return `${(result * 100).toFixed(this.precision)} %`;
               } else {
                 return `${result.toFixed(this.precision)} %`;

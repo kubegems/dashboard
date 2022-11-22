@@ -1,8 +1,8 @@
 import Ajv from 'ajv';
 import { mapGetters, mapState } from 'vuex';
 
-import { getClusterQuota, getTenantResourceQuota } from 'src/api';
-import { sizeOfCpu, sizeOfStorage, sizeOfTke } from 'src/utils/helpers';
+import { getClusterQuota, getTenantResourceQuota } from '@/api';
+import { sizeOfCpu, sizeOfStorage, sizeOfTke } from '@/utils/helpers';
 
 const resource = {
   computed: {

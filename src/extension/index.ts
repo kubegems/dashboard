@@ -41,7 +41,7 @@ import 'brace/mode/sass';
 import 'brace/mode/scss';
 import 'brace/snippets/json';
 
-import store from 'src/store';
+import store from '@/store';
 
 Vue.prototype.$aceOptions = {
   tabSize: 2,

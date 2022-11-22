@@ -15,8 +15,8 @@ import { projectWorkspace } from './project_workspace';
 import { tool } from './tool';
 import { userCenter } from './user_center';
 import { workspace } from './workspace';
-import { PLATFORM } from 'src/constants/platform';
-import store from 'src/store';
+import { PLATFORM } from '@/constants/platform';
+import store from '@/store';
 
 type routerHandler = (_: RawLocation) => Promise<Route>;
 

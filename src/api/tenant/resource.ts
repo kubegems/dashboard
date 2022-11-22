@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { TENANT_RESOURCE_QUOTA_GROUP } from 'src/constants/gvk';
+import { TENANT_RESOURCE_QUOTA_GROUP } from '@/constants/gvk';
 
 // 租户资源quota列表
 export const getTenantResourceQuotaList = (

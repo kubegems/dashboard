@@ -2,10 +2,10 @@ import Vue from 'vue';
 import Vuex, { ActionContext, Store } from 'vuex';
 
 import { useCluster, useEnvironment, useProject, useTenant, useVirtualSpace } from './server_data';
-import { getBroadcastlist, getClusterPluginsList, getPluginsList, getRESTMapping } from 'src/api';
-import router from 'src/router';
-import { delAllCookie, getCookie } from 'src/utils/cookie';
-import { sleep } from 'src/utils/helpers';
+import { getBroadcastlist, getClusterPluginsList, getPluginsList, getRESTMapping } from '@/api';
+import router from '@/router';
+import { delAllCookie, getCookie } from '@/utils/cookie';
+import { sleep } from '@/utils/helpers';
 
 Vue.use(Vuex);
 

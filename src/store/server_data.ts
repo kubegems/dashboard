@@ -5,7 +5,7 @@ import {
   tenantSelectData,
   userTenantSelectData,
   virtualSpaceSelectData,
-} from 'src/api';
+} from '@/api';
 
 export async function useVirtualSpace(): Promise<{ [key: string]: string | number }[]> {
   const data: { [key: string]: any } = await virtualSpaceSelectData({ noprocessing: true });

@@ -1,4 +1,4 @@
-import { beautifyCpuUnit, beautifyStorageUnit, sizeOfCpu, sizeOfStorage } from 'src/utils/helpers';
+import { beautifyCpuUnit, beautifyStorageUnit, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
 const ResourceBeatifulMixin: { [key: string]: any } = {
   methods: {

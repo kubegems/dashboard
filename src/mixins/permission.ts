@@ -1,6 +1,6 @@
 import { mapGetters, mapState } from 'vuex';
 
-import { getClusterPluginsList, matrix, vector } from 'src/api';
+import { getClusterPluginsList, matrix, vector } from '@/api';
 
 const permission: { [key: string]: any } = {
   computed: {

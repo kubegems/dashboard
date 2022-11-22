@@ -130,10 +130,10 @@
 <script lang="ts" setup>
   import { ComputedRef, computed, defineProps, inject, reactive, watch } from 'vue';
 
-  import { useClusterPagination } from 'src/composition/cluster';
-  import { useRoute, useRouter } from 'src/composition/router';
-  import { useStore } from 'src/store';
-  import { Cluster } from 'src/types/cluster';
+  import { useClusterPagination } from '@/composition/cluster';
+  import { useRoute, useRouter } from '@/composition/router';
+  import { useStore } from '@/store';
+  import { Cluster } from '@/types/cluster';
 
   withDefaults(
     defineProps<{

@@ -26,7 +26,7 @@ import {
   userTenantSelectData,
   virtualSpaceEnvironmentSelectData,
   virtualSpaceSelectData,
-} from 'src/api';
+} from '@/api';
 
 const select: { [key: string]: any } = {
   data() {
