@@ -19,11 +19,13 @@
       "src": ["./src/"]
     },
     "resolveJsonModule": true,
-    "typeRoots": ["./types"]
+    "typeRoots": ["./types"],
+    "allowSyntheticDefaultImports": true
   },
   "vueCompilerOptions": {
     "target": 2.7,
     "extensions": [".vue"]
   },
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "logs", "dist", "vite.config.js", "volar.config.js"]
 }

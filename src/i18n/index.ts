@@ -22,9 +22,11 @@ import * as en from '@/i18n/en.json';
 import * as ja from '@/i18n/ja.json';
 import * as zhHans from '@/i18n/zh-Hans.json';
 import * as zhHant from '@/i18n/zh-Hant.json';
-import store from '@/store';
+import { useStore } from '@/store';
 
 Vue.use(VueI18n);
+
+const store = useStore();
 
 const i18n = new VueI18n({
   locale: store.state.Locale,
@@ -33,5 +35,7 @@ const i18n = new VueI18n({
 });
 
 Vue.prototype.$_i18n = i18n;
+
+export const useGlobalI18n = () => i18n;
 
 export default i18n;

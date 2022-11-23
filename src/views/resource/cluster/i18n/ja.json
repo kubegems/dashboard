@@ -26,13 +26,18 @@
     "connecting": "クラスターに接続中",
     "support_version": "サポートバージョン",
     "cluster_vendor": "集団工場商",
-    "now_select": "現在の選択"
+    "now_select": "現在の選択",
+    "register_cluster": "クラスターを登録する",
+    "custom_image": "カスタムミラー",
+    "success_added": "エッジ クラスタを正常に追加",
+    "copyed": "クリップボードにコピーしました"
   },
   "form": {
     "format_rule": "整形エラー(例:最大1桁)",
     "limit_min_rule": "最小限",
     "limit_max_rule": "最大値を超過しました",
-    "name": "クラスター名"
+    "name": "クラスター名",
+    "image": "鏡像"
   },
   "tab": {
     "etcd_timeout": "ETCDの時間",
@@ -40,6 +45,8 @@
     "cluster_cpu": "クラスター CPU",
     "cluster_memory": "クラスタリング",
     "cluster_storage": "クラスターストレージ",
-    "cluster_pod": "コンテナー グループ"
+    "cluster_pod": "コンテナー グループ",
+    "cloud_cluster": "クラウドクラスター",
+    "edge_cluster": "エッジ クラスタ"
   }
 }

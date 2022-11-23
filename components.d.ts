@@ -37,8 +37,6 @@ declare module 'vue' {
     BaseSnackBar: typeof import('./src/components/BaseSnackBar.vue')['default']
     BaseSplitContainer: typeof import('./src/components/BaseSplitContainer.vue')['default']
     BaseSubTitle: typeof import('./src/components/BaseSubTitle.vue')['default']
-    BaseTenantHeader: typeof import('./src/components/BaseTenantHeader.vue')['default']
-    BaseTenantHeader1: typeof import('./src/components/BaseTenantHeader1.vue')['default']
     BaseTipChips: typeof import('./src/components/BaseTipChips.vue')['default']
     BaseTipWindow: typeof import('./src/components/BaseTipWindow.vue')['default']
     BaseViewportHeader: typeof import('./src/components/BaseViewportHeader.vue')['default']

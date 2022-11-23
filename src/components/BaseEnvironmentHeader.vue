@@ -120,7 +120,7 @@
                 <v-divider class="mb-2" />
                 <v-list class="pa-0" dense max-height="225" nav :style="{ overflowY: 'auto' }">
                   <v-list-item-group color="primary" @change="selectCluster">
-                    <v-list-item v-for="item in [environment]" :key="item" dense>
+                    <v-list-item v-for="item in [environment]" :key="item.ClusterID" dense>
                       <v-list-item-content>
                         <v-list-item-title class="select__list__title pl-2">
                           {{ item ? item.Cluster.ClusterName : '' }}
@@ -137,22 +137,17 @@
                   <div class="kubegems__clear-float" />
                 </div>
                 <v-divider class="mb-2" />
-                <!-- <v-list class="pa-0" dense max-height="345" nav :style="{ overflowY: 'auto' }">
-                  <v-list-item-group v-model="ruleIndex" color="primary" @change="onRuleChange">
-                    <v-list-item v-for="(item, index) in ruleItemsCopy" :key="index" dense>
+                <v-list class="pa-0" dense max-height="225" nav :style="{ overflowY: 'auto' }">
+                  <v-list-item-group color="primary">
+                    <v-list-item v-for="item in edgeClusterItems" :key="item.ID" dense>
                       <v-list-item-content>
-                        <v-tooltip :close-delay="200" right>
-                          <template #activator="{ on }">
-                            <v-list-item-title class="select__list__title pl-2" v-on="on" v-text="item.showName" />
-                          </template>
-                          <template #default>
-                            <span class="text-caption">{{ item.description || $root.$t('data.no_data') }}</span>
-                          </template>
-                        </v-tooltip>
+                        <v-list-item-title class="select__list__title pl-2">
+                          {{ item.ClusterName }}
+                        </v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
                   </v-list-item-group>
-                </v-list> -->
+                </v-list>
               </div>
             </template>
 
@@ -184,13 +179,16 @@
 </template>
 
 <script lang="ts" setup>
-  import { ComputedRef, computed, defineProps, inject, reactive, watch } from 'vue';
+  import { ComputedRef, computed, inject, reactive, watch } from 'vue';
 
+  import { useEdgeClusterList } from '@/composition/cluster';
   import { useEnvironmentRole } from '@/composition/permission';
-  import { useEnvironmentListInProject, useProjectPagination } from '@/composition/project';
+  import { useEnvironmentListInProject, useProjectList } from '@/composition/project';
   import { useRoute, useRouter } from '@/composition/router';
-  import { RESOURCE_ROLE, METATYPE_CN } from '@/constants/platform';
+  import { METATYPE_CN, RESOURCE_ROLE } from '@/constants/platform';
   import { useStore } from '@/store';
+  import { Cluster } from '@/types/cluster';
+  import { EdgeCluster } from '@/types/edge_cluster';
   import { Environment } from '@/types/environment';
   import { Project } from '@/types/project';
 
@@ -247,24 +245,27 @@
     return state.environment > -1;
   });
 
+  const edgeClusterItems: ComputedRef<Cluster[]> = computed(() => {
+    return state.edgeClusterPagination as Cluster[];
+  });
+
   watch(
     () => route.params.environment,
     async (value) => {
       state.loading = true;
-      state.projectPagination = await useProjectPagination(
-        new Project({ TenantID: store.getters.Tenant().ID }),
-        1,
-        100,
-      );
+      state.projectPagination = await useProjectList(new Project({ TenantID: store.getters.Tenant().ID }));
       state.project = state.projectPagination.findIndex((project: Project) => {
         return project.ProjectName === route.params.project;
       });
 
-      state.environmentPagination = await useEnvironmentListInProject(new Project(project.value), 1, 100);
+      state.environmentPagination = await useEnvironmentListInProject(new Project(project.value));
       state.loading = false;
       state.environment = state.environmentPagination.findIndex((environment: Environment) => {
         return environment.EnvironmentName === value;
       });
+      if (state.environment > -1) {
+        state.edgeClusterPagination = await useEdgeClusterList(new EdgeCluster());
+      }
     },
     {
       immediate: true,
@@ -275,7 +276,7 @@
 
   const getProject = async (): Promise<void> => {
     state.loading = true;
-    state.projectPagination = await useProjectPagination(new Project({ TenantID: store.getters.Tenant().ID }), 1, 100);
+    state.projectPagination = await useProjectList(new Project({ TenantID: store.getters.Tenant().ID }));
     state.loading = false;
   };
 
@@ -284,7 +285,7 @@
       state.width = 460;
       state.environment = undefined;
       state.loading = true;
-      state.environmentPagination = await useEnvironmentListInProject(new Project(project.value), 1, 100);
+      state.environmentPagination = await useEnvironmentListInProject(new Project(project.value));
       state.loading = false;
     } else {
       state.width = 180;
@@ -294,7 +295,7 @@
   const selectEnvironment = async (): Promise<void> => {
     if (state.environment > -1) {
       state.width = 710;
-      state.edgeClusterPagination = [];
+      state.edgeClusterPagination = await useEdgeClusterList(new EdgeCluster());
     } else {
       state.width = 460;
     }

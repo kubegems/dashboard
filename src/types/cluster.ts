@@ -7,13 +7,14 @@ export class Cluster {
 
   ID: number;
   ClusterName: string;
-  APIServer: string;
-  ClientCertExpireAt: Date;
-  KubeConfig: any;
-  Primary: boolean;
+  APIServer?: string;
+  ClientCertExpireAt?: Date;
+  KubeConfig?: any;
+  Primary?: boolean;
   Version: string;
   AgentAddr?: string;
-  OversoldConfig: any;
+  OversoldConfig?: any;
+  Upstream?: string;
   [others: string]: any;
 
   public async getClusterList(params: KubePaginationRequest): Promise<KubePaginationResponse<Cluster[]>> {
