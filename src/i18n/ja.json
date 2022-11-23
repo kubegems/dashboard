@@ -164,7 +164,8 @@
     "output": "ルーター",
     "monitor_template": "テンプレートをモニタリング",
     "service_monitor": "採集器",
-    "host": "ホスト"
+    "host": "ホスト",
+    "edge_cluster": "エッジ クラスタ"
   },
   "header": {
     "workspace": "作業台",

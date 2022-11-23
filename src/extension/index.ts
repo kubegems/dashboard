@@ -15,7 +15,7 @@
  */
 import yaml from 'js-yaml';
 import _ from 'lodash';
-import * as moment from 'moment';
+import moment from 'moment';
 import Vue from 'vue';
 import 'moment/dist/locale/zh-cn';
 import 'moment/dist/locale/ja';

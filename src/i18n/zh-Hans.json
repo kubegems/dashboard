@@ -171,7 +171,8 @@
     "output": "路由器",
     "monitor_template": "监控模版",
     "service_monitor": "采集器",
-    "host": "主机"
+    "host": "主机",
+    "edge_cluster": "边缘集群"
   },
 
   "header": {

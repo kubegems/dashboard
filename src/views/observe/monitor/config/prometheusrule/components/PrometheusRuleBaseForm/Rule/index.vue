@@ -140,25 +140,6 @@
 
           <v-col col="12">
             <v-autocomplete
-              v-if="mode === 'monitor'"
-              v-model="obj.inhibitLabels"
-              class="my-0"
-              color="primary"
-              hide-selected
-              :items="inhibitLabelItems"
-              :label="$t('form.inhabit_label')"
-              multiple
-              :no-data-text="$root.$t('data.no_data')"
-              @focus="getInhibitLabels"
-            >
-              <template #selection="{ item }">
-                <v-chip class="mx-1" color="primary" small>
-                  {{ item['text'] }}
-                </v-chip>
-              </template>
-            </v-autocomplete>
-            <v-autocomplete
-              v-else
               v-model="obj.inhibitLabels"
               class="my-0"
               color="primary"

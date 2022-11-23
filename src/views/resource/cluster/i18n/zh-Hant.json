@@ -26,13 +26,18 @@
     "connecting": "集群連接中",
     "support_version": "支援版本",
     "cluster_vendor": "集群廠商",
-    "now_select": "當前選擇"
+    "now_select": "當前選擇",
+    "register_cluster": "註冊集群",
+    "custom_image": "自定義鏡像",
+    "success_added": "添加邊緣集群成功",
+    "copyed": "已復製到粘貼板"
   },
   "form": {
     "format_rule": "格式錯誤（範例：最多1位小數）",
     "limit_min_rule": "低於最小限制",
     "limit_max_rule": "超出最大限制",
-    "name": "集群名稱"
+    "name": "集群名稱",
+    "image": "鏡像"
   },
   "tab": {
     "etcd_timeout": "ETCD耗時",
@@ -40,6 +45,8 @@
     "cluster_cpu": "集群CPU",
     "cluster_memory": "集群記憶體",
     "cluster_storage": "集群存儲",
-    "cluster_pod": "集群容器組"
+    "cluster_pod": "集群容器組",
+    "cloud_cluster": "雲端集群",
+    "edge_cluster": "邊緣集群"
   }
 }

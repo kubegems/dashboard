@@ -171,7 +171,8 @@
     "output": "Output",
     "monitor_template": "Monitor Template",
     "service_monitor": "Service Monitor",
-    "host": "Host"
+    "host": "Host",
+    "edge_cluster": "Edge Cluster"
   },
 
   "header": {

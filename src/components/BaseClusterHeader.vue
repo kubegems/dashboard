@@ -128,12 +128,13 @@
 </template>
 
 <script lang="ts" setup>
-  import { ComputedRef, computed, defineProps, inject, reactive, watch } from 'vue';
+  import { ComputedRef, computed, inject, reactive, watch } from 'vue';
 
-  import { useClusterPagination } from '@/composition/cluster';
+  import { useClusterList, useEdgeClusterList } from '@/composition/cluster';
   import { useRoute, useRouter } from '@/composition/router';
   import { useStore } from '@/store';
   import { Cluster } from '@/types/cluster';
+  import { EdgeCluster } from '@/types/edge_cluster';
 
   withDefaults(
     defineProps<{
@@ -185,7 +186,9 @@
     () => route.params.cluster,
     async (value) => {
       state.loading = true;
-      state.clusterPagination = await useClusterPagination(new Cluster(), 1, 100);
+      state.clusterPagination = !route.query.isEdge
+        ? await useClusterList(new Cluster())
+        : await useEdgeClusterList(new EdgeCluster());
       state.loading = false;
       state.clusterType = 0;
       state.cluster = state.clusterPagination.findIndex((cluster: Cluster) => {
@@ -201,7 +204,8 @@
     if (state.clusterType > -1) {
       state.width = 470;
       state.loading = true;
-      state.clusterPagination = await useClusterPagination(new Cluster(), 1, 100);
+      state.clusterPagination =
+        state.clusterType === 0 ? await useClusterList(new Cluster()) : await useEdgeClusterList(new EdgeCluster());
       state.loading = false;
     } else {
       state.width = state.clusterPagination?.length > 0 ? 470 : 220;

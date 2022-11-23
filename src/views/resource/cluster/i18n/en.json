@@ -26,13 +26,18 @@
     "connecting": "Connecting clusters",
     "support_version": "Support Version",
     "cluster_vendor": "Cluster Vendor",
-    "now_select": "Current selection"
+    "now_select": "Current selection",
+    "register_cluster": "Register Cluster",
+    "custom_image": "Custom Image",
+    "success_added": "Add edge cluster successfully",
+    "copyed": "Copied to clipboard"
   },
   "form": {
     "format_rule": "Wrong format (example: max 1 decimal)",
     "limit_min_rule": "Less than minimum limit",
     "limit_max_rule": "Maximum limit exceeded",
-    "name": "Cluster name"
+    "name": "Cluster name",
+    "image": "Image"
   },
   "tab": {
     "etcd_timeout": "ETCD timeout",
@@ -40,6 +45,8 @@
     "cluster_cpu": "CPU",
     "cluster_memory": "Memory",
     "cluster_storage": "Storage",
-    "cluster_pod": "Pod"
+    "cluster_pod": "Pod",
+    "cloud_cluster": "Kubernetes Cluster",
+    "edge_cluster": "Edge Cluster"
   }
 }

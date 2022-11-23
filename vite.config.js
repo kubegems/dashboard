@@ -7,12 +7,12 @@ import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
 import { chunkSplitPlugin } from 'vite-plugin-chunk-split';
 import Markdown from 'vite-plugin-md';
+import VueSetupExtend from 'vite-plugin-vue-setup-extend';
 
 export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      src: fileURLToPath(new URL('./src', import.meta.url)),
     },
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
   },
@@ -48,6 +48,7 @@ export default defineConfig({
         'vue-i18n': ['vue-i18n'],
       },
     }),
+    VueSetupExtend(),
   ],
   envPrefix: 'VUE_APP_',
   css: {
@@ -72,6 +73,11 @@ export default defineConfig({
         target: 'http://api.models.kubegems.io:30939',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/v1/, ''),
+      },
+      '/api/v1/edge-': {
+        target: 'http://10.12.32.21:8080',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/v1/, '/v1'),
       },
       '/api/v1': {
         target: 'http://local.kubegems.io:30939',
