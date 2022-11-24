@@ -87,7 +87,7 @@
         </template>
         <template #[`item.address`]="{ item }">
           <template v-for="(rule, index) in item.spec.rules">
-            <template v-for="(path, i) in rule.http.paths">
+            <template v-for="(path, i) in rule.http ? rule.http.paths : []">
               <v-flex :key="`c${index}http${i}`" class="mx-1">
                 {{ getHost(rule, item) }}{{ getGatewayPort(getSchema(rule, item), item.spec.ingressClassName)
                 }}{{ path.path }}

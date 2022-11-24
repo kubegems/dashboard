@@ -143,7 +143,9 @@
             this.obj = deepCopy(newValue);
             this.host = this.obj.channelConfig.smtpServer.split(':')[0];
             this.port = this.obj.channelConfig.smtpServer.split(':')[1];
-            const emails = this.obj.channelConfig.to.split(',');
+            const emails = this.obj.channelConfig.to.split(',').filter((t) => {
+              return Boolean(t);
+            });
             this.emailTo = emails;
             this.emailToItems = this.emailToItems.concat(
               emails.map((e) => {
