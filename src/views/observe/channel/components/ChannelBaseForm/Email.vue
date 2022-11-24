@@ -171,19 +171,23 @@
         const data = await getTenantUserList(this.Tenant().ID, {
           size: 500,
         });
-        this.emailToItems = this.emailToItems.concat(
-          data.List.filter((user) => {
-            return user.Email && user.Email && user.Email.length > 0;
-          }).map((user) => {
-            if (
-              !this.emailToItems.some((e) => {
-                return e.text === user.Email;
-              })
-            ) {
-              return { text: user.Email, value: user.Email };
-            }
-          }),
-        );
+        this.emailToItems = this.emailToItems
+          .concat(
+            data.List.filter((user) => {
+              return user.Email && user.Email && user.Email.length > 0;
+            }).map((user) => {
+              if (
+                !this.emailToItems.some((e) => {
+                  return e && e.text === user.Email;
+                })
+              ) {
+                return { text: user.Email, value: user.Email };
+              }
+            }),
+          )
+          .filter((e) => {
+            return Boolean(e);
+          });
       },
       createEmail() {
         if (!this.emailText.trim()) return;
@@ -208,11 +212,11 @@
         this.emailText = '';
       },
       removeEmail(item) {
-        const index = this.emailToItems.findIndex((email) => {
-          return email.text !== item.text;
+        const index = this.emailTo.findIndex((email) => {
+          return email === item.text;
         });
         if (index > -1) {
-          this.emailToItems.splice(index, 1);
+          this.emailTo.splice(index, 1);
         }
       },
       emailListToString() {
