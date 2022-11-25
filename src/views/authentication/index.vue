@@ -263,6 +263,7 @@
       },
     },
     mounted() {
+      this.clearAllTimeTickers();
       this.authSource();
       if (validateJWT(this.$route.query.token)) {
         this.$store.commit('SET_JWT', this.$route.query.token);
@@ -271,6 +272,12 @@
       this.init();
     },
     methods: {
+      clearAllTimeTickers() {
+        for (let i = 0; i <= 100; i++) {
+          clearInterval(i);
+          clearTimeout(i);
+        }
+      },
       async authSource() {
         const data = await getSystemAuthSource({ noprocessing: true });
         this.oauthItems = data;

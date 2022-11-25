@@ -10,7 +10,7 @@ axios.defaults.timeout = 1000 * parseInt(import.meta.env.VUE_APP_API_TIMEOUT);
 
 axios.interceptors.request.use(function (config) {
   if (
-    !validateJWT(store.state.JWT) &&
+    !validateJWT(window.localStorage.getItem('JWT')) &&
     ['/login', '/403', '/404', '/white/page', '/white/tenant', '/whitecluster/cluster', '/oauth/callback'].indexOf(
       window.location.pathname,
     ) === -1
@@ -56,8 +56,8 @@ axios.interceptors.request.use(function (config) {
   if (store.state.Csrftoken) {
     config.headers['X-CSRFToken'] = store.state.Csrftoken;
   }
-  if (store.state.JWT) {
-    config.headers.Authorization = `Bearer ${store.state.JWT}`;
+  if (window.localStorage.getItem('JWT')) {
+    config.headers.Authorization = `Bearer ${window.localStorage.getItem('JWT')}`;
   }
   if (config.method.toLocaleLowerCase() in ['post', 'patch', 'put', 'delete']) {
     config.headers['Content-type'] = 'application/json;charset=utf-8';
