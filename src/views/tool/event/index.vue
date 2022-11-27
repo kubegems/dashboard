@@ -335,15 +335,14 @@
         }
       },
       async onDatetimeChange() {
-        if (this.JWT) {
-          if (!(this.Tenant().ID > 0 || this.Admin)) {
-            this.$store.commit('SET_SNACKBAR', {
-              text: this.$root.$t('tip.select_tenant'),
-              color: 'warning',
-            });
-            return;
-          }
+        if (!(this.Tenant().ID > 0 || this.Admin)) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: this.$root.$t('tip.select_tenant'),
+            color: 'warning',
+          });
+          return;
         }
+
         Object.assign(this.params, convertStrToNum(this.$route.query));
         this.params.start = Date.parse(this.$moment(this.date[0]).utc().format());
         this.params.end = Date.parse(this.$moment(this.date[1]).utc().format());

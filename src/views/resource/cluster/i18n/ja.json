@@ -2,7 +2,15 @@
   "table": {
     "kubernetes_version": "Kubernetes バージョン",
     "status": "状態",
-    "kubeconfig_expired": "有効期限の設定"
+    "kubeconfig_expired": "有効期限の設定",
+
+    "name": "名前",
+    "label": "ラベル",
+    "version": "バージョン",
+    "register_cluster": "クラスターを登録する",
+    "tunnel": "トンネル",
+    "node_count": "ホスト数",
+    "join_at": "参加時間"
   },
   "tip": {
     "control_cluster": "ホスト",
@@ -30,7 +38,10 @@
     "register_cluster": "クラスターを登録する",
     "custom_image": "カスタムミラー",
     "success_added": "エッジ クラスタを正常に追加",
-    "copyed": "クリップボードにコピーしました"
+    "copyed": "クリップボードにコピーしました",
+    "label": "ラベル",
+    "add_command": "参加順",
+    "create_at": "作成時間"
   },
   "form": {
     "format_rule": "整形エラー(例:最大1桁)",

@@ -188,6 +188,7 @@
       toAppStore() {
         this.$store.commit('CLEAR_VIRTUAL_SPACE');
         if (this.Tenant().ID > 0 || this.Admin) {
+          this.$store.commit('SET_EDGE', '');
           this.$router.push({ name: 'appstore-center' });
         } else {
           this.$router.push({ name: 'whitepage' });
@@ -196,6 +197,7 @@
       toModelStore() {
         this.$store.commit('CLEAR_VIRTUAL_SPACE');
         if (this.Tenant().ID > 0 || this.Admin) {
+          this.$store.commit('SET_EDGE', '');
           this.$router.push({ name: 'modelstore-center' });
         } else {
           this.$router.push({ name: 'whitepage' });
@@ -213,6 +215,7 @@
         }
         if (this.Tenant().ID > 0 || this.Admin) {
           this.$store.commit('SET_ADMIN_VIEWPORT', false);
+          this.$store.commit('SET_EDGE', '');
           this.$store.commit('CLEAR_RESOURCE');
           this.$router.push({
             name: 'resource-dashboard',

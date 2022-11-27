@@ -26,10 +26,13 @@
         </v-btn>
         <code class="hljs language-coffeescript">
           <span class="hljs-built_in">$ curl</span>
-          <span
-            >-k "https://edge1.k8s.kubegems.io/api/v2/edge/agent/install?token=xxxxxxxxxxxxxxxxxxxxxx | kubectl apply
-            -f"</span
-          >
+          <span>
+            -k
+            {{ edgeCluster.status.register.url }}
+          </span>
+          |
+          <span class="hljs-built_in">k3s kubectl</span>
+          <span> apply -f </span>
         </code>
       </div>
     </v-card-text>
@@ -39,6 +42,16 @@
 <script lang="ts" setup>
   import { useI18n } from '../../i18n';
   import { useStore } from '@/store';
+  import { EdgeCluster } from '@/types/edge_cluster';
+
+  withDefaults(
+    defineProps<{
+      edgeCluster?: EdgeCluster;
+    }>(),
+    {
+      edgeCluster: undefined,
+    },
+  );
 
   const i18nLocal = useI18n();
   const store = useStore();

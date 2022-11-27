@@ -140,11 +140,9 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.serviceDetail();
-        });
-      }
+      this.$nextTick(() => {
+        this.serviceDetail();
+      });
     },
     methods: {
       async serviceDetail() {

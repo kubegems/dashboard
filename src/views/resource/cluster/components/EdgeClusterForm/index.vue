@@ -28,17 +28,17 @@
       </keep-alive>
     </template>
     <template #action>
-      <v-btn v-if="state.step === state.totalStep - 1" class="float-right mx-2" color="primary" text @click="confirm">
-        {{ i18n.t('operate.confirm') }}
-      </v-btn>
       <v-btn
-        v-if="state.step >= 0 && state.step < state.totalStep - 1"
+        v-if="state.step === 1"
         class="float-right mx-2"
         color="primary"
         :loading="store.state.Circular"
         text
-        @click="next"
+        @click="confirm"
       >
+        {{ i18n.t('operate.confirm') }}
+      </v-btn>
+      <v-btn v-if="state.step === 0" class="float-right mx-2" color="primary" text @click="next">
         {{ i18n.t('operate.next') }}
       </v-btn>
       <v-btn
@@ -60,12 +60,24 @@
   import RegisterEdgeCluster from './RegisterEdgeCluster.vue';
   import RegisterMessage from './RegisterMessage.vue';
   import SelectCloudCluster from './SelectCloudCluster.vue';
+  import { useRoute } from '@/composition/router';
+  import { ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
   import { useGlobalI18n } from '@/i18n';
   import { useStore } from '@/store';
   import { EdgeCluster } from '@/types/edge_cluster';
 
+  const props = withDefaults(
+    defineProps<{
+      inEnv?: boolean;
+    }>(),
+    {
+      inEnv: false,
+    },
+  );
+
   const store = useStore();
   const i18n = useGlobalI18n();
+  const route = useRoute();
 
   const state = reactive({
     dialog: false,
@@ -76,7 +88,7 @@
 
   let edgeCluster = ref<EdgeCluster>(new EdgeCluster());
 
-  const components = ref([SelectCloudCluster, RegisterEdgeCluster, RegisterMessage]);
+  let components = ref([SelectCloudCluster, RegisterEdgeCluster, RegisterMessage]);
 
   const open = (): void => {
     state.dialog = true;
@@ -91,11 +103,6 @@
   const form = ref(null);
   const next = async (): Promise<void> => {
     if (form.value.validate()) {
-      if (state.step === 1) {
-        state.update
-          ? await new EdgeCluster(edgeCluster.value).updateEdgeCluster()
-          : await new EdgeCluster(edgeCluster.value).addEdgeCluster();
-      }
       state.step += 1;
     }
   };
@@ -103,15 +110,35 @@
     state.step -= 1;
   };
 
-  const confirm = (): void => {
-    reset();
+  const confirm = async (): Promise<void> => {
+    if (form.value.validate()) {
+      if (state.step === 1) {
+        state.update
+          ? async () => {
+              await new EdgeCluster(edgeCluster.value).updateEdgeCluster();
+              reset();
+            }
+          : async () => {
+              if (props.inEnv) {
+                edgeCluster.value.metadata.labels = Object.assign(edgeCluster.value.metadata.labels, {
+                  [ENVIRONMENT_KEY]: route.params.environment,
+                  [PROJECT_KEY]: route.params.project,
+                  [TENANT_KEY]: route.params.tenant,
+                });
+              }
+              await new EdgeCluster(edgeCluster.value).addEdgeCluster();
+              state.step += 1;
+            };
+      }
+      emits('refresh');
+    }
   };
 
   const reset = (): void => {
     state.dialog = false;
     state.step = 0;
+    state.update = false;
     edgeCluster.value = new EdgeCluster();
-    emits('refresh');
   };
 
   defineExpose({

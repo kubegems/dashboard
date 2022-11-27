@@ -29,5 +29,9 @@
   },
   "tip": {
     "tenant": "請創建或加入租戶"
+  },
+  "tab": {
+    "cloud_cluster": "雲端集群",
+    "edge_cluster": "邊緣集群"
   }
 }

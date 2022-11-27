@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-interface IUser {
+interface UserOperate {
   resetPassword(): Promise<void>;
 }
 
-export class User implements IUser {
+export class User implements UserOperate {
   constructor(user?: { [key: string]: any }) {
     Object.assign(this, user);
   }

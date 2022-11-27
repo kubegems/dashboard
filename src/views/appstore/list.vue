@@ -115,9 +115,7 @@
       ...mapGetters(['Tenant']),
     },
     mounted() {
-      if (this.JWT) {
-        this.repositoryList();
-      }
+      this.repositoryList();
     },
     methods: {
       async repositoryList() {

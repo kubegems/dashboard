@@ -122,9 +122,7 @@
       ...mapGetters(['Project']),
     },
     async mounted() {
-      if (this.JWT) {
-        this.projectDetail();
-      }
+      this.projectDetail();
     },
     methods: {
       async projectDetail() {

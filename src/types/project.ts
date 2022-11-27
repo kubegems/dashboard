@@ -1,15 +1,15 @@
 import axios from 'axios';
 
 import { Environment } from './environment';
-import { IUserRole, ResourceRole } from './role';
+import { ResourceRole, UserRole } from './role';
 import { Tenant } from './tenant';
 import { User } from './user';
 
-interface IEnvironmnetInProject {
+interface EnvironmnetInProject {
   getEnvironmentList(params: KubePaginationRequest): Promise<KubePaginationResponse<Environment[]>>;
 }
 
-export class Project implements IUserRole<Project>, IEnvironmnetInProject {
+export class Project implements UserRole<Project>, EnvironmnetInProject {
   constructor(project?: { [key: string]: any }) {
     Object.assign(this, project);
   }

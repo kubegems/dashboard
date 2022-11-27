@@ -142,10 +142,8 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        Object.assign(this.params, convertStrToNum(this.$route.query));
-        this.broadcastList();
-      }
+      Object.assign(this.params, convertStrToNum(this.$route.query));
+      this.broadcastList();
     },
     methods: {
       async broadcastList() {

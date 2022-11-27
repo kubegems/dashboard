@@ -17,7 +17,7 @@
   <v-card class="rounded-tr-0 rounded-tl-0 mb-3" flat height="60">
     <v-card-title class="py-3 mt-n3" :style="{ height: `60px` }">
       <v-sheet v-if="selectable" class="text-subtitle-1">
-        {{ $t('resource.environment') }}
+        {{ i18n.t('resource.environment') }}
         <v-menu
           v-model="state.menu"
           bottom
@@ -41,7 +41,13 @@
               v-on="on"
               @click="getProject"
             >
-              <v-icon left>mdi-cloud</v-icon>
+              <BaseLogo
+                class="mr-2 logo"
+                default-logo="kubernetes"
+                :icon-name="store.state.Edge ? 'k3s' : 'kubegems'"
+                :ml="0"
+                :width="20"
+              />
               {{ store.getters.Environment().EnvironmentName }}
               <v-icon v-if="state.menu" right>mdi-chevron-up</v-icon>
               <v-icon v-else right>mdi-chevron-down</v-icon>
@@ -57,11 +63,11 @@
                 <div class="kubegems__clear-float" />
               </div>
 
-              <div class="text-caption pa-1 mt-2">{{ $t('resource.project') }}</div>
+              <div class="text-caption pa-1 mt-2">{{ i18n.t('resource.project') }}</div>
               <v-divider class="mb-2" />
               <v-list class="pa-0" dense max-height="300" nav :style="{ overflowY: 'auto' }">
                 <v-list-item-group v-model="state.project" color="primary" @change="selectProject">
-                  <v-list-item v-for="item in projectItems" :key="item.ID" dense>
+                  <v-list-item v-for="item in projectItems" :key="item.ProjectName" dense>
                     <v-list-item-content>
                       <v-list-item-title class="select__list__title pl-2">
                         {{ item.ProjectName }}
@@ -88,11 +94,11 @@
                   solo
                   @keyup="search"
                 />
-                <div class="text-caption pa-1 mt-2">{{ $t('resource.environment') }}</div>
+                <div class="text-caption pa-1 mt-2">{{ i18n.t('resource.environment') }}</div>
                 <v-divider class="mb-2" />
                 <v-list class="pa-0" dense max-height="225" nav :style="{ overflowY: 'auto' }">
                   <v-list-item-group v-model="state.environment" color="primary" @change="selectEnvironment">
-                    <v-list-item v-for="item in environmentItems" :key="item.ID" dense>
+                    <v-list-item v-for="item in environmentItems" :key="item.EnvironmentName" dense>
                       <v-list-item-content>
                         <v-list-item-title class="select__list__title pl-2">
                           <div class="float-left">
@@ -109,7 +115,7 @@
 
             <template v-if="showCluster">
               <v-divider class="float-left select__divider" vertical />
-              <div class="select__right" :style="{ width: '250px' }">
+              <div class="select__right" :style="{ width: '280px' }">
                 <div class="text-caption pa-1 mt-2">
                   <div class="float-left">
                     <BaseLogo default-logo="kubernetes" :ml="0" :mt="0" :width="20" />
@@ -119,7 +125,7 @@
                 </div>
                 <v-divider class="mb-2" />
                 <v-list class="pa-0" dense max-height="225" nav :style="{ overflowY: 'auto' }">
-                  <v-list-item-group color="primary" @change="selectCluster">
+                  <v-list-item-group color="primary" :value="store.state.Edge ? undefined : 0" @change="selectCluster">
                     <v-list-item v-for="item in [environment]" :key="item.ClusterID" dense>
                       <v-list-item-content>
                         <v-list-item-title class="select__list__title pl-2">
@@ -138,11 +144,16 @@
                 </div>
                 <v-divider class="mb-2" />
                 <v-list class="pa-0" dense max-height="225" nav :style="{ overflowY: 'auto' }">
-                  <v-list-item-group color="primary">
-                    <v-list-item v-for="item in edgeClusterItems" :key="item.ID" dense>
+                  <v-list-item-group v-model="state.edgeCluster" color="primary" @change="selectCluster(true)">
+                    <v-list-item v-for="item in edgeClusterItems" :key="item.ClusterName" dense>
                       <v-list-item-content>
                         <v-list-item-title class="select__list__title pl-2">
-                          {{ item.ClusterName }}
+                          <div class="float-left">
+                            {{ item.ClusterName }}
+                            <div class="float-right text-caption ml-2 select__list__badge">
+                              {{ item.Upstream }}
+                            </div>
+                          </div>
                         </v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
@@ -155,23 +166,47 @@
           </v-card>
         </v-menu>
       </v-sheet>
+      <v-sheet v-else class="text-subtitle-1">
+        {{ i18n.t('resource.environment') }}
+        <v-btn
+          class="primary--text text-subtitle-1 font-weight-medium mt-n1"
+          color="white"
+          dark
+          depressed
+          small
+          @click.stop
+        >
+          <BaseLogo
+            class="mr-2 logo"
+            default-logo="kubernetes"
+            :icon-name="store.state.Edge ? 'k3s' : 'kubegems'"
+            :ml="0"
+            :width="20"
+          />
+          {{ store.getters.Environment().EnvironmentName }}
+        </v-btn>
+      </v-sheet>
+
+      <span v-if="store.state.Edge" class="text-body-2 kubegems__text">
+        <span class="ml-2">{{ i18n.t('resource.edge_cluster') }} : {{ store.state.Edge }}</span>
+      </span>
 
       <v-spacer />
       <v-sheet>
         <span class="text-body-2 kubegems__text">
-          {{ $t('resource.project_c', [$t('resource.role')]) }}:
-          {{ RESOURCE_ROLE[role] ? $t(`role.project.${role}`) : $t('data.unknown') }}
+          {{ i18n.t('resource.project_c', [i18n.t('resource.role')]) }}:
+          {{ RESOURCE_ROLE[role] ? i18n.t(`role.project.${role}`) : i18n.t('data.unknown') }}
           <span class="ml-4">
-            {{ $t('resource.environment_c', [$t('resource.type')]) }}:
+            {{ i18n.t('resource.environment_c', [i18n.t('resource.type')]) }}:
             {{
               METATYPE_CN[store.getters.Environment().Type]
-                ? $t(`metadata.environment_type.${store.getters.Environment().Type}`)
+                ? i18n.t(`metadata.environment_type.${store.getters.Environment().Type}`)
                 : ''
             }}
           </span>
-          <span class="ml-4">{{ $t('resource.project') }} : {{ store.getters.Project().ProjectName }}</span>
-          <span class="ml-4">{{ $t('resource.cluster') }} : {{ store.getters.Environment().ClusterName }}</span>
-          <span class="ml-4">{{ $t('resource.namespace') }} : {{ store.getters.Environment().Namespace }}</span>
+          <span class="ml-4">{{ i18n.t('resource.project') }} : {{ store.getters.Project().ProjectName }}</span>
+          <span class="ml-4">{{ i18n.t('resource.cluster') }} : {{ store.getters.Environment().ClusterName }}</span>
+          <span class="ml-4">{{ i18n.t('resource.namespace') }} : {{ store.getters.Environment().Namespace }}</span>
         </span>
       </v-sheet>
     </v-card-title>
@@ -185,7 +220,9 @@
   import { useEnvironmentRole } from '@/composition/permission';
   import { useEnvironmentListInProject, useProjectList } from '@/composition/project';
   import { useRoute, useRouter } from '@/composition/router';
+  import { ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
   import { METATYPE_CN, RESOURCE_ROLE } from '@/constants/platform';
+  import { useGlobalI18n } from '@/i18n';
   import { useStore } from '@/store';
   import { Cluster } from '@/types/cluster';
   import { EdgeCluster } from '@/types/edge_cluster';
@@ -203,6 +240,7 @@
 
   type reloadHandler = () => void;
 
+  const i18n = useGlobalI18n();
   const store = useStore();
   const router = useRouter();
   const route = useRoute();
@@ -225,16 +263,8 @@
     return state.projectPagination as Project[];
   });
 
-  const project: ComputedRef<Project> = computed(() => {
-    return state.projectPagination[state.project] as Project;
-  });
-
   const environmentItems: ComputedRef<Environment[]> = computed(() => {
     return state.environmentPagination as Environment[];
-  });
-
-  const environment: ComputedRef<Environment> = computed(() => {
-    return state.environmentPagination[state.environment] as Environment;
   });
 
   const showEnvironment: ComputedRef<boolean> = computed(() => {
@@ -252,6 +282,7 @@
   watch(
     () => route.params.environment,
     async (value) => {
+      if (!value) return;
       state.loading = true;
       state.projectPagination = await useProjectList(new Project({ TenantID: store.getters.Tenant().ID }));
       state.project = state.projectPagination.findIndex((project: Project) => {
@@ -264,7 +295,14 @@
         return environment.EnvironmentName === value;
       });
       if (state.environment > -1) {
-        state.edgeClusterPagination = await useEdgeClusterList(new EdgeCluster());
+        state.edgeClusterPagination = await useEdgeClusterList(new EdgeCluster(), {
+          [ENVIRONMENT_KEY]: [value],
+          [PROJECT_KEY]: [route.params.project],
+          [TENANT_KEY]: [route.params.tenant],
+        });
+        state.edgeCluster = state.edgeClusterPagination.findIndex((edgeCluster: Cluster) => {
+          return edgeCluster.ClusterName === store.state.Edge;
+        });
       }
     },
     {
@@ -280,6 +318,9 @@
     state.loading = false;
   };
 
+  const project: ComputedRef<Project> = computed(() => {
+    return state.projectPagination[state.project] as Project;
+  });
   const selectProject = async (): Promise<void> => {
     if (state.project > -1) {
       state.width = 460;
@@ -292,26 +333,42 @@
     }
   };
 
+  const environment: ComputedRef<Environment> = computed(() => {
+    return state.environmentPagination[state.environment] as Environment;
+  });
   const selectEnvironment = async (): Promise<void> => {
     if (state.environment > -1) {
-      state.width = 710;
-      state.edgeClusterPagination = await useEdgeClusterList(new EdgeCluster());
+      state.width = 740;
+      state.edgeClusterPagination = await useEdgeClusterList(new EdgeCluster(), {
+        [ENVIRONMENT_KEY]: [environment.value.EnvironmentName],
+        [PROJECT_KEY]: [project.value.ProjectName],
+        [TENANT_KEY]: [route.params.tenant],
+      });
     } else {
       state.width = 460;
     }
   };
 
+  const cluster: ComputedRef<Cluster> = computed(() => {
+    return state.edgeClusterPagination[state.edgeCluster] as Cluster;
+  });
   const selectCluster = async (isEdge = false): Promise<void> => {
+    if (isEdge) {
+      store.commit('SET_EDGE', cluster.value.ClusterName);
+    } else {
+      store.commit('SET_EDGE', '');
+    }
     await router.replace({
       params: {
         tenant: store.getters.Tenant().TenantName,
         project: project.value.ProjectName,
-        environment: isEdge ? '' : environment.value.EnvironmentName,
+        environment: environment.value.EnvironmentName,
       },
       query: {
         timestamp: Date.parse(new Date().toString()).toString(),
       },
     });
+    state.menu = false;
     reload();
   };
 
@@ -370,5 +427,8 @@
         margin-top: 2px;
       }
     }
+  }
+  .logo {
+    margin-top: 6px !important;
   }
 </style>

@@ -253,19 +253,17 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          if (this.ThisCluster === '') {
-            this.$store.commit('SET_SNACKBAR', {
-              text: this.$root.$t('tip.select_cluster'),
-              color: 'warning',
-            });
-            return;
-          }
-          Object.assign(Object.assign(this.params, { noprocessing: false }), convertStrToNum(this.$route.query));
-          this.nodeList();
-        });
-      }
+      this.$nextTick(() => {
+        if (this.ThisCluster === '') {
+          this.$store.commit('SET_SNACKBAR', {
+            text: this.$root.$t('tip.select_cluster'),
+            color: 'warning',
+          });
+          return;
+        }
+        Object.assign(Object.assign(this.params, { noprocessing: false }), convertStrToNum(this.$route.query));
+        this.nodeList();
+      });
     },
     destroyed() {
       if (this.interval) {

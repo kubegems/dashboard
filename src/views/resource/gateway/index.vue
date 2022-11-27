@@ -138,16 +138,14 @@
       ...mapGetters(['Tenant', 'Cluster']),
     },
     mounted() {
-      if (this.JWT) {
-        if (this.ThisCluster === '') {
-          this.$store.commit('SET_SNACKBAR', {
-            text: this.$root.$t('tip.select_cluster'),
-            color: 'warning',
-          });
-          return;
-        }
-        this.gatewayList();
+      if (this.ThisCluster === '') {
+        this.$store.commit('SET_SNACKBAR', {
+          text: this.$root.$t('tip.select_cluster'),
+          color: 'warning',
+        });
+        return;
       }
+      this.gatewayList();
     },
     methods: {
       async gatewayList() {

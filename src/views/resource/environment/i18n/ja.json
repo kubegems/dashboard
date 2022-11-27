@@ -40,7 +40,8 @@
     "default_request": "デフォルト（リクエスト）",
     "storage_capacity": "ストレージボリューム容量",
     "delete_all_select": "名前空間全体を削除",
-    "delete_cascade_select": "関連付けの削除"
+    "delete_cascade_select": "関連付けの削除",
+    "edge_open_tip": "ターゲット クラスタで Kubegems Edge プラグインを有効にする必要があります"
   },
   "operate": {
     "scale_resource": "リソース制限を調整します。",
@@ -58,6 +59,7 @@
     "limit_20_rule": "20 文字制限を超え",
     "name": "注文番号による検索",
     "remark": "メモ",
-    "delete_policy": "ポリシーを削除"
+    "delete_policy": "ポリシーを削除",
+    "allow_edge": "Edge クラスターの登録を許可する"
   }
 }

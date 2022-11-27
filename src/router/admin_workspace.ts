@@ -63,6 +63,7 @@ export const adminWorkspace: RouteConfig[] = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'plugin',
+              edge: false,
             },
           },
         ],

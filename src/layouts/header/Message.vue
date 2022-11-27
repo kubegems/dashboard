@@ -283,10 +283,8 @@
       if (this.messageTimeout) clearTimeout(this.messageTimeout);
     },
     mounted() {
-      if (this.JWT) {
-        this.messageList();
-        this.approveList();
-      }
+      this.messageList();
+      this.approveList();
     },
     methods: {
       async messageList(append = false) {

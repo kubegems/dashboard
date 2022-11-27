@@ -187,13 +187,11 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.$store.commit('CLEAR_VIRTUAL_SPACE');
-          this.m_table_generateParams();
-          this.virtualSpaceList();
-        });
-      }
+      this.$nextTick(() => {
+        this.$store.commit('CLEAR_VIRTUAL_SPACE');
+        this.m_table_generateParams();
+        this.virtualSpaceList();
+      });
     },
     methods: {
       async virtualSpaceList(noprocess = false) {

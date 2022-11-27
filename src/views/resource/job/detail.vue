@@ -139,11 +139,9 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.jobDetail();
-        });
-      }
+      this.$nextTick(() => {
+        this.jobDetail();
+      });
     },
     methods: {
       async jobDetail() {

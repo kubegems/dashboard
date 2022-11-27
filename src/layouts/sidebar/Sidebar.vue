@@ -87,7 +87,7 @@
       <template v-for="(item, i) in items">
         <template v-if="required(item.meta.required)">
           <!---If Sidebar Caption -->
-          <v-row v-if="item.meta.header" :key="item.meta.header" align="center" class="py-2">
+          <v-row v-if="item.meta.header && isEdge(item.meta.edge)" :key="item.meta.header" align="center" class="py-2">
             <v-col class="pa-1" cols="12">
               <v-subheader v-if="item.meta.header && (!expandOnHover || mouseovered)" class="text-truncate">
                 {{ $t(item.meta.header) }}
@@ -99,7 +99,11 @@
           </v-row>
         </template>
         <!---If Sidebar Caption -->
-        <BaseItemGroup v-if="item.children && required(item.meta.required)" :key="`group-${i}`" :item="item" />
+        <BaseItemGroup
+          v-if="item.children && required(item.meta.required) && isEdge(item.meta.edge)"
+          :key="`group-${i}`"
+          :item="item"
+        />
 
         <BaseItem
           v-else-if="
@@ -138,7 +142,7 @@
       };
     },
     computed: {
-      ...mapState(['SidebarColor', 'SidebarBg', 'AdminViewport', 'Scale', 'Plugins']),
+      ...mapState(['SidebarColor', 'SidebarBg', 'AdminViewport', 'Scale', 'Plugins', 'Edge']),
       ...mapGetters(['VirtualSpace', 'Tenant', 'Environment', 'Project', 'Cluster']),
       SidebarDrawer: {
         get() {
@@ -218,6 +222,14 @@
           }
         });
         return pass;
+      },
+      isEdge(edge) {
+        // console.log(edge);
+        return (
+          edge === undefined ||
+          (!this.AdminViewport && edge && this.Environment().AllowEdgeRegistration) ||
+          (this.AdminViewport && edge && this.Edge)
+        );
       },
       reloadSidebar() {
         try {

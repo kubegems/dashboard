@@ -156,11 +156,9 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.podDetail();
-        });
-      }
+      this.$nextTick(() => {
+        this.podDetail();
+      });
     },
     methods: {
       async podDetail() {

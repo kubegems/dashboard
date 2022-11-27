@@ -135,12 +135,10 @@
       ...mapGetters(['Cluster']),
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.clusterDetail();
-          this.onDatetimeChange();
-        });
-      }
+      this.$nextTick(() => {
+        this.clusterDetail();
+        this.onDatetimeChange();
+      });
     },
     methods: {
       async clusterDetail() {

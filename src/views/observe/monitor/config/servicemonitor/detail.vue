@@ -126,11 +126,9 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.serviceMonitorDetail();
-        });
-      }
+      this.$nextTick(() => {
+        this.serviceMonitorDetail();
+      });
     },
     methods: {
       async serviceMonitorDetail() {

@@ -153,11 +153,9 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.persistentVolumeClaimDetail();
-        });
-      }
+      this.$nextTick(() => {
+        this.persistentVolumeClaimDetail();
+      });
     },
     methods: {
       async persistentVolumeClaimDetail() {

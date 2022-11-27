@@ -240,11 +240,9 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          Object.assign(this.params, convertStrToNum(this.$route.query));
-        });
-      }
+      this.$nextTick(() => {
+        Object.assign(this.params, convertStrToNum(this.$route.query));
+      });
     },
     methods: {
       async istioPeerAuthenticationList(noprocess = false) {

@@ -125,11 +125,9 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.monitorTemplateDetail();
-        });
-      }
+      this.$nextTick(() => {
+        this.monitorTemplateDetail();
+      });
     },
     methods: {
       async monitorTemplateDetail() {

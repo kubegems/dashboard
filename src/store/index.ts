@@ -31,6 +31,7 @@ const ApiResources = 'api-resources';
 const StoreMode = 'store';
 const Locale = 'locale';
 const Broadcast = 'broadcast';
+const Edge = 'edge';
 
 const store: Store<{ [key: string]: any }> = new Store({
   state: {
@@ -91,6 +92,7 @@ const store: Store<{ [key: string]: any }> = new Store({
     GlobalPluginsInterval: null,
     Locale: window.localStorage.getItem(Locale) || 'zh-Hans',
     Broadcast: JSON.parse(window.localStorage.getItem(Broadcast)) || [],
+    Edge: window.localStorage.getItem(Edge) || '',
   },
   mutations: {
     SET_PLUGINS(state: { [key: string]: any }, payload: { [key: string]: any }[]): void {
@@ -104,6 +106,10 @@ const store: Store<{ [key: string]: any }> = new Store({
     SET_GLOBAL_PLUGINS(state: { [key: string]: any }, payload: { [key: string]: any }[]): void {
       state.GlobalPlugins = payload;
       window.localStorage.setItem(GlobalPlugins, JSON.stringify(payload));
+    },
+    SET_EDGE(state: { [key: string]: any }, payload: string) {
+      state.Edge = payload;
+      window.localStorage.setItem(Edge, payload);
     },
     SET_DIALOG(state: { [key: string]: any }, payload: boolean) {
       state.DialogActive = payload;
@@ -224,7 +230,7 @@ const store: Store<{ [key: string]: any }> = new Store({
       delAllCookie();
       const locale = window.localStorage.getItem(Locale) || 'zh-Hans';
       window.localStorage.clear();
-      state.JWT = null;
+      state.JWT = '';
       state.User = {};
       state.TenantStore = [];
       state.ProjectStore = [];
@@ -411,6 +417,8 @@ const store: Store<{ [key: string]: any }> = new Store({
         [key: string]: any;
       }
     >): Promise<void> {
+      if (state.Edge) return;
+
       const doFunc = async () => {
         const data: any = await getPluginsList({
           noprocessing: true,
@@ -444,6 +452,8 @@ const store: Store<{ [key: string]: any }> = new Store({
       >,
       payload: string,
     ): Promise<void> {
+      if (state.Edge) return;
+
       type doHandle = () => Promise<boolean>;
       const doFunc: doHandle = async (): Promise<boolean> => {
         const cluster: string = payload;
@@ -467,7 +477,9 @@ const store: Store<{ [key: string]: any }> = new Store({
         clearInterval(state.PluginsInterval);
         const r: boolean = await doFunc();
         if (r) {
-          state.PluginsInterval = setInterval(doFunc, 1000 * 30);
+          state.PluginsInterval = setInterval(() => {
+            doFunc();
+          }, 1000 * 30);
         }
       }
     },
@@ -693,7 +705,7 @@ const store: Store<{ [key: string]: any }> = new Store({
         ProjectName: '',
       };
     },
-    Environment: (state) => (): { [key: string]: string | number } => {
+    Environment: (state) => (): { [key: string]: string | number | boolean } => {
       const store: { [key: string]: string | number }[] = state.EnvironmentStore;
       let environment: string = window.location.pathname.split('/')[6];
       if (router) {
@@ -714,6 +726,7 @@ const store: Store<{ [key: string]: any }> = new Store({
           ClusterID: 0,
           Type: '',
           Version: '',
+          AllowEdgeRegistration: false,
         };
       }
       return {
@@ -724,6 +737,7 @@ const store: Store<{ [key: string]: any }> = new Store({
         ClusterID: 0,
         Type: '',
         Version: '',
+        AllowEdgeRegistration: false,
       };
     },
   },

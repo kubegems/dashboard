@@ -131,6 +131,18 @@
               </template>
             </v-autocomplete>
           </v-col>
+          <v-col cols="6">
+            <v-switch
+              v-model="obj.data.AllowEdgeRegistration"
+              class="mt-5 float-left"
+              hide-details
+              :label="$t('form.allow_edge')"
+            />
+            <div class="orange--text ml-2 mt-5 float-left">
+              <v-icon color="orange" right small> mdi-information-variant </v-icon>
+              {{ $t('tip.edge_open_tip') }}
+            </div>
+          </v-col>
         </v-row>
         <v-row>
           <v-col cols="6">
@@ -291,6 +303,7 @@
         expand: false,
         obj: {
           data: {
+            AllowEdgeRegistration: false,
             EnvironmentName: '',
             ClusterID: null,
             MetaType: '',

@@ -177,11 +177,9 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.nodeDetail();
-        });
-      }
+      this.$nextTick(() => {
+        this.nodeDetail();
+      });
     },
     methods: {
       async nodeDetail() {

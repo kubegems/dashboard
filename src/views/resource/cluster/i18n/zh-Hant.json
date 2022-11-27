@@ -2,7 +2,15 @@
   "table": {
     "kubernetes_version": "Kubernetes版本",
     "status": "狀態",
-    "kubeconfig_expired": "配置有效期"
+    "kubeconfig_expired": "配置有效期",
+
+    "name": "名稱",
+    "label": "標籤",
+    "version": "版本",
+    "register_cluster": "註冊集群",
+    "tunnel": "隧道",
+    "node_count": "主機數",
+    "join_at": "加入時間"
   },
   "tip": {
     "control_cluster": "控制集群",
@@ -30,7 +38,10 @@
     "register_cluster": "註冊集群",
     "custom_image": "自定義鏡像",
     "success_added": "添加邊緣集群成功",
-    "copyed": "已復製到粘貼板"
+    "copyed": "已復製到粘貼板",
+    "label": "標籤",
+    "add_command": "加入命令",
+    "create_at": "創建時間"
   },
   "form": {
     "format_rule": "格式錯誤（範例：最多1位小數）",

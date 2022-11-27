@@ -18,7 +18,7 @@
   <v-card class="rounded-tr-0 rounded-tl-0 mb-3" flat height="60">
     <v-card-title class="py-3 mt-n3" :style="{ height: `60px` }">
       <v-sheet v-if="selectable" class="text-subtitle-1">
-        {{ $t('resource.cluster') }}
+        {{ store.state.Edge ? i18n.t('resource.edge_cluster') : i18n.t('resource.cluster') }}
         <v-menu
           v-model="state.menu"
           bottom
@@ -41,8 +41,14 @@
               small
               v-on="on"
             >
-              <v-icon class="header__icon" left>mdi-kubernetes</v-icon>
-              {{ store.getters.Cluster().ClusterName }}
+              <BaseLogo
+                class="mr-2 logo"
+                default-logo="kubernetes"
+                :icon-name="state.clusterType ? 'k3s' : 'kubernetes'"
+                :ml="0"
+                :width="20"
+              />
+              {{ store.state.Edge || store.getters.Cluster().ClusterName }}
               <v-icon v-if="state.menu" right>mdi-chevron-up</v-icon>
               <v-icon v-else right>mdi-chevron-down</v-icon>
             </v-btn>
@@ -77,7 +83,7 @@
               </v-list>
             </div>
             <v-divider v-if="show" class="float-left select__divider" vertical />
-            <div v-if="show" class="select__right" :style="{ width: '250px' }">
+            <div v-if="show" class="select__right" :style="{ width: '280px' }">
               <div class="text-caption pa-1">集群</div>
               <v-text-field
                 v-model="state.search"
@@ -92,12 +98,14 @@
               <v-divider class="mb-2" />
               <v-list class="pa-0" dense max-height="225" nav :style="{ overflowY: 'auto' }">
                 <v-list-item-group v-model="state.cluster" color="primary" @change="selectCluster">
-                  <v-list-item v-for="item in clusterItems" :key="item.ID" dense>
+                  <v-list-item v-for="item in clusterItems" :key="item.ClusterName" dense>
                     <v-list-item-content>
                       <v-list-item-title class="select__list__title pl-2">
                         <div class="float-left">
                           {{ item.ClusterName }}
-                          <div class="float-right text-caption ml-2 select__list__badge">{{ item.Version }}</div>
+                          <div class="float-right text-caption ml-2 select__list__badge">
+                            {{ item.Version || item.Upstream }}
+                          </div>
                         </div>
                       </v-list-item-title>
                     </v-list-item-content>
@@ -110,7 +118,7 @@
         </v-menu>
       </v-sheet>
       <v-sheet v-else class="text-subtitle-1">
-        {{ $t('resource.cluster') }}
+        {{ i18n.t('resource.cluster') }}
         <v-btn
           class="primary--text text-subtitle-1 font-weight-medium mt-n1"
           color="white"
@@ -119,8 +127,14 @@
           small
           @click.stop
         >
-          <v-icon class="header__icon" left>mdi-kubernetes</v-icon>
-          {{ store.getters.Cluster().ClusterName }}
+          <BaseLogo
+            class="mr-2 logo"
+            default-logo="kubernetes"
+            :icon-name="state.clusterType ? 'k3s' : 'kubernetes'"
+            :ml="0"
+            :width="20"
+          />
+          {{ store.state.Edge || store.getters.Cluster().ClusterName }}
         </v-btn>
       </v-sheet>
     </v-card-title>
@@ -132,6 +146,7 @@
 
   import { useClusterList, useEdgeClusterList } from '@/composition/cluster';
   import { useRoute, useRouter } from '@/composition/router';
+  import { useGlobalI18n } from '@/i18n';
   import { useStore } from '@/store';
   import { Cluster } from '@/types/cluster';
   import { EdgeCluster } from '@/types/edge_cluster';
@@ -145,13 +160,9 @@
     },
   );
 
-  // enum ClusterType {
-  //   K8S,
-  //   Edge,
-  // }
-
   type reloadHandler = () => void;
 
+  const i18n = useGlobalI18n();
   const store = useStore();
   const router = useRouter();
   const route = useRoute();
@@ -178,19 +189,16 @@
     return state.clusterPagination as Cluster[];
   });
 
-  const cluster: ComputedRef<Cluster> = computed(() => {
-    return state.clusterPagination[state.cluster] as Cluster;
-  });
-
   watch(
     () => route.params.cluster,
     async (value) => {
+      if (!value) return;
       state.loading = true;
-      state.clusterPagination = !route.query.isEdge
-        ? await useClusterList(new Cluster())
-        : await useEdgeClusterList(new EdgeCluster());
+      state.clusterPagination = store.state.Edge
+        ? await useEdgeClusterList(new EdgeCluster())
+        : await useClusterList(new Cluster());
       state.loading = false;
-      state.clusterType = 0;
+      state.clusterType = store.state.Edge ? 1 : 0;
       state.cluster = state.clusterPagination.findIndex((cluster: Cluster) => {
         return cluster.ClusterName === value;
       });
@@ -204,17 +212,26 @@
     if (state.clusterType > -1) {
       state.width = 470;
       state.loading = true;
+      state.cluster = undefined;
       state.clusterPagination =
         state.clusterType === 0 ? await useClusterList(new Cluster()) : await useEdgeClusterList(new EdgeCluster());
       state.loading = false;
     } else {
-      state.width = state.clusterPagination?.length > 0 ? 470 : 220;
+      state.width = state.clusterPagination?.length > 0 ? 500 : 220;
     }
   };
 
+  const cluster: ComputedRef<Cluster> = computed(() => {
+    return state.clusterPagination[state.cluster] as Cluster;
+  });
   const selectCluster = async (): Promise<void> => {
     if (state.cluster > -1) {
       store.commit('SET_NAMESPACE_FILTER', null);
+      if (state.clusterType === 1) {
+        store.commit('SET_EDGE', cluster.value.ClusterName);
+      } else {
+        store.commit('SET_EDGE', '');
+      }
       await router.replace({
         params: { cluster: cluster.value.ClusterName },
         query: { ...route.query, namespace: null, page: '1' },
@@ -246,13 +263,11 @@
   .select {
     &__left {
       float: left;
-      width: 45%;
       padding: 8px;
     }
 
     &__right {
       float: left;
-      width: 55%;
       padding: 8px;
     }
 
@@ -282,5 +297,9 @@
         margin-top: 2px;
       }
     }
+  }
+
+  .logo {
+    margin-top: 6px !important;
   }
 </style>

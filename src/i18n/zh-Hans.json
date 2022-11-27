@@ -289,6 +289,7 @@
       "project": "项目",
       "terminal": "终端",
       "log": "容器日志",
+      "edge": "边缘集群",
 
       "g_cluster": "集群管理",
       "g_node": "节点管理",
@@ -308,7 +309,8 @@
       "h_dashboard": "首页",
       "h_space": "空间",
       "h_app": "应用中心",
-      "h_appmanifest": "平台应用"
+      "h_appmanifest": "平台应用",
+      "h_edge": "边缘服务"
     },
     "microservice": {
       "virtualspace": "虚拟空间",
@@ -472,7 +474,8 @@
     "flow": "日志采集器 (Flow/ClusterFlow) 定义了一个带有过滤器和输出的日志流。",
     "output": "日志路由器 (Output/ClusterOutput) 定义您的流可以发送日志消息的输出。",
     "dash_app": "应用监控(Jaeger)",
-    "alert_channel": "告警渠道提供多种告警消息发送方式通知用户，包括(邮箱，飞书，webhook等)"
+    "alert_channel": "告警渠道提供多种告警消息发送方式通知用户，包括(邮箱，飞书，webhook等)",
+    "edge": "一种高度可用且经过认证的 Kubernetes 发行版，专为无人值守、资源受限、远程位置或物联网设备内部的生产工作负载而设计。"
   },
   "metadata": {
     "description": "更便捷的云原生管理平台",

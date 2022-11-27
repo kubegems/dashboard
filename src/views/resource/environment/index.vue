@@ -246,20 +246,18 @@
       },
     },
     async mounted() {
-      if (this.JWT) {
-        if (this.Tenant().ID > 0) {
-          Object.assign(this.params, this.$route.query);
-          await this.m_select_tenantSelectData();
-          if (this.m_select_tenantItems.length > 0) {
-            this.tenant = this.m_select_tenantItems[0].value;
-            this.environmentTenantResourceQuota(this.tenant);
-          }
-        } else {
-          this.$store.commit('SET_SNACKBAR', {
-            text: this.$root.$t('data.no_tenant'),
-            color: 'warning',
-          });
+      if (this.Tenant().ID > 0) {
+        Object.assign(this.params, this.$route.query);
+        await this.m_select_tenantSelectData();
+        if (this.m_select_tenantItems.length > 0) {
+          this.tenant = this.m_select_tenantItems[0].value;
+          this.environmentTenantResourceQuota(this.tenant);
         }
+      } else {
+        this.$store.commit('SET_SNACKBAR', {
+          text: this.$root.$t('data.no_tenant'),
+          color: 'warning',
+        });
       }
     },
     methods: {

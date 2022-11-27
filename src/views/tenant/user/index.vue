@@ -220,10 +220,8 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        Object.assign(this.params, convertStrToNum(this.$route.query));
-        this.userList();
-      }
+      Object.assign(this.params, convertStrToNum(this.$route.query));
+      this.userList();
     },
     methods: {
       async userList() {

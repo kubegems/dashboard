@@ -238,19 +238,17 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          if (this.ThisCluster === '') {
-            this.$store.commit('SET_SNACKBAR', {
-              text: this.$root.$t('tip.select_cluster'),
-              color: 'warning',
-            });
-            return;
-          }
-          this.m_table_generateParams();
-          this.secretList();
-        });
-      }
+      this.$nextTick(() => {
+        if (this.ThisCluster === '') {
+          this.$store.commit('SET_SNACKBAR', {
+            text: this.$root.$t('tip.select_cluster'),
+            color: 'warning',
+          });
+          return;
+        }
+        this.m_table_generateParams();
+        this.secretList();
+      });
     },
     methods: {
       async secretList(noprocess = false) {

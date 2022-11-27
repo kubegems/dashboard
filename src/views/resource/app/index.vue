@@ -424,15 +424,13 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          if (!this.AdminViewport && this.Project().ID === 0) {
-            return;
-          }
-          this.m_table_generateParams();
-          this.appRunningList();
-        });
-      }
+      this.$nextTick(() => {
+        if (!this.AdminViewport && this.Project().ID === 0) {
+          return;
+        }
+        this.m_table_generateParams();
+        this.appRunningList();
+      });
     },
     methods: {
       async onTabChange() {

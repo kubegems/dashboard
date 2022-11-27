@@ -2,7 +2,15 @@
   "table": {
     "kubernetes_version": "Kubernetes版本",
     "status": "状态",
-    "kubeconfig_expired": "配置有效期"
+    "kubeconfig_expired": "配置有效期",
+
+    "name": "名称",
+    "label": "标签",
+    "version": "版本",
+    "register_cluster": "注册集群",
+    "tunnel": "隧道",
+    "node_count": "主机数",
+    "join_at": "加入时间"
   },
   "tip": {
     "control_cluster": "控制集群",
@@ -30,7 +38,10 @@
     "register_cluster": "注册集群",
     "custom_image": "自定义镜像",
     "success_added": "添加边缘集群成功",
-    "copyed": "已复制到粘贴板"
+    "copyed": "已复制到粘贴板",
+    "label": "标签",
+    "add_command": "加入命令",
+    "create_at": "创建时间"
   },
   "form": {
     "format_rule": "格式错误(示例:最多1位小数)",

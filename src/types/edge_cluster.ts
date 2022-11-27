@@ -2,14 +2,34 @@ import axios from 'axios';
 
 import { Metadata } from './base';
 
+class EdgeClusterStatusRegister {
+  constructor(edgeClusterStatusRegister?: { [key: string]: any }) {
+    Object.assign(this, edgeClusterStatusRegister);
+  }
+
+  url?: string = '';
+  lastRegisterToken?: string = '';
+  lastRegister?: Date = undefined;
+}
+
+class EdgeClusterStatusTunnel {
+  constructor(edgeClusterStatusTunnel?: { [key: string]: any }) {
+    Object.assign(this, edgeClusterStatusTunnel);
+  }
+
+  connected?: boolean = false;
+  lastOfflineTimestamp?: Date = undefined;
+  lastOnlineTimestamp?: Date = undefined;
+}
+
 class EdgeClusterStatus {
   constructor(edgeClusterStatus?: { [key: string]: any }) {
     Object.assign(this, edgeClusterStatus);
   }
 
   phase?: string = '';
-  register?: EdgeClusterSpecRegister = new EdgeClusterSpecRegister();
-  tunnel?: { [key: string]: string | Date | boolean } = {};
+  register?: EdgeClusterStatusRegister = new EdgeClusterStatusRegister();
+  tunnel?: EdgeClusterStatusTunnel = new EdgeClusterStatusTunnel();
   manufacture?: { [key: string]: string } = {};
 }
 
@@ -46,7 +66,11 @@ export class EdgeHub {
   }
 }
 
-export class EdgeCluster {
+interface EdgeStatistics {
+  getStatistics(): Promise<any>;
+}
+
+export class EdgeCluster implements EdgeStatistics {
   constructor(edgeCluster?: { [key: string]: any }) {
     Object.assign(this, edgeCluster);
   }
@@ -79,5 +103,13 @@ export class EdgeCluster {
 
   public async deleteEdgeCluster(): Promise<void> {
     await axios.delete(`edge-clusters/${this.metadata.name}`);
+  }
+
+  // EdgeStatistics
+  public async getStatistics(): Promise<any> {
+    const data: { [key: string]: any } = await axios(
+      `edge-clusters/${this.metadata.name}/proxy/custom/statistics.system/v1/all`,
+    );
+    return data;
   }
 }

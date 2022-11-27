@@ -121,11 +121,9 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.ingressDetail();
-        });
-      }
+      this.$nextTick(() => {
+        this.ingressDetail();
+      });
     },
     methods: {
       async ingressDetail() {

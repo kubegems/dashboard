@@ -246,14 +246,12 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.appRunningDetail();
-          if (this.$route.query.tab) {
-            this.tab = parseInt(this.$route.query.tab);
-          }
-        });
-      }
+      this.$nextTick(() => {
+        this.appRunningDetail();
+        if (this.$route.query.tab) {
+          this.tab = parseInt(this.$route.query.tab);
+        }
+      });
     },
     methods: {
       async appRunningDetail() {

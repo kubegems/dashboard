@@ -85,17 +85,15 @@
       ...mapGetters(['Tenant']),
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.$store.commit('SET_ADMIN_VIEWPORT', false);
-          if (this.Tenant().ID > 0) {
-            this.tenantStatistics();
-            this.$router.replace({ params: { tenant: this.Tenant().TenantName } });
-          } else {
-            this.$router.push({ name: 'whitepage' });
-          }
-        });
-      }
+      this.$nextTick(() => {
+        this.$store.commit('SET_ADMIN_VIEWPORT', false);
+        if (this.Tenant().ID > 0) {
+          this.tenantStatistics();
+          this.$router.replace({ params: { tenant: this.Tenant().TenantName } });
+        } else {
+          this.$router.push({ name: 'whitepage' });
+        }
+      });
     },
     methods: {
       async manageUser() {

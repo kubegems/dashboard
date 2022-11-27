@@ -105,11 +105,9 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.appDetail();
-        });
-      }
+      this.$nextTick(() => {
+        this.appDetail();
+      });
     },
     methods: {
       async appDetail() {
