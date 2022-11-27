@@ -122,9 +122,7 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.tokenList();
-      }
+      this.tokenList();
     },
     methods: {
       onActionStatusChange() {

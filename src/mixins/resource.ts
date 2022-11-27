@@ -2,7 +2,10 @@ import Ajv from 'ajv';
 import { mapGetters, mapState } from 'vuex';
 
 import { getClusterQuota, getTenantResourceQuota } from '@/api';
+import { useStore } from '@/store';
 import { sizeOfCpu, sizeOfStorage, sizeOfTke } from '@/utils/helpers';
+
+const store = useStore();
 
 const resource = {
   computed: {
@@ -10,7 +13,10 @@ const resource = {
     ...mapGetters(['Cluster', 'Environment']),
     // 当前集群，特殊命名
     ThisCluster() {
-      return this.AdminViewport ? this.Cluster().ClusterName || '' : this.Environment().ClusterName || '';
+      return (
+        store.state.Edge ||
+        (this.AdminViewport ? this.Cluster().ClusterName || '' : this.Environment().ClusterName || '')
+      );
     },
     // 当前命名空间，特殊命名
     ThisNamespace() {

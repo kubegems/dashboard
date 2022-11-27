@@ -113,11 +113,9 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.secretDetail();
-        });
-      }
+      this.$nextTick(() => {
+        this.secretDetail();
+      });
     },
     methods: {
       async secretDetail() {

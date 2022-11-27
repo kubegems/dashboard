@@ -27,7 +27,6 @@
             :items="edgeHubItems"
             :label="i18nLocal.t('tip.register_cluster')"
             :no-data-text="i18n.t('data.no_data')"
-            :readonly="update"
             :rules="objRule.hubName"
           >
             <template #selection="{ item, disabled }">
@@ -56,11 +55,11 @@
 
   const props = withDefaults(
     defineProps<{
-      update?: boolean;
+      // update?: boolean;
       edgeCluster?: EdgeCluster;
     }>(),
     {
-      update: false,
+      // update: false,
       edgeCluster: undefined,
     },
   );

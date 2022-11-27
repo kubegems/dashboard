@@ -124,11 +124,9 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.certificateDetail();
-        });
-      }
+      this.$nextTick(() => {
+        this.certificateDetail();
+      });
     },
     methods: {
       async certificateDetail() {

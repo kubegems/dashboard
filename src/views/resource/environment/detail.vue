@@ -120,10 +120,8 @@
       ...mapGetters(['Environment', 'Project']),
     },
     async mounted() {
-      if (this.JWT) {
-        this.$store.commit('CLEAR_PLUGINS_INTERVAL');
-        this.environmentDetail();
-      }
+      this.$store.commit('CLEAR_PLUGINS_INTERVAL');
+      this.environmentDetail();
     },
     methods: {
       async environmentDetail() {

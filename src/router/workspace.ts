@@ -108,6 +108,50 @@ export const workspace: RouteConfig[] = [
       {
         path: '',
         meta: {
+          header: 'routerbar.cluster.h_edge',
+          title: 'routerbar.cluster.h_edge',
+          icon: 'mdi-server',
+          required: ['tenant'],
+          edge: true,
+        },
+        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        redirect: { name: 'edge-list' },
+        children: [
+          // app
+          {
+            path: `${prefix}/edges`,
+            name: 'edge-list',
+            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/edge/index.vue'),
+            meta: {
+              requireAuth: true,
+              title: 'routerbar.cluster.edge',
+              icon: 'mdi-desktop-tower',
+              show: true,
+              rootName: 'workspace',
+              tip: 'edge',
+              edge: true,
+            },
+          },
+          {
+            path: `${prefix}/edges/:name`,
+            name: 'edge-detail',
+            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/edge/detail.vue'),
+            meta: {
+              requireAuth: true,
+              title: 'routerbar.cluster.edge',
+              upToAdmin: true,
+              icon: 'mdi-desktop-tower',
+              show: false,
+              rootName: 'workspace',
+              tip: 'edge',
+              edge: true,
+            },
+          },
+        ],
+      },
+      {
+        path: '',
+        meta: {
           header: 'routerbar.cluster.h_container',
           title: 'routerbar.cluster.g_runtime',
           icon: 'mdi-application',

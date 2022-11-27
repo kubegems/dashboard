@@ -289,6 +289,7 @@
       "project": "Project",
       "terminal": "Terminal",
       "log": "Container Log",
+      "edge": "Edge Cluster",
 
       "g_cluster": "Cluser",
       "g_node": "Node",
@@ -308,7 +309,8 @@
       "h_dashboard": "Dashboard",
       "h_space": "Space",
       "h_app": "App Center",
-      "h_appmanifest": "Platform App"
+      "h_appmanifest": "Platform App",
+      "h_edge": "Edge Service"
     },
     "microservice": {
       "virtualspace": "Virtual Space",
@@ -472,7 +474,8 @@
     "flow": "Flow/ClusterFlow defines a log flow with filters and outputs.",
     "output": "Output/ClusterOutput defines the output to which your flow can send log messages.",
     "dash_app": "App monitor from Jaeger",
-    "alert_channel": "The alert channel provides a variety of alert message sending methods to notify users, including (email, Feishu, webhook, etc.)"
+    "alert_channel": "The alert channel provides a variety of alert message sending methods to notify users, including (email, Feishu, webhook, etc.)",
+    "edge": "A highly available and certified Kubernetes distribution designed for production workloads in unattended, resource-constrained, remote locations, or inside IoT devices."
   },
 
   "metadata": {

@@ -22,7 +22,7 @@ export class Auth {
   role: string;
 }
 
-export interface IUserRole<T> {
+export interface UserRole<T> {
   getUserList(params: KubePaginationRequest): Promise<T[]>;
   addUser(user: User, role: ResourceRole): Promise<any>;
   updateUser(user: User, role: ResourceRole): Promise<any>;

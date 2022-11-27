@@ -43,7 +43,7 @@
       <v-list-item-content class="kubegems__text">
         <v-list-item-title class="text-subtitle-2"> {{ $t('resource.project') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
-          {{ item ? (item.metadata.labels ? item.metadata.labels[`gems.kubegems.io/project`] : '') : '' }}
+          {{ item ? (item.metadata.labels ? item.metadata.labels[PROJECT_KEY] : '') : '' }}
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -51,7 +51,7 @@
       <v-list-item-content class="kubegems__text">
         <v-list-item-title class="text-subtitle-2"> {{ $t('resource.environment') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
-          {{ item ? (item.metadata.labels ? item.metadata.labels[`gems.kubegems.io/environment`] : '') : '' }}
+          {{ item ? (item.metadata.labels ? item.metadata.labels[ENVIRONMENT_KEY] : '') : '' }}
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -67,6 +67,7 @@
 </template>
 
 <script>
+  import { ENVIRONMENT_KEY, PROJECT_KEY } from '@/constants/label';
   import BaseResource from '@/mixins/resource';
 
   export default {
@@ -85,6 +86,12 @@
         type: Boolean,
         default: () => true,
       },
+    },
+    data() {
+      this.PROJECT_KEY = PROJECT_KEY;
+      this.ENVIRONMENT_KEY = ENVIRONMENT_KEY;
+
+      return {};
     },
     // computed: {
     //   tke() {

@@ -142,11 +142,9 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.cronJobDetail();
-        });
-      }
+      this.$nextTick(() => {
+        this.cronJobDetail();
+      });
     },
     methods: {
       async cronJobDetail() {

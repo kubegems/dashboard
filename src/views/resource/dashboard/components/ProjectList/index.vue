@@ -272,24 +272,17 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        if (this.Tenant().ID > 0) {
-          this.projectList();
-          const end = new Date();
-          const start = new Date(new Date().setMinutes(new Date().getMinutes() - 15));
-          this.params.start = this.$moment(start).utc().format();
-          this.params.end = this.$moment(end).utc().format();
-        }
+      if (this.Tenant().ID > 0) {
+        this.projectList();
+        const end = new Date();
+        const start = new Date(new Date().setMinutes(new Date().getMinutes() - 15));
+        this.params.start = this.$moment(start).utc().format();
+        this.params.end = this.$moment(end).utc().format();
       }
     },
     methods: {
       async projectList() {
-        const data = await getProjectList(
-          this.Tenant().ID,
-          Object.assign(this.pageParams, {
-            noprocessing: true,
-          }),
-        );
+        const data = await getProjectList(this.Tenant().ID, Object.assign(this.pageParams, {}));
         this.projectItems = data.List;
         this.pageCount = Math.ceil(data.Total / this.pageParams.size);
         this.pageParams.page = data.CurrentPage;

@@ -188,15 +188,13 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          if (!this.AdminViewport && this.Project().ID === 0) {
-            return;
-          }
-          Object.assign(this.params, convertStrToNum(this.$route.query));
-          this.appManifestList();
-        });
-      }
+      this.$nextTick(() => {
+        if (!this.AdminViewport && this.Project().ID === 0) {
+          return;
+        }
+        Object.assign(this.params, convertStrToNum(this.$route.query));
+        this.appManifestList();
+      });
     },
     methods: {
       async appManifestList() {

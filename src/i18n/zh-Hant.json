@@ -281,6 +281,8 @@
       "project": "專案",
       "terminal": "終端",
       "log": "容器日誌",
+      "edge": "邊緣集群",
+
       "g_cluster": "集群管理",
       "g_node": "節點管理",
       "g_container": "容器服務",
@@ -298,7 +300,8 @@
       "h_dashboard": "首頁",
       "h_space": "空間",
       "h_app": "應用中心",
-      "h_appmanifest": "平台應用"
+      "h_appmanifest": "平台應用",
+      "h_edge": "邊緣服務"
     },
     "microservice": {
       "virtualspace": "虛擬空間",
@@ -449,7 +452,8 @@
     "flow": "日誌採集器 （Flow/ClusterFlow） 定義了一個帶有篩檢程式和輸出的日誌流。",
     "output": "日誌路由器 （Output/ClusterOutput） 定義您的流可以發送日誌消息的輸出。",
     "dash_app": "應用監控（Jaeger）",
-    "alert_channel": "告警渠道提供多種告警消息發送方式通知用戶，包括(郵箱，飛書，webhook等)"
+    "alert_channel": "告警渠道提供多種告警消息發送方式通知用戶，包括(郵箱，飛書，webhook等)",
+    "edge": "一種高度可用且經過認證的 Kubernetes 發行版，專為無人值守、資源受限、遠程位置或物聯網設備內部的生產工作負載而設計。"
   },
   "metadata": {
     "description": "更便捷的雲原生管理平臺",

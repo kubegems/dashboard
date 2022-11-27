@@ -81,6 +81,7 @@ export async function useEnvironment(projectid: number): Promise<{ [key: string]
       ClusterID: ns.ClusterID,
       Type: ns.MetaType,
       Version: ns.Cluster.Version,
+      AllowEdgeRegistration: ns.AllowEdgeRegistration,
     });
   });
   return projectEnvironmentSelect;

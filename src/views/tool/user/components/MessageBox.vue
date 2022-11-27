@@ -111,9 +111,7 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.messageList();
-      }
+      this.messageList();
     },
     methods: {
       onMessageTypeChange() {

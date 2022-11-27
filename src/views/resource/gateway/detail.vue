@@ -166,11 +166,9 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.gatewayDetail();
-        });
-      }
+      this.$nextTick(() => {
+        this.gatewayDetail();
+      });
     },
     methods: {
       async gatewayDetail() {

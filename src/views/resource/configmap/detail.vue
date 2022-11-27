@@ -105,11 +105,9 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.configMapDetail();
-        });
-      }
+      this.$nextTick(() => {
+        this.configMapDetail();
+      });
     },
     methods: {
       async configMapDetail() {

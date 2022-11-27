@@ -153,12 +153,10 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.m_table_generateParams();
-          this.dnsDomainList();
-        });
-      }
+      this.$nextTick(() => {
+        this.m_table_generateParams();
+        this.dnsDomainList();
+      });
     },
     methods: {
       async dnsDomainList(noprocess = false) {

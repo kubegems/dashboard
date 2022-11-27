@@ -148,10 +148,8 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        Object.assign(this.params, convertStrToNum(this.$route.query));
-        this.monitorTemplateList();
-      }
+      Object.assign(this.params, convertStrToNum(this.$route.query));
+      this.monitorTemplateList();
     },
     methods: {
       async monitorTemplateList() {

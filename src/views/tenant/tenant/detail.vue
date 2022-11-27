@@ -122,12 +122,10 @@
       ...mapGetters(['Tenant']),
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.tenantId = this.$route.query.id;
-          this.tenantDetail();
-        });
-      }
+      this.$nextTick(() => {
+        this.tenantId = this.$route.query.id;
+        this.tenantDetail();
+      });
     },
     methods: {
       async tenantDetail() {

@@ -160,9 +160,7 @@
       },
     },
     async mounted() {
-      if (this.JWT) {
-        Object.assign(this.params, this.$route.query);
-      }
+      Object.assign(this.params, this.$route.query);
     },
     methods: {
       show() {

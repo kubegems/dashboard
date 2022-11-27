@@ -40,19 +40,30 @@ declare global {
   };
 }
 
+export function initDefaultValueFromKModel(
+  attributeTypeMap: Array<{
+    name: string;
+    baseName: string;
+    type: string;
+  }>,
+): { [key: string]: any } {
+  const data = {};
+  attributeTypeMap.forEach((attribute) => {
+    if (attribute.type === 'string') data[attribute.name] = '';
+    else if (attribute.type === 'number') data[attribute.name] = 0;
+    else if (attribute.type === '{ [key: string]: string; }') data[attribute.name] = {};
+    else if (attribute.type === 'Date') data[attribute.name] = new Date();
+    else if (attribute.type === 'string') data[attribute.name] = '';
+    else if (attribute.type.startsWith('Array')) data[attribute.name] = [];
+    else data[attribute.name] = {};
+  });
+  return data;
+}
+
 export class Metadata extends V1ObjectMeta {
   constructor() {
     super();
-    const data = {};
-    V1ObjectMeta.attributeTypeMap.forEach((attribute) => {
-      if (attribute.type === 'string') data[attribute.name] = '';
-      else if (attribute.type === 'number') data[attribute.name] = 0;
-      else if (attribute.type === '{ [key: string]: string; }') data[attribute.name] = {};
-      else if (attribute.type === 'Date') data[attribute.name] = new Date();
-      else if (attribute.type === 'string') data[attribute.name] = '';
-      else if (attribute.type.startsWith('Array')) data[attribute.name] = [];
-      else data[attribute.name] = {};
-    });
+    const data = initDefaultValueFromKModel(V1ObjectMeta.attributeTypeMap);
     Object.assign(this, data);
   }
 }

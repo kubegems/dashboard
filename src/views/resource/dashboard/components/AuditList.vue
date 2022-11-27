@@ -93,13 +93,11 @@
       ...mapGetters(['Tenant']),
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          if (this.Tenant().ID > 0) {
-            this.auditList();
-          }
-        });
-      }
+      this.$nextTick(() => {
+        if (this.Tenant().ID > 0) {
+          this.auditList();
+        }
+      });
     },
     methods: {
       async auditList() {

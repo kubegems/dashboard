@@ -148,11 +148,9 @@
       if (this.interval) clearInterval(this.interval);
     },
     mounted() {
-      if (this.JWT) {
-        this.clusterList();
-        this.syncClusterStatus();
-        this.$store.commit('SET_NAMESPACE_FILTER', null);
-      }
+      this.clusterList();
+      this.syncClusterStatus();
+      this.$store.commit('SET_NAMESPACE_FILTER', null);
     },
     methods: {
       async clusterList(del = false) {

@@ -99,9 +99,7 @@
       ...mapGetters(['VirtualSpace']),
     },
     async mounted() {
-      if (this.JWT) {
-        this.virtualSpaceDetail();
-      }
+      this.virtualSpaceDetail();
     },
     methods: {
       async virtualSpaceDetail() {

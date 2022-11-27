@@ -126,9 +126,7 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.loginUserInfo();
-      }
+      this.loginUserInfo();
     },
     methods: {
       async loginUserInfo() {

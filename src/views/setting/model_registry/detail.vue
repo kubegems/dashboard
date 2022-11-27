@@ -100,11 +100,9 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.modelRegistryDetail();
-        });
-      }
+      this.$nextTick(() => {
+        this.modelRegistryDetail();
+      });
     },
     methods: {
       async modelRegistryDetail() {

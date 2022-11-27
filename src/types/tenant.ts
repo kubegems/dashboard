@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-import { IUserRole, ResourceRole } from './role';
+import { ResourceRole, UserRole } from './role';
 import { User } from './user';
 
-export class Tenant implements IUserRole<Tenant> {
+export class Tenant implements UserRole<Tenant> {
   constructor(tenant?: { [key: string]: any }) {
     Object.assign(this, tenant);
   }

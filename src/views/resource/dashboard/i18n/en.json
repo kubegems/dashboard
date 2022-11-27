@@ -31,5 +31,9 @@
   },
   "tip": {
     "tenant": "Please create or join a tenant"
+  },
+  "tab": {
+    "cloud_cluster": "Kubernetes Cluster",
+    "edge_cluster": "Edge Cluster"
   }
 }

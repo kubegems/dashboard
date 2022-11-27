@@ -187,13 +187,11 @@
       ...mapGetters(['Tenant']),
     },
     async mounted() {
-      if (this.JWT) {
-        if (this.Tenant().ID > 0) {
-          await this.m_select_clusterSelectData(this.Tenant().ID);
-          if (this.m_select_clusterItems.length > 0) {
-            this.clusterName = this.m_select_clusterItems[0].text;
-            this.loadPluginPass();
-          }
+      if (this.Tenant().ID > 0) {
+        await this.m_select_clusterSelectData(this.Tenant().ID);
+        if (this.m_select_clusterItems.length > 0) {
+          this.clusterName = this.m_select_clusterItems[0].text;
+          this.loadPluginPass();
         }
       }
     },

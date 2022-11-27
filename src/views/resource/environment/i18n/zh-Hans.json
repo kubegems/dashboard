@@ -40,7 +40,8 @@
     "default_request": "默认请求值",
     "storage_capacity": "存储卷容量",
     "delete_all_select": "删除整个命名空间",
-    "delete_cascade_select": "仅删除关联"
+    "delete_cascade_select": "仅删除关联",
+    "edge_open_tip": "目标集群需开启 Kubegems Edge 插件"
   },
   "operate": {
     "scale_resource": "调整资源限制",
@@ -58,6 +59,7 @@
     "limit_20_rule": "超出20字符限制",
     "name": "名称",
     "remark": "备注",
-    "delete_policy": "删除策略"
+    "delete_policy": "删除策略",
+    "allow_edge": "允许边缘集群注册"
   }
 }

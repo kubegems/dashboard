@@ -40,7 +40,8 @@
     "default_request": "Default request value",
     "storage_capacity": "Storage volume size",
     "delete_all_select": "Delete entire namespace",
-    "delete_cascade_select": "Only delete association"
+    "delete_cascade_select": "Only delete association",
+    "edge_open_tip": "The target cluster needs to enable the Kubegems Edge plugin"
   },
   "operate": {
     "scale_resource": "Adjust Resource Limit",
@@ -58,6 +59,7 @@
     "limit_20_rule": "More than 20 characters",
     "name": "Name",
     "remark": "Remarks",
-    "delete_policy": "Delete Policy"
+    "delete_policy": "Delete Policy",
+    "allow_edge": "Allow edge cluster registration"
   }
 }

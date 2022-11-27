@@ -229,10 +229,8 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        Object.assign(this.params, convertStrToNum(this.$route.query));
-        this.tenantList();
-      }
+      Object.assign(this.params, convertStrToNum(this.$route.query));
+      this.tenantList();
     },
     methods: {
       async tenantList() {

@@ -30,12 +30,10 @@
       ...mapGetters(['VirtualSpace']),
     },
     mounted() {
-      if (this.JWT) {
-        if (this.VirtualSpace().ID > 0) {
-          this.$router.replace({
-            name: 'virtualspace-detail',
-          });
-        }
+      if (this.VirtualSpace().ID > 0) {
+        this.$router.replace({
+          name: 'virtualspace-detail',
+        });
       }
     },
   };

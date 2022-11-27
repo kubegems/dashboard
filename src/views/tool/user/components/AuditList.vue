@@ -156,9 +156,7 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.auditList();
-      }
+      this.auditList();
     },
     methods: {
       onActionStatusChange() {

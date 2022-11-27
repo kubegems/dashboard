@@ -57,31 +57,40 @@
         />
       </template>
       <template #[`item.version`]="{ item }">
-        {{ item.metadata.name }}
+        {{ item.status.manufacture ? item.status.manufacture['edge.kubegems.io/kubernetes-version'] : '' }}
       </template>
       <template #[`item.tunnel`]="{ item }">
-        {{ item.status.tunnel.connected }}
+        <v-icon v-if="item.status.tunnel.connected" color="success" small>mdi-check-circle</v-icon>
+        <v-icon v-else color="error" small>mdi-error-circle</v-icon>
       </template>
       <template #[`item.register`]="{ item }">
-        {{ item.spec.register.hubName }}
+        {{ item.status.manufacture ? item.status.manufacture['edge.kubegems.io/edge-agent-register-address'] : '' }}
       </template>
-      <template #[`item.status`]="{ item }">
-        <span
-          :class="{
-            'v-avatar': true,
-            'mr-2': true,
-            'kubegems__waiting-flashing': edgeStatus[item.status.phase] === edgeStatus.Waiting,
-          }"
-          :style="{
-            height: '10px',
-            minWidth: '10px',
-            width: '10px',
-            backgroundColor: `${edgeStatus[item.status.phase]}`,
-          }"
-        />
-        <span>
-          {{ item.status.phase }}
-        </span>
+      <template #[`item.status`]="{ item, index }">
+        <EdgeStatusTip
+          :edge-cluster="item"
+          :top="pagination.size - index <= 5 || (pagination.items.length <= 5 && index >= 1)"
+        >
+          <template #trigger>
+            <span
+              :class="{
+                'v-avatar': true,
+                'mr-1': true,
+                'kubegems__waiting-flashing': edgeStatus[item.status.phase] === edgeStatus.Waiting,
+              }"
+              :style="{
+                height: '10px',
+                minWidth: '10px',
+                width: '10px',
+                marginTop: '-2px',
+                backgroundColor: `${edgeStatus[item.status.phase]}`,
+              }"
+            />
+            <span>
+              {{ item.status.phase }}
+            </span>
+          </template>
+        </EdgeStatusTip>
       </template>
       <template #[`item.node`] />
       <template #[`item.joinAt`]="{ item }">
@@ -131,7 +140,9 @@
   import moment from 'moment';
   import { onMounted, reactive, ref } from 'vue';
 
+  import { useI18n } from '../i18n';
   import EdgeClusterForm from './EdgeClusterForm/index.vue';
+  import EdgeStatusTip from './EdgeStatusTip.vue';
   import { useEdgeClusterPagination } from '@/composition/cluster';
   import { useGlobalI18n } from '@/i18n';
   import { useStore } from '@/store';
@@ -149,16 +160,17 @@
 
   const store = useStore();
   const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
 
   const headers = [
-    { text: '名称', value: 'name', align: 'start' },
-    { text: '标签', value: 'label', align: 'start' },
-    { text: '版本', value: 'version', align: 'start' },
-    { text: '注册集群', value: 'register', align: 'start' },
-    { text: '隧道', value: 'tunnel', align: 'start' },
-    { text: '状态', value: 'status', align: 'start', width: 100 },
-    { text: '主机数', value: 'node', align: 'start' },
-    { text: '加入时间', value: 'joinAt', align: 'start' },
+    { text: i18nLocal.t('table.name'), value: 'name', align: 'start' },
+    { text: i18nLocal.t('table.label'), value: 'label', align: 'start' },
+    { text: i18nLocal.t('table.version'), value: 'version', align: 'start' },
+    { text: i18nLocal.t('table.register_cluster'), value: 'register', align: 'start' },
+    { text: i18nLocal.t('table.tunnel'), value: 'tunnel', align: 'start' },
+    { text: i18nLocal.t('table.status'), value: 'status', align: 'start', width: 100 },
+    { text: i18nLocal.t('table.node_count'), value: 'node', align: 'start' },
+    { text: i18nLocal.t('table.join_at'), value: 'joinAt', align: 'start' },
     { text: '', value: 'action', align: 'center', width: 20, sortable: false },
   ];
 

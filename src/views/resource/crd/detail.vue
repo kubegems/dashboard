@@ -115,11 +115,9 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.crdDetail();
-        });
-      }
+      this.$nextTick(() => {
+        this.crdDetail();
+      });
     },
     methods: {
       async crdDetail() {

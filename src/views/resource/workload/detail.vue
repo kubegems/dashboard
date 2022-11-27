@@ -247,11 +247,9 @@
       }
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.workloadDetail();
-        });
-      }
+      this.$nextTick(() => {
+        this.workloadDetail();
+      });
     },
     methods: {
       async workloadDetail() {

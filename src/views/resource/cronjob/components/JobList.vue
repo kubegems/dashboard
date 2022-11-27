@@ -105,12 +105,10 @@
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          Object.assign(this.params, this.$route.query);
-          this.jobList();
-        });
-      }
+      this.$nextTick(() => {
+        Object.assign(this.params, this.$route.query);
+        this.jobList();
+      });
     },
     methods: {
       async jobList() {

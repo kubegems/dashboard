@@ -20,7 +20,7 @@
 
     <v-card>
       <v-card-text class="pa-3">
-        <v-tabs v-model="tab" class="rounded-t" height="30">
+        <v-tabs v-model="tab" class="rounded-t" height="30" @change="onTabChange">
           <v-tab v-for="item in tabItems" :key="item.value">
             <BaseLogo class="mr-2" :icon-name="item.icon" :ml="0" :mt="1" :width="20" />
             {{ item.text }}
@@ -48,22 +48,32 @@
       EdgeCluster,
     },
     data() {
+      this.tabMap = {
+        cloud: 0,
+        edge: 1,
+      };
+
       return {
-        tab: 0,
+        tab: this.tabMap[this.$route.query.tab] || 0,
       };
     },
     computed: {
       tabItems() {
         return [
-          { text: this.$t('tab.cloud_cluster'), value: 'CloudCluster', icon: 'kubernetes' },
-          { text: this.$t('tab.edge_cluster'), value: 'EdgeCluster', icon: 'k3s' },
+          { text: this.$t('tab.cloud_cluster'), value: 'CloudCluster', icon: 'kubernetes', tab: 'cloud' },
+          { text: this.$t('tab.edge_cluster'), value: 'EdgeCluster', icon: 'k3s', tab: 'edge' },
         ];
       },
     },
     mounted() {
-      if (this.JWT) {
-        this.$store.commit('SET_NAMESPACE_FILTER', null);
-      }
+      this.$store.commit('SET_NAMESPACE_FILTER', null);
+    },
+    methods: {
+      onTabChange() {
+        this.$router.replace({
+          query: { tab: this.tabItems[this.tab].tab, ...this.$route.query },
+        });
+      },
     },
   };
 </script>
