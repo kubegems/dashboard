@@ -47,7 +47,7 @@
   import { useI18n } from '../../i18n';
   import { useGlobalI18n } from '@/i18n';
   import { EdgeCluster, EdgeHub } from '@/types/edge_cluster';
-  import { required } from '@/utils/rules';
+  // import { required } from '@/utils/rules';
 
   onMounted(() => {
     getEdgeHub();
@@ -83,7 +83,7 @@
     });
   };
   const obj = reactive<EdgeCluster>(props.edgeCluster);
-  const objRule = reactive({ hubName: [required] });
+  const objRule = reactive({ hubName: [] });
 
   const form = ref(null);
   const validate = (): boolean => {

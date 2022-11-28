@@ -213,10 +213,11 @@
         linenotbreak: false,
         containerMenu: false,
         countMenu: false,
+        isEdge: false,
       };
     },
     computed: {
-      ...mapState(['JWT', 'Scale']),
+      ...mapState(['JWT', 'Scale', 'Edge']),
       height() {
         return window.innerHeight - 64 * this.Scale - 1;
       },
@@ -231,7 +232,8 @@
       open() {
         this.dialog = true;
       },
-      init(container, item) {
+      init(container, item, isEdge = false) {
+        this.isEdge = isEdge;
         this.item = deepCopy(item);
         this.container = container;
         this.selectData();
@@ -297,7 +299,10 @@
       initWebSocket() {
         const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
         const host = window.location.host;
-        const wsuri = `${protocol}://${host}/api/v1/proxy/cluster/${this.ThisCluster}/custom/core/v1/namespaces/${this.item.namespace}/pods/${this.item.name}/actions/logs?stream=true&container=${this.container}&token=${this.JWT}&tail=${this.count}&follow=${this.stream}`;
+        let wsuri = `${protocol}://${host}/api/v1/proxy/cluster/${this.ThisCluster}/custom/core/v1/namespaces/${this.item.namespace}/pods/${this.item.name}/actions/logs?stream=true&container=${this.container}&token=${this.JWT}&tail=${this.count}&follow=${this.stream}`;
+        if (this.isEdge) {
+          wsuri = `${protocol}://${host}/api/v1/edge-clusters/${this.Edge}/proxy/custom/core/v1/namespaces/${this.item.namespace}/pods/${this.item.name}/actions/logs?stream=true&container=${this.container}&token=${this.JWT}&tail=${this.count}&follow=${this.stream}`;
+        }
         this.logWebsocket = new WebSocket(wsuri);
         this.logWebsocket.binaryType = 'arraybuffer';
         this.logWebsocket.onopen = () => {

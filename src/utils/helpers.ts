@@ -245,7 +245,7 @@ export function typeOf(obj: any): string {
 
 type debounceHandle = (..._: any[]) => void;
 export const debounce = (fn: debounceHandle, wait = 200, immediate = false): debounceHandle => {
-  let result: debounceHandle, timeout: NodeJS.Timeout;
+  let result: debounceHandle, timeout: any;
 
   return function (...args: any[]) {
     if (timeout) clearTimeout(timeout);

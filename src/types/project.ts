@@ -29,7 +29,7 @@ export class Project implements UserRole<Project>, EnvironmnetInProject {
   [others: string]: any;
 
   public async getProjectList(params: KubePaginationRequest): Promise<KubePaginationResponse<Project[]>> {
-    const data: { [key: string]: any } = await axios(`tenant/${this.TenantID}/project`, { params: params });
+    const data: { [key: string]: any } = await axios(`project`, { params: params });
     return data as KubePaginationResponse<Project[]>;
   }
 

@@ -18,6 +18,7 @@ declare module 'vue' {
     BaseDropSelect: typeof import('./src/components/BaseDropSelect.vue')['default']
     BaseEnvironmentHeader: typeof import('./src/components/BaseEnvironmentHeader.vue')['default']
     BaseFilter: typeof import('./src/components/BaseFilter.vue')['default']
+    BaseFilter1: typeof import('./src/components/BaseFilter1.vue')['default']
     BaseFullScreenDialog: typeof import('./src/components/BaseFullScreenDialog.vue')['default']
     BaseInfoCard: typeof import('./src/components/BaseInfoCard.vue')['default']
     BaseItem: typeof import('./src/components/BaseItem.vue')['default']

@@ -67,7 +67,7 @@ export class EdgeHub {
 }
 
 interface EdgeStatistics {
-  getStatistics(): Promise<any>;
+  getStatistics(): Promise<{ [key: string]: any }>;
 }
 
 export class EdgeCluster implements EdgeStatistics {
@@ -106,7 +106,7 @@ export class EdgeCluster implements EdgeStatistics {
   }
 
   // EdgeStatistics
-  public async getStatistics(): Promise<any> {
+  public async getStatistics(): Promise<{ [key: string]: any }> {
     const data: { [key: string]: any } = await axios(
       `edge-clusters/${this.metadata.name}/proxy/custom/statistics.system/v1/all`,
     );

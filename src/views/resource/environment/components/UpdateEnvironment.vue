@@ -77,6 +77,7 @@
         if (this.$refs[this.formComponent].validate()) {
           const data = this.$refs[this.formComponent].getData().data;
           const resdata = await putUpdateEnvironment(data.ID, {
+            AllowEdgeRegistration: data.AllowEdgeRegistration,
             EnvironmentID: data.ID,
             EnvironmentName: data.EnvironmentName,
             ClusterID: data.ClusterID,
@@ -93,6 +94,7 @@
           if (this.Project().ID === resdata.ProjectID) {
             await this.m_select_projectEnvironmentSelectData(this.Project().ID);
           }
+          this.$store.dispatch('UPDATE_ENVIRONMENT_DATA', this.Project().ID);
           this.reset();
           this.$emit('refresh');
         }

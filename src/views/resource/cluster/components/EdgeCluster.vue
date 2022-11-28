@@ -16,6 +16,7 @@
 <template>
   <v-card class="mt-3">
     <v-card-title class="py-4">
+      <BaseFilter1 :default="{ items: [], text: $t('filter.edge_name'), value: 'search' }" :filters="filters" />
       <v-spacer />
       <v-menu left>
         <template #activator="{ on }">
@@ -46,7 +47,9 @@
       :page.sync="pagination.page"
     >
       <template #[`item.name`]="{ item }">
-        {{ item.metadata.name }}
+        <a class="text-subtitle-2" @click.stop="edgeDetail(item)">
+          {{ item.metadata.name }}
+        </a>
       </template>
       <template #[`item.label`]="{ item, index }">
         <BaseCollapseChips
@@ -138,18 +141,29 @@
 
 <script lang="ts" setup>
   import moment from 'moment';
-  import { onMounted, reactive, ref } from 'vue';
+  import { onMounted, reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../i18n';
   import EdgeClusterForm from './EdgeClusterForm/index.vue';
   import EdgeStatusTip from './EdgeStatusTip.vue';
   import { useEdgeClusterPagination } from '@/composition/cluster';
+  import { useEnvironmentList } from '@/composition/environment';
+  import { useProjectList } from '@/composition/project';
+  import { useRoute, useRouter } from '@/composition/router';
+  import { useTenantList } from '@/composition/tenant';
+  import { ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
   import { useGlobalI18n } from '@/i18n';
   import { useStore } from '@/store';
   import { EdgeCluster } from '@/types/edge_cluster';
+  import { Environment } from '@/types/environment';
+  import { Project } from '@/types/project';
+  import { Tenant } from '@/types/tenant';
 
   onMounted(() => {
     getEdgeClusterList();
+    getTenantFilters();
+    getProjectFilters();
+    getEnvironmentFilters();
   });
 
   enum edgeStatus {
@@ -161,6 +175,92 @@
   const store = useStore();
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();
+  const router = useRouter();
+  const route = useRoute();
+
+  watch(
+    () => route.query,
+    async (value) => {
+      if (!value) return;
+      if (value.tenant) {
+        labels.value[TENANT_KEY] = value.tenant;
+      }
+      if (value.project) {
+        labels.value[PROJECT_KEY] = value.project;
+      }
+      if (value.environment) {
+        labels.value[ENVIRONMENT_KEY] = value.environment;
+      }
+      console.log(labels);
+      getTenantFilters();
+      getProjectFilters();
+      getEnvironmentFilters();
+      getEdgeClusterList();
+    },
+    {
+      deep: true,
+    },
+  );
+  const labels = ref({});
+  let tenantList = ref<Tenant[]>([]);
+  let projectList = ref<Project[]>([]);
+  let environmentList = ref<Environment[]>([]);
+  const filters = ref([{ items: [], text: i18nLocal.t('filter.edge_name'), value: 'search' }]);
+  const getTenantFilters = async () => {
+    const filter = { items: [], text: i18n.t('resource.tenant'), value: 'tenant' };
+    if (tenantList.value.length === 0) tenantList.value = await useTenantList(new Tenant());
+    filter.items = tenantList.value.map((d: Tenant) => {
+      return { text: d.TenantName, value: d.TenantName, parent: 'tenant' };
+    });
+    const index = filters.value.findIndex((f) => {
+      return f.value === 'tenant';
+    });
+    if (index > -1) {
+      filters.value[index] = filter;
+    } else {
+      filters.value.push(filter);
+    }
+  };
+  const getProjectFilters = async () => {
+    const filter = { items: [], text: i18n.t('resource.project'), value: 'project' };
+    if (projectList.value.length === 0) projectList.value = await useProjectList(new Project());
+    filter.items = projectList.value.map((d: Project) => {
+      if (labels.value[TENANT_KEY]) {
+        if (labels.value[TENANT_KEY] === d.Tenant.TenantName)
+          return { text: d.ProjectName, value: d.ProjectName, parent: 'project' };
+      } else {
+        return { text: d.ProjectName, value: d.ProjectName, parent: 'project' };
+      }
+    });
+    const index = filters.value.findIndex((f) => {
+      return f.value === 'project';
+    });
+    if (index > -1) {
+      filters.value[index] = filter;
+    } else {
+      filters.value.push(filter);
+    }
+  };
+  const getEnvironmentFilters = async () => {
+    const filter = { items: [], text: i18n.t('resource.environment'), value: 'environment' };
+    if (environmentList.value.length === 0) environmentList.value = await useEnvironmentList(new Environment());
+    filter.items = environmentList.value.map((d: Environment) => {
+      if (labels.value[PROJECT_KEY]) {
+        if (labels.value[PROJECT_KEY] === d.Project.ProjectName)
+          return { text: d.EnvironmentName, value: d.EnvironmentName, parent: 'environment' };
+      } else {
+        return { text: d.EnvironmentName, value: d.EnvironmentName, parent: 'environment' };
+      }
+    });
+    const index = filters.value.findIndex((f) => {
+      return f.value === 'environment';
+    });
+    if (index > -1) {
+      filters.value[index] = filter;
+    } else {
+      filters.value.push(filter);
+    }
+  };
 
   const headers = [
     { text: i18nLocal.t('table.name'), value: 'name', align: 'start' },
@@ -182,7 +282,12 @@
   });
 
   const getEdgeClusterList = async (params: KubePaginationRequest = pagination): Promise<void> => {
-    const data: Pagination<EdgeCluster> = await useEdgeClusterPagination(new EdgeCluster(), params.page, params.size);
+    const data: Pagination<EdgeCluster> = await useEdgeClusterPagination(
+      new EdgeCluster(),
+      params.page,
+      params.size,
+      labels.value,
+    );
     pagination = Object.assign(pagination, data);
   };
 
@@ -221,5 +326,12 @@
   const updateEdgeCluster = (item: EdgeCluster): void => {
     edgeCluster.value.init(item);
     edgeCluster.value.open();
+  };
+  const edgeDetail = (item: EdgeCluster): void => {
+    store.commit('SET_EDGE', item.metadata.name);
+    router.push({
+      name: 'cluster-detail',
+      params: { name: item.metadata.name, ...route.params },
+    });
   };
 </script>

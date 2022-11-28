@@ -75,7 +75,7 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api\/v1/, ''),
       },
       '/api/v1/edge-': {
-        target: 'http://10.12.32.21:30001',
+        target: 'http://172.16.23.231:30001',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/v1/, '/v1'),
       },

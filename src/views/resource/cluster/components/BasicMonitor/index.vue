@@ -44,6 +44,7 @@
               class="px-4 float-right"
               :color="['#ffffff']"
               :extend-height="100"
+              :global-plugins-check="false"
               :metrics="apiServerSuccessRate"
               sample
               title=""

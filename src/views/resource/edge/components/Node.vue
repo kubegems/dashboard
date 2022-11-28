@@ -122,6 +122,30 @@
         </span>
         <span v-else>Worker</span>
       </template>
+      <template #[`item.action`]="{ item }">
+        <v-flex :id="`r${item.metadata.resourceVersion}`" />
+        <v-menu :attach="`#r${item.metadata.resourceVersion}`" left>
+          <template #activator="{ on }">
+            <v-btn icon>
+              <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-text class="pa-2 text-center">
+              <v-flex v-if="item.spec.unschedulable">
+                <v-btn color="primary" small text @click="allowSchedule(item)">
+                  {{ i18nLocal.t('operate.allow_schedule') }}
+                </v-btn>
+              </v-flex>
+              <v-flex v-else>
+                <v-btn color="error" small text @click="stopSchedule(item)">
+                  {{ i18nLocal.t('operate.stop_schedule') }}
+                </v-btn>
+              </v-flex>
+            </v-card-text>
+          </v-card>
+        </v-menu>
+      </template>
     </v-data-table>
 
     <BasePagination
@@ -146,6 +170,7 @@
   import { useNodePagination } from '@/composition/node';
   import { useRoute, useRouter } from '@/composition/router';
   import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
   import { Node } from '@/types/node';
   import { sizeOfStorage } from '@/utils/helpers';
 
@@ -157,6 +182,7 @@
   const router = useRouter();
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();
+  const store = useStore();
 
   const headers = [
     { text: i18nLocal.t('table.name'), value: 'name', align: 'start' },
@@ -243,5 +269,34 @@
 
   const getColor = (percentage: number): string => {
     return percentage ? (percentage < 60 ? 'primary' : percentage < 80 ? 'warning' : 'red darken-1') : 'primary';
+  };
+
+  const allowSchedule = (item: Node) => {
+    store.commit('SET_CONFIRM', {
+      title: i18nLocal.t('operate.allow_schedule'),
+      content: {
+        text: `${i18nLocal.t('operate.allow_schedule')} ${item.metadata.name}`,
+        type: 'confirm',
+      },
+      param: { item },
+      doFunc: async (param) => {
+        await new Node(param.item).patchCordonNode(route.params.name, true);
+        getNodeList();
+      },
+    });
+  };
+  const stopSchedule = (item: Node) => {
+    store.commit('SET_CONFIRM', {
+      title: i18nLocal.t('operate.stop_schedule'),
+      content: {
+        text: `${i18nLocal.t('operate.stop_schedule')} ${item.metadata.name}`,
+        type: 'confirm',
+      },
+      param: { item },
+      doFunc: async (param) => {
+        await new Node(param.item).patchCordonNode(route.params.name, false);
+        getNodeList();
+      },
+    });
   };
 </script>

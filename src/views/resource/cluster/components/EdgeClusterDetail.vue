@@ -15,7 +15,14 @@
 -->
 
 <template>
-  <div class="mt-3">
+  <v-container fluid>
+    <BaseBreadcrumb>
+      <template #extend>
+        <v-flex class="kubegems__full-right">
+          <BaseDatetimePicker v-model="date" :default-value="30" @change="datatimeChanged" />
+        </v-flex>
+      </template>
+    </BaseBreadcrumb>
     <v-row>
       <v-col class="pb-2" cols="12" lg="4">
         <BasicMonitor :cluster="cluster" :params="params" />
@@ -45,9 +52,10 @@
       </v-col>
     </v-row>
     <ResourceChart :cluster="cluster" :quota="quota" />
-  </div>
+  </v-container>
 </template>
 <script lang="ts" setup>
+  import * as moment from 'moment';
   import { ComputedRef, computed, onMounted, reactive, ref } from 'vue';
 
   import { useEdgeClusterConvertToCluster } from '@/composition/cluster';
@@ -97,6 +105,12 @@
     const data = await new EdgeCluster({ metadata: { name: route.params.name } }).getStatistics();
     workloadsStatistics.value = data.workloads;
     quota.value = data.resources;
+  };
+
+  const date = ref([]);
+  const datatimeChanged = (): void => {
+    params.start = moment(date[0]).utc().format();
+    params.end = moment(date[1]).utc().format();
   };
 </script>
 

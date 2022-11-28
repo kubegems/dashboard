@@ -160,12 +160,11 @@
     },
   );
 
-  type reloadHandler = () => void;
-
   const i18n = useGlobalI18n();
   const store = useStore();
   const router = useRouter();
   const route = useRoute();
+  type reloadHandler = () => void;
   const reload: reloadHandler = inject('reload');
   const state = reactive({
     menu: false,

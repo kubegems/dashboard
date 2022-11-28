@@ -206,6 +206,7 @@
         left: 0,
         top: 0,
         file: '',
+        isEdge: false,
       };
     },
     computed: {
@@ -237,7 +238,8 @@
           });
         }
       },
-      init(container, item, type) {
+      init(container, item, type, isEdge = false) {
+        this.isEdge = isEdge;
         this.terminalType = type;
         this.item = deepCopy(item);
         if (this.terminalType !== 'kubectl') {
@@ -287,13 +289,25 @@
         let url = '';
         switch (this.terminalType) {
           case 'shell':
-            url = `${protocol}://${host}/api/v1/proxy/cluster/${this.ThisCluster}/custom/core/v1/namespaces/${this.item.namespace}/pods/${this.item.name}/actions/shell?stream=true&token=${this.JWT}&container=${this.container}`;
+            if (this.isEdge) {
+              url = `${protocol}://${host}/api/v1/edge-clusters/${this.item.metadata.name}/proxy/custom/core/v1/namespaces/${this.item.namespace}/pods/${this.item.name}/actions/shell?stream=true&token=${this.JWT}&container=${this.container}`;
+            } else {
+              url = `${protocol}://${host}/api/v1/proxy/cluster/${this.ThisCluster}/custom/core/v1/namespaces/${this.item.namespace}/pods/${this.item.name}/actions/shell?stream=true&token=${this.JWT}&container=${this.container}`;
+            }
             break;
           case 'debug':
-            url = `${protocol}://${host}/api/v1/proxy/cluster/${this.ThisCluster}/custom/core/v1/namespaces/${this.item.namespace}/pods/${this.item.name}/actions/debug?stream=true&container=${this.container}&token=${this.JWT}`;
+            if (this.isEdge) {
+              url = `${protocol}://${host}/api/v1/edge-clusters/${this.item.metadata.name}/proxy/custom/core/v1/namespaces/${this.item.namespace}/pods/${this.item.name}/actions/debug?stream=true&container=${this.container}&token=${this.JWT}`;
+            } else {
+              url = `${protocol}://${host}/api/v1/proxy/cluster/${this.ThisCluster}/custom/core/v1/namespaces/${this.item.namespace}/pods/${this.item.name}/actions/debug?stream=true&container=${this.container}&token=${this.JWT}`;
+            }
             break;
           case 'kubectl':
-            url = `${protocol}://${host}/api/v1/proxy/cluster/${this.item.ClusterName}/custom/system/v1/kubectl?stream=true&token=${this.JWT}`;
+            if (this.isEdge) {
+              url = `${protocol}://${host}/api/v1/edge-clusters/${this.item.metadata.name}/proxy/custom/system/v1/kubectl?stream=true&token=${this.JWT}`;
+            } else {
+              url = `${protocol}://${host}/api/v1/proxy/cluster/${this.item.ClusterName}/custom/system/v1/kubectl?stream=true&token=${this.JWT}`;
+            }
             break;
           default:
             this.$store.commit('SET_SNACKBAR', {

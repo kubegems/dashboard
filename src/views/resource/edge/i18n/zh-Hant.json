@@ -18,5 +18,9 @@
     "register_cluster": "註冊集群",
     "tunnel": "隧道",
     "node_count": "主機數"
+  },
+  "operate": {
+    "allow_schedule": "允許調度",
+    "stop_schedule": "停止調度"
   }
 }

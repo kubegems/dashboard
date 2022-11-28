@@ -271,7 +271,7 @@
       };
     },
     computed: {
-      ...mapState(['MessageStreamWS', 'AdminViewport']),
+      ...mapState(['MessageStreamWS', 'AdminViewport', 'Edge']),
       headers() {
         return [
           { text: this.$t('table.name'), value: 'name', align: 'start' },
@@ -490,7 +490,7 @@
         if (item.spec.containers && item.spec.containers.length > 0) {
           container = item.spec.containers[0].name;
         }
-        this.$refs.containerLog.init(container, itemCopy);
+        this.$refs.containerLog.init(container, itemCopy, Boolean(this.Edge));
         this.$refs.containerLog.open();
       },
       containerDebug(item) {
@@ -503,7 +503,7 @@
         if (item.spec.containers && item.spec.containers.length > 0) {
           container = item.spec.containers[0].name;
         }
-        this.$refs.terminal.init(container, itemCopy, 'debug');
+        this.$refs.terminal.init(container, itemCopy, 'debug', Boolean(this.Edge));
         this.$refs.terminal.open();
       },
       containerShell(item) {
@@ -516,7 +516,7 @@
         if (item.spec.containers && item.spec.containers.length > 0) {
           container = item.spec.containers[0].name;
         }
-        this.$refs.terminal.init(container, itemCopy, 'shell');
+        this.$refs.terminal.init(container, itemCopy, 'shell', Boolean(this.Edge));
         this.$refs.terminal.open();
       },
       getRestart(containerStatuses) {

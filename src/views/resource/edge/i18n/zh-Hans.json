@@ -18,5 +18,12 @@
     "register_cluster": "注册集群",
     "tunnel": "隧道",
     "node_count": "主机数"
+  },
+  "operate": {
+    "allow_schedule": "允许调度",
+    "stop_schedule": "停止调度"
+  },
+  "filter": {
+    "edge_name": "名称"
   }
 }

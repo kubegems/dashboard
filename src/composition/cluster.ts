@@ -72,3 +72,16 @@ export const useEdgeClusterPagination = async (
     size: _data.CurrentSize,
   } as Pagination<EdgeCluster>;
 };
+
+export const useEdgeClusterConvertToCluster = async (cluster: string): Promise<Cluster> => {
+  const data: EdgeCluster = await new EdgeCluster({ metadata: { name: cluster } }).getEdgeCluster();
+  return new Cluster({
+    ClusterName: data.metadata.name,
+    Version: data.status.manufacture['edge.kubegems.io/kubernetes-version'] || '',
+    OversoldConfig: {
+      cpu: 1,
+      memory: 1,
+      storage: 1,
+    },
+  });
+};

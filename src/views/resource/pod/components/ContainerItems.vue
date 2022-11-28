@@ -227,7 +227,7 @@
       };
     },
     computed: {
-      ...mapState(['AdminViewport']),
+      ...mapState(['AdminViewport', 'Edge']),
     },
     watch: {
       containerStatuses: {
@@ -313,7 +313,7 @@
               : [],
           ),
         };
-        this.$refs.containerLog.init(container, item);
+        this.$refs.containerLog.init(container, item, Boolean(this.Edge));
         this.$refs.containerLog.open();
       },
       containerShell(container, pod) {
@@ -322,7 +322,7 @@
           name: pod.metadata.name,
           containers: pod.status.containerStatuses,
         };
-        this.$refs.terminal.init(container, item, 'shell');
+        this.$refs.terminal.init(container, item, 'shell', Boolean(this.Edge));
         this.$refs.terminal.open();
       },
     },

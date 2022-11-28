@@ -190,6 +190,7 @@
         this.clusterStatus = data;
       },
       clusterDetail(item) {
+        this.$store.commit('SET_EDGE', '');
         this.$router.push({
           name: 'cluster-detail',
           params: Object.assign(this.$route.params, { name: item.ClusterName }),

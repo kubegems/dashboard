@@ -5,16 +5,20 @@ export class Cluster {
     Object.assign(this, cluster);
   }
 
-  ID: number;
-  ClusterName: string;
-  APIServer?: string;
-  ClientCertExpireAt?: Date;
+  ID = 0;
+  ClusterName = '';
+  APIServer?: string = '';
+  ClientCertExpireAt?: Date = new Date();
   KubeConfig?: any;
-  Primary?: boolean;
-  Version: string;
-  AgentAddr?: string;
-  OversoldConfig?: any;
-  Upstream?: string;
+  Primary?: boolean = false;
+  Version = '';
+  AgentAddr?: string = '';
+  OversoldConfig?: any = {
+    cpu: 1,
+    memory: 1,
+    storage: 1,
+  };
+  Upstream?: string = '';
   [others: string]: any;
 
   public async getClusterList(params: KubePaginationRequest): Promise<KubePaginationResponse<Cluster[]>> {

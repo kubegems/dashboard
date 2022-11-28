@@ -6,6 +6,7 @@ export const useProjectList = async (project: Project): Promise<Project[]> => {
     page: 1,
     size: 100,
     noprocessing: true,
+    preload: 'Tenant',
   });
   return _data.List as Project[];
 };

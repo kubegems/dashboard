@@ -20,6 +20,7 @@
     <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-4">
+        <BaseFilter1 :default="{ items: [], text: $t('filter.edge_name'), value: 'search' }" :filters="filters" />
         <v-spacer />
         <v-menu left>
           <template #activator="{ on }">
@@ -119,6 +120,9 @@
                   </v-btn>
                 </v-flex>
                 <v-flex>
+                  <v-btn color="primary" small text @click="openTerminal(item)"> Kubectl </v-btn>
+                </v-flex>
+                <v-flex>
                   <v-btn color="error" small text @click="deleteEdgeCluster(item)">
                     {{ $root.$t('operate.delete') }}
                   </v-btn>
@@ -141,6 +145,7 @@
     </v-card>
 
     <EdgeClusterForm ref="edgeCluster" in-env @refresh="getEdgeClusterList({ page: 1, size: 10 })" />
+    <Terminal ref="terminal" />
   </v-container>
 </template>
 
@@ -157,6 +162,7 @@
   import { EdgeCluster } from '@/types/edge_cluster';
   import EdgeClusterForm from '@/views/resource/cluster/components/EdgeClusterForm/index.vue';
   import EdgeStatusTip from '@/views/resource/cluster/components/EdgeStatusTip.vue';
+  import Terminal from '@/views/resource/components/common/Terminal/index.vue';
 
   onMounted(() => {
     getEdgeClusterList();
@@ -173,6 +179,8 @@
   const route = useRoute();
   const router = useRouter();
   const i18nLocal = useI18n();
+
+  const filters = [{ text: i18nLocal.t('filter.edge_name'), value: 'search', items: [] }];
 
   const headers = [
     { text: i18nLocal.t('table.name'), value: 'name', align: 'start' },
@@ -240,6 +248,16 @@
     edgeCluster.value.open();
   };
   const edgeDetail = (item: EdgeCluster): void => {
-    router.push({ name: 'edge-detail', params: { name: item.metadata.name, ...route.params } });
+    router.push({
+      name: 'edge-detail',
+      params: { name: item.metadata.name, ...route.params },
+      query: { edgeName: item.metadata.name },
+    });
+  };
+
+  const terminal = ref(null);
+  const openTerminal = (item: EdgeCluster): void => {
+    terminal.value.init(null, item, 'kubectl', true);
+    terminal.value.open();
   };
 </script>

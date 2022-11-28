@@ -5,6 +5,7 @@ export const useEnvironmentList = async (environment: Environment): Promise<Envi
     page: 1,
     size: 100,
     noprocessing: true,
+    preload: 'Tenant,Project',
   });
   return _data.List;
 };
