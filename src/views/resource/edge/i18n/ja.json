@@ -18,5 +18,9 @@
     "register_cluster": "クラスターを登録する",
     "tunnel": "トンネル",
     "node_count": "ホスト数"
+  },
+  "operate": {
+    "allow_schedule": "許可されたフィルタ：",
+    "stop_schedule": "スケジューリングを終了します。"
   }
 }

@@ -252,7 +252,7 @@
       };
     },
     computed: {
-      ...mapState(['AdminViewport']),
+      ...mapState(['AdminViewport', 'Edge']),
       headers() {
         return [
           { text: this.$t('table.container_name'), value: 'name', align: 'start' },
@@ -398,7 +398,7 @@
               : [],
           ),
         };
-        this.$refs.containerLog.init(container, item);
+        this.$refs.containerLog.init(container, item, Boolean(this.Edge));
         this.$refs.containerLog.open();
       },
       containerShell(container) {
@@ -407,7 +407,7 @@
           name: this.item.metadata.name,
           containers: this.item.spec.containers,
         };
-        this.$refs.terminal.init(container, item, 'shell');
+        this.$refs.terminal.init(container, item, 'shell', Boolean(this.Edge));
         this.$refs.terminal.open();
       },
       containerDebug(container) {
@@ -416,7 +416,7 @@
           name: this.item.metadata.name,
           containers: this.item.spec.containers,
         };
-        this.$refs.terminal.init(container, item, 'debug');
+        this.$refs.terminal.init(container, item, 'debug', Boolean(this.Edge));
         this.$refs.terminal.open();
       },
       getContainerStatus(item) {

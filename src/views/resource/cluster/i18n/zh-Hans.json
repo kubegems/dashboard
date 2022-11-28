@@ -59,5 +59,8 @@
     "cluster_pod": "集群容器组",
     "cloud_cluster": "云端集群",
     "edge_cluster": "边缘集群"
+  },
+  "filter": {
+    "edge_name": "名称"
   }
 }

@@ -34,6 +34,17 @@
           {{ item.metadata.name }}
         </a>
       </template>
+      <template #[`item.label`]="{ item, index }">
+        <BaseCollapseChips
+          :id="`edge_ns_label_${index}`"
+          :chips="item.metadata.labels || {}"
+          icon="mdi-label"
+          single-line
+        />
+      </template>
+      <template #[`item.status`]="{ item }">
+        {{ item.status.phase }}
+      </template>
       <template #[`item.createAt`]="{ item }">
         {{ item.metadata.creationTimestamp ? moment(item.metadata.creationTimestamp).format('lll') : '' }}
       </template>
@@ -72,6 +83,8 @@
 
   const headers = [
     { text: i18nLocal.t('table.name'), value: 'name', align: 'start' },
+    { text: i18nLocal.t('table.label'), value: 'label', align: 'start' },
+    { text: i18nLocal.t('table.status'), value: 'status', align: 'start' },
     { text: i18nLocal.t('table.create_at'), value: 'createAt', align: 'start', width: 180 },
     { text: '', value: 'action', align: 'center', width: 20 },
   ];

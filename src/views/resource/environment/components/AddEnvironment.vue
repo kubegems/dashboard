@@ -111,6 +111,7 @@
           const resdata = await postAddEnvironment(
             this.AdminViewport ? data.ProjectID : this.projectid > 0 ? this.projectid : this.Project().ID,
             {
+              AllowEdgeRegistratio: data.AllowEdgeRegistration,
               EnvironmentName: data.EnvironmentName,
               ClusterID: data.ClusterID,
               MetaType: data.MetaType,
@@ -135,6 +136,7 @@
           if (this.Project().ID === resdata.ProjectID) {
             await this.m_select_projectEnvironmentSelectData(resdata.ProjectID);
           }
+          this.$store.dispatch('UPDATE_ENVIRONMENT_DATA', this.Project().ID);
           this.reset();
           this.$emit('refresh', {
             ID: resdata.ProjectID,

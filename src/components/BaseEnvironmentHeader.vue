@@ -218,8 +218,9 @@
 
   import { useEdgeClusterList } from '@/composition/cluster';
   import { useEnvironmentRole } from '@/composition/permission';
-  import { useEnvironmentListInProject, useProjectList } from '@/composition/project';
+  import { useEnvironmentListInProject } from '@/composition/project';
   import { useRoute, useRouter } from '@/composition/router';
+  import { useProjectListInTenant } from '@/composition/tenant';
   import { ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
   import { METATYPE_CN, RESOURCE_ROLE } from '@/constants/platform';
   import { useGlobalI18n } from '@/i18n';
@@ -228,6 +229,7 @@
   import { EdgeCluster } from '@/types/edge_cluster';
   import { Environment } from '@/types/environment';
   import { Project } from '@/types/project';
+  import { Tenant } from '@/types/tenant';
 
   withDefaults(
     defineProps<{
@@ -238,12 +240,11 @@
     },
   );
 
-  type reloadHandler = () => void;
-
   const i18n = useGlobalI18n();
   const store = useStore();
   const router = useRouter();
   const route = useRoute();
+  type reloadHandler = () => void;
   const reload: reloadHandler = inject('reload');
   const state = reactive({
     menu: false,
@@ -284,7 +285,7 @@
     async (value) => {
       if (!value) return;
       state.loading = true;
-      state.projectPagination = await useProjectList(new Project({ TenantID: store.getters.Tenant().ID }));
+      state.projectPagination = await useProjectListInTenant(new Tenant({ TenantID: store.getters.Tenant().ID }));
       state.project = state.projectPagination.findIndex((project: Project) => {
         return project.ProjectName === route.params.project;
       });
@@ -314,7 +315,7 @@
 
   const getProject = async (): Promise<void> => {
     state.loading = true;
-    state.projectPagination = await useProjectList(new Project({ TenantID: store.getters.Tenant().ID }));
+    state.projectPagination = await useProjectListInTenant(new Tenant({ TenantID: store.getters.Tenant().ID }));
     state.loading = false;
   };
 

@@ -22,7 +22,7 @@
     <v-card>
       <v-card-text class="pa-3">
         <v-tabs v-model="tab" class="rounded-t" height="30" @change="tabChange">
-          <v-tab v-for="item in tabItems" :key="item.value">
+          <v-tab v-for="item in tabItems" :key="item.tab">
             {{ item.text }}
           </v-tab>
         </v-tabs>

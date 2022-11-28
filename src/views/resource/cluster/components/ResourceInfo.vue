@@ -107,11 +107,21 @@
     props: {
       cluster: {
         type: Object,
-        default: () => null,
+        default: () => ({
+          OversoldConfig: {
+            cpu: 1,
+            memory: 1,
+            storage: 1,
+          },
+        }),
       },
       quota: {
         type: Object,
-        default: () => null,
+        default: () => ({
+          capacity: {},
+          tenantAllocated: {},
+          used: {},
+        }),
       },
       workload: {
         type: Object,

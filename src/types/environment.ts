@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import { Project } from './project';
 import { ResourceRole, UserRole } from './role';
 import { User } from './user';
 
@@ -15,12 +16,13 @@ export class Environment implements UserRole<Environment> {
   MetaType: string;
   Namespace: string;
   ProjectID: string;
+  Project: Project;
   Remark: string;
   AllowEdgeRegistration: boolean;
   [others: string]: any;
 
   public async getEnvironmentList(params: KubePaginationRequest): Promise<KubePaginationResponse<Environment[]>> {
-    const data: { [key: string]: any } = await axios(`project/${this.ProjectID}/project`, { params: params });
+    const data: { [key: string]: any } = await axios(`environment`, { params: params });
     return data as KubePaginationResponse<Environment[]>;
   }
 

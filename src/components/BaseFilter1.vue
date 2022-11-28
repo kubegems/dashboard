@@ -64,7 +64,7 @@
   import { deepCopy } from '@/utils/helpers';
 
   export default {
-    name: 'BaseFilter',
+    name: 'BaseFilter1',
     inject: ['reload'],
     props: {
       default: {
@@ -98,9 +98,13 @@
         },
         deep: true,
       },
-    },
-    mounted() {
-      this.init();
+      '$route.query': {
+        handler: function () {
+          this.init();
+        },
+        deep: true,
+        immediate: true,
+      },
     },
     methods: {
       init() {
@@ -120,14 +124,14 @@
           }
         }
       },
-      onFilterConditionChange(item, operator) {
+      async onFilterConditionChange(item, operator) {
         if (operator === 'delete') {
           const index = this.conditions.findIndex((c) => {
             return c.value === item.value;
           });
           this.conditions.splice(index, 1);
           const params = this.constructQueryParams();
-          this.$emit('refresh', params, this.reload);
+          await this.filterList(params, this.reload);
           const timeout = setTimeout(() => {
             if (!this.reload) this.$emit('filter');
             clearTimeout(timeout);
@@ -148,7 +152,7 @@
             this.resetFilterCondition();
 
             const params = this.constructQueryParams();
-            this.$emit('refresh', params, this.reload);
+            await this.filterList(params, this.reload);
             const timeout = setTimeout(() => {
               if (!this.reload) this.$emit('filter');
               clearTimeout(timeout);
@@ -159,7 +163,7 @@
           }
         }
       },
-      contructFilterTextCondition() {
+      async contructFilterTextCondition() {
         if (this.filterText === '' || this.filterText === null) return;
         let lastConditions = this.conditions.slice(-1);
         if (lastConditions.length === 0) {
@@ -188,7 +192,7 @@
         this.resetFilterCondition();
 
         const params = this.constructQueryParams();
-        this.$emit('refresh', params, this.reload);
+        await this.filterList(params, this.reload);
         const timeout = setTimeout(() => {
           if (!this.reload) this.$emit('filter');
           clearTimeout(timeout);
@@ -224,6 +228,18 @@
         this.conditions = conditions;
         this.items = deepCopy(this.filters);
         this.filterText = '';
+      },
+      async filterList(params, reload = true) {
+        // 处理多tab列表
+        const tab = this.$route.query.tab || null;
+        await this.$router.replace({
+          params: this.$route.params,
+          name: this.$route.name,
+          query: Object.assign({ tab: tab, ...this.$route.query, ...{ page: 1 } }, params),
+        });
+        if (reload) {
+          this.reload();
+        }
       },
     },
   };

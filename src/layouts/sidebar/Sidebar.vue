@@ -224,7 +224,6 @@
         return pass;
       },
       isEdge(edge) {
-        // console.log(edge);
         return (
           edge === undefined ||
           (!this.AdminViewport && edge && this.Environment().AllowEdgeRegistration) ||

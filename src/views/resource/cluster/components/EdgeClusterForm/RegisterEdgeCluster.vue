@@ -117,7 +117,7 @@
   ]);
 
   const obj = reactive<EdgeCluster>(props.edgeCluster);
-  const objRule = reactive({ image: [required], name: [required] });
+  const objRule = reactive({ image: [], name: [required] });
 
   watch(
     () => obj,
@@ -148,7 +148,7 @@
 
   const label = ref(null);
   const addLabelData = (data) => {
-    obj.metadata.labels = ref(data);
+    obj.metadata.labels = data;
   };
 
   const removeLabels = (key: string): void => {

@@ -3,7 +3,7 @@ import Vue from 'vue';
 
 import { useRouter } from '@/router';
 import { useStore } from '@/store';
-import { validateJWT } from '@/utils/helpers';
+import { getQueryString, validateJWT } from '@/utils/helpers';
 
 const store = useStore();
 const router = useRouter();
@@ -71,12 +71,17 @@ axios.interceptors.request.use(
       config.headers['Content-type'] = 'application/json;charset=utf-8';
     }
 
-    if (store.state.Edge) {
+    // 处理edge proxy转发
+    if (store.state.Edge || location.href.indexOf('/edges/') > -1) {
       const reg = new RegExp('^proxy/cluster/.+?/(.*)', 'g');
       const urlMatch: RegExpExecArray = reg.exec(config.url);
       if (urlMatch) {
         const redirectUrl = urlMatch[1];
-        config.url = `edge-clusters/${store.state.Edge}/proxy/${redirectUrl}`;
+        let edge = store.state.Edge;
+        if (location.href.indexOf('/edges/') > -1 && getQueryString('edgeName')) {
+          edge = getQueryString('edgeName');
+        }
+        config.url = `edge-clusters/${edge}/proxy/${redirectUrl}`;
       }
     }
 

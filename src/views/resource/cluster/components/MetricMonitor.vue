@@ -33,6 +33,7 @@
       :ref="`tab${tab}`"
       :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
       :extend-height="280"
+      :global-plugins-check="false"
       :label="tabItems[tab].label"
       :metrics="tabItems[tab].chart"
       title=""

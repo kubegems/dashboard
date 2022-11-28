@@ -18,5 +18,9 @@
     "register_cluster": "Register cluster",
     "tunnel": "Tunnel",
     "node_count": "Node count"
+  },
+  "operate": {
+    "allow_schedule": "Allow scheduling",
+    "stop_schedule": "Stop scheduling"
   }
 }

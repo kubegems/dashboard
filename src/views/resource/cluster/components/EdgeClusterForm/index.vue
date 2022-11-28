@@ -114,11 +114,12 @@
     if (form.value.validate()) {
       if (state.step === 1) {
         state.update
-          ? async () => {
+          ? (async () => {
               await new EdgeCluster(edgeCluster.value).updateEdgeCluster();
               reset();
-            }
-          : async () => {
+              emits('refresh');
+            })()
+          : (async () => {
               if (props.inEnv) {
                 edgeCluster.value.metadata.labels = Object.assign(edgeCluster.value.metadata.labels, {
                   [ENVIRONMENT_KEY]: route.params.environment,
@@ -128,14 +129,16 @@
               }
               await new EdgeCluster(edgeCluster.value).addEdgeCluster();
               state.step += 1;
-            };
+            })();
       }
-      emits('refresh');
     }
   };
 
   const reset = (): void => {
     state.dialog = false;
+    if (state.step === 2) {
+      emits('refresh');
+    }
     state.step = 0;
     state.update = false;
     edgeCluster.value = new EdgeCluster();

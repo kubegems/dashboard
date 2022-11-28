@@ -1,9 +1,19 @@
 import axios from 'axios';
 
+import { Environment } from './environment';
+import { Project } from './project';
 import { ResourceRole, UserRole } from './role';
 import { User } from './user';
 
-export class Tenant implements UserRole<Tenant> {
+interface ProjectInTenant {
+  getProjectList(params: KubePaginationRequest): Promise<KubePaginationResponse<Project[]>>;
+}
+
+interface EnvironmentInTenant {
+  getEnvironmentList(params: KubePaginationRequest): Promise<KubePaginationResponse<Environment[]>>;
+}
+
+export class Tenant implements UserRole<Tenant>, ProjectInTenant, EnvironmentInTenant {
   constructor(tenant?: { [key: string]: any }) {
     Object.assign(this, tenant);
   }
@@ -71,5 +81,17 @@ export class Tenant implements UserRole<Tenant> {
 
   public async deleteUser(user: User): Promise<void> {
     await axios.delete(`tenant/${this.ID}/user/${user.ID}`);
+  }
+
+  // ProjectInTenant
+  public async getProjectList(params: KubePaginationRequest): Promise<KubePaginationResponse<Project[]>> {
+    const data: { [key: string]: any } = await axios(`tenant/${this.ID}/project`, { params: params });
+    return data as KubePaginationResponse<Project[]>;
+  }
+
+  // EnvironmentInTenant
+  public async getEnvironmentList(params: KubePaginationRequest): Promise<KubePaginationResponse<Environment[]>> {
+    const data: { [key: string]: any } = await axios(`tenant/${this.ID}/environment`, { params: params });
+    return data as KubePaginationResponse<Environment[]>;
   }
 }
