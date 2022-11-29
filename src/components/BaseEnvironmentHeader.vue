@@ -224,6 +224,7 @@
   import { ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
   import { METATYPE_CN, RESOURCE_ROLE } from '@/constants/platform';
   import { useGlobalI18n } from '@/i18n';
+  import { useParams } from '@/router';
   import { useStore } from '@/store';
   import { Cluster } from '@/types/cluster';
   import { EdgeCluster } from '@/types/edge_cluster';
@@ -280,12 +281,13 @@
     return state.edgeClusterPagination as Cluster[];
   });
 
+  const params = useParams();
   watch(
-    () => route.params.environment,
-    async (value) => {
-      if (!value) return;
+    () => params.value.environment,
+    async (newValue) => {
+      if (!newValue) return;
       state.loading = true;
-      state.projectPagination = await useProjectListInTenant(new Tenant({ TenantID: store.getters.Tenant().ID }));
+      state.projectPagination = await useProjectListInTenant(new Tenant({ ID: store.getters.Tenant().ID }));
       state.project = state.projectPagination.findIndex((project: Project) => {
         return project.ProjectName === route.params.project;
       });
@@ -293,11 +295,11 @@
       state.environmentPagination = await useEnvironmentListInProject(new Project(project.value));
       state.loading = false;
       state.environment = state.environmentPagination.findIndex((environment: Environment) => {
-        return environment.EnvironmentName === value;
+        return environment.EnvironmentName === newValue;
       });
       if (state.environment > -1) {
         state.edgeClusterPagination = await useEdgeClusterList(new EdgeCluster(), {
-          [ENVIRONMENT_KEY]: [value],
+          [ENVIRONMENT_KEY]: [newValue],
           [PROJECT_KEY]: [route.params.project],
           [TENANT_KEY]: [route.params.tenant],
         });
@@ -315,7 +317,7 @@
 
   const getProject = async (): Promise<void> => {
     state.loading = true;
-    state.projectPagination = await useProjectListInTenant(new Tenant({ TenantID: store.getters.Tenant().ID }));
+    state.projectPagination = await useProjectListInTenant(new Tenant({ ID: store.getters.Tenant().ID }));
     state.loading = false;
   };
 

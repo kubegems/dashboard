@@ -6,7 +6,7 @@ export const observe: RouteConfig[] = [
   {
     path: '/observe',
     name: 'observe',
-    component: (): Promise<typeof import('*.vue')> => import('@/layouts/Layout.vue'),
+    component: () => import('@/layouts/Layout.vue'),
     redirect: { name: 'observe-overview' },
     children: [
       // overview
@@ -19,12 +19,12 @@ export const observe: RouteConfig[] = [
           show: true,
         },
         redirect: { name: 'observe-overview' },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         children: [
           {
             path: `${prefix}/overview`,
             name: 'observe-overview',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/observe/overview/index.vue'),
+            component: () => import('@/views/observe/overview/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.dashboard',
@@ -49,13 +49,13 @@ export const observe: RouteConfig[] = [
           icon: 'mdi-link-variant',
           show: true,
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: 'observe-integrated' },
         children: [
           {
             path: `${prefix}/components`,
             name: `observe-integrated`,
-            component: (): Promise<typeof import('*.vue')> => import('@/views/observe/integrated/index.vue'),
+            component: () => import('@/views/observe/integrated/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.integrated',
@@ -80,13 +80,13 @@ export const observe: RouteConfig[] = [
           icon: 'mdi-view-dashboard',
           show: true,
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: 'observe-monitor-dashoard' },
         children: [
           {
             path: `${prefix}/dashoard`,
             name: `observe-monitor-dashoard`,
-            component: (): Promise<typeof import('*.vue')> => import('@/views/observe/monitor/dashboard/index.vue'),
+            component: () => import('@/views/observe/monitor/dashboard/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.monitor_dahboard',
@@ -102,7 +102,7 @@ export const observe: RouteConfig[] = [
           {
             path: `${prefix}/appmonitor`,
             name: `observe-monitor-app`,
-            component: (): Promise<typeof import('*.vue')> => import('@/views/observe/monitor/app/index.vue'),
+            component: () => import('@/views/observe/monitor/app/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.monitor_app',
@@ -124,13 +124,13 @@ export const observe: RouteConfig[] = [
           icon: 'mdi-magnify',
           show: true,
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: 'observe-monitor-metrics' },
         children: [
           {
             path: `${prefix}/metrics`,
             name: 'observe-monitor-metrics',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/observe/monitor/metrics/index.vue'),
+            component: () => import('@/views/observe/monitor/metrics/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.metrics_inquirer',
@@ -146,7 +146,7 @@ export const observe: RouteConfig[] = [
           {
             path: `${prefix}/viewer`,
             name: 'log-viewer',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/observe/log/viewer/index.vue'),
+            component: () => import('@/views/observe/log/viewer/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.log_inquirer',
@@ -162,7 +162,7 @@ export const observe: RouteConfig[] = [
           {
             path: `${prefix}/search`,
             name: 'observe-trace-search',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/observe/trace/index.vue'),
+            component: () => import('@/views/observe/trace/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.trace_inquirer',
@@ -189,13 +189,13 @@ export const observe: RouteConfig[] = [
           icon: 'mdi-alert',
           show: true,
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: 'observe-monitor-overview' },
         children: [
           {
             path: `${prefix}/overview`,
             name: 'observe-monitor-overview',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/observe/alert/dashboard/index.vue'),
+            component: () => import('@/views/observe/alert/dashboard/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.alert_dashboard',
@@ -211,7 +211,7 @@ export const observe: RouteConfig[] = [
           {
             path: `${prefix}/history`,
             name: 'observe-alert-history',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/observe/alert/history/index.vue'),
+            component: () => import('@/views/observe/alert/history/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.alert_history',
@@ -227,7 +227,7 @@ export const observe: RouteConfig[] = [
           {
             path: `${prefix}/blacklist`,
             name: 'observe-alert-blacklist',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/observe/alert/blacklist/index.vue'),
+            component: () => import('@/views/observe/alert/blacklist/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.alert_blacklist',
@@ -254,13 +254,13 @@ export const observe: RouteConfig[] = [
           icon: 'mdi-wrench',
           show: true,
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: 'observe-monitor-config' },
         children: [
           {
             path: `${prefix}/monitor/config`,
             name: 'observe-monitor-config',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/observe/monitor/config/index.vue'),
+            component: () => import('@/views/observe/monitor/config/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.mertic_setting',
@@ -276,8 +276,7 @@ export const observe: RouteConfig[] = [
           {
             path: `${prefix}/monitor/config/detail/service-monitor/:name`,
             name: 'servicemonitor-detail',
-            component: (): Promise<typeof import('*.vue')> =>
-              import('@/views/observe/monitor/config/servicemonitor/detail.vue'),
+            component: () => import('@/views/observe/monitor/config/servicemonitor/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.servicemonitor',
@@ -293,8 +292,7 @@ export const observe: RouteConfig[] = [
           {
             path: `${prefix}/monitor/config/detail/prometheus-rule/:name`,
             name: 'prometheusrule-detail',
-            component: (): Promise<typeof import('*.vue')> =>
-              import('@/views/observe/monitor/config/prometheusrule/detail.vue'),
+            component: () => import('@/views/observe/monitor/config/prometheusrule/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.prometheusrule',
@@ -310,7 +308,7 @@ export const observe: RouteConfig[] = [
           {
             path: `${prefix}/log/config`,
             name: 'log-config',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/observe/log/config/index.vue'),
+            component: () => import('@/views/observe/log/config/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.log_setting',
@@ -326,7 +324,7 @@ export const observe: RouteConfig[] = [
           {
             path: `${prefix}/log/config/flow-detail/:kind/:name`,
             name: 'log-flow-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/observe/log/config/flow/detail.vue'),
+            component: () => import('@/views/observe/log/config/flow/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.flow',
@@ -342,7 +340,7 @@ export const observe: RouteConfig[] = [
           {
             path: `${prefix}/log/config/output-detail/:kind/:name`,
             name: 'log-output-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/observe/log/config/output/detail.vue'),
+            component: () => import('@/views/observe/log/config/output/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.output',
@@ -358,8 +356,7 @@ export const observe: RouteConfig[] = [
           {
             path: `${prefix}/log/config/alert-detail/:name`,
             name: 'log-alert-detail',
-            component: (): Promise<typeof import('*.vue')> =>
-              import('@/views/observe/log/config/alert_rule/detail.vue'),
+            component: () => import('@/views/observe/log/config/alert_rule/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.alertrule',
@@ -375,7 +372,7 @@ export const observe: RouteConfig[] = [
           {
             path: `${prefix}/channel`,
             name: 'observe-channel',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/observe/channel/index.vue'),
+            component: () => import('@/views/observe/channel/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.channel',

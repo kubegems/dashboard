@@ -6,7 +6,7 @@ export const workspace: RouteConfig[] = [
   {
     path: '/',
     name: 'workspace',
-    component: (): Promise<typeof import('*.vue')> => import('@/layouts/Layout.vue'),
+    component: () => import('@/layouts/Layout.vue'),
     redirect: { name: 'environment-detail' },
     children: [
       {
@@ -17,14 +17,14 @@ export const workspace: RouteConfig[] = [
           icon: 'mdi-view-dashboard',
           required: ['tenant'],
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: 'environment-detail' },
         children: [
           // environment
           {
             path: `${prefix}/dashboard-environment`,
             name: 'environment-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/environment/detail.vue'),
+            component: () => import('@/views/resource/environment/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.environment_dashboaed',
@@ -44,14 +44,14 @@ export const workspace: RouteConfig[] = [
           icon: 'mdi-view-grid',
           required: ['tenant'],
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: 'app-list' },
         children: [
           // app
           {
             path: `${prefix}/apps`,
             name: 'app-list',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/app/index.vue'),
+            component: () => import('@/views/resource/app/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.app',
@@ -64,7 +64,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/configs`,
             name: 'app-configer',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/app_configer/index.vue'),
+            component: () => import('@/views/resource/app_configer/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.app_config',
@@ -79,7 +79,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/apps/:name`,
             name: 'app-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/app/detail.vue'),
+            component: () => import('@/views/resource/app/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.app',
@@ -92,7 +92,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/apps/:name/deploy`,
             name: 'app-deploy',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/deploy/index.vue'),
+            component: () => import('@/views/resource/deploy/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.app_deploy',
@@ -114,14 +114,14 @@ export const workspace: RouteConfig[] = [
           required: ['tenant'],
           edge: true,
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: 'edge-list' },
         children: [
           // app
           {
             path: `${prefix}/edges`,
             name: 'edge-list',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/edge/index.vue'),
+            component: () => import('@/views/resource/edge/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.edge',
@@ -135,7 +135,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/edges/:name`,
             name: 'edge-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/edge/detail.vue'),
+            component: () => import('@/views/resource/edge/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.edge',
@@ -157,14 +157,14 @@ export const workspace: RouteConfig[] = [
           icon: 'mdi-application',
           required: ['tenant'],
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: `workload-list` },
         children: [
           // workload
           {
             path: `${prefix}/workloads`,
             name: 'workload-list',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/workload/index.vue'),
+            component: () => import('@/views/resource/workload/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.workload',
@@ -178,7 +178,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/workloads/:name`,
             name: 'workload-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/workload/detail.vue'),
+            component: () => import('@/views/resource/workload/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.workload',
@@ -193,7 +193,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/pods`,
             name: 'pod-list',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/pod/index.vue'),
+            component: () => import('@/views/resource/pod/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.pod',
@@ -207,7 +207,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/pods/:name`,
             name: 'pod-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/pod/detail.vue'),
+            component: () => import('@/views/resource/pod/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.pod',
@@ -222,7 +222,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/services`,
             name: 'service-list',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/service/index.vue'),
+            component: () => import('@/views/resource/service/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.service',
@@ -236,7 +236,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/services/:name`,
             name: 'service-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/service/detail.vue'),
+            component: () => import('@/views/resource/service/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.service',
@@ -251,7 +251,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/ingress`,
             name: 'ingress-list',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/ingress/index.vue'),
+            component: () => import('@/views/resource/ingress/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.ingress',
@@ -265,7 +265,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/ingress/:name`,
             name: 'ingress-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/ingress/detail.vue'),
+            component: () => import('@/views/resource/ingress/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.ingress',
@@ -280,7 +280,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/gateways`,
             name: 'gateway-center',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/gateway/index.vue'),
+            component: () => import('@/views/resource/gateway/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.gateway',
@@ -294,7 +294,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/gateways/:name`,
             name: 'gateway-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/gateway/detail.vue'),
+            component: () => import('@/views/resource/gateway/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.gateway',
@@ -314,14 +314,14 @@ export const workspace: RouteConfig[] = [
           icon: 'mdi-playlist-check',
           required: ['tenant'],
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: `job-list` },
         children: [
           // job
           {
             path: `${prefix}/jobs`,
             name: 'job-list',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/job/index.vue'),
+            component: () => import('@/views/resource/job/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.job',
@@ -335,7 +335,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/jobs/:name`,
             name: 'job-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/job/detail.vue'),
+            component: () => import('@/views/resource/job/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.job',
@@ -350,7 +350,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/cronjobs`,
             name: 'cronjob-list',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/cronjob/index.vue'),
+            component: () => import('@/views/resource/cronjob/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.cronjob',
@@ -364,7 +364,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/cronjobs/:name`,
             name: 'cronjob-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/cronjob/detail.vue'),
+            component: () => import('@/views/resource/cronjob/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.cronjob',
@@ -384,14 +384,14 @@ export const workspace: RouteConfig[] = [
           icon: 'mdi-brightness-7',
           required: ['tenant'],
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: `configmap-list` },
         children: [
           // configmap
           {
             path: `${prefix}/configmaps`,
             name: 'configmap-list',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/configmap/index.vue'),
+            component: () => import('@/views/resource/configmap/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.configmap',
@@ -405,7 +405,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/configmaps/:name`,
             name: 'configmap-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/configmap/detail.vue'),
+            component: () => import('@/views/resource/configmap/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.configmap',
@@ -420,7 +420,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/secrets`,
             name: 'secret-list',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/secret/index.vue'),
+            component: () => import('@/views/resource/secret/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.secret',
@@ -434,7 +434,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/secrets/:name`,
             name: 'secret-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/secret/detail.vue'),
+            component: () => import('@/views/resource/secret/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.secret',
@@ -449,7 +449,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/certmanager`,
             name: 'certmanager',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/certmanager/index.vue'),
+            component: () => import('@/views/resource/certmanager/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.certmanager',
@@ -464,7 +464,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/certmanager/:name`,
             name: 'certificate-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/certmanager/detail.vue'),
+            component: () => import('@/views/resource/certmanager/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.certmanager',
@@ -485,15 +485,14 @@ export const workspace: RouteConfig[] = [
           icon: 'mdi-database',
           required: ['tenant'],
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: `persistentvolumeclaim-list` },
         children: [
           // pvc
           {
             path: `${prefix}/persistentvolumeclaims`,
             name: 'persistentvolumeclaim-list',
-            component: (): Promise<typeof import('*.vue')> =>
-              import('@/views/resource/persistentvolumeclaim/index.vue'),
+            component: () => import('@/views/resource/persistentvolumeclaim/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.persistentvolumeclaim',
@@ -507,8 +506,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/persistentvolumeclaims/:name`,
             name: 'persistentvolumeclaim-detail',
-            component: (): Promise<typeof import('*.vue')> =>
-              import('@/views/resource/persistentvolumeclaim/detail.vue'),
+            component: () => import('@/views/resource/persistentvolumeclaim/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.persistentvolumeclaim',
@@ -523,7 +521,7 @@ export const workspace: RouteConfig[] = [
           {
             path: `${prefix}/volumesnapshots`,
             name: 'volumesnapshot-list',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/volumesnapshot/index.vue'),
+            component: () => import('@/views/resource/volumesnapshot/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.volumesnapshot',
@@ -541,14 +539,14 @@ export const workspace: RouteConfig[] = [
   {
     path: '/console',
     name: 'terminal',
-    component: (): Promise<typeof import('*.vue')> => import('@/layouts/LayoutWithoutNavi.vue'),
+    component: () => import('@/layouts/LayoutWithoutNavi.vue'),
     redirect: { name: 'terminal-viewer' },
     children: [
       // terminal
       {
         path: `${prefix}/terminal/:name`,
         name: 'terminal-viewer',
-        component: (): Promise<typeof import('*.vue')> => import('@/views/resource/terminal/index.vue'),
+        component: () => import('@/views/resource/terminal/index.vue'),
         meta: {
           requireAuth: true,
           title: 'routerbar.cluster.terminal',
@@ -560,14 +558,14 @@ export const workspace: RouteConfig[] = [
   {
     path: '/container',
     name: 'container-log',
-    component: (): Promise<typeof import('*.vue')> => import('@/layouts/LayoutWithoutNavi.vue'),
+    component: () => import('@/layouts/LayoutWithoutNavi.vue'),
     redirect: { name: 'container-log-viewer' },
     children: [
       // terminal
       {
         path: `${prefix}/log/:name`,
         name: 'container-log-viewer',
-        component: (): Promise<typeof import('*.vue')> => import('@/views/resource/log/index.vue'),
+        component: () => import('@/views/resource/log/index.vue'),
         meta: {
           requireAuth: true,
           title: 'routerbar.cluster.log',
