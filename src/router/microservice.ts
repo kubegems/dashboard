@@ -6,7 +6,7 @@ export const microService: RouteConfig[] = [
   {
     path: '/microservice',
     name: 'microservice',
-    component: (): Promise<typeof import('*.vue')> => import('@/layouts/Layout.vue'),
+    component: () => import('@/layouts/Layout.vue'),
     redirect: {
       name: 'virtualspace-list',
     },
@@ -19,13 +19,13 @@ export const microService: RouteConfig[] = [
           icon: 'mdi-cloud',
           dependencies: ['istio'],
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: 'virtualspace-detail' },
         children: [
           {
             path: `${prefix}/dashboard-virtualspace`,
             name: 'virtualspace-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/microservice/virtualspace/detail.vue'),
+            component: () => import('@/views/microservice/virtualspace/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.microservice.dashboard',
@@ -47,14 +47,14 @@ export const microService: RouteConfig[] = [
           icon: 'mdi-application',
           dependencies: ['istio'],
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: 'microapp-graph' },
         children: [
           // microapp
           {
             path: `${prefix}/graph`,
             name: 'microapp-graph',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/microservice/app/index.vue'),
+            component: () => import('@/views/microservice/app/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.microservice.mesh',
@@ -70,7 +70,7 @@ export const microService: RouteConfig[] = [
           {
             path: `${prefix}/workloads`,
             name: 'microworkload-list',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/microservice/workload/index.vue'),
+            component: () => import('@/views/microservice/workload/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.microservice.workload',
@@ -85,7 +85,7 @@ export const microService: RouteConfig[] = [
           {
             path: `${prefix}/workloads/:name`,
             name: 'microworkload-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/microservice/workload/detail.vue'),
+            component: () => import('@/views/microservice/workload/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.microservice.workload',
@@ -101,7 +101,7 @@ export const microService: RouteConfig[] = [
           {
             path: `${prefix}/services`,
             name: 'microservice-list',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/microservice/service/index.vue'),
+            component: () => import('@/views/microservice/service/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.microservice.service',
@@ -116,7 +116,7 @@ export const microService: RouteConfig[] = [
           {
             path: `${prefix}/services/:name`,
             name: 'microservice-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/microservice/service/detail.vue'),
+            component: () => import('@/views/microservice/service/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.microservice.service',
@@ -137,14 +137,14 @@ export const microService: RouteConfig[] = [
           icon: 'mdi-brightness-7',
           dependencies: ['istio'],
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: 'microconfigmap-list' },
         children: [
           // configmap
           {
             path: `${prefix}/configmaps`,
             name: 'microconfigmap-list',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/microservice/configmap/index.vue'),
+            component: () => import('@/views/microservice/configmap/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.microservice.configmap',
@@ -159,7 +159,7 @@ export const microService: RouteConfig[] = [
           {
             path: `${prefix}/configmaps/:name`,
             name: 'microconfigmap-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/configmap/detail.vue'),
+            component: () => import('@/views/resource/configmap/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.microservice.configmap',
@@ -180,14 +180,14 @@ export const microService: RouteConfig[] = [
           icon: 'mdi-home-variant',
           dependencies: ['istio'],
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: 'istiogateway-list' },
         children: [
           // gateway
           {
             path: `${prefix}/istiogateways`,
             name: 'istiogateway-list',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/microservice/istio_gateway/index.vue'),
+            component: () => import('@/views/microservice/istio_gateway/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.microservice.gateway_intance',
@@ -202,7 +202,7 @@ export const microService: RouteConfig[] = [
           {
             path: `${prefix}/istiogateways/:name`,
             name: 'istiogateway-detail',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/microservice/istio_gateway/detail.vue'),
+            component: () => import('@/views/microservice/istio_gateway/detail.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.microservice.gateway_intance',
@@ -223,15 +223,14 @@ export const microService: RouteConfig[] = [
           icon: 'mdi-access-point-network',
           dependencies: ['istio'],
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: 'authorizationpolicy-list' },
         children: [
           // authorizationpolicy
           {
             path: `${prefix}/authorizationpolicys`,
             name: 'authorizationpolicy-list',
-            component: (): Promise<typeof import('*.vue')> =>
-              import('@/views/microservice/istio/authorization_policy/index.vue'),
+            component: () => import('@/views/microservice/istio/authorization_policy/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.microservice.authorization_policy',
@@ -247,7 +246,7 @@ export const microService: RouteConfig[] = [
           {
             path: `${prefix}/gateways`,
             name: 'gateway-list',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/microservice/istio/gateway/index.vue'),
+            component: () => import('@/views/microservice/istio/gateway/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.microservice.gateway',
@@ -263,8 +262,7 @@ export const microService: RouteConfig[] = [
           {
             path: `${prefix}/peerauthentications`,
             name: 'peerauthentication-list',
-            component: (): Promise<typeof import('*.vue')> =>
-              import('@/views/microservice/istio/peer_authentication/index.vue'),
+            component: () => import('@/views/microservice/istio/peer_authentication/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.microservice.peer_authentication',
@@ -280,8 +278,7 @@ export const microService: RouteConfig[] = [
           {
             path: `${prefix}/serviceentrys`,
             name: 'serviceentry-list',
-            component: (): Promise<typeof import('*.vue')> =>
-              import('@/views/microservice/istio/service_entry/index.vue'),
+            component: () => import('@/views/microservice/istio/service_entry/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.microservice.service_entry',
@@ -297,7 +294,7 @@ export const microService: RouteConfig[] = [
           {
             path: `${prefix}/sidecars`,
             name: 'sidecar-list',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/microservice/istio/sidecar/index.vue'),
+            component: () => import('@/views/microservice/istio/sidecar/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.microservice.sidecar',

@@ -147,6 +147,7 @@
   import { useClusterList, useEdgeClusterList } from '@/composition/cluster';
   import { useRoute, useRouter } from '@/composition/router';
   import { useGlobalI18n } from '@/i18n';
+  import { useParams } from '@/router';
   import { useStore } from '@/store';
   import { Cluster } from '@/types/cluster';
   import { EdgeCluster } from '@/types/edge_cluster';
@@ -188,10 +189,11 @@
     return state.clusterPagination as Cluster[];
   });
 
+  const params = useParams();
   watch(
-    () => route.params.cluster,
-    async (value) => {
-      if (!value) return;
+    () => params.value.cluster,
+    async (newValue) => {
+      if (!newValue) return;
       state.loading = true;
       state.clusterPagination = store.state.Edge
         ? await useEdgeClusterList(new EdgeCluster())
@@ -199,7 +201,7 @@
       state.loading = false;
       state.clusterType = store.state.Edge ? 1 : 0;
       state.cluster = state.clusterPagination.findIndex((cluster: Cluster) => {
-        return cluster.ClusterName === value;
+        return cluster.ClusterName === newValue;
       });
     },
     {

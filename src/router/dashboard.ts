@@ -6,7 +6,7 @@ export const dashboard: RouteConfig[] = [
   {
     path: '/',
     name: 'dashboard',
-    component: (): Promise<typeof import('*.vue')> => import('@/layouts/Layout.vue'),
+    component: () => import('@/layouts/Layout.vue'),
     redirect: { name: 'resource-dashboard' },
     children: [
       {
@@ -17,14 +17,14 @@ export const dashboard: RouteConfig[] = [
           icon: 'mdi-view-dashboard',
           required: ['tenant'],
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: 'resource-dashboard' },
         children: [
           // dashboard
           {
             path: `${prefix}/dashboard-tenant`,
             name: 'resource-dashboard',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/dashboard/index.vue'),
+            component: () => import('@/views/resource/dashboard/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.environment_dashboaed',
@@ -44,14 +44,14 @@ export const dashboard: RouteConfig[] = [
           icon: 'mdi-view-grid',
           required: ['tenant'],
         },
-        component: (): Promise<typeof import('*.vue')> => import('@/layouts/Container.vue'),
+        component: () => import('@/layouts/Container.vue'),
         redirect: { name: 'appmanifest-list' },
         children: [
           // project
           {
             path: `${prefix}/projects`,
             name: 'project-list',
-            component: (): Promise<typeof import('*.vue')> => import('@/views/resource/project/index.vue'),
+            component: () => import('@/views/resource/project/index.vue'),
             meta: {
               requireAuth: true,
               title: 'routerbar.cluster.project',

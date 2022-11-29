@@ -6,13 +6,13 @@ export const tool: RouteConfig[] = [
   {
     path: '/tool',
     name: 'tool',
-    component: (): Promise<typeof import('*.vue')> => import('@/layouts/LayoutWithoutNavi.vue'),
+    component: () => import('@/layouts/LayoutWithoutNavi.vue'),
     redirect: { name: 'log-viewer' },
     children: [
       {
         path: `${prefix}/audits`,
         name: 'audit-list',
-        component: (): Promise<typeof import('*.vue')> => import('@/views/tool/audit/index.vue'),
+        component: () => import('@/views/tool/audit/index.vue'),
         meta: {
           requireAuth: true,
           smallTitle: 'header.audit',
@@ -24,7 +24,7 @@ export const tool: RouteConfig[] = [
       {
         path: `${prefix}/events`,
         name: 'event-list',
-        component: (): Promise<typeof import('*.vue')> => import('@/views/tool/event/index.vue'),
+        component: () => import('@/views/tool/event/index.vue'),
         meta: {
           requireAuth: true,
           smallTitle: 'header.event',
