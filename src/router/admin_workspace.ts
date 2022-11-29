@@ -250,6 +250,7 @@ export const adminWorkspace: RouteConfig[] = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'gateway',
+              edge: false,
             },
           },
           {
@@ -264,6 +265,7 @@ export const adminWorkspace: RouteConfig[] = [
               show: false,
               rootName: 'admin-workspace',
               tip: 'gateway',
+              edge: false,
             },
           },
         ],

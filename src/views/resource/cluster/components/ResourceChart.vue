@@ -174,7 +174,7 @@
           <v-sheet class="mt-5">
             <BaseRadialBarChart
               class="my-3"
-              :default-val="quota ? quota.capacity.pods : 0"
+              :default-val="quota ? parseFloat(quota.capacity['limits.pods']) : 0"
               :extend-height="180"
               :metrics="podSeries"
               :title="$root.$t('resource.pod')"
@@ -188,7 +188,7 @@
               </v-avatar>
               <span>
                 {{ $t('tip.sum') }}
-                {{ quota ? quota.capacity.pods : 0 }}
+                {{ quota ? quota.capacity['limits.pods'] : 0 }}
               </span>
             </v-sheet>
             <v-sheet>
@@ -321,12 +321,12 @@
 
       podSeries() {
         return this.quota
-          ? this.quota.capacity.pods === 0
+          ? this.quota.capacity['limits.pods'] === 0
             ? [[0, 100]]
             : [
                 [
-                  (this.quota.capacity.pods / this.quota.capacity.pods) * 100,
-                  100 - (this.quota.capacity.pods / this.quota.capacity.pods) * 100,
+                  (this.quota.capacity['limits.pods'] / this.quota.capacity['limits.pods']) * 100,
+                  100 - (this.quota.capacity['limits.pods'] / this.quota.capacity['limits.pods']) * 100,
                 ],
               ]
           : [[0, 100]];

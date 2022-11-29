@@ -87,7 +87,12 @@
       <template v-for="(item, i) in items">
         <template v-if="required(item.meta.required)">
           <!---If Sidebar Caption -->
-          <v-row v-if="item.meta.header && isEdge(item.meta.edge)" :key="item.meta.header" align="center" class="py-2">
+          <v-row
+            v-if="item.meta.header && passEdge(item.meta.edge)"
+            :key="item.meta.header"
+            align="center"
+            class="py-2"
+          >
             <v-col class="pa-1" cols="12">
               <v-subheader v-if="item.meta.header && (!expandOnHover || mouseovered)" class="text-truncate">
                 {{ $t(item.meta.header) }}
@@ -100,14 +105,16 @@
         </template>
         <!---If Sidebar Caption -->
         <BaseItemGroup
-          v-if="item.children && required(item.meta.required) && isEdge(item.meta.edge)"
+          v-if="item.children && required(item.meta.required) && passEdge(item.meta.edge)"
           :key="`group-${i}`"
           :item="item"
         />
 
         <BaseItem
           v-else-if="
-            !item.children && (item.mata.show || (pluginPass(item.meta.dependencies) && item.meta.pluginOpenShow))
+            !item.children &&
+            (item.mata.show || (pluginPass(item.meta.dependencies) && item.meta.pluginOpenShow)) &&
+            passEdge(item.meta.edge)
           "
           :key="`item-${i}`"
           :item="item"
@@ -156,7 +163,6 @@
         const sidebarItem = this.$router.options.routes.find((r) => {
           return this.$route.meta.rootName && r.name === this.$route.meta.rootName;
         });
-
         return sidebarItem.children;
       },
       height() {
@@ -223,12 +229,14 @@
         });
         return pass;
       },
-      isEdge(edge) {
-        return (
-          edge === undefined ||
-          (!this.AdminViewport && edge && this.Environment().AllowEdgeRegistration) ||
-          (this.AdminViewport && edge && this.Edge)
-        );
+      passEdge(edge) {
+        if (edge === undefined) return true;
+        if (this.AdminViewport) {
+          if (this.Edge) return edge;
+          return true;
+        } else {
+          return edge && this.Environment().AllowEdgeRegistration;
+        }
       },
       reloadSidebar() {
         try {

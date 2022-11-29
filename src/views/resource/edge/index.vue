@@ -33,7 +33,7 @@
               <v-flex>
                 <v-btn color="primary" text @click="addEdgeCluster">
                   <v-icon left>mdi-plus-box</v-icon>
-                  {{ $root.$t('operate.create_c', [$root.$t('resource.workload')]) }}
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.edge_cluster')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -51,12 +51,12 @@
         :no-data-text="$root.$t('data.no_data')"
         :page.sync="pagination.page"
       >
-        <template #[`item.name`]="{ item }">
+        <template #item.name="{ item }">
           <a class="text-subtitle-2" @click.stop="edgeDetail(item)">
             {{ item.metadata.name }}
           </a>
         </template>
-        <template #[`item.label`]="{ item, index }">
+        <template #item.label="{ item, index }">
           <BaseCollapseChips
             :id="`edge_label_${index}`"
             :chips="item.metadata.labels || {}"
@@ -64,47 +64,37 @@
             single-line
           />
         </template>
-        <template #[`item.version`]="{ item }">
+        <template #item.version="{ item }">
           {{ item.status.manufacture ? item.status.manufacture['edge.kubegems.io/kubernetes-version'] : '' }}
         </template>
-        <template #[`item.tunnel`]="{ item }">
-          <v-icon v-if="item.status.tunnel.connected" color="success" small>mdi-check-circle</v-icon>
-          <v-icon v-else color="error" small>mdi-error-circle</v-icon>
+        <template #item.tunnel="{ item }">
+          <BaseStatus
+            :bg-color="tunnelStatus[item.status.tunnel.connected ? 'Online' : 'Offline']"
+            :status="item.status.tunnel.connected ? 'Online' : 'Offline'"
+          />
         </template>
-        <template #[`item.register`]="{ item }">
+        <template #item.register="{ item }">
           {{ item.status.manufacture ? item.status.manufacture['edge.kubegems.io/edge-agent-register-address'] : '' }}
         </template>
-        <template #[`item.status`]="{ item, index }">
+        <template #item.status="{ item, index }">
           <EdgeStatusTip
             :edge-cluster="item"
             :top="pagination.size - index <= 5 || (pagination.items.length <= 5 && index >= 1)"
           >
             <template #trigger>
-              <span
-                :class="{
-                  'v-avatar': true,
-                  'mr-1': true,
-                  'kubegems__waiting-flashing': edgeStatus[item.status.phase] === edgeStatus.Waiting,
-                }"
-                :style="{
-                  height: '10px',
-                  minWidth: '10px',
-                  width: '10px',
-                  marginTop: '-2px',
-                  backgroundColor: `${edgeStatus[item.status.phase]}`,
-                }"
+              <BaseStatus
+                :bg-color="edgeStatus[item.status.phase]"
+                :flashing="edgeStatus[item.status.phase] === edgeStatus.Waiting"
+                :status="item.status.phase"
               />
-              <span>
-                {{ item.status.phase }}
-              </span>
             </template>
           </EdgeStatusTip>
         </template>
-        <template #[`item.node`] />
-        <template #[`item.joinAt`]="{ item }">
+        <!-- <template #item.node="{ item }" /> -->
+        <template #item.joinAt="{ item }">
           {{ moment(item.metadata.creationTimestamp).format('lll') }}
         </template>
-        <template #[`item.action`]="{ item }">
+        <template #item.action="{ item }">
           <v-flex :id="`r${item.metadata.resourceVersion}`" />
           <v-menu :attach="`#r${item.metadata.resourceVersion}`" left>
             <template #activator="{ on }">
@@ -169,6 +159,11 @@
     Online = '#00BCD4',
     Offline = '#9e9e9e',
     Waiting = '#fb8c00',
+  }
+
+  enum tunnelStatus {
+    Online = '#00BCD4',
+    Offline = '#9e9e9e',
   }
 
   const store = useStore();

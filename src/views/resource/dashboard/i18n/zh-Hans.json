@@ -35,5 +35,15 @@
   "tab": {
     "cloud_cluster": "云端集群",
     "edge_cluster": "边缘集群"
+  },
+  "edge": {
+    "table": {
+      "name": "名称",
+      "label": "标签",
+      "status": "状态",
+      "register_cluster": "注册集群",
+      "tunnel": "隧道",
+      "node_count": "主机数"
+    }
   }
 }

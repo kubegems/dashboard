@@ -35,7 +35,9 @@
       <BaseItemSubGroup v-if="child.children" :key="`sub-group-${i}`" class="second-dd" :item="child" />
 
       <BaseItem
-        v-else-if="child.meta.show || (pluginPass(child.meta.dependencies) && child.meta.pluginOpenShow)"
+        v-else-if="
+          !child.children && (child.meta.show || (pluginPass(child.meta.dependencies) && child.meta.pluginOpenShow))
+        "
         :key="`item-${i}`"
         :item="child"
         text
@@ -45,7 +47,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   export default {
     name: 'BaseItemGroup',
@@ -68,13 +70,15 @@
       },
     },
     computed: {
-      ...mapState(['Plugins']),
+      ...mapState(['Plugins', 'AdminViewport', 'Edge']),
+      ...mapGetters(['Environment']),
       children() {
         return this.item.children
           .filter((item) => {
             return (
               (!item.children &&
-                (item.meta.show || (this.pluginPass(item.meta.dependencies) && item.meta.pluginOpenShow))) ||
+                (item.meta.show || (this.pluginPass(item.meta.dependencies) && item.meta.pluginOpenShow)) &&
+                this.passEdge(item.meta.edge)) ||
               item.children
             );
           })
@@ -118,6 +122,15 @@
           }
         });
         return pass;
+      },
+      passEdge(edge) {
+        if (edge === undefined) return true;
+        if (this.AdminViewport) {
+          if (this.Edge) return edge;
+          return true;
+        } else {
+          return edge && this.Environment().AllowEdgeRegistration;
+        }
       },
     },
   };

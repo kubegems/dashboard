@@ -115,7 +115,7 @@
 
             <template v-if="showCluster">
               <v-divider class="float-left select__divider" vertical />
-              <div class="select__right" :style="{ width: '280px' }">
+              <div class="select__right" :style="{ minWidth: '280px' }">
                 <div class="text-caption pa-1 mt-2">
                   <div class="float-left">
                     <BaseLogo default-logo="kubernetes" :ml="0" :mt="0" :width="20" />
@@ -148,7 +148,7 @@
                     <v-list-item v-for="item in edgeClusterItems" :key="item.ClusterName" dense>
                       <v-list-item-content>
                         <v-list-item-title class="select__list__title pl-2">
-                          <div class="float-left">
+                          <div>
                             {{ item.ClusterName }}
                             <div class="float-right text-caption ml-2 select__list__badge">
                               {{ item.Upstream }}

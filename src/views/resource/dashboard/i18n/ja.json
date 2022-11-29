@@ -33,5 +33,15 @@
   "tab": {
     "cloud_cluster": "クラウドクラスター",
     "edge_cluster": "エッジ クラスタ"
+  },
+  "edge": {
+    "table": {
+      "name": "名前",
+      "label": "ラベル",
+      "status": "状態",
+      "register_cluster": "クラスターを登録する",
+      "tunnel": "トンネル",
+      "node_count": "ホスト数"
+    }
   }
 }

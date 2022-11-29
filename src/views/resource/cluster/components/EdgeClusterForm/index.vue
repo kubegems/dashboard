@@ -23,9 +23,7 @@
     @reset="reset"
   >
     <template #content>
-      <keep-alive>
-        <component :is="components[state.step]" ref="form" :edge-cluster="edgeCluster" :update="state.update" />
-      </keep-alive>
+      <component :is="components[state.step]" ref="form" :edge-cluster="edgeCluster" :update="state.update" />
     </template>
     <template #action>
       <v-btn

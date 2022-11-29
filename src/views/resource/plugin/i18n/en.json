@@ -11,7 +11,8 @@
     "repository": "Repository",
     "plugin_params": "Plugin params",
     "schema_form": "Schema Form",
-    "message": "Install Status"
+    "message": "Install Status",
+    "now": "Current"
   },
   "operate": {
     "install": "Enabled",

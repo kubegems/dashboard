@@ -131,7 +131,7 @@
               </template>
             </v-autocomplete>
           </v-col>
-          <v-col cols="6">
+          <v-col v-if="pluginsKubeEdgeOpen" cols="6">
             <v-switch
               v-model="obj.data.AllowEdgeRegistration"
               class="mt-5 float-left"
@@ -264,7 +264,13 @@
 
   import messages from '../../i18n';
   import AddNamespace from './AddNamespace';
-  import { deleteEnvironmentUser, getEnvironmentUserList, getProjectUserList, postAddEnvironmentUser } from '@/api';
+  import {
+    deleteEnvironmentUser,
+    getClusterPluginsList,
+    getEnvironmentUserList,
+    getProjectUserList,
+    postAddEnvironmentUser,
+  } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -372,6 +378,7 @@
         operatorUsers: [],
         searchAllUser: '',
         searchRoleUser: '',
+        pluginsKubeEdgeOpen: false,
       };
     },
     computed: {
@@ -421,6 +428,9 @@
             NowTkeGpu: this.obj.statistics.TkeGpu,
             NowTkeMemory: this.obj.statistics.TkeMemory,
           });
+
+          const data = await getClusterPluginsList(cluster.text, { simple: true, noprocessing: true });
+          this.pluginsKubeEdgeOpen = data['kubegems-edge'] || false;
         }
       },
       openExpaned(formComponent) {
@@ -450,6 +460,7 @@
         this.users = [];
         this.readerUsers = [];
         this.operatorUsers = [];
+        this.pluginsKubeEdgeOpen = false;
       },
       checkSaved() {
         if (this.step === 0) {
