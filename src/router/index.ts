@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue, { computed } from 'vue';
 import Router, { RawLocation, Route } from 'vue-router';
 
 import { adminObserve } from './admin_observe';
@@ -164,6 +164,18 @@ router.beforeEach(async (to, from, next): Promise<void> => {
     }
   }
 });
+
+const routeData = Vue.observable({ params: {}, query: {} });
+router.afterEach((route) => {
+  routeData.params = route.params;
+  routeData.query = route.query;
+});
+export function useParams() {
+  return computed<{ [key: string]: string }>(() => routeData.params);
+}
+export function useQuery() {
+  return computed<{ [key: string]: string }>(() => routeData.query);
+}
 
 export const useRouter = () => router;
 export default router;

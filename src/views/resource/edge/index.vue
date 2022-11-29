@@ -151,22 +151,19 @@
 
 <script lang="ts" setup>
   import moment from 'moment';
-  import { onMounted, reactive, ref } from 'vue';
+  import { reactive, ref, watch } from 'vue';
 
   import { useI18n } from './i18n';
   import { useEdgeClusterPagination } from '@/composition/cluster';
   import { useRoute, useRouter } from '@/composition/router';
   import { ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
   import { useGlobalI18n } from '@/i18n';
+  import { useQuery } from '@/router';
   import { useStore } from '@/store';
   import { EdgeCluster } from '@/types/edge_cluster';
   import EdgeClusterForm from '@/views/resource/cluster/components/EdgeClusterForm/index.vue';
   import EdgeStatusTip from '@/views/resource/cluster/components/EdgeStatusTip.vue';
   import Terminal from '@/views/resource/components/common/Terminal/index.vue';
-
-  onMounted(() => {
-    getEdgeClusterList();
-  });
 
   enum edgeStatus {
     Online = '#00BCD4',
@@ -199,17 +196,40 @@
     size: 10,
     pageCount: 0,
     items: [],
+    search: '',
   });
 
   const getEdgeClusterList = async (params: KubePaginationRequest = pagination): Promise<void> => {
-    const data: Pagination<EdgeCluster> = await useEdgeClusterPagination(new EdgeCluster(), params.page, params.size, {
-      [ENVIRONMENT_KEY]: [route.params.environment],
-      [PROJECT_KEY]: [route.params.project],
-      [TENANT_KEY]: [route.params.tenant],
-    });
+    const data: Pagination<EdgeCluster> = await useEdgeClusterPagination(
+      new EdgeCluster(),
+      params.page,
+      params.size,
+      {
+        [ENVIRONMENT_KEY]: [route.params.environment],
+        [PROJECT_KEY]: [route.params.project],
+        [TENANT_KEY]: [route.params.tenant],
+      },
+      params.search,
+    );
     pagination = Object.assign(pagination, data);
     router.replace({ query: { ...route.query, page: pagination.page.toString(), size: pagination.size.toString() } });
   };
+
+  const query = useQuery();
+  watch(
+    () => query,
+    async (newValue) => {
+      if (!newValue) return;
+      if (newValue.value.search) {
+        pagination.search = newValue.value.search;
+      }
+      getEdgeClusterList();
+    },
+    {
+      immediate: true,
+      deep: true,
+    },
+  );
 
   const pageChange = (page: number): void => {
     pagination.page = page;

@@ -141,7 +141,7 @@
 
 <script lang="ts" setup>
   import moment from 'moment';
-  import { onMounted, reactive, ref, watch } from 'vue';
+  import { reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../i18n';
   import EdgeClusterForm from './EdgeClusterForm/index.vue';
@@ -153,18 +153,12 @@
   import { useTenantList } from '@/composition/tenant';
   import { ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
   import { useGlobalI18n } from '@/i18n';
+  import { useQuery } from '@/router';
   import { useStore } from '@/store';
   import { EdgeCluster } from '@/types/edge_cluster';
   import { Environment } from '@/types/environment';
   import { Project } from '@/types/project';
   import { Tenant } from '@/types/tenant';
-
-  onMounted(() => {
-    getEdgeClusterList();
-    getTenantFilters();
-    getProjectFilters();
-    getEnvironmentFilters();
-  });
 
   enum edgeStatus {
     Online = '#00BCD4',
@@ -178,30 +172,7 @@
   const router = useRouter();
   const route = useRoute();
 
-  watch(
-    () => route.query,
-    async (value) => {
-      if (!value) return;
-      if (value.tenant) {
-        labels.value[TENANT_KEY] = value.tenant;
-      }
-      if (value.project) {
-        labels.value[PROJECT_KEY] = value.project;
-      }
-      if (value.environment) {
-        labels.value[ENVIRONMENT_KEY] = value.environment;
-      }
-      console.log(labels);
-      getTenantFilters();
-      getProjectFilters();
-      getEnvironmentFilters();
-      getEdgeClusterList();
-    },
-    {
-      deep: true,
-    },
-  );
-  const labels = ref({});
+  const labels = ref<{ [key: string]: string[] }>({});
   let tenantList = ref<Tenant[]>([]);
   let projectList = ref<Project[]>([]);
   let environmentList = ref<Environment[]>([]);
@@ -225,8 +196,8 @@
     const filter = { items: [], text: i18n.t('resource.project'), value: 'project' };
     if (projectList.value.length === 0) projectList.value = await useProjectList(new Project());
     filter.items = projectList.value.map((d: Project) => {
-      if (labels.value[TENANT_KEY]) {
-        if (labels.value[TENANT_KEY] === d.Tenant.TenantName)
+      if (labels.value[TENANT_KEY]?.length > 0) {
+        if (labels.value[TENANT_KEY].indexOf(d.Tenant.TenantName) > -1)
           return { text: d.ProjectName, value: d.ProjectName, parent: 'project' };
       } else {
         return { text: d.ProjectName, value: d.ProjectName, parent: 'project' };
@@ -245,8 +216,8 @@
     const filter = { items: [], text: i18n.t('resource.environment'), value: 'environment' };
     if (environmentList.value.length === 0) environmentList.value = await useEnvironmentList(new Environment());
     filter.items = environmentList.value.map((d: Environment) => {
-      if (labels.value[PROJECT_KEY]) {
-        if (labels.value[PROJECT_KEY] === d.Project.ProjectName)
+      if (labels.value[PROJECT_KEY]?.length > 0) {
+        if (labels.value[PROJECT_KEY].indexOf(d.Project.ProjectName) > -1)
           return { text: d.EnvironmentName, value: d.EnvironmentName, parent: 'environment' };
       } else {
         return { text: d.EnvironmentName, value: d.EnvironmentName, parent: 'environment' };
@@ -279,6 +250,7 @@
     size: 10,
     pageCount: 0,
     items: [],
+    search: '',
   });
 
   const getEdgeClusterList = async (params: KubePaginationRequest = pagination): Promise<void> => {
@@ -287,9 +259,38 @@
       params.page,
       params.size,
       labels.value,
+      params.search,
     );
     pagination = Object.assign(pagination, data);
   };
+
+  const query = useQuery();
+  watch(
+    () => query,
+    async (newValue) => {
+      if (!newValue) return;
+      if (newValue.value.tenant) {
+        labels.value[TENANT_KEY] = [newValue.value.tenant];
+      }
+      if (newValue.value.project) {
+        labels.value[PROJECT_KEY] = [newValue.value.project];
+      }
+      if (newValue.value.environment) {
+        labels.value[ENVIRONMENT_KEY] = [newValue.value.environment];
+      }
+      if (newValue.value.search) {
+        pagination.search = newValue.value.search;
+      }
+      getTenantFilters();
+      getProjectFilters();
+      getEnvironmentFilters();
+      getEdgeClusterList();
+    },
+    {
+      immediate: true,
+      deep: true,
+    },
+  );
 
   const pageChange = (page: number): void => {
     pagination.page = page;

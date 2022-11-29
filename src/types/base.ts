@@ -37,6 +37,7 @@ declare global {
     size: number;
     pageCount: number;
     page: number;
+    [params: string]: any;
   };
 }
 
