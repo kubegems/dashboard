@@ -25,37 +25,27 @@
       :no-data-text="$root.$t('data.no_data')"
       :page.sync="pagination.page"
     >
-      <template #[`item.name`]="{ item }">
+      <template #item.name="{ item }">
         {{ item.metadata.name }}
       </template>
-      <template #[`item.tunnel`]="{ item }">
-        <v-icon v-if="item.status.tunnel.connected" color="success" small>mdi-check-circle</v-icon>
-        <v-icon v-else color="error" small>mdi-error-circle</v-icon>
+      <template #item.tunnel="{ item }">
+        <BaseStatus
+          :bg-color="tunnelStatus[item.status.tunnel.connected ? 'Online' : 'Offline']"
+          :status="item.status.tunnel.connected ? 'Online' : 'Offline'"
+        />
       </template>
-      <template #[`item.register`]="{ item }">
+      <template #item.register="{ item }">
         {{ item.status.manufacture['edge.kubegems.io/edge-agent-register-address'] }}
       </template>
-      <template #[`item.status`]="{ item }">
-        <span
-          :class="{
-            'v-avatar': true,
-            'mr-1': true,
-            'kubegems__waiting-flashing': edgeStatus[item.status.phase] === edgeStatus.Waiting,
-          }"
-          :style="{
-            height: '10px',
-            minWidth: '10px',
-            width: '10px',
-            marginTop: '-2px',
-            backgroundColor: `${edgeStatus[item.status.phase]}`,
-          }"
+      <template #item.status="{ item }">
+        <BaseStatus
+          :bg-color="edgeStatus[item.status.phase]"
+          :flashing="edgeStatus[item.status.phase] === edgeStatus.Waiting"
+          :status="item.status.phase"
         />
-        <span>
-          {{ item.status.phase }}
-        </span>
       </template>
-      <template #[`item.node`] />
-      <template #[`item.project`]="{ item }">
+      <!-- <template #item.node="{ item }" /> -->
+      <template #item.project="{ item }">
         {{ item.metadata.labels[PROJECT_KEY] }}
       </template>
     </v-data-table>
@@ -74,10 +64,12 @@
 <script lang="ts" setup>
   import { onMounted, reactive } from 'vue';
 
+  import { useI18n } from '../../i18n';
   import Pagination from '../Pagination.vue';
   import { useEdgeClusterPagination } from '@/composition/cluster';
   import { useRoute } from '@/composition/router';
   import { PROJECT_KEY, TENANT_KEY } from '@/constants/label';
+  import { useGlobalI18n } from '@/i18n';
   import { EdgeCluster } from '@/types/edge_cluster';
 
   onMounted(() => {
@@ -90,15 +82,22 @@
     Waiting = '#fb8c00',
   }
 
+  enum tunnelStatus {
+    Online = '#00BCD4',
+    Offline = '#9e9e9e',
+  }
+
   const route = useRoute();
+  const i18nLocal = useI18n();
+  const i18n = useGlobalI18n();
 
   const headers = [
-    { text: '名称', value: 'name', align: 'start' },
-    { text: '注册集群', value: 'register', align: 'start' },
-    { text: '隧道', value: 'tunnel', align: 'start' },
-    { text: '状态', value: 'status', align: 'start', width: 100 },
-    { text: '项目', value: 'project', align: 'start' },
-    { text: '主机数', value: 'node', align: 'start' },
+    { text: i18nLocal.t('edge.table.name'), value: 'name', align: 'start' },
+    { text: i18nLocal.t('edge.table.register_cluster'), value: 'register', align: 'start' },
+    { text: i18nLocal.t('edge.table.tunnel'), value: 'tunnel', align: 'start' },
+    { text: i18nLocal.t('edge.table.status'), value: 'status', align: 'start', width: 100 },
+    { text: i18n.t('resource.project'), value: 'project', align: 'start' },
+    { text: i18nLocal.t('edge.table.node_count'), value: 'node', align: 'start' },
   ];
 
   let pagination: Pagination<EdgeCluster> = reactive<Pagination<EdgeCluster>>({

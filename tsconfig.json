@@ -27,5 +27,5 @@
     "extensions": [".vue"]
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "logs", "dist", "vite.config.js", "volar.config.js"]
+  "exclude": ["node_modules", "logs", "dist", "vite.config.js", "volar.config.js", "components.d.ts"]
 }

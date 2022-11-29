@@ -289,7 +289,7 @@
       headers() {
         const items = [
           { text: this.$t('table.name'), value: 'name', align: 'start', width: 320 },
-          { text: this.$t('table.status'), value: 'status', align: 'start', width: 255 },
+          { text: this.$t('table.status'), value: 'status', align: 'start', width: 180 },
           { text: this.$t('table.container_count'), value: 'container', align: 'start', sortable: false },
           { text: this.$t('table.restart_count'), value: 'restart', align: 'end', sortable: false, width: 90 },
           {
@@ -325,7 +325,7 @@
             value: 'namespace',
             align: 'start',
             sortable: false,
-            width: 120,
+            width: 220,
           });
         } else {
           items[0].width = 478;

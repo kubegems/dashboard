@@ -39,7 +39,15 @@
         <div class="kubegems__clear-float" />
       </div>
     </template>
-    <v-data-iterator hide-default-footer :items="[{ text: $t('tip.version'), values: versions }]">
+    <v-data-iterator
+      hide-default-footer
+      :items="[
+        {
+          text: $t('tip.version'),
+          values: versions,
+        },
+      ]"
+    >
       <template #no-data>
         <v-card>
           <v-card-text> {{ $t('data.no_data') }} </v-card-text>
@@ -63,7 +71,7 @@
               >
                 <v-list-item-content class="text-body-2 font-weight-medium text-start">
                   <div class="kubegems__break-all">
-                    {{ v }}
+                    {{ v }}{{ installedVersion === v ? `(${$t('tip.now')})` : '' }}
                   </div>
                 </v-list-item-content>
               </v-list-item>

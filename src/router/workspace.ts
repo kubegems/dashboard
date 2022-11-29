@@ -289,6 +289,7 @@ export const workspace: RouteConfig[] = [
               show: true,
               rootName: 'workspace',
               tip: 'gateway',
+              edge: false,
             },
           },
           {
@@ -303,6 +304,7 @@ export const workspace: RouteConfig[] = [
               show: false,
               rootName: 'workspace',
               tip: 'gateway',
+              edge: false,
             },
           },
         ],

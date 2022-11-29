@@ -83,7 +83,7 @@
               </v-list>
             </div>
             <v-divider v-if="show" class="float-left select__divider" vertical />
-            <div v-if="show" class="select__right" :style="{ width: '280px' }">
+            <div v-if="show" class="select__right" :style="{ minWidth: '280px' }">
               <div class="text-caption pa-1">集群</div>
               <v-text-field
                 v-model="state.search"
@@ -101,10 +101,10 @@
                   <v-list-item v-for="item in clusterItems" :key="item.ClusterName" dense>
                     <v-list-item-content>
                       <v-list-item-title class="select__list__title pl-2">
-                        <div class="float-left">
+                        <div>
                           {{ item.ClusterName }}
                           <div class="float-right text-caption ml-2 select__list__badge">
-                            {{ item.Version || item.Upstream }}
+                            {{ item.Upstream || item.Version }}
                           </div>
                         </div>
                       </v-list-item-title>

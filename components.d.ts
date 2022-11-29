@@ -37,6 +37,7 @@ declare module 'vue' {
     BaseRadialBarChart: typeof import('./src/components/BaseRadialBarChart.vue')['default']
     BaseSnackBar: typeof import('./src/components/BaseSnackBar.vue')['default']
     BaseSplitContainer: typeof import('./src/components/BaseSplitContainer.vue')['default']
+    BaseStatus: typeof import('./src/components/BaseStatus.vue')['default']
     BaseSubTitle: typeof import('./src/components/BaseSubTitle.vue')['default']
     BaseTipChips: typeof import('./src/components/BaseTipChips.vue')['default']
     BaseTipWindow: typeof import('./src/components/BaseTipWindow.vue')['default']

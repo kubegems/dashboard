@@ -33,5 +33,15 @@
   "tab": {
     "cloud_cluster": "雲端集群",
     "edge_cluster": "邊緣集群"
+  },
+  "edge": {
+    "table": {
+      "name": "名稱",
+      "label": "標籤",
+      "status": "狀態",
+      "register_cluster": "註冊集群",
+      "tunnel": "隧道",
+      "node_count": "主機數"
+    }
   }
 }

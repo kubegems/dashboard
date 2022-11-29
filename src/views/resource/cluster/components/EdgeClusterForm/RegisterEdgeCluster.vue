@@ -23,16 +23,18 @@
         <v-col cols="6">
           <v-text-field v-model="obj.metadata.name" :label="i18nLocal.t('form.name')" required :rules="objRule.name" />
         </v-col>
-        <v-col cols="6">
+      </v-row>
+      <v-row>
+        <v-col cols="2">
           <v-switch
             v-model="state.customImage"
-            class="mt-6"
+            class="mt-5"
             hide-details
             :label="i18nLocal.t('tip.custom_image')"
             @change="clearImage"
           />
         </v-col>
-        <v-col v-if="state.customImage" cols="12">
+        <v-col v-if="state.customImage" cols="10">
           <v-text-field
             v-model="obj.spec.register.image"
             :label="i18nLocal.t('form.image')"
@@ -40,7 +42,7 @@
             :rules="objRule.image"
           />
         </v-col>
-        <v-col v-else cols="12">
+        <v-col v-else cols="10">
           <v-autocomplete
             v-model="obj.spec.register.image"
             color="primary"
@@ -92,9 +94,11 @@
 
   const props = withDefaults(
     defineProps<{
+      update?: boolean;
       edgeCluster?: EdgeCluster;
     }>(),
     {
+      update: false,
       edgeCluster: undefined,
     },
   );
@@ -126,7 +130,8 @@
       if (
         !imageItems.value.some((image) => {
           return image.value === obj.spec.register.image;
-        })
+        }) &&
+        props.update
       ) {
         state.customImage = true;
       }
