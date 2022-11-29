@@ -75,10 +75,6 @@
         type: Array,
         default: () => [],
       },
-      reload: {
-        type: Boolean,
-        default: () => true,
-      },
       width: {
         type: Number,
         default: () => 700,
@@ -131,9 +127,9 @@
           });
           this.conditions.splice(index, 1);
           const params = this.constructQueryParams();
-          await this.filterList(params, this.reload);
+          await this.filterList(params);
           const timeout = setTimeout(() => {
-            if (!this.reload) this.$emit('filter');
+            this.$emit('filter');
             clearTimeout(timeout);
           }, 100);
           this.$refs.filter.blur();
@@ -152,9 +148,9 @@
             this.resetFilterCondition();
 
             const params = this.constructQueryParams();
-            await this.filterList(params, this.reload);
+            await this.filterList(params);
             const timeout = setTimeout(() => {
-              if (!this.reload) this.$emit('filter');
+              this.$emit('filter');
               clearTimeout(timeout);
             }, 100);
             this.$refs.filter.blur();
@@ -192,9 +188,9 @@
         this.resetFilterCondition();
 
         const params = this.constructQueryParams();
-        await this.filterList(params, this.reload);
+        await this.filterList(params);
         const timeout = setTimeout(() => {
-          if (!this.reload) this.$emit('filter');
+          this.$emit('filter');
           clearTimeout(timeout);
         }, 100);
         this.$refs.filter.blur();
@@ -229,7 +225,7 @@
         this.items = deepCopy(this.filters);
         this.filterText = '';
       },
-      async filterList(params, reload = true) {
+      async filterList(params) {
         // 处理多tab列表
         const tab = this.$route.query.tab || null;
         await this.$router.replace({
@@ -237,9 +233,6 @@
           name: this.$route.name,
           query: Object.assign({ tab: tab, ...this.$route.query, ...{ page: 1 } }, params),
         });
-        if (reload) {
-          this.reload();
-        }
       },
     },
   };

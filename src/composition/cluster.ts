@@ -47,6 +47,7 @@ export const useEdgeClusterPagination = async (
   page = 1,
   size = 10,
   labels: { [key: string]: string[] } = {},
+  search = '',
 ): Promise<Pagination<EdgeCluster>> => {
   const labelSelector: string = stringifySelector({
     matchExpressions: Object.keys(labels).map((key) => {
@@ -63,6 +64,7 @@ export const useEdgeClusterPagination = async (
     size: size,
     noprocessing: true,
     labels: labelSelector,
+    search: search,
   });
 
   return {

@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import qs from 'qs';
 import Vue from 'vue';
 
 import { useRouter } from '@/router';
@@ -10,6 +11,9 @@ const router = useRouter();
 
 axios.defaults.baseURL = `${window.location.origin}/api/v1`;
 axios.defaults.timeout = 1000 * parseInt(import.meta.env.VUE_APP_API_TIMEOUT);
+axios.defaults.paramsSerializer = (params: any): string => {
+  return qs.stringify(params, { arrayFormat: 'brackets' });
+};
 
 axios.interceptors.request.use(
   (config: AxiosRequestConfig<KubeRequest>): AxiosRequestConfig<KubeRequest> | Promise<any> => {
