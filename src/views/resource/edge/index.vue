@@ -143,7 +143,7 @@
 
 <script lang="ts" setup>
   import moment from 'moment';
-  import { reactive, ref, watch } from 'vue';
+  import { onUnmounted, reactive, ref, watch } from 'vue';
 
   import { useI18n } from './i18n';
   import { useEdgeClusterPagination } from '@/composition/cluster';
@@ -212,6 +212,10 @@
     router.replace({ query: { ...route.query, page: pagination.page.toString(), size: pagination.size.toString() } });
   };
 
+  let interval: number;
+  onUnmounted(() => {
+    clearInterval(interval);
+  });
   const query = useQuery();
   watch(
     () => query,
@@ -221,6 +225,10 @@
         pagination.search = newValue.value.search;
       }
       getEdgeClusterList();
+      interval = setInterval(() => {
+        clearInterval(interval);
+        getEdgeClusterList();
+      }, 30 * 1000);
     },
     {
       immediate: true,

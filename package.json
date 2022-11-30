@@ -62,7 +62,7 @@
     "moment": "^2.29.4",
     "qs": "^6.11.0",
     "v-code-diff": "^0.3.12",
-    "vue": "^2.7.13",
+    "vue": "^2.7.14",
     "vue-clipboard2": "^0.3.3",
     "vue-filepond": "^7.0.3",
     "vue-form-wizard": "0.8.4",

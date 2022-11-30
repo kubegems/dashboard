@@ -43,7 +43,7 @@ export const useEdgeClusterList = async (
     return {
       ID: index,
       ClusterName: edge.metadata.name,
-      Version: '',
+      Version: edge.status.manufacture['edge.kubegems.io/kubernetes-version'] || '',
       Upstream: edge.spec.register.hubName,
     };
   });

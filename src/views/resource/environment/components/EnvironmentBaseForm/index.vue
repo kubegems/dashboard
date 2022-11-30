@@ -37,64 +37,7 @@
               :rules="objRules.environmentNameRules"
             />
           </v-col>
-          <v-col v-if="AdminViewport" cols="6">
-            <v-autocomplete
-              v-model="obj.data.ProjectID"
-              class="my-0"
-              color="primary"
-              hide-selected
-              :items="m_select_projectItems"
-              :label="$root.$t('resource.project')"
-              :no-data-text="$root.$t('data.no_data')"
-              :readonly="edit"
-              :rules="objRules.projectIDRules"
-              @focus="onProjectSelectFocus"
-            >
-              <template #selection="{ item }">
-                <v-chip class="mx-1" color="primary" small>
-                  {{ item['text'] }}
-                </v-chip>
-              </template>
-            </v-autocomplete>
-          </v-col>
-          <v-col cols="6">
-            <v-autocomplete
-              v-model="obj.data.ClusterID"
-              class="my-0"
-              color="primary"
-              hide-selected
-              :items="m_select_tenantClusterItems"
-              :label="$root.$t('resource.cluster')"
-              :no-data-text="$root.$t('data.no_data')"
-              :readonly="edit"
-              :rules="objRules.clusterIDRules"
-              @change="onClusterChange"
-              @focus="onTenantClusterSelectFocus(Tenant().ID)"
-            >
-              <template #selection="{ item }">
-                <v-chip class="mx-1" color="primary" small>
-                  {{ item['text'] }}
-                </v-chip>
-              </template>
-            </v-autocomplete>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-              v-model.trim="obj.data.Namespace"
-              class="my-0"
-              :label="$root.$t('resource.namespace')"
-              :readonly="edit"
-              required
-              :rules="objRules.namespaceRules"
-            >
-              <template #append>
-                <v-btn v-if="!edit" class="mt-n1" color="primary" small text @click.stop="openExpaned('addNamespace')">
-                  <v-icon left small> mdi-link </v-icon>
-                  {{ $t('operate.bind_ns') }}
-                </v-btn>
-              </template>
-            </v-text-field>
-          </v-col>
+
           <v-col cols="6">
             <v-autocomplete
               v-model="obj.data.MetaType"
@@ -131,6 +74,33 @@
               </template>
             </v-autocomplete>
           </v-col>
+        </v-row>
+      </v-card-text>
+
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.cluster')])" />
+      <v-card-text class="pa-2">
+        <v-row>
+          <v-col cols="6">
+            <v-autocomplete
+              v-model="obj.data.ClusterID"
+              class="my-0"
+              color="primary"
+              hide-selected
+              :items="m_select_tenantClusterItems"
+              :label="$root.$t('resource.cluster')"
+              :no-data-text="$root.$t('data.no_data')"
+              :readonly="edit"
+              :rules="objRules.clusterIDRules"
+              @change="onClusterChange"
+              @focus="onTenantClusterSelectFocus(Tenant().ID)"
+            >
+              <template #selection="{ item }">
+                <v-chip class="mx-1" color="primary" small>
+                  {{ item['text'] }}
+                </v-chip>
+              </template>
+            </v-autocomplete>
+          </v-col>
           <v-col v-if="pluginsKubeEdgeOpen" cols="6">
             <v-switch
               v-model="obj.data.AllowEdgeRegistration"
@@ -142,6 +112,23 @@
               <v-icon color="orange" right small> mdi-information-variant </v-icon>
               {{ $t('tip.edge_open_tip') }}
             </div>
+          </v-col>
+          <v-col cols="6">
+            <v-text-field
+              v-model.trim="obj.data.Namespace"
+              class="my-0"
+              :label="$root.$t('resource.namespace')"
+              :readonly="edit"
+              required
+              :rules="objRules.namespaceRules"
+            >
+              <template #append>
+                <v-btn v-if="!edit" class="mt-n1" color="primary" small text @click.stop="openExpaned('addNamespace')">
+                  <v-icon left small> mdi-link </v-icon>
+                  {{ $t('operate.bind_ns') }}
+                </v-btn>
+              </template>
+            </v-text-field>
           </v-col>
         </v-row>
         <v-row>
@@ -413,6 +400,7 @@
         this.$refs.addNamespace.closeCard();
       },
       async onClusterChange(ClusterID = null) {
+        this.pluginsKubeEdgeOpen = false;
         const cluster = this.m_select_tenantClusterItems.find((c) => {
           return c.value === ClusterID;
         });

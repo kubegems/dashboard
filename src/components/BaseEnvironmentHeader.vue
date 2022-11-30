@@ -101,9 +101,11 @@
                     <v-list-item v-for="item in environmentItems" :key="item.EnvironmentName" dense>
                       <v-list-item-content>
                         <v-list-item-title class="select__list__title pl-2">
-                          <div class="float-left">
+                          <div>
                             {{ item.EnvironmentName }}
-                            <div class="float-right text-caption ml-2 select__list__badge">{{ item.MetaType }}</div>
+                            <div class="float-right text-caption ml-2 select__list__badge">
+                              {{ METATYPE_CN[item.MetaType].cn }}
+                            </div>
                           </div>
                         </v-list-item-title>
                       </v-list-item-content>
@@ -151,7 +153,7 @@
                           <div>
                             {{ item.ClusterName }}
                             <div class="float-right text-caption ml-2 select__list__badge">
-                              {{ item.Upstream }}
+                              {{ item.Upstream || item.Version }}
                             </div>
                           </div>
                         </v-list-item-title>

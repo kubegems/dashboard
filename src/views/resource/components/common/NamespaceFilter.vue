@@ -16,7 +16,7 @@
 
 <template>
   <v-sheet>
-    <v-sheet v-if="AdminViewport">
+    <v-sheet v-if="AdminViewport || Edge">
       <v-sheet class="text-subtitle-2 ml-4 mr-2 float-left font-weight-medium kubegems__text font-line-height ns__tip">
         {{ $t('resource.namespace') }}
       </v-sheet>
@@ -75,7 +75,7 @@
       };
     },
     computed: {
-      ...mapState(['NamespaceFilter', 'AdminViewport']),
+      ...mapState(['NamespaceFilter', 'AdminViewport', 'Edge']),
       ...mapGetters(['Cluster', 'Environment']),
     },
     mounted() {

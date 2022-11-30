@@ -59,7 +59,7 @@
   import { ComputedRef, computed, onMounted, reactive, ref } from 'vue';
 
   import { useEdgeClusterConvertToCluster } from '@/composition/cluster';
-  import { useRoute } from '@/composition/router';
+  import { useRoute, useRouter } from '@/composition/router';
   import { RESOURCE_CN, RESOURCE_EN, RESOURCE_ICON } from '@/constants/resource';
   import { useGlobalI18n } from '@/i18n';
   import { Cluster } from '@/types/cluster';
@@ -69,12 +69,18 @@
   import ResourceChart from '@/views/resource/cluster/components/ResourceChart.vue';
   import ResourceInfo from '@/views/resource/cluster/components/ResourceInfo.vue';
 
-  onMounted(() => {
+  onMounted(async () => {
+    await router.replace({
+      params: {
+        cluster: route.params.name,
+      },
+    });
     getCluster();
     getEdgeClusterStatistics();
   });
 
   const route = useRoute();
+  const router = useRouter();
   const i18n = useGlobalI18n();
 
   let params = reactive({

@@ -60,6 +60,6 @@
     "name": "名稱",
     "remark": "備註",
     "delete_policy": "刪除策略",
-    "allow_edge": "允許邊緣集群註冊"
+    "allow_edge": "開啟邊緣集群"
   }
 }
