@@ -1,5 +1,6 @@
 import { Cluster } from '@/types/cluster';
 import { EdgeCluster } from '@/types/edge_cluster';
+import { EdgeHub } from '@/types/edge_hub';
 import { stringifySelector } from '@/utils/k8s_selector';
 
 export const useClusterList = async (cluster: Cluster): Promise<Cluster[]> => {
@@ -9,6 +10,13 @@ export const useClusterList = async (cluster: Cluster): Promise<Cluster[]> => {
     noprocessing: true,
   });
   return _data.List as Cluster[];
+};
+
+export const useEdgeHubList = async (edgeHub: EdgeHub): Promise<EdgeHub[]> => {
+  const _data: EdgeHub[] = await edgeHub.getEdgeHubList({
+    noprocessing: true,
+  });
+  return _data as EdgeHub[];
 };
 
 export const useEdgeClusterList = async (

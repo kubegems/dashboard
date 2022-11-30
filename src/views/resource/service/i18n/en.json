@@ -22,7 +22,8 @@
     "port": "Port",
     "annotation": "Note",
     "no_access": "Disable access",
-    "protocol": "Application Protocol"
+    "app_protocol": "Application Protocol",
+    "protocol": "Protocol"
   },
   "form": {
     "name_rule": "Incorrect name format (<protocol>[-<suffix>])",

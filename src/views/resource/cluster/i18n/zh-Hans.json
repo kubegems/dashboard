@@ -10,7 +10,8 @@
     "register_cluster": "注册集群",
     "tunnel": "隧道",
     "node_count": "主机数",
-    "join_at": "加入时间"
+    "join_at": "加入时间",
+    "address": "地址"
   },
   "tip": {
     "control_cluster": "控制集群",

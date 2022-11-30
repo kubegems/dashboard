@@ -127,7 +127,8 @@
     "rwx": "多節點讀寫",
     "rox": "多節點唯讀",
     "mount_path": "掛載路徑",
-    "mount_type": "掛載方式"
+    "mount_type": "掛載方式",
+    "name": "名稱"
   },
   "tab": {
     "resource_limit": "資源限制",

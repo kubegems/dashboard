@@ -54,7 +54,7 @@
           </div>
         </div>
         <div class="d-flex justify-space-between px-4 fix">
-          <div class="d-flex">
+          <div v-if="hasEtcd" class="d-flex">
             <h4 class="white--text text-body-2 text-nowrap mr-1">ETCD</h4>
             <v-icon v-if="etcd && etcd.conditions && etcd.conditions[0].type === 'Healthy'" color="success" small>
               mdi-heart-pulse
@@ -172,6 +172,10 @@
       cluster: {
         type: Object,
         default: () => null,
+      },
+      hasEtcd: {
+        type: Boolean,
+        default: () => true,
       },
       params: {
         type: Object,

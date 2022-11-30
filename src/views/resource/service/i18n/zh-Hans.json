@@ -22,7 +22,8 @@
     "port": "端口",
     "annotation": "注解",
     "no_access": "禁止访问",
-    "protocol": "应用协议"
+    "app_protocol": "应用协议",
+    "protocol": "协议"
   },
   "form": {
     "name_rule": "名称格式错误(<protocol>[-<suffix>])",

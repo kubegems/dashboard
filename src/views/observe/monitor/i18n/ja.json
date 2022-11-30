@@ -65,7 +65,10 @@
 
     "app_performance_monitor": "アプリケーションのパフォーマンス監視",
     "channel_changed": "アラート チャネルが変更されました",
-    "channel_lost": "アラート チャネルが削除されました"
+    "channel_lost": "アラート チャネルが削除されました",
+    "rule_conifg": "ルール構成",
+    "target_name": "ルール名",
+    "unit_ununique": "一貫性のない単位"
   },
   "tab": {
     "generate_from_template": "テンプレート生成",

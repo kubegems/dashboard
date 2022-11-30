@@ -25,7 +25,7 @@
     </BaseBreadcrumb>
     <v-row>
       <v-col class="pb-2" cols="12" lg="4">
-        <BasicMonitor :cluster="cluster" :params="params" />
+        <BasicMonitor :cluster="cluster" :has-etcd="false" :params="params" />
         <ResourceInfo :cluster="cluster" :quota="quota" :workload="workloadsStatistics" />
       </v-col>
 

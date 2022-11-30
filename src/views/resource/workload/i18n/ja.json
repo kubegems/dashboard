@@ -127,7 +127,8 @@
     "rwx": "複数ノード読み取り/書き込み",
     "rox": "複数ノード読み取り専用",
     "mount_path": "マウントパス",
-    "mount_type": "マウント方法"
+    "mount_type": "マウント方法",
+    "name": "名前"
   },
   "tab": {
     "resource_limit": "リソース制限",

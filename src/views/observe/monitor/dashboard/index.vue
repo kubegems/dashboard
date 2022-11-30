@@ -100,7 +100,7 @@
           <v-card class="kubegems__full-height" flat>
             <v-card-text class="px-2 py-0 kubegems__full-height">
               <div class="dash__btn">
-                <v-btn icon small @click.stop="openGraphInMaxScreen(graph)">
+                <v-btn icon small @click.stop="openGraphInMaxScreen(graph, index)">
                   <v-icon color="primary" small> mdi-magnify-plus </v-icon>
                 </v-btn>
                 <v-btn icon small @click.stop="updateGraph(graph, index)">
@@ -123,7 +123,7 @@
                 single-tooptip
                 :title="graph.name"
                 type=""
-                :unit="graph.promqlGenerator ? getUnit(graph.promqlGenerator.unit) : getUnit(graph.unit)"
+                :unit="getUnit(graph.unit)"
               />
             </v-card-text>
           </v-card>
@@ -181,7 +181,7 @@
   import VariableSelect from './components/VariableSelect';
   import {
     deleteMonitorDashboard,
-    getMetricsQueryrange,
+    getDashboardMetricsByPanel,
     getMonitorDashboardList,
     getRuleScopeList,
     putUpdateMonitorDashboard,
@@ -306,18 +306,18 @@
         this.clearInterval();
         if (this.items?.length > 0 && this.items[this.tab] && this.items[this.tab].graphs) {
           this.items[this.tab].graphs.forEach((item, index) => {
-            this.getMetrics(item, index);
+            this.getMetrics(index, this.items[this.tab].id);
           });
         }
-        // this.timeinterval = setInterval(() => {
-        //   this.params.start = this.$moment(this.params.start).utc().add(30, 'seconds').format();
-        //   this.params.end = this.$moment(this.params.end).utc().add(30, 'seconds').format();
-        //   if (this.items?.length > 0 && this.items[this.tab] && this.items[this.tab].graphs) {
-        //     this.items[this.tab].graphs.forEach((item, index) => {
-        //       this.getMetrics(item, index);
-        //     });
-        //   }
-        // }, 1000 * 30);
+        this.timeinterval = setInterval(() => {
+          this.params.start = this.$moment(this.params.start).utc().add(60, 'seconds').format();
+          this.params.end = this.$moment(this.params.end).utc().add(60, 'seconds').format();
+          if (this.items?.length > 0 && this.items[this.tab] && this.items[this.tab].graphs) {
+            this.items[this.tab].graphs.forEach((item, index) => {
+              this.getMetrics(index, this.items[this.tab].id);
+            });
+          }
+        }, 1000 * 60);
       },
       refreshMetrics() {
         this.clearInterval();
@@ -367,32 +367,38 @@
         });
         return sum / arr.length;
       },
-      async getMetrics(item, index) {
-        const params = item.promqlGenerator
-          ? item.promqlGenerator
-          : {
-              expr: item.expr,
-            };
-        const namespace = this.getNamespace(item);
-        let data = await getMetricsQueryrange(
-          this.environment.clusterName,
-          namespace,
-          Object.assign(params, { noprocessing: true, ...this.params, ...this.labelpairs }),
-        );
-        data = data.sort(
-          (a, b) =>
-            this.avg(
-              b.values.map((d) => {
-                return parseFloat(d[1]);
-              }),
-            ) -
-            this.avg(
-              a.values.map((d) => {
-                return parseFloat(d[1]);
-              }),
-            ),
-        );
-        this.$set(this.metrics, `c${index}`, data);
+      async getMetrics(index, dashboardId) {
+        let data = await getDashboardMetricsByPanel(this.environment.value, dashboardId, {
+          panel_id: index,
+          noprocessing: true,
+          ...this.params,
+          ...this.labelpairs,
+        });
+        // Object.keys((key) => {
+        //   data[key] = data[key].sort(
+        //     (a, b) =>
+        //       this.avg(
+        //         b.values.map((d) => {
+        //           return parseFloat(d[1]);
+        //         }),
+        //       ) -
+        //       this.avg(
+        //         a.values.map((d) => {
+        //           return parseFloat(d[1]);
+        //         }),
+        //       ),
+        //   );
+        // });
+
+        let metricItems = [];
+        Object.keys(data).forEach((key) => {
+          const newData = data[key].map((d) => {
+            return { metric: d.metric, values: d.values, key: key };
+          });
+          metricItems = metricItems.concat(newData);
+        });
+
+        this.$set(this.metrics, `c${index}`, metricItems);
       },
       addDashboard() {
         this.$refs.addDashboard.open();
@@ -410,9 +416,9 @@
         this.$refs.updateGraph.init(item, index);
         this.$refs.updateGraph.open();
       },
-      openGraphInMaxScreen(graph) {
+      openGraphInMaxScreen(graph, index) {
         const namespace = this.getNamespace(graph);
-        this.$refs.graphMax.init(graph, namespace);
+        this.$refs.graphMax.init(graph, namespace, this.items[this.tab].id, index);
         this.$refs.graphMax.open();
       },
       removePanel() {

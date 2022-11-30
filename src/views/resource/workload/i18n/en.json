@@ -127,7 +127,8 @@
     "rwx": "Multi-Node Read-write",
     "rox": "Multi-node read-only",
     "mount_path": "Mount Path",
-    "mount_type": "Mount Method"
+    "mount_type": "Mount Method",
+    "name": "Name"
   },
   "tab": {
     "resource_limit": "Resource Limit",

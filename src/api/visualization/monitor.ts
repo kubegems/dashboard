@@ -74,3 +74,13 @@ export const getAppPerformanceDashboard = (
   axios.get(`observability/cluster/${cluster}/namespaces/${namespace}/otel/metrics/graphs`, {
     params: query,
   });
+
+// 获取监控大盘监控数据
+export const getDashboardMetricsByPanel = (
+  environmentId: number,
+  dashboardId: number,
+  query: { [key: string]: any } = {},
+): Promise<{ [key: string]: any }> =>
+  axios.get(`observability/environment/${environmentId}/monitor/dashboard/${dashboardId}/query`, {
+    params: query,
+  });

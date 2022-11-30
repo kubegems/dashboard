@@ -53,7 +53,7 @@
             single-tooptip
             title=""
             type=""
-            :unit="graph.promqlGenerator ? getUnit(graph.promqlGenerator.unit) : getUnit(graph.unit)"
+            :unit="getUnit(graph.unit)"
           />
         </div>
       </v-card>
@@ -65,7 +65,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { getMetricsLabelValues, getMetricsLabels, getMetricsQueryrange, getRuleSearch } from '@/api';
+  import { getDashboardMetricsByPanel, getMetricsLabelValues, getMetricsLabels, getRuleSearch } from '@/api';
 
   export default {
     name: 'GraphMax',
@@ -96,6 +96,8 @@
         },
         labels: [],
         labelpairs: {},
+        dashboardId: 0,
+        index: -1,
       };
     },
     computed: {
@@ -126,9 +128,11 @@
       open() {
         this.dialog = true;
       },
-      async init(graph, namespace) {
+      async init(graph, namespace, dashboardId, index) {
         this.graph = graph;
         this.namespace = namespace;
+        this.dashboardId = dashboardId;
+        this.index = index;
         this.onDatetimeChange();
         await this.getLabel();
         this.getLabelItems();
@@ -151,18 +155,21 @@
         if (this.timeinterval) clearInterval(this.timeinterval);
       },
       async getMetrics(newParams = {}) {
-        const params = this.graph.promqlGenerator
-          ? this.graph.promqlGenerator
-          : {
-              expr: this.graph.expr,
-              unit: this.graph.unit,
-            };
-        const data = await getMetricsQueryrange(this.environment.clusterName, this.namespace, {
-          ...params,
+        const data = await getDashboardMetricsByPanel(this.environment.value, this.dashboardId, {
           ...newParams,
           ...this.params,
+          panel_id: this.index,
         });
-        this.metrics = data;
+
+        let metricItems = [];
+        Object.keys(data).forEach((key) => {
+          const newData = data[key].map((d) => {
+            return { metric: d.metric, values: d.values, key: key };
+          });
+          metricItems = metricItems.concat(newData);
+        });
+
+        this.metrics = metricItems;
       },
       onDatetimeChange() {
         this.params.start = this.$moment(this.date[0]).utc().format();
@@ -182,13 +189,14 @@
         const data = {};
         let resData = {};
         let labelpairs = {};
-        if (!this.graph.promqlGenerator) {
+        const firstTarget = this.graph.targets[0];
+        if (firstTarget.expr) {
           resData = await getMetricsLabels(this.environment.clusterName, this.namespace, {
-            expr: this.graph.expr,
+            expr: firstTarget.expr,
             noprocessing: true,
           });
         } else {
-          resData = await getRuleSearch(this.Tenant().ID, this.graph.promqlGenerator);
+          resData = await getRuleSearch(this.Tenant().ID, firstTarget.promqlGenerator);
           resData = resData.labels;
         }
         const labels = resData?.filter((d) => {
@@ -206,11 +214,12 @@
         this.labels = data;
       },
       getLabelItems() {
+        const firstTarget = this.graph.targets[0];
         Object.keys(this.labels).forEach(async (label) => {
-          const params = this.graph.promqlGenerator
-            ? this.graph.promqlGenerator
+          const params = firstTarget.promqlGenerator
+            ? firstTarget.promqlGenerator
             : {
-                expr: this.graph.expr,
+                expr: firstTarget.expr,
                 unit: this.graph.unit,
               };
           const data = await getMetricsLabelValues(

@@ -354,6 +354,10 @@
             const numberic = bodySlice[bodySlice.length - 1].trim();
             const colors = tooltip.labelColors[i];
 
+            const datasetIndex = tooltip.dataPoints[0].datasetIndex;
+            const metric = this.metrics[datasetIndex].metric;
+            const key = this.metrics[datasetIndex].key;
+
             const divPoint = document.createElement('div');
             divPoint.style.background = colors.backgroundColor;
             divPoint.style.borderColor = colors.borderColor;
@@ -374,7 +378,11 @@
             td.style.borderWidth = 0;
 
             const divTitle = document.createElement('div');
-            divTitle.innerText = tooltip.title[0];
+            if (key) {
+              divTitle.innerText = `${key}-${tooltip.title[0]}`;
+            } else {
+              divTitle.innerText = tooltip.title[0];
+            }
             divTitle.style.float = 'left';
 
             const divNumberic = document.createElement('div');
@@ -389,8 +397,6 @@
             td.appendChild(divNumberic);
             td.appendChild(divClear);
 
-            const datasetIndex = tooltip.dataPoints[0].datasetIndex;
-            const metric = this.metrics[datasetIndex].metric;
             Object.keys(metric).forEach((label) => {
               const div = document.createElement('div');
               const divLeft = document.createElement('div');

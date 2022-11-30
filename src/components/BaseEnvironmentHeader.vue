@@ -39,7 +39,7 @@
               depressed
               small
               v-on="on"
-              @click="getProject"
+              @click="fillData"
             >
               <BaseLogo
                 class="mr-2 logo"
@@ -214,7 +214,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { ComputedRef, computed, inject, reactive, watch } from 'vue';
+  import { ComputedRef, computed, inject, reactive } from 'vue';
 
   import { useEdgeClusterList } from '@/composition/cluster';
   import { useEnvironmentRole } from '@/composition/permission';
@@ -282,44 +282,31 @@
   });
 
   const params = useParams();
-  watch(
-    () => params.value.environment,
-    async (newValue) => {
-      if (!newValue) return;
-      state.loading = true;
-      state.projectPagination = await useProjectListInTenant(new Tenant({ ID: store.getters.Tenant().ID }));
-      state.project = state.projectPagination.findIndex((project: Project) => {
-        return project.ProjectName === route.params.project;
-      });
-
-      state.environmentPagination = await useEnvironmentListInProject(new Project(project.value));
-      state.loading = false;
-      state.environment = state.environmentPagination.findIndex((environment: Environment) => {
-        return environment.EnvironmentName === newValue;
-      });
-      if (state.environment > -1) {
-        state.edgeClusterPagination = await useEdgeClusterList(new EdgeCluster(), {
-          [ENVIRONMENT_KEY]: [newValue],
-          [PROJECT_KEY]: [route.params.project],
-          [TENANT_KEY]: [route.params.tenant],
-        });
-        state.edgeCluster = state.edgeClusterPagination.findIndex((edgeCluster: Cluster) => {
-          return edgeCluster.ClusterName === store.state.Edge;
-        });
-      }
-    },
-    {
-      immediate: true,
-    },
-  );
-
-  const role = useEnvironmentRole();
-
-  const getProject = async (): Promise<void> => {
+  const fillData = async (): Promise<void> => {
     state.loading = true;
     state.projectPagination = await useProjectListInTenant(new Tenant({ ID: store.getters.Tenant().ID }));
+    state.project = state.projectPagination.findIndex((project: Project) => {
+      return project.ProjectName === route.params.project;
+    });
+
+    state.environmentPagination = await useEnvironmentListInProject(new Project(project.value));
     state.loading = false;
+    state.environment = state.environmentPagination.findIndex((environment: Environment) => {
+      return environment.EnvironmentName === params.value.environment;
+    });
+    if (state.environment > -1) {
+      state.edgeClusterPagination = await useEdgeClusterList(new EdgeCluster(), {
+        [ENVIRONMENT_KEY]: [params.value.environment],
+        [PROJECT_KEY]: [route.params.project],
+        [TENANT_KEY]: [route.params.tenant],
+      });
+      state.edgeCluster = state.edgeClusterPagination.findIndex((edgeCluster: Cluster) => {
+        return edgeCluster.ClusterName === store.state.Edge;
+      });
+    }
   };
+
+  const role = useEnvironmentRole();
 
   const project: ComputedRef<Project> = computed(() => {
     return state.projectPagination[state.project] as Project;
