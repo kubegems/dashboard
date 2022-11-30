@@ -40,6 +40,7 @@
               depressed
               small
               v-on="on"
+              @click="fillData"
             >
               <BaseLogo
                 class="mr-2 logo"
@@ -142,7 +143,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { ComputedRef, computed, inject, reactive, watch } from 'vue';
+  import { ComputedRef, computed, inject, reactive } from 'vue';
 
   import { useClusterList, useEdgeClusterList } from '@/composition/cluster';
   import { useRoute, useRouter } from '@/composition/router';
@@ -190,24 +191,17 @@
   });
 
   const params = useParams();
-  watch(
-    () => params.value.cluster,
-    async (newValue) => {
-      if (!newValue) return;
-      state.loading = true;
-      state.clusterPagination = store.state.Edge
-        ? await useEdgeClusterList(new EdgeCluster())
-        : await useClusterList(new Cluster());
-      state.loading = false;
-      state.clusterType = store.state.Edge ? 1 : 0;
-      state.cluster = state.clusterPagination.findIndex((cluster: Cluster) => {
-        return cluster.ClusterName === newValue;
-      });
-    },
-    {
-      immediate: true,
-    },
-  );
+  const fillData = async (): Promise<void> => {
+    state.loading = true;
+    state.clusterPagination = store.state.Edge
+      ? await useEdgeClusterList(new EdgeCluster())
+      : await useClusterList(new Cluster());
+    state.loading = false;
+    state.clusterType = store.state.Edge ? 1 : 0;
+    state.cluster = state.clusterPagination.findIndex((cluster: Cluster) => {
+      return cluster.ClusterName === params.value.cluster;
+    });
+  };
 
   const selectClusterType = async (): Promise<void> => {
     if (state.clusterType > -1) {

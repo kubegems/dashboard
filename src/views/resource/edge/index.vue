@@ -90,7 +90,9 @@
             </template>
           </EdgeStatusTip>
         </template>
-        <!-- <template #item.node="{ item }" /> -->
+        <template #item.node="{ item }">
+          {{ item.status.manufacture ? item.status.manufacture['edge.kubegems.io/nodes-count'] : '' }}
+        </template>
         <template #item.joinAt="{ item }">
           {{ moment(item.metadata.creationTimestamp).format('lll') }}
         </template>

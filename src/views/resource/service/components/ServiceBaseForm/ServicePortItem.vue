@@ -40,7 +40,7 @@
                       : $root.$t('data.unknown')
                   }}&nbsp;
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.protocol') }} </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.app_protocol') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item class="float-left py-0" :style="{ width: `250px` }" two-line>

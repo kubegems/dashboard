@@ -10,7 +10,8 @@
     "register_cluster": "Register cluster",
     "tunnel": "Tunnel",
     "node_count": "Node count",
-    "join_at": "Join time"
+    "join_at": "Join time",
+    "address": "Address"
   },
   "tip": {
     "control_cluster": "Control",

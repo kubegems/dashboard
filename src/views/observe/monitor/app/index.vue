@@ -231,8 +231,8 @@
           if (newValue) {
             this.params.start = this.$moment(this.date[0]).utc().format();
             this.params.end = this.$moment(this.date[1]).utc().format();
-            this.items = [];
-            this.loadData(true);
+            // this.items = [];
+            this.loadData();
           }
         },
         deep: true,
@@ -269,11 +269,11 @@
       },
       async loadData() {
         this.clearInterval();
-        this.appPerformanceDashboard(false, true);
+        this.appPerformanceDashboard(true);
         this.timeinterval = setInterval(() => {
           this.params.start = this.$moment(this.params.start).utc().add(30, 'seconds').format();
           this.params.end = this.$moment(this.params.end).utc().add(30, 'seconds').format();
-          this.appPerformanceDashboard(true);
+          this.appPerformanceDashboard();
         }, 1000 * 30);
       },
       onDatetimeChange() {
@@ -303,11 +303,10 @@
           this.$set(this.items, index, item);
         }
       },
-      async appPerformanceDashboard(noprocess = false, tableRefresh = false) {
+      async appPerformanceDashboard(tableRefresh = false) {
         const data = await getAppPerformanceDashboard(this.cluster, this.env?.namespace, {
           service: this.service,
           ...this.params,
-          noprocessing: noprocess,
         });
 
         if (data) {

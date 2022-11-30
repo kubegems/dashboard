@@ -51,21 +51,6 @@ class EdgeClusterSpec {
   register?: EdgeClusterSpecRegister = new EdgeClusterSpecRegister();
 }
 
-export class EdgeHub {
-  constructor(edgeHub?: { [key: string]: any }) {
-    Object.assign(this, edgeHub);
-  }
-
-  name = '';
-  address = '';
-  connected = false;
-
-  public async getEdgeHubList(params: KubeRequest): Promise<EdgeHub[]> {
-    const data: { [key: string]: any } = await axios(`edge-hubs`, { params: params });
-    return data as EdgeHub[];
-  }
-}
-
 interface EdgeStatistics {
   getStatistics(): Promise<{ [key: string]: any }>;
 }

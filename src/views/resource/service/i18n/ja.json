@@ -22,7 +22,8 @@
     "port": "ポート",
     "annotation": "コメント",
     "no_access": "禁止",
-    "protocol": "アプリケーション契約"
+    "app_protocol": "アプリケーション契約",
+    "protocol": "契約"
   },
   "form": {
     "name_rule": "名前のフォーマットが間違っています(<protocol>[-<suffix>])",

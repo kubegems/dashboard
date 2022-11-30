@@ -210,7 +210,7 @@
       };
     },
     computed: {
-      ...mapState(['JWT', 'Scale', 'AdminViewport']),
+      ...mapState(['JWT', 'Scale', 'AdminViewport', 'Edge']),
       rows() {
         return parseInt((window.innerHeight - 64 * this.Scale - 10) / (18.5 * this.getRate()) - 2);
       },
@@ -290,14 +290,14 @@
         switch (this.terminalType) {
           case 'shell':
             if (this.isEdge) {
-              url = `${protocol}://${host}/api/v1/edge-clusters/${this.item.metadata.name}/proxy/custom/core/v1/namespaces/${this.item.namespace}/pods/${this.item.name}/actions/shell?stream=true&token=${this.JWT}&container=${this.container}`;
+              url = `${protocol}://${host}/api/v1/edge-clusters/${this.Edge}/proxy/custom/core/v1/namespaces/${this.item.namespace}/pods/${this.item.name}/actions/shell?stream=true&token=${this.JWT}&container=${this.container}`;
             } else {
               url = `${protocol}://${host}/api/v1/proxy/cluster/${this.ThisCluster}/custom/core/v1/namespaces/${this.item.namespace}/pods/${this.item.name}/actions/shell?stream=true&token=${this.JWT}&container=${this.container}`;
             }
             break;
           case 'debug':
             if (this.isEdge) {
-              url = `${protocol}://${host}/api/v1/edge-clusters/${this.item.metadata.name}/proxy/custom/core/v1/namespaces/${this.item.namespace}/pods/${this.item.name}/actions/debug?stream=true&container=${this.container}&token=${this.JWT}`;
+              url = `${protocol}://${host}/api/v1/edge-clusters/${this.Edge}/proxy/custom/core/v1/namespaces/${this.item.namespace}/pods/${this.item.name}/actions/debug?stream=true&container=${this.container}&token=${this.JWT}`;
             } else {
               url = `${protocol}://${host}/api/v1/proxy/cluster/${this.ThisCluster}/custom/core/v1/namespaces/${this.item.namespace}/pods/${this.item.name}/actions/debug?stream=true&container=${this.container}&token=${this.JWT}`;
             }

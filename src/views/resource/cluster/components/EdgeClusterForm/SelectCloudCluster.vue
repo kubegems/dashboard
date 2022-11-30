@@ -46,7 +46,8 @@
 
   import { useI18n } from '../../i18n';
   import { useGlobalI18n } from '@/i18n';
-  import { EdgeCluster, EdgeHub } from '@/types/edge_cluster';
+  import { EdgeCluster } from '@/types/edge_cluster';
+  import { EdgeHub } from '@/types/edge_hub';
   // import { required } from '@/utils/rules';
 
   onMounted(() => {
@@ -74,11 +75,11 @@
   let edgeHubItems = ref([]);
   const getEdgeHub = async (): Promise<void> => {
     const data: EdgeHub[] = await new EdgeHub().getEdgeHubList({ noprocessing: true });
-    edgeHubItems.value = data.map((d) => {
+    edgeHubItems.value = data.map((d: EdgeHub) => {
       return {
-        text: `${d.name} ${d.address}`,
-        value: d.name,
-        disabled: !d.connected,
+        text: `${d.metadata.name} ${d.status.address}`,
+        value: d.metadata.name,
+        disabled: !d.status.tunnel.connected,
       };
     });
   };

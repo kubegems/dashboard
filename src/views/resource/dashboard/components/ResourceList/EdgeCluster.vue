@@ -44,7 +44,9 @@
           :status="item.status.phase"
         />
       </template>
-      <!-- <template #item.node="{ item }" /> -->
+      <template #item.node="{ item }">
+        {{ item.status.manufacture ? item.status.manufacture['edge.kubegems.io/nodes-count'] : '' }}
+      </template>
       <template #item.project="{ item }">
         {{ item.metadata.labels[PROJECT_KEY] }}
       </template>

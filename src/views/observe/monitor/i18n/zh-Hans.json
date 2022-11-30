@@ -70,7 +70,11 @@
 
     "app_performance_monitor": "应用性能监控",
     "channel_changed": "告警渠道已更改",
-    "channel_lost": "告警渠道已删除"
+    "channel_lost": "告警渠道已删除",
+
+    "rule_conifg": "规则配置",
+    "target_name": "规则名称",
+    "unit_ununique": "单位不一致"
   },
   "tab": {
     "generate_from_template": "由模版生成",

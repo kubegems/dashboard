@@ -26,7 +26,13 @@
                 <span>{{ $root.$t('form.definition', [$t('tip.port')]) }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="obj.name" class="my-0" label="名称" required :rules="objRules.nameRule" />
+                <v-text-field
+                  v-model="obj.name"
+                  class="my-0"
+                  :label="$t('tip.name')"
+                  required
+                  :rules="objRules.nameRule"
+                />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-text-field
@@ -38,6 +44,29 @@
                   type="number"
                 />
               </v-flex>
+              <div class="kubegems__clear-float" />
+            </v-sheet>
+            <v-sheet class="pt-2 px-2">
+              <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width" />
+              <v-flex class="float-left ml-2 kubegems__form-width">
+                <v-autocomplete
+                  v-model="obj.protocol"
+                  class="my-0"
+                  color="primary"
+                  hide-selected
+                  :items="protocolItems"
+                  :label="$t('tip.protocol')"
+                  :no-data-text="$root.$t('data.no_data')"
+                  :rules="objRules.protocolRule"
+                >
+                  <template #selection="{ item }">
+                    <v-chip class="mx-1" color="primary" small>
+                      {{ item['text'] }}
+                    </v-chip>
+                  </template>
+                </v-autocomplete>
+              </v-flex>
+
               <div class="kubegems__clear-float" />
             </v-sheet>
           </v-form>
@@ -91,6 +120,10 @@
       return {
         valid: false,
         expand: false,
+        protocolItems: [
+          { text: 'TCP', value: 'TCP' },
+          { text: 'UDP', value: 'UDP' },
+        ],
         obj: {
           name: '',
           protocol: 'TCP',
@@ -99,6 +132,7 @@
         objRules: {
           nameRule: [required],
           containerPortRule: [port],
+          protocolRule: [required],
         },
         containerCopy: null,
       };

@@ -26,6 +26,24 @@
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-text-field v-model="port.name" class="my-0" label="名称" required :rules="portRules.nameRule" />
             </v-flex>
+            <v-flex class="float-left ml-2 kubegems__form-width">
+              <v-autocomplete
+                v-model="port.protocol"
+                class="my-0"
+                color="primary"
+                hide-selected
+                :items="protocolItems"
+                :label="$t('tip.protocol')"
+                :no-data-text="$root.$t('data.no_data')"
+                :rules="portRules.protocolRule"
+              >
+                <template #selection="{ item }">
+                  <v-chip class="mx-1" color="primary" small>
+                    {{ item['text'] }}
+                  </v-chip>
+                </template>
+              </v-autocomplete>
+            </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
 
@@ -84,6 +102,10 @@
         valid: false,
         expand: false,
         portsCopy: {},
+        protocolItems: [
+          { text: 'TCP', value: 'TCP' },
+          { text: 'UDP', value: 'UDP' },
+        ],
         port: {
           index: -1,
           name: '',
@@ -102,6 +124,7 @@
           portRule: [required],
           targetPortRule: [required],
           sessionRule: [positiveInteger, (v) => !!parseInt(v) > 86400 || this.$t('form.limit_max_rule')],
+          protocolRule: { required },
         },
       };
     },

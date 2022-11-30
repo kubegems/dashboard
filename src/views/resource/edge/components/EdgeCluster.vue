@@ -19,7 +19,7 @@
     <v-row>
       <v-col class="pb-2" cols="12" lg="4">
         <BasicMonitor :cluster="cluster" :params="params" />
-        <ResourceInfo :cluster="cluster" :quota="quota" :workload="workloadsStatistics" />
+        <ResourceInfo :cluster="cluster" :has-etcd="false" :quota="quota" :workload="workloadsStatistics" />
       </v-col>
 
       <v-col class="pb-2" cols="12" lg="8">

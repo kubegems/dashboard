@@ -14,129 +14,172 @@
  * limitations under the License. 
 -->
 <template>
-  <v-card class="mt-3">
-    <v-card-title class="py-4">
-      <BaseFilter1 :default="{ items: [], text: $t('filter.edge_name'), value: 'search' }" :filters="filters" />
-      <v-spacer />
-      <v-menu left>
-        <template #activator="{ on }">
-          <v-btn icon>
-            <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
-          </v-btn>
-        </template>
-        <v-card>
-          <v-card-text class="pa-2">
-            <v-flex>
-              <v-btn color="primary" text @click="addEdgeCluster">
-                <v-icon left>mdi-plus-box</v-icon>
-                {{ $root.$t('operate.create_c', [$root.$t('resource.edge_cluster')]) }}
-              </v-btn>
-            </v-flex>
-          </v-card-text>
-        </v-card>
-      </v-menu>
-    </v-card-title>
-    <v-data-table
-      class="mx-4"
-      disable-sort
-      :headers="headers"
-      hide-default-footer
-      :items="pagination.items"
-      :items-per-page="pagination.size"
-      :no-data-text="$root.$t('data.no_data')"
-      :page.sync="pagination.page"
-    >
-      <template #item.name="{ item }">
-        <a class="text-subtitle-2" @click.stop="edgeDetail(item)">
-          {{ item.metadata.name }}
-        </a>
-      </template>
-      <template #item.label="{ item, index }">
-        <BaseCollapseChips
-          :id="`edge_label_${index}`"
-          :chips="item.metadata.labels || {}"
-          icon="mdi-label"
-          single-line
-        />
-      </template>
-      <template #item.version="{ item }">
-        {{ item.status.manufacture ? item.status.manufacture['edge.kubegems.io/kubernetes-version'] : '' }}
-      </template>
-      <template #item.tunnel="{ item }">
-        <BaseStatus
-          :bg-color="tunnelStatus[item.status.tunnel.connected ? 'Online' : 'Offline']"
-          :status="item.status.tunnel.connected ? 'Online' : 'Offline'"
-        />
-      </template>
-      <template #item.register="{ item }">
-        {{ item.status.manufacture ? item.status.manufacture['edge.kubegems.io/edge-agent-register-address'] : '' }}
-      </template>
-      <template #item.status="{ item, index }">
-        <EdgeStatusTip
-          :edge-cluster="item"
-          :top="pagination.size - index <= 5 || (pagination.items.length <= 5 && index >= 1)"
-        >
-          <template #trigger>
-            <BaseStatus
-              :bg-color="edgeStatus[item.status.phase]"
-              :flashing="edgeStatus[item.status.phase] === edgeStatus.Waiting"
-              :status="item.status.phase"
-            />
-          </template>
-        </EdgeStatusTip>
-      </template>
-      <!-- <template #item.node="{ item }" /> -->
-      <template #item.joinAt="{ item }">
-        {{ moment(item.metadata.creationTimestamp).format('lll') }}
-      </template>
-      <template #item.action="{ item }">
-        <v-flex :id="`r${item.metadata.resourceVersion}`" />
-        <v-menu :attach="`#r${item.metadata.resourceVersion}`" left>
+  <div>
+    <v-row class="mt-3">
+      <v-col v-for="(item, index) in edgeHubItems" :key="index" class="pt-0" cols="3">
+        <v-hover #default="{ hover }">
+          <v-card class="mx-auto cluster__pos" :elevation="hover ? 5 : 0" flat height="100%">
+            <v-list-item three-line>
+              <v-list-item-avatar class="primary--text" size="80" tile>
+                <BaseLogo icon-name="kubegems" :width="70" />
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title class="text-h6 mb-1">
+                  <a @click.stop>{{ item.metadata.name }}</a>
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  <span class="text-body-2"> {{ i18nLocal.t('table.address') }} : </span>
+                  {{ item.status.address }}
+                </v-list-item-subtitle>
+                <v-list-item-subtitle>
+                  <span class="text-body-2"> {{ i18nLocal.t('table.tunnel') }} : </span>
+                  <v-icon v-if="!item.status.tunnel.connected" color="error" small> mdi-heart-broken </v-icon>
+                  <v-icon v-else color="success" small> mdi-heart-pulse </v-icon>
+                  <span class="ml-2">{{ item.status.tunnel.connected ? 'Online' : 'Offline' }}</span>
+                </v-list-item-subtitle>
+                <v-list-item-subtitle>
+                  <span class="text-body-2"> {{ i18nLocal.t('table.status') }} : </span>
+                  <v-icon v-if="item.status.phase !== 'Online'" color="error" small> mdi-heart-broken </v-icon>
+                  <v-icon v-else color="success" small> mdi-heart-pulse </v-icon>
+                  <span class="ml-2">{{ item.status.phase }}</span>
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card>
+        </v-hover>
+      </v-col>
+    </v-row>
+
+    <v-card class="mt-3">
+      <v-card-title class="py-4">
+        <BaseFilter1 :default="{ items: [], text: $t('filter.edge_name'), value: 'search' }" :filters="filters" />
+        <v-spacer />
+        <v-menu left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
+              <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn color="primary" small text @click="updateEdgeCluster(item)">
-                  {{ $root.$t('operate.edit') }}
-                </v-btn>
-              </v-flex>
-              <v-flex>
-                <v-btn color="error" small text @click="deleteEdgeCluster(item)">
-                  {{ $root.$t('operate.delete') }}
+                <v-btn color="primary" text @click="addEdgeCluster">
+                  <v-icon left>mdi-plus-box</v-icon>
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.edge_cluster')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
           </v-card>
         </v-menu>
-      </template>
-    </v-data-table>
+      </v-card-title>
+      <v-data-table
+        class="mx-4"
+        disable-sort
+        :headers="headers"
+        hide-default-footer
+        :items="pagination.items"
+        :items-per-page="pagination.size"
+        :no-data-text="$root.$t('data.no_data')"
+        :page.sync="pagination.page"
+      >
+        <template #item.name="{ item }">
+          <a class="text-subtitle-2" @click.stop="edgeDetail(item)">
+            {{ item.metadata.name }}
+          </a>
+        </template>
+        <template #item.label="{ item, index }">
+          <BaseCollapseChips
+            :id="`edge_label_${index}`"
+            :chips="item.metadata.labels || {}"
+            icon="mdi-label"
+            single-line
+          />
+        </template>
+        <template #item.version="{ item }">
+          {{ item.status.manufacture ? item.status.manufacture['edge.kubegems.io/kubernetes-version'] : '' }}
+        </template>
+        <template #item.tunnel="{ item }">
+          <BaseStatus
+            :bg-color="tunnelStatus[item.status.tunnel.connected ? 'Online' : 'Offline']"
+            :status="item.status.tunnel.connected ? 'Online' : 'Offline'"
+          />
+        </template>
+        <template #item.register="{ item }">
+          {{ item.status.manufacture ? item.status.manufacture['edge.kubegems.io/edge-agent-register-address'] : '' }}
+        </template>
+        <template #item.status="{ item, index }">
+          <EdgeStatusTip
+            :edge-cluster="item"
+            :top="pagination.size - index <= 5 || (pagination.items.length <= 5 && index >= 1)"
+          >
+            <template #trigger>
+              <BaseStatus
+                :bg-color="edgeStatus[item.status.phase]"
+                :flashing="edgeStatus[item.status.phase] === edgeStatus.Waiting"
+                :status="item.status.phase"
+              />
+            </template>
+          </EdgeStatusTip>
+        </template>
+        <template #item.node="{ item }">
+          {{ item.status.manufacture ? item.status.manufacture['edge.kubegems.io/nodes-count'] : '' }}
+        </template>
+        <template #item.joinAt="{ item }">
+          {{ moment(item.metadata.creationTimestamp).format('lll') }}
+        </template>
+        <template #item.action="{ item }">
+          <v-flex :id="`r${item.metadata.resourceVersion}`" />
+          <v-menu :attach="`#r${item.metadata.resourceVersion}`" left>
+            <template #activator="{ on }">
+              <v-btn icon>
+                <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-text class="pa-2">
+                <v-flex>
+                  <v-btn color="primary" small text @click="updateEdgeCluster(item)">
+                    {{ $root.$t('operate.edit') }}
+                  </v-btn>
+                </v-flex>
+                <v-flex>
+                  <v-btn color="primary" small text @click="openTerminal(item)"> Kubectl </v-btn>
+                </v-flex>
+                <v-flex>
+                  <v-btn color="error" small text @click="deleteEdgeCluster(item)">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
+                </v-flex>
+              </v-card-text>
+            </v-card>
+          </v-menu>
+        </template>
+      </v-data-table>
 
-    <BasePagination
-      v-if="pagination.pageCount >= 1"
-      v-model="pagination.page"
-      :page-count="pagination.pageCount"
-      :size="pagination.size"
-      @changepage="pageChange"
-      @changesize="sizeChange"
-      @loaddata="getEdgeClusterList"
-    />
+      <BasePagination
+        v-if="pagination.pageCount >= 1"
+        v-model="pagination.page"
+        :page-count="pagination.pageCount"
+        :size="pagination.size"
+        @changepage="pageChange"
+        @changesize="sizeChange"
+        @loaddata="getEdgeClusterList"
+      />
 
-    <EdgeClusterForm ref="edgeCluster" @refresh="getEdgeClusterList({ page: 1, size: 10 })" />
-  </v-card>
+      <EdgeClusterForm ref="edgeCluster" @refresh="getEdgeClusterList({ page: 1, size: 10 })" />
+      <Terminal ref="terminal" />
+    </v-card>
+  </div>
 </template>
 
 <script lang="ts" setup>
   import moment from 'moment';
-  import { reactive, ref, watch } from 'vue';
+  import { onMounted, reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../i18n';
   import EdgeClusterForm from './EdgeClusterForm/index.vue';
   import EdgeStatusTip from './EdgeStatusTip.vue';
-  import { useEdgeClusterPagination } from '@/composition/cluster';
+  import { useEdgeClusterPagination, useEdgeHubList } from '@/composition/cluster';
   import { useEnvironmentList } from '@/composition/environment';
   import { useProjectList } from '@/composition/project';
   import { useRoute, useRouter } from '@/composition/router';
@@ -146,9 +189,11 @@
   import { useQuery } from '@/router';
   import { useStore } from '@/store';
   import { EdgeCluster } from '@/types/edge_cluster';
+  import { EdgeHub } from '@/types/edge_hub';
   import { Environment } from '@/types/environment';
   import { Project } from '@/types/project';
   import { Tenant } from '@/types/tenant';
+  import Terminal from '@/views/resource/components/common/Terminal/index.vue';
 
   enum edgeStatus {
     Online = '#00BCD4',
@@ -240,6 +285,14 @@
     { text: '', value: 'action', align: 'center', width: 20, sortable: false },
   ];
 
+  let edgeHubItems = ref<EdgeHub[]>([]);
+  const getEdgeHubList = async (): Promise<void> => {
+    edgeHubItems.value = await useEdgeHubList(new EdgeHub());
+  };
+  onMounted(() => {
+    getEdgeHubList();
+  });
+
   let pagination: Pagination<EdgeCluster> = reactive<Pagination<EdgeCluster>>({
     page: 1,
     size: 10,
@@ -329,5 +382,10 @@
       name: 'cluster-detail',
       params: { name: item.metadata.name, ...route.params },
     });
+  };
+  const terminal = ref(null);
+  const openTerminal = (item: EdgeCluster): void => {
+    terminal.value.init(null, item, 'kubectl', true);
+    terminal.value.open();
   };
 </script>

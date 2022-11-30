@@ -10,7 +10,8 @@
     "register_cluster": "クラスターを登録する",
     "tunnel": "トンネル",
     "node_count": "ホスト数",
-    "join_at": "参加時間"
+    "join_at": "参加時間",
+    "address": "住所"
   },
   "tip": {
     "control_cluster": "ホスト",
