@@ -40,7 +40,7 @@ Vue.component('Icon', Icon);
 Vue.use(VueMeta);
 Vue.use(VueClipboard);
 
-const timeout: NodeJS.Timeout = setTimeout((): void => {
+const timeout: number = setTimeout((): void => {
   // eslint-disable-next-line vue/require-name-property
   new Vue({
     vuetify,

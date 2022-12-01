@@ -30,7 +30,7 @@
         backgroundColor: bgColor,
       }"
     />
-    <span>
+    <span v-if="showText">
       {{ status }}
     </span>
   </div>
@@ -41,11 +41,13 @@
     defineProps<{
       bgColor?: string;
       flashing?: boolean;
+      showText?: boolean;
       status?: string;
     }>(),
     {
       bgColor: 'grey',
       flashing: false,
+      showText: true,
       status: '',
     },
   );

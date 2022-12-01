@@ -51,10 +51,29 @@
         :no-data-text="$root.$t('data.no_data')"
         :page.sync="pagination.page"
       >
-        <template #item.name="{ item }">
-          <a class="text-subtitle-2" @click.stop="edgeDetail(item)">
-            {{ item.metadata.name }}
-          </a>
+        <template #item.name="{ item, index }">
+          <div class="float-left mr-2">
+            <EdgeStatusTip
+              :edge-cluster="item"
+              :top="pagination.size - index <= 5 || (pagination.items.length <= 5 && index >= 1)"
+            >
+              <template #trigger>
+                <BaseStatus
+                  :bg-color="edgeStatus[item.status.phase]"
+                  :flashing="edgeStatus[item.status.phase] === edgeStatus.Waiting"
+                  :show-text="false"
+                  :status="item.status.phase"
+                />
+              </template>
+            </EdgeStatusTip>
+          </div>
+          <div class="float-left">
+            <a v-if="item.status.phase === 'Online'" class="text-subtitle-2" @click.stop="edgeDetail(item)">
+              {{ item.metadata.name }}
+            </a>
+            <span v-else> {{ item.metadata.name }} </span>
+          </div>
+          <div class="kubegems__clear-float" />
         </template>
         <template #item.label="{ item, index }">
           <BaseCollapseChips
@@ -75,20 +94,6 @@
         </template>
         <template #item.register="{ item }">
           {{ item.status.manufacture ? item.status.manufacture['edge.kubegems.io/edge-agent-register-address'] : '' }}
-        </template>
-        <template #item.status="{ item, index }">
-          <EdgeStatusTip
-            :edge-cluster="item"
-            :top="pagination.size - index <= 5 || (pagination.items.length <= 5 && index >= 1)"
-          >
-            <template #trigger>
-              <BaseStatus
-                :bg-color="edgeStatus[item.status.phase]"
-                :flashing="edgeStatus[item.status.phase] === edgeStatus.Waiting"
-                :status="item.status.phase"
-              />
-            </template>
-          </EdgeStatusTip>
         </template>
         <template #item.node="{ item }">
           {{ item.status.manufacture ? item.status.manufacture['edge.kubegems.io/nodes-count'] : '' }}
@@ -182,7 +187,6 @@
     { text: i18nLocal.t('table.version'), value: 'version', align: 'start' },
     { text: i18nLocal.t('table.register_cluster'), value: 'register', align: 'start' },
     { text: i18nLocal.t('table.tunnel'), value: 'tunnel', align: 'start' },
-    { text: i18nLocal.t('table.status'), value: 'status', align: 'start', width: 100 },
     { text: i18nLocal.t('table.node_count'), value: 'node', align: 'start' },
     { text: i18nLocal.t('table.join_at'), value: 'joinAt', align: 'start' },
     { text: '', value: 'action', align: 'center', width: 20, sortable: false },

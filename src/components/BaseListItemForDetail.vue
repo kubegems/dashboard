@@ -27,20 +27,17 @@
   </v-list-item>
 </template>
 
-<script>
-  export default {
-    name: 'BaseListItemForDetail',
-    props: {
-      mt: {
-        type: Number,
-        default: () => 1,
-      },
-      title: {
-        type: String,
-        default: () => '',
-      },
+<script lang="ts" setup>
+  withDefaults(
+    defineProps<{
+      mt?: number;
+      title?: string;
+    }>(),
+    {
+      mt: 1,
+      title: '',
     },
-  };
+  );
 </script>
 
 <style lang="scss" scoped>

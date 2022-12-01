@@ -18,19 +18,28 @@
   <BaseItemGroup append-icon="mdi-menu-down" class="xyz" :item="item" :prepend-icon="item.icon" sub-group text />
 </template>
 
-<script>
-  export default {
-    name: 'BaseItemSubGroup',
-    props: {
-      item: {
-        type: Object,
-        default: () => ({
+<script lang="ts" setup>
+  type ItemGroup = {
+    avatar: string;
+    group: string;
+    title: string;
+    children: ItemGroup[];
+    [key: string]: any;
+  };
+
+  withDefaults(
+    defineProps<{
+      item?: ItemGroup;
+    }>(),
+    {
+      item: (): ItemGroup => {
+        return {
           avatar: undefined,
           group: undefined,
           title: undefined,
           children: [],
-        }),
+        };
       },
     },
-  };
+  );
 </script>

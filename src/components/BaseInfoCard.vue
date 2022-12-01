@@ -35,46 +35,29 @@
   </v-card>
 </template>
 
-<script>
-  export default {
-    name: 'BaseInfoCard',
-    props: {
-      elevation: {
-        type: Number,
-        default: () => 0,
-      },
-      flat: {
-        type: Boolean,
-        default: () => false,
-      },
-      fullCenter: {
-        type: Boolean,
-        default: () => false,
-      },
-      fullHeight: {
-        type: Boolean,
-        default: () => false,
-      },
-      icon: {
-        type: String,
-        default: () => '',
-      },
-      large: {
-        type: Boolean,
-        default: () => true,
-      },
-      num: {
-        type: [Number, String],
-        default: () => 0,
-      },
-      title: {
-        type: String,
-        default: () => '',
-      },
-      unit: {
-        type: String,
-        default: () => '',
-      },
+<script lang="ts" setup>
+  withDefaults(
+    defineProps<{
+      elevation?: number;
+      flat?: boolean;
+      fullCenter?: boolean;
+      fullHeight?: boolean;
+      icon?: string;
+      large?: boolean;
+      num?: number | string;
+      title?: string;
+      unit?: string;
+    }>(),
+    {
+      elevation: 0,
+      flat: false,
+      fullCenter: false,
+      fullHeight: false,
+      icon: '',
+      large: true,
+      num: 0,
+      title: '',
+      unit: '',
     },
-  };
+  );
 </script>

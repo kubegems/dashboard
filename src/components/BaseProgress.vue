@@ -15,12 +15,17 @@
 -->
 
 <template>
-  <v-overlay :opacity="0.3" :value="Progress && !DialogActive && !PanelActive && !FullDialogActive">
+  <v-overlay
+    :opacity="0.3"
+    :value="
+      store.state.Progress && !store.state.DialogActive && !store.state.PanelActive && !store.state.FullDialogActive
+    "
+  >
     <v-card class="progress__light" flat height="100px" width="130px">
       <v-card-text>
         <div class="text-center primary--text progress__loading" :style="{ fontFamily: 'kubegems-sample' }">
           <span
-            v-for="(char, index) in processName"
+            v-for="(char, index) in PLATFORM"
             :key="index"
             class="progress__loading__span"
             :style="{ animationDelay: `${index * 70}ms`, left: `${charWidth[index]}px` }"
@@ -34,23 +39,12 @@
   </v-overlay>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
-
+<script lang="ts" setup>
   import { PLATFORM } from '@/constants/platform';
+  import { useStore } from '@/store';
 
-  export default {
-    name: 'BaseProgress',
-    data() {
-      return {
-        processName: PLATFORM,
-        charWidth: [0, 13, 24, 36, 46, 60, 70, 86, 98, 110, 122, 134, 146],
-      };
-    },
-    computed: {
-      ...mapState(['Progress', 'DialogActive', 'PanelActive', 'FullDialogActive']),
-    },
-  };
+  const store = useStore();
+  const charWidth: number[] = [0, 13, 24, 36, 46, 60, 70, 86, 98, 110, 122, 134, 146];
 </script>
 
 <style lang="scss" scoped>

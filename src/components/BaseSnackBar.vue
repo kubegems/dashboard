@@ -16,9 +16,9 @@
 
 <template>
   <v-snackbar
-    v-model="SnackBar.value"
+    v-model="store.state.SnackBar.value"
     class="mr-1"
-    :color="SnackBar.color"
+    :color="store.state.SnackBar.color"
     right
     text
     top
@@ -26,41 +26,40 @@
   >
     <v-flex>
       <v-flex class="float-left">
-        <v-icon :color="SnackBar.color" left small>
-          {{ SnackBar.icon }}
+        <v-icon :color="store.state.SnackBar.color" left small>
+          {{ store.state.SnackBar.icon }}
         </v-icon>
       </v-flex>
-      <v-flex :class="`float-left snackbar-break ${SnackBar.collapse ? 'snackbar--collapse' : 'snackbar--show'}`">
-        {{ SnackBar.text }}
+      <v-flex
+        :class="`float-left snackbar-break ${store.state.SnackBar.collapse ? 'snackbar--collapse' : 'snackbar--show'}`"
+      >
+        {{ store.state.SnackBar.text }}
       </v-flex>
       <div class="kubegems__clear-float" />
       <v-btn
-        v-if="SnackBar.text && SnackBar.text.length > 300"
-        :color="SnackBar.color"
+        v-if="store.state.SnackBar.text && store.state.SnackBar.text.length > 300"
+        :color="store.state.SnackBar.color"
         icon
         small
-        @click="SnackBar.collapse = !SnackBar.collapse"
+        @click="store.state.SnackBar.collapse = !store.state.SnackBar.collapse"
       >
         <v-icon small>
-          {{ SnackBar.collapse ? 'mdi-chevron-down' : 'mdi-chevron-up' }}
+          {{ store.state.SnackBar.collapse ? 'mdi-chevron-down' : 'mdi-chevron-up' }}
         </v-icon>
       </v-btn>
     </v-flex>
     <template #action>
-      <v-icon :color="SnackBar.color" left small @click="SnackBar.value = false"> mdi-close </v-icon>
+      <v-icon :color="store.state.SnackBar.color" left small @click="store.state.SnackBar.value = false">
+        mdi-close
+      </v-icon>
     </template>
   </v-snackbar>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { useStore } from '@/store';
 
-  export default {
-    name: 'BaseSnackBar',
-    computed: {
-      ...mapState(['SnackBar']),
-    },
-  };
+  const store = useStore();
 </script>
 
 <style lang="scss" scoped>

@@ -26,7 +26,18 @@
       :page.sync="pagination.page"
     >
       <template #item.name="{ item }">
-        {{ item.metadata.name }}
+        <div class="float-left mr-2">
+          <BaseStatus
+            :bg-color="edgeStatus[item.status.phase]"
+            :flashing="edgeStatus[item.status.phase] === edgeStatus.Waiting"
+            :show-text="false"
+            :status="item.status.phase"
+          />
+        </div>
+        <div class="float-left">
+          <span> {{ item.metadata.name }} </span>
+        </div>
+        <div class="kubegems__clear-float" />
       </template>
       <template #item.tunnel="{ item }">
         <BaseStatus
@@ -36,13 +47,6 @@
       </template>
       <template #item.register="{ item }">
         {{ item.status.manufacture['edge.kubegems.io/edge-agent-register-address'] }}
-      </template>
-      <template #item.status="{ item }">
-        <BaseStatus
-          :bg-color="edgeStatus[item.status.phase]"
-          :flashing="edgeStatus[item.status.phase] === edgeStatus.Waiting"
-          :status="item.status.phase"
-        />
       </template>
       <template #item.node="{ item }">
         {{ item.status.manufacture ? item.status.manufacture['edge.kubegems.io/nodes-count'] : '' }}
@@ -97,7 +101,6 @@
     { text: i18nLocal.t('edge.table.name'), value: 'name', align: 'start' },
     { text: i18nLocal.t('edge.table.register_cluster'), value: 'register', align: 'start' },
     { text: i18nLocal.t('edge.table.tunnel'), value: 'tunnel', align: 'start' },
-    { text: i18nLocal.t('edge.table.status'), value: 'status', align: 'start', width: 100 },
     { text: i18n.t('resource.project'), value: 'project', align: 'start' },
     { text: i18nLocal.t('edge.table.node_count'), value: 'node', align: 'start' },
   ];

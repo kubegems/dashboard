@@ -8,6 +8,7 @@ import { defineConfig } from 'vite';
 import { chunkSplitPlugin } from 'vite-plugin-chunk-split';
 import Markdown from 'vite-plugin-md';
 import VueSetupExtend from 'vite-plugin-vue-setup-extend';
+import inheritAttrs from 'vite-plugin-vue-setup-inherit-attrs';
 
 export default defineConfig({
   resolve: {
@@ -18,6 +19,7 @@ export default defineConfig({
   },
   plugins: [
     vue({ include: [/\.vue$/, /\.md$/] }),
+    inheritAttrs(),
     Markdown(),
     Components({
       resolvers: [VuetifyResolver()],

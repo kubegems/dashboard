@@ -398,20 +398,22 @@
             td.appendChild(divClear);
 
             Object.keys(metric).forEach((label) => {
-              const div = document.createElement('div');
-              const divLeft = document.createElement('div');
-              divLeft.innerText = `${label} :`;
-              divLeft.style.float = 'left';
-              const divRight = document.createElement('div');
-              divRight.innerText = `${metric[label]}`;
-              divRight.style.float = 'left';
-              divRight.style.wordBreak = 'break-all';
-              const divClear = document.createElement('div');
-              divClear.style.clear = 'both';
-              div.appendChild(divLeft);
-              div.appendChild(divRight);
-              div.appendChild(divClear);
-              td.appendChild(div);
+              if (label !== '__name__') {
+                const div = document.createElement('div');
+                const divLeft = document.createElement('div');
+                divLeft.innerText = `${label} :`;
+                divLeft.style.float = 'left';
+                const divRight = document.createElement('div');
+                divRight.innerText = `${metric[label]}`;
+                divRight.style.float = 'left';
+                divRight.style.wordBreak = 'break-all';
+                const divClear = document.createElement('div');
+                divClear.style.clear = 'both';
+                div.appendChild(divLeft);
+                div.appendChild(divRight);
+                div.appendChild(divClear);
+                td.appendChild(div);
+              }
             });
 
             tr.appendChild(td);

@@ -47,25 +47,31 @@
   </v-flex>
 </template>
 
-<script>
-  export default {
-    name: 'BaseBreadcrumb',
-    props: {
-      flat: {
-        type: Boolean,
-        default: () => true,
-      },
+<script lang="ts" setup>
+  import { ComputedRef, computed } from 'vue';
+
+  import { useRoute } from '@/composition/router';
+  import { useGlobalI18n } from '@/i18n';
+
+  withDefaults(
+    defineProps<{
+      flat?: boolean;
+    }>(),
+    {
+      flat: true,
     },
-    computed: {
-      breadcrumb() {
-        return {
-          title: this.$route.meta.title,
-          tip: this.$t(`breadcrumb.${this.$route.meta.tip}`),
-          icon: this.$route.meta.icon,
-        };
-      },
-    },
-  };
+  );
+
+  const route = useRoute();
+  const i18n = useGlobalI18n();
+
+  const breadcrumb: ComputedRef<{ [key: string]: string }> = computed(() => {
+    return {
+      title: route.meta.title,
+      tip: i18n.t(`breadcrumb.${route.meta.tip}`) as string,
+      icon: route.meta.icon as string,
+    };
+  });
 </script>
 
 <style lang="scss" scoped>

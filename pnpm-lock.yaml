@@ -56,6 +56,7 @@ specifiers:
   vite-plugin-chunk-split: ^0.4.1
   vite-plugin-md: ^0.20.4
   vite-plugin-vue-setup-extend: ^0.4.0
+  vite-plugin-vue-setup-inherit-attrs: ^1.0.5
   vue: ^2.7.14
   vue-clipboard2: ^0.3.3
   vue-filepond: ^7.0.3
@@ -149,6 +150,7 @@ devDependencies:
   vite-plugin-chunk-split: 0.4.3_sass@1.26.11
   vite-plugin-md: 0.20.4_n63dgw6zqpkjvq6u5rxfsl4ciu
   vite-plugin-vue-setup-extend: 0.4.0_vite@3.2.2
+  vite-plugin-vue-setup-inherit-attrs: 1.0.5_vite@3.2.2
 
 packages:
 
@@ -6307,6 +6309,16 @@ packages:
     dependencies:
       '@vue/compiler-sfc': 3.2.45
       magic-string: 0.25.9
+      vite: 3.2.2_sass@1.26.11
+    dev: true
+
+  /vite-plugin-vue-setup-inherit-attrs/1.0.5_vite@3.2.2:
+    resolution: {integrity: sha512-wifNAETWwVDSeR6qfUuEMTMzBoSSmUny9+qT/YzVOvDXUoFy+0LVRB/oAaxPF4Atuvybh9sOFMXIV8M0UTWE7g==}
+    peerDependencies:
+      vite: '>=2.0.0'
+    dependencies:
+      '@vue/compiler-sfc': 3.2.45
+      magic-string: 0.26.7
       vite: 3.2.2_sass@1.26.11
     dev: true
 
