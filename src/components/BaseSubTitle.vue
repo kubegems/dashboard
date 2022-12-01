@@ -44,36 +44,25 @@
   </v-sheet>
 </template>
 
-<script>
-  export default {
-    name: 'BaseSubTitle',
-    props: {
-      color: {
-        type: String,
-        default: () => '',
-      },
-      divider: {
-        type: Boolean,
-        default: () => true,
-      },
-      freeze: {
-        type: Boolean,
-        default: () => false,
-      },
-      height: {
-        type: String,
-        default: () => '36px',
-      },
-      pl: {
-        type: Number,
-        default: () => 2,
-      },
-      title: {
-        type: String,
-        default: () => '',
-      },
+<script lang="ts" setup>
+  withDefaults(
+    defineProps<{
+      color?: string;
+      divider?: boolean;
+      freeze?: boolean;
+      height?: string;
+      pl?: number;
+      title?: string;
+    }>(),
+    {
+      color: '',
+      divider: true,
+      freeze: false,
+      height: '36px',
+      pl: 2,
+      title: '',
     },
-  };
+  );
 </script>
 
 <style lang="scss" scoped>

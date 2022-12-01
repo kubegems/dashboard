@@ -16,7 +16,7 @@
 
 <template>
   <v-menu
-    v-model="menu"
+    v-model="state.menu"
     bottom
     :close-on-content-click="false"
     left
@@ -29,7 +29,7 @@
     z-index="1000"
   >
     <template #activator="{ on }">
-      <v-btn class="mr-1" dark icon v-on="on" @click="expand = false">
+      <v-btn class="mr-1" dark icon v-on="on" @click="state.expand = false">
         <v-icon>mdi-account-circle</v-icon>
       </v-btn>
     </template>
@@ -44,32 +44,34 @@
             :style="{ minWidth: `40px`, width: `40px` }"
           >
             <span class="text-h5">
-              {{ User.Username ? User.Username[0].toLocaleUpperCase() : 'N' }}
+              {{ store.state.User.Username ? store.state.User.Username[0].toLocaleUpperCase() : 'N' }}
             </span>
           </v-avatar>
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title class="text-h6 white--text kubegems__text">
-            {{ User.Username }}
+            {{ store.state.User.Username }}
             <v-chip class="mr-1 primary--text mt-n1 ml-2" color="white" pill small>
               <v-avatar class="mr-0" color="white" left>
                 <v-btn class="primary--text" color="white" small>
                   <BaseLogo
                     class="primary--text logo-margin mt-1"
-                    :icon-name="User.SourceVendor ? User.SourceVendor.toLocaleLowerCase() : 'kubegems'"
+                    :icon-name="
+                      store.state.User.SourceVendor ? store.state.User.SourceVendor.toLocaleLowerCase() : 'kubegems'
+                    "
                     :ml="0"
                     :width="20"
                   />
                 </v-btn>
               </v-avatar>
               <span class="font-weight-medium primary--text kubegems__text">
-                {{ VENDOR[User.SourceVendor] || 'Selfhosted' }}
+                {{ VENDOR[store.state.User.SourceVendor] || 'Selfhosted' }}
               </span>
             </v-chip>
             <div class="kubegems__clear-float" />
           </v-list-item-title>
           <v-list-item-subtitle class="white--text">
-            {{ User && User.Email ? User.Email : '' }}
+            {{ store.state.User && store.state.User.Email ? store.state.User.Email : '' }}
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -81,9 +83,9 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__text user__list__title">
-              {{ $root.$t('header.user.tenant') }}
+              {{ i18n.t('header.user.tenant') }}
               <v-flex class="float-right white--text blue-grey lighten-2 px-1 user__item">
-                {{ Tenant().TenantName }}
+                {{ store.getters.Tenant().TenantName }}
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-list-item-title>
@@ -95,9 +97,9 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__text user__list__title">
-              {{ $root.$t('header.user.usercenter') }}
+              {{ i18n.t('header.user.usercenter') }}
               <v-flex class="float-right white--text blue-grey lighten-2 px-1 user__item">
-                {{ Admin ? $root.$t('role.system.administrator') : $root.$t('role.system.normal') }}
+                {{ store.state.Admin ? i18n.t('role.system.administrator') : i18n.t('role.system.normal') }}
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-list-item-title>
@@ -109,7 +111,7 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__text user__list__title">
-              {{ $root.$t('header.user.manual') }}
+              {{ i18n.t('header.user.manual') }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -119,7 +121,7 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__text user__list__title">
-              {{ $root.$t('header.user.about') }}
+              {{ i18n.t('header.user.about') }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -129,7 +131,7 @@
         <v-spacer />
         <v-btn color="primary" text @click="logout">
           <v-icon left> mdi-login </v-icon>
-          <span class="font-weight-medium kubegems__text">{{ $root.$t('logout') }}</span>
+          <span class="font-weight-medium kubegems__text">{{ i18n.t('logout') }}</span>
         </v-btn>
         <v-spacer />
       </v-card-actions>
@@ -140,63 +142,55 @@
   </v-menu>
 </template>
 
-<script>
-  import { mapGetters, mapState } from 'vuex';
+<script lang="ts" setup>
+  import { reactive, ref } from 'vue';
 
-  import About from './components/About';
-  import TenantSelect from './components/TenantSelect';
+  import About from './components/About.vue';
+  import TenantSelect from './components/TenantSelect.vue';
+  import { useRouter } from '@/composition/router';
   import { MANUAL, VENDOR } from '@/constants/platform';
-  import BasePermission from '@/mixins/permission';
-  import BaseSelect from '@/mixins/select';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
 
-  export default {
-    name: 'User',
-    components: {
-      About,
-      TenantSelect,
-    },
-    mixins: [BasePermission, BaseSelect],
-    data() {
-      this.VENDOR = VENDOR;
+  const store = useStore();
+  const router = useRouter();
+  const i18n = useGlobalI18n();
 
-      return {
-        menu: false,
-        expand: false,
-      };
-    },
-    computed: {
-      ...mapState(['Admin', 'User', 'JWT']),
-      ...mapGetters(['Tenant', 'Project']),
-    },
-    methods: {
-      async logout() {
-        this.$store.commit('CLEARALL');
-        await this.$router.push({ name: 'login' });
-        this.$store.commit('SET_VERSION', import.meta.env.VUE_APP_RELEASE);
-      },
-      showAbout() {
-        this.$refs.about.init();
-        this.$refs.about.open();
-        this.closeUserMenu();
-      },
-      showTenantSelect() {
-        this.$refs.tenantSelect.init();
-        this.$refs.tenantSelect.open();
-        this.closeUserMenu();
-      },
-      toBook() {
-        window.open(MANUAL);
-        this.closeUserMenu();
-      },
-      toUserCenter() {
-        this.$router.push({ name: 'user-center' });
-        this.closeUserMenu();
-      },
-      closeUserMenu() {
-        this.menu = false;
-        this.expand = false;
-      },
-    },
+  const state = reactive({
+    menu: false,
+    expand: false,
+  });
+
+  const logout = async (): Promise<void> => {
+    store.commit('CLEARALL');
+    await router.push({ name: 'login' });
+    store.commit('SET_VERSION', import.meta.env.VUE_APP_RELEASE);
+  };
+
+  const about = ref(null);
+  const showAbout = (): void => {
+    about.value.init();
+    about.value.open();
+    closeUserMenu();
+  };
+
+  const tenantSelect = ref(null);
+  const showTenantSelect = (): void => {
+    tenantSelect.value.init();
+    tenantSelect.value.open();
+    closeUserMenu();
+  };
+  const toBook = (): void => {
+    window.open(MANUAL);
+    closeUserMenu();
+  };
+  const toUserCenter = (): void => {
+    router.push({ name: 'user-center' });
+    closeUserMenu();
+  };
+  const closeUserMenu = (): void => {
+    state.menu = false;
+    state.expand = false;
   };
 </script>
 

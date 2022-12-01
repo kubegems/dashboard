@@ -240,13 +240,13 @@
         });
       },
       upgradePlugin(plugin) {
-        if (!this.plugin[plugin.name]) {
-          this.$store.commit('SET_SNACKBAR', {
-            text: this.$t('tip.select_version'),
-            color: 'warning',
-          });
-          return;
-        }
+        // if (!this.plugin[plugin.name]) {
+        //   this.$store.commit('SET_SNACKBAR', {
+        //     text: this.$t('tip.select_version'),
+        //     color: 'warning',
+        //   });
+        //   return;
+        // }
         this.$refs.installPluginSchema.init(this.plugin[plugin.name]);
         this.$refs.installPluginSchema.open();
       },

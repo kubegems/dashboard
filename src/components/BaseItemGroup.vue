@@ -46,109 +46,93 @@
   </v-list-group>
 </template>
 
-<script lang="ts" setup inherit-attrs="false">
-  import { ComputedRef, computed, ref, watch } from 'vue';
+<script>
+  import { mapGetters, mapState } from 'vuex';
 
-  import { useRoute, useRouter } from '@/composition/router';
-  import { useName } from '@/router';
-  import { useStore } from '@/store';
+  export default {
+    name: 'BaseItemGroup',
 
-  const store = useStore();
-  const route = useRoute();
-  const router = useRouter();
+    inheritAttrs: false,
 
-  type ItemGroup = {
-    avatar: string;
-    group: string;
-    title: string;
-    children: ItemGroup[];
-    meta?: any;
-    [key: string]: any;
-  };
-
-  const props = withDefaults(
-    defineProps<{
-      item?: ItemGroup;
-      subGroup?: boolean;
-    }>(),
-    {
-      item: (): ItemGroup => {
-        return {
+    props: {
+      item: {
+        type: Object,
+        default: () => ({
           avatar: undefined,
           group: undefined,
           title: undefined,
           children: [],
-        };
+        }),
       },
-      subGroup: false,
+      subGroup: {
+        type: Boolean,
+        default: false,
+      },
     },
-  );
+    computed: {
+      ...mapState(['Plugins', 'AdminViewport', 'Edge']),
+      ...mapGetters(['Environment']),
+      children() {
+        return this.item.children
+          .filter((item) => {
+            return (
+              (!item.children &&
+                (item.meta.show || (this.pluginPass(item.meta.dependencies) && item.meta.pluginOpenShow)) &&
+                this.passEdge(item.meta.edge)) ||
+              item.children
+            );
+          })
+          .map((item) => ({
+            ...item,
+            to: this.$router.resolve({ name: item.name, params: { ...this.$route.params } }).href,
+          }));
+      },
+      open: {
+        get() {
+          return this.genGroup(this.item.children);
+        },
+        set() {
+          //
+        },
+      },
+    },
 
-  const children: ComputedRef<ItemGroup[]> = computed(() => {
-    return props.item.children
-      .filter((item) => {
+    methods: {
+      genGroup(children) {
         return (
-          (!item.children &&
-            (item.meta.show || (pluginPass(item.meta.dependencies) && item.meta.pluginOpenShow)) &&
-            passEdge(item.meta.edge)) ||
-          item.children
+          children
+            .map((item) => {
+              let group = `${item.name}`;
+
+              if (item.children) {
+                group = `${group}|${this.genGroup(item.children)}`;
+              }
+              return group;
+            })
+            .indexOf(this.$route.name) > -1
         );
-      })
-      .map((item) => ({
-        ...item,
-        to: router.resolve({ name: item.name, params: { ...route.params } }).href,
-      }));
-  });
-
-  const genGroup = (children: ItemGroup[]): boolean => {
-    return (
-      children
-        .map((item) => {
-          let group = `${item.name}`;
-
-          if (item.children) {
-            group = `${group}|${genGroup(item.children)}`;
+      },
+      pluginPass(dependencies) {
+        let pass = true;
+        if (dependencies === undefined) return pass;
+        dependencies.forEach((d) => {
+          if (!this.Plugins?.[d]) {
+            pass = false;
+            return;
           }
-          return group;
-        })
-        .indexOf(name.value) > -1
-    );
-  };
-
-  let open = ref(false);
-  const name = useName();
-  watch(
-    () => name,
-    async (newValue) => {
-      if (!newValue) return;
-      open.value = genGroup(props.item.children);
+        });
+        return pass;
+      },
+      passEdge(edge) {
+        if (edge === undefined) return true;
+        if (this.AdminViewport) {
+          if (this.Edge) return edge;
+          return true;
+        } else {
+          if (this.Edge) return edge && this.Environment().AllowEdgeRegistration;
+          else return true;
+        }
+      },
     },
-    {
-      immediate: true,
-      deep: true,
-    },
-  );
-
-  const pluginPass = (dependencies: string[]): boolean => {
-    let pass = true;
-    if (dependencies === undefined) return pass;
-    dependencies.forEach((d) => {
-      if (!store.state.Plugins?.[d]) {
-        pass = false;
-        return;
-      }
-    });
-    return pass;
-  };
-
-  const passEdge = (edge: string): boolean => {
-    if (edge === undefined) return true;
-    if (store.state.AdminViewport) {
-      if (store.state.Edge) return Boolean(edge);
-      return true;
-    } else {
-      if (store.state.Edge) return edge && store.getters.Environment().AllowEdgeRegistration;
-      else return true;
-    }
   };
 </script>

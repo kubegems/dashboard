@@ -44,30 +44,21 @@
   </v-menu>
 </template>
 
-<script>
-  export default {
-    name: 'BaseTipWindow',
-    props: {
-      icon: {
-        type: String,
-        default: () => '',
-      },
-      maxWidth: {
-        type: Number,
-        default: () => 200,
-      },
-      minWidth: {
-        type: Number,
-        default: () => 150,
-      },
-      title: {
-        type: String,
-        default: () => '',
-      },
-      top: {
-        type: Boolean,
-        default: () => true,
-      },
+<script lang="ts" setup>
+  withDefaults(
+    defineProps<{
+      icon?: string;
+      maxWidth?: number;
+      minWidth?: number;
+      title?: string;
+      top?: boolean;
+    }>(),
+    {
+      icon: '',
+      maxWidth: 200,
+      minWidth: 150,
+      title: '',
+      top: true,
     },
-  };
+  );
 </script>
