@@ -32,6 +32,9 @@
   <a title="github search hit" target="_blank" href="https://github.com/kubegems">
     <img src="https://img.shields.io/github/search/kubegems/dashboard/kubegems">
   </a>
+  <a title="commit-activity" target="_blank" href="https://github.com/kubegems">
+    <img alt="preview badge" src="https://img.shields.io/github/commit-activity/m/kubegems/dashboard">
+  </a>
 </p>
 
 <p align="center">

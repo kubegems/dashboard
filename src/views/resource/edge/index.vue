@@ -225,8 +225,8 @@
         pagination.search = newValue.value.search;
       }
       getEdgeClusterList();
+      clearInterval(interval);
       interval = setInterval(() => {
-        clearInterval(interval);
         getEdgeClusterList();
       }, 30 * 1000);
     },

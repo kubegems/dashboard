@@ -16,7 +16,7 @@
 
 <template>
   <v-menu
-    v-if="Admin"
+    v-if="store.state.Admin"
     content-class="kubegems__tool-card-menu"
     left
     min-width="350px"
@@ -31,15 +31,15 @@
       </v-btn>
     </template>
     <v-card class="pa-0" flat>
-      <BaseSubTitle :divider="false" title="工具箱" />
+      <BaseSubTitle :divider="false" :title="i18nLocal.t('tip.tool_box')" />
       <v-card-text class="px-2 pt-0 pb-2">
-        <v-card v-if="Admin" class="my-2 pa-2" flat hover outlined @click="toAdminViewport">
+        <v-card v-if="store.state.Admin" class="my-2 pa-2" flat hover outlined @click="toAdminViewport">
           <v-card-text class="pa-1">
             <v-flex class="float-left">
               <v-icon color="primary" left> mdi-cog </v-icon>
             </v-flex>
-            <v-flex class="text-subtitle-2 primary--text">{{ $t('tip.management') }}</v-flex>
-            <v-flex class="text-caption"> {{ $t('tip.management_desc') }} </v-flex>
+            <v-flex class="text-subtitle-2 primary--text">{{ i18nLocal.t('tip.management') }}</v-flex>
+            <v-flex class="text-caption"> {{ i18nLocal.t('tip.management_desc') }} </v-flex>
             <div class="kubegems__clear-float" />
           </v-card-text>
         </v-card>
@@ -47,38 +47,27 @@
     </v-card>
   </v-menu>
 </template>
-<script>
-  import { mapGetters, mapState } from 'vuex';
 
-  import messages from './i18n';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
+<script lang="ts" setup>
+  import { useI18n } from './i18n';
+  import { useRouter } from '@/composition/router';
+  import { useStore } from '@/store';
 
-  export default {
-    name: 'Tool',
-    i18n: {
-      messages: messages,
-    },
-    mixins: [BaseResource, BaseSelect],
-    inject: ['reload'],
-    computed: {
-      ...mapState(['Admin']),
-      ...mapGetters(['Tenant', 'Cluster']),
-    },
-    methods: {
-      async toAdminViewport() {
-        this.$store.commit('CLEAR_VIRTUAL_SPACE');
-        this.$store.commit('CLEAR_PLUGINS_INTERVAL');
-        this.$store.commit('SET_ADMIN_VIEWPORT', true);
-        if (this.Cluster().ID === 0) {
-          await this.$store.dispatch('UPDATE_CLUSTER_DATA');
-        }
-        this.$router.push({
-          name: 'cluster-center',
-          params: { cluster: this.Cluster().ClusterName },
-        });
-      },
-    },
+  const store = useStore();
+  const i18nLocal = useI18n();
+  const router = useRouter();
+
+  const toAdminViewport = async (): Promise<void> => {
+    store.commit('CLEAR_VIRTUAL_SPACE');
+    store.commit('CLEAR_PLUGINS_INTERVAL');
+    store.commit('SET_ADMIN_VIEWPORT', true);
+    if (store.getters.Cluster().ID === 0) {
+      await store.dispatch('UPDATE_CLUSTER_DATA');
+    }
+    router.push({
+      name: 'cluster-center',
+      params: { cluster: store.getters.Cluster().ClusterName },
+    });
   };
 </script>
 

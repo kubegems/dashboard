@@ -16,44 +16,35 @@
 
 <template>
   <v-app id="inspire">
-    <Header v-model="expandOnHover" :small-title="AdminViewport ? 'header.administrator' : 'header.tenant_workspace'" />
-    <v-main :style="`min-height: ${height}px;`">
+    <Header
+      v-model="expandOnHover"
+      :small-title="store.state.AdminViewport ? 'header.administrator' : 'header.tenant_workspace'"
+    />
+    <v-main :style="{ minHeight: `${height}px` }">
       <BasePluginPass>
         <template #default>
           <router-view />
         </template>
       </BasePluginPass>
-      <Tool v-if="Admin" />
+      <Tool v-if="store.state.Admin" />
 
-      <Sidebar :key="SidebarKey" :expand-on-hover.sync="expandOnHover" />
+      <Sidebar :key="store.state.SidebarKey" :expand-on-hover.sync="expandOnHover" />
     </v-main>
   </v-app>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { computed, ref } from 'vue';
 
-  import Header from './header/Header';
-  import Sidebar from './sidebar/Sidebar';
-  import Tool from './tool/Tool';
+  import Header from './header/Header.vue';
+  import Sidebar from './sidebar/Sidebar.vue';
+  import Tool from './tool/Tool.vue';
+  import { useStore } from '@/store';
 
-  export default {
-    name: 'Layout',
-    components: {
-      Header,
-      Sidebar,
-      Tool,
-    },
-    data() {
-      return {
-        expandOnHover: false,
-      };
-    },
-    computed: {
-      ...mapState(['Admin', 'AdminViewport', 'SidebarKey', 'Scale']),
-      height() {
-        return window.innerHeight / this.Scale;
-      },
-    },
-  };
+  const store = useStore();
+
+  const expandOnHover = ref(false);
+  const height = computed<number>(() => {
+    return window.innerHeight / store.state.Scale;
+  });
 </script>
