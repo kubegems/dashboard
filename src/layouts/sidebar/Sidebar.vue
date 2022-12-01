@@ -235,7 +235,8 @@
           if (this.Edge) return edge;
           return true;
         } else {
-          return edge && this.Environment().AllowEdgeRegistration;
+          if (this.Edge) return edge && this.Environment().AllowEdgeRegistration;
+          else return true;
         }
       },
       reloadSidebar() {

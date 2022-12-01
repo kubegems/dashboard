@@ -16,40 +16,28 @@
 
 <template>
   <v-app id="inspire">
-    <Header v-model="expandOnHover" :show-app-bar-nav-icon="false" :small-title="$route.meta.smallTitle" />
-    <v-main :style="`min-height: ${height}px;`">
-      <!-- <BasePluginPass>
-        <template #default> -->
+    <Header v-model="expandOnHover" :show-app-bar-nav-icon="false" :small-title="route.meta.smallTitle" />
+    <v-main :style="{ minHeight: `${height}px` }">
       <router-view />
-      <!-- </template>
-      </BasePluginPass> -->
-      <Tool v-if="Admin" />
+      <Tool v-if="store.state.Admin" />
     </v-main>
   </v-app>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { computed, ref } from 'vue';
 
-  import Header from './header/Header';
-  import Tool from './tool/Tool';
+  import Header from './header/Header.vue';
+  import Tool from './tool/Tool.vue';
+  import { useRoute } from '@/composition/router';
+  import { useStore } from '@/store';
 
-  export default {
-    name: 'LayoutWithoutNavi',
-    components: {
-      Header,
-      Tool,
-    },
-    data() {
-      return {
-        expandOnHover: false,
-      };
-    },
-    computed: {
-      ...mapState(['Admin', 'Scale']),
-      height() {
-        return window.innerHeight / this.Scale;
-      },
-    },
-  };
+  const store = useStore();
+  const route = useRoute();
+
+  const expandOnHover = ref(false);
+
+  const height = computed<number>(() => {
+    return window.innerHeight / store.state.Scale;
+  });
 </script>

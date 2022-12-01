@@ -17,13 +17,13 @@
 <template>
   <div>
     <v-system-bar
-      v-if="Broadcast.length > 0"
+      v-if="store.state.Broadcast.length > 0"
       class="white--text text-subtitle-1 font-weight-medium mx-3 rounded-b"
       color="orange lighten-2"
       height="48"
     >
-      <div class="text-start notice">
-        <span v-for="(item, index) in Broadcast" :key="index" class="px-1">
+      <div class="text-start" :style="{ width: '100%' }">
+        <span v-for="(item, index) in store.state.Broadcast" :key="index" class="px-1">
           <v-icon color="white">mdi-volume-high</v-icon>
           <span class="ml-2" v-html="parseLink(item.message)" />
         </span>
@@ -33,33 +33,21 @@
   </div>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { onMounted } from 'vue';
 
-  export default {
-    name: 'Container',
-    computed: {
-      ...mapState(['Broadcast']),
-    },
-    mounted() {
-      this.$nextTick(() => {
-        this.$store.dispatch('INIT_BROADCAST');
-      });
-    },
-    methods: {
-      parseLink(message) {
-        const reg = new RegExp('(https?[\\/:\\.\\-_&\\?\\w=]*)', 'g');
-        return message.replaceAll(
-          reg,
-          `<a href="$1" target="_blank" style="text-decoration: underline;color: white;">$1</a>`,
-        );
-      },
-    },
+  import { useStore } from '@/store';
+
+  onMounted(() => {
+    store.dispatch('INIT_BROADCAST');
+  });
+
+  const store = useStore();
+  const parseLink = (message: string): string => {
+    const reg = new RegExp('(https?[\\/:\\.\\-_&\\?\\w=]*)', 'g');
+    return message.replaceAll(
+      reg,
+      `<a href="$1" target="_blank" style="text-decoration: underline;color: white;">$1</a>`,
+    );
   };
 </script>
-
-<style lang="scss" scoped>
-  .notice {
-    width: 100%;
-  }
-</style>

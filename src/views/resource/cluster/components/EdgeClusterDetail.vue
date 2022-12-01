@@ -55,7 +55,7 @@
   </v-container>
 </template>
 <script lang="ts" setup>
-  import * as moment from 'moment';
+  import moment from 'moment';
   import { ComputedRef, computed, onMounted, reactive, ref } from 'vue';
 
   import { useEdgeClusterConvertToCluster } from '@/composition/cluster';
