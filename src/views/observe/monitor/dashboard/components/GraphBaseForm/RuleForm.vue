@@ -145,7 +145,7 @@
 
   const emit = defineEmits(['addData', 'closeOverlay']);
   const form = ref(null);
-  const add = () => {
+  const add = (): void => {
     if (form.value.validate(true)) {
       if (target.value.index === undefined) {
         targets.value.push(target.value);

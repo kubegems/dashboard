@@ -165,6 +165,7 @@
     "monitor_template": "テンプレートをモニタリング",
     "service_monitor": "採集器",
     "host": "ホスト",
+    "cloud_cluster": "クラウドクラスター",
     "edge_cluster": "エッジ クラスタ"
   },
   "header": {
@@ -507,7 +508,10 @@
     "need_login": "訪問するにはログインしてください",
     "gpu_allocated": "GPU 割り当て",
     "not_based_yaml": "非標準の yaml 形式",
-    "select_one_match": "マッチを選択"
+    "select_one_match": "マッチを選択",
+    "select_one_env": "環境を選ぶ",
+    "select_one_cluster": "クラスタを選択",
+    "cluster_type": "クラスタ タイプ"
   },
   "tab": {
     "overview": "概要",

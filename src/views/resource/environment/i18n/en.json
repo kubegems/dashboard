@@ -60,6 +60,6 @@
     "name": "Name",
     "remark": "Remarks",
     "delete_policy": "Delete Policy",
-    "allow_edge": "Allow edge cluster registration"
+    "allow_edge": "Enable edge cluster"
   }
 }

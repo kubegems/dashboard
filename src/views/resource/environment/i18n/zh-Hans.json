@@ -60,6 +60,6 @@
     "name": "名称",
     "remark": "备注",
     "delete_policy": "删除策略",
-    "allow_edge": "允许边缘集群注册"
+    "allow_edge": "开启边缘集群"
   }
 }

@@ -172,6 +172,7 @@
     "monitor_template": "Monitor Template",
     "service_monitor": "Service Monitor",
     "host": "Host",
+    "cloud_cluster": "Cloud Cluster",
     "edge_cluster": "Edge Cluster"
   },
 
@@ -530,7 +531,10 @@
     "need_login": "Please login first",
     "gpu_allocated": "GPU allocation",
     "not_based_yaml": "Non-standard yaml format",
-    "select_one_match": "Select a match"
+    "select_one_match": "Select a match",
+    "select_one_env": "Select a environment",
+    "select_one_cluster": "Select a cluster",
+    "cluster_type": "Cluster Type"
   },
   "tab": {
     "overview": "Overview",

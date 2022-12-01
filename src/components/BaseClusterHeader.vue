@@ -57,13 +57,13 @@
           <v-card class="pa-2" flat height="350px">
             <div class="select__left" :style="{ width: '220px' }">
               <div class="text-subtitle-2 kubegems__text select__title">
-                <div class="float-left"> 选择一个集群 </div>
+                <div class="float-left"> {{ i18n.t('tip.select_one_cluster') }} </div>
                 <div v-if="state.loading" class="float-right">
                   <v-progress-circular color="primary" indeterminate size="18" width="3" />
                 </div>
                 <div class="kubegems__clear-float" />
               </div>
-              <div class="text-caption pa-1 mt-2">集群类型</div>
+              <div class="text-caption pa-1 mt-2">{{ i18n.t('tip.cluster_type') }}</div>
               <v-divider class="mb-2" />
               <v-list class="pa-0" dense max-height="300" nav :style="{ overflowY: 'auto' }">
                 <v-list-item-group v-model="state.clusterType" color="primary" @change="selectClusterType">
@@ -85,7 +85,7 @@
             </div>
             <v-divider v-if="show" class="float-left select__divider" vertical />
             <div v-if="show" class="select__right" :style="{ minWidth: '280px' }">
-              <div class="text-caption pa-1">集群</div>
+              <div class="text-caption pa-1">{{ i18n.t('resource.cluster') }}</div>
               <v-text-field
                 v-model="state.search"
                 class="mb-2"

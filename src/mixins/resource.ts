@@ -9,7 +9,7 @@ const store = useStore();
 
 const resource = {
   computed: {
-    ...mapState(['AdminViewport', 'NamespaceFilter']),
+    ...mapState(['AdminViewport', 'NamespaceFilter', 'Edge']),
     ...mapGetters(['Cluster', 'Environment']),
     // 当前集群，特殊命名
     ThisCluster() {
@@ -20,6 +20,9 @@ const resource = {
     },
     // 当前命名空间，特殊命名
     ThisNamespace() {
+      if (this.Edge) {
+        return '_all';
+      }
       return this.AdminViewport
         ? this.NamespaceFilter && this.NamespaceFilter.Namespace
           ? this.NamespaceFilter.Namespace

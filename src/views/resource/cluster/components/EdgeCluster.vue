@@ -174,7 +174,7 @@
 
 <script lang="ts" setup>
   import moment from 'moment';
-  import { onMounted, reactive, ref, watch } from 'vue';
+  import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../i18n';
   import EdgeClusterForm from './EdgeClusterForm/index.vue';
@@ -289,6 +289,7 @@
   const getEdgeHubList = async (): Promise<void> => {
     edgeHubItems.value = await useEdgeHubList(new EdgeHub());
   };
+
   onMounted(() => {
     getEdgeHubList();
   });
@@ -312,6 +313,10 @@
     pagination = Object.assign(pagination, data);
   };
 
+  let interval: number;
+  onUnmounted(() => {
+    clearInterval(interval);
+  });
   const query = useQuery();
   watch(
     () => query,
@@ -319,20 +324,32 @@
       if (!newValue) return;
       if (newValue.value.tenant) {
         labels.value[TENANT_KEY] = [newValue.value.tenant];
+      } else {
+        delete labels.value[TENANT_KEY];
       }
       if (newValue.value.project) {
         labels.value[PROJECT_KEY] = [newValue.value.project];
+      } else {
+        delete labels.value[PROJECT_KEY];
       }
       if (newValue.value.environment) {
         labels.value[ENVIRONMENT_KEY] = [newValue.value.environment];
+      } else {
+        delete labels.value[ENVIRONMENT_KEY];
       }
       if (newValue.value.search) {
         pagination.search = newValue.value.search;
+      } else {
+        pagination.search = '';
       }
       getTenantFilters();
       getProjectFilters();
       getEnvironmentFilters();
       getEdgeClusterList();
+      interval = setInterval(() => {
+        clearInterval(interval);
+        getEdgeClusterList();
+      }, 30 * 1000);
     },
     {
       immediate: true,

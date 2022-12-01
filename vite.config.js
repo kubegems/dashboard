@@ -22,6 +22,7 @@ export default defineConfig({
     Components({
       resolvers: [VuetifyResolver()],
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+      dts: false,
     }),
     vueJsx(),
     chunkSplitPlugin({

@@ -56,7 +56,7 @@
           <v-card class="pa-2" flat height="350px">
             <div class="select__left" :style="{ width: '180px' }">
               <div class="text-subtitle-2 kubegems__text select__title">
-                <div class="float-left"> 选择一个环境 </div>
+                <div class="float-left"> {{ i18n.t('tip.select_one_env') }} </div>
                 <div v-if="state.loading" class="float-right">
                   <v-progress-circular color="primary" indeterminate size="18" width="3" />
                 </div>
@@ -103,8 +103,10 @@
                         <v-list-item-title class="select__list__title pl-2">
                           <div class="float-left">
                             {{ item.EnvironmentName }}
-                            <div class="float-right text-caption ml-2 select__list__badge">{{ item.MetaType }}</div>
                           </div>
+                          <v-chip class="float-right mt-1" :color="METATYPE_CN[item.MetaType].color" label x-small>
+                            {{ i18n.t(`metadata.environment_type.${item.MetaType}`) }}
+                          </v-chip>
                         </v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
@@ -120,7 +122,7 @@
                   <div class="float-left">
                     <BaseLogo default-logo="kubernetes" :ml="0" :mt="0" :width="20" />
                   </div>
-                  <div class="float-left ml-1"> 云端集群 </div>
+                  <div class="float-left ml-1"> {{ i18n.t('resource.cloud_cluster') }} </div>
                   <div class="kubegems__clear-float" />
                 </div>
                 <v-divider class="mb-2" />
@@ -139,7 +141,7 @@
                   <div class="float-left">
                     <BaseLogo default-logo="kubernetes" icon-name="k3s" :ml="0" :mt="0" :width="20" />
                   </div>
-                  <div class="float-left ml-1"> 边缘集群 </div>
+                  <div class="float-left ml-1"> {{ i18n.t('resource.edge_cluster') }} </div>
                   <div class="kubegems__clear-float" />
                 </div>
                 <v-divider class="mb-2" />
@@ -151,7 +153,7 @@
                           <div>
                             {{ item.ClusterName }}
                             <div class="float-right text-caption ml-2 select__list__badge">
-                              {{ item.Upstream }}
+                              {{ item.Upstream || item.Version }}
                             </div>
                           </div>
                         </v-list-item-title>

@@ -38,4 +38,9 @@ export class EdgeHub {
     const data: { [key: string]: any } = await axios(`edge-hubs`, { params: params });
     return data as EdgeHub[];
   }
+
+  public async getEdgeHub(params: KubeRequest): Promise<EdgeHub> {
+    const data: { [key: string]: any } = await axios(`edge-hubs/${this.metadata.name}`, { params: params });
+    return data as EdgeHub;
+  }
 }

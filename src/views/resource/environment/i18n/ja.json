@@ -60,6 +60,6 @@
     "name": "注文番号による検索",
     "remark": "メモ",
     "delete_policy": "ポリシーを削除",
-    "allow_edge": "Edge クラスターの登録を許可する"
+    "allow_edge": "エッジ クラスタを有効にする"
   }
 }

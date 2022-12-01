@@ -63,7 +63,7 @@
 </template>
 
 <script lang="ts" setup>
-  import * as moment from 'moment';
+  import moment from 'moment';
 
   import { useI18n } from '../i18n';
   import { EdgeCluster } from '@/types/edge_cluster';
