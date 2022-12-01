@@ -30,50 +30,34 @@
       v-else
       :class="`${large ? 'logo__largeimg' : 'logo__img'} ml-${ml} mt-${mt}`"
       :src="`/icon/${getIconName(iconName, defaultLogo).replaceAll('img:', '')}`"
-      :style="{ width: `${width}px`, height: `${width}px`, position: absolute ? 'absolute' : '' }"
+      :style="{ width: `${width}px`, height: `${width}px`, position: absolute ? 'absolute' : 'relative' }"
     />
   </span>
 </template>
 
-<script>
+<script lang="ts" setup>
   import { getIconName } from '@/utils/icon';
 
-  export default {
-    name: 'BaseLogo',
-    props: {
-      defaultLogo: {
-        type: String,
-        default: () => '',
-      },
-      iconName: {
-        type: String,
-        default: () => '',
-      },
-      large: {
-        type: Boolean,
-        default: () => false,
-      },
-      ml: {
-        type: Number,
-        default: () => 2,
-      },
-      mt: {
-        type: [Number, String],
-        default: () => 0,
-      },
-      absolute: {
-        type: Boolean,
-        default: () => false,
-      },
-      width: {
-        type: Number,
-        default: () => 20,
-      },
+  withDefaults(
+    defineProps<{
+      defaultLogo?: string;
+      iconName?: string;
+      large?: boolean;
+      ml?: number;
+      mt?: number | string;
+      absolute?: boolean;
+      width?: number;
+    }>(),
+    {
+      defaultLogo: '',
+      iconName: '',
+      large: false,
+      ml: 2,
+      mt: 0,
+      absolute: false,
+      width: 20,
     },
-    methods: {
-      getIconName: getIconName,
-    },
-  };
+  );
 </script>
 
 <style lang="scss" scoped>

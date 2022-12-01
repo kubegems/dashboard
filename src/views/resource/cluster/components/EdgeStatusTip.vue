@@ -41,6 +41,14 @@
           <v-list-item-content>
             <v-list-item class="float-left pa-0" two-line>
               <v-list-item-content class="py-0">
+                <v-list-item-title> {{ i18nLocal.t('table.status') }} </v-list-item-title>
+                <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
+                  {{ edgeCluster.status.phase }}
+                </v-list-item-content>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item class="float-left pa-0" two-line>
+              <v-list-item-content class="py-0">
                 <v-list-item-title> {{ i18nLocal.t('tip.create_at') }} </v-list-item-title>
                 <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
                   {{ moment(edgeCluster.metadata.creationTimestamp, 'YYYY-MM-DDTHH:mm:ssZ').format('lll') }}

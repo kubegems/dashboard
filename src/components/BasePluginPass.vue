@@ -26,10 +26,10 @@
             <div class="d-flex align-center pa-10">
               <div class="text-center">
                 <h2 class="text-h5 primary--text font-weight-medium">
-                  您暂时还未启用 {{ noPermisionPlugins.join(', ') }} 插件！
+                  {{ i18n.t('plugin.missing', [noPermisionPlugins.join(', ')]) }}
                 </h2>
                 <h6 class="text-subtitle-1 mt-4 primary--text op-5 font-weight-regular">
-                  您可以联系平台管理员启用该插件
+                  {{ i18n.t('plugin.no_permission') }}
                 </h6>
               </div>
             </div>
@@ -41,38 +41,36 @@
   </div>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { computed, ComputedRef, ref } from 'vue';
 
-  export default {
-    name: 'BasePluginPass',
-    data() {
-      return {
-        noPermisionPlugins: [],
-      };
-    },
-    computed: {
-      ...mapState(['Plugins', 'Scale']),
-      pluginPass() {
-        let pass = true;
-        this.noPermisionPlugins = [];
-        if (this.$route.meta.innerCheck) return pass;
-        const dependencies = this.$route.meta.dependencies;
-        if (dependencies === undefined) return pass;
-        dependencies.forEach((d) => {
-          if (!this.Plugins[d]) {
-            this.noPermisionPlugins.push(d);
-            pass = false;
-            return;
-          }
-        });
-        return pass;
-      },
-      height() {
-        return parseInt((window.innerHeight - 128) / this.Scale) - 24;
-      },
-    },
-  };
+  import { useStore } from '@/store';
+  import { useRoute } from '@/composition/router';
+  import { useGlobalI18n } from '@/i18n';
+
+  const store = useStore();
+  const route = useRoute();
+  const i18n = useGlobalI18n();
+
+  const noPermisionPlugins = ref([]);
+  const pluginPass: ComputedRef<boolean> = computed(() => {
+    let pass: boolean = true;
+    noPermisionPlugins.value = [];
+    if (route.meta.innerCheck) return pass;
+    const dependencies = route.meta.dependencies;
+    if (dependencies === undefined) return pass;
+    dependencies.forEach((d) => {
+      if (!store.state.Plugins[d]) {
+        noPermisionPlugins.value.push(d);
+        pass = false;
+        return;
+      }
+    });
+    return pass;
+  });
+  const height: ComputedRef<number> = computed(() => {
+    return parseInt(((window.innerHeight - 128) / (store.state.Scale as number)).toString()) - 24;
+  });
 </script>
 
 <style lang="scss" scoped>

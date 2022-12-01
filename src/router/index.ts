@@ -165,16 +165,24 @@ router.beforeEach(async (to, from, next): Promise<void> => {
   }
 });
 
-const routeData = Vue.observable({ params: {}, query: {} });
+const routeData = Vue.observable({ params: {}, query: {}, path: '', name: '' });
 router.afterEach((route) => {
   routeData.params = route.params;
   routeData.query = route.query;
+  routeData.path = route.path;
+  routeData.name = route.name;
 });
 export function useParams() {
   return computed<{ [key: string]: string }>(() => routeData.params);
 }
 export function useQuery() {
   return computed<{ [key: string]: string }>(() => routeData.query);
+}
+export function usePath() {
+  return computed<string>(() => routeData.path);
+}
+export function useName() {
+  return computed<string>(() => routeData.name);
 }
 
 export const useRouter = () => router;

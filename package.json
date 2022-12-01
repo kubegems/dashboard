@@ -1,6 +1,6 @@
 {
   "name": "kubegems-dashboard",
-  "version": "1.22.2",
+  "version": "1.23.0-alpha.0",
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
@@ -112,7 +112,8 @@
     "vite": "^3.1.8",
     "vite-plugin-chunk-split": "^0.4.1",
     "vite-plugin-md": "^0.20.4",
-    "vite-plugin-vue-setup-extend": "^0.4.0"
+    "vite-plugin-vue-setup-extend": "^0.4.0",
+    "vite-plugin-vue-setup-inherit-attrs": "^1.0.5"
   },
   "browserslist": [
     "> 5%",
