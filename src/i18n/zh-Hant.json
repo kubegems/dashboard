@@ -165,6 +165,7 @@
     "monitor_template": "監控模版",
     "service_monitor": "採集器",
     "host": "主機",
+    "cloud_cluster": "雲端集群",
     "edge_cluster": "邊緣集群"
   },
   "header": {
@@ -507,7 +508,10 @@
     "need_login": "請登錄後訪問",
     "gpu_allocated": "Gpu分配",
     "not_based_yaml": "不符合標準的yaml格式",
-    "select_one_match": "選擇一個匹配"
+    "select_one_match": "選擇一個匹配",
+    "select_one_env": "選擇一個環境",
+    "select_one_cluster": "選擇一個集群",
+    "cluster_type": "集群類型"
   },
   "tab": {
     "overview": "概覽",

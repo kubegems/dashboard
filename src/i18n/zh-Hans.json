@@ -172,6 +172,7 @@
     "monitor_template": "监控模版",
     "service_monitor": "采集器",
     "host": "主机",
+    "cloud_cluster": "云端集群",
     "edge_cluster": "边缘集群"
   },
 
@@ -529,7 +530,10 @@
     "need_login": "请登录后访问",
     "gpu_allocated": "Gpu分配",
     "not_based_yaml": "不符合标准的yaml格式",
-    "select_one_match": "选择一个匹配"
+    "select_one_match": "选择一个匹配",
+    "select_one_env": "选择一个环境",
+    "select_one_cluster": "选择一个集群",
+    "cluster_type": "集群类型"
   },
   "tab": {
     "overview": "概览",
