@@ -165,6 +165,7 @@ router.beforeEach(async (to, from, next): Promise<void> => {
   }
 });
 
+type Dictionary<T> = { [key: string]: T };
 const routeData = Vue.observable({ params: {}, query: {}, path: '', name: '' });
 router.afterEach((route) => {
   routeData.params = route.params;
@@ -173,10 +174,10 @@ router.afterEach((route) => {
   routeData.name = route.name;
 });
 export function useParams() {
-  return computed<{ [key: string]: string }>(() => routeData.params);
+  return computed<Dictionary<string>>(() => routeData.params);
 }
 export function useQuery() {
-  return computed<{ [key: string]: string }>(() => routeData.query);
+  return computed<Dictionary<string>>(() => routeData.query);
 }
 export function usePath() {
   return computed<string>(() => routeData.path);

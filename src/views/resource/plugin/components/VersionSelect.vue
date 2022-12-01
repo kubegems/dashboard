@@ -122,8 +122,8 @@
       setVersion(v) {
         this.version = v;
         this.menu = false;
-        this.$emit('change', v);
         this.$emit('input', v);
+        this.$emit('change', v);
       },
     },
   };

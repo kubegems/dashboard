@@ -1,3 +1,32 @@
+# 1.23.0-alpha.0 (2022-12-01)
+
+### 🌟 新功能
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [feat: ✨ support edge cluster] | [05f1759](https://github.com/chenshunliang/dashboard/commit/05f17596aa7a40774f0ac5a41d3ab2392d7d15b7) |
+
+### Bug Fixes
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [fix: 🐛 fix axios get params space escape bug] | ([28adb0b](https://github.com/chenshunliang/dashboard/commit/28adb0b1ec83559cdd9739dba941752c3ac2d7e3)) |
+| - | [fix: 🐛 fix base environment header get data error bug] | ([c1b02f3](https://github.com/chenshunliang/dashboard/commit/c1b02f3867334ebb0f36e53b9610a94b57080775)) |
+| - | [fix: 🐛 fix edge proxy no effect in environment space] | ([9170816](https://github.com/chenshunliang/dashboard/commit/9170816180f2f2cc480104ccd4ab0fd47a3aadb4)) |
+
+### 🚀 性能优化
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [perf: ⚡ add global plugin check for edge pages, fix vue keep-alive bug] | ([7e4c4d0b](https://github.com/chenshunliang/dashboard/commit/7e4c4d0bf32dda3a4e4516b38f5ebc8f130f1e46)) |
+| - | [perf: ⚡ support add multiple rule to one monitor chart] | ([c56deaf](https://github.com/chenshunliang/dashboard/commit/c56deafcdb9b2c0835c1f7aecd0f0e52c65bd887)) |
+
+### 🔨 reflactor
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [refactor: 🔨 reflact base component to composition api style] | ([14cb4d3](https://github.com/chenshunliang/dashboard/commit/14cb4d3b3bf64cbe75a4f844b072f04c4da7db25)) |
+
 # 1.22.2 (2022-11-21)
 
 ### Bug Fixes

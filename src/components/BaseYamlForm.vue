@@ -17,14 +17,14 @@
 <template>
   <v-flex>
     <BaseSubTitle :title="title" />
-    <v-form ref="form" v-model="valid" class="mt-2 rounded-t mx-2" lazy-validation @submit.prevent />
+    <v-form ref="form" v-model="state.valid" class="mt-2 rounded-t mx-2" lazy-validation @submit.prevent />
     <div class="px-2">
       <ACEEditor
         v-model="kubeyaml"
-        :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
+        :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')} rounded`"
         height="600"
         lang="yaml"
-        :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
+        :options="aceOptions"
         theme="chrome"
         @keydown.stop
       />
@@ -32,55 +32,87 @@
   </v-flex>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import yaml from 'js-yaml';
+  import { onMounted, reactive, ref, watch } from 'vue';
 
-  export default {
-    name: 'BaseYamlForm',
-    props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
-      title: {
-        type: String,
-        default: () => '',
-      },
+  import { useStore } from '@/store';
+
+  const props = withDefaults(
+    defineProps<{
+      item?: any;
+      title?: string;
+    }>(),
+    {
+      item: '',
+      title: '',
     },
-    data() {
-      return {
-        valid: false,
-        kubeyaml: '',
-      };
-    },
-    computed: {
-      ...mapState(['Scale']),
-    },
-    watch: {
-      item() {
-        this.kubeyaml = this.$yamldump(this.item);
-      },
-    },
-    mounted() {
-      if (this.item) this.kubeyaml = this.$yamldump(this.item);
-    },
-    methods: {
-      validate() {
-        return this.$refs.form.validate(true);
-      },
-      checkSaved() {
-        return true;
-      },
-      reset() {
-        this.kubeyaml = '';
-        this.$refs.form.reset();
-      },
-      setYaml(data) {
-        this.kubeyaml = data;
-      },
-      getYaml() {
-        return this.kubeyaml;
-      },
-    },
+  );
+
+  const store = useStore();
+  const state = reactive({
+    valid: false,
+  });
+
+  const aceOptions = {
+    tabSize: 2,
+    fontSize: 12,
+    printMarginColumn: 100,
+    showPrintMargin: false,
+    wrap: true,
+    readOnly: false,
   };
+
+  const kubeyaml = ref('');
+  const dump = (data: any): string | null => {
+    try {
+      const d: string = yaml.dump(data);
+      return d;
+    } catch (e) {
+      store.commit('SET_SNACKBAR', {
+        text: e.reason,
+        color: 'warning',
+      });
+      return null;
+    }
+  };
+  onMounted(() => {
+    if (props.item) kubeyaml.value = dump(props.item);
+  });
+
+  watch(
+    () => props.item,
+    async (newValue) => {
+      kubeyaml.value = dump(newValue);
+    },
+    {
+      deep: true,
+    },
+  );
+
+  const form = ref(null);
+  const validate = (): boolean => {
+    return form.value.validate(true);
+  };
+  const checkSaved = (): boolean => {
+    return true;
+  };
+  const reset = (): void => {
+    kubeyaml.value = '';
+    form.value.reset();
+  };
+  const setYaml = (data): void => {
+    kubeyaml.value = data;
+  };
+  const getYaml = (): string => {
+    return kubeyaml.value;
+  };
+
+  defineExpose({
+    validate,
+    checkSaved,
+    reset,
+    setYaml,
+    getYaml,
+  });
 </script>
