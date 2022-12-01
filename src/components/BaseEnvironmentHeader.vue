@@ -101,12 +101,12 @@
                     <v-list-item v-for="item in environmentItems" :key="item.EnvironmentName" dense>
                       <v-list-item-content>
                         <v-list-item-title class="select__list__title pl-2">
-                          <div>
+                          <div class="float-left">
                             {{ item.EnvironmentName }}
-                            <div class="float-right text-caption ml-2 select__list__badge">
-                              {{ METATYPE_CN[item.MetaType].cn }}
-                            </div>
                           </div>
+                          <v-chip class="float-right mt-1" :color="METATYPE_CN[item.MetaType].color" label x-small>
+                            {{ i18n.t(`metadata.environment_type.${item.MetaType}`) }}
+                          </v-chip>
                         </v-list-item-title>
                       </v-list-item-content>
                     </v-list-item>
