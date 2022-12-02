@@ -22,7 +22,13 @@
       <v-card-text class="pa-3">
         <v-tabs v-model="tab" class="rounded-t" height="30" @change="onTabChange">
           <v-tab v-for="item in tabItems" :key="item.value">
-            <BaseLogo class="mr-2" :icon-name="item.icon" :ml="0" :mt="1" :width="20" />
+            <BaseLogo
+              class="mr-2"
+              :icon-name="tab === 1 && item.tab === 'edge' ? 'k3s-light' : item.icon"
+              :ml="0"
+              :mt="1"
+              :width="20"
+            />
             {{ item.text }}
           </v-tab>
         </v-tabs>

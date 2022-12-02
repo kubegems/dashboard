@@ -45,7 +45,7 @@
               <BaseLogo
                 class="mr-2 logo"
                 default-logo="kubernetes"
-                :icon-name="state.clusterType ? 'k3s' : 'kubernetes'"
+                :icon-name="store.state.Edge ? 'k3s' : 'kubernetes'"
                 :ml="0"
                 :width="20"
               />
