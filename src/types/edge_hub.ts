@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { Metadata } from './base';
+import { Metadata } from './kubernetes';
 
 class EdgeHubStatusTunnel {
   constructor(edgeClusterStatusTunnel?: { [key: string]: any }) {

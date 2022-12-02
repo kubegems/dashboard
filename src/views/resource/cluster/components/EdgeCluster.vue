@@ -52,7 +52,10 @@
 
     <v-card class="mt-3">
       <v-card-title class="py-4">
-        <BaseFilter1 :default="{ items: [], text: $t('filter.edge_name'), value: 'search' }" :filters="filters" />
+        <BaseFilter1
+          :default="{ items: [], text: i18nLocal.t('filter.edge_name'), value: 'search' }"
+          :filters="filters"
+        />
         <v-spacer />
         <v-menu left>
           <template #activator="{ on }">
@@ -65,7 +68,7 @@
               <v-flex>
                 <v-btn color="primary" text @click="addEdgeCluster">
                   <v-icon left>mdi-plus-box</v-icon>
-                  {{ $root.$t('operate.create_c', [$root.$t('resource.edge_cluster')]) }}
+                  {{ i18n.t('operate.create_c', [i18n.t('resource.edge_cluster')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -79,7 +82,7 @@
         hide-default-footer
         :items="pagination.items"
         :items-per-page="pagination.size"
-        :no-data-text="$root.$t('data.no_data')"
+        :no-data-text="i18n.t('data.no_data')"
         :page.sync="pagination.page"
       >
         <template #item.name="{ item, index }">
@@ -144,7 +147,7 @@
               <v-card-text class="pa-2">
                 <v-flex>
                   <v-btn color="primary" small text @click="updateEdgeCluster(item)">
-                    {{ $root.$t('operate.edit') }}
+                    {{ i18n.t('operate.edit') }}
                   </v-btn>
                 </v-flex>
                 <v-flex>
@@ -152,7 +155,7 @@
                 </v-flex>
                 <v-flex>
                   <v-btn color="error" small text @click="deleteEdgeCluster(item)">
-                    {{ $root.$t('operate.delete') }}
+                    {{ i18n.t('operate.delete') }}
                   </v-btn>
                 </v-flex>
               </v-card-text>
@@ -317,7 +320,7 @@
     pagination = Object.assign(pagination, data);
   };
 
-  let interval: number;
+  let interval: NodeJS.Timeout;
   onUnmounted(() => {
     clearInterval(interval);
   });

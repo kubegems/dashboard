@@ -49,12 +49,11 @@
 <script lang="ts" setup inherit-attrs="false">
   import { ref, watch } from 'vue';
 
-  import { useRoute, useRouter } from '@/composition/router';
+  import { useRouter } from '@/composition/router';
   import { useName, useParams } from '@/router';
   import { useStore } from '@/store';
 
   const store = useStore();
-  const route = useRoute();
   const router = useRouter();
 
   type ItemGroup = {
