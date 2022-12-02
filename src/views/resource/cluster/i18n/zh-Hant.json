@@ -42,7 +42,8 @@
     "copyed": "已復製到粘貼板",
     "label": "標籤",
     "add_command": "加入命令",
-    "create_at": "創建時間"
+    "create_at": "創建時間",
+    "select_environment": "請選擇分配環境"
   },
   "form": {
     "format_rule": "格式錯誤（範例：最多1位小數）",

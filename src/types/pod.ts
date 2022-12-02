@@ -29,7 +29,7 @@ export class Pod extends V1Pod {
     return data as KubePaginationResponse<Pod[]>;
   }
 
-  public async getPod(cluster: string, params: KubeRequest): Promise<Pod> {
+  public async getPod(cluster: string, params: KubeRequest = {}): Promise<Pod> {
     const apiVersion: string = getApiVersion('pod');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/pods/${this.metadata.name}`,

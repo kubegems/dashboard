@@ -42,7 +42,8 @@
     "copyed": "Copied to clipboard",
     "label": "Label",
     "add_command": "Join command",
-    "create_at": "Create time"
+    "create_at": "Create time",
+    "select_environment": "Please select a distribution environment"
   },
   "form": {
     "format_rule": "Wrong format (example: max 1 decimal)",

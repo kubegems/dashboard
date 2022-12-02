@@ -151,6 +151,11 @@
                   </v-btn>
                 </v-flex>
                 <v-flex>
+                  <v-btn color="primary" small text @click="allocateEdgeCluster(item)">
+                    {{ i18n.t('operate.allocate') }}
+                  </v-btn>
+                </v-flex>
+                <v-flex>
                   <v-btn color="primary" small text @click="openTerminal(item)"> Kubectl </v-btn>
                 </v-flex>
                 <v-flex>
@@ -176,6 +181,7 @@
 
       <EdgeClusterForm ref="edgeCluster" @refresh="getEdgeClusterList({ page: 1, size: 10 })" />
       <Terminal ref="terminal" />
+      <AllocateEdgeCluster ref="allocate" @refresh="getEdgeClusterList" />
     </v-card>
   </div>
 </template>
@@ -185,6 +191,7 @@
   import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../i18n';
+  import AllocateEdgeCluster from './AllocateEdgeCluster/index.vue';
   import EdgeClusterForm from './EdgeClusterForm/index.vue';
   import EdgeStatusTip from './EdgeStatusTip.vue';
   import { useEdgeClusterPagination, useEdgeHubList } from '@/composition/cluster';
@@ -411,5 +418,10 @@
   const openTerminal = (item: EdgeCluster): void => {
     terminal.value.init(null, item, 'kubectl', true);
     terminal.value.open();
+  };
+  const allocate = ref(null);
+  const allocateEdgeCluster = (item: EdgeCluster): void => {
+    allocate.value.init(item);
+    allocate.value.open();
   };
 </script>

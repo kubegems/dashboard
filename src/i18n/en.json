@@ -239,7 +239,9 @@
     "detail": "Detail",
     "reset": "Reset",
     "upload": "File Upload",
-    "download": "Download"
+    "download": "Download",
+    "allocate": "Allocate",
+    "allocate_c": "Allocate {0}"
   },
   "form": {
     "definition": "{0} Definition",

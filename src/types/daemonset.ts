@@ -32,7 +32,7 @@ export class DaemonSet extends V1DaemonSet {
     return data as KubePaginationResponse<DaemonSet[]>;
   }
 
-  public async getDaemonSet(cluster: string, params: KubeRequest): Promise<DaemonSet> {
+  public async getDaemonSet(cluster: string, params: KubeRequest = {}): Promise<DaemonSet> {
     const apiVersion: string = getApiVersion('daemonset');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/daemonsets/${this.metadata.name}`,

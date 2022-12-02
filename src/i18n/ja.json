@@ -231,7 +231,9 @@
     "detail": "詳細",
     "reset": "リセット",
     "upload": "ファイルのアップロード",
-    "download": "ダウンロード"
+    "download": "ダウンロード",
+    "allocate": "分配します",
+    "allocate_c": "分配します {0}"
   },
   "form": {
     "definition": "{0}の定義",

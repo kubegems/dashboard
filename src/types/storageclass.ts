@@ -25,7 +25,7 @@ export class StorageClass extends V1StorageClass {
     return data as KubePaginationResponse<StorageClass[]>;
   }
 
-  public async getStorageClass(cluster: string, params: KubeRequest): Promise<StorageClass> {
+  public async getStorageClass(cluster: string, params: KubeRequest = {}): Promise<StorageClass> {
     const apiVersion: string = getApiVersion('storageclass');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/storageclasses/${this.metadata.name}`,

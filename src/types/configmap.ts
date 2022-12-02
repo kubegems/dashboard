@@ -31,7 +31,7 @@ export class ConfigMap extends V1ConfigMap {
     return data as KubePaginationResponse<ConfigMap[]>;
   }
 
-  public async getConfigMap(cluster: string, params: KubeRequest): Promise<ConfigMap> {
+  public async getConfigMap(cluster: string, params: KubeRequest = {}): Promise<ConfigMap> {
     const apiVersion: string = getApiVersion('configmap');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/configmaps/${this.metadata.name}`,

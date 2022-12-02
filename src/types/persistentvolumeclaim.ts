@@ -32,7 +32,7 @@ export class PersistentVolumeClaim extends V1PersistentVolumeClaim {
     return data as KubePaginationResponse<PersistentVolumeClaim[]>;
   }
 
-  public async getPersistentVolumeClaim(cluster: string, params: KubeRequest): Promise<PersistentVolumeClaim> {
+  public async getPersistentVolumeClaim(cluster: string, params: KubeRequest = {}): Promise<PersistentVolumeClaim> {
     const apiVersion: string = getApiVersion('persistentvolumeclaim');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/persistentvolumeclaims/${this.metadata.name}`,

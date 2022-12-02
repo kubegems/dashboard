@@ -32,7 +32,7 @@ export class Service extends V1Service {
     return data as KubePaginationResponse<Service[]>;
   }
 
-  public async getService(cluster: string, params: KubeRequest): Promise<Service> {
+  public async getService(cluster: string, params: KubeRequest = {}): Promise<Service> {
     const apiVersion: string = getApiVersion('service');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/services/${this.metadata.name}`,

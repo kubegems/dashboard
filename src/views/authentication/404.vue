@@ -17,18 +17,18 @@
 <template>
   <v-container fluid>
     <v-card class="mt-8" flat height="400px">
-      <v-row class="row-height">
+      <v-row :style="{ height: '400px' }">
         <v-col class="d-none d-md-flex align-center justify-center">
           <div class="d-none d-sm-block">
             <div class="d-flex align-center pa-10">
               <div class="text-center">
-                <h2 class="text-h4 primary--text font-weight-medium"> {{ $t('status.404') }} </h2>
+                <h2 class="text-h4 primary--text font-weight-medium"> {{ i18nLocal.t('status.404') }} </h2>
                 <h6 class="text-subtitle-1 mt-4 primary--text op-5 font-weight-regular">
-                  {{ $t('tip.nav') }}
+                  {{ i18nLocal.t('tip.nav') }}
                 </h6>
                 <v-btn color="info mt-4" @click="toDashboard">
                   <v-icon left>mdi-undo-variant</v-icon>
-                  {{ $root.$t('operate.return') }}
+                  {{ i18n.t('operate.return') }}
                 </v-btn>
               </div>
             </div>
@@ -39,33 +39,22 @@
   </v-container>
 </template>
 
-<script>
-  import { mapGetters } from 'vuex';
+<script lang="ts" setup name="404">
+  import { useI18n } from './i18n';
+  import { useRouter } from '@/composition/router';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
 
-  import messages from './i18n';
+  const store = useStore();
+  const router = useRouter();
+  const i18nLocal = useI18n();
+  const i18n = useGlobalI18n();
 
-  export default {
-    name: 'V404',
-    i18n: {
-      messages: messages,
-    },
-    computed: {
-      ...mapGetters(['Tenant']),
-    },
-    methods: {
-      toDashboard() {
-        this.$store.commit('SET_ADMIN_VIEWPORT', false);
-        this.$router.push({
-          name: 'resource-dashboard',
-          params: { tenant: this.Tenant().TenantName },
-        });
-      },
-    },
+  const toDashboard = (): void => {
+    store.commit('SET_ADMIN_VIEWPORT', false);
+    router.push({
+      name: 'resource-dashboard',
+      params: { tenant: store.getters.Tenant().TenantName },
+    });
   };
 </script>
-
-<style lang="scss" scoped>
-  .row-height {
-    height: 400px;
-  }
-</style>

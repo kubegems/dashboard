@@ -1,13 +1,14 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import qs from 'qs';
-import Vue from 'vue';
 
+import { useGlobalI18n } from '@/i18n';
 import { useRouter } from '@/router';
 import { useStore } from '@/store';
 import { getQueryString, validateJWT } from '@/utils/helpers';
 
 const store = useStore();
 const router = useRouter();
+const i18n = useGlobalI18n();
 
 axios.defaults.baseURL = `${window.location.origin}/api/v1`;
 axios.defaults.timeout = 1000 * parseInt(import.meta.env.VUE_APP_API_TIMEOUT);
@@ -33,7 +34,7 @@ axios.interceptors.request.use(
         },
       });
       store.commit('SET_SNACKBAR', {
-        text: Vue.prototype.$_i18n.t('tip.token_expired'),
+        text: i18n.t('tip.token_expired'),
         color: 'error',
       });
       return new Promise(() => {
@@ -51,7 +52,7 @@ axios.interceptors.request.use(
     ) {
       console.log(config);
       store.commit('SET_SNACKBAR', {
-        text: Vue.prototype.$_i18n.t('tip.request_params_error'),
+        text: i18n.t('tip.request_params_error'),
         color: 'error',
       });
       return new Promise(() => {
@@ -105,7 +106,7 @@ axios.interceptors.response.use(
           !new RegExp('^(cluster/validate-kubeconfig)$|^(logqueryhistory)$|^(message/\\d+)$').test(response.config.url)
         ) {
           store.commit('SET_SNACKBAR', {
-            text: Vue.prototype.$_i18n.t('tip.success'),
+            text: i18n.t('tip.success'),
             color: 'success',
           });
         }
@@ -128,7 +129,7 @@ axios.interceptors.response.use(
     if (!(error && error.response)) {
       if (error.toString().indexOf('timeout') > -1) {
         store.commit('SET_SNACKBAR', {
-          text: Vue.prototype.$_i18n.t('tip.timeout'),
+          text: i18n.t('tip.timeout'),
           color: 'error',
         });
       } else {
@@ -150,7 +151,7 @@ axios.interceptors.response.use(
           break;
         case 401:
           store.commit('SET_SNACKBAR', {
-            text: Vue.prototype.$_i18n.t('tip.401'),
+            text: i18n.t('tip.401'),
             color: 'warning',
           });
           store.commit('CLEARALL');
@@ -175,67 +176,67 @@ axios.interceptors.response.use(
           break;
         case 403:
           store.commit('SET_SNACKBAR', {
-            text: Vue.prototype.$_i18n.t('tip.403'),
+            text: i18n.t('tip.403'),
             color: 'warning',
           });
           break;
         case 404:
           store.commit('SET_SNACKBAR', {
-            text: Vue.prototype.$_i18n.t('tip.404'),
+            text: i18n.t('tip.404'),
             color: 'warning',
           });
           break;
         case 405:
           store.commit('SET_SNACKBAR', {
-            text: Vue.prototype.$_i18n.t('tip.405'),
+            text: i18n.t('tip.405'),
             color: 'warning',
           });
           break;
         case 408:
           store.commit('SET_SNACKBAR', {
-            text: Vue.prototype.$_i18n.t('tip.timeout'),
+            text: i18n.t('tip.timeout'),
             color: 'warning',
           });
           break;
         case 409:
           store.commit('SET_SNACKBAR', {
-            text: Vue.prototype.$_i18n.t('tip.409'),
+            text: i18n.t('tip.409'),
             color: 'warning',
           });
           break;
         case 422:
           store.commit('SET_SNACKBAR', {
-            text: `${Vue.prototype.$_i18n.t('tip.422')} ${error.response.data.Message || error.response.data.message}`,
+            text: `${i18n.t('tip.422')} ${error.response.data.Message || error.response.data.message}`,
             color: 'warning',
           });
           break;
         case 500:
           store.commit('SET_SNACKBAR', {
-            text: Vue.prototype.$_i18n.t('tip.500'),
+            text: i18n.t('tip.500'),
             color: 'error',
           });
           break;
         case 502:
           store.commit('SET_SNACKBAR', {
-            text: Vue.prototype.$_i18n.t('tip.502'),
+            text: i18n.t('tip.502'),
             color: 'error',
           });
           break;
         case 503:
           store.commit('SET_SNACKBAR', {
-            text: Vue.prototype.$_i18n.t('tip.503'),
+            text: i18n.t('tip.503'),
             color: 'error',
           });
           break;
         case 504:
           store.commit('SET_SNACKBAR', {
-            text: Vue.prototype.$_i18n.t('tip.504'),
+            text: i18n.t('tip.504'),
             color: 'error',
           });
           break;
         default:
           store.commit('SET_SNACKBAR', {
-            text: Vue.prototype.$_i18n.t('tip.unknown_error'),
+            text: i18n.t('tip.unknown_error'),
             color: 'error',
           });
           break;
