@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { Metadata } from './base';
+import { Metadata } from './kubernetes';
 
 class EdgeClusterStatusRegister {
   constructor(edgeClusterStatusRegister?: { [key: string]: any }) {

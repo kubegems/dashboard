@@ -17,12 +17,12 @@
   <v-menu
     :close-delay="200"
     :close-on-content-click="false"
-    left
-    max-width="165px"
+    max-width="250px"
     nudge-bottom="5px"
     offset-y
     open-on-hover
     :origin="`${top ? 'bottom center' : 'top center'}`"
+    right
     :top="top"
     transition="scale-transition"
   >

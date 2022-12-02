@@ -3,7 +3,7 @@ import { V1NodeSpec } from '@kubernetes/client-node/dist/gen/model/v1NodeSpec';
 import { V1NodeStatus } from '@kubernetes/client-node/dist/gen/model/v1NodeStatus';
 import axios from 'axios';
 
-import { Metadata, initDefaultValueFromKModel } from './base';
+import { Metadata, initKModel } from './kubernetes';
 import { getApiVersion } from '@/utils/helpers';
 
 interface CordonNode {
@@ -13,13 +13,13 @@ interface CordonNode {
 export class Node extends V1Node implements CordonNode {
   constructor(node?: { [key: string]: any }) {
     super();
-    this.apiVersion = 'v1';
+    this.apiVersion = getApiVersion('node');
     this.kind = 'Node';
     this.metadata = new Metadata();
-    this.spec = initDefaultValueFromKModel(V1NodeSpec.attributeTypeMap);
-    this.status = initDefaultValueFromKModel(V1NodeStatus.attributeTypeMap);
+    this.spec = initKModel<V1NodeSpec>(V1NodeSpec.attributeTypeMap);
+    this.status = initKModel<V1NodeStatus>(V1NodeStatus.attributeTypeMap);
 
-    Object.assign(this, node);
+    if (node) Object.assign(this, node);
   }
 
   public async getNodeList(cluster: string, params: KubePaginationRequest): Promise<KubePaginationResponse<Node[]>> {

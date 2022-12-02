@@ -1,5 +1,3 @@
-import { V1ObjectMeta } from '@kubernetes/client-node/dist/gen/model/v1ObjectMeta';
-
 declare global {
   type KubeRequest = {
     [params: string]: any;
@@ -59,14 +57,6 @@ export function initDefaultValueFromKModel(
     else data[attribute.name] = {};
   });
   return data;
-}
-
-export class Metadata extends V1ObjectMeta {
-  constructor() {
-    super();
-    const data = initDefaultValueFromKModel(V1ObjectMeta.attributeTypeMap);
-    Object.assign(this, data);
-  }
 }
 
 export {};

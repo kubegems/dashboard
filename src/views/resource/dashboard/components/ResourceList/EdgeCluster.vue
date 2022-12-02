@@ -22,7 +22,7 @@
       hide-default-footer
       :items="pagination.items"
       :items-per-page="pagination.size"
-      :no-data-text="$root.$t('data.no_data')"
+      :no-data-text="i18n.t('data.no_data')"
       :page.sync="pagination.page"
     >
       <template #item.name="{ item }">

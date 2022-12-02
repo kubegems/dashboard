@@ -113,7 +113,7 @@
       if (state.step === 1) {
         state.update
           ? (async () => {
-              await new EdgeCluster(edgeCluster.value).updateEdgeCluster();
+              edgeCluster.value = await new EdgeCluster(edgeCluster.value).updateEdgeCluster();
               reset();
               emits('refresh');
             })()
@@ -125,7 +125,7 @@
                   [TENANT_KEY]: route.params.tenant,
                 });
               }
-              await new EdgeCluster(edgeCluster.value).addEdgeCluster();
+              edgeCluster.value = await new EdgeCluster(edgeCluster.value).addEdgeCluster();
               state.step += 1;
             })();
       }

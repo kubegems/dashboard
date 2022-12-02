@@ -21,17 +21,24 @@
     </v-card-text>
     <v-card-text>
       <div class="pa-3 code">
-        <v-btn v-clipboard:copy="`ssssss`" v-clipboard:success="copyed" class="code__copy" color="primary" icon small>
+        <v-btn
+          v-clipboard:copy="`${edgeCluster.status.register.url}`"
+          v-clipboard:success="copyed"
+          class="code__copy"
+          color="primary"
+          icon
+          small
+        >
           <v-icon small>mdi-content-copy</v-icon>
         </v-btn>
         <code class="hljs language-coffeescript">
-          <span class="hljs-built_in">$ curl</span>
+          <span class="orange--text">$ curl</span>
           <span>
             -k
             {{ edgeCluster.status.register.url }}
           </span>
           |
-          <span class="hljs-built_in">k3s kubectl</span>
+          <span class="orange--text">k3s kubectl</span>
           <span> apply -f </span>
         </code>
       </div>
