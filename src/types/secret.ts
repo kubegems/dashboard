@@ -32,7 +32,7 @@ export class Secret extends V1Secret {
     return data as KubePaginationResponse<Secret[]>;
   }
 
-  public async getSecret(cluster: string, params: KubeRequest): Promise<Secret> {
+  public async getSecret(cluster: string, params: KubeRequest = {}): Promise<Secret> {
     const apiVersion: string = getApiVersion('secret');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/secrets/${this.metadata.name}`,

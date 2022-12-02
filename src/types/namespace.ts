@@ -27,7 +27,7 @@ export class Namespace extends V1Namespace {
     return data as KubePaginationResponse<Namespace[]>;
   }
 
-  public async getNamespace(cluster: string, params: KubeRequest): Promise<Namespace> {
+  public async getNamespace(cluster: string, params: KubeRequest = {}): Promise<Namespace> {
     const data: { [key: string]: any } = await axios(
       `edge-clusters/${cluster}/proxy/core/v1/namespaces/${this.metadata.name}`,
       {

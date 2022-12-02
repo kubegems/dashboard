@@ -29,7 +29,7 @@ export class Job extends V1Job {
     return data as KubePaginationResponse<Job[]>;
   }
 
-  public async getJob(cluster: string, params: KubeRequest): Promise<Job> {
+  public async getJob(cluster: string, params: KubeRequest = {}): Promise<Job> {
     const apiVersion: string = getApiVersion('job');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/jobs/${this.metadata.name}`,

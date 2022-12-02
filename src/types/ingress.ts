@@ -32,7 +32,7 @@ export class Ingress extends V1Ingress {
     return data as KubePaginationResponse<Ingress[]>;
   }
 
-  public async getIngress(cluster: string, params: KubeRequest): Promise<Ingress> {
+  public async getIngress(cluster: string, params: KubeRequest = {}): Promise<Ingress> {
     const apiVersion: string = getApiVersion('ingress');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/ingresses/${this.metadata.name}`,

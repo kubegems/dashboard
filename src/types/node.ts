@@ -30,7 +30,7 @@ export class Node extends V1Node implements CordonNode {
     return data as KubePaginationResponse<Node[]>;
   }
 
-  public async getNode(cluster: string, params: KubeRequest): Promise<Node> {
+  public async getNode(cluster: string, params: KubeRequest = {}): Promise<Node> {
     const apiVersion = getApiVersion('node');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/nodes/${this.metadata.name}`,

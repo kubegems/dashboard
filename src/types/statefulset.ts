@@ -32,7 +32,7 @@ export class StatefulSet extends V1StatefulSet {
     return data as KubePaginationResponse<StatefulSet[]>;
   }
 
-  public async getStatefulSet(cluster: string, params: KubeRequest): Promise<StatefulSet> {
+  public async getStatefulSet(cluster: string, params: KubeRequest = {}): Promise<StatefulSet> {
     const apiVersion: string = getApiVersion('statefulset');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/statefulsets/${this.metadata.name}`,

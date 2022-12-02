@@ -42,7 +42,8 @@
     "copyed": "已复制到粘贴板",
     "label": "标签",
     "add_command": "加入命令",
-    "create_at": "创建时间"
+    "create_at": "创建时间",
+    "select_environment": "请选择分配环境"
   },
   "form": {
     "format_rule": "格式错误(示例:最多1位小数)",

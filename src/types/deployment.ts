@@ -32,7 +32,7 @@ export class Deployment extends V1Deployment {
     return data as KubePaginationResponse<Deployment[]>;
   }
 
-  public async getDeployment(cluster: string, params: KubeRequest): Promise<Deployment> {
+  public async getDeployment(cluster: string, params: KubeRequest = {}): Promise<Deployment> {
     const apiVersion: string = getApiVersion('deployment');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/deployments/${this.metadata.name}`,

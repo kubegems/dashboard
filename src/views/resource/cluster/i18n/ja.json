@@ -42,7 +42,8 @@
     "copyed": "クリップボードにコピーしました",
     "label": "ラベル",
     "add_command": "参加順",
-    "create_at": "作成時間"
+    "create_at": "作成時間",
+    "select_environment": "配布環境を選択してください"
   },
   "form": {
     "format_rule": "整形エラー(例:最大1桁)",

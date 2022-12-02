@@ -32,7 +32,7 @@ export class CronJob extends V1CronJob {
     return data as KubePaginationResponse<CronJob[]>;
   }
 
-  public async getCronJob(cluster: string, params: KubeRequest): Promise<CronJob> {
+  public async getCronJob(cluster: string, params: KubeRequest = {}): Promise<CronJob> {
     const apiVersion: string = getApiVersion('cronjob');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/cronjobs/${this.metadata.name}`,

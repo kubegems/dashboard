@@ -16,13 +16,13 @@
 
 <template>
   <v-card class="my-3" flat>
-    <BaseSubTitle class="pt-2" :divider="false" :title="$root.$t('resource.cluster')" />
+    <BaseSubTitle class="pt-2" :divider="false" :title="i18n.t('resource.cluster')" />
     <v-card-text class="pa-2">
-      <v-tabs v-model="tab" class="rounded-t" height="30">
-        <v-tab v-for="item in tabItems" :key="item.value">
+      <v-tabs v-model="state.tab" class="rounded-t" height="30">
+        <v-tab v-for="item in tabItems" :key="item.icon">
           <BaseLogo
             class="mr-2"
-            :icon-name="tab === 1 && item.icon === 'k3s' ? 'k3s-light' : item.icon"
+            :icon-name="state.tab === 1 && item.icon === 'k3s' ? 'k3s-light' : item.icon"
             :ml="0"
             :mt="1"
             :width="20"
@@ -31,37 +31,27 @@
         </v-tab>
       </v-tabs>
 
-      <component :is="tabItems[tab].value" />
+      <component :is="tabItems[state.tab].value" />
     </v-card-text>
   </v-card>
 </template>
 
-<script>
-  import messages from '../../i18n';
-  import CloudCluster from './CloudCluster';
-  import EdgeCluster from './EdgeCluster';
+<script lang="ts" setup>
+  import { reactive, ref } from 'vue';
 
-  export default {
-    name: 'Cluster',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      CloudCluster,
-      EdgeCluster,
-    },
-    data() {
-      return {
-        tab: 0,
-      };
-    },
-    computed: {
-      tabItems() {
-        return [
-          { text: this.$t('tab.cloud_cluster'), value: 'CloudCluster', icon: 'kubernetes' },
-          { text: this.$t('tab.edge_cluster'), value: 'EdgeCluster', icon: 'k3s' },
-        ];
-      },
-    },
-  };
+  import { useI18n } from '../../i18n';
+  import CloudCluster from './CloudCluster.vue';
+  import EdgeCluster from './EdgeCluster.vue';
+  import { useGlobalI18n } from '@/i18n';
+
+  const i18nLocal = useI18n();
+  const i18n = useGlobalI18n();
+
+  const state = reactive({
+    tab: 0,
+  });
+  const tabItems = ref([
+    { text: i18nLocal.t('tab.cloud_cluster'), value: CloudCluster, icon: 'kubernetes' },
+    { text: i18nLocal.t('tab.edge_cluster'), value: EdgeCluster, icon: 'k3s' },
+  ]);
 </script>
