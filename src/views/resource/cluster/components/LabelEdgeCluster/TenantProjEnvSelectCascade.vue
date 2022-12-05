@@ -34,8 +34,8 @@
         hide-selected
         :items="[
           {
-            text: environmentModel ? environmentModel.EnvironmentName : '',
-            value: environmentModel ? environmentModel.EnvironmentName : '',
+            text: labels && labels[ENVIRONMENT_KEY] ? labels[ENVIRONMENT_KEY] : '',
+            value: labels && labels[ENVIRONMENT_KEY] ? labels[ENVIRONMENT_KEY] : '',
           },
         ]"
         :label="
@@ -53,10 +53,10 @@
           <v-chip v-if="environmentModel" color="primary" small>
             <span>
               {{
-                environmentModel
-                  ? `${i18n.t('resource.tenant')}:${tenantModel.TenantName}-${i18n.t('resource.project')}:${
-                      projectModel.ProjectName
-                    }-${i18n.t('resource.environment')}:${environmentModel.EnvironmentName}`
+                labels && labels[ENVIRONMENT_KEY]
+                  ? `${i18n.t('resource.tenant')}:${labels[TENANT_KEY]}-${i18n.t('resource.project')}:${
+                      labels[PROJECT_KEY]
+                    }-${i18n.t('resource.environment')}:${labels[ENVIRONMENT_KEY]}`
                   : ''
               }}
             </span>
@@ -155,6 +155,7 @@
   import { Environment } from '@/types/environment';
   import { Project } from '@/types/project';
   import { Tenant } from '@/types/tenant';
+  import { deepCopy } from '@/utils/helpers';
 
   const i18n = useGlobalI18n();
 
@@ -270,7 +271,7 @@
   const selectEnvironment = async (): Promise<void> => {
     if (state.environment > -1) {
       labels.value[ENVIRONMENT_KEY] = environmentModel.value.EnvironmentName;
-      emit('setData', labels.value);
+      emit('setData', deepCopy(labels.value));
       state.menu = false;
     } else {
       delete labels.value[ENVIRONMENT_KEY];
@@ -286,6 +287,20 @@
       selectProject();
     }
   };
+
+  const reset = (): void => {
+    state.tenant = undefined;
+    state.project = undefined;
+    state.environment = undefined;
+    tenantItems.value = [];
+    projectItems.value = [];
+    environmentItems.value = [];
+    state.width = 250;
+  };
+
+  defineExpose({
+    reset,
+  });
 </script>
 
 <style lang="scss" scoped>

@@ -35,7 +35,7 @@
         <v-card-text class="pa-2">
           <v-row>
             <v-col cols="6">
-              <TenantProjEnvSelectCascade :labels="labels" @setData="setData" />
+              <TenantProjEnvSelectCascade ref="cascade" :labels="labels" @setData="setData" />
             </v-col>
           </v-row>
         </v-card-text>
@@ -135,9 +135,12 @@
     labels.value = data;
   };
 
+  const cascade = ref(null);
   const reset = () => {
     state.dialog = false;
     labels.value = {};
+    otherLables.value = {};
+    cascade.value.reset();
   };
 
   const label = ref(null);
