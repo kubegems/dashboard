@@ -12,16 +12,16 @@ export function useMeta(): VueMetaPlugin {
   return proxy.$meta();
 }
 
-type copyHandle = (
+type copyHandler = (
   text: string,
   container?: object | HTMLElement,
 ) => Promise<{
   action: string;
   text: string;
-  trigger: string | HTMLElement | HTMLCollection | NodeList;
+  trigger: String | HTMLElement | HTMLCollection | NodeList;
   clearSelection: () => void;
 }>;
-export function useCopy(): copyHandle {
+export function useCopy(): copyHandler {
   const { proxy } = getCurrentInstance();
   return proxy.$copyText;
 }
