@@ -61,5 +61,9 @@
     "cluster_pod": "Pod",
     "cloud_cluster": "Kubernetes Cluster",
     "edge_cluster": "Edge Cluster"
+  },
+  "operate": {
+    "label": "Inject label",
+    "label_c": "Inject label for {0}"
   }
 }

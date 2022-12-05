@@ -151,8 +151,8 @@
                   </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="primary" small text @click="allocateEdgeCluster(item)">
-                    {{ i18n.t('operate.allocate') }}
+                  <v-btn color="primary" small text @click="labelEdgeCluster(item)">
+                    {{ i18nLocal.t('operate.label') }}
                   </v-btn>
                 </v-flex>
                 <v-flex>
@@ -181,7 +181,7 @@
 
       <EdgeClusterForm ref="edgeCluster" @refresh="getEdgeClusterList({ page: 1, size: 10 })" />
       <Terminal ref="terminal" />
-      <AllocateEdgeCluster ref="allocate" @refresh="getEdgeClusterList" />
+      <LabelEdgeCluster ref="label" @refresh="getEdgeClusterList" />
     </v-card>
   </div>
 </template>
@@ -191,9 +191,9 @@
   import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../i18n';
-  import AllocateEdgeCluster from './AllocateEdgeCluster/index.vue';
   import EdgeClusterForm from './EdgeClusterForm/index.vue';
   import EdgeStatusTip from './EdgeStatusTip.vue';
+  import LabelEdgeCluster from './LabelEdgeCluster/index.vue';
   import { useEdgeClusterPagination, useEdgeHubList } from '@/composition/cluster';
   import { useEnvironmentList } from '@/composition/environment';
   import { useProjectList } from '@/composition/project';
@@ -419,9 +419,9 @@
     terminal.value.init(null, item, 'kubectl', true);
     terminal.value.open();
   };
-  const allocate = ref(null);
-  const allocateEdgeCluster = (item: EdgeCluster): void => {
-    allocate.value.init(item);
-    allocate.value.open();
+  const label = ref(null);
+  const labelEdgeCluster = (item: EdgeCluster): void => {
+    label.value.init(item);
+    label.value.open();
   };
 </script>

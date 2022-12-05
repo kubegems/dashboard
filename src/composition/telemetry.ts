@@ -4,12 +4,13 @@ export const useServicePagination = async (
   telemetry: Telemetry,
   cluster: string,
   namespace: string,
-  page = 1,
-  size = 10,
+  pagination: KubePaginationRequest,
 ): Promise<Pagination<Telemetry>> => {
   const _data: KubePaginationResponse<Telemetry[]> = await telemetry.getServiceList(cluster, namespace, {
-    page: page,
-    size: size,
+    page: pagination.page,
+    size: pagination.size,
+    start: pagination.start,
+    end: pagination.end,
   });
 
   return {

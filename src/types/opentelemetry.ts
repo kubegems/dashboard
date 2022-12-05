@@ -18,4 +18,12 @@ export class Telemetry {
     );
     return data as KubePaginationResponse<Telemetry[]>;
   }
+
+  public async getOverview(cluster: string, namespace: string, params: KubeRequest = {}): Promise<any> {
+    const data: { [key: string]: any } = await axios(
+      `observability/cluster/${cluster}/namespaces/${namespace}/otel/appmonitor/overview`,
+      { params: params },
+    );
+    return data;
+  }
 }

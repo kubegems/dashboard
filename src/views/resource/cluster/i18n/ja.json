@@ -61,5 +61,9 @@
     "cluster_pod": "コンテナー グループ",
     "cloud_cluster": "クラウドクラスター",
     "edge_cluster": "エッジ クラスタ"
+  },
+  "operate": {
+    "label": "タグを挿入",
+    "label_c": "{0} にタグを挿入する"
   }
 }
