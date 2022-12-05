@@ -513,7 +513,8 @@
     "select_one_match": "マッチを選択",
     "select_one_env": "環境を選ぶ",
     "select_one_cluster": "クラスタを選択",
-    "cluster_type": "クラスタ タイプ"
+    "cluster_type": "クラスタ タイプ",
+    "node_offline": "クラスタが切断されました。もう一度選択してください"
   },
   "tab": {
     "overview": "概要",

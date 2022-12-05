@@ -23,8 +23,8 @@
     @reset="reset"
   >
     <template #content>
-      <div :style="{ height: '120px' }">
-        <TenantProjEnvSelectCascade v-model="label" />
+      <div :style="{ height: 'auto' }">
+        <TenantProjEnvSelectCascade :labels="labels" @setData="setData" />
       </div>
     </template>
     <template #action>
@@ -52,22 +52,22 @@
   const state = reactive({
     dialog: false,
   });
-  const edgeCluster = ref<EdgeCluster>(new EdgeCluster());
-  const label = ref({});
 
   const open = () => {
     state.dialog = true;
   };
 
+  const labels = ref({});
+  const edgeCluster = ref<EdgeCluster>(new EdgeCluster());
   const init = (item: EdgeCluster) => {
     edgeCluster.value = item;
-    label.value = edgeCluster.value.metadata.labels || {};
+    labels.value = edgeCluster.value.metadata.labels || {};
   };
 
   const emit = defineEmits(['refresh']);
   const confirm = async (): Promise<void> => {
-    if (label.value[TENANT_KEY] && label.value[PROJECT_KEY] && label.value[ENVIRONMENT_KEY]) {
-      edgeCluster.value.metadata.labels = label.value;
+    if (labels.value[TENANT_KEY] && labels.value[PROJECT_KEY] && labels.value[ENVIRONMENT_KEY]) {
+      edgeCluster.value.metadata.labels = labels.value;
       await new EdgeCluster(edgeCluster.value).updateEdgeCluster();
       reset();
       emit('refresh');
@@ -77,6 +77,10 @@
         color: 'warning',
       });
     }
+  };
+
+  const setData = (data: { [key: string]: string | number | boolean }): void => {
+    labels.value = data;
   };
 
   const reset = () => {
