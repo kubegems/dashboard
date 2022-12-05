@@ -78,7 +78,10 @@
     "prometheus_rule": "Warning Rules",
     "receiver": "Warning Receiver",
     "living_alert": "Real-Time Warning",
-    "history_alert": "History Warning"
+    "history_alert": "History Warning",
+    "service": "Service",
+    "overview": "Overview",
+    "trace": "Trace"
   },
   "form": {
     "all_null": "Cluster and project environments cannot be empty at the same time",
@@ -123,7 +126,12 @@
     "interval": "Interval",
     "metric_first": "Indicator first",
     "port_name": "Port Name",
-    "port_number": "Port number"
+    "port_number": "Port number",
+    "avg_req": "Average Request",
+    "avg_res": "Avgrage Response",
+    "p75_res": "P75 Response",
+    "p90_res": "P90 Response",
+    "error_count": "Error Count"
   },
   "status": {
     "enabled": "Enabled",

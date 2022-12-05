@@ -85,6 +85,7 @@
 
   const reset = () => {
     state.dialog = false;
+    labels.value = {};
   };
 
   defineExpose({

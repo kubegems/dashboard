@@ -236,7 +236,7 @@
     if (state.cluster > -1) {
       store.commit('SET_NAMESPACE_FILTER', null);
       if (state.clusterType === 1) {
-        if (cluster.value.Status === edgeStatus.Online) {
+        if (cluster.value.Status === 'Online') {
           store.commit('SET_EDGE', cluster.value.ClusterName);
         } else {
           store.commit('SET_SNACKBAR', {
