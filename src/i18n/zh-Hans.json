@@ -535,7 +535,8 @@
     "select_one_match": "选择一个匹配",
     "select_one_env": "选择一个环境",
     "select_one_cluster": "选择一个集群",
-    "cluster_type": "集群类型"
+    "cluster_type": "集群类型",
+    "node_offline": "集群已掉线，请重新选择"
   },
   "tab": {
     "overview": "概览",

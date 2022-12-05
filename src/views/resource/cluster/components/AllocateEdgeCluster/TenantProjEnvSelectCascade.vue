@@ -148,10 +148,10 @@
 
   const props = withDefaults(
     defineProps<{
-      modelValue?: { [key: string]: string | number | boolean };
+      labels?: { [key: string]: string | number | boolean };
     }>(),
     {
-      modelValue: undefined,
+      labels: undefined,
     },
   );
 
@@ -164,19 +164,6 @@
     project: undefined,
     environment: undefined,
   });
-
-  const labels = ref({});
-  watch(
-    () => props.modelValue,
-    (newValue) => {
-      if (!newValue) return;
-      fillData();
-    },
-    {
-      immediate: true,
-      deep: true,
-    },
-  );
 
   const showProject: ComputedRef<boolean> = computed(() => {
     return state.tenant > -1 || projectItems.value?.length > 0;
@@ -191,6 +178,7 @@
     return tenantItems.value[state.tenant];
   });
 
+  const labels = ref({});
   const fillData = async (): Promise<void> => {
     state.loading = true;
     tenantItems.value = await useTenantList(new Tenant());
@@ -203,6 +191,19 @@
     }
   };
 
+  watch(
+    () => props.labels,
+    (newValue) => {
+      if (!newValue) return;
+      labels.value = newValue;
+      fillData();
+    },
+    {
+      immediate: true,
+      deep: true,
+    },
+  );
+
   const selectTenant = async (): Promise<void> => {
     if (state.tenant > -1) {
       state.width = 500;
@@ -214,7 +215,7 @@
         state.project = projectItems.value.findIndex((t) => {
           return t.ProjectName === labels.value[PROJECT_KEY];
         });
-        selectEnvironment();
+        selectProject();
       }
     } else {
       state.width = 250;
@@ -248,12 +249,11 @@
   const environmentModel: ComputedRef<Environment> = computed(() => {
     return environmentItems.value[state.environment];
   });
-  const emit = defineEmits(['input', 'change']);
+  const emit = defineEmits(['setData']);
   const selectEnvironment = async (): Promise<void> => {
     if (state.environment > -1) {
       labels.value[ENVIRONMENT_KEY] = environmentModel.value.EnvironmentName;
-      emit('input', labels.value);
-      emit('change', labels.value);
+      emit('setData', labels.value);
       state.menu = false;
     } else {
       delete labels.value[ENVIRONMENT_KEY];

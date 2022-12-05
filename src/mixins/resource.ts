@@ -21,13 +21,17 @@ const resource = {
     // 当前命名空间，特殊命名
     ThisNamespace() {
       if (this.Edge) {
+        if (this.NamespaceFilter && this.NamespaceFilter.Namespace) {
+          return this.NamespaceFilter.Namespace;
+        }
         return '_all';
+      } else {
+        return this.AdminViewport
+          ? this.NamespaceFilter && this.NamespaceFilter.Namespace
+            ? this.NamespaceFilter.Namespace
+            : '_all'
+          : this.Environment().Namespace || '';
       }
-      return this.AdminViewport
-        ? this.NamespaceFilter && this.NamespaceFilter.Namespace
-          ? this.NamespaceFilter.Namespace
-          : '_all'
-        : this.Environment().Namespace || '';
     },
     // 当前集群ID，特殊命名
     ThisClusterID() {

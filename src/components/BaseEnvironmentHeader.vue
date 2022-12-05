@@ -151,9 +151,16 @@
                       <v-list-item-content>
                         <v-list-item-title class="select__list__title pl-2">
                           <div>
+                            <div class="float-left mr-2">
+                              <BaseStatus
+                                :bg-color="edgeStatus[item.Status]"
+                                :flashing="edgeStatus[item.Status] === edgeStatus.Waiting"
+                                :show-text="false"
+                              />
+                            </div>
                             {{ item.ClusterName }}
                             <div class="float-right text-caption ml-2 select__list__badge">
-                              {{ item.Upstream || item.Version }}
+                              {{ item.Version }}
                             </div>
                           </div>
                         </v-list-item-title>
@@ -242,6 +249,12 @@
       selectable: true,
     },
   );
+
+  enum edgeStatus {
+    Online = '#00BCD4',
+    Offline = '#9e9e9e',
+    Waiting = '#fb8c00',
+  }
 
   const i18n = useGlobalI18n();
   const store = useStore();
@@ -346,7 +359,15 @@
   });
   const selectCluster = async (isEdge = false): Promise<void> => {
     if (isEdge) {
-      store.commit('SET_EDGE', cluster.value.ClusterName);
+      if (cluster.value.Status === edgeStatus.Online) {
+        store.commit('SET_EDGE', cluster.value.ClusterName);
+      } else {
+        store.commit('SET_SNACKBAR', {
+          text: i18n.t('tip.node_offline'),
+          color: 'warning',
+        });
+        return;
+      }
     } else {
       store.commit('SET_EDGE', '');
     }

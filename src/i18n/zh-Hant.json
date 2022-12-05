@@ -513,7 +513,8 @@
     "select_one_match": "選擇一個匹配",
     "select_one_env": "選擇一個環境",
     "select_one_cluster": "選擇一個集群",
-    "cluster_type": "集群類型"
+    "cluster_type": "集群類型",
+    "node_offline": "集群已掉線，請重新選擇"
   },
   "tab": {
     "overview": "概覽",

@@ -536,7 +536,8 @@
     "select_one_match": "Select a match",
     "select_one_env": "Select a environment",
     "select_one_cluster": "Select a cluster",
-    "cluster_type": "Cluster Type"
+    "cluster_type": "Cluster Type",
+    "node_offline": "The cluster has been disconnected, please select again"
   },
   "tab": {
     "overview": "Overview",
