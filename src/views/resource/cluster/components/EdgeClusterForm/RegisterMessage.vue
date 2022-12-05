@@ -21,14 +21,7 @@
     </v-card-text>
     <v-card-text>
       <div class="pa-3 code">
-        <v-btn
-          v-clipboard:copy="`${edgeCluster.status.register.url}`"
-          v-clipboard:success="copyed"
-          class="code__copy"
-          color="primary"
-          icon
-          small
-        >
+        <v-btn class="code__copy" color="primary" icon small @click="copyMessage">
           <v-icon small>mdi-content-copy</v-icon>
         </v-btn>
         <code class="hljs language-coffeescript">
@@ -47,11 +40,14 @@
 </template>
 
 <script lang="ts" setup>
+  import { computed, ComputedRef } from 'vue';
+
   import { useI18n } from '../../i18n';
+  import { useCopy } from '@/composition/proxy';
   import { useStore } from '@/store';
   import { EdgeCluster } from '@/types/edge_cluster';
 
-  withDefaults(
+  const props = withDefaults(
     defineProps<{
       edgeCluster?: EdgeCluster;
     }>(),
@@ -62,11 +58,17 @@
 
   const i18nLocal = useI18n();
   const store = useStore();
+  const copy = useCopy();
 
-  const copyed = (): void => {
-    store.commit('SET_SNACKBAR', {
-      text: i18nLocal.t('tip.copyed'),
-      color: 'success',
+  const copyedMessage: ComputedRef<string> = computed(() => {
+    return `curl -k ${props.edgeCluster.status.register.url || ''} | k3s kubectl apply -f`;
+  });
+  const copyMessage = () => {
+    copy(copyedMessage.value).then(() => {
+      store.commit('SET_SNACKBAR', {
+        text: i18nLocal.t('tip.copyed'),
+        color: 'success',
+      });
     });
   };
 </script>

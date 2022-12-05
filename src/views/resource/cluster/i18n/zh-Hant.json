@@ -61,5 +61,9 @@
     "cluster_pod": "集群容器組",
     "cloud_cluster": "雲端集群",
     "edge_cluster": "邊緣集群"
+  },
+  "operate": {
+    "label": "注入標籤",
+    "label_c": "給{0}注入標籤"
   }
 }

@@ -61,24 +61,6 @@
         </v-col>
       </v-row>
     </v-card-text>
-
-    <LabelForm
-      ref="label"
-      class="kubegems__forminform"
-      :data="obj.metadata.labels"
-      @addData="addLabelData"
-      @closeOverlay="close"
-    />
-    <BaseSubTitle :title="i18nLocal.t('tip.label')" />
-    <v-card-text class="pa-2">
-      <LabelItem
-        :labels="obj.metadata.labels"
-        @expandCard="expand"
-        @removeLabels="removeLabels"
-        @updateLabels="updateLabels"
-      />
-      <div class="kubegems__clear-float" />
-    </v-card-text>
   </v-form>
 </template>
 
@@ -89,8 +71,6 @@
   import { useGlobalI18n } from '@/i18n';
   import { EdgeCluster } from '@/types/edge_cluster';
   import { required } from '@/utils/rules';
-  import LabelForm from '@/views/resource/components/label/LabelForm.vue';
-  import LabelItem from '@/views/resource/components/label/LabelItem.vue';
 
   const props = withDefaults(
     defineProps<{
@@ -149,36 +129,6 @@
 
   const clearImage = (): void => {
     obj.spec.register.image = '';
-  };
-
-  const label = ref(null);
-  const addLabelData = (data) => {
-    obj.metadata.labels = data;
-  };
-
-  const removeLabels = (key: string): void => {
-    const data: { [key: string]: string } = {};
-    Object.keys(obj.metadata.labels).forEach((k: string) => {
-      if (k !== key) {
-        data[k] = obj.metadata.labels[k];
-      }
-    });
-    obj.metadata.labels = data;
-  };
-
-  const updateLabels = (key: string): void => {
-    const data: { [key: string]: string } = { key: key, value: obj.metadata.labels[key] };
-    label.value.init(data);
-    state.expand = true;
-  };
-
-  const expand = (): void => {
-    label.value.expand = true;
-    state.expand = true;
-  };
-
-  const close = (): void => {
-    state.expand = false;
   };
 
   defineExpose({

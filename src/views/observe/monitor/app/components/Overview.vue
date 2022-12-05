@@ -18,4 +18,41 @@
   <div />
 </template>
 
-<!-- <script lang="ts" setup></script> -->
+<script lang="ts" setup>
+  import { watch } from 'vue';
+
+  // import { useI18n } from '../../i18n';
+  // import { useServicePagination } from '@/composition/telemetry';
+  // import { useGlobalI18n } from '@/i18n';
+  import { Telemetry } from '@/types/opentelemetry';
+
+  // const i18n = useGlobalI18n();
+  // const i18nLocal = useI18n();
+
+  type Env = {
+    clusterName: string;
+    namespace: string;
+  };
+
+  const props = withDefaults(
+    defineProps<{
+      env?: Env;
+    }>(),
+    {
+      env: undefined,
+    },
+  );
+
+  watch(
+    () => props.env,
+    async (newValue) => {
+      if (newValue) {
+        new Telemetry().getOverview(props.env.clusterName, props.env.namespace);
+      }
+    },
+    {
+      immediate: true,
+      deep: true,
+    },
+  );
+</script>

@@ -64,5 +64,9 @@
   },
   "filter": {
     "edge_name": "名称"
+  },
+  "operate": {
+    "label": "注入标签",
+    "label_c": "给{0}注入标签"
   }
 }

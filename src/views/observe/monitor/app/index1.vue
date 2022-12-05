@@ -21,7 +21,7 @@
         <v-flex class="kubegems__full-right">
           <!-- <ServiceSelect v-model="service" :date="date" :env="env" :offset-y="0" /> -->
           <ProjectEnvSelectCascade v-model="env" first :offset-y="0" reverse :tenant="store.getters.Tenant()" />
-          <!-- <BaseDatetimePicker v-model="date" :default-value="30" :offset-y="0" @change="onDatetimeChange(undefined)" /> -->
+          <BaseDatetimePicker v-model="date" :default-value="30" :offset-y="0" />
         </v-flex>
       </template>
     </BaseBreadcrumb>
@@ -36,7 +36,7 @@
       </v-card-text>
     </v-card>
 
-    <component :is="tabItems[tab].value" :env="env" />
+    <component :is="tabItems[tab].value" :date="date" :env="env" />
   </v-container>
 </template>
 
@@ -57,6 +57,7 @@
   const store = useStore();
 
   const env = ref({});
+  const date = ref([]);
 
   const tabMap: { [key: string]: number } = { service: 0, overview: 1, trace: 2 };
   const tab = ref(tabMap[route.query.tab as string] || 0);

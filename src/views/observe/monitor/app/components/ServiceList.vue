@@ -63,6 +63,7 @@
 </template>
 
 <script lang="ts" setup>
+  import moment from 'moment';
   import { reactive, watch } from 'vue';
 
   import { useI18n } from '../../i18n';
@@ -81,9 +82,11 @@
   const props = withDefaults(
     defineProps<{
       env?: Env;
+      date?: string[];
     }>(),
     {
       env: undefined,
+      date: undefined,
     },
   );
 
@@ -101,7 +104,8 @@
     size: 10,
     pageCount: 0,
     items: [],
-    search: '',
+    start: '',
+    end: '',
   });
 
   const getServiceList = async (params: KubePaginationRequest = pagination): Promise<void> => {
@@ -109,8 +113,7 @@
       new Telemetry(),
       props.env.clusterName,
       props.env.namespace,
-      params.page,
-      params.size,
+      params,
     );
     pagination = Object.assign(pagination, data);
   };
@@ -121,6 +124,24 @@
       if (newValue) {
         getServiceList();
       }
+    },
+    {
+      immediate: true,
+      deep: true,
+    },
+  );
+
+  watch(
+    () => props.date,
+    async (newValue) => {
+      if (newValue && newValue.length === 2 && props.env.clusterName) {
+        pagination.start = moment(props.date[0]).utc().format();
+        pagination.end = moment(props.date[1]).utc().format();
+        getServiceList();
+      }
+    },
+    {
+      deep: true,
     },
   );
 

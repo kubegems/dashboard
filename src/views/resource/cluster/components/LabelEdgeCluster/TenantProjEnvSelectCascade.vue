@@ -38,7 +38,11 @@
             value: environmentModel ? environmentModel.EnvironmentName : '',
           },
         ]"
-        :label="i18n.t('operate.allocate_c', [i18n.t('resource.environment')])"
+        :label="
+          i18n.t('operate.allocate_c', [
+            `${i18n.t('resource.tenant')}${i18n.t('resource.project')}${i18n.t('resource.environment')}`,
+          ])
+        "
         multiple
         :no-data-text="$root.$t('data.no_data')"
         :value="environmentModel ? environmentModel.EnvironmentName : undefined"
@@ -47,7 +51,15 @@
       >
         <template #selection>
           <v-chip v-if="environmentModel" color="primary" small>
-            <span>{{ environmentModel ? environmentModel.EnvironmentName : '' }}</span>
+            <span>
+              {{
+                environmentModel
+                  ? `${i18n.t('resource.tenant')}:${tenantModel.TenantName}-${i18n.t('resource.project')}:${
+                      projectModel.ProjectName
+                    }-${i18n.t('resource.environment')}:${environmentModel.EnvironmentName}`
+                  : ''
+              }}
+            </span>
           </v-chip>
         </template>
       </v-autocomplete>
