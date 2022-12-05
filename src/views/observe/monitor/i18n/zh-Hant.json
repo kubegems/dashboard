@@ -77,7 +77,10 @@
     "prometheus_rule": "監控告警規則",
     "receiver": "告警接收器",
     "living_alert": "即時告警",
-    "history_alert": "歷史告警"
+    "history_alert": "歷史告警",
+    "service": "服務",
+    "overview": "概覽",
+    "trace": "鏈路追踪"
   },
   "form": {
     "all_null": "集群和項目環境不能同時為空",
@@ -122,7 +125,12 @@
     "interval": "間隔",
     "metric_first": "指標優先",
     "port_name": "端口名",
-    "port_number": "端口號"
+    "port_number": "端口號",
+    "avg_req": "平均請求數",
+    "avg_res": "平均響應時間",
+    "p75_res": "P75響應時間",
+    "p90_res": "P90響應時間",
+    "error_count": "錯誤數"
   },
   "status": {
     "enabled": "啟用",

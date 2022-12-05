@@ -187,7 +187,8 @@
       state.tenant = tenantItems.value.findIndex((t) => {
         return t.TenantName === labels.value[TENANT_KEY];
       });
-      selectTenant();
+      if (state.tenant > -1) selectTenant();
+      else delete labels.value[TENANT_KEY];
     }
   };
 
@@ -215,7 +216,8 @@
         state.project = projectItems.value.findIndex((t) => {
           return t.ProjectName === labels.value[PROJECT_KEY];
         });
-        selectProject();
+        if (state.project > -1) selectProject();
+        else delete labels.value[PROJECT_KEY];
       }
     } else {
       state.width = 250;
@@ -238,6 +240,9 @@
         state.environment = environmentItems.value.findIndex((t) => {
           return t.EnvironmentName === labels.value[ENVIRONMENT_KEY];
         });
+        if (!state.environment && state.environment !== 0) {
+          delete labels.value[ENVIRONMENT_KEY];
+        }
       }
     } else {
       state.width = 500;

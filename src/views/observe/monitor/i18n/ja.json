@@ -78,7 +78,10 @@
     "prometheus_rule": "警報規則",
     "receiver": "警報の受信者",
     "living_alert": "ライブアラート",
-    "history_alert": "過去アラート"
+    "history_alert": "過去アラート",
+    "service": "仕える",
+    "overview": "概要",
+    "trace": "リンク追跡"
   },
   "form": {
     "all_null": "クラスターとプロジェクト環境は同時に空欄にできません",
@@ -123,7 +126,12 @@
     "interval": "間隔",
     "metric_first": "メトリクス優先",
     "port_name": "ポート名",
-    "port_number": "ポート番号"
+    "port_number": "ポート番号",
+    "avg_req": "平均リクエスト数",
+    "avg_res": "平均応答時間",
+    "p75_res": "P75 応答時間",
+    "p90_res": "P90 応答時間",
+    "error_count": "エラー数"
   },
   "status": {
     "enabled": "有効",
