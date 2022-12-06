@@ -83,7 +83,7 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api\/v1/, '/v1'),
       },
       '/api/v1': {
-        target: 'http://local.kubegems.io:30939',
+        target: 'http://10.12.32.41:8020',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/v1/, '/v1'),
         ws: true,

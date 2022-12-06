@@ -45,6 +45,10 @@
         type: Number,
         default: () => 280,
       },
+      horizontal: {
+        type: Boolean,
+        default: () => false,
+      },
       labels: {
         type: Array,
         default: () => [],
@@ -104,6 +108,7 @@
               datasets: this.loadDatasets(),
             },
             options: {
+              indexAxis: this.horizontal ? 'y' : 'x',
               responsive: true,
               maintainAspectRatio: false,
               plugins: {
@@ -147,7 +152,7 @@
                     drawBorder: false,
                   },
                   ticks: {
-                    maxTicksLimit: 8,
+                    maxTicksLimit: this.horizontal ? 20 : 8,
                   },
                 },
               },

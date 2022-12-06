@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, ComputedRef } from 'vue';
+  import { ComputedRef, computed } from 'vue';
 
   import { useI18n } from '../../i18n';
   import { useCopy } from '@/composition/proxy';

@@ -18,7 +18,7 @@ type copyHandler = (
 ) => Promise<{
   action: string;
   text: string;
-  trigger: String | HTMLElement | HTMLCollection | NodeList;
+  trigger: string | HTMLElement | HTMLCollection | NodeList;
   clearSelection: () => void;
 }>;
 export function useCopy(): copyHandler {
