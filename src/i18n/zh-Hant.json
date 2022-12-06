@@ -454,7 +454,7 @@
     "prometheus_rule": "告警規則 （PrometheusRule） 通常是針對監控指標設置的Prometheus告警規則。",
     "flow": "日誌採集器 （Flow/ClusterFlow） 定義了一個帶有篩檢程式和輸出的日誌流。",
     "output": "日誌路由器 （Output/ClusterOutput） 定義您的流可以發送日誌消息的輸出。",
-    "dash_app": "應用監控（Jaeger）",
+    "dash_app": "應用監控（OpenTelemetry）",
     "alert_channel": "告警渠道提供多種告警消息發送方式通知用戶，包括(郵箱，飛書，webhook等)",
     "edge": "一種高度可用且經過認證的 Kubernetes 發行版，專為無人值守、資源受限、遠程位置或物聯網設備內部的生產工作負載而設計。"
   },

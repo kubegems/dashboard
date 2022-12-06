@@ -67,7 +67,14 @@
     "channel_lost": "告警渠道已刪除",
     "rule_conifg": "規則配置",
     "target_name": "規則名稱",
-    "unit_ununique": "單位不一致"
+    "unit_ununique": "單位不一致",
+    "db_operation": "數據庫操作(top 10)",
+    "service_error": "服務錯誤數(top 10)",
+    "p90_operate_duration": "P90耗時操作(top 10)",
+    "p90_service_duration": "P90服務耗時(top 10)",
+    "duration": "持續時間",
+    "limit": "限制",
+    "query": "查詢"
   },
   "tab": {
     "generate_from_template": "由模版生成",
@@ -128,9 +135,12 @@
     "port_number": "端口號",
     "avg_req": "平均請求數",
     "avg_res": "平均響應時間",
+    "p50_res": "P50響應時間",
     "p75_res": "P75響應時間",
     "p90_res": "P90響應時間",
-    "error_count": "錯誤數"
+    "error_count": "錯誤數",
+    "start_end": "起止時間",
+    "duration": "耗時"
   },
   "status": {
     "enabled": "啟用",

@@ -29,7 +29,6 @@
         id="alert_category"
         :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
         colorful
-        height="290px"
         :label-show="false"
         :metrics="series"
       />

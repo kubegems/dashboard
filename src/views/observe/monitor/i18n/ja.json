@@ -68,7 +68,14 @@
     "channel_lost": "アラート チャネルが削除されました",
     "rule_conifg": "ルール構成",
     "target_name": "ルール名",
-    "unit_ununique": "一貫性のない単位"
+    "unit_ununique": "一貫性のない単位",
+    "db_operation": "データベース操作(top 10)",
+    "service_error": "サービス エラー(top 10)",
+    "p90_operate_duration": "P90 時間のかかる操作(top 10)",
+    "p90_service_duration": "P90 サービスに時間がかかる(top 10)",
+    "duration": "間隔",
+    "limit": "限界",
+    "query": "お問い合わせ"
   },
   "tab": {
     "generate_from_template": "テンプレート生成",
@@ -130,8 +137,11 @@
     "avg_req": "平均リクエスト数",
     "avg_res": "平均応答時間",
     "p75_res": "P75 応答時間",
+    "p50_res": "P50 応答時間",
     "p90_res": "P90 応答時間",
-    "error_count": "エラー数"
+    "error_count": "エラー数",
+    "start_end": "開始時間と終了時間",
+    "duration": "時間がかかる"
   },
   "status": {
     "enabled": "有効",

@@ -74,7 +74,14 @@
 
     "rule_conifg": "规则配置",
     "target_name": "规则名称",
-    "unit_ununique": "单位不一致"
+    "unit_ununique": "单位不一致",
+    "db_operation": "数据库操作(top 10)",
+    "service_error": "服务错误数(top 10)",
+    "p90_operate_duration": "P90耗时操作(top 10)",
+    "p90_service_duration": "P90服务耗时(top 10)",
+    "duration": "持续时间",
+    "limit": "限制",
+    "query": "查询"
   },
   "tab": {
     "generate_from_template": "由模版生成",
@@ -139,8 +146,11 @@
     "avg_req": "平均请求数",
     "avg_res": "平均响应时间",
     "p75_res": "P75响应时间",
+    "p50_res": "P50响应时间",
     "p90_res": "P90响应时间",
-    "error_count": "错误数"
+    "error_count": "错误数",
+    "start_end": "起止时间",
+    "duration": "耗时"
   },
   "status": {
     "enabled": "启用",

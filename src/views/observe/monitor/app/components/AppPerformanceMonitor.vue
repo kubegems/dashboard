@@ -87,10 +87,6 @@
       messages: messages,
     },
     props: {
-      cluster: {
-        type: String,
-        default: () => '',
-      },
       env: {
         type: Object,
         default: () => null,
@@ -152,7 +148,7 @@
         this.loadMetrics();
       },
       async appPerformanceDashboard(noprocess = false) {
-        const data = await getAppPerformanceDashboard(this.cluster, this.env?.namespace, {
+        const data = await getAppPerformanceDashboard(this.env.clusterName, this.env?.namespace, {
           service: this.service,
           ...this.params,
           noprocessing: noprocess,

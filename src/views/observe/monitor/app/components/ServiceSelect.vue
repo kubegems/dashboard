@@ -128,7 +128,7 @@
       },
       env: {
         handler(newValue) {
-          if (newValue) {
+          if (newValue && newValue.clusterName && newValue.namespace) {
             this.monitorServiceLabels();
           }
         },
@@ -140,8 +140,8 @@
       async monitorServiceLabels() {
         const data = await getMetricsLabelValues(this.env?.clusterName, this.env?.namespace, {
           noprocessing: true,
-          label: 'service',
-          expr: `gems_otel_calls_total{namespace="${this.env?.namespace}"}`,
+          label: 'service_name',
+          expr: `calls_total{namespace="${this.env?.namespace}"}`,
           start: this.$moment(this.date[0]).utc().format(),
           end: this.$moment(this.date[1]).utc().format(),
         });
@@ -150,8 +150,8 @@
         this.serviceItemsCopy = items;
         if (this.serviceItemsCopy && this.serviceItemsCopy.length > 0) {
           this.serviceIndex = 0;
-          this.$emit('change', this.serviceItemsCopy[0]);
           this.$emit('input', this.serviceItemsCopy[0]);
+          this.$emit('change', this.serviceItemsCopy[0]);
         }
       },
       onSearch() {
@@ -165,8 +165,8 @@
       },
       onServiceChange() {
         if (this.serviceIndex > -1) {
-          this.$emit('change', this.serviceItemsCopy[this.serviceIndex]);
           this.$emit('input', this.serviceItemsCopy[this.serviceIndex]);
+          this.$emit('change', this.serviceItemsCopy[this.serviceIndex]);
           this.menu = false;
         }
       },
