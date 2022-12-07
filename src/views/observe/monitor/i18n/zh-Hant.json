@@ -74,7 +74,8 @@
     "p90_service_duration": "P90服務耗時(top 10)",
     "duration": "持續時間",
     "limit": "限制",
-    "query": "查詢"
+    "query": "查詢",
+    "timeline": "時序圖"
   },
   "tab": {
     "generate_from_template": "由模版生成",
@@ -139,7 +140,7 @@
     "p75_res": "P75響應時間",
     "p90_res": "P90響應時間",
     "error_count": "錯誤數",
-    "start_end": "起止時間",
+    "start_time": "起始時間",
     "duration": "耗時"
   },
   "status": {

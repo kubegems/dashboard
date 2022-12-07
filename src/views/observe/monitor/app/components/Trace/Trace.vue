@@ -68,11 +68,60 @@
         disable-sort
         :headers="headers"
         hide-default-footer
+        item-key="traceID"
         :items="pagination.items"
         :items-per-page="pagination.size"
         :no-data-text="i18n.t('data.no_data')"
         :page.sync="pagination.page"
-      />
+        show-expand
+        single-expand
+      >
+        <template #item.startTime="{ item }">
+          {{ getStartTime(item) }}
+        </template>
+        <template #item.duration="{ item }">
+          {{ getDuration(item) }}
+        </template>
+        <template #expanded-item="{ headers, item }">
+          <td class="my-2 py-2" :colspan="headers.length">
+            <v-row>
+              <v-col cols="8">
+                <div class="text-subtitle-2 kubegems--text">Span</div>
+                <v-simple-table dense>
+                  <template #default>
+                    <thead>
+                      <tr>
+                        <th class="text-left" :style="{ width: `150px` }">{{ i18nLocal.t('table.start_time') }}</th>
+                        <th class="text-left">SpanID</th>
+                        <th class="text-left" :style="{ width: `450px` }">Operation</th>
+                        <th class="text-left">{{ i18nLocal.t('table.duration') }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="span in item.spans" :key="span.spanID">
+                        <td>{{ moment(span.startTime / 1000).format('YYYY-MM-DD HH:mm:ss.SSS') }}</td>
+                        <td>{{ span.spanID }}</td>
+                        <td>{{ span.operationName }}</td>
+                        <td>{{ `${span.duration} ms` }} </td>
+                      </tr>
+                    </tbody>
+                  </template>
+                </v-simple-table>
+              </v-col>
+              <v-col cols="4">
+                <div class="text-subtitle-2 kubegems--text">{{ i18nLocal.t('tip.timeline') }}</div>
+                <BaseTimelineChart
+                  :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')}`"
+                  colorful
+                  :extend-height="100"
+                  :label-show="false"
+                  :metrics="getMetrics(item)"
+                />
+              </v-col>
+            </v-row>
+          </td>
+        </template>
+      </v-data-table>
 
       <BasePagination
         v-if="pagination.pageCount >= 1"
@@ -94,10 +143,12 @@
   import { useI18n } from '../../../i18n';
   import { useTracePagination } from '@/composition/telemetry';
   import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
   import { Telemetry } from '@/types/opentelemetry';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();
+  const store = useStore();
 
   type Env = {
     clusterName: string;
@@ -149,10 +200,10 @@
   );
 
   const headers = [
-    { text: i18nLocal.t('table.start_end'), value: 'startEnd', align: 'start' },
+    { text: i18nLocal.t('table.start_time'), value: 'startTime', align: 'start' },
     { text: 'TraceId', value: 'traceID', align: 'start' },
-    { text: 'Operation', value: 'operation', align: 'start' },
     { text: i18nLocal.t('table.duration'), value: 'duration', align: 'start' },
+    { text: '', value: 'data-table-expand' },
   ];
 
   let pagination: Pagination<Telemetry> = reactive<Pagination<Telemetry>>({
@@ -187,7 +238,40 @@
   };
 
   const query = (): void => {
+    pagination.page = 1;
     getTrace();
+  };
+
+  const getStartTime = (item: Telemetry): string => {
+    if (item.spans?.length > 0) {
+      const startTime = moment(item.spans[0].startTime / 1000).format('YYYY-MM-DD HH:mm:ss.SSS');
+      return startTime;
+    }
+    return '-';
+  };
+  const getDuration = (item: Telemetry): string => {
+    if (item.spans?.length > 0) {
+      const first = item.spans[0].startTime;
+      const end = item.spans[item.spans.length - 1].startTime;
+      const duration = item.spans[item.spans.length - 1].duration;
+
+      return `${parseInt((end - first) / 1000 + duration)} ms`;
+    }
+    return '-';
+  };
+
+  const getMetrics = (item: Telemetry): any[] => {
+    return [
+      {
+        label: item.traceID,
+        data: item.spans.map((span) => {
+          return {
+            x: [span.startTime / 1000, span.startTime / 1000 + span.duration],
+            y: span.operationName,
+          };
+        }),
+      },
+    ];
   };
 </script>
 

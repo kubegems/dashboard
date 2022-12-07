@@ -32,7 +32,7 @@
               @keyup="onCertificateNameInput"
             />
           </v-col>
-          <v-col v-if="AdminViewport" cols="6">
+          <v-col v-if="AdminViewport || Edge" cols="6">
             <v-autocomplete
               v-model="obj.metadata.namespace"
               class="my-0"
@@ -219,7 +219,7 @@
       };
     },
     computed: {
-      ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
+      ...mapState(['Admin', 'AdminViewport', 'ApiResources', 'Edge']),
       ...mapGetters(['Cluster']),
       objRules() {
         return {

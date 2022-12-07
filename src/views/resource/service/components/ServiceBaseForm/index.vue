@@ -53,7 +53,7 @@
               :rules="objRules.nameRule"
             />
           </v-col>
-          <v-col v-if="AdminViewport && !manifest" cols="6">
+          <v-col v-if="(AdminViewport && !manifest) || Edge" cols="6">
             <v-autocomplete
               v-model="obj.metadata.namespace"
               class="my-0"
@@ -304,7 +304,7 @@
       };
     },
     computed: {
-      ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
+      ...mapState(['Admin', 'AdminViewport', 'ApiResources', 'Edge']),
       ...mapGetters(['Cluster']),
       objRules() {
         return {

@@ -45,7 +45,9 @@
       <template #item.errorCount="{ item }">
         {{
           item.valueMap.errorCount
-            ? `${parseFloat(item.valueMap.errorCount).toFixed(1)} (${(item.valueMap.errorRate * 100).toFixed(3)}%)`
+            ? `${parseFloat(item.valueMap.errorCount).toFixed(1)} (${
+                item.valueMap.errorRate === 'NaN' ? '-' : (item.valueMap.errorRate * 100).toFixed(3)
+              }%)`
             : '-'
         }}
       </template>
@@ -186,6 +188,7 @@
   };
 
   const beautifyUnit = (num: string): string => {
+    if (num === 'NaN') return '-';
     let result = parseFloat(num) * 1000 * 1000;
     const units = ['us', 'ms', 's'];
     for (const index in units) {
