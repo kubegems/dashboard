@@ -55,7 +55,7 @@
           </v-col>
           <v-col cols="6">
             <v-autocomplete
-              v-if="AdminViewport && !manifest"
+              v-if="(AdminViewport && !manifest) || Edge"
               v-model="obj.metadata.namespace"
               class="my-0"
               color="primary"
@@ -163,7 +163,7 @@
       };
     },
     computed: {
-      ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
+      ...mapState(['Admin', 'AdminViewport', 'ApiResources', 'Edge']),
       objRules() {
         return {
           nameRule: [required, k8sName],

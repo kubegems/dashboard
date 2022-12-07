@@ -81,7 +81,8 @@
     "p90_service_duration": "P90服务耗时(top 10)",
     "duration": "持续时间",
     "limit": "限制",
-    "query": "查询"
+    "query": "查询",
+    "timeline": "时序图"
   },
   "tab": {
     "generate_from_template": "由模版生成",
@@ -149,7 +150,7 @@
     "p50_res": "P50响应时间",
     "p90_res": "P90响应时间",
     "error_count": "错误数",
-    "start_end": "起止时间",
+    "start_time": "起始时间",
     "duration": "耗时"
   },
   "status": {

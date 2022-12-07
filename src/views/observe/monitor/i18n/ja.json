@@ -75,7 +75,8 @@
     "p90_service_duration": "P90 サービスに時間がかかる(top 10)",
     "duration": "間隔",
     "limit": "限界",
-    "query": "お問い合わせ"
+    "query": "お問い合わせ",
+    "timeline": "タイミング図"
   },
   "tab": {
     "generate_from_template": "テンプレート生成",
@@ -140,7 +141,7 @@
     "p50_res": "P50 応答時間",
     "p90_res": "P90 応答時間",
     "error_count": "エラー数",
-    "start_end": "開始時間と終了時間",
+    "start_time": "始まる時間",
     "duration": "時間がかかる"
   },
   "status": {
