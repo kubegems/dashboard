@@ -49,9 +49,13 @@
             </v-list-item>
             <v-list-item class="float-left pa-0" two-line>
               <v-list-item-content class="py-0">
-                <v-list-item-title> {{ i18nLocal.t('tip.create_at') }} </v-list-item-title>
+                <v-list-item-title> {{ i18nLocal.t('tip.heartbeat_time') }} </v-list-item-title>
                 <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
-                  {{ moment(edgeCluster.metadata.creationTimestamp, 'YYYY-MM-DDTHH:mm:ssZ').format('lll') }}
+                  {{
+                    moment(edgeCluster.status.tunnel.lastHeartBeatTimestamp, 'YYYY-MM-DDTHH:mm:ssZ').format(
+                      'YYYY-MM-DD HH:mm:ss',
+                    )
+                  }}
                 </v-list-item-content>
               </v-list-item-content>
             </v-list-item>

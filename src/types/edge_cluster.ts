@@ -18,6 +18,7 @@ class EdgeClusterStatusTunnel {
   }
 
   connected?: boolean = false;
+  lastHeartBeatTimestamp?: Date = undefined;
   lastOfflineTimestamp?: Date = undefined;
   lastOnlineTimestamp?: Date = undefined;
 }

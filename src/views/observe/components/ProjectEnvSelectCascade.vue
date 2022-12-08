@@ -206,17 +206,7 @@
           if (newValue) {
             await this.m_select_projectSelectData(newValue.ID, true);
             this.projectItems = this.m_select_projectItems;
-            if (this.first && this.m_select_projectItems.length > 0) {
-              this.maxWidth = 550;
-              this.projectIndex = 0;
-              const project = this.m_select_projectItems[0];
-              await this.m_select_projectEnvironmentSelectData(project.value);
-              this.environmentItems = this.m_select_projectEnvironmentItems;
-              if (this.m_select_projectEnvironmentItems.length > 0) {
-                this.environmentIndex = 0;
-                this.onEnvironmentChange();
-              }
-            } else if (this.$route.query.project && this.$route.query.environment) {
+            if (this.$route.query.project && this.$route.query.environment) {
               const pIndex = this.m_select_projectItems.findIndex((p) => {
                 return p.projectName === this.$route.query.project;
               });
@@ -234,6 +224,16 @@
                   this.onEnvironmentChange(true);
                 }
               }
+            } else if (this.first && this.m_select_projectItems.length > 0) {
+              this.maxWidth = 550;
+              this.projectIndex = 0;
+              const project = this.m_select_projectItems[0];
+              await this.m_select_projectEnvironmentSelectData(project.value);
+              this.environmentItems = this.m_select_projectEnvironmentItems;
+              if (this.m_select_projectEnvironmentItems.length > 0) {
+                this.environmentIndex = 0;
+                this.onEnvironmentChange();
+              }
             }
           }
         },
@@ -246,6 +246,7 @@
         if (this.projectIndex > -1) {
           const item = this.m_select_projectItems[this.projectIndex];
           this.maxWidth = 550;
+          this.environmentIndex = undefined;
           await this.m_select_projectEnvironmentSelectData(item.value);
           this.environmentItems = this.m_select_projectEnvironmentItems;
         } else {
@@ -257,8 +258,8 @@
           const item = this.m_select_projectEnvironmentItems[this.environmentIndex];
           this.env = { ...item, trigger: trigger === true };
           this.items = [item];
-          this.$emit('change', this.env);
           this.$emit('input', this.env);
+          this.$emit('change', this.env);
           this.$emit('load', this.env);
           this.menu = false;
         }

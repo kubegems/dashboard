@@ -314,3 +314,16 @@ export function getQueryString(name: string): string | null {
   if (r != null) return unescape(decodeURI(r[2]));
   return null;
 }
+
+export function beautifyTime(num: string, deg = 1): string {
+  if (num === 'NaN') return '-';
+  let result = parseFloat(num) * deg;
+  const units = ['us', 'ms', 's'];
+  for (const index in units) {
+    if (Math.abs(result) <= 1000 || parseInt(index) === units.length - 1) {
+      return `${result.toFixed(3)} ${units[index]}`;
+    }
+    result /= 1000;
+  }
+  return `${result.toFixed(3)} Yi`;
+}

@@ -43,7 +43,8 @@
     "label": "ラベル",
     "add_command": "参加順",
     "create_at": "作成時間",
-    "select_environment": "配布環境を選択してください"
+    "select_environment": "配布環境を選択してください",
+    "heartbeat_time": "前回の心拍時間"
   },
   "form": {
     "format_rule": "整形エラー(例:最大1桁)",

@@ -37,10 +37,10 @@
         {{ item.valueMap.errorRate ? `${parseFloat(item.valueMap.errorRate).toFixed(3)} /s` : '-' }}
       </template>
       <template #item.p50DurationSeconds="{ item }">
-        {{ beautifyUnit(item.valueMap.p50DurationSeconds) || '-' }}
+        {{ beautifyTime(item.valueMap.p50DurationSeconds, 1000000) || '-' }}
       </template>
       <template #item.p90DurationSeconds="{ item }">
-        {{ beautifyUnit(item.valueMap.p90DurationSeconds) || '-' }}
+        {{ beautifyTime(item.valueMap.p90DurationSeconds, 1000000) || '-' }}
       </template>
     </v-data-table>
 
@@ -64,6 +64,7 @@
   import { useOperationPagination } from '@/composition/telemetry';
   import { useGlobalI18n } from '@/i18n';
   import { Telemetry } from '@/types/opentelemetry';
+  import { beautifyTime } from '@/utils/helpers';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();
@@ -107,6 +108,7 @@
     async (newValue) => {
       if (newValue && props.env.clusterName) {
         nextTick(() => {
+          pagination.page = 1;
           getOperation();
         });
       }
@@ -177,17 +179,5 @@
       pagination.sortby = desc.value ? `${by.value}Desc` : `${by.value}Asc`;
       getOperation();
     }
-  };
-
-  const beautifyUnit = (num: string): string => {
-    let result = parseFloat(num) * 1000 * 1000;
-    const units = ['us', 'ms', 's'];
-    for (const index in units) {
-      if (Math.abs(result) <= 1000 || parseInt(index) === units.length - 1) {
-        return `${result.toFixed(3)} ${units[index]}`;
-      }
-      result /= 1000;
-    }
-    return `${result.toFixed(3)} Yi`;
   };
 </script>

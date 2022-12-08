@@ -82,33 +82,43 @@
         <template #item.duration="{ item }">
           {{ getDuration(item) }}
         </template>
+        <template #item.traceID="{ item }">
+          <a class="text-subtitle-2" @click.stop="toQueryTraceId(item)">
+            {{ item.traceID }}
+          </a>
+        </template>
+        <template #item.spanCount="{ item }">
+          {{ `${item.spans.length} (${getErrorSpanCount(item)}) errors` }}
+        </template>
         <template #expanded-item="{ headers, item }">
           <td class="my-2 py-2" :colspan="headers.length">
             <v-row>
-              <v-col cols="8">
+              <v-col cols="7">
                 <div class="text-subtitle-2 kubegems--text">Span</div>
                 <v-simple-table dense>
                   <template #default>
                     <thead>
                       <tr>
-                        <th class="text-left" :style="{ width: `150px` }">{{ i18nLocal.t('table.start_time') }}</th>
+                        <th class="text-left" :style="{ width: `180px` }">{{ i18nLocal.t('table.start_time') }}</th>
                         <th class="text-left">SpanID</th>
-                        <th class="text-left" :style="{ width: `450px` }">Operation</th>
-                        <th class="text-left">{{ i18nLocal.t('table.duration') }}</th>
+                        <th class="text-left">Process</th>
+                        <th class="text-left" :style="{ width: `300px` }">Operation</th>
+                        <th class="text-left" :style="{ width: `100px` }">{{ i18nLocal.t('table.duration') }}</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr v-for="span in item.spans" :key="span.spanID">
-                        <td>{{ moment(span.startTime / 1000).format('YYYY-MM-DD HH:mm:ss.SSS') }}</td>
+                        <td>{{ moment(span.startTime / 1000).format('MM-DD HH:mm:ss.SSS') }}</td>
                         <td>{{ span.spanID }}</td>
-                        <td>{{ span.operationName }}</td>
-                        <td>{{ `${span.duration} ms` }} </td>
+                        <td>{{ item.processes[span.processID].serviceName }}</td>
+                        <td :class="{ 'error--text': isErrorSpan(span) }">{{ span.operationName }}</td>
+                        <td>{{ beautifyTime(span.duration) }} </td>
                       </tr>
                     </tbody>
                   </template>
                 </v-simple-table>
               </v-col>
-              <v-col cols="4">
+              <v-col cols="5">
                 <div class="text-subtitle-2 kubegems--text">{{ i18nLocal.t('tip.timeline') }}</div>
                 <BaseTimelineChart
                   :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')}`"
@@ -141,18 +151,23 @@
   import { nextTick, reactive, watch } from 'vue';
 
   import { useI18n } from '../../../i18n';
+  import { useRouter } from '@/composition/router';
   import { useTracePagination } from '@/composition/telemetry';
   import { useGlobalI18n } from '@/i18n';
   import { useStore } from '@/store';
   import { Telemetry } from '@/types/opentelemetry';
+  import { beautifyTime } from '@/utils/helpers';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();
   const store = useStore();
+  const router = useRouter();
 
   type Env = {
     clusterName: string;
     namespace: string;
+    projectName: string;
+    environmentName: string;
   };
 
   const props = withDefaults(
@@ -189,6 +204,7 @@
     async (newValue) => {
       if (newValue && props.env.clusterName) {
         nextTick(() => {
+          pagination.page = 1;
           getTrace();
         });
       }
@@ -202,6 +218,7 @@
   const headers = [
     { text: i18nLocal.t('table.start_time'), value: 'startTime', align: 'start' },
     { text: 'TraceId', value: 'traceID', align: 'start' },
+    { text: i18nLocal.t('table.span_count'), value: 'spanCount', align: 'start' },
     { text: i18nLocal.t('table.duration'), value: 'duration', align: 'start' },
     { text: '', value: 'data-table-expand' },
   ];
@@ -251,11 +268,7 @@
   };
   const getDuration = (item: Telemetry): string => {
     if (item.spans?.length > 0) {
-      const first = item.spans[0].startTime;
-      const end = item.spans[item.spans.length - 1].startTime;
-      const duration = item.spans[item.spans.length - 1].duration;
-
-      return `${parseInt((end - first) / 1000 + duration)} ms`;
+      return beautifyTime(item.spans[0].duration);
     }
     return '-';
   };
@@ -266,12 +279,39 @@
         label: item.traceID,
         data: item.spans.map((span) => {
           return {
-            x: [span.startTime / 1000, span.startTime / 1000 + span.duration],
-            y: span.operationName,
+            x: [span.startTime / 1000, span.startTime / 1000 + span.duration / 1000],
+            y: span.spanID.substr(0, 7),
+            operation: span.operationName,
           };
         }),
       },
     ];
+  };
+
+  const getErrorSpanCount = (item: Telemetry): number => {
+    const errorSpans = item.spans.filter((span) => {
+      return span.tags.some((tag) => {
+        return tag.key === 'error' && tag.value === true;
+      });
+    });
+    return errorSpans.length;
+  };
+
+  const isErrorSpan = (span: any): boolean => {
+    return span.tags.some((tag) => {
+      return tag.key === 'error' && tag.value === true;
+    });
+  };
+
+  const toQueryTraceId = (item: Telemetry): void => {
+    router.push({
+      name: 'observe-trace-search',
+      query: {
+        traceId: item.traceID,
+        project: props.env.projectName,
+        environment: props.env.environmentName,
+      },
+    });
   };
 </script>
 

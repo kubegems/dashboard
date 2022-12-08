@@ -43,7 +43,8 @@
     "label": "标签",
     "add_command": "加入命令",
     "create_at": "创建时间",
-    "select_environment": "请选择分配环境"
+    "select_environment": "请选择分配环境",
+    "heartbeat_time": "上次心跳时间"
   },
   "form": {
     "format_rule": "格式错误(示例:最多1位小数)",

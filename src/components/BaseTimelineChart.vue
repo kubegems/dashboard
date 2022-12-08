@@ -22,6 +22,7 @@
 
 <script>
   import Chart from 'chart.js/auto';
+  import ChartDataLabels from 'chartjs-plugin-datalabels';
   import moment from 'moment';
 
   import { LINE_THEME_COLORS, LINE_THEME_FUL_COLORS } from '@/constants/chart';
@@ -78,7 +79,7 @@
       metrics: {
         handler(newValue) {
           if (newValue && newValue?.length >= 0 && document.getElementById(this.chartId)) {
-            this.height = 100 + 15 * newValue[0].data?.length;
+            this.height = 100 + 24 * newValue[0].data?.length;
             this.loadChart();
           }
         },
@@ -95,7 +96,7 @@
         const interval = setInterval(() => {
           if (document.getElementById(this.chartId)) {
             clearInterval(interval);
-            this.height = 100 + 15 * this.metrics[0].data?.length;
+            this.height = 100 + 24 * this.metrics[0].data?.length;
             this.loadChart();
           }
         }, 300);
@@ -107,6 +108,7 @@
           const ctx = document.getElementById(this.chartId).getContext('2d');
           this.chart = new Chart(ctx, {
             type: 'bar',
+            plugins: [ChartDataLabels],
             data: {
               labels: this.labels,
               datasets: this.loadDatasets(),
@@ -140,24 +142,35 @@
                     label: (tooltipItem) => {
                       return `${moment(tooltipItem.dataset.data[tooltipItem.dataIndex].x[0]).format(
                         'HH:mm:ss.SSS',
-                      )} duration: ${
+                      )} duration: ${(
                         tooltipItem.dataset.data[tooltipItem.dataIndex].x[1] -
                         tooltipItem.dataset.data[tooltipItem.dataIndex].x[0]
-                      } ms`;
+                      ).toFixed(3)} ms`;
                     },
+                  },
+                },
+                datalabels: {
+                  color: '#424242',
+                  anchor: 'start',
+                  align: 'right',
+                  display: (context) => {
+                    return context.dataset.data[context.dataIndex] !== null ? 'auto' : false;
+                  },
+                  formatter: (value) => {
+                    return value.operation;
                   },
                 },
               },
               radius: 0,
               borderWidth: 1,
-              interaction: {
-                intersect: false,
-                mode: 'index',
-              },
+              // interaction: {
+              //   intersect: false,
+              //   mode: 'index',
+              // },
               scales: {
                 xAxis: {
                   min: this.metrics?.length > 0 ? this.metrics[0].data[0].x[0] : 0,
-                  max: this.metrics?.length > 0 ? this.metrics[this.metrics?.length - 1].data[0].x[1] + 1 : 1,
+                  max: this.metrics?.length > 0 ? this.metrics[0].data[0].x[1] + 1 : 1,
                   grid: {
                     display: false,
                   },
@@ -166,18 +179,20 @@
                     maxTicksLimit: 10,
                   },
                   beginAtZero: false,
-                  type: 'timeseries',
+                  type: 'time',
                   time: {
                     displayFormats: {
                       millisecond: 'mm:ss.SSS',
-                      second: 'HH:mm:ss.SSS',
                     },
                     unit: 'millisecond',
                     stepSize: this.getStepSize(),
                   },
                 },
                 yAxis: {
-                  display: false,
+                  ticks: {
+                    autoSkip: true,
+                    maxTicksLimit: 100,
+                  },
                 },
               },
             },
@@ -210,16 +225,16 @@
         return datasets;
       },
       getStepSize() {
-        const max = this.metrics[0].data[this.metrics[0].data.length - 1].x[1];
+        const max = this.metrics[0].data[0].x[1];
         const min = this.metrics[0].data[0].x[0];
         const range = max - min;
-        if (range < 500) {
+        if (range < 100) {
           return 1;
         }
-        if (range < 1000) {
+        if (range < 2000) {
           return 2;
         }
-        if (range < 2000) {
+        if (range < 3000) {
           return 5;
         }
         if (range < 5000) {
@@ -230,6 +245,12 @@
         }
         if (range < 50000) {
           return 200;
+        }
+        if (range < 100000) {
+          return 400;
+        }
+        if (range < 1000000) {
+          return 1000;
         }
       },
     },

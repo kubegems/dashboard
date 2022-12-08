@@ -52,6 +52,7 @@
           :label-show="false"
           :metrics="metrics.p90OperationDurationSeconds"
           :title="i18nLocal.t('tip.p90_operate_duration')"
+          unit="s"
         />
       </v-card>
     </v-col>
@@ -65,6 +66,7 @@
           :label-show="false"
           :metrics="metrics.p90ServiceDurationSeconds"
           :title="i18nLocal.t('tip.p90_service_duration')"
+          unit="s"
         />
       </v-card>
     </v-col>

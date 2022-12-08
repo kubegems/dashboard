@@ -34,17 +34,25 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { nextTick, onMounted, ref } from 'vue';
 
   import EdgeCluster from './components/EdgeCluster.vue';
   import Namespace from './components/Namespace.vue';
   import Node from './components/Node.vue';
   import { useI18n } from './i18n';
   import { useRoute, useRouter } from '@/composition/router';
+  import { useStore } from '@/store';
 
   const route = useRoute();
   const router = useRouter();
   const i18nLocal = useI18n();
+  const store = useStore();
+
+  onMounted(() => {
+    nextTick(() => {
+      store.commit('SET_EDGE', route.params.name);
+    });
+  });
 
   const tabMap = {
     edge: 0,

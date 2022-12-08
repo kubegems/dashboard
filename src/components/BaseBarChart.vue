@@ -22,6 +22,7 @@
 
 <script>
   import Chart from 'chart.js/auto';
+  import ChartDataLabels from 'chartjs-plugin-datalabels';
 
   import { LINE_THEME_COLORS, LINE_THEME_FUL_COLORS } from '@/constants/chart';
   import { randomString } from '@/utils/helpers';
@@ -65,6 +66,10 @@
         type: String,
         default: () => '',
       },
+      unit: {
+        type: String,
+        default: () => '',
+      },
     },
     data() {
       return {
@@ -103,6 +108,7 @@
           const ctx = document.getElementById(this.chartId).getContext('2d');
           this.chart = new Chart(ctx, {
             type: 'bar',
+            plugins: [ChartDataLabels],
             data: {
               labels: this.labels,
               datasets: this.loadDatasets(),
@@ -132,14 +138,35 @@
                   boxHeight: 8,
                   boxPadding: 4,
                   mode: 'index',
+                  callbacks: {
+                    label: (tooltipItem) => {
+                      return `${parseFloat(
+                        this.horizontal
+                          ? tooltipItem.dataset.data[tooltipItem.dataIndex].x
+                          : tooltipItem.dataset.data[tooltipItem.dataIndex].y,
+                      ).toFixed(3)} ${this.unit}`;
+                    },
+                  },
+                },
+                datalabels: {
+                  color: '#424242',
+                  anchor: 'start',
+                  align: 'right',
+                  display: (context) => {
+                    if (!this.horizontal) return false;
+                    return context.dataset.data[context.dataIndex] !== null ? 'auto' : false;
+                  },
+                  formatter: (value) => {
+                    return this.horizontal ? value.y : value.x;
+                  },
                 },
               },
               radius: 0,
               borderWidth: 1,
-              interaction: {
-                intersect: false,
-                mode: 'index',
-              },
+              // interaction: {
+              //   intersect: false,
+              //   mode: 'index',
+              // },
               scales: {
                 xAxis: {
                   grid: {
@@ -147,6 +174,7 @@
                   },
                 },
                 yAxis: {
+                  display: !this.horizontal,
                   grid: {
                     borderDash: [8, 8, 8],
                     drawBorder: false,
