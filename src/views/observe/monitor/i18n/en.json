@@ -142,7 +142,8 @@
     "p90_res": "P90 Response",
     "error_count": "Error Count",
     "start_time": "Start time",
-    "duration": "Duration"
+    "duration": "Duration",
+    "span_count": "Span Count"
   },
   "status": {
     "enabled": "Enabled",

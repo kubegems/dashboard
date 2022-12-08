@@ -19,7 +19,8 @@
     "send_passwd": "寄件者郵箱密碼",
     "test_success": "測試發送成功！",
     "sign_secret": "校驗簽名",
-    "skip_verify": "跳過安全校驗"
+    "skip_verify": "跳過安全校驗",
+    "send_resolved": "發送告警修復通知"
   },
   "filter": {
     "channel_name": "告警渠道"

@@ -31,6 +31,9 @@
             />
           </v-col>
           <v-col cols="6">
+            <v-switch v-model="obj.sendResolved" class="mt-5" hide-details :label="$t('tip.send_resolved')" />
+          </v-col>
+          <v-col cols="6">
             <v-autocomplete
               v-model="channelType"
               class="my-0"
@@ -96,6 +99,7 @@
         obj: {
           name: '',
           channelConfig: {},
+          sendResolved: false,
         },
         channelType: null,
       };

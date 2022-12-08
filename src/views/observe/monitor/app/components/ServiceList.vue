@@ -34,13 +34,13 @@
         {{ `${parseFloat(item.valueMap.avgRequestQPS).toFixed(3)} req/s` || '-' }}
       </template>
       <template #item.avgResponseDurationSeconds="{ item }">
-        {{ beautifyUnit(item.valueMap.avgResponseDurationSeconds) || '-' }}
+        {{ beautifyTime(item.valueMap.avgResponseDurationSeconds, 1000000) || '-' }}
       </template>
       <template #item.p75ResponseDurationSeconds="{ item }">
-        {{ beautifyUnit(item.valueMap.p75ResponseDurationSeconds) || '-' }}
+        {{ beautifyTime(item.valueMap.p75ResponseDurationSeconds, 1000000) || '-' }}
       </template>
       <template #item.p90ResponseDurationSeconds="{ item }">
-        {{ beautifyUnit(item.valueMap.p90ResponseDurationSeconds) || '-' }}
+        {{ beautifyTime(item.valueMap.p90ResponseDurationSeconds, 1000000) || '-' }}
       </template>
       <template #item.errorCount="{ item }">
         {{
@@ -73,6 +73,7 @@
   import { useServicePagination } from '@/composition/telemetry';
   import { useGlobalI18n } from '@/i18n';
   import { Telemetry } from '@/types/opentelemetry';
+  import { beautifyTime } from '@/utils/helpers';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();
@@ -185,18 +186,5 @@
       pagination.sortby = desc.value ? `${by.value}Desc` : `${by.value}Asc`;
       getServiceList();
     }
-  };
-
-  const beautifyUnit = (num: string): string => {
-    if (num === 'NaN') return '-';
-    let result = parseFloat(num) * 1000 * 1000;
-    const units = ['us', 'ms', 's'];
-    for (const index in units) {
-      if (Math.abs(result) <= 1000 || parseInt(index) === units.length - 1) {
-        return `${result.toFixed(3)} ${units[index]}`;
-      }
-      result /= 1000;
-    }
-    return `${result.toFixed(3)} Yi`;
   };
 </script>

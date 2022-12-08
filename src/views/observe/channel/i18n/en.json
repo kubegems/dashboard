@@ -19,7 +19,8 @@
     "send_passwd": "Sender Email Password",
     "test_success": "Test channel successfully!",
     "sign_secret": "Sign Secret",
-    "skip_verify": "Skip Insecure Verify"
+    "skip_verify": "Skip Insecure Verify",
+    "send_resolved": "Send message when alert resloved"
   },
   "filter": {
     "channel_name": "Alert Channel"

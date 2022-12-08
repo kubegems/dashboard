@@ -32,8 +32,8 @@
             prepend-inner-icon="mdi-magnify"
             solo
             :style="{ width: `${traceIdSearchWidth}px` }"
-            @blur="traceIdSearchWidth = 250"
-            @focus="traceIdSearchWidth = 500"
+            @blur="traceIdSearchWidth = 350"
+            @focus="traceIdSearchWidth = 550"
             @keyup="searchByTraceId"
           />
         </v-flex>
@@ -82,7 +82,7 @@
 
         isTraceId: false,
         traceid: '',
-        traceIdSearchWidth: 250,
+        traceIdSearchWidth: 350,
         missingPlugins: [],
         tenant: null,
         env: undefined,
@@ -108,6 +108,10 @@
       env: {
         handler(newValue) {
           if (newValue) {
+            if (this.$route.query.traceId) {
+              this.isTraceId = true;
+              this.traceid = this.$route.query.traceId;
+            }
             this.loadData();
           }
         },
@@ -200,7 +204,13 @@
         this.$refs.iframe.contentWindow.document.head.appendChild(ele);
       },
       onBack() {
-        window.history.back();
+        if (this.$route.query.traceId) {
+          this.$router.replace({
+            query: {},
+          });
+        } else {
+          window.history.back();
+        }
         this.isTraceId = false;
         this.traceid = '';
       },

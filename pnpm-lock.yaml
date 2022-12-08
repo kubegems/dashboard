@@ -16,6 +16,7 @@ specifiers:
   brace: ^0.11.1
   chart.js: ^3.9.1
   chartjs-adapter-moment: ^1.0.0
+  chartjs-plugin-datalabels: ^2.1.0
   chartjs-plugin-doughnutlabel-v3: ^1.2.0
   commitizen: ^4.2.4
   commitlint: ^13.2.0
@@ -85,6 +86,7 @@ dependencies:
   brace: 0.11.1
   chart.js: 3.9.1
   chartjs-adapter-moment: 1.0.0_opaabi5ukfxevbnz4qlju6tphq
+  chartjs-plugin-datalabels: 2.1.0_chart.js@3.9.1
   chartjs-plugin-doughnutlabel-v3: 1.2.0_chart.js@3.9.1
   fast-json-patch: 3.1.1
   filepond: 4.30.4
@@ -1848,6 +1850,14 @@ packages:
     dependencies:
       chart.js: 3.9.1
       moment: 2.29.4
+    dev: false
+
+  /chartjs-plugin-datalabels/2.1.0_chart.js@3.9.1:
+    resolution: {integrity: sha512-WA6R4saSlY6mnyX78SkbSo2gGc+cj87lFi5zBrsjjYxE76JgXyxHa1OTodVCzRPoqeYJqSEOffeJ/897kRHR6w==}
+    peerDependencies:
+      chart.js: ^3.0.0
+    dependencies:
+      chart.js: 3.9.1
     dev: false
 
   /chartjs-plugin-doughnutlabel-v3/1.2.0_chart.js@3.9.1:

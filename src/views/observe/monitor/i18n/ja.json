@@ -142,7 +142,8 @@
     "p90_res": "P90 応答時間",
     "error_count": "エラー数",
     "start_time": "始まる時間",
-    "duration": "時間がかかる"
+    "duration": "時間がかかる",
+    "span_count": "span数"
   },
   "status": {
     "enabled": "有効",

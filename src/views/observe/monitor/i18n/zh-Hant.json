@@ -141,7 +141,8 @@
     "p90_res": "P90響應時間",
     "error_count": "錯誤數",
     "start_time": "起始時間",
-    "duration": "耗時"
+    "duration": "耗時",
+    "span_count": "span數"
   },
   "status": {
     "enabled": "啟用",

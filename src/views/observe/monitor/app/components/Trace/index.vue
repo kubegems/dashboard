@@ -145,6 +145,7 @@
   const kubeRequest: KubeRequest = {
     start: '',
     end: '',
+    noprocessing: true,
   };
   const getRequest = async (params: KubeRequest = kubeRequest): Promise<void> => {
     const data: { [key: string]: any } = await new Telemetry().getRequest(
