@@ -50,6 +50,7 @@
     "chartjs-adapter-moment": "^1.0.0",
     "chartjs-plugin-datalabels": "^2.1.0",
     "chartjs-plugin-doughnutlabel-v3": "^1.2.0",
+    "chartjs-plugin-hierarchical": "^3.10.1",
     "fast-json-patch": "^3.1.1",
     "filepond": "^4.30.4",
     "filepond-plugin-file-validate-size": "^2.2.7",

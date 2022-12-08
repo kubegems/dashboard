@@ -83,9 +83,13 @@
           {{ getDuration(item) }}
         </template>
         <template #item.traceID="{ item }">
-          <a class="text-subtitle-2" @click.stop="toQueryTraceId(item)">
-            {{ item.traceID }}
-          </a>
+          {{ item.traceID }}
+          <v-btn color="primary" icon small @click.stop="toQueryTraceId(item)">
+            <v-icon color="primary" small>mdi-chart-timeline</v-icon>
+          </v-btn>
+          <v-btn color="primary" icon small @click.stop="toQueryLog(item)">
+            <v-icon color="primary" small>mdi-text-box-outline</v-icon>
+          </v-btn>
         </template>
         <template #item.spanCount="{ item }">
           {{ `${item.spans.length} (${getErrorSpanCount(item)}) errors` }}
@@ -304,14 +308,29 @@
   };
 
   const toQueryTraceId = (item: Telemetry): void => {
-    router.push({
+    const href = router.resolve({
       name: 'observe-trace-search',
       query: {
         traceId: item.traceID,
         project: props.env.projectName,
         environment: props.env.environmentName,
       },
-    });
+    }).href;
+    window.open(href);
+  };
+
+  const toQueryLog = (item: Telemetry): void => {
+    const href = router.resolve({
+      name: 'log-viewer',
+      query: {
+        project: props.env.projectName,
+        environment: props.env.environmentName,
+        cluster: props.env.clusterName,
+        query: `{ namespace="${props.env.namespace}" } |~ \`trace_id=${item.traceID}\``,
+        filters: `trace_id=${item.traceID}`,
+      },
+    }).href;
+    window.open(href);
   };
 </script>
 
