@@ -24,6 +24,7 @@
         <v-btn class="code__copy" color="primary" icon small @click="copyMessage">
           <v-icon small>mdi-content-copy</v-icon>
         </v-btn>
+        <input id="copyed" type="hidden" :value="copyedMessage" />
         <code class="hljs language-coffeescript">
           <span class="orange--text">$ curl</span>
           <span>
@@ -43,7 +44,6 @@
   import { ComputedRef, computed } from 'vue';
 
   import { useI18n } from '../../i18n';
-  import { useCopy } from '@/composition/proxy';
   import { useStore } from '@/store';
   import { EdgeCluster } from '@/types/edge_cluster';
 
@@ -58,17 +58,16 @@
 
   const i18nLocal = useI18n();
   const store = useStore();
-  const copy = useCopy();
 
   const copyedMessage: ComputedRef<string> = computed(() => {
     return `curl -k ${props.edgeCluster.status.register.url || ''} | k3s kubectl apply -f`;
   });
-  const copyMessage = () => {
-    copy(copyedMessage.value).then(() => {
-      store.commit('SET_SNACKBAR', {
-        text: i18nLocal.t('tip.copyed'),
-        color: 'success',
-      });
+  const copyMessage = async (): Promise<void> => {
+    let text = (document.getElementById('copyed') as HTMLInputElement).value;
+    await navigator.clipboard.writeText(text);
+    store.commit('SET_SNACKBAR', {
+      text: i18nLocal.t('tip.copyed'),
+      color: 'success',
     });
   };
 </script>
