@@ -23,6 +23,7 @@
 <script>
   import Chart from 'chart.js/auto';
   import ChartDataLabels from 'chartjs-plugin-datalabels';
+  import { HierarchicalScale } from 'chartjs-plugin-hierarchical';
   import moment from 'moment';
 
   import { LINE_THEME_COLORS, LINE_THEME_FUL_COLORS } from '@/constants/chart';
@@ -108,7 +109,7 @@
           const ctx = document.getElementById(this.chartId).getContext('2d');
           this.chart = new Chart(ctx, {
             type: 'bar',
-            plugins: [ChartDataLabels],
+            plugins: [ChartDataLabels, HierarchicalScale],
             data: {
               labels: this.labels,
               datasets: this.loadDatasets(),
