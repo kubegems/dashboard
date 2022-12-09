@@ -28,7 +28,8 @@
     "select_label": "ラベルの選択",
     "alert": "アラート",
     "query_tip": "ぼかしの検索ルールとラベル。(複数キーワードはスペースで区切ってください)",
-    "query": "クエリ"
+    "query": "クエリ",
+    "system_alert": "システムアラーム"
   },
   "operate": {
     "remove_blacklist": "ブロックを解除",

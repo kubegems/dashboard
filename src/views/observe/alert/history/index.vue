@@ -27,7 +27,12 @@
       </template>
     </BaseBreadcrumb>
     <v-card>
-      <HistorySearch v-model="histroyParams" :cluster="cluster" @search="onSearch" />
+      <HistorySearch
+        v-model="histroyParams"
+        :cluster="cluster"
+        @changeSystemFlag="changeSystemFlag"
+        @search="onSearch"
+      />
     </v-card>
     <v-card class="mt-3 pa-4" flat>
       <v-data-table
@@ -136,6 +141,7 @@
   import messages from '../i18n';
   import HistorySearch from './components/HistorySearch';
   import { deletePrometheusBlacklist, getPrometheusAlertSearch, postAddPrometheusBlacklist } from '@/api';
+  import { SERVICE_MONITOR_NS } from '@/constants/namespace';
   import BaseSelect from '@/mixins/select';
   import { deleteEmpty } from '@/utils/helpers';
   import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
@@ -173,6 +179,7 @@
         date: [],
         tenant: null,
         env: undefined,
+        isSystem: false,
       };
     },
     computed: {
@@ -265,7 +272,7 @@
         if (this.histroyParams.rule) {
           tpl.push(this.histroyParams.rule);
         }
-        const params = deleteEmpty({
+        let params = deleteEmpty({
           ...this.params,
           ...this.histroyParams,
           ...{
@@ -274,6 +281,11 @@
           start: this.date[0] ? this.$moment(this.date[0]).utc().format() : undefined,
           end: this.date[1] ? this.$moment(this.date[1]).utc().format() : undefined,
         });
+
+        if (this.isSystem) {
+          params = { ...params, namespace: SERVICE_MONITOR_NS };
+          delete params['environment'];
+        }
 
         const data = await getPrometheusAlertSearch(this.tenant.ID, params);
         this.pageCount = Math.ceil(data.Total / this.params.size);
@@ -324,6 +336,9 @@
       },
       onRowClick(item, { expand, isExpanded }) {
         expand(!isExpanded);
+      },
+      changeSystemFlag(isSystem) {
+        this.isSystem = isSystem;
       },
     },
   };

@@ -90,6 +90,8 @@ axios.interceptors.request.use(
       }
     }
 
+    config.url = encodeURI(config.url);
+
     return config;
   },
 );
