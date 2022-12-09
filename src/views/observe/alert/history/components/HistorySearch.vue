@@ -62,11 +62,11 @@
 
     <div v-show="expand" class="mt-3">
       <div class="tags__header">
-        <span>{{ $t('tip.select_label') }} : </span>
+        <span class="float-left mr-2">{{ $t('tip.select_label') }} : </span>
         <v-btn
           v-for="tag in tags"
           :key="tag.value"
-          class="mr-2"
+          class="mr-2 float-left"
           color="primary"
           :disabled="!tag.items.length"
           label
@@ -76,6 +76,19 @@
         >
           {{ tag.text }}({{ tag.items.length }})
         </v-btn>
+        <v-switch
+          v-if="AdminViewport"
+          v-model="isSystem"
+          class="float-left ml-6"
+          dense
+          hide-details
+          @change="onSystemFlagChanged"
+        >
+          <template #label>
+            <div class="text-body-2 mt-n1">{{ $t('tip.system_alert') }}</div>
+          </template>
+        </v-switch>
+        <div class="kubegems__clear-float" />
       </div>
 
       <v-row class="ma-0">
@@ -134,6 +147,7 @@
         scopeItems: [],
         resourceItems: [],
         tags: [],
+        isSystem: false,
       };
     },
     computed: {
@@ -326,6 +340,9 @@
             value: key,
           };
         });
+      },
+      onSystemFlagChanged() {
+        this.$emit('changeSystemFlag', this.isSystem);
       },
     },
   };

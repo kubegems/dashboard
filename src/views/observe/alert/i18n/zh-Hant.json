@@ -28,7 +28,8 @@
     "select_label": "選擇標籤",
     "alert": "告警",
     "query_tip": "模糊搜尋規則與標籤（多個關鍵字請用空白分割）",
-    "query": "查詢"
+    "query": "查詢",
+    "system_alert": "系統告警"
   },
   "operate": {
     "remove_blacklist": "拿掉黑名單",

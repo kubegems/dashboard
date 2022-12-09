@@ -28,7 +28,8 @@
     "select_label": "Select Tags",
     "alert": "Warning",
     "query_tip": "Blur search rules and tags (multiple keywords separated by spaces)",
-    "query": "Query"
+    "query": "Query",
+    "system_alert": "System Alert"
   },
   "operate": {
     "remove_blacklist": "Remove blacklist",
