@@ -26,7 +26,7 @@
             dense
             flat
             hide-details
-            :label="$t('form.name')"
+            :label="i18nLocal.t('form.name')"
             required
             solo
           />
@@ -38,7 +38,7 @@
             dense
             flat
             hide-details
-            :label="$t('form.name')"
+            :label="i18nLocal.t('form.name')"
             required
             solo
           />
@@ -53,7 +53,7 @@
             dense
             flat
             hide-details
-            :label="$t('form.name')"
+            :label="i18nLocal.t('form.name')"
             required
             solo
           />

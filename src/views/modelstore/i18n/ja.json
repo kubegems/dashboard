@@ -62,7 +62,8 @@
 
     "upgrage_strategy": "更新策略",
     "rollingupdate": "滚動更新",
-    "recreate": "再構築"
+    "recreate": "再構築",
+    "no_access": "アプリケーションを表示するために入る権限がありません"
   },
   "tab": {
     "description": "はじめに",

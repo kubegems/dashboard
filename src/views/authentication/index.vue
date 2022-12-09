@@ -90,7 +90,7 @@
                 <v-text-field
                   v-model="password"
                   :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                  :counter="20"
+                  :counter="32"
                   :label="$t('password')"
                   outlined
                   required
@@ -242,7 +242,7 @@
       ...mapState(['JWT', 'Circular', 'Admin', 'AdminViewport', 'Scale', 'SelfOut', 'Locale']),
       ...mapGetters(['Environment', 'Project', 'Tenant', 'Cluster']),
       passwordRules() {
-        return [required, (v) => (v && v.length <= 20) || this.$t('form.passwordRule')];
+        return [required, (v) => (v && v.length <= 32) || this.$t('form.passwordRule')];
       },
       height() {
         return window.innerHeight;

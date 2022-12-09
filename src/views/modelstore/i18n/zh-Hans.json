@@ -71,7 +71,8 @@
 
     "upgrage_strategy": "更新策略",
     "rollingupdate": "滚动更新",
-    "recreate": "重建"
+    "recreate": "重建",
+    "no_access": "暂无权限进入查看应用"
   },
   "tab": {
     "description": "介绍",

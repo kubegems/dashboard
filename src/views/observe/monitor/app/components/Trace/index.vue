@@ -60,7 +60,7 @@
             label="name"
             :metrics="duration"
             title="Duration"
-            type="timecost"
+            unit="s"
           />
         </v-card>
       </v-col>

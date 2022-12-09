@@ -55,5 +55,5 @@ export const phone = (v: string): boolean | string =>
   Vue.prototype.$_i18n.t('ruler.mobile');
 
 export const password = (v: string): boolean | string =>
-  !!new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!\\.@#$%~])[A-Za-z\\d!\\.@#$%~]{8,16}', 'g').test(v) ||
+  !!new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!\\.@#$%~])[A-Za-z\\d!\\.@#$%~]{8,32}', 'g').test(v) ||
   Vue.prototype.$_i18n.t('ruler.password');
