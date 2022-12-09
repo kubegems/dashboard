@@ -90,6 +90,7 @@
   import ModelExperience from './components/ModelExperience';
   import { getModelRuntimeList } from '@/api';
   import { POD_STATUS_COLOR } from '@/constants/resource';
+  import BasePermission from '@/mixins/permission';
 
   export default {
     name: 'RuntimeList',
@@ -99,6 +100,7 @@
     components: {
       ModelExperience,
     },
+    mixins: [BasePermission],
     props: {
       item: {
         type: Object,
@@ -157,18 +159,25 @@
         this.params.page = page;
       },
       toEnvironmentModelList(item) {
-        this.$router.push({
-          name: 'app-list',
-          params: {
-            tenant: item.tenant,
-            project: item.project,
-            environment: item.environment,
-          },
-          query: {
-            kind: 'modelstore',
-            tab: 'modelstore',
-          },
-        });
+        if (this.m_permisson_resourceAllow()) {
+          this.$router.push({
+            name: 'app-list',
+            params: {
+              tenant: item.tenant,
+              project: item.project,
+              environment: item.environment,
+            },
+            query: {
+              kind: 'modelstore',
+              tab: 'modelstore',
+            },
+          });
+        } else {
+          this.$store.commit('SET_SNACKBAR', {
+            text: this.$t('tip.no_access'),
+            color: 'warning',
+          });
+        }
       },
       experienceModel(item) {
         this.$refs.modelExperience.init(item);

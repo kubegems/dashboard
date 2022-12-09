@@ -65,7 +65,8 @@
 
     "upgrage_strategy": "Upgrage Strategy",
     "rollingupdate": "Rollingupdate",
-    "recreate": "Recreate"
+    "recreate": "Recreate",
+    "no_access": "No permission to enter to view the application"
   },
   "tab": {
     "description": "Introduction",
