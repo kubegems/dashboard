@@ -23,7 +23,6 @@
 <script>
   import Chart from 'chart.js/auto';
   import ChartDataLabels from 'chartjs-plugin-datalabels';
-  import { HierarchicalScale } from 'chartjs-plugin-hierarchical';
   import moment from 'moment';
 
   import { LINE_THEME_COLORS, LINE_THEME_FUL_COLORS } from '@/constants/chart';
@@ -47,6 +46,10 @@
       colorful: {
         type: Boolean,
         default: () => false,
+      },
+      duration: {
+        type: Number,
+        default: () => 0,
       },
       extendHeight: {
         type: Number,
@@ -109,7 +112,7 @@
           const ctx = document.getElementById(this.chartId).getContext('2d');
           this.chart = new Chart(ctx, {
             type: 'bar',
-            plugins: [ChartDataLabels, HierarchicalScale],
+            plugins: [ChartDataLabels],
             data: {
               labels: this.labels,
               datasets: this.loadDatasets(),
@@ -153,7 +156,13 @@
                 datalabels: {
                   color: '#424242',
                   anchor: 'start',
-                  align: 'right',
+                  align: (context) => {
+                    return (context.dataset.data[context.dataIndex].x[0] - context.dataset.data[0].x[0]) /
+                      this.duration <
+                      0.2
+                      ? 'right'
+                      : 'left';
+                  },
                   display: (context) => {
                     return context.dataset.data[context.dataIndex] !== null ? 'auto' : false;
                   },
@@ -164,14 +173,9 @@
               },
               radius: 0,
               borderWidth: 1,
-              // interaction: {
-              //   intersect: false,
-              //   mode: 'index',
-              // },
               scales: {
                 xAxis: {
                   min: this.metrics?.length > 0 ? this.metrics[0].data[0].x[0] : 0,
-                  max: this.metrics?.length > 0 ? this.metrics[0].data[0].x[1] + 1 : 1,
                   grid: {
                     display: false,
                   },
@@ -226,9 +230,7 @@
         return datasets;
       },
       getStepSize() {
-        const max = this.metrics[0].data[0].x[1];
-        const min = this.metrics[0].data[0].x[0];
-        const range = max - min;
+        const range = this.duration;
         if (range < 100) {
           return 1;
         }

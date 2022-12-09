@@ -82,7 +82,8 @@
     "duration": "持续时间",
     "limit": "限制",
     "query": "查询",
-    "timeline": "时序图"
+    "timeline": "时序图",
+    "alert": "警告"
   },
   "tab": {
     "generate_from_template": "由模版生成",

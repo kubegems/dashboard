@@ -80,7 +80,7 @@
           {{ getStartTime(item) }}
         </template>
         <template #item.duration="{ item }">
-          {{ getDuration(item) }}
+          {{ beautifyTime(getDuration(item).toString()) }}
         </template>
         <template #item.traceID="{ item }">
           {{ item.traceID }}
@@ -105,7 +105,7 @@
                       <tr>
                         <th class="text-left" :style="{ width: `180px` }">{{ i18nLocal.t('table.start_time') }}</th>
                         <th class="text-left">SpanID</th>
-                        <th class="text-left">Process</th>
+                        <th class="text-left">Service</th>
                         <th class="text-left" :style="{ width: `300px` }">Operation</th>
                         <th class="text-left" :style="{ width: `100px` }">{{ i18nLocal.t('table.duration') }}</th>
                       </tr>
@@ -115,7 +115,14 @@
                         <td>{{ moment(span.startTime / 1000).format('MM-DD HH:mm:ss.SSS') }}</td>
                         <td>{{ span.spanID }}</td>
                         <td>{{ item.processes[span.processID].serviceName }}</td>
-                        <td :class="{ 'error--text': isErrorSpan(span) }">{{ span.operationName }}</td>
+                        <td :class="{ 'error--text': isErrorSpan(span) }">
+                          {{ span.operationName }}
+                          <SpanWarnTip v-if="span.warnings" :warnings="span.warnings">
+                            <template #trigger>
+                              <v-icon color="orange" small>mdi-alert-circle</v-icon>
+                            </template>
+                          </SpanWarnTip>
+                        </td>
                         <td>{{ beautifyTime(span.duration) }} </td>
                       </tr>
                     </tbody>
@@ -127,6 +134,7 @@
                 <BaseTimelineChart
                   :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')}`"
                   colorful
+                  :duration="getDuration(item) / 1000"
                   :extend-height="100"
                   :label-show="false"
                   :metrics="getMetrics(item)"
@@ -154,7 +162,8 @@
   import moment from 'moment';
   import { nextTick, reactive, watch } from 'vue';
 
-  import { useI18n } from '../../../i18n';
+  import { useI18n } from '../../../../i18n';
+  import SpanWarnTip from './SpanWarnTip.vue';
   import { useRouter } from '@/composition/router';
   import { useTracePagination } from '@/composition/telemetry';
   import { useGlobalI18n } from '@/i18n';
@@ -270,11 +279,14 @@
     }
     return '-';
   };
-  const getDuration = (item: Telemetry): string => {
+  const getDuration = (item: Telemetry): number => {
     if (item.spans?.length > 0) {
-      return beautifyTime(item.spans[0].duration);
+      const ends = item.spans.map((span) => {
+        return span.startTime + span.duration;
+      });
+      return Math.max(...ends) - item.spans[0].startTime;
     }
-    return '-';
+    return 0;
   };
 
   const getMetrics = (item: Telemetry): any[] => {
@@ -326,8 +338,8 @@
         project: props.env.projectName,
         environment: props.env.environmentName,
         cluster: props.env.clusterName,
-        query: `{ namespace="${props.env.namespace}" } |~ \`trace_id=${item.traceID}\``,
-        filters: `trace_id=${item.traceID}`,
+        query: `{ namespace="${props.env.namespace}" } |~ \`${item.traceID}\``,
+        filters: `${item.traceID}`,
       },
     }).href;
     window.open(href);

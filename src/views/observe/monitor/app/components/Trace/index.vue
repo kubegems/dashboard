@@ -85,7 +85,7 @@
   import { nextTick, ref, watch } from 'vue';
 
   import Operation from './Operation.vue';
-  import Trace from './Trace.vue';
+  import Trace from './Trace/index.vue';
   import { useStore } from '@/store';
   import { Telemetry } from '@/types/opentelemetry';
 
