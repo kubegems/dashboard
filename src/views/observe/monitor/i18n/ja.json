@@ -76,7 +76,8 @@
     "duration": "間隔",
     "limit": "限界",
     "query": "お問い合わせ",
-    "timeline": "タイミング図"
+    "timeline": "タイミング図",
+    "alert": "暖かい"
   },
   "tab": {
     "generate_from_template": "テンプレート生成",
