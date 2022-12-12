@@ -159,7 +159,7 @@
                   align: (context) => {
                     return (context.dataset.data[context.dataIndex].x[0] - context.dataset.data[0].x[0]) /
                       this.duration <
-                      0.2
+                      0.3
                       ? 'right'
                       : 'left';
                   },
@@ -226,7 +226,6 @@
                 : LINE_THEME_COLORS[index % 12],
           };
         });
-
         return datasets;
       },
       getStepSize() {
@@ -234,25 +233,25 @@
         if (range < 100) {
           return 1;
         }
-        if (range < 2000) {
+        if (range < 200) {
           return 2;
         }
-        if (range < 3000) {
+        if (range < 300) {
+          return 3;
+        }
+        if (range < 500) {
           return 5;
         }
-        if (range < 5000) {
-          return 20;
+        if (range < 1000) {
+          return 10;
         }
-        if (range < 10000) {
+        if (range < 5000) {
           return 50;
         }
-        if (range < 50000) {
-          return 200;
+        if (range < 10000) {
+          return 100;
         }
         if (range < 100000) {
-          return 400;
-        }
-        if (range < 1000000) {
           return 1000;
         }
       },
