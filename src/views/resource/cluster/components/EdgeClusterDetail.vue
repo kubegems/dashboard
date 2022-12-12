@@ -51,7 +51,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <ResourceChart :cluster="cluster" :quota="quota" />
+    <ResourceChart :cluster="cluster" :quota="quota" :show-tenant="false" />
   </v-container>
 </template>
 <script lang="ts" setup>

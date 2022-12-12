@@ -44,11 +44,11 @@
         </v-card>
       </v-col>
     </v-row>
-    <ResourceChart :cluster="cluster" :quota="quota" />
+    <ResourceChart :cluster="cluster" :quota="quota" :show-tenant="false" />
   </div>
 </template>
 <script lang="ts" setup>
-  import { ComputedRef, computed, onMounted, reactive, ref } from 'vue';
+  import { ComputedRef, computed, onMounted, reactive, ref, watch } from 'vue';
 
   import { useEdgeClusterConvertToCluster } from '@/composition/cluster';
   import { useRoute } from '@/composition/router';
@@ -65,6 +65,25 @@
     getCluster();
     getEdgeClusterStatistics();
   });
+
+  const props = withDefaults(
+    defineProps<{
+      date?: string[];
+    }>(),
+    {
+      date: undefined,
+    },
+  );
+  watch(
+    () => props.date,
+    (newValue) => {
+      if (newValue && newValue.length === 2) {
+        params.start = newValue[0];
+        params.end = newValue[1];
+      }
+    },
+    { immediate: true, deep: true },
+  );
 
   const route = useRoute();
   const i18n = useGlobalI18n();

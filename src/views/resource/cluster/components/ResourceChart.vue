@@ -33,7 +33,7 @@
             />
           </v-sheet>
           <v-sheet>
-            <v-sheet>
+            <v-sheet v-if="showTenant">
               <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#00bcd4` }">
                 <span class="white--text text-h5" />
               </v-avatar>
@@ -85,7 +85,7 @@
             />
           </v-sheet>
           <v-sheet>
-            <v-sheet>
+            <v-sheet v-if="showTenant">
               <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#00bcd4` }">
                 <span class="white--text text-h5" />
               </v-avatar>
@@ -137,7 +137,7 @@
             />
           </v-sheet>
           <v-sheet>
-            <v-sheet>
+            <v-sheet v-if="showTenant">
               <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#00bcd4` }">
                 <span class="white--text text-h5" />
               </v-avatar>
@@ -197,7 +197,7 @@
               </v-avatar>
               <span />
             </v-sheet>
-            <v-sheet>
+            <v-sheet v-if="showTenant">
               <v-avatar class="mr-2" size="0" :style="{ backgroundColor: `#607d8b` }">
                 <span class="white--text text-h5" />
               </v-avatar>
@@ -241,6 +241,10 @@
           used: {},
         }),
       },
+      showTenant: {
+        type: Boolean,
+        default: () => true,
+      },
     },
     computed: {
       ...mapState(['JWT']),
@@ -262,61 +266,102 @@
           : sizeOfStorage(this.quota.tenantAllocated['limits.storage']);
       },
       cpuSeries() {
-        return this.quota
-          ? [
-              [
-                (sizeOfCpu(this.quota.tenantAllocated['limits.cpu']) / this.maxCpu) * 100,
-                100 - (sizeOfCpu(this.quota.tenantAllocated['limits.cpu']) / this.maxCpu) * 100,
-              ],
-              [
-                (sizeOfCpu(this.quota.capacity['limits.cpu']) / this.maxCpu) * 100,
-                100 - (sizeOfCpu(this.quota.capacity['limits.cpu']) / this.maxCpu) * 100,
-              ],
-              [100, 0],
-            ]
-          : [
-              [0, 100],
-              [0, 100],
-              [0, 100],
-            ];
+        if (this.showTenant) {
+          return this.quota
+            ? [
+                [
+                  (sizeOfCpu(this.quota.tenantAllocated['limits.cpu']) / this.maxCpu) * 100,
+                  100 - (sizeOfCpu(this.quota.tenantAllocated['limits.cpu']) / this.maxCpu) * 100,
+                ],
+                [
+                  (sizeOfCpu(this.quota.capacity['limits.cpu']) / this.maxCpu) * 100,
+                  100 - (sizeOfCpu(this.quota.capacity['limits.cpu']) / this.maxCpu) * 100,
+                ],
+                [100, 0],
+              ]
+            : [
+                [0, 100],
+                [0, 100],
+                [0, 100],
+              ];
+        } else {
+          return this.quota
+            ? [
+                [
+                  (sizeOfCpu(this.quota.capacity['limits.cpu']) / this.maxCpu) * 100,
+                  100 - (sizeOfCpu(this.quota.capacity['limits.cpu']) / this.maxCpu) * 100,
+                ],
+                [100, 0],
+              ]
+            : [
+                [0, 100],
+                [0, 100],
+              ];
+        }
       },
 
       memorySeries() {
-        return this.quota
-          ? [
-              [
-                (sizeOfStorage(this.quota.tenantAllocated['limits.memory']) / this.maxMemory) * 100,
-                100 - (sizeOfStorage(this.quota.tenantAllocated['limits.memory']) / this.maxMemory) * 100,
-              ],
-              [
-                (sizeOfStorage(this.quota.capacity['limits.memory']) / this.maxMemory) * 100,
-                100 - (sizeOfStorage(this.quota.capacity['limits.memory']) / this.maxMemory) * 100,
-              ],
-              [100, 0],
-            ]
-          : [
-              [0, 100],
-              [0, 100],
-              [0, 100],
-            ];
+        if (this.showTenant) {
+          return this.quota
+            ? [
+                [
+                  (sizeOfStorage(this.quota.tenantAllocated['limits.memory']) / this.maxMemory) * 100,
+                  100 - (sizeOfStorage(this.quota.tenantAllocated['limits.memory']) / this.maxMemory) * 100,
+                ],
+                [
+                  (sizeOfStorage(this.quota.capacity['limits.memory']) / this.maxMemory) * 100,
+                  100 - (sizeOfStorage(this.quota.capacity['limits.memory']) / this.maxMemory) * 100,
+                ],
+                [100, 0],
+              ]
+            : [
+                [0, 100],
+                [0, 100],
+                [0, 100],
+              ];
+        } else {
+          return this.quota
+            ? [
+                [
+                  (sizeOfStorage(this.quota.capacity['limits.memory']) / this.maxMemory) * 100,
+                  100 - (sizeOfStorage(this.quota.capacity['limits.memory']) / this.maxMemory) * 100,
+                ],
+                [100, 0],
+              ]
+            : [
+                [0, 100],
+                [0, 100],
+              ];
+        }
       },
 
       storageSeries() {
-        return this.quota
-          ? [
-              [
-                (sizeOfStorage(this.quota.tenantAllocated['limits.storage']) / this.maxStorage) * 100,
-                100 - (sizeOfStorage(this.quota.tenantAllocated['limits.storage']) / this.maxStorage) * 100,
-              ],
-              [
-                (sizeOfStorage(this.quota.capacity['limits.ephemeral-storage']) / this.maxStorage) * 100,
-                100 - (sizeOfStorage(this.quota.capacity['limits.ephemeral-storage']) / this.maxStorage) * 100,
-              ],
-            ]
-          : [
-              [0, 100],
-              [0, 100],
-            ];
+        if (this.showTenant) {
+          return this.quota
+            ? [
+                [
+                  (sizeOfStorage(this.quota.tenantAllocated['limits.storage']) / this.maxStorage) * 100,
+                  100 - (sizeOfStorage(this.quota.tenantAllocated['limits.storage']) / this.maxStorage) * 100,
+                ],
+                [
+                  (sizeOfStorage(this.quota.capacity['limits.ephemeral-storage']) / this.maxStorage) * 100,
+                  100 - (sizeOfStorage(this.quota.capacity['limits.ephemeral-storage']) / this.maxStorage) * 100,
+                ],
+              ]
+            : [
+                [0, 100],
+                [0, 100],
+              ];
+        } else {
+          return this.quota
+            ? [
+                [
+                  (sizeOfStorage(this.quota.capacity['limits.ephemeral-storage']) / this.maxStorage) * 100,
+                  100 - (sizeOfStorage(this.quota.capacity['limits.ephemeral-storage']) / this.maxStorage) * 100,
+                ],
+              ]
+            : [[0, 100]];
+        }
       },
 
       podSeries() {

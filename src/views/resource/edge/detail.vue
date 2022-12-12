@@ -17,7 +17,30 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb />
+    <BaseBreadcrumb>
+      <template #extend>
+        <v-flex class="kubegems__full-right">
+          <BaseDatetimePicker v-if="tab === 0" v-model="date" :default-value="30" />
+          <v-menu left>
+            <template #activator="{ on }">
+              <v-btn icon>
+                <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-text class="pa-2 text-center">
+                <v-flex>
+                  <v-btn color="primary" small text @click="openTerminal"> Kubectl </v-btn>
+                </v-flex>
+                <v-flex>
+                  <v-btn color="primary" small text @click="updateEdgeCluster"> {{ $root.$t('operate.edit') }} </v-btn>
+                </v-flex>
+              </v-card-text>
+            </v-card>
+          </v-menu>
+        </v-flex>
+      </template>
+    </BaseBreadcrumb>
 
     <v-card>
       <v-card-text class="pa-3">
@@ -29,19 +52,25 @@
       </v-card-text>
     </v-card>
 
-    <component :is="tabItems[tab].value" />
+    <component :is="tabItems[tab].value" :date="date" />
+
+    <EdgeClusterForm ref="edgeCluster" in-env @refresh="getEdgeCluster" />
+    <Terminal ref="terminal" />
   </v-container>
 </template>
 
 <script lang="ts" setup>
   import { nextTick, onMounted, ref } from 'vue';
 
-  import EdgeCluster from './components/EdgeCluster.vue';
+  import EdgeClusterC from './components/EdgeCluster.vue';
   import Namespace from './components/Namespace.vue';
   import Node from './components/Node.vue';
   import { useI18n } from './i18n';
   import { useRoute, useRouter } from '@/composition/router';
   import { useStore } from '@/store';
+  import { EdgeCluster } from '@/types/edge_cluster';
+  import EdgeClusterForm from '@/views/resource/cluster/components/EdgeClusterForm/index.vue';
+  import Terminal from '@/views/resource/components/common/Terminal/index.vue';
 
   const route = useRoute();
   const router = useRouter();
@@ -63,7 +92,7 @@
   const tab = ref<number>(tabMap[route.query.tab as string] || 0);
 
   const tabItems = [
-    { text: i18nLocal.t('tab.detail'), value: EdgeCluster, tab: 'edge' },
+    { text: i18nLocal.t('tab.detail'), value: EdgeClusterC, tab: 'edge' },
     { text: i18nLocal.t('tab.node'), value: Node, tab: 'node' },
     { text: i18nLocal.t('tab.namespace'), value: Namespace, tab: 'namespace' },
   ];
@@ -72,5 +101,26 @@
     router.replace({
       query: { ...route.query, tab: tabItems[tab.value].tab },
     });
+  };
+
+  const date = ref([]);
+
+  const getEdgeCluster = async (): Promise<EdgeCluster> => {
+    const item: EdgeCluster = await new EdgeCluster({ metadata: { name: route.params.name } }).getEdgeCluster();
+    return item;
+  };
+
+  const edgeCluster = ref(null);
+  const updateEdgeCluster = async (): Promise<void> => {
+    const item: EdgeCluster = await getEdgeCluster();
+    edgeCluster.value.init(item);
+    edgeCluster.value.open();
+  };
+
+  const terminal = ref(null);
+  const openTerminal = async (): Promise<void> => {
+    const item: EdgeCluster = await getEdgeCluster();
+    terminal.value.init(null, item, 'kubectl', true);
+    terminal.value.open();
   };
 </script>
