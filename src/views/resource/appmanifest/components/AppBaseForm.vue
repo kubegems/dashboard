@@ -113,7 +113,7 @@
   import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
-  import { k8sLabel, required } from '@/utils/rules';
+  import { k8sLabel, required, k8sName } from '@/utils/rules';
   import LabelForm from '@/views/resource/components/label/LabelForm';
   import LabelItem from '@/views/resource/components/label/LabelItem';
 
@@ -153,7 +153,7 @@
       ...mapGetters(['Project', 'Tenant']),
       objRules() {
         return {
-          nameRules: [required, k8sLabel],
+          nameRules: [required, k8sLabel, k8sName],
           descriptionRules: [required],
           projectRule: [required],
           kindRule: [required],
