@@ -235,9 +235,9 @@
       },
       removeApp(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.create_c', [this.$root.$t('resource.appmanifest')]),
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.appmanifest')]),
           content: {
-            text: `${this.$root.$t('operate.create_c', [this.$root.$t('resource.appmanifest')])} ${item.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.appmanifest')])} ${item.name}`,
             type: 'delete',
             name: item.name,
           },

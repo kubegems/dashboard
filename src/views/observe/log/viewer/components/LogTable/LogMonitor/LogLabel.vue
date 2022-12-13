@@ -14,8 +14,15 @@
  * limitations under the License. 
 -->
 <template>
-  <div class="my-2 mx-5 text-body-2">
-    <pre class="log-table__pre">{{ item ? item.stream : {} }}</pre>
+  <div class="my-0 mx-3 text-body-2">
+    <v-sheet v-for="(value, key) in item ? item.stream : {}" :key="key" class="ml-2">
+      <v-chip class="my-1" color="success" small text-color="white">
+        <v-icon left small> mdi-label </v-icon>
+        <strong class="mx-1"> {{ key }} </strong>
+        {{ value }}
+      </v-chip>
+      <div class="kubegems__clear-float" />
+    </v-sheet>
   </div>
 </template>
 
