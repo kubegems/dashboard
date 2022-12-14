@@ -21,7 +21,7 @@
         <BaseBarChart
           :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')}`"
           colorful
-          :extend-height="320"
+          :extend-height="400"
           horizontal
           :label-show="false"
           :metrics="metrics.dbOperationCount"
@@ -34,7 +34,7 @@
         <BaseBarChart
           :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')}`"
           colorful
-          :extend-height="320"
+          :extend-height="400"
           horizontal
           :label-show="false"
           :metrics="metrics.serviceErrorCount"
@@ -47,7 +47,7 @@
         <BaseBarChart
           :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')}`"
           colorful
-          :extend-height="320"
+          :extend-height="400"
           horizontal
           :label-show="false"
           :metrics="metrics.p90OperationDurationSeconds"
@@ -61,7 +61,7 @@
         <BaseBarChart
           :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')}`"
           colorful
-          :extend-height="320"
+          :extend-height="400"
           horizontal
           :label-show="false"
           :metrics="metrics.p90ServiceDurationSeconds"

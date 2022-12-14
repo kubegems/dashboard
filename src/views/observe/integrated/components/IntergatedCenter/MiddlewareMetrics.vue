@@ -134,8 +134,8 @@
   import { Base64 } from 'js-base64';
   import { mapGetters, mapState } from 'vuex';
 
-  import messages from '../../../i18n';
-  import ProjectEnvSelect from '../ProjectEnvSelect';
+  import messages from '../../i18n';
+  import ProjectEnvSelect from './ProjectEnvSelect';
   import { getAppStoreRunningDetail, getChartSchema, getServiceMonitorStatus, postDeployAppStore } from '@/api';
   import BaseYaml from '@/mixins/yaml';
   import { randomString } from '@/utils/helpers';

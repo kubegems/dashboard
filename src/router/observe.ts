@@ -115,6 +115,22 @@ export const observe: RouteConfig[] = [
               innerCheck: true,
             },
           },
+          {
+            path: `${prefix}/probe`,
+            name: `observe-monitor-probe`,
+            component: () => import('@/views/observe/monitor/probe/index.vue'),
+            meta: {
+              requireAuth: true,
+              title: 'routerbar.observability.monitor_probe',
+              upToAdmin: true,
+              icon: 'mdi-broadcast',
+              show: true,
+              rootName: 'observe',
+              dependencies: ['monitoring'],
+              tip: 'dash_probe',
+              innerCheck: true,
+            },
+          },
         ],
       },
       {

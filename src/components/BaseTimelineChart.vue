@@ -226,6 +226,7 @@
                 : LINE_THEME_COLORS[index % 12],
           };
         });
+
         return datasets;
       },
       getStepSize() {

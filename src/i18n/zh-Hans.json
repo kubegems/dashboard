@@ -173,7 +173,8 @@
     "service_monitor": "采集器",
     "host": "主机",
     "cloud_cluster": "云端集群",
-    "edge_cluster": "边缘集群"
+    "edge_cluster": "边缘集群",
+    "prometheus_probe": "探测任务"
   },
 
   "header": {
@@ -359,6 +360,7 @@
       "flow": "日志采集器",
       "monitor_app": "应用性能",
       "channel": "告警渠道",
+      "monitor_probe": "云拨测",
 
       "g_dashboard": "概览",
       "g_integrated": "接入中心",
@@ -478,7 +480,8 @@
     "output": "日志路由器 (Output/ClusterOutput) 定义您的流可以发送日志消息的输出。",
     "dash_app": "应用监控(OpenTelemetry)",
     "alert_channel": "告警渠道提供多种告警消息发送方式通知用户，包括(邮箱，飞书，webhook等)",
-    "edge": "一种高度可用且经过认证的 Kubernetes 发行版，专为无人值守、资源受限、远程位置或物联网设备内部的生产工作负载而设计。"
+    "edge": "一种高度可用且经过认证的 Kubernetes 发行版，专为无人值守、资源受限、远程位置或物联网设备内部的生产工作负载而设计。",
+    "dash_probe": "云拨测是监测并分析服务加载速度、CDN加速、DNS解析等关键性能指标。"
   },
   "metadata": {
     "description": "更便捷的云原生管理平台",

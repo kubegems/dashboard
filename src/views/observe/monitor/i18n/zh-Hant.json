@@ -143,7 +143,11 @@
     "error_count": "錯誤數",
     "start_time": "起始時間",
     "duration": "耗時",
-    "span_count": "span數"
+    "span_count": "span數",
+
+    "type": "類型",
+    "probe_address": "探測地址",
+    "probe_interval": "頻率"
   },
   "status": {
     "enabled": "啟用",

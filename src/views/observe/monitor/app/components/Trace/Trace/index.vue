@@ -74,7 +74,6 @@
         :no-data-text="i18n.t('data.no_data')"
         :page.sync="pagination.page"
         show-expand
-        single-expand
       >
         <template #item.startTime="{ item }">
           {{ getStartTime(item) }}

@@ -144,7 +144,11 @@
     "error_count": "Error Count",
     "start_time": "Start time",
     "duration": "Duration",
-    "span_count": "Span Count"
+    "span_count": "Span Count",
+
+    "type": "Type",
+    "probe_address": "Address",
+    "probe_interval": "Interval"
   },
   "status": {
     "enabled": "Enabled",

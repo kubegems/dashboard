@@ -150,31 +150,29 @@
                 },
                 datalabels: {
                   color: '#424242',
-                  anchor: 'start',
+                  anchor: 'end',
                   align: 'right',
                   display: (context) => {
                     if (!this.horizontal) return false;
                     return context.dataset.data[context.dataIndex] !== null ? 'auto' : false;
                   },
                   formatter: (value) => {
-                    return this.horizontal ? value.y : value.x;
+                    return this.horizontal ? value.x.toFixed(1) : value.x;
                   },
                 },
               },
               radius: 0,
               borderWidth: 1,
-              // interaction: {
-              //   intersect: false,
-              //   mode: 'index',
-              // },
               scales: {
                 xAxis: {
+                  suggestedMax: this.horizontal ? 10 : null,
                   grid: {
                     display: false,
                   },
                 },
                 yAxis: {
-                  display: !this.horizontal,
+                  // display: !this.horizontal,
+
                   grid: {
                     borderDash: [8, 8, 8],
                     drawBorder: false,
