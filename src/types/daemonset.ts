@@ -46,7 +46,7 @@ export class DaemonSet extends V1DaemonSet {
   public async addDaemonSet(cluster: string): Promise<DaemonSet> {
     const apiVersion: string = getApiVersion('daemonset');
     const data: { [key: string]: any } = await axios.post(
-      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/daemonsets`,
+      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/daemonsets/${this.metadata.name}`,
       this,
     );
     return data as DaemonSet;

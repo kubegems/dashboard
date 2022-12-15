@@ -46,7 +46,7 @@ export class CronJob extends V1CronJob {
   public async addCronJob(cluster: string): Promise<CronJob> {
     const apiVersion: string = getApiVersion('cronjob');
     const data: { [key: string]: any } = await axios.post(
-      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/cronjobs`,
+      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/cronjobs/${this.metadata.name}`,
       this,
     );
     return data as CronJob;

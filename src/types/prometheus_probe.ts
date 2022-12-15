@@ -84,7 +84,7 @@ export class PrometheusProbe {
   public async addPrometheusProbe(cluster: string): Promise<PrometheusProbe> {
     const apiVersion: string = getApiVersion('probe', 'monitoring.coreos.com/v1');
     const data: { [key: string]: any } = await axios.post(
-      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/probes`,
+      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/probes/${this.metadata.name}`,
       this,
     );
     return data as PrometheusProbe;

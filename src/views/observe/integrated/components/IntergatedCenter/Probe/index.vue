@@ -97,7 +97,6 @@
   });
 
   const probe = ref<PrometheusProbe>(new PrometheusProbe());
-  console.log(probe.value);
   const objRule = reactive({
     nameRules: [required],
     intervalRules: [required],
@@ -124,6 +123,7 @@
     probe.value.spec.module = tabItems[tab.value].module;
   };
 
+  const emit = defineEmits(['close']);
   const form = ref(null);
   const addData = async (): Promise<void> => {
     if (form.value.validate(true)) {
@@ -131,6 +131,7 @@
         probe.value.metadata.namespace = env.value.namespace;
         probe.value.spec.prober.url = 'prometheus-blackbox-exporter.kubegems-monitoring.svc.cluster.local:9115';
         await probe.value.addPrometheusProbe(env.value.clusterName);
+        emit('close');
       } else {
         store.commit('SET_SNACKBAR', {
           text: i18n.t('tip.select_project_environment'),

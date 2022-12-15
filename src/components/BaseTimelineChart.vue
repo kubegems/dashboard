@@ -182,6 +182,7 @@
                   ticks: {
                     autoSkip: true,
                     maxTicksLimit: 10,
+                    source: 'data',
                   },
                   beginAtZero: false,
                   type: 'time',

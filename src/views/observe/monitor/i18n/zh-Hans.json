@@ -83,7 +83,25 @@
     "limit": "限制",
     "query": "查询",
     "timeline": "时序图",
-    "alert": "警告"
+    "alert": "警告",
+    "probe_monitor": "云拨测监控",
+    "trend": "耗时走势",
+    "avg_duration": "平均响应时间",
+    "max_duration": "最大响应时间",
+    "availability": "可用率",
+
+    "probe_config": "云拨测配置",
+    "probe_type_config": "探测类型配置",
+    "task_name": "任务名称",
+    "interval": "探测频率",
+    "1_min": "1分钟",
+    "5_min": "5分钟",
+    "10_min": "10分钟",
+    "30_min": "30分钟",
+    "1_hour": "1小时",
+    "2_hour": "2小时",
+    "6_hour": "6小时",
+    "12_hour": "12小时"
   },
   "tab": {
     "generate_from_template": "由模版生成",
@@ -123,7 +141,8 @@
   "filter": {
     "receiver_name": "接收器名称",
     "rule_name": "告警规则名称",
-    "servicemonitor_name": "采集器名称"
+    "servicemonitor_name": "采集器名称",
+    "probe_name": "探测任务名称"
   },
   "table": {
     "name": "名称",
@@ -157,7 +176,11 @@
 
     "type": "类型",
     "probe_address": "探测地址",
-    "probe_interval": "频率"
+    "probe_interval": "频率",
+
+    "statistics": "统计",
+    "value": "数值",
+    "time": "时间"
   },
   "status": {
     "enabled": "启用",

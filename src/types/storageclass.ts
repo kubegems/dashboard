@@ -39,7 +39,7 @@ export class StorageClass extends V1StorageClass {
   public async addStorageClass(cluster: string): Promise<StorageClass> {
     const apiVersion: string = getApiVersion('storageclass');
     const data: { [key: string]: any } = await axios.post(
-      `proxy/cluster/${cluster}/${apiVersion}/storageclasses`,
+      `proxy/cluster/${cluster}/${apiVersion}/storageclasses/${this.metadata.name}`,
       this,
     );
     return data as StorageClass;

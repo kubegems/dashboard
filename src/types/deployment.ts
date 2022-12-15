@@ -46,7 +46,7 @@ export class Deployment extends V1Deployment {
   public async addDeployment(cluster: string): Promise<Deployment> {
     const apiVersion: string = getApiVersion('deployment');
     const data: { [key: string]: any } = await axios.post(
-      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/deployments`,
+      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/deployments/${this.metadata.name}`,
       this,
     );
     return data as Deployment;

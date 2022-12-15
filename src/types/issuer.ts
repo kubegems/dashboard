@@ -48,7 +48,7 @@ export class Issuer {
   public async addIssuer(cluster: string): Promise<Issuer> {
     const apiVersion: string = getApiVersion('issuer', 'cert-manager.io/v1');
     const data: { [key: string]: any } = await axios.post(
-      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/issuers`,
+      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/issuers/${this.metadata.name}`,
       this,
     );
     return data as Issuer;

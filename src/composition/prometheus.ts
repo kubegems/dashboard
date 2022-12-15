@@ -8,6 +8,7 @@ export const usePrometheusProbePagination = async (
   const _data: KubePaginationResponse<PrometheusProbe[]> = await probe.getPrometheusProbeList(cluster, {
     page: pagination.page,
     size: pagination.size,
+    search: pagination.search,
   });
 
   return {

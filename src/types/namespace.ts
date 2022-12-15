@@ -38,7 +38,10 @@ export class Namespace extends V1Namespace {
   }
 
   public async addNamespace(cluster: string): Promise<Namespace> {
-    const data: { [key: string]: any } = await axios.post(`proxy/cluster/${cluster}/v1/namespaces`, this);
+    const data: { [key: string]: any } = await axios.post(
+      `proxy/cluster/${cluster}/v1/namespaces/${this.metadata.name}`,
+      this,
+    );
     return data as Namespace;
   }
 

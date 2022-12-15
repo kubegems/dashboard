@@ -44,7 +44,9 @@
     "2_hour": "2 hours",
     "6_hour": "6 hours",
     "12_hour": "12 hours",
-    "probe_type_config": "Probe type config"
+    "probe_type_config": "Probe type config",
+    "all_probe_address": "All probe cluster",
+    "need_probe_address": "Need probe cluster"
   },
   "operate": {
     "open": "Open",

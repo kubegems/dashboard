@@ -48,7 +48,7 @@ export class Certificate {
   public async addCertificate(cluster: string): Promise<Certificate> {
     const apiVersion: string = getApiVersion('certificate', 'cert-manager.io/v1');
     const data: { [key: string]: any } = await axios.post(
-      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/certificates`,
+      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/certificates/${this.metadata.name}`,
       this,
     );
     return data as Certificate;

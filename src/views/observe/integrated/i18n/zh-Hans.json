@@ -46,7 +46,10 @@
     "2_hour": "2小时",
     "6_hour": "6小时",
     "12_hour": "12小时",
-    "probe_type_config": "探测类型配置"
+    "probe_type_config": "探测类型配置",
+    "probe_address_config": "拨测节点配置",
+    "all_probe_address": "全部监测点",
+    "need_probe_address": "需要监测点"
   },
   "operate": {
     "open": "开启",

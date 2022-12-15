@@ -44,7 +44,9 @@
     "2_hour": "2時間",
     "6_hour": "6時間",
     "12_hour": "12時間",
-    "probe_type_config": "プローブ タイプの設定"
+    "probe_type_config": "プローブ タイプの設定",
+    "all_probe_address": "全監視ポイント",
+    "need_probe_address": "監視が必要"
   },
   "operate": {
     "open": "オン",

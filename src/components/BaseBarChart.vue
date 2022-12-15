@@ -149,9 +149,9 @@
                   },
                 },
                 datalabels: {
-                  color: '#424242',
-                  anchor: 'end',
+                  color: 'green',
                   align: 'right',
+                  anchor: 'end',
                   display: (context) => {
                     if (!this.horizontal) return false;
                     return context.dataset.data[context.dataIndex] !== null ? 'auto' : false;
@@ -165,14 +165,13 @@
               borderWidth: 1,
               scales: {
                 xAxis: {
-                  suggestedMax: this.horizontal ? 10 : null,
+                  suggestedMax: this.horizontal ? this.getSuggestMax() : null,
                   grid: {
                     display: false,
                   },
                 },
                 yAxis: {
                   // display: !this.horizontal,
-
                   grid: {
                     borderDash: [8, 8, 8],
                     drawBorder: false,
@@ -210,6 +209,31 @@
         });
 
         return datasets;
+      },
+      getSuggestMax() {
+        if (this.metrics && this.metrics.length > 0) {
+          if (!this.metrics[0]?.data || this.metrics[0]?.data.length === 0) return null;
+          const max = this.metrics[0]?.data[0].x;
+          if (max < 10) {
+            return max + 2;
+          }
+          if (max < 100) {
+            return max + 10;
+          }
+          if (max < 1000) {
+            return max + 100;
+          }
+          if (max < 10000) {
+            return max + 1000;
+          }
+          if (max < 100000) {
+            return max + 10000;
+          }
+          if (max < 1000000) {
+            return max + 100000;
+          }
+        }
+        return null;
       },
     },
   };

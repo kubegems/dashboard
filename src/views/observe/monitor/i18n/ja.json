@@ -77,7 +77,24 @@
     "limit": "限界",
     "query": "お問い合わせ",
     "timeline": "タイミング図",
-    "alert": "暖かい"
+    "alert": "暖かい",
+    "probe_monitor": "クラウド ダイヤル テストのモニタリング",
+    "trend": "時間のかかる傾向",
+    "avg_duration": "平均応答時間",
+    "max_duration": "最大応答時間",
+    "availability": "可用性",
+    "probe_config": "クラウド ダイヤル テストの構成",
+    "task_name": "ミッション名",
+    "interval": "検出頻度",
+    "1_min": "1分",
+    "5_min": "5分",
+    "10_min": "10分",
+    "30_min": "30分",
+    "1_hour": "1時間",
+    "2_hour": "2時間",
+    "6_hour": "6時間",
+    "12_hour": "12時間",
+    "probe_type_config": "プローブ タイプの設定"
   },
   "tab": {
     "generate_from_template": "テンプレート生成",
@@ -148,7 +165,10 @@
 
     "type": "タイプ",
     "probe_address": "プローブアドレス",
-    "probe_interval": "周波数"
+    "probe_interval": "周波数",
+    "statistics": "統計学",
+    "value": "価値",
+    "time": "時間"
   },
   "status": {
     "enabled": "有効",

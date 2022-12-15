@@ -25,6 +25,30 @@
     </BaseBreadcrumb>
 
     <v-card>
+      <v-card-title class="py-4">
+        <BaseFilter1
+          :default="{ items: [], text: i18nLocal.t('filter.probe_name'), value: 'search' }"
+          :filters="filters"
+        />
+        <v-spacer />
+        <v-menu left>
+          <template #activator="{ on }">
+            <v-btn icon>
+              <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-text class="pa-2">
+              <v-flex>
+                <v-btn color="primary" text @click="addProbe">
+                  <v-icon left>mdi-plus-box</v-icon>
+                  {{ i18n.t('operate.create_c', [i18n.t('resource.prometheus_probe')]) }}
+                </v-btn>
+              </v-flex>
+            </v-card-text>
+          </v-card>
+        </v-menu>
+      </v-card-title>
       <v-data-table
         class="mx-4"
         :headers="headers"
@@ -35,7 +59,9 @@
         :page.sync="pagination.page"
       >
         <template #item.name="{ item }">
-          {{ item.metadata.name }}
+          <a class="text-subtitle-2" @click.stop="showProbeMonitor(item)">
+            {{ item.metadata.name }}
+          </a>
         </template>
         <template #item.type="{ item }">
           {{ item.spec.module }}
@@ -60,6 +86,11 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
+                  <v-btn color="primary" small text @click="updateProbe(item)">
+                    {{ $root.$t('operate.update') }}
+                  </v-btn>
+                </v-flex>
+                <v-flex>
                   <v-btn color="error" small text @click="removeProbe(item)"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
@@ -78,6 +109,9 @@
         @loaddata="getProbeList"
       />
     </v-card>
+
+    <ProbeMonitor ref="monitor" :env="env" />
+    <ProbeForm ref="form" :env="env" @refresh="refresh" />
   </v-container>
 </template>
 
@@ -85,8 +119,11 @@
   import { nextTick, reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../i18n';
+  import ProbeForm from './components/ProbeForm.vue';
+  import ProbeMonitor from './components/ProbeMonitor.vue';
   import { usePrometheusProbePagination } from '@/composition/prometheus';
   import { useGlobalI18n } from '@/i18n';
+  import { useQuery } from '@/router';
   import { useStore } from '@/store';
   import { PrometheusProbe } from '@/types/prometheus_probe';
   import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade.vue';
@@ -125,6 +162,7 @@
     size: 10,
     pageCount: 0,
     items: [],
+    search: '',
   });
 
   const getProbeList = async (params: KubePaginationRequest = pagination): Promise<void> => {
@@ -145,6 +183,25 @@
     pagination.size = size;
   };
 
+  const query = useQuery();
+  const filters = [{ text: i18nLocal.t('filter.probe_name'), value: 'search', items: [] }];
+  watch(
+    () => query,
+    async (newValue) => {
+      if (!newValue) return;
+      if (newValue.value.search) {
+        pagination.search = newValue.value.search;
+      } else {
+        pagination.search = '';
+      }
+      if (env.value?.clusterName && env.value?.namespace) getProbeList();
+    },
+    {
+      immediate: true,
+      deep: true,
+    },
+  );
+
   const removeProbe = (item: PrometheusProbe) => {
     const probe = new PrometheusProbe(item);
     store.commit('SET_CONFIRM', {
@@ -162,5 +219,28 @@
         }
       },
     });
+  };
+
+  const monitor = ref(null);
+  const showProbeMonitor = (item: PrometheusProbe) => {
+    monitor.value.init(item);
+    monitor.value.open();
+  };
+
+  const form = ref(null);
+  const updateProbe = (item: PrometheusProbe) => {
+    form.value.init(item);
+    form.value.open();
+  };
+
+  const addProbe = (): void => {
+    form.value.open();
+  };
+
+  const refresh = (update = false): void => {
+    if (!update) {
+      pagination.page = 1;
+    }
+    getProbeList();
   };
 </script>
