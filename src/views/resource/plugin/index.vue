@@ -216,19 +216,23 @@
         }
       },
       async pluginList(process = false) {
-        this.tabItems = [];
         const data = await getClusterPluginsList(this.Cluster().ClusterName, {
           noprocessing: process,
         });
         this.pluginDict = data;
         Object.keys(this.pluginDict).forEach((key) => {
-          if (key === 'core') {
-            this.tabItems.push({ text: this.$t('tab.core'), value: 'Core' });
-          } else if (key === 'kubernetes') {
-            this.tabItems.push({ text: this.$t('tab.kubernetes'), value: 'Kubernetes' });
-          } else {
-            this.tabItems.push({ text: key, value: key });
-          }
+          if (
+            !this.tabItems.find((tab) => {
+              return tab.value === key;
+            })
+          )
+            if (key === 'core') {
+              this.tabItems.push({ text: this.$t('tab.core'), value: 'core' });
+            } else if (key === 'kubernetes') {
+              this.tabItems.push({ text: this.$t('tab.kubernetes'), value: 'kubernetes' });
+            } else {
+              this.tabItems.push({ text: key, value: key });
+            }
         });
       },
       pluginPodList(plugin) {
