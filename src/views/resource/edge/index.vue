@@ -230,6 +230,8 @@
       if (!newValue) return;
       if (newValue.value.search) {
         pagination.search = newValue.value.search;
+      } else {
+        pagination.search = '';
       }
       getEdgeClusterList();
       clearInterval(interval);

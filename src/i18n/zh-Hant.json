@@ -166,7 +166,8 @@
     "service_monitor": "採集器",
     "host": "主機",
     "cloud_cluster": "雲端集群",
-    "edge_cluster": "邊緣集群"
+    "edge_cluster": "邊緣集群",
+    "prometheus_probe": "探測任務"
   },
   "header": {
     "workspace": "工作臺",
@@ -348,6 +349,7 @@
       "flow": "日誌採集器",
       "monitor_app": "應用性能",
       "channel": "告警渠道",
+      "monitor_probe": "雲撥測",
       "g_dashboard": "概覽",
       "g_integrated": "接入中心",
       "g_observability": "可視化",
@@ -456,7 +458,8 @@
     "output": "日誌路由器 （Output/ClusterOutput） 定義您的流可以發送日誌消息的輸出。",
     "dash_app": "應用監控（OpenTelemetry）",
     "alert_channel": "告警渠道提供多種告警消息發送方式通知用戶，包括(郵箱，飛書，webhook等)",
-    "edge": "一種高度可用且經過認證的 Kubernetes 發行版，專為無人值守、資源受限、遠程位置或物聯網設備內部的生產工作負載而設計。"
+    "edge": "一種高度可用且經過認證的 Kubernetes 發行版，專為無人值守、資源受限、遠程位置或物聯網設備內部的生產工作負載而設計。",
+    "dash_probe": "雲撥測是監測並分析服務加載速度、CDN加速、DNS解析等關鍵性能指標。"
   },
   "metadata": {
     "description": "更便捷的雲原生管理平臺",

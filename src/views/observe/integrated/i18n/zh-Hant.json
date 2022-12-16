@@ -30,7 +30,22 @@
     "preview_data": "進入 <a>指標查詢器</a> 預覽數據",
     "success_data": "成功監測到數據",
     "data_from_prometheus": "從prometheus中確認收到數據， 通常需要等待3到5分鐘",
-    "cpnfirm_project_and_env": "確認專案<span class=\"px-1\">{0}</span> 環境<span class=\"px-1\">{1}</span> 下的實例運行狀態"
+    "cpnfirm_project_and_env": "確認專案<span class=\"px-1\">{0}</span> 環境<span class=\"px-1\">{1}</span> 下的實例運行狀態",
+    "prometheus_probe": "雲撥測",
+    "probe_config": "雲撥測配置",
+    "task_name": "任務名稱",
+    "interval": "探測頻率",
+    "1_min": "1分鐘",
+    "5_min": "5分鐘",
+    "10_min": "10分鐘",
+    "30_min": "30分鐘",
+    "1_hour": "1小時",
+    "2_hour": "2小時",
+    "6_hour": "6小時",
+    "12_hour": "12小時",
+    "probe_type_config": "探測類型配置",
+    "all_probe_address": "全部監測點",
+    "need_probe_address": "需要監測點"
   },
   "operate": {
     "open": "開啟",
@@ -46,5 +61,8 @@
   "status": {
     "deploying": "部署中",
     "ready": "已就緒"
+  },
+  "ruler": {
+    "tcp_check": "格式錯誤(示例:{domain/ip}:{port})"
   }
 }

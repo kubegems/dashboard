@@ -46,7 +46,7 @@ export class Secret extends V1Secret {
   public async addSecret(cluster: string): Promise<Secret> {
     const apiVersion: string = getApiVersion('secret');
     const data: { [key: string]: any } = await axios.post(
-      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/secrets`,
+      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/secrets/${this.metadata.name}`,
       this,
     );
     return data as Secret;

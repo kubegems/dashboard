@@ -173,7 +173,8 @@
     "service_monitor": "Service Monitor",
     "host": "Host",
     "cloud_cluster": "Cloud Cluster",
-    "edge_cluster": "Edge Cluster"
+    "edge_cluster": "Edge Cluster",
+    "prometheus_probe": "Prometheus Probe"
   },
 
   "header": {
@@ -359,6 +360,7 @@
       "flow": "Output",
       "monitor_app": "App Performance",
       "channel": "Alert Channel",
+      "monitor_probe": "Prometheus Probe",
 
       "g_dashboard": "Dashboard",
       "g_integrated": "Integrated",
@@ -478,7 +480,8 @@
     "output": "Output/ClusterOutput defines the output to which your flow can send log messages.",
     "dash_app": "App monitor from Jaeger",
     "alert_channel": "The alert channel provides a variety of alert message sending methods to notify users, including (email, Feishu, webhook, etc.)",
-    "edge": "A highly available and certified Kubernetes distribution designed for production workloads in unattended, resource-constrained, remote locations, or inside IoT devices."
+    "edge": "A highly available and certified Kubernetes distribution designed for production workloads in unattended, resource-constrained, remote locations, or inside IoT devices.",
+    "dash_probe": "Prometheus probe is to monitor and analyze key performance indicators such as service loading speed, CDN acceleration, and DNS resolution."
   },
 
   "metadata": {

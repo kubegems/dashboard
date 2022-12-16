@@ -24,18 +24,28 @@
       :params="params"
       @changeBasicFormParam="changeBasicFormParam"
     />
+    <v-card v-if="!params || params.length === 0" flat :style="{ marginTop: '250px' }">
+      <v-card-text class="pa-5 text-center">
+        <Icon class="ml-0 warning--text" height="70px" icon="mdi:alert-circle" width="70px" />
+        <h4 class="text-h6 mt-3 mb-8">{{ $t('tip.no_params') }}</h4>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex';
 
+  import messages from '../../../i18n';
   import BaseYaml from '@/mixins/yaml';
   import { deepCopy } from '@/utils/helpers';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
 
   export default {
     name: 'SchemaForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       JsonSchema,
     },
@@ -131,6 +141,11 @@
           });
         }
         return params;
+      },
+      reset() {
+        this.appValues = {};
+        this.params = [];
+        this.obj = {};
       },
     },
   };

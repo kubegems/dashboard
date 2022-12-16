@@ -76,7 +76,24 @@
     "limit": "限制",
     "query": "查詢",
     "timeline": "時序圖",
-    "alert": "警告"
+    "alert": "警告",
+    "probe_monitor": "雲撥測監控",
+    "trend": "耗時走勢",
+    "avg_duration": "平均響應時間",
+    "max_duration": "最大響應時間",
+    "availability": "可用率",
+    "probe_config": "雲撥測配置",
+    "task_name": "任務名稱",
+    "interval": "探測頻率",
+    "1_min": "1分鐘",
+    "5_min": "5分鐘",
+    "10_min": "10分鐘",
+    "30_min": "30分鐘",
+    "1_hour": "1小時",
+    "2_hour": "2小時",
+    "6_hour": "6小時",
+    "12_hour": "12小時",
+    "probe_type_config": "探測類型配置"
   },
   "tab": {
     "generate_from_template": "由模版生成",
@@ -143,7 +160,14 @@
     "error_count": "錯誤數",
     "start_time": "起始時間",
     "duration": "耗時",
-    "span_count": "span數"
+    "span_count": "span數",
+
+    "type": "類型",
+    "probe_address": "探測地址",
+    "probe_interval": "頻率",
+    "statistics": "統計",
+    "value": "數值",
+    "time": "時間"
   },
   "status": {
     "enabled": "啟用",

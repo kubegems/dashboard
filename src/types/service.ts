@@ -46,7 +46,7 @@ export class Service extends V1Service {
   public async addService(cluster: string): Promise<Service> {
     const apiVersion: string = getApiVersion('service');
     const data: { [key: string]: any } = await axios.post(
-      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/services`,
+      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/services/${this.metadata.name}`,
       this,
     );
     return data as Service;

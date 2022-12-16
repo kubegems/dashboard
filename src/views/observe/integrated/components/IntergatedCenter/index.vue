@@ -70,6 +70,7 @@
             component="MetricsBaseForm"
             @close="close"
           />
+          <Probe v-if="item.name === 'Prometheus Probe'" ref="probe" @close="close" />
           <Logging v-else ref="logging" @close="close" />
         </template>
       </v-card-text>
@@ -84,6 +85,7 @@
   import Logging from './Logging';
   import Metrics from './Metrics';
   import MiddlewareMetrics from './MiddlewareMetrics';
+  import Probe from './Probe';
   import Trace from './Trace';
   import { deepCopy } from '@/utils/helpers';
 
@@ -96,6 +98,7 @@
       Logging,
       Metrics,
       MiddlewareMetrics,
+      Probe,
       Trace,
     },
     data() {
@@ -138,6 +141,8 @@
             await this.$refs.logging.addData();
           } else if (this.$refs.metrics) {
             await this.$refs.metrics.addData();
+          } else if (this.$refs.probe) {
+            await this.$refs.probe.addData();
           }
         }
       },
@@ -147,11 +152,11 @@
       },
       getTitle(item) {
         if (this.type === 'app') {
-          return this.$t('tip.config_metrics_and_trace', [item.name]);
+          return this.$t('tip.config_metrics_and_trace', [item.alias || item.name]);
         } else if (this.type === 'middleware') {
-          return this.$t('tip.config_exporter', [item.name]);
+          return this.$t('tip.config_exporter', [item.alias || item.name]);
         } else if (this.type === 'monitor') {
-          return this.$t('tip.config_c', [item.name]);
+          return this.$t('tip.config_c', [item.alias || item.name]);
         }
       },
       deploying() {

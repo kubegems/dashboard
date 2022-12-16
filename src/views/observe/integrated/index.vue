@@ -48,7 +48,7 @@
                       </v-list-item-avatar>
                     </v-list-item>
                     <div class="text-center text-body-1 pb-2 kubegems__text font-weight-medium">
-                      {{ item.items[index * 2 + innerIndex].name }}
+                      {{ item.items[index * 2 + innerIndex].alias || item.items[index * 2 + innerIndex].name }}
                     </div>
                   </v-card>
                 </v-hover>
@@ -125,7 +125,11 @@
           logging: {
             name: this.$t('tip.monitor_and_log'),
             type: 'monitor',
-            items: [{ name: 'Log Collect' }, { name: 'Prometheus Exporter' }],
+            items: [
+              { name: 'Log Collect' },
+              { name: 'Prometheus Exporter' },
+              { name: 'Prometheus Probe', alias: this.$t('tip.prometheus_probe') },
+            ],
             harfItems: [...new Array(5).keys()],
           },
         };

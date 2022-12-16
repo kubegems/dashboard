@@ -33,7 +33,23 @@
     "preview_data": "进入 <a>指标查询器</a> 预览数据",
     "success_data": "成功监测到数据",
     "data_from_prometheus": "从prometheus中确认收到数据, 通常需要等待3到5分钟",
-    "cpnfirm_project_and_env": "确认 项目<span class=\"px-1\">{0}</span> 环境<span class=\"px-1\">{1}</span> 下的实例运行状态"
+    "cpnfirm_project_and_env": "确认 项目<span class=\"px-1\">{0}</span> 环境<span class=\"px-1\">{1}</span> 下的实例运行状态",
+    "prometheus_probe": "云拨测",
+    "probe_config": "云拨测配置",
+    "task_name": "任务名称",
+    "interval": "探测频率",
+    "1_min": "1分钟",
+    "5_min": "5分钟",
+    "10_min": "10分钟",
+    "30_min": "30分钟",
+    "1_hour": "1小时",
+    "2_hour": "2小时",
+    "6_hour": "6小时",
+    "12_hour": "12小时",
+    "probe_type_config": "探测类型配置",
+    "probe_address_config": "拨测节点配置",
+    "all_probe_address": "全部监测点",
+    "need_probe_address": "需要监测点"
   },
   "operate": {
     "open": "开启",
@@ -49,5 +65,8 @@
   "status": {
     "deploying": "部署中",
     "ready": "已就绪"
+  },
+  "ruler": {
+    "tcp_check": "格式错误(示例:{domain/ip}:{port})"
   }
 }

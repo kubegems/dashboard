@@ -70,6 +70,11 @@
           return this.$refs[this.tabItems[this.tab].value].getData();
         }
       },
+      reset() {
+        if (this.$refs[this.tabItems[this.tab].value]) {
+          this.$refs[this.tabItems[this.tab].value].reset();
+        }
+      },
     },
   };
 </script>

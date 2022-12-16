@@ -43,7 +43,7 @@ export class Job extends V1Job {
   public async addJob(cluster: string): Promise<Job> {
     const apiVersion: string = getApiVersion('job');
     const data: { [key: string]: any } = await axios.post(
-      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/jobs`,
+      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/jobs/${this.metadata.name}`,
       this,
     );
     return data as Job;

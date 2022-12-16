@@ -102,6 +102,9 @@
                   <v-btn v-if="plugin.upgradeableVersion" color="primary" small text @click="upgradePlugin(plugin)">
                     {{ $t('operate.upgrade') }}
                   </v-btn>
+                  <v-btn v-if="plugin.enabled" color="primary" small text @click="upgradePlugin(plugin)">
+                    {{ $t('operate.update') }}
+                  </v-btn>
                   <v-btn
                     v-if="plugin.enabled"
                     :color="getStatus(plugin).color"
@@ -170,23 +173,20 @@
       interval: null,
       pluginUpdateLoading: false,
       plugin: {},
+      tabItems: [],
     }),
     computed: {
       ...mapState(['JWT', 'AdminViewport', 'Locale']),
       ...mapGetters(['Cluster']),
       pluginGroup() {
+        if (this.tabItems.length === 0) return {};
         if (this.tabItems[this.tab].value === 'Core') {
           return this.pluginDict.core || {};
         } else if (this.tabItems[this.tab].value === 'Kubernetes') {
           return this.pluginDict.kubernetes || {};
+        } else {
+          return this.pluginDict[this.tabItems[this.tab].value] || {};
         }
-        return {};
-      },
-      tabItems() {
-        return [
-          { text: this.$t('tab.core'), value: 'Core' },
-          { text: this.$t('tab.kubernetes'), value: 'Kubernetes' },
-        ];
       },
     },
     mounted() {
@@ -220,6 +220,20 @@
           noprocessing: process,
         });
         this.pluginDict = data;
+        Object.keys(this.pluginDict).forEach((key) => {
+          if (
+            !this.tabItems.find((tab) => {
+              return tab.value === key;
+            })
+          )
+            if (key === 'core') {
+              this.tabItems.push({ text: this.$t('tab.core'), value: 'core' });
+            } else if (key === 'kubernetes') {
+              this.tabItems.push({ text: this.$t('tab.kubernetes'), value: 'kubernetes' });
+            } else {
+              this.tabItems.push({ text: key, value: key });
+            }
+        });
       },
       pluginPodList(plugin) {
         if (!plugin.enabled) {

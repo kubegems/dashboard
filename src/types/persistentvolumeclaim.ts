@@ -46,7 +46,7 @@ export class PersistentVolumeClaim extends V1PersistentVolumeClaim {
   public async addPersistentVolumeClaim(cluster: string): Promise<PersistentVolumeClaim> {
     const apiVersion: string = getApiVersion('persistentvolumeclaim');
     const data: { [key: string]: any } = await axios.post(
-      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/persistentvolumeclaims`,
+      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/persistentvolumeclaims/${this.metadata.name}`,
       this,
     );
     return data as PersistentVolumeClaim;

@@ -43,7 +43,7 @@ export class Pod extends V1Pod {
   public async addPod(cluster: string): Promise<Pod> {
     const apiVersion: string = getApiVersion('pod');
     const data: { [key: string]: any } = await axios.post(
-      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/pods`,
+      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/pods/${this.metadata.name}`,
       this,
     );
     return data as Pod;

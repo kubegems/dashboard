@@ -182,6 +182,7 @@
                   ticks: {
                     autoSkip: true,
                     maxTicksLimit: 10,
+                    source: 'data',
                   },
                   beginAtZero: false,
                   type: 'time',
@@ -226,6 +227,7 @@
                 : LINE_THEME_COLORS[index % 12],
           };
         });
+
         return datasets;
       },
       getStepSize() {

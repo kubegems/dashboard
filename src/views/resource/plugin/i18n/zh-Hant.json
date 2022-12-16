@@ -12,7 +12,8 @@
     "plugin_params": "元件參數",
     "schema_form": "Schema表單",
     "message": "安裝狀態",
-    "now": "當前"
+    "now": "當前",
+    "no_params": "暫無提供可更改的插件參數"
   },
   "operate": {
     "install": "啟用",

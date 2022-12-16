@@ -46,7 +46,7 @@ export class Ingress extends V1Ingress {
   public async addIngress(cluster: string): Promise<Ingress> {
     const apiVersion: string = getApiVersion('ingress');
     const data: { [key: string]: any } = await axios.post(
-      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/ingresses`,
+      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/ingresses/${this.metadata.name}`,
       this,
     );
     return data as Ingress;

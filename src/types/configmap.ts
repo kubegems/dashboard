@@ -45,7 +45,7 @@ export class ConfigMap extends V1ConfigMap {
   public async addConfigMap(cluster: string): Promise<ConfigMap> {
     const apiVersion: string = getApiVersion('configmap');
     const data: { [key: string]: any } = await axios.post(
-      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/configmaps`,
+      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/configmaps/${this.metadata.name}`,
       this,
     );
     return data as ConfigMap;

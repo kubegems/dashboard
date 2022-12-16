@@ -46,7 +46,7 @@ export class StatefulSet extends V1StatefulSet {
   public async addStatefulSet(cluster: string): Promise<StatefulSet> {
     const apiVersion: string = getApiVersion('statefulset');
     const data: { [key: string]: any } = await axios.post(
-      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/statefulsets`,
+      `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/statefulsets/${this.metadata.name}`,
       this,
     );
     return data as StatefulSet;

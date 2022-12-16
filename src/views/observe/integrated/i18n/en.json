@@ -31,7 +31,22 @@
     "preview_data": "Enter <a>metrics explore</a> to preview metrics data",
     "success_data": "Success to get data",
     "data_from_prometheus": "Acknowledge receipt of data from prometheus, usually need to wait 3 to 5 minutes",
-    "cpnfirm_project_and_env": "Confirm the running status of the instance under the project <span class=\"px-1\">{0}</span> environment <span class=\"px-1\">{1}</span>"
+    "cpnfirm_project_and_env": "Confirm the running status of the instance under the project <span class=\"px-1\">{0}</span> environment <span class=\"px-1\">{1}</span>",
+    "prometheus_probe": "Prometheus Probe",
+    "probe_config": "Prometheus Probe Config",
+    "task_name": "Task Name",
+    "interval": "Interval",
+    "1_min": "1 minute",
+    "5_min": "5 minutes",
+    "10_min": "10 minutes",
+    "30_min": "30 minutes",
+    "1_hour": "1 hour",
+    "2_hour": "2 hours",
+    "6_hour": "6 hours",
+    "12_hour": "12 hours",
+    "probe_type_config": "Probe type config",
+    "all_probe_address": "All probe cluster",
+    "need_probe_address": "Need probe cluster"
   },
   "operate": {
     "open": "Open",
@@ -47,5 +62,8 @@
   "status": {
     "deploying": "Deploying",
     "ready": "Ready"
+  },
+  "ruler": {
+    "tcp_check": "Error (example: {domain/ip}:{port})"
   }
 }
