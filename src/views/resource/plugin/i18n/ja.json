@@ -12,7 +12,8 @@
     "plugin_params": "プラグイン パラメータ",
     "schema_form": "スキーマフォーム",
     "message": "設置状況",
-    "now": "現在"
+    "now": "現在",
+    "no_params": "変更可能なプラグイン パラメータはまだありません"
   },
   "operate": {
     "install": "有効",

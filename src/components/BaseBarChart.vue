@@ -58,6 +58,10 @@
         type: Boolean,
         default: () => true,
       },
+      max: {
+        type: Number,
+        default: () => null,
+      },
       metrics: {
         type: Array,
         default: () => [],
@@ -165,7 +169,7 @@
               borderWidth: 1,
               scales: {
                 xAxis: {
-                  suggestedMax: this.horizontal ? this.getSuggestMax() : null,
+                  max: this.horizontal ? this.max : null,
                   grid: {
                     display: false,
                   },
@@ -209,31 +213,6 @@
         });
 
         return datasets;
-      },
-      getSuggestMax() {
-        if (this.metrics && this.metrics.length > 0) {
-          if (!this.metrics[0]?.data || this.metrics[0]?.data.length === 0) return null;
-          const max = this.metrics[0]?.data[0].x;
-          if (max < 10) {
-            return max + 2;
-          }
-          if (max < 100) {
-            return max + 10;
-          }
-          if (max < 1000) {
-            return max + 100;
-          }
-          if (max < 10000) {
-            return max + 1000;
-          }
-          if (max < 100000) {
-            return max + 10000;
-          }
-          if (max < 1000000) {
-            return max + 100000;
-          }
-        }
-        return null;
       },
     },
   };

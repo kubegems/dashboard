@@ -112,6 +112,8 @@
         handler(newValue) {
           if (newValue) {
             this.version = newValue;
+          } else {
+            this.version = this.versions[0];
           }
         },
         deep: true,

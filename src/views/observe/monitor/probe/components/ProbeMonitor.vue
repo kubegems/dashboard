@@ -46,8 +46,8 @@
               <tbody>
                 <tr v-for="(item, index) in statistics" :key="index">
                   <td>{{ item.s }}</td>
-                  <td>{{ item.v }}</td>
-                  <td>{{ item.t }}</td>
+                  <td>{{ item.v || '-' }}</td>
+                  <td>{{ item.t || '-' }}</td>
                 </tr>
               </tbody>
             </template>
@@ -175,7 +175,7 @@
         return d.values[0][1] === '1';
       }).length;
       statistics.value[2].v = `${((success / all) * 100).toFixed(1)}%`;
-      statistics.value[2].t = moment(date.value[1]).format('YYYY-MM-DD HH:mm:ss');
+      statistics.value[2].t = moment(params.value.end).format('YYYY-MM-DD HH:mm:ss');
     }
   };
 
@@ -191,7 +191,7 @@
     });
     if (data) {
       statistics.value[1].v = beautifyTime(data[0].value[1] as string, 1000000);
-      statistics.value[1].t = moment(date.value[1]).format('YYYY-MM-DD HH:mm:ss');
+      statistics.value[1].t = moment(params.value.end).format('YYYY-MM-DD HH:mm:ss');
     }
   };
 
@@ -207,7 +207,7 @@
     });
     if (data) {
       statistics.value[0].v = beautifyTime(data[0].value[1] as string, 1000000);
-      statistics.value[0].t = moment(date.value[1]).format('YYYY-MM-DD HH:mm:ss');
+      statistics.value[0].t = moment(params.value.end).format('YYYY-MM-DD HH:mm:ss');
     }
   };
 
@@ -219,7 +219,6 @@
     getMaxDuration();
     getAvailability();
     interval = setInterval(() => {
-      console.log(statistics);
       params.value.start = moment(params.value.start).utc().add(30, 'seconds').format();
       params.value.end = moment(params.value.end).utc().add(30, 'seconds').format();
       getDuration();

@@ -12,7 +12,8 @@
     "plugin_params": "插件参数",
     "schema_form": "Schema表单",
     "message": "安装状态",
-    "now": "当前"
+    "now": "当前",
+    "no_params": "暂无提供可更改的插件参数"
   },
   "operate": {
     "install": "启用",

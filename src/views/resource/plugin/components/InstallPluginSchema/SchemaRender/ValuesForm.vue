@@ -72,6 +72,10 @@
         this.obj.values = deepCopy(this.$yamlload(this.values)) || {};
         return this.obj;
       },
+      reset() {
+        this.values = '';
+        this.obj = {};
+      },
     },
   };
 </script>

@@ -12,7 +12,8 @@
     "plugin_params": "Plugin params",
     "schema_form": "Schema Form",
     "message": "Install Status",
-    "now": "Current"
+    "now": "Current",
+    "no_params": "No modifiable plugin parameters are available yet"
   },
   "operate": {
     "install": "Enabled",

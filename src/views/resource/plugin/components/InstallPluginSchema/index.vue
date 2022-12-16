@@ -79,6 +79,7 @@
       },
       dispose() {
         this.dialog = false;
+        this.$refs.schemaRender.reset();
       },
       async installPlugin() {
         if (this.$refs.schemaRender.validate()) {
