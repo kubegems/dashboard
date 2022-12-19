@@ -103,4 +103,22 @@ export const global: RouteConfig[] = [
       },
     ],
   },
+  {
+    path: '/jsonschema',
+    name: 'jsonschema-validate',
+    component: () => import('@/layouts/LayoutWithoutNavi.vue'),
+    redirect: { name: 'validate' },
+    children: [
+      {
+        path: 'validate',
+        name: 'validate',
+        component: () => import('@/views/tool/schema/index.vue'),
+        meta: {
+          requireAuth: true,
+          title: 'header.schema_validate',
+          smallTitle: 'header.system_tool',
+        },
+      },
+    ],
+  },
 ];
