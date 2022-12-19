@@ -50,16 +50,12 @@
 <script>
   import { mapState } from 'vuex';
 
-  import messages from '../../../i18n';
   import BaseYaml from '@/mixins/yaml';
   import { deepCopy } from '@/utils/helpers';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
 
   export default {
     name: 'SchemaForm',
-    i18n: {
-      messages: messages,
-    },
     components: {
       JsonSchema,
     },
