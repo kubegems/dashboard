@@ -16,70 +16,61 @@
 
 <template>
   <div :style="{ height: `${height}px`, overflowY: 'auto' }">
-    <JsonSchema
-      ref="jsonSchema"
-      :app-values="appValues"
-      class="px-2 pt-3"
-      :cluster-name="Cluster().ClusterName"
-      :params="params"
-      @changeBasicFormParam="changeBasicFormParam"
-    />
-    <v-card v-if="!params || params.length === 0" flat :style="{ marginTop: '250px' }">
-      <v-card-text class="pa-5 text-center">
-        <Icon class="ml-0 warning--text" height="70px" icon="mdi:alert-circle" width="70px" />
-        <h4 class="text-h6 mt-3 mb-8">{{ $t('tip.no_params') }}</h4>
-      </v-card-text>
-    </v-card>
+    <v-row>
+      <v-col cols="6">
+        <ACEEditor
+          v-model="jsonSchema"
+          :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded-0`"
+          lang="yaml"
+          :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
+          :style="{ height: `${height - 120}px !important` }"
+          theme="chrome"
+          @keydown.stop
+        />
+      </v-col>
+      <v-col cols="1" :style="{ position: 'relative' }">
+        <v-btn class="kubegems__full-center" color="primary" small @click="renderSchema">>></v-btn>
+      </v-col>
+      <v-col cols="5">
+        <v-card :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded-0`" :height="height - 120">
+          <JsonSchema
+            ref="jsonSchema"
+            :app-values="appValues"
+            class="px-2 pt-3"
+            :cluster-name="''"
+            :params="params"
+            @changeBasicFormParam="changeBasicFormParam"
+          />
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
-  import { mapGetters, mapState } from 'vuex';
+  import { mapState } from 'vuex';
 
-  import messages from '../../../i18n';
   import BaseYaml from '@/mixins/yaml';
   import { deepCopy } from '@/utils/helpers';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
 
   export default {
     name: 'SchemaForm',
-    i18n: {
-      messages: messages,
-    },
     components: {
       JsonSchema,
     },
     mixins: [BaseYaml],
-    props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
-    },
     data() {
       return {
         appValues: {},
         params: [],
-        obj: {},
+        jsonSchema: '',
       };
     },
     computed: {
       ...mapState(['Scale']),
-      ...mapGetters(['Cluster']),
       height() {
-        return (window.innerHeight - 202) / this.Scale;
-      },
-    },
-    watch: {
-      item: {
-        handler(newValue) {
-          if (newValue) {
-            this.renderSchema();
-            this.obj = deepCopy(newValue);
-          }
-        },
-        deep: true,
-        immediate: true,
+        return (window.innerHeight - 64) / this.Scale;
       },
     },
     methods: {
@@ -91,8 +82,8 @@
         return this.obj;
       },
       async renderSchema() {
-        this.appValues = this.item.values;
-        this.schemaJson = JSON.parse(this.item.schema);
+        this.appValues = {};
+        this.schemaJson = JSON.parse(this.jsonSchema);
         this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
       },
       changeBasicFormParam(param, value) {

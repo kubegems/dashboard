@@ -191,7 +191,9 @@
       "usercenter": "用户中心",
       "manual": "产品手册",
       "about": "关于"
-    }
+    },
+    "system_tool": "系统工具",
+    "schema_validate": "Schema渲染"
   },
   "filter": {
     "placehold": "输入查询条件进行过滤"
