@@ -161,7 +161,7 @@
                     return context.dataset.data[context.dataIndex] !== null ? 'auto' : false;
                   },
                   formatter: (value) => {
-                    return this.horizontal ? value.x.toFixed(1) : value.x;
+                    return this.horizontal ? `${value.x.toFixed(1)} ${this.unit}` : value.x;
                   },
                 },
               },

@@ -132,7 +132,7 @@
       });
     },
     beforeDestroy() {
-      clearTimeout(this.timer);
+      clearInterval(this.timer);
     },
     methods: {
       async loadData() {
@@ -157,7 +157,7 @@
         this.onOverwriteStyle();
         this.show = true;
         this.$store.commit('SET_PROGRESS', false);
-        clearTimeout(this.timer);
+        clearInterval(this.timer);
         this.setLocation();
       },
       searchByTraceId(e) {
@@ -215,12 +215,11 @@
         this.traceid = '';
       },
       setLocation() {
-        this.timer = setTimeout(() => {
+        this.timer = setInterval(() => {
           if (this.$refs.iframe) {
             const href = this.$refs.iframe.contentWindow.location.pathname;
             this.location = href.search('/trace/') === -1 ? 'search' : 'trace';
           }
-          this.setLocation();
         }, 200);
       },
     },
