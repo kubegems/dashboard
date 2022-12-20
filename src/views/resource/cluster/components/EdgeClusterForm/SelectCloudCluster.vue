@@ -29,10 +29,17 @@
             :no-data-text="i18n.t('data.no_data')"
             :rules="objRule.hubName"
           >
-            <template #selection="{ item, disabled }">
-              <v-chip color="primary" :disabled="disabled" small>
-                {{ item.text }}
+            <template #item="{ item, disabled }">
+              <v-chip color="primary" :disabled="disabled" label small>
+                {{ item.value }}
               </v-chip>
+              {{ item.text }}
+            </template>
+            <template #selection="{ item, disabled }">
+              <v-chip color="primary" :disabled="disabled" label small>
+                {{ item.value }}
+              </v-chip>
+              {{ item.text }}
             </template>
           </v-autocomplete>
         </v-col>
@@ -77,7 +84,7 @@
     const data: EdgeHub[] = await new EdgeHub().getEdgeHubList({ noprocessing: true });
     edgeHubItems.value = data.map((d: EdgeHub) => {
       return {
-        text: `${d.metadata.name} ${d.status.address}`,
+        text: d.status.address,
         value: d.metadata.name,
         disabled: !d.status.tunnel.connected,
       };
