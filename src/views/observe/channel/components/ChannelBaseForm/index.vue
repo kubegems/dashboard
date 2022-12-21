@@ -67,6 +67,9 @@
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
+  import AliyunMsg from './AliyunMsg';
+  import AliyunVoice from './AliyunVoice';
+  import Dingding from './Dingding';
   import Email from './Email';
   import Feishu from './Feishu';
   import Webhook from './Webhook';
@@ -79,6 +82,9 @@
       messages: messages,
     },
     components: {
+      AliyunMsg,
+      AliyunVoice,
+      Dingding,
       Email,
       Feishu,
       Webhook,
@@ -118,6 +124,9 @@
           { text: 'Email', value: 'Email' },
           { text: 'Webhook', value: 'Webhook' },
           { text: this.$t('tip.feishu'), value: 'Feishu' },
+          // { text: this.$t('tip.aliyun_msg'), value: 'AliyunMsg' },
+          // { text: this.$t('tip.aliyun_voice'), value: 'AliyunVoice' },
+          // { text: this.$t('tip.dingding'), value: 'Dingding' },
         ];
       },
     },
@@ -155,6 +164,27 @@
             requireTLS: false,
             smtpServer: '',
             to: '',
+          };
+        } else if (this.channelType === 'AliyunMsg' && !this.edit) {
+          this.obj.channelConfig = {
+            accessKeyId: '',
+            accessKeySecret: '',
+            phoneNumbers: '',
+            signName: '',
+            templateCode: '',
+          };
+        } else if (this.channelType === 'AliyunVoice' && !this.edit) {
+          this.obj.channelConfig = {
+            accessKeyId: '',
+            accessKeySecret: '',
+            callNumber: '',
+            ttsCode: '',
+          };
+        } else if (this.channelType === 'Dingding' && !this.edit) {
+          this.obj.channelConfig = {
+            url: '',
+            atMobiles: '',
+            signSecret: '',
           };
         }
       },

@@ -20,7 +20,11 @@
     "test_success": "測試發送成功！",
     "sign_secret": "校驗簽名",
     "skip_verify": "跳過安全校驗",
-    "send_resolved": "發送告警修復通知"
+    "send_resolved": "發送告警修復通知",
+    "aliyun_msg": "阿里雲短信",
+    "aliyun_voice": "阿里雲語音",
+    "dingding": "釘釘",
+    "phone": "手機號"
   },
   "filter": {
     "channel_name": "告警渠道"
