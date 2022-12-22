@@ -124,7 +124,7 @@
             const phones = this.obj.channelConfig.callNumber.split(',').filter((t) => {
               return Boolean(t);
             });
-            this.phoneTo = phones;
+            this.phoneTo = phones[0];
             this.phoneToItems = this.phoneToItems.concat(
               phones.map((e) => {
                 return { text: e, value: e };
@@ -198,7 +198,7 @@
       },
       phoneListToString() {
         if (this.phoneTo.length > 0) {
-          this.obj.channelConfig.callNumber = this.phoneTo.join(',');
+          this.obj.channelConfig.callNumber = this.phoneTo;
         } else {
           this.obj.channelConfig.callNumber = '';
         }
