@@ -66,7 +66,7 @@ jobs:
         env:
           VUE_APP_DATE: ${{ steps.prepare.outputs.created }}
           VUE_APP_RELEASE: ${{ steps.prepare.outputs.tags }}
-        run: echo $VUE_APP_DATE && echo $VUE_APP_RELEASE && npm install -g pnpm && pnpm install && pnpm build
+        run: echo $VUE_APP_DATE && echo $VUE_APP_RELEASE && export NODE_OPTIONS=--max-old-space-size=32768 && npm install -g pnpm && pnpm install && pnpm build
 
       - name: Set up QEMU
         if: github.event_name != 'pull_request'
