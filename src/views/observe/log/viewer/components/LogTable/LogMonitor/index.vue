@@ -98,6 +98,9 @@
     methods: {
       init(item) {
         this.item = deepCopy(item);
+        const start = this.$moment(this.item.info.timestampstr).utc().add(-15, 'minutes').format();
+        const end = this.$moment(this.item.info.timestampstr).utc().add(15, 'minutes').format();
+        this.date = [start, end];
       },
       open() {
         this.panel = true;

@@ -20,7 +20,11 @@
     "test_success": "Test channel successfully!",
     "sign_secret": "Sign Secret",
     "skip_verify": "Skip Insecure Verify",
-    "send_resolved": "Send message when alert resloved"
+    "send_resolved": "Send message when alert resloved",
+    "aliyun_msg": "Aliyun Message",
+    "aliyun_voice": "Aliyun Voice",
+    "dingding": "Dingding",
+    "phone": "Mobile"
   },
   "filter": {
     "channel_name": "Alert Channel"

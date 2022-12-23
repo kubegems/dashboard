@@ -70,7 +70,7 @@
             component="MetricsBaseForm"
             @close="close"
           />
-          <Probe v-if="item.name === 'Prometheus Probe'" ref="probe" @close="close" />
+          <Probe v-else-if="item.name === 'Prometheus Probe'" ref="probe" @close="close" />
           <Logging v-else ref="logging" @close="close" />
         </template>
       </v-card-text>

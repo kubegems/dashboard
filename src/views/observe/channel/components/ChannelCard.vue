@@ -62,6 +62,21 @@
                     {{ $t('tip.recv') }} : {{ item.channelConfig.to }}
                   </v-list-item-subtitle>
                 </template>
+                <template v-else-if="item.channelConfig.channelType === 'aliyunMsg'">
+                  <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
+                    {{ $t('tip.phone') }} : {{ item.channelConfig.phoneNumbers }}
+                  </v-list-item-subtitle>
+                </template>
+                <template v-else-if="item.channelConfig.channelType === 'aliyunVoice'">
+                  <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
+                    {{ $t('tip.phone') }} : {{ item.channelConfig.callNumber }}
+                  </v-list-item-subtitle>
+                </template>
+                <template v-else-if="item.channelConfig.channelType === 'dingding'">
+                  <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
+                    {{ $t('tip.phone') }} : {{ item.channelConfig.atMobiles }}
+                  </v-list-item-subtitle>
+                </template>
               </v-list-item-content>
             </v-list-item>
             <v-card-actions class="pl-4 pr-2 py-0 mb-2" :style="{ position: 'absolute', bottom: '0', width: '100%' }">

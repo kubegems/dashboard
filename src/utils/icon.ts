@@ -2,6 +2,8 @@ export function getIconName(name: string, def = 'kubernetes'): string {
   name = name.toLowerCase().trim();
   if (name.startsWith('mm')) return '';
 
+  if (name.indexOf('aliyun') > -1) return 'img:aliyun.svg';
+  if (name.indexOf('dingding') > -1) return 'img:dingding.svg';
   if (name.indexOf('kubegems-local') > -1) return 'logos:kubernetes';
   if (name.indexOf('volume-snapshoter') > -1) return 'logos:kubernetes';
   if (name.indexOf('node-problem-detector') > -1) return 'logos:kubernetes';

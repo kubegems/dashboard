@@ -1,3 +1,22 @@
+# 1.23.0-alpha.2 (2022-12-19)
+
+### 🌟 新功能
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [perf: ⚡ add log and trace link from app monitor page] | [2bb519e](https://github.com/chenshunliang/dashboard/commit/2bb519ee60e316830b05ee081de0718250940dfe) |
+| - | [perf: ⚡ support timeline chart, optimization app monitor trace] | [760334f](https://github.com/chenshunliang/dashboard/commit/760334f052174489734ee32d3ea46bb2367cb4bf) |
+| - | [feat: ✨ support prometheus probe for blackbox] | [66f2d55](https://github.com/chenshunliang/dashboard/commit/66f2d5562fd3b9e5d0d20f8c30b06810a93f442c) |
+| - | [perf: ✨ add prometheus probe monitor] | [115c821](https://github.com/chenshunliang/dashboard/commit/115c82159692a8efd5a8bcd0f4565e9de09453ed) |
+
+### Bug Fixes
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [fix: 🐛 fix plugin refresh bug] | ([1726c7e](https://github.com/chenshunliang/dashboard/commit/1726c7e6bfbc1284e1a2399f30e8a3470c4688d5)) |
+| - | [fix: 🐛 fix app name check regex not correct bug] | ([d97657d](https://github.com/chenshunliang/dashboard/commit/d97657db9ca0861eb6a9021d3416c2d8a3a94aaa)) |
+| - | [fix: 🐛 fix url encode bug] | ([bf4a7b8](https://github.com/chenshunliang/dashboard/commit/bf4a7b84c8988d5c8091f18585f8c5ef3b348b6f)) |
+
 # 1.23.0-alpha.0 (2022-12-01)
 
 ### 🌟 新功能

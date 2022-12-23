@@ -23,7 +23,7 @@
           bottom
           :close-on-content-click="false"
           content-class="header__menu"
-          max-height="350px"
+          max-height="380px"
           :min-width="state.width"
           nudge-bottom="5px"
           offset-y
@@ -53,7 +53,7 @@
               <v-icon v-else right>mdi-chevron-down</v-icon>
             </v-btn>
           </template>
-          <v-card class="pa-2" flat height="350px">
+          <v-card class="pa-2" flat height="380px">
             <div class="select__left" :style="{ width: '180px' }">
               <div class="text-subtitle-2 kubegems__text select__title">
                 <div class="float-left"> {{ i18n.t('tip.select_one_env') }} </div>
@@ -65,7 +65,7 @@
 
               <div class="text-caption pa-1 mt-2">{{ i18n.t('resource.project') }}</div>
               <v-divider class="mb-2" />
-              <v-list class="pa-0" dense max-height="300" nav :style="{ overflowY: 'auto' }">
+              <v-list class="pa-0" dense max-height="280" nav :style="{ overflowY: 'auto' }">
                 <v-list-item-group v-model="state.project" color="primary" @change="selectProject">
                   <v-list-item v-for="item in projectItems" :key="item.ProjectName" dense>
                     <v-list-item-content>
@@ -96,7 +96,7 @@
                 />
                 <div class="text-caption pa-1 mt-2">{{ i18n.t('resource.environment') }}</div>
                 <v-divider class="mb-2" />
-                <v-list class="pa-0" dense max-height="225" nav :style="{ overflowY: 'auto' }">
+                <v-list class="pa-0" dense max-height="245" nav :style="{ overflowY: 'auto' }">
                   <v-list-item-group v-model="state.environment" color="primary" @change="selectEnvironment">
                     <v-list-item v-for="item in environmentItems" :key="item.EnvironmentName" dense>
                       <v-list-item-content>

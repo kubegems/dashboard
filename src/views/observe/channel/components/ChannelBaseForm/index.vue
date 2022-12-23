@@ -31,7 +31,12 @@
             />
           </v-col>
           <v-col cols="6">
-            <v-switch v-model="obj.sendResolved" class="mt-5" hide-details :label="$t('tip.send_resolved')" />
+            <v-switch
+              v-model="obj.channelConfig.sendResolved"
+              class="mt-5"
+              hide-details
+              :label="$t('tip.send_resolved')"
+            />
           </v-col>
           <v-col cols="6">
             <v-autocomplete
@@ -67,6 +72,9 @@
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
+  import AliyunMsg from './AliyunMsg';
+  import AliyunVoice from './AliyunVoice';
+  import Dingding from './Dingding';
   import Email from './Email';
   import Feishu from './Feishu';
   import Webhook from './Webhook';
@@ -79,6 +87,9 @@
       messages: messages,
     },
     components: {
+      AliyunMsg,
+      AliyunVoice,
+      Dingding,
       Email,
       Feishu,
       Webhook,
@@ -98,8 +109,9 @@
         valid: false,
         obj: {
           name: '',
-          channelConfig: {},
-          sendResolved: false,
+          channelConfig: {
+            sendResolved: false,
+          },
         },
         channelType: null,
       };
@@ -118,6 +130,9 @@
           { text: 'Email', value: 'Email' },
           { text: 'Webhook', value: 'Webhook' },
           { text: this.$t('tip.feishu'), value: 'Feishu' },
+          { text: this.$t('tip.aliyun_msg'), value: 'AliyunMsg' },
+          { text: this.$t('tip.aliyun_voice'), value: 'AliyunVoice' },
+          { text: this.$t('tip.dingding'), value: 'Dingding' },
         ];
       },
     },
@@ -126,7 +141,9 @@
         handler(newValue) {
           if (newValue) {
             this.obj = deepCopy(newValue);
-            this.channelType = this.$_.capitalize(this.obj.channelConfig.channelType);
+            this.channelType = `${this.obj.channelConfig.channelType[0].toLocaleUpperCase()}${this.obj.channelConfig.channelType.substr(
+              1,
+            )}`;
           }
         },
         deep: true,
@@ -140,6 +157,7 @@
             channelType: 'webhook',
             insecureSkipVerify: true,
             url: '',
+            sendResolved: false,
           };
         } else if (this.channelType === 'Feishu' && !this.edit) {
           this.obj.channelConfig = {
@@ -147,6 +165,7 @@
             signSecret: '',
             url: '',
             at: '',
+            sendResolved: false,
           };
         } else if (this.channelType === 'Email' && !this.edit) {
           this.obj.channelConfig = {
@@ -155,6 +174,31 @@
             requireTLS: false,
             smtpServer: '',
             to: '',
+            sendResolved: false,
+          };
+        } else if (this.channelType === 'AliyunMsg' && !this.edit) {
+          this.obj.channelConfig = {
+            accessKeyId: '',
+            accessKeySecret: '',
+            phoneNumbers: '',
+            signName: '',
+            templateCode: '',
+            sendResolved: false,
+          };
+        } else if (this.channelType === 'AliyunVoice' && !this.edit) {
+          this.obj.channelConfig = {
+            accessKeyId: '',
+            accessKeySecret: '',
+            callNumber: '',
+            ttsCode: '',
+            sendResolved: false,
+          };
+        } else if (this.channelType === 'Dingding' && !this.edit) {
+          this.obj.channelConfig = {
+            url: '',
+            atMobiles: '',
+            signSecret: '',
+            sendResolved: false,
           };
         }
       },

@@ -20,7 +20,11 @@
     "get_feishu_id": "フェイシュウのユーザーIDの取得方法",
     "sign_secret": "署名をチェック",
     "skip_verify": "セキュリティチェックをスキップ",
-    "send_resolved": "アラーム修理通知の送信"
+    "send_resolved": "アラーム修理通知の送信",
+    "aliyun_msg": "Aliyun情報",
+    "aliyun_voice": "Aliyunボイス",
+    "dingding": "Dingding",
+    "phone": "電話番号"
   },
   "filter": {
     "channel_name": "アラームチャンネル"

@@ -34,7 +34,7 @@ const yamlUtils = {
       const splittedPath = this.parsePath(path);
       const value = doc.getIn(splittedPath);
       // 优先使用schema中的默认值
-      return defaultValue || value;
+      return value || defaultValue;
     },
     parsePath(path) {
       return this.unescapePath(this.splitPath(path));

@@ -239,7 +239,17 @@
       };
     },
     computed: {
-      ...mapState(['JWT', 'Circular', 'Admin', 'AdminViewport', 'Scale', 'SelfOut', 'Locale']),
+      ...mapState([
+        'JWT',
+        'Circular',
+        'Admin',
+        'AdminViewport',
+        'Scale',
+        'SelfOut',
+        'Locale',
+        'PluginsInterval',
+        'GlobalPluginsInterval',
+      ]),
       ...mapGetters(['Environment', 'Project', 'Tenant', 'Cluster']),
       passwordRules() {
         return [required, (v) => (v && v.length <= 32) || this.$t('form.passwordRule')];
@@ -276,6 +286,8 @@
     },
     methods: {
       clearAllTimeTickers() {
+        clearInterval(this.PluginsInterval);
+        clearInterval(this.GlobalPluginsInterval);
         for (let i = 0; i <= 100000; i++) {
           clearInterval(i);
           clearTimeout(i);
