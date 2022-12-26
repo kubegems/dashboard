@@ -1,10 +1,24 @@
 # 1.23.0-beta.0
 
+### 🌟 新功能
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [perf: ⚡ suuport aliyunmesg, aliyunvoice and dingding alert channels] | [7140d29](https://github.com/chenshunliang/dashboard/commit/7140d29bdcd7650aa9c68e3b71607f111d1c6ebe) |
+| - | [perf: 🐛 cancel plugins time interval] | [e994915](https://github.com/chenshunliang/dashboard/commit/e994915223322496435160fd450b2d756c84f432) |
+
+### Bug Fixes
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [fix: 🐛 fix intergated center page mixed bug] | ([0321113](https://github.com/chenshunliang/dashboard/commit/032111386eccbf2ec00fff119aad71722d73262c)) |
+| - | [fix: 🐛 fix plugins params value not reconstruct when edited ] | ([c7ac5e54](https://github.com/chenshunliang/dashboard/commit/c7ac5e547f56778237c4af4930050f95adadbfd9)) |
+
 ### 🔨 reflactor
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
-| - | [build: :chrone: add sentry from .env file, optimization trace overview] | ([14cb4d3](https://github.com/chenshunliang/dashboard/commit/14cb4d3b3bf64cbe75a4f844b072f04c4da7db25)) |
+| - | [build: :chrone: add sentry from .env file, optimization trace overview] | ([0f93576](https://github.com/chenshunliang/dashboard/commit/0f93576fb0b2daa6155552817371386b5f6ec137)) |
 
 # 1.23.0-alpha.2 (2022-12-19)
 
