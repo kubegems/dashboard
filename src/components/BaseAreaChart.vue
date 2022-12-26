@@ -281,7 +281,7 @@
                   grid: {
                     display: false,
                   },
-                  type: 'timeseries',
+                  type: 'time',
                   time: {
                     unit: 'second',
                     displayFormats: {
@@ -388,6 +388,7 @@
             const divNumberic = document.createElement('div');
             divNumberic.innerText = numberic;
             divNumberic.style.float = 'right';
+            divNumberic.style.marginLeft = '4px';
 
             const divClear = document.createElement('div');
             divClear.style.clear = 'both';
