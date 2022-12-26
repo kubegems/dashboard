@@ -23,12 +23,12 @@ import store from '@/store';
 if (import.meta.env.VUE_APP_SENTRY === 'true') {
   Sentry.init({
     Vue,
-    dsn: 'https://d773a269d3544372946067fb227c4153@sentry.cloudminds.com/5',
+    dsn: import.meta.env.VUE_APP_DSN,
     release: import.meta.env.VUE_APP_RELEASE || 'develop',
     integrations: [
       new Integrations.BrowserTracing({
         routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-        tracingOrigins: ['console.cloud.iamidata.com', /^\//],
+        tracingOrigins: [import.meta.env.VUE_APP_ORIGINS, /^\//],
       }),
     ],
     initialScope: {
