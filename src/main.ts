@@ -31,6 +31,7 @@ import store from '@/store';
 
 import '@/assets/styles/index.scss';
 import '@/types/axios';
+import '@/extension/sentry';
 
 Vue.config.productionTip = false;
 
@@ -40,7 +41,7 @@ Vue.component('Icon', Icon);
 Vue.use(VueMeta);
 Vue.use(VueClipboard);
 
-const timeout: number = setTimeout((): void => {
+const timeout: NodeJS.Timeout = setTimeout((): void => {
   // eslint-disable-next-line vue/require-name-property
   new Vue({
     vuetify,

@@ -17,3 +17,4 @@ dist/
 *.py
 *.pyc
 .vite
+.sentryclirc
