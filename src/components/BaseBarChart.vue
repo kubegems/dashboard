@@ -58,15 +58,15 @@
         type: Boolean,
         default: () => true,
       },
-      max: {
-        type: Number,
-        default: () => null,
-      },
       metrics: {
         type: Array,
         default: () => [],
       },
       title: {
+        type: String,
+        default: () => '',
+      },
+      type: {
         type: String,
         default: () => '',
       },
@@ -141,7 +141,9 @@
                   callbacks: {
                     label: (tooltipItem) => {
                       return this.horizontal
-                        ? beautifyTime(tooltipItem.dataset.data[tooltipItem.dataIndex].x, 1000000)
+                        ? this.type === 'time'
+                          ? beautifyTime(tooltipItem.dataset.data[tooltipItem.dataIndex].x, 1000000)
+                          : tooltipItem.dataset.data[tooltipItem.dataIndex].x.toFixed(1)
                         : tooltipItem.dataset.data[tooltipItem.dataIndex].y;
                     },
                   },
@@ -155,7 +157,11 @@
                     return context.dataset.data[context.dataIndex] !== null ? 'auto' : false;
                   },
                   formatter: (value) => {
-                    return this.horizontal ? beautifyTime(value.x, 1000000) : value.x;
+                    return this.horizontal
+                      ? this.type === 'time'
+                        ? beautifyTime(value.x, 1000000)
+                        : value.x.toFixed(1)
+                      : value.y;
                   },
                 },
               },
@@ -164,7 +170,6 @@
               scales: {
                 xAxis: {
                   display: !this.horizontal,
-                  max: this.horizontal ? this.max : null,
                   grid: {
                     display: false,
                   },

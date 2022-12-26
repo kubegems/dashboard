@@ -164,6 +164,8 @@
         let metricItems = [];
         Object.keys(data).forEach((key) => {
           const newData = data[key].map((d) => {
+            delete d.metric['__name__'];
+            delete d.metric['namespace'];
             return { metric: d.metric, values: d.values, key: key };
           });
           metricItems = metricItems.concat(newData);
@@ -222,6 +224,17 @@
                 expr: firstTarget.expr,
                 unit: this.graph.unit,
               };
+
+          delete params[`labelpairs[${label}]`];
+          for (const key in this.labelpairs) {
+            if (this.labelpairs[key] && this.labelpairs[key].length) {
+              params[`labelpairs[${key}]`] = this.labelpairs[key].reduce(
+                (pre, current, index, arr) => pre + current + `${index === arr.length - 1 ? '' : '|'}`,
+                '',
+              );
+            }
+          }
+
           const data = await getMetricsLabelValues(
             this.environment.clusterName,
             this.namespace,
@@ -231,7 +244,11 @@
         });
       },
       onLabelChange(label) {
-        this.$set(this.labelpairs, label.text, label.value);
+        if (label.value?.length === 0) {
+          this.$delete(this.labelpairs, label.text);
+        } else {
+          this.$set(this.labelpairs, label.text, label.value);
+        }
         let newParams = {};
         for (const key in this.labelpairs) {
           if (this.labelpairs[key] && this.labelpairs[key].length) {
@@ -243,6 +260,7 @@
         }
 
         this.loadMetrics(newParams);
+        this.getLabelItems();
       },
     },
   };

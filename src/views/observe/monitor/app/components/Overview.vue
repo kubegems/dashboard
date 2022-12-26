@@ -24,9 +24,9 @@
           :extend-height="400"
           horizontal
           :label-show="false"
-          :max="metricsSuggestMax.dbOperationDurationSeconds"
           :metrics="metrics.dbOperationDurationSeconds"
           :title="i18nLocal.t('tip.db_operation')"
+          type="time"
         />
       </v-card>
     </v-col>
@@ -38,7 +38,6 @@
           :extend-height="400"
           horizontal
           :label-show="false"
-          :max="metricsSuggestMax.serviceErrorCount"
           :metrics="metrics.serviceErrorCount"
           :title="i18nLocal.t('tip.service_error')"
         />
@@ -52,9 +51,9 @@
           :extend-height="400"
           horizontal
           :label-show="false"
-          :max="metricsSuggestMax.p90OperationDurationSeconds"
           :metrics="metrics.p90OperationDurationSeconds"
           :title="i18nLocal.t('tip.p90_operate_duration')"
+          type="time"
         />
       </v-card>
     </v-col>
@@ -66,9 +65,9 @@
           :extend-height="400"
           horizontal
           :label-show="false"
-          :max="metricsSuggestMax.p90ServiceDurationSeconds"
           :metrics="metrics.p90ServiceDurationSeconds"
           :title="i18nLocal.t('tip.p90_service_duration')"
+          type="time"
         />
       </v-card>
     </v-col>
@@ -148,7 +147,6 @@
   );
 
   const metrics = ref<TelemetryMetrics>({});
-  const metricsSuggestMax = ref<{ [key: string]: number }>({});
   const kubeRequest: KubeRequest = {
     start: '',
     end: '',
@@ -172,31 +170,6 @@
         };
       });
       metrics.value[key] = [metric];
-      metricsSuggestMax.value[key] = getSuggestMax(metric);
     });
-  };
-
-  const getSuggestMax = (metrics: TelemetryMetric): number => {
-    if (!metrics || metrics.data.length === 0) return null;
-    const max = parseFloat(metrics.data[0].x);
-
-    if (max < 10) {
-      return max + 2;
-    }
-    if (max < 100) {
-      return max + 10;
-    }
-    if (max < 1000) {
-      return max + 100;
-    }
-    if (max < 10000) {
-      return max + 1000;
-    }
-    if (max < 100000) {
-      return max + 10000;
-    }
-    if (max < 1000000) {
-      return max + 100000;
-    }
   };
 </script>
