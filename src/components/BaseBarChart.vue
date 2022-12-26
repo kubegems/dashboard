@@ -25,7 +25,7 @@
   import ChartDataLabels from 'chartjs-plugin-datalabels';
 
   import { LINE_THEME_COLORS, LINE_THEME_FUL_COLORS } from '@/constants/chart';
-  import { randomString } from '@/utils/helpers';
+  import { randomString, beautifyTime } from '@/utils/helpers';
 
   export default {
     name: 'BaseBarChart',
@@ -67,10 +67,6 @@
         default: () => [],
       },
       title: {
-        type: String,
-        default: () => '',
-      },
-      unit: {
         type: String,
         default: () => '',
       },
@@ -144,11 +140,9 @@
                   mode: 'index',
                   callbacks: {
                     label: (tooltipItem) => {
-                      return `${parseFloat(
-                        this.horizontal
-                          ? tooltipItem.dataset.data[tooltipItem.dataIndex].x
-                          : tooltipItem.dataset.data[tooltipItem.dataIndex].y,
-                      ).toFixed(3)} ${this.unit}`;
+                      return this.horizontal
+                        ? beautifyTime(tooltipItem.dataset.data[tooltipItem.dataIndex].x, 1000000)
+                        : tooltipItem.dataset.data[tooltipItem.dataIndex].y;
                     },
                   },
                 },
@@ -161,7 +155,7 @@
                     return context.dataset.data[context.dataIndex] !== null ? 'auto' : false;
                   },
                   formatter: (value) => {
-                    return this.horizontal ? `${value.x.toFixed(1)} ${this.unit}` : value.x;
+                    return this.horizontal ? beautifyTime(value.x, 1000000) : value.x;
                   },
                 },
               },
@@ -169,13 +163,14 @@
               borderWidth: 1,
               scales: {
                 xAxis: {
+                  display: !this.horizontal,
                   max: this.horizontal ? this.max : null,
                   grid: {
                     display: false,
                   },
                 },
                 yAxis: {
-                  // display: !this.horizontal,
+                  display: !this.horizontal,
                   grid: {
                     borderDash: [8, 8, 8],
                     drawBorder: false,
@@ -209,6 +204,19 @@
                 : this.colorful
                 ? LINE_THEME_FUL_COLORS[index % 10]
                 : LINE_THEME_COLORS[index % 12],
+            datalabels: {
+              labels: {
+                name: {
+                  align: 'right',
+                  anchor: 'start',
+                  color: 'white',
+                  formatter: function (value) {
+                    return value.y;
+                  },
+                },
+                value: {},
+              },
+            },
           };
         });
 

@@ -522,6 +522,12 @@
       onLabelChange(data, id) {
         this.$set(this.labelpairs[id], data.label.text, data.label.value);
         this.onSearch(id, false);
+        const labels = Object.keys(this.labelObject[id]);
+        labels.forEach((l) => {
+          if (l !== data.label.text) {
+            this.getLabelItems(l, id, true);
+          }
+        });
       },
       onClusterChange(index) {
         const query = this.queryList[index];
@@ -530,11 +536,21 @@
       load(item) {
         this.pluginsPass(item.clusterName);
       },
-      async getLabelItems(label, id) {
-        if (this.labelObject[id][label]?.request) return;
+      async getLabelItems(label, id, q = false) {
+        if (this.labelObject[id][label]?.request && !q) return;
         const query = this.queryList.find((item) => item._$id === id);
         if (query) {
           const params = this.getParams(query);
+          const labelpairs = this.labelpairs[params._$id];
+          for (const key in labelpairs) {
+            if (labelpairs[key] && labelpairs[key].length) {
+              params[`labelpairs[${key}]`] = labelpairs[key].reduce(
+                (pre, current, index, arr) => pre + current + `${index === arr.length - 1 ? '' : '|'}`,
+                '',
+              );
+            }
+          }
+
           params.label = label;
           const data = await getMetricsLabelValues(
             params.cluster,
@@ -542,7 +558,11 @@
             Object.assign(params, { noprocessing: true }),
           );
           this.$set(this.labelObject[id][label], 'items', data);
-          this.$set(this.labelObject[id][label], 'value', []);
+          this.$set(
+            this.labelObject[id][label],
+            'value',
+            params[`labelpairs[${label}]`] ? params[`labelpairs[${label}]`].split('|') : [],
+          );
           this.$set(this.labelObject[id][label], 'request', true);
         }
       },

@@ -102,6 +102,9 @@
       labels() {
         return Object.values(this.labelObject);
       },
+      keys() {
+        return Object.keys(this.labelObject);
+      },
       maxHeight() {
         if (this.labels.length % 4 === 0) {
           return (36 * this.labels.length) / 4;
@@ -111,7 +114,7 @@
       },
     },
     watch: {
-      labels: {
+      keys: {
         handler(newValue) {
           if (newValue?.length > 0) {
             this.getLabelItems();

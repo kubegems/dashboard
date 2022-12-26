@@ -237,7 +237,7 @@
 
   let pagination: Pagination<Telemetry> = reactive<Pagination<Telemetry>>({
     page: 1,
-    size: 10,
+    size: 20,
     pageCount: 0,
     items: [],
     start: '',

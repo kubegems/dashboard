@@ -24,8 +24,8 @@
           :extend-height="400"
           horizontal
           :label-show="false"
-          :max="metricsSuggestMax.dbOperationCount"
-          :metrics="metrics.dbOperationCount"
+          :max="metricsSuggestMax.dbOperationDurationSeconds"
+          :metrics="metrics.dbOperationDurationSeconds"
           :title="i18nLocal.t('tip.db_operation')"
         />
       </v-card>
@@ -55,7 +55,6 @@
           :max="metricsSuggestMax.p90OperationDurationSeconds"
           :metrics="metrics.p90OperationDurationSeconds"
           :title="i18nLocal.t('tip.p90_operate_duration')"
-          unit="s"
         />
       </v-card>
     </v-col>
@@ -70,7 +69,6 @@
           :max="metricsSuggestMax.p90ServiceDurationSeconds"
           :metrics="metrics.p90ServiceDurationSeconds"
           :title="i18nLocal.t('tip.p90_service_duration')"
-          unit="s"
         />
       </v-card>
     </v-col>
