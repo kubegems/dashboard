@@ -24,10 +24,7 @@ if (import.meta.env.VUE_APP_SENTRY === 'true') {
   Sentry.init({
     Vue,
     dsn: 'https://d773a269d3544372946067fb227c4153@sentry.cloudminds.com/5',
-    release:
-      import.meta.env.VUE_APP_RELEASE && import.meta.env.VUE_APP_RELEASE.indexOf('v') === 0
-        ? import.meta.env.VUE_APP_RELEASE
-        : 'develop',
+    release: import.meta.env.VUE_APP_RELEASE || 'develop',
     integrations: [
       new Integrations.BrowserTracing({
         routingInstrumentation: Sentry.vueRouterInstrumentation(router),

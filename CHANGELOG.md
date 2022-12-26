@@ -1,3 +1,11 @@
+# 1.23.0-beta.0
+
+### 🔨 reflactor
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [build: :chrone: add sentry from .env file, optimization trace overview] | ([14cb4d3](https://github.com/chenshunliang/dashboard/commit/14cb4d3b3bf64cbe75a4f844b072f04c4da7db25)) |
+
 # 1.23.0-alpha.2 (2022-12-19)
 
 ### 🌟 新功能

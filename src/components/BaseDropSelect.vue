@@ -121,7 +121,7 @@
               return {
                 text: d,
                 value: d,
-                active: false,
+                active: true,
               };
             });
             this.variableItems = deepCopy(items);
