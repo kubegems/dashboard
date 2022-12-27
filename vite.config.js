@@ -49,6 +49,7 @@ export default defineConfig({
         moment: ['moment'],
         'vue-table-dynamic': ['vue-table-dynamic'],
         'vue-i18n': ['vue-i18n'],
+        sentry: ['@sentry/tracing', '@sentry/vue'],
       },
     }),
     VueSetupExtend(),
