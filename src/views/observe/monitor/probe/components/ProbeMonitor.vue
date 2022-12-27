@@ -78,10 +78,10 @@
 
   import { useI18n } from '../../i18n';
   import {
-    PROBE_DURATION_PROMQL,
-    PROBE_AVG_DURATION_PROMQL,
-    PROBE_MAX_DURATION_PROMQL,
     PROBE_AVAILABILITY_PROMQL,
+    PROBE_AVG_DURATION_PROMQL,
+    PROBE_DURATION_PROMQL,
+    PROBE_MAX_DURATION_PROMQL,
   } from '@/constants/prometheus';
   import { useStore } from '@/store';
   import { Matrix, Vector } from '@/types/prometheus';

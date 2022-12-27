@@ -25,7 +25,7 @@
   import ChartDataLabels from 'chartjs-plugin-datalabels';
 
   import { LINE_THEME_COLORS, LINE_THEME_FUL_COLORS } from '@/constants/chart';
-  import { randomString, beautifyTime } from '@/utils/helpers';
+  import { beautifyTime, randomString } from '@/utils/helpers';
 
   export default {
     name: 'BaseBarChart',

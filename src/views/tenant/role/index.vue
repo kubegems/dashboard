@@ -25,108 +25,101 @@
           hide-default-footer
           :items="items"
           :items-per-page="100"
-          :no-data-text="$root.$t('data.no_data')"
+          :no-data-text="i18n.t('data.no_data')"
         />
       </v-card-text>
     </v-card>
   </v-container>
 </template>
 
-<script>
-  import messages from './i18n';
+<script lang="ts" setup>
+  import { useI18n } from './i18n';
+  import { useGlobalI18n } from '@/i18n';
 
-  export default {
-    name: 'Role',
-    i18n: {
-      messages: messages,
+  const i18nLocal = useI18n();
+  const i18n = useGlobalI18n();
+
+  const headers = [
+    { text: i18nLocal.t('table.role'), value: 'role', align: 'start', width: 300 },
+    { text: i18nLocal.t('table.type'), value: 'type', align: 'start' },
+    { text: i18nLocal.t('table.description'), value: 'description', align: 'start' },
+  ];
+
+  const items = [
+    {
+      id: 1,
+      role: i18n.t('role.system.administrator'),
+      type: i18n.t('resource.system'),
+      description: i18nLocal.t('tip.system.admin'),
     },
-    computed: {
-      headers() {
-        return [
-          { text: this.$t('table.role'), value: 'role', align: 'start', width: 300 },
-          { text: this.$t('table.type'), value: 'type', align: 'start' },
-          { text: this.$t('table.description'), value: 'description', align: 'start' },
-        ];
-      },
-      items() {
-        return [
-          {
-            id: 1,
-            role: this.$root.$t('role.system.administrator'),
-            type: this.$root.$t('resource.system'),
-            description: this.$t('tip.system.admin'),
-          },
-          {
-            id: 2,
-            role: this.$root.$t('role.system.normal'),
-            type: this.$root.$t('resource.system'),
-            description: this.$t('tip.system.normal'),
-          },
-
-          {
-            id: 3,
-            role: this.$root.$t('role.tenant.admin'),
-            type: this.$root.$t('resource.tenant'),
-            description: this.$t('tip.tenant.admin'),
-          },
-          {
-            id: 4,
-            role: this.$root.$t('role.tenant.ordinary'),
-            type: this.$root.$t('resource.tenant'),
-            description: this.$t('tip.tenant.normal'),
-          },
-
-          {
-            id: 5,
-            role: this.$root.$t('role.project.admin'),
-            type: this.$root.$t('resource.project'),
-            description: this.$t('tip.project.admin'),
-          },
-          {
-            id: 6,
-            role: this.$root.$t('role.project.test'),
-            type: this.$root.$t('resource.project'),
-            description: this.$t('tip.project.test'),
-          },
-          {
-            id: 7,
-            role: this.$root.$t('role.project.dev'),
-            type: this.$root.$t('resource.project'),
-            description: this.$t('tip.project.dev'),
-          },
-          {
-            id: 8,
-            role: this.$root.$t('role.project.ops'),
-            type: this.$root.$t('resource.project'),
-            description: this.$t('tip.project.ops'),
-          },
-
-          {
-            id: 9,
-            role: this.$root.$t('role.environment.reader'),
-            type: this.$root.$t('resource.project'),
-            description: this.$t('tip.environment.reader'),
-          },
-          {
-            id: 10,
-            role: this.$root.$t('role.environment.operator'),
-            type: this.$root.$t('resource.project'),
-            description: this.$t('tip.environment.operator'),
-          },
-          {
-            id: 11,
-            role: this.$root.$t('role.mesh.normal'),
-            type: this.$root.$t('resource.mesh'),
-            description: this.$t('tip.mesh.normal'),
-          },
-          {
-            id: 12,
-            role: this.$root.$t('role.mesh.administrator'),
-            type: this.$root.$t('resource.mesh'),
-            description: this.$t('tip.mesh.admin'),
-          },
-        ];
-      },
+    {
+      id: 2,
+      role: i18n.t('role.system.normal'),
+      type: i18n.t('resource.system'),
+      description: i18nLocal.t('tip.system.normal'),
     },
-  };
+
+    {
+      id: 3,
+      role: i18n.t('role.tenant.admin'),
+      type: i18n.t('resource.tenant'),
+      description: i18nLocal.t('tip.tenant.admin'),
+    },
+    {
+      id: 4,
+      role: i18n.t('role.tenant.ordinary'),
+      type: i18n.t('resource.tenant'),
+      description: i18nLocal.t('tip.tenant.normal'),
+    },
+
+    {
+      id: 5,
+      role: i18n.t('role.project.admin'),
+      type: i18n.t('resource.project'),
+      description: i18nLocal.t('tip.project.admin'),
+    },
+    {
+      id: 6,
+      role: i18n.t('role.project.test'),
+      type: i18n.t('resource.project'),
+      description: i18nLocal.t('tip.project.test'),
+    },
+    {
+      id: 7,
+      role: i18n.t('role.project.dev'),
+      type: i18n.t('resource.project'),
+      description: i18nLocal.t('tip.project.dev'),
+    },
+    {
+      id: 8,
+      role: i18n.t('role.project.ops'),
+      type: i18n.t('resource.project'),
+      description: i18nLocal.t('tip.project.ops'),
+    },
+
+    {
+      id: 9,
+      role: i18n.t('role.environment.reader'),
+      type: i18n.t('resource.project'),
+      description: i18nLocal.t('tip.environment.reader'),
+    },
+    {
+      id: 10,
+      role: i18n.t('role.environment.operator'),
+      type: i18n.t('resource.project'),
+      description: i18nLocal.t('tip.environment.operator'),
+    },
+    {
+      id: 11,
+      role: i18n.t('role.mesh.normal'),
+      type: i18n.t('resource.mesh'),
+      description: i18nLocal.t('tip.mesh.normal'),
+    },
+    {
+      id: 12,
+      role: i18n.t('role.mesh.administrator'),
+      type: i18n.t('resource.mesh'),
+      description: i18nLocal.t('tip.mesh.admin'),
+    },
+  ];
 </script>

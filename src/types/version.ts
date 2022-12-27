@@ -13,6 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const TENANT_KEY = 'gems.kubegems.io/tenant';
-export const PROJECT_KEY = 'gems.kubegems.io/project';
-export const ENVIRONMENT_KEY = 'gems.kubegems.io/environment';
+import axios from 'axios';
+
+export class Version {
+  constructor(version?: { [key: string]: any }) {
+    Object.assign(this, version);
+  }
+
+  BuildDate: Date;
+  Compiler: string;
+  GitCommit: string;
+  GitVersion: string;
+  GoVersion: string;
+  Platform: string;
+  [others: string]: any;
+
+  public async getVersion(params: KubeRequest): Promise<Version> {
+    const data: { [key: string]: any } = await axios(`version`, { params: params });
+    return data as Version;
+  }
+}
