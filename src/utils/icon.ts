@@ -4,7 +4,6 @@ export function getIconName(name: string, def = 'kubernetes'): string {
 
   if (name.indexOf('aliyun') > -1) return 'img:aliyun.svg';
   if (name.indexOf('dingding') > -1) return 'img:dingding.svg';
-  if (name.indexOf('kubegems-local') > -1) return 'logos:kubernetes';
   if (name.indexOf('volume-snapshoter') > -1) return 'logos:kubernetes';
   if (name.indexOf('node-problem-detector') > -1) return 'logos:kubernetes';
   if (name.indexOf('node-local-dns') > -1) return 'logos:kubernetes';
@@ -22,6 +21,8 @@ export function getIconName(name: string, def = 'kubernetes'): string {
   if (name === 'mongo') return 'logos:mongodb-icon';
   if (name === 'k3s') return 'img:k3s.svg';
   if (name === 'k3s-light') return 'img:k3s-light.svg';
+  if (name.indexOf('seldon') > -1) return 'img:seldon-icon.svg';
+  if (name.indexOf('knative') > -1) return 'img:knative.svg';
   if (name.indexOf('postgresql') > -1) return 'logos:postgresql';
   if (name.indexOf('postgres') > -1) return 'logos:postgresql';
   if (name.indexOf('kibana') > -1) return 'logos:kibana';
@@ -131,6 +132,7 @@ export function getIconName(name: string, def = 'kubernetes'): string {
   if (name.indexOf('oauth') > -1) return 'logos:oauth';
   if (name.indexOf('ldap') > -1) return 'img:openldap.svg';
   if (name === 'kubegems') return 'img:kubegems.svg';
+  if (name.startsWith('kubegems')) return 'img:kubegems.svg';
   if (name.indexOf('gke') > -1) return 'logos:google-cloud';
   if (name === 'ack') return 'img:aliyun.svg';
   if (name.indexOf('testlink') > -1) return 'img:testlink.svg';
