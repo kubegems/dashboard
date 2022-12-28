@@ -94,7 +94,11 @@
     "2_hour": "2時間",
     "6_hour": "6時間",
     "12_hour": "12時間",
-    "probe_type_config": "プローブ タイプの設定"
+    "probe_type_config": "プローブ タイプの設定",
+    "label_match": "マッチタグ",
+    "label": "タグ名",
+    "operate": "表現",
+    "label_value": "タグ値"
   },
   "tab": {
     "generate_from_template": "テンプレート生成",

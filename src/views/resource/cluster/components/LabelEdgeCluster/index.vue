@@ -74,7 +74,7 @@
 
   import { useI18n } from '../../i18n';
   import TenantProjEnvSelectCascade from './TenantProjEnvSelectCascade.vue';
-  import { ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
+  import { EDGE_DEVICEID_KEY, ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
   import { useGlobalI18n } from '@/i18n';
   import { useStore } from '@/store';
   import { EdgeCluster } from '@/types/edge_cluster';
@@ -113,7 +113,7 @@
         });
       } else {
         keys = Object.keys(edgeCluster.value.metadata.labels).filter((l) => {
-          return [ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY].indexOf(l) === -1;
+          return [ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY, EDGE_DEVICEID_KEY].indexOf(l) === -1;
         });
       }
       keys.forEach((key) => {
@@ -125,7 +125,11 @@
 
   const emit = defineEmits(['refresh']);
   const confirm = async (): Promise<void> => {
-    edgeCluster.value.metadata.labels = { ...otherLables.value, ...labels.value };
+    edgeCluster.value.metadata.labels = {
+      ...otherLables.value,
+      ...labels.value,
+      [EDGE_DEVICEID_KEY]: edgeCluster.value.metadata.labels[EDGE_DEVICEID_KEY],
+    };
     await new EdgeCluster(edgeCluster.value).updateEdgeCluster();
     reset();
     emit('refresh');

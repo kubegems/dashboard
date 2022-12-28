@@ -72,9 +72,17 @@
           </div>
           <div class="float-left">
             <a v-if="item.status.phase === 'Online'" class="text-subtitle-2" @click.stop="edgeDetail(item)">
-              {{ item.metadata.name }}
+              {{ item.metadata.labels[EDGE_DEVICEID_KEY] || item.metadata.name }}
             </a>
             <span v-else> {{ item.metadata.name }} </span>
+            <EdgeManufactureTip
+              :edge-cluster="item"
+              :top="pagination.size - index <= 5 || (pagination.items.length <= 5 && index >= 1)"
+            >
+              <template #trigger>
+                <v-icon color="success" small>mdi-text-box-outline</v-icon>
+              </template>
+            </EdgeManufactureTip>
           </div>
           <div class="kubegems__clear-float" />
         </template>
@@ -156,12 +164,13 @@
   import { useI18n } from './i18n';
   import { useEdgeClusterPagination } from '@/composition/cluster';
   import { useRoute, useRouter } from '@/composition/router';
-  import { ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
+  import { EDGE_DEVICEID_KEY, ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
   import { useGlobalI18n } from '@/i18n';
   import { useQuery } from '@/router';
   import { useStore } from '@/store';
   import { EdgeCluster } from '@/types/edge_cluster';
   import EdgeClusterForm from '@/views/resource/cluster/components/EdgeClusterForm/index.vue';
+  import EdgeManufactureTip from '@/views/resource/cluster/components/EdgeManufactureTip.vue';
   import EdgeStatusTip from '@/views/resource/cluster/components/EdgeStatusTip.vue';
   import Terminal from '@/views/resource/components/common/Terminal/index.vue';
 
@@ -182,7 +191,10 @@
   const router = useRouter();
   const i18nLocal = useI18n();
 
-  const filters = [{ text: i18nLocal.t('filter.edge_name'), value: 'search', items: [] }];
+  const filters = [
+    { text: i18nLocal.t('filter.edge_name'), value: 'search', items: [] },
+    { items: [], text: i18nLocal.t('filter.device_id'), value: 'deviceid' },
+  ];
 
   const headers = [
     { text: i18nLocal.t('table.name'), value: 'name', align: 'start' },
@@ -203,20 +215,21 @@
     search: '',
   });
 
+  const labels = ref<{ [key: string]: string[] }>({
+    [ENVIRONMENT_KEY]: [route.params.environment],
+    [PROJECT_KEY]: [route.params.project],
+    [TENANT_KEY]: [route.params.tenant],
+  });
+
   const getEdgeClusterList = async (params: KubePaginationRequest = pagination): Promise<void> => {
     const data: Pagination<EdgeCluster> = await useEdgeClusterPagination(
       new EdgeCluster(),
       params.page,
       params.size,
-      {
-        [ENVIRONMENT_KEY]: [route.params.environment],
-        [PROJECT_KEY]: [route.params.project],
-        [TENANT_KEY]: [route.params.tenant],
-      },
+      labels.value,
       params.search,
     );
     pagination = Object.assign(pagination, data);
-    router.replace({ query: { ...route.query, page: pagination.page.toString(), size: pagination.size.toString() } });
   };
 
   let interval: NodeJS.Timeout;
@@ -228,6 +241,11 @@
     () => query,
     async (newValue) => {
       if (!newValue) return;
+      if (newValue.value.deviceid) {
+        labels.value[EDGE_DEVICEID_KEY] = [newValue.value.deviceid];
+      } else {
+        delete labels.value[EDGE_DEVICEID_KEY];
+      }
       if (newValue.value.search) {
         pagination.search = newValue.value.search;
       } else {

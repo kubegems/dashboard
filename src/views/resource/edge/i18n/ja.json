@@ -22,5 +22,9 @@
   "operate": {
     "allow_schedule": "許可されたフィルタ：",
     "stop_schedule": "スケジューリングを終了します。"
+  },
+  "filter": {
+    "edge_name": "名前",
+    "device_id": "デバイスID"
   }
 }

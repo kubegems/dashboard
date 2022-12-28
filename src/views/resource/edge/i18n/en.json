@@ -22,5 +22,9 @@
   "operate": {
     "allow_schedule": "Allow scheduling",
     "stop_schedule": "Stop scheduling"
+  },
+  "filter": {
+    "edge_name": "Name",
+    "device_id": "Device Id"
   }
 }

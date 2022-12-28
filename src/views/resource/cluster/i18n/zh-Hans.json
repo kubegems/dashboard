@@ -44,7 +44,8 @@
     "add_command": "加入命令",
     "create_at": "创建时间",
     "select_environment": "请选择分配环境",
-    "heartbeat_time": "上次心跳时间"
+    "heartbeat_time": "上次心跳时间",
+    "manufacture": "手册"
   },
   "form": {
     "format_rule": "格式错误(示例:最多1位小数)",
@@ -64,7 +65,8 @@
     "edge_cluster": "边缘集群"
   },
   "filter": {
-    "edge_name": "名称"
+    "edge_name": "名称",
+    "device_id": "设备id"
   },
   "operate": {
     "label": "注入标签",

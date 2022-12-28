@@ -101,7 +101,12 @@
     "1_hour": "1小时",
     "2_hour": "2小时",
     "6_hour": "6小时",
-    "12_hour": "12小时"
+    "12_hour": "12小时",
+
+    "label_match": "匹配标签",
+    "label": "标签名",
+    "operate": "表达式",
+    "label_value": "标签值"
   },
   "tab": {
     "generate_from_template": "由模版生成",

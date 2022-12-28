@@ -18,11 +18,9 @@
   <v-container class="pa-0" fluid>
     <v-card flat>
       <v-card-title class="px-0">
-        <BaseFilter
+        <BaseFilter1
           :default="{ items: [], text: $t('filter.rule_name'), value: 'search' }"
           :filters="filters"
-          :reload="false"
-          @filter="customFilter"
           @refresh="m_filter_list"
         />
         <v-chip-group v-model="amenities" class="ml-2 align-center" column multiple @change="onAlertStateChange">
@@ -214,7 +212,6 @@
         <BasePagination
           v-if="pageCount >= 1"
           v-model="page"
-          :front-page="true"
           :page-count="pageCount"
           :size="itemsPerPage"
           @changepage="onPageIndexChange"
@@ -234,13 +231,18 @@
   import messages from '../../i18n';
   import AddPrometheusRule from './components/AddPrometheusRule';
   import UpdatePrometheusRule from './components/UpdatePrometheusRule';
-  import { deletePrometheusRule, getPrometheusRuleList, postDisableAlertRule, postEnableAlertRule } from '@/api';
+  import {
+    deletePrometheusRule,
+    getPrometheusRuleList,
+    getPrometheusRuleStatus,
+    postDisableAlertRule,
+    postEnableAlertRule,
+  } from '@/api';
   import { SERVICE_MONITOR_NS } from '@/constants/namespace';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
-  import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'PrometheusRule',
@@ -261,7 +263,6 @@
     data() {
       return {
         items: [],
-        itemsCopy: [],
         page: 1,
         pageCount: 0,
         itemsPerPage: 10,
@@ -302,12 +303,9 @@
       },
     },
     watch: {
-      '$route.query': {
-        handler(newValue) {
-          const { cluster, namespace } = this.params;
-          const { cluster: newCluster, namespace: newNamespace } = newValue;
-          const needRefresh = (cluster !== newCluster || namespace !== newNamespace) && this.pass;
-          if (needRefresh) {
+      '$route.query.search': {
+        handler() {
+          if (this.pass) {
             this.m_table_generateParams();
             this.prometheusRuleList();
           }
@@ -317,29 +315,12 @@
       },
     },
     methods: {
-      customFilter() {
-        if (this.$route.query.search) {
-          this.items = this.itemsCopy.filter((item) => {
-            return (
-              item.name && item.name.toLocaleLowerCase().indexOf(this.$route.query.search.toLocaleLowerCase()) > -1
-            );
-          });
-        } else {
-          this.items = this.itemsCopy;
-        }
-        // this.m_table_generateSelectResource()
-      },
-      initAlertStatus() {
-        this.alertStatus = { inactive: 0, firing: 0, pending: 0 };
-        this.items.forEach((item) => {
-          this.alertStatus[item.state]++;
-        });
-      },
       stateFilter() {
-        this.items = this.itemsCopy.filter((item) => {
-          return this.alertStateFilter.length === 0 ? true : this.alertStateFilter.indexOf(item.state) !== -1;
-        });
-        // this.m_table_generateSelectResource()
+        this.params.state = this.alertStateFilter.join(',');
+        this.prometheusRuleList();
+      },
+      async prometheusRuleStatus() {
+        this.alertStatus = await getPrometheusRuleStatus(this.cluster, this.namespace);
       },
       async prometheusRuleList() {
         this.params.isAdmin = this.AdminViewport;
@@ -352,7 +333,7 @@
 
         // 将index添加到id属性上
         this.items = [];
-        this.items = data.map((item, index) => {
+        this.items = data.List.map((item, index) => {
           return {
             index: index,
             metadata: {
@@ -360,14 +341,13 @@
               namespace: item.namespace,
             },
             name: item.name,
-            receiversStr: (item.receivers || []).map((receiver) => receiver.alertChannel.name).join(', '),
+            receiversStr: (item.receivers || []).map((receiver) => receiver.alertChannel?.name).join(', '),
             ...item,
           };
         });
-        this.itemsCopy = deepCopy(this.items);
-        this.initAlertStatus();
-        // this.m_table_generateSelectResource()
-        if (this.$route.query.search) this.customFilter();
+        this.pageCount = Math.ceil(data.Total / this.params.size);
+        this.params.page = data.CurrentPage;
+        this.prometheusRuleStatus();
       },
       onAlertStateChange() {
         this.alertStateFilter = [];

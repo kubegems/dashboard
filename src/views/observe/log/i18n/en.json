@@ -66,7 +66,8 @@
     "read_iops": "read IOPS",
     "log_content": "Log Content",
     "channel_changed": "Channel Changed",
-    "channel_lost": "Channel Lost"
+    "channel_lost": "Channel Lost",
+    "trace": "Trace"
   },
   "operate": {
     "download_log": "Download Log",

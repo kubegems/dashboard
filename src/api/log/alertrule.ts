@@ -7,7 +7,7 @@ export const getLogAlertRuleList = (
   query: { [key: string]: any } = {},
 ): Promise<{ [key: string]: any }> =>
   axios(`observability/cluster/${clusterName}/namespaces/${namespace}/logging/alerts`, {
-    params: query,
+    params: Object.assign(query, { preload: 'Receivers,Receivers.AlertChannel' }),
   });
 // 日志告警规则详情
 export const getLogAlertRuleDetail = (
@@ -17,7 +17,7 @@ export const getLogAlertRuleDetail = (
   query: { [key: string]: any } = {},
 ): Promise<{ [key: string]: any }> =>
   axios(`observability/cluster/${clusterName}/namespaces/${namespace}/logging/alerts/${name}`, {
-    params: query,
+    params: Object.assign(query, { preload: 'Receivers,Receivers.AlertChannel' }),
   });
 // 添加日志告警规则
 export const postAddLogAlertRule = (
@@ -57,3 +57,13 @@ export const postEnableAlertRule = (
   body: { [key: string]: any } = {},
 ): Promise<{ [key: string]: any }> =>
   axios.post(`observability/cluster/${clusterName}/namespaces/${namespace}/alerts/${name}/actions/enable`, body);
+
+// 获取日志告警状态
+export const getLogAlertRuleStatus = (
+  clusterName: string,
+  namespace: string,
+  query: { [key: string]: any } = {},
+): Promise<{ [key: string]: any }> =>
+  axios(`observability/cluster/${clusterName}/namespaces/${namespace}/logging/alerts/_/status`, {
+    params: query,
+  });

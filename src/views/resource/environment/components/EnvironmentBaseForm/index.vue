@@ -522,7 +522,6 @@
         } else {
           this.operatorUsers.push(user);
         }
-        this.usersCopy.push(user);
         if (this.edit) {
           await postAddEnvironmentUser(this.obj.data.ID, {
             UserID: user.ID,
@@ -530,6 +529,7 @@
             Role: this.tab === 0 ? 'reader' : 'operator',
           });
         } else {
+          this.usersCopy.push(user);
           this.obj.data.Users.push({
             ID: user.ID,
             Role: this.tab === 0 ? 'reader' : 'operator',
