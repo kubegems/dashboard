@@ -25,7 +25,7 @@
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
-                v-model="obj.alertChannel.id"
+                v-model="obj.alertChannelID"
                 color="primary"
                 hide-selected
                 :items="receiverItems"
@@ -43,7 +43,12 @@
               </v-autocomplete>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field v-model="obj.interval" label="发送间隔" required :rules="objRules.intervalRule" />
+              <v-text-field
+                v-model="obj.interval"
+                :label="$t('tip.send_interval')"
+                required
+                :rules="objRules.intervalRule"
+              />
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
@@ -88,8 +93,8 @@
         receiverCopy: {},
         obj: {
           index: -1,
+          alertChannelID: 0,
           alertChannel: {
-            id: 0,
             name: '',
           },
           interval: '',
@@ -137,7 +142,7 @@
       },
       onReceiverChange() {
         const alertChannel = this.receiverItems.find((r) => {
-          return r.value === this.obj.alertChannel.id;
+          return r.value === this.obj.alertChannelID;
         });
         if (alertChannel) {
           this.obj.alertChannel.name = alertChannel.text;
@@ -147,8 +152,8 @@
         if (this.$refs.form.validate(true)) {
           if (this.obj.index === -1) {
             const receiver = {
+              alertChannelID: this.obj.alertChannelID,
               alertChannel: {
-                id: this.obj.alertChannel.id,
                 name: this.obj.alertChannel.name,
               },
               interval: this.obj.interval,
@@ -157,9 +162,9 @@
           } else {
             const receiver = this.receiverCopy[this.obj.index];
             receiver.alertChannel = {
-              id: this.obj.alertChannel.id,
               name: this.obj.alertChannel.name,
             };
+            receiver.alertChannelID = this.obj.alertChannelID;
             receiver.interval = this.obj.interval;
             this.$set(this.receiverCopy, this.obj.index, receiver);
           }

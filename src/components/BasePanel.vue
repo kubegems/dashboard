@@ -99,7 +99,7 @@
     watch: {
       panel: {
         handler(newValue) {
-          this.$store.commit('SET_PANEL', newValue);
+          if (newValue) this.$store.commit('SET_PANEL', newValue);
           if (this.panel === true) {
             this.$nextTick(() => {
               const timeout = setTimeout(() => {

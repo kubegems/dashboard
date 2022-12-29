@@ -13,7 +13,8 @@
     "schema_form": "Schema表单",
     "message": "安装状态",
     "now": "当前",
-    "no_params": "暂无提供可更改的插件参数"
+    "no_params": "暂无提供可更改的插件参数",
+    "no_i18n_file": "不存在翻译文件，使用原始语言"
   },
   "operate": {
     "install": "启用",

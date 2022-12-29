@@ -164,7 +164,8 @@
   const logout = async (): Promise<void> => {
     store.commit('CLEARALL');
     await router.push({ name: 'login' });
-    store.commit('SET_VERSION', import.meta.env.VUE_APP_RELEASE);
+    const version = import.meta.env.VUE_APP_RELEASE;
+    if (version) store.commit('SET_VERSION', version);
   };
 
   const about = ref(null);

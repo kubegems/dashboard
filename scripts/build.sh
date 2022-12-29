@@ -22,5 +22,5 @@ export NODE_OPTIONS=--max-old-space-size=32768
 
 pnpm install
 pnpm build:inner
-docker build -t harbor.cloudminds.com/kubegems/dashboard:$1 .
-docker push harbor.cloudminds.com/kubegems/dashboard:$1
+docker build -t harbor.cloudminds.com/kubegems/dashboard:$VUE_APP_RELEASE .
+docker push harbor.cloudminds.com/kubegems/dashboard:$VUE_APP_RELEASE

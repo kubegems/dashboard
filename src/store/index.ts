@@ -442,7 +442,7 @@ const store: Store<{ [key: string]: any }> = new Store({
         data.forEach((d) => {
           p[d.name] = d.enabled;
         });
-        commit('SET_GLOBAL_PLUGINS', p);
+        if (p) commit('SET_GLOBAL_PLUGINS', p);
         return true;
       };
       if (!state.GlobalPluginsInterval && state.JWT) {
@@ -516,7 +516,7 @@ const store: Store<{ [key: string]: any }> = new Store({
           active: true,
         });
         const items = data.List;
-        commit('SET_BROADCAST', items);
+        if (items) commit('SET_BROADCAST', items);
       };
       await doFunc();
     },

@@ -305,7 +305,7 @@
             password: this.password,
             source: this.source,
           });
-          this.$store.commit('SET_JWT', data.token);
+          if (data.token) this.$store.commit('SET_JWT', data.token);
           this.$store.commit('SET_VERSION', import.meta.env.VUE_APP_RELEASE);
           await this.loadData();
           this.$store.commit('SET_SNACKBAR', {

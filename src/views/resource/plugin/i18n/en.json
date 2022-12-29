@@ -13,7 +13,8 @@
     "schema_form": "Schema Form",
     "message": "Install Status",
     "now": "Current",
-    "no_params": "No modifiable plugin parameters are available yet"
+    "no_params": "No modifiable plugin parameters are available yet",
+    "no_i18n_file": "No translation files exist, use the original language"
   },
   "operate": {
     "install": "Enabled",
