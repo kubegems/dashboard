@@ -44,7 +44,8 @@
     "add_command": "加入命令",
     "create_at": "創建時間",
     "select_environment": "請選擇分配環境",
-    "heartbeat_time": "上次心跳時間"
+    "heartbeat_time": "上次心跳時間",
+    "manufacture": "手冊"
   },
   "form": {
     "format_rule": "格式錯誤（範例：最多1位小數）",
@@ -62,6 +63,10 @@
     "cluster_pod": "集群容器組",
     "cloud_cluster": "雲端集群",
     "edge_cluster": "邊緣集群"
+  },
+  "filter": {
+    "edge_name": "名稱",
+    "device_id": "設備id"
   },
   "operate": {
     "label": "注入標籤",

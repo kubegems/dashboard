@@ -66,7 +66,9 @@
     "read_iops": "read IOPS",
     "log_content": "Log Content",
     "channel_changed": "Channel Changed",
-    "channel_lost": "Channel Lost"
+    "channel_lost": "Channel Lost",
+    "trace": "Trace",
+    "select_one_rule": "Select a rule"
   },
   "operate": {
     "download_log": "Download Log",
@@ -86,7 +88,9 @@
     "disable": "Disabled",
     "enable_c": "Enable {0}",
     "disable_c": "Disable {0}",
-    "timerange_query": "Query with timerange"
+    "timerange_query": "Query with timerange",
+    "copy": "Copy",
+    "copy_c": "Copy {0}"
   },
   "table": {
     "name": "Name",

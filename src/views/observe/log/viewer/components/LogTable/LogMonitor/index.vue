@@ -38,9 +38,7 @@
 
       <div class="ma-5">
         <div class="py-2 text-body-1">{{ $t('tip.log_content') }}</div>
-        <div class="text-body-2">
-          {{ item ? item.info.message : '' }}
-        </div>
+        <div class="text-body-2" v-html="item ? item.info.message : ''" />
       </div>
 
       <v-divider class="mx-4 mb-2" />
@@ -51,7 +49,7 @@
         </v-tab>
       </v-tabs>
 
-      <component :is="tabItems[tab].value" :date="date" :item="item" />
+      <component :is="tabItems[tab].value" :date="date" :item="item" :traceid="traceid" />
     </template>
   </BasePanel>
 </template>
@@ -63,6 +61,7 @@
   import LogLabel from './LogLabel';
   import NodeMonitor from './NodeMonitor';
   import PodMonitor from './PodMonitor';
+  // import Trace from './Trace';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
@@ -76,6 +75,7 @@
       LogLabel,
       NodeMonitor,
       PodMonitor,
+      // Trace,
     },
     data() {
       return {
@@ -83,6 +83,7 @@
         date: [],
         item: null,
         tab: 0,
+        traceid: '',
       };
     },
     computed: {
@@ -92,6 +93,7 @@
           { text: this.$root.$t('resource.host'), value: 'NodeMonitor' },
           { text: this.$root.$t('resource.container'), value: 'ContainerMonitor' },
           { text: this.$root.$t('resource.pod'), value: 'PodMonitor' },
+          // { text: this.$t('tip.trace'), value: 'Trace' },
         ];
       },
     },
@@ -101,6 +103,13 @@
         const start = this.$moment(this.item.info.timestampstr).utc().add(-15, 'minutes').format();
         const end = this.$moment(this.item.info.timestampstr).utc().add(15, 'minutes').format();
         this.date = [start, end];
+
+        const matches = item.info.message.match(new RegExp('\\w{32}'));
+        this.traceid = matches ? matches[0] : '';
+        this.item.info.message = this.item.info.message.replace(
+          new RegExp('(\\w{32})'),
+          '<b style="color: #fb8c00 !important;">$1</b>',
+        );
       },
       open() {
         this.panel = true;

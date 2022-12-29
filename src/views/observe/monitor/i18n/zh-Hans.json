@@ -101,7 +101,13 @@
     "1_hour": "1小时",
     "2_hour": "2小时",
     "6_hour": "6小时",
-    "12_hour": "12小时"
+    "12_hour": "12小时",
+
+    "label_match": "匹配标签",
+    "label": "标签名",
+    "operate": "表达式",
+    "label_value": "标签值",
+    "need_copy": "需要复制的规则"
   },
   "tab": {
     "generate_from_template": "由模版生成",
@@ -136,7 +142,9 @@
     "disable": "禁用",
     "enable_c": "启用{0}",
     "disable_c": "禁用{0}",
-    "all": "全选"
+    "all": "全选",
+    "copy": "复制",
+    "copy_c": "复制{0}"
   },
   "filter": {
     "receiver_name": "接收器名称",

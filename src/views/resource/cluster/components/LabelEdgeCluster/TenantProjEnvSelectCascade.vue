@@ -18,7 +18,7 @@
     v-model="state.menu"
     bottom
     :close-on-content-click="false"
-    max-height="350px"
+    max-height="380px"
     :min-width="state.width"
     nudge-bottom="5px"
     offset-y
@@ -64,7 +64,7 @@
         </template>
       </v-autocomplete>
     </template>
-    <v-card class="pa-2" flat height="350px">
+    <v-card class="pa-2" flat height="380px">
       <div class="select__left" :style="{ width: '250px' }">
         <div class="text-subtitle-2 kubegems__text select__title">
           <div class="float-left"> {{ i18n.t('tip.select_one_env') }} </div>
@@ -76,7 +76,7 @@
 
         <div class="text-caption pa-1 mt-2">{{ i18n.t('resource.tenant') }}</div>
         <v-divider class="mb-2" />
-        <v-list class="pa-0" dense max-height="300" nav :style="{ overflowY: 'auto' }">
+        <v-list class="pa-0" dense max-height="280" nav :style="{ overflowY: 'auto' }">
           <v-list-item-group v-model="state.tenant" color="primary" @change="selectTenant">
             <v-list-item v-for="item in tenantItems" :key="item.TenantName" dense>
               <v-list-item-content>
@@ -97,7 +97,7 @@
         <div class="select__right" :style="{ width: '250px' }">
           <div class="text-caption pa-1 mt-2">{{ i18n.t('resource.project') }}</div>
           <v-divider class="mb-2" />
-          <v-list class="pa-0" dense max-height="225" nav :style="{ overflowY: 'auto' }">
+          <v-list class="pa-0" dense max-height="285" nav :style="{ overflowY: 'auto' }">
             <v-list-item-group v-model="state.project" color="primary" @change="selectProject">
               <v-list-item v-for="item in projectItems" :key="item.ProjectName" dense>
                 <v-list-item-content>
@@ -126,7 +126,7 @@
           />
           <div class="text-caption pa-1 mt-2"> {{ i18n.t('resource.environment') }} </div>
           <v-divider class="mb-2" />
-          <v-list class="pa-0" dense max-height="225" nav :style="{ overflowY: 'auto' }">
+          <v-list class="pa-0" dense max-height="245" nav :style="{ overflowY: 'auto' }">
             <v-list-item-group v-model="state.environment" color="primary" @change="selectEnvironment">
               <v-list-item v-for="item in environmentItems" :key="item.EnvironmentName" dense>
                 <v-list-item-content>

@@ -18,11 +18,9 @@
   <v-container class="pa-0" fluid>
     <v-card flat>
       <v-card-title class="px-0">
-        <BaseFilter
+        <BaseFilter1
           :default="{ items: [], text: $t('filter.rule_name'), value: 'search' }"
           :filters="filters"
-          :reload="false"
-          @filter="customFilter"
           @refresh="m_filter_list"
         />
         <v-chip-group v-model="amenities" class="ml-2 align-center" column multiple @change="onAlertStateChange">
@@ -63,6 +61,12 @@
                   {{ $root.$t('operate.create_c', [$root.$t('resource.prometheus_rule')]) }}
                 </v-btn>
               </v-flex>
+              <v-flex>
+                <v-btn color="primary" text @click="copyAlertRule">
+                  <v-icon left>mdi-content-copy</v-icon>
+                  {{ $t('operate.copy_c', [$root.$t('resource.prometheus_rule')]) }}
+                </v-btn>
+              </v-flex>
             </v-card-text>
           </v-card>
         </v-menu>
@@ -80,19 +84,13 @@
           :no-data-text="$root.$t('data.no_data')"
           :page.sync="page"
           show-expand
+          show-select
           single-expand
           @click:row="onRowClick"
+          @item-selected="selectRule"
           @page-count="pageCount = $event"
+          @toggle-select-all="selectAllRule"
         >
-          <template #[`item.data-table-select`]="{ item, index }">
-            <v-checkbox
-              v-model="m_table_batchResources[`${item.metadata.name}-${index + itemsPerPage * (page - 1)}`].checked"
-              color="primary"
-              hide-details
-              @change="onResourceChange($event, item, `${index + itemsPerPage * (page - 1)}`)"
-              @click.stop
-            />
-          </template>
           <template #[`item.name`]="{ item }">
             <v-flex :style="{ display: `flex` }">
               <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="alertRuleDetail(item)">
@@ -202,7 +200,6 @@
         <BasePagination
           v-if="pageCount >= 1"
           v-model="page"
-          :front-page="true"
           :page-count="pageCount"
           :size="itemsPerPage"
           @changepage="onPageIndexChange"
@@ -213,6 +210,7 @@
     </v-card>
     <AddAlertRule ref="addAlertRule" mode="logging" @refresh="alertRuleList" />
     <UpdateAlertRule ref="updateAlertRule" mode="logging" @refresh="alertRuleList" />
+    <CopyAlertRule ref="copyAlertRule" :rules="selectedItems" />
   </v-container>
 </template>
 
@@ -220,14 +218,20 @@
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { deleteLogAlertRule, getLogAlertRuleList, postDisableAlertRule, postEnableAlertRule } from '@/api';
+  import {
+    deleteLogAlertRule,
+    getLogAlertRuleList,
+    getLogAlertRuleStatus,
+    postDisableAlertRule,
+    postEnableAlertRule,
+  } from '@/api';
   import { SERVICE_MONITOR_NS } from '@/constants/namespace';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
-  import { deepCopy } from '@/utils/helpers';
   import AddAlertRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule';
+  import CopyAlertRule from '@/views/observe/monitor/config/prometheusrule/components/CopyPrometheusRule';
   import UpdateAlertRule from '@/views/observe/monitor/config/prometheusrule/components/UpdatePrometheusRule';
 
   export default {
@@ -237,6 +241,7 @@
     },
     components: {
       AddAlertRule,
+      CopyAlertRule,
       UpdateAlertRule,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
@@ -249,7 +254,6 @@
     data() {
       return {
         items: [],
-        itemsCopy: [],
         page: 1,
         pageCount: 0,
         itemsPerPage: 10,
@@ -263,6 +267,7 @@
         alertStateArr: [{ inactive: 'success' }, { pending: 'warning' }, { firing: 'error' }],
         cluster: undefined,
         namespace: undefined,
+        selectedItems: [],
       };
     },
     computed: {
@@ -290,12 +295,9 @@
       },
     },
     watch: {
-      '$route.query': {
-        handler(newValue) {
-          const { cluster, namespace } = this.params;
-          const { cluster: newCluster, namespace: newNamespace } = newValue;
-          const needRefresh = (cluster !== newCluster || namespace !== newNamespace) && this.pass;
-          if (needRefresh) {
+      '$route.query.search': {
+        handler() {
+          if (this.pass) {
             this.m_table_generateParams();
             this.alertRuleList();
           }
@@ -305,29 +307,12 @@
       },
     },
     methods: {
-      customFilter() {
-        if (this.$route.query.search) {
-          this.items = this.itemsCopy.filter((item) => {
-            return (
-              item.name && item.name.toLocaleLowerCase().indexOf(this.$route.query.search.toLocaleLowerCase()) > -1
-            );
-          });
-        } else {
-          this.items = this.itemsCopy;
-        }
-        // this.m_table_generateSelectResource()
-      },
-      initAlertStatus() {
-        this.alertStatus = { inactive: 0, firing: 0, pending: 0 };
-        this.items.forEach((item) => {
-          this.alertStatus[item.state]++;
-        });
-      },
       stateFilter() {
-        this.items = this.itemsCopy.filter((item) => {
-          return this.alertStateFilter.length === 0 ? true : this.alertStateFilter.indexOf(item.state) !== -1;
-        });
-        // this.m_table_generateSelectResource()
+        this.params.state = this.alertStateFilter.join(',');
+        this.alertRuleList();
+      },
+      async logAlertRuleStatus() {
+        this.alertStatus = await getLogAlertRuleStatus(this.cluster, this.namespace);
       },
       async alertRuleList() {
         this.params.isAdmin = this.AdminViewport;
@@ -340,7 +325,7 @@
 
         // 将index添加到id属性上
         this.items = [];
-        this.items = data.map((item, index) => {
+        this.items = data.List.map((item, index) => {
           return {
             index: index,
             metadata: {
@@ -348,14 +333,13 @@
               namespace: item.namespace,
             },
             name: item.name,
-            receiversStr: (item.receivers || []).map((receiver) => receiver.alertChannel.name).join(', '),
+            receiversStr: (item.receivers || []).map((receiver) => receiver.alertChannel?.name).join(', '),
             ...item,
           };
         });
-        this.itemsCopy = deepCopy(this.items);
-        this.initAlertStatus();
-        // this.m_table_generateSelectResource()
-        if (this.$route.query.search) this.customFilter();
+        this.pageCount = Math.ceil(data.Total / this.params.size);
+        this.params.page = data.CurrentPage;
+        this.logAlertRuleStatus();
       },
       onAlertStateChange() {
         this.alertStateFilter = [];
@@ -426,6 +410,35 @@
             },
           });
         }
+      },
+      selectRule({ item, value }) {
+        if (value) {
+          this.selectedItems.push(item);
+        } else {
+          const index = this.selectedItems.findIndex((s) => {
+            return s.name === item.name;
+          });
+          if (index > -1) {
+            this.selectedItems.splice(index, 1);
+          }
+        }
+      },
+      selectAllRule({ items, value }) {
+        if (value) {
+          this.selectedItems = items;
+        } else {
+          this.selectedItems = [];
+        }
+      },
+      copyAlertRule() {
+        if (this.selectedItems.length === 0) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: this.$t('tip.select_one_rule'),
+            color: 'warning',
+          });
+          return;
+        }
+        this.$refs.copyAlertRule.open();
       },
       onPageSizeChange(size) {
         this.page = 1;

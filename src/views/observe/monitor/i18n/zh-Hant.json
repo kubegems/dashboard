@@ -93,7 +93,12 @@
     "2_hour": "2小時",
     "6_hour": "6小時",
     "12_hour": "12小時",
-    "probe_type_config": "探測類型配置"
+    "probe_type_config": "探測類型配置",
+    "label_match": "匹配標籤",
+    "label": "標籤名",
+    "operate": "表達式",
+    "label_value": "標籤值",
+    "need_copy": "需要復制的規則"
   },
   "tab": {
     "generate_from_template": "由模版生成",
@@ -126,7 +131,9 @@
     "disable": "禁用",
     "enable_c": "開啟{0}",
     "disable_c": "關閉{0}",
-    "all": "全選"
+    "all": "全選",
+    "copy": "複製",
+    "copy_c": "複製{0}"
   },
   "filter": {
     "receiver_name": "接收器名稱",

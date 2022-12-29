@@ -22,5 +22,9 @@
   "operate": {
     "allow_schedule": "允許調度",
     "stop_schedule": "停止調度"
+  },
+  "filter": {
+    "edge_name": "名稱",
+    "device_id": "設備id"
   }
 }

@@ -44,7 +44,8 @@
     "add_command": "Join command",
     "create_at": "Create time",
     "select_environment": "Please select a distribution environment",
-    "heartbeat_time": "Last heartbeat time"
+    "heartbeat_time": "Last heartbeat time",
+    "manufacture": "Manufacture"
   },
   "form": {
     "format_rule": "Wrong format (example: max 1 decimal)",
@@ -62,6 +63,10 @@
     "cluster_pod": "Pod",
     "cloud_cluster": "Kubernetes Cluster",
     "edge_cluster": "Edge Cluster"
+  },
+  "filter": {
+    "edge_name": "Name",
+    "device_id": "Device Id"
   },
   "operate": {
     "label": "Inject label",

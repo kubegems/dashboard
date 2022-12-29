@@ -251,7 +251,6 @@
       async setRole(user, index) {
         this.$delete(this.allUsers, index);
         this.roleUsers.push(user);
-        this.usersCopy.push(user);
         if (this.edit) {
           await postAddProjectUser(this.obj.ProjectID, {
             UserID: user.ID,
@@ -259,6 +258,7 @@
             Role: this.tabItems[this.tab].value,
           });
         } else {
+          this.usersCopy.push(user);
           this.obj.Users.push({
             ID: user.ID,
             Role: this.tabItems[this.tab].value,

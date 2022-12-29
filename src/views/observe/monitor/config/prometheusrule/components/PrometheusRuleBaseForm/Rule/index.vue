@@ -78,24 +78,6 @@
               />
             </v-col>
             <v-col cols="6">
-              <v-autocomplete
-                v-model="containers"
-                class="my-0"
-                color="primary"
-                hide-selected
-                :items="containerItems"
-                :label="$t('form.dest_container')"
-                multiple
-                :no-data-text="$root.$t('data.no_data')"
-              >
-                <template #selection="{ item }">
-                  <v-chip class="mx-1" color="primary" small>
-                    {{ item['text'] }}
-                  </v-chip>
-                </template>
-              </v-autocomplete>
-            </v-col>
-            <v-col cols="6">
               <v-text-field
                 v-model="obj.logqlGenerator.duration"
                 class="my-0"
@@ -169,10 +151,24 @@
       </v-card-text>
 
       <!-- 标签筛选 -->
-      <div v-if="mod === 'template' && mode === 'monitor'" class="mb-4">
+      <div v-if="mod === 'template'" class="mb-4">
+        <LabelMatchersForm
+          ref="labelMatchersForm"
+          :label-matchers="mode === 'monitor' ? obj.promqlGenerator.labelMatchers : obj.logqlGenerator.labelMatchers"
+          :labels="mode === 'monitor' ? obj.promqlGenerator.labelpairs : { container: '', pod: '', app: '' }"
+          :namespace="obj.namespace"
+          @addData="addMatcherData"
+          @closeOverlay="closeExpand"
+        />
         <BaseSubTitle :title="$t('tip.label_filter')" />
-        <br />
-        <RuleLabelpairs v-model="obj.promqlGenerator.labelpairs" />
+        <v-card-text class="pa-2">
+          <LabelMatchersItem
+            :label-matchers="mode === 'monitor' ? obj.promqlGenerator.labelMatchers : obj.logqlGenerator.labelMatchers"
+            @expandCard="expandMatcherCard"
+            @removeMatcher="removeMatcher"
+            @updateMatcher="updateMatcher"
+          />
+        </v-card-text>
       </div>
       <!-- 标签筛选 -->
 
@@ -203,8 +199,9 @@
   import messages from '../../../../../i18n';
   import AlertLevelForm from './AlertLevelForm';
   import AlertLevelItem from './AlertLevelItem';
-  import RuleLabelpairs from './RuleLabelpairs';
-  import { getMetricsLabels, getPodList } from '@/api';
+  import LabelMatchersForm from './LabelMatchersForm';
+  import LabelMatchersItem from './LabelMatchersItem';
+  import { getMetricsLabels } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -221,9 +218,10 @@
     components: {
       AlertLevelForm,
       AlertLevelItem,
+      LabelMatchersForm,
+      LabelMatchersItem,
       // MetricsSuggestion,
       ResourceSelectCascade,
-      RuleLabelpairs,
     },
     mixins: [BaseResource, BaseSelect, Metrics],
     props: {
@@ -266,6 +264,7 @@
             unit: '',
             scope: '',
             labelpairs: {},
+            labelMatchers: [],
           },
           logqlGenerator: {
             match: '',
@@ -273,11 +272,10 @@
             labelpairs: {
               container: '',
             },
+            labelMatchers: [],
           },
         },
         mod: 'template',
-        containers: [],
-        containerItems: [],
         inhibitLabelText: '',
         resource: undefined,
       };
@@ -354,6 +352,7 @@
               rule: '',
               unit: '',
               labelpairs: {},
+              labelMatchers: [],
             };
           }
           this.$delete(this.obj, 'expr');
@@ -378,7 +377,6 @@
               },
             };
           }
-          this.getContainers();
           this.$delete(this.obj, 'expr');
         }
         this.$refs.form.resetValidation();
@@ -418,6 +416,49 @@
       removeAlertLevel(index) {
         this.$delete(this.obj.alertLevels, index);
       },
+      addMatcherData(data) {
+        if (this.mode === 'monitor') {
+          this.obj.promqlGenerator.labelMatchers = data;
+        } else if (this.mode === 'logging') {
+          this.obj.logqlGenerator.labelMatchers = data;
+        }
+        this.$refs.labelMatchersForm.closeCard();
+      },
+      updateMatcher(index) {
+        let matchers = [];
+        if (this.mode === 'monitor') {
+          matchers = this.obj.promqlGenerator.labelMatchers;
+        } else if (this.mode === 'logging') {
+          matchers = this.obj.logqlGenerator.labelMatchers;
+        } else {
+          return;
+        }
+        const match = matchers[index];
+        const data = {
+          index: index,
+          name: match.name,
+          type: match.type,
+          value: match.value,
+        };
+
+        this.$nextTick(() => {
+          this.$refs.labelMatchersForm.init(data);
+          this.expand = true;
+        });
+      },
+      removeMatcher(index) {
+        if (this.mode === 'monitor') {
+          this.$delete(this.obj.promqlGenerator.labelMatchers, index);
+        } else if (this.mode === 'logging') {
+          this.$delete(this.obj.logqlGenerator.labelMatchers, index);
+        }
+      },
+      expandMatcherCard() {
+        this.$nextTick(() => {
+          this.$refs.labelMatchersForm.expandCard();
+          this.expand = true;
+        });
+      },
       expandCard() {
         this.$refs.alertLevelForm.setAlertLevel({
           index: -1,
@@ -440,15 +481,11 @@
           this.mod = 'ql';
         } else if (this.obj.logqlGenerator && this.mode === 'logging') {
           this.mod = 'template';
-          if (this.obj.logqlGenerator?.labelpairs?.container) {
-            this.containers = this.obj.logqlGenerator?.labelpairs?.container.split('|').filter((c) => {
-              return Boolean(c);
-            });
-          }
         }
       },
       setResourceData() {
         const labelpairs = this.obj?.promqlGenerator?.labelpairs || {};
+        const labelMatchers = this.obj?.promqlGenerator?.labelMatchers || [];
         if (this.resource) {
           this.obj.promqlGenerator = {
             scope: this.resource.scope,
@@ -456,6 +493,7 @@
             rule: this.resource.rule,
             unit: this.resource.unit,
             labelpairs: labelpairs,
+            labelMatchers: labelMatchers,
           };
           this.setLabelpairs(labelpairs);
         }
@@ -520,7 +558,11 @@
             { text: 'container', value: 'container' },
           ];
         }
-        this.inhibitLabelItems = this.inhibitLabelItems.concat(...(this.obj.inhibitLabels || []));
+        this.inhibitLabelItems = this.inhibitLabelItems.concat(
+          ...(this.obj.inhibitLabels.map((i) => {
+            return { text: i, value: i };
+          }) || []),
+        );
       },
       createInhibitLabel() {
         if (
@@ -537,9 +579,6 @@
         return this.$refs.form.validate(true);
       },
       getData() {
-        if (this.mode === 'logging' && this.containers?.length > 0) {
-          this.obj.logqlGenerator.labelpairs.container = this.containers.join('|');
-        }
         return this.obj;
       },
       insertMetrics(metrics) {
@@ -548,32 +587,6 @@
       },
       onExprInput() {
         this.$forceUpdate();
-      },
-      async getContainers() {
-        this.containerItems = [];
-        const data = await getPodList(
-          this.$route.query.cluster || this.obj.cluster,
-          this.$route.query.namespace || this.obj.namespace,
-          {
-            size: 1000,
-          },
-        );
-        if (data) {
-          data.List.forEach((pod) => {
-            if (pod?.spec?.containers) {
-              this.containerItems = this.containerItems.concat(
-                pod.spec.containers.map((c) => {
-                  return c.name;
-                }),
-              );
-            }
-          });
-
-          this.containerItems = Array.from(new Set(this.containerItems));
-          this.containerItems = this.containerItems.map((c) => {
-            return { text: c, value: c };
-          });
-        }
       },
     },
   };

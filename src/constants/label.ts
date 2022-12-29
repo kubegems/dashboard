@@ -16,3 +16,4 @@
 export const TENANT_KEY = 'gems.kubegems.io/tenant';
 export const PROJECT_KEY = 'gems.kubegems.io/project';
 export const ENVIRONMENT_KEY = 'gems.kubegems.io/environment';
+export const EDGE_DEVICEID_KEY = 'edge.kubegems.io/device-id';

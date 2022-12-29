@@ -24,6 +24,7 @@
     "stop_schedule": "停止调度"
   },
   "filter": {
-    "edge_name": "名称"
+    "edge_name": "名称",
+    "device_id": "设备id"
   }
 }

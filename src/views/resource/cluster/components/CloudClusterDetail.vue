@@ -164,19 +164,22 @@
         this.clusterQuota();
         this.$store.commit('SET_LATEST_CLUSTER', { cluster: data.ClusterName });
       },
-      async clusterQuota() {
-        const data = await getClusterQuota(this.cluster.ID, {
-          noprocessing: false,
-        });
+      async getPods(data) {
         const query = CLUSTER_POD_CAPACITY_PROMQL;
         const pods = await this.m_permission_vector(this.cluster.ClusterName, {
           query: query,
           noprocessing: true,
         });
-        if (data.resources) {
-          data.resources.capacity.pods = pods ? (pods && pods.length ? parseInt(pods[0]?.value[1] || 0) : 0) : 0;
-          data.resources.used.pods = data.workloads.pods;
+        data.resources.capacity.pods = pods ? (pods && pods.length ? parseInt(pods[0]?.value[1] || 0) : 0) : 0;
+        data.resources.used.pods = data.workloads.pods;
+      },
+      async clusterQuota() {
+        const data = await getClusterQuota(this.cluster.ID, {
+          noprocessing: false,
+        });
 
+        if (data.resources) {
+          this.getPods(data);
           this.quota = data.resources;
           this.workload = data.workloads;
           this.resources = Object.keys(this.workload).filter((i) => {

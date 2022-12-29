@@ -66,7 +66,9 @@
     "read_iops": "IOPSの読み取り",
     "log_content": "ログの内容",
     "channel_changed": "アラート チャネルが変更されました",
-    "channel_lost": "アラート チャネルが削除されました"
+    "channel_lost": "アラート チャネルが削除されました",
+    "trace": "リンク追跡",
+    "select_one_rule": "ルールを選択"
   },
   "operate": {
     "download_log": "ログをダウンロード",
@@ -86,7 +88,9 @@
     "disable": "無効",
     "enable_c": "{0} を有効にする",
     "disable_c": "{0} を無効化",
-    "timerange_query": "期間クエリ"
+    "timerange_query": "期間クエリ",
+    "copy": "コピー",
+    "copy_c": "コピー {0}"
   },
   "table": {
     "name": "注文番号による検索",

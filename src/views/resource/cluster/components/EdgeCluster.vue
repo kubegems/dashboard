@@ -103,9 +103,17 @@
           </div>
           <div class="float-left">
             <a v-if="item.status.phase === 'Online'" class="text-subtitle-2" @click.stop="edgeDetail(item)">
-              {{ item.metadata.name }}
+              {{ item.metadata.labels[EDGE_DEVICEID_KEY] || item.metadata.name }}
             </a>
             <span v-else> {{ item.metadata.name }} </span>
+            <EdgeManufactureTip
+              :edge-cluster="item"
+              :top="pagination.size - index <= 5 || (pagination.items.length <= 5 && index >= 1)"
+            >
+              <template #trigger>
+                <v-icon color="success" small>mdi-text-box-outline</v-icon>
+              </template>
+            </EdgeManufactureTip>
           </div>
           <div class="kubegems__clear-float" />
         </template>
@@ -192,6 +200,7 @@
 
   import { useI18n } from '../i18n';
   import EdgeClusterForm from './EdgeClusterForm/index.vue';
+  import EdgeManufactureTip from './EdgeManufactureTip.vue';
   import EdgeStatusTip from './EdgeStatusTip.vue';
   import LabelEdgeCluster from './LabelEdgeCluster/index.vue';
   import { useEdgeClusterPagination, useEdgeHubList } from '@/composition/cluster';
@@ -199,7 +208,7 @@
   import { useProjectList } from '@/composition/project';
   import { useRoute, useRouter } from '@/composition/router';
   import { useTenantList } from '@/composition/tenant';
-  import { ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
+  import { EDGE_DEVICEID_KEY, ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
   import { useGlobalI18n } from '@/i18n';
   import { useQuery } from '@/router';
   import { useStore } from '@/store';
@@ -231,7 +240,10 @@
   let tenantList = ref<Tenant[]>([]);
   let projectList = ref<Project[]>([]);
   let environmentList = ref<Environment[]>([]);
-  const filters = ref([{ items: [], text: i18nLocal.t('filter.edge_name'), value: 'search' }]);
+  const filters = ref([
+    { items: [], text: i18nLocal.t('filter.edge_name'), value: 'search' },
+    { items: [], text: i18nLocal.t('filter.device_id'), value: 'deviceid' },
+  ]);
   const getTenantFilters = async () => {
     const filter = { items: [], text: i18n.t('resource.tenant'), value: 'tenant' };
     if (tenantList.value.length === 0) tenantList.value = await useTenantList(new Tenant());
@@ -350,6 +362,11 @@
         labels.value[ENVIRONMENT_KEY] = [newValue.value.environment];
       } else {
         delete labels.value[ENVIRONMENT_KEY];
+      }
+      if (newValue.value.deviceid) {
+        labels.value[EDGE_DEVICEID_KEY] = [newValue.value.deviceid];
+      } else {
+        delete labels.value[EDGE_DEVICEID_KEY];
       }
       if (newValue.value.search) {
         pagination.search = newValue.value.search;

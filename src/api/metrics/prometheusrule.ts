@@ -7,7 +7,7 @@ export const getPrometheusRuleList = (
   query: { [key: string]: any } = {},
 ): Promise<{ [key: string]: any }> =>
   axios(`observability/cluster/${clusterName}/namespaces/${namespace}/monitor/alerts`, {
-    params: query,
+    params: Object.assign(query, { preload: 'Receivers,Receivers.AlertChannel' }),
   });
 // 添加告警规则
 export const postAddPrometheusRule = (
@@ -42,7 +42,7 @@ export const getPrometheusRuleDetail = (
   query: { [key: string]: any } = {},
 ): Promise<{ [key: string]: any }> =>
   axios(`observability/cluster/${clusterName}/namespaces/${namespace}/monitor/alerts/${name}`, {
-    params: query,
+    params: Object.assign(query, { preload: 'Receivers,Receivers.AlertChannel' }),
   });
 // 告警规则历史
 export const getPrometheusAlertHistory = (
@@ -68,3 +68,13 @@ export const postAddPrometheusBlacklist = (body: { [key: string]: any } = {}): P
 // 移除告警黑名单
 export const deletePrometheusBlacklist = (fingerprint: string): Promise<{ [key: string]: any }> =>
   axios.delete(`alerts/blacklist/${fingerprint}`);
+
+// 获取监控告警状态
+export const getPrometheusRuleStatus = (
+  clusterName: string,
+  namespace: string,
+  query: { [key: string]: any } = {},
+): Promise<{ [key: string]: any }> =>
+  axios(`observability/cluster/${clusterName}/namespaces/${namespace}/monitor/alerts/_/status`, {
+    params: query,
+  });

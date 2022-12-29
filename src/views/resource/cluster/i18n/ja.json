@@ -44,7 +44,8 @@
     "add_command": "参加順",
     "create_at": "作成時間",
     "select_environment": "配布環境を選択してください",
-    "heartbeat_time": "前回の心拍時間"
+    "heartbeat_time": "前回の心拍時間",
+    "manufacture": "マニュアル"
   },
   "form": {
     "format_rule": "整形エラー(例:最大1桁)",
@@ -62,6 +63,10 @@
     "cluster_pod": "コンテナー グループ",
     "cloud_cluster": "クラウドクラスター",
     "edge_cluster": "エッジ クラスタ"
+  },
+  "filter": {
+    "edge_name": "名前",
+    "device_id": "デバイスID"
   },
   "operate": {
     "label": "タグを挿入",

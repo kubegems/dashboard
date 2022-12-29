@@ -195,7 +195,7 @@
         </div>
       </v-container>
       <h6 class="px-12 text-body-2 mt-4 login__copyright font-weight-medium kubegems__text">
-        © 2021 — {{ PLATFORM }} by Kubegems.io
+        © 2023 — {{ PLATFORM }} by Kubegems.io
       </h6>
     </div>
   </div>
