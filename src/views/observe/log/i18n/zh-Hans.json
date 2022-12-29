@@ -67,7 +67,8 @@
     "log_content": "日志内容",
     "channel_changed": "告警渠道已更改",
     "channel_lost": "告警渠道已删除",
-    "trace": "链路追踪"
+    "trace": "链路追踪",
+    "select_one_rule": "选择一个规则"
   },
   "operate": {
     "download_log": "下载日志",
@@ -87,7 +88,9 @@
     "disable": "禁用",
     "enable_c": "启用{0}",
     "disable_c": "禁用{0}",
-    "timerange_query": "时间段查询"
+    "timerange_query": "时间段查询",
+    "copy": "复制",
+    "copy_c": "复制{0}"
   },
   "table": {
     "name": "名称",

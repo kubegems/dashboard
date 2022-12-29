@@ -61,6 +61,12 @@
                   {{ $root.$t('operate.create_c', [$root.$t('resource.prometheus_rule')]) }}
                 </v-btn>
               </v-flex>
+              <v-flex>
+                <v-btn color="primary" text @click="copyPrometheusRule">
+                  <v-icon left>mdi-content-copy</v-icon>
+                  {{ $t('operate.copy_c', [$root.$t('resource.prometheus_rule')]) }}
+                </v-btn>
+              </v-flex>
             </v-card-text>
           </v-card>
         </v-menu>
@@ -78,19 +84,13 @@
           :no-data-text="$root.$t('data.no_data')"
           :page.sync="page"
           show-expand
+          show-select
           single-expand
           @click:row="onRowClick"
+          @item-selected="selectRule"
           @page-count="pageCount = $event"
+          @toggle-select-all="selectAllRule"
         >
-          <template #[`item.data-table-select`]="{ item, index }">
-            <v-checkbox
-              v-model="m_table_batchResources[`${item.metadata.name}-${index + itemsPerPage * (page - 1)}`].checked"
-              color="primary"
-              hide-details
-              @change="onResourceChange($event, item, `${index + itemsPerPage * (page - 1)}`)"
-              @click.stop
-            />
-          </template>
           <template #[`item.name`]="{ item }">
             <v-flex :style="{ display: `flex` }">
               <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="prometheusRuleDetail(item)">
@@ -222,6 +222,7 @@
     </v-card>
     <AddPrometheusRule ref="addPrometheusRule" @refresh="prometheusRuleList" />
     <UpdatePrometheusRule ref="updatePrometheusRule" @refresh="prometheusRuleList" />
+    <CopyPrometheusRule ref="copyPrometheusRule" :rules="selectedItems" />
   </v-container>
 </template>
 
@@ -230,6 +231,7 @@
 
   import messages from '../../i18n';
   import AddPrometheusRule from './components/AddPrometheusRule';
+  import CopyPrometheusRule from './components/CopyPrometheusRule';
   import UpdatePrometheusRule from './components/UpdatePrometheusRule';
   import {
     deletePrometheusRule,
@@ -251,6 +253,7 @@
     },
     components: {
       AddPrometheusRule,
+      CopyPrometheusRule,
       UpdatePrometheusRule,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
@@ -276,6 +279,7 @@
         alertStateArr: [{ inactive: 'success' }, { pending: 'warning' }, { firing: 'error' }],
         cluster: undefined,
         namespace: undefined,
+        selectedItems: [],
       };
     },
     computed: {
@@ -420,6 +424,35 @@
             },
           });
         }
+      },
+      selectRule({ item, value }) {
+        if (value) {
+          this.selectedItems.push(item);
+        } else {
+          const index = this.selectedItems.findIndex((s) => {
+            return s.name === item.name;
+          });
+          if (index > -1) {
+            this.selectedItems.splice(index, 1);
+          }
+        }
+      },
+      selectAllRule({ items, value }) {
+        if (value) {
+          this.selectedItems = items;
+        } else {
+          this.selectedItems = [];
+        }
+      },
+      copyPrometheusRule() {
+        if (this.selectedItems.length === 0) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: this.$t('tip.select_one_rule'),
+            color: 'warning',
+          });
+          return;
+        }
+        this.$refs.copyPrometheusRule.open();
       },
       onPageSizeChange(size) {
         this.page = 1;

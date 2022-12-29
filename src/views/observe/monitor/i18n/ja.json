@@ -98,7 +98,8 @@
     "label_match": "マッチタグ",
     "label": "タグ名",
     "operate": "表現",
-    "label_value": "タグ値"
+    "label_value": "タグ値",
+    "need_copy": "コピーするルール"
   },
   "tab": {
     "generate_from_template": "テンプレート生成",
@@ -131,7 +132,9 @@
     "disable": "無効",
     "enable_c": "{0} を有効にする",
     "disable_c": "{0} を無効化",
-    "all": "すべて選択"
+    "all": "すべて選択",
+    "copy": "コピー",
+    "copy_c": "コピー {0}"
   },
   "filter": {
     "receiver_name": "受信機名",

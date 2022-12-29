@@ -109,7 +109,7 @@
   );
 
   const labelItems: ComputedRef<{ [key: string]: string }[]> = computed(() => {
-    return Object.keys(props.labels).map((l) => {
+    return Object.keys(props.labels || {}).map((l) => {
       return { text: l, value: l };
     });
   });
