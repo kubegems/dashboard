@@ -68,7 +68,8 @@
     "channel_changed": "Channel Changed",
     "channel_lost": "Channel Lost",
     "trace": "Trace",
-    "select_one_rule": "Select a rule"
+    "select_one_rule": "Select a rule",
+    "no_trace": "No trace"
   },
   "operate": {
     "download_log": "Download Log",

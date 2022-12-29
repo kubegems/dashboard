@@ -14,52 +14,112 @@
  * limitations under the License. 
 -->
 <template>
-  <div>
-    <BaseTimelineChart :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')}`" colorful />
+  <div class="px-2">
+    <template v-if="traceid">
+      <v-btn class="share__btn" color="primary" icon small @click="toTrace">
+        <v-icon small>mdi-open-in-new</v-icon>
+      </v-btn>
+      <BaseTimelineChart
+        :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')}`"
+        colorful
+        :duration="getDuration(telemetry) / 1000"
+        :label-show="false"
+        :metrics="getMetrics(telemetry)"
+      />
+    </template>
+    <div v-else class="no__trace text-subtitle-1">{{ i18nLocal.t('tip.no_trace') }}</div>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { useStore } from '@/store';
-  // import { Telemetry } from '@/types/opentelemetry';
+  import { ref, watch } from 'vue';
 
-  // const props = withDefaults(
-  //   defineProps<{
-  //     traceid?: string;
-  //     item?: any;
-  //     date?: number[];
-  //   }>(),
-  //   {
-  //     traceid: undefined,
-  //     item: undefined,
-  //     date: undefined,
-  //   },
-  // );
+  import { useI18n } from '../../../../i18n';
+  import { useRouter } from '@/composition/router';
+  import { useStore } from '@/store';
+  import { Telemetry } from '@/types/opentelemetry';
+
+  const props = withDefaults(
+    defineProps<{
+      traceid?: string;
+      item?: any;
+    }>(),
+    {
+      traceid: undefined,
+      item: undefined,
+    },
+  );
 
   const store = useStore();
+  const router = useRouter();
+  const i18nLocal = useI18n();
 
-  // const getDuration = (item: Telemetry): number => {
-  //   if (item.spans?.length > 0) {
-  //     const ends = item.spans.map((span) => {
-  //       return span.startTime + span.duration;
-  //     });
-  //     return Math.max(...ends) - item.spans[0].startTime;
-  //   }
-  //   return 0;
-  // };
+  const telemetry = ref(new Telemetry());
+  const getTrace = async () => {
+    telemetry.value = await new Telemetry().getTraceDetail(props.item.stream.cluster, props.traceid, {});
+  };
 
-  // const getMetrics = (item: Telemetry): any[] => {
-  //   return [
-  //     {
-  //       label: item.traceID,
-  //       data: item.spans.map((span) => {
-  //         return {
-  //           x: [span.startTime / 1000, span.startTime / 1000 + span.duration / 1000],
-  //           y: span.spanID.substr(0, 7),
-  //           operation: span.operationName,
-  //         };
-  //       }),
-  //     },
-  //   ];
-  // };
+  watch(
+    () => props.traceid,
+    async (value) => {
+      if (value) {
+        getTrace();
+      }
+    },
+    {
+      immediate: true,
+      deep: true,
+    },
+  );
+
+  const getDuration = (item: Telemetry): number => {
+    if (item.spans?.length > 0) {
+      const ends = item.spans.map((span) => {
+        return span.startTime + span.duration;
+      });
+      return Math.max(...ends) - item.spans[0].startTime;
+    }
+    return 0;
+  };
+
+  const getMetrics = (item: Telemetry): any[] => {
+    return [
+      {
+        label: item.traceID,
+        data: item.spans.map((span) => {
+          return {
+            x: [span.startTime / 1000, span.startTime / 1000 + span.duration / 1000],
+            y: span.spanID.substr(0, 7),
+            operation: span.operationName,
+          };
+        }),
+      },
+    ];
+  };
+
+  const toTrace = (): void => {
+    const href = router.resolve({
+      name: 'observe-trace-search',
+      query: {
+        traceId: props.traceid,
+        project: props.item.stream.project,
+        environment: props.item.stream.environment,
+      },
+    }).href;
+    window.open(href);
+  };
 </script>
+
+<style lang="scss" scoped>
+  .share__btn {
+    position: absolute;
+    right: 40px;
+    z-index: 999;
+  }
+
+  .no__trace {
+    height: 300px;
+    text-align: center;
+    margin-top: 150px;
+  }
+</style>

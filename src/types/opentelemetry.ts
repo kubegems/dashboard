@@ -101,4 +101,11 @@ export class Telemetry implements TelemetryForService {
     );
     return data as KubePaginationResponse<Telemetry[]>;
   }
+
+  public async getTraceDetail(cluster: string, traceId: string, params: KubeRequest): Promise<Telemetry> {
+    const data: { [key: string]: any } = await axios(`observability/cluster/${cluster}/traces/${traceId}`, {
+      params: params,
+    });
+    return data as Telemetry;
+  }
 }
