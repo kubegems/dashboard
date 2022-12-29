@@ -18,7 +18,7 @@
   <BaseDialog
     v-model="dialog"
     icon="mdi-gate"
-    :title="$root.$t('operate.update_c', [$root.$t('resource.gateway')])"
+    :title="$root.$t('operate.create_c', [$root.$t('resource.gateway')])"
     :width="1000"
     @reset="reset"
   >

@@ -61,7 +61,7 @@
   import LogLabel from './LogLabel';
   import NodeMonitor from './NodeMonitor';
   import PodMonitor from './PodMonitor';
-  // import Trace from './Trace';
+  import Trace from './Trace';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
@@ -75,7 +75,7 @@
       LogLabel,
       NodeMonitor,
       PodMonitor,
-      // Trace,
+      Trace,
     },
     data() {
       return {
@@ -93,7 +93,7 @@
           { text: this.$root.$t('resource.host'), value: 'NodeMonitor' },
           { text: this.$root.$t('resource.container'), value: 'ContainerMonitor' },
           { text: this.$root.$t('resource.pod'), value: 'PodMonitor' },
-          // { text: this.$t('tip.trace'), value: 'Trace' },
+          { text: this.$t('tip.trace'), value: 'Trace' },
         ];
       },
     },

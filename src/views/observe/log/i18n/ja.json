@@ -68,7 +68,8 @@
     "channel_changed": "アラート チャネルが変更されました",
     "channel_lost": "アラート チャネルが削除されました",
     "trace": "リンク追跡",
-    "select_one_rule": "ルールを選択"
+    "select_one_rule": "ルールを選択",
+    "no_trace": "リンクはまだありません"
   },
   "operate": {
     "download_log": "ログをダウンロード",
