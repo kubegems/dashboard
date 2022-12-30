@@ -59,7 +59,7 @@
 
   import messages from '../../../i18n';
   import PrometheusRuleBaseForm from './PrometheusRuleBaseForm';
-  import { postAddLogAlertRule, postAddPrometheusRule } from '@/api';
+  import { postAddLogAlertRule, postAddPrometheusRule, postGeneratePrometheusRuleMessage } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
@@ -113,6 +113,16 @@
       async addPrometheusRule() {
         if (this.$refs[this.formComponent].validate()) {
           const obj = deepCopy(this.$refs[this.formComponent].getData());
+
+          if (!obj.message.trim()) {
+            obj.alertType = this.mode;
+            await postGeneratePrometheusRuleMessage(
+              this.$route.query.cluster,
+              this.$route.query.namespace,
+              obj.name,
+              obj,
+            );
+          }
 
           if (this.mode === 'monitor') {
             obj.source = 'kubegems-default-monitor-alert-rule';

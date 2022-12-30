@@ -144,7 +144,8 @@
     "disable_c": "禁用{0}",
     "all": "全选",
     "copy": "复制",
-    "copy_c": "复制{0}"
+    "copy_c": "复制{0}",
+    "generate_message": "生成消息模版"
   },
   "filter": {
     "receiver_name": "接收器名称",

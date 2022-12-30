@@ -89,9 +89,11 @@
   let environmentItems = ref<Environment[]>([]);
   onMounted(() => {
     nextTick(async () => {
-      environmentItems.value = await useEnvironmentListInProject(
-        new Project({ ID: route.query.projid, ProjectName: route.query.proj }),
-      );
+      if (route.query.projid && route.query.proj) {
+        environmentItems.value = await useEnvironmentListInProject(
+          new Project({ ID: route.query.projid, ProjectName: route.query.proj }),
+        );
+      }
     });
   });
 

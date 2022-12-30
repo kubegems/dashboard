@@ -99,7 +99,7 @@
     watch: {
       dialog: {
         handler(newValue) {
-          this.$store.commit('SET_DIALOG', newValue);
+          if (newValue) this.$store.commit('SET_DIALOG', newValue);
         },
         deep: true,
       },

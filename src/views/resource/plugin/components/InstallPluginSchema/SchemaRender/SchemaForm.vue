@@ -64,7 +64,7 @@
       };
     },
     computed: {
-      ...mapState(['Scale']),
+      ...mapState(['Scale', 'Locale']),
       ...mapGetters(['Cluster']),
       height() {
         return (window.innerHeight - 202) / this.Scale;
@@ -93,6 +93,18 @@
       async renderSchema() {
         this.appValues = this.item.values;
         this.schemaJson = JSON.parse(this.item.schema);
+
+        // if (this.Locale !== 'zh-Hans' && this.Locale !== 'zh-Hant') {
+        //   if (this.filesCopy['i18n/values.en.json']) {
+        //     const enSchemaJson = JSON.parse(this.filesCopy['i18n/values.en.json']);
+        //     this.schemaJson = Object.assign(this.schemaJson, enSchemaJson);
+        //   } else {
+        //     this.$store.commit('SET_SNACKBAR', {
+        //       text: this.$t('tip.no_i18n_file'),
+        //       color: 'warning',
+        //     });
+        //   }
+        // }
 
         this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
       },

@@ -69,7 +69,7 @@
         text: i18n.t('tip.version', [latestVersion]),
         color: 'warning',
       });
-      store.commit('SET_VERSION', latestVersion);
+      if (latestVersion) store.commit('SET_VERSION', latestVersion);
     }
   };
 

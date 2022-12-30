@@ -134,7 +134,8 @@
     "disable_c": "{0} を無効化",
     "all": "すべて選択",
     "copy": "コピー",
-    "copy_c": "コピー {0}"
+    "copy_c": "コピー {0}",
+    "generate_message": "メッセージ テンプレートの生成"
   },
   "filter": {
     "receiver_name": "受信機名",

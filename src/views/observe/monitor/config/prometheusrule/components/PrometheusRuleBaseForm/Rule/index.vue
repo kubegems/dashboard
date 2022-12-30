@@ -559,7 +559,7 @@
           ];
         }
         this.inhibitLabelItems = this.inhibitLabelItems.concat(
-          ...(this.obj.inhibitLabels.map((i) => {
+          ...(this.obj.inhibitLabels?.map((i) => {
             return { text: i, value: i };
           }) || []),
         );

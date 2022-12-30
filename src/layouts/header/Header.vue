@@ -204,9 +204,11 @@
         }
       },
       goStore(store) {
-        this.$store.commit('SET_STORE', store.value);
-        if (this.StoreMode === 'app') this.toAppStore();
-        else this.toModelStore();
+        if (store) {
+          this.$store.commit('SET_STORE', store.value);
+          if (this.StoreMode === 'app') this.toAppStore();
+          else this.toModelStore();
+        }
       },
       async toWorkspace() {
         this.$store.commit('CLEAR_VIRTUAL_SPACE');

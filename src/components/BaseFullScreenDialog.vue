@@ -126,7 +126,7 @@
     watch: {
       dialog: {
         handler(newValue) {
-          this.$store.commit('SET_FULL_DIALOG', newValue);
+          if (newValue) this.$store.commit('SET_FULL_DIALOG', newValue);
         },
         deep: true,
       },

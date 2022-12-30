@@ -359,7 +359,7 @@
   });
   const selectCluster = async (isEdge = false): Promise<void> => {
     if (isEdge) {
-      if (cluster.value.Status === 'Online') {
+      if (cluster.value?.Status === 'Online') {
         store.commit('SET_EDGE', cluster.value.ClusterName);
       } else {
         store.commit('SET_SNACKBAR', {

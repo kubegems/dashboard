@@ -133,7 +133,8 @@
     "disable_c": "關閉{0}",
     "all": "全選",
     "copy": "複製",
-    "copy_c": "複製{0}"
+    "copy_c": "複製{0}",
+    "generate_message": "生成消息模板"
   },
   "filter": {
     "receiver_name": "接收器名稱",

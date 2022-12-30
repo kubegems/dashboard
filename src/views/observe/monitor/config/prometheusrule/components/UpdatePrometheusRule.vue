@@ -100,6 +100,16 @@
         if (this.$refs[this.formComponent].validate()) {
           const obj = deepCopy(this.$refs[this.formComponent].getData());
 
+          if (!obj.message.trim()) {
+            obj.alertType = this.mode;
+            await postGeneratePrometheusRuleMessage(
+              this.$route.query.cluster,
+              this.$route.query.namespace,
+              obj.name,
+              obj,
+            );
+          }
+
           if (this.mode === 'monitor') {
             // 移除labelpairs中的空值
             for (const key in obj?.promqlGenerator?.labelpairs || []) {

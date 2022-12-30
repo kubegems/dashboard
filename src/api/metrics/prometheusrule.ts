@@ -78,3 +78,12 @@ export const getPrometheusRuleStatus = (
   axios(`observability/cluster/${clusterName}/namespaces/${namespace}/monitor/alerts/_/status`, {
     params: query,
   });
+
+// 生成告警信息
+export const postGeneratePrometheusRuleMessage = (
+  clusterName: string,
+  namespace: string,
+  name: string,
+  body: { [key: string]: any } = {},
+): Promise<{ [key: string]: any }> =>
+  axios.post(`observability/cluster/${clusterName}/namespaces/${namespace}/alerts/${name}/actions/message`, body);

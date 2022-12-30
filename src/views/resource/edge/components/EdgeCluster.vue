@@ -74,6 +74,12 @@
       date: undefined,
     },
   );
+
+  let params = reactive({
+    start: undefined,
+    end: undefined,
+  });
+
   watch(
     () => props.date,
     (newValue) => {
@@ -82,16 +88,14 @@
         params.end = newValue[1];
       }
     },
-    { immediate: true, deep: true },
+    {
+      immediate: true,
+      deep: true,
+    },
   );
 
   const route = useRoute();
   const i18n = useGlobalI18n();
-
-  let params = reactive({
-    start: undefined,
-    end: undefined,
-  });
 
   let workloadsStatistics = ref({});
   let quota = ref({

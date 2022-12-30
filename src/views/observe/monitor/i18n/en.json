@@ -134,7 +134,8 @@
     "disable_c": "Disable {0}",
     "all": "All",
     "copy": "Copy",
-    "copy_c": "Copy {0}"
+    "copy_c": "Copy {0}",
+    "generate_message": "Generate message template"
   },
   "filter": {
     "receiver_name": "Recipient Name",
