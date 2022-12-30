@@ -73,10 +73,11 @@
       async updateChannel() {
         if (this.$refs[this.formComponent].validate()) {
           const data = this.$refs[this.formComponent].getData();
-          await putUpdateChannel(this.Tenant().ID, data.id, data);
+          const updateData = await putUpdateChannel(this.Tenant().ID, data.id, data);
 
           this.reset();
           this.$emit('refresh');
+          this.$emit('listStatus', updateData);
         }
       },
       reset() {

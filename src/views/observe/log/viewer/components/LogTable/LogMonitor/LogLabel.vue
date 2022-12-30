@@ -35,5 +35,10 @@
         default: () => null,
       },
     },
+    methods: {
+      dispose() {
+        return;
+      },
+    },
   };
 </script>

@@ -2,7 +2,9 @@
   "table": {
     "name": "Name",
     "channel": "Channel",
-    "default": "Default"
+    "default": "Default",
+    "status": "Update status",
+    "cascade_name": "Cluster/Environment/Receiver"
   },
   "tip": {
     "email": "Email",
@@ -24,7 +26,8 @@
     "aliyun_msg": "Aliyun Message",
     "aliyun_voice": "Aliyun Voice",
     "dingding": "Dingding",
-    "phone": "Mobile"
+    "phone": "Mobile",
+    "receiver_update": "The following receivers will be updated synchronously"
   },
   "filter": {
     "channel_name": "Alert Channel"

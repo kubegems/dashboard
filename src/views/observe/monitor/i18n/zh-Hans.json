@@ -189,7 +189,8 @@
 
     "statistics": "统计",
     "value": "数值",
-    "time": "时间"
+    "time": "时间",
+    "error_info": "错误信息"
   },
   "status": {
     "enabled": "启用",

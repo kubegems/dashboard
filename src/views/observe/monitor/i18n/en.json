@@ -176,7 +176,8 @@
     "probe_interval": "Interval",
     "statistics": "Statistics",
     "value": "Value",
-    "time": "Time"
+    "time": "Time",
+    "error_info": "Error info"
   },
   "status": {
     "enabled": "Enabled",

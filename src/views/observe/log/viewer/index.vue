@@ -302,6 +302,8 @@
         };
         this.items = [];
         this.params.levels = [];
+        // 特别处理，需找优化原因
+        this.$store.commit('SET_PROGRESS', true);
         const data = await getLogQueryRange(params.ClusterName, params);
 
         if (data.resultType === '') {

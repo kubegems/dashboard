@@ -2,7 +2,9 @@
   "table": {
     "name": "名前",
     "channel": "チャネル",
-    "default": "ビルトイン"
+    "default": "ビルトイン",
+    "status": "最新状況",
+    "cascade_name": "クラスター/環境/レシーバー"
   },
   "tip": {
     "email": "メール",
@@ -24,7 +26,8 @@
     "aliyun_msg": "Aliyun情報",
     "aliyun_voice": "Aliyunボイス",
     "dingding": "Dingding",
-    "phone": "電話番号"
+    "phone": "電話番号",
+    "receiver_update": "次のシンクは同期的に更新されます"
   },
   "filter": {
     "channel_name": "アラームチャンネル"

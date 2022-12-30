@@ -175,7 +175,8 @@
     "probe_interval": "頻率",
     "statistics": "統計",
     "value": "數值",
-    "time": "時間"
+    "time": "時間",
+    "error_info": "錯誤信息"
   },
   "status": {
     "enabled": "啟用",

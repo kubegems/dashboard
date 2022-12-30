@@ -134,7 +134,8 @@
     </v-btn>
 
     <AddChannel ref="addChannel" @refresh="channelList" />
-    <UpdateChannel ref="updateChannel" @refresh="channelList" />
+    <UpdateChannel ref="updateChannel" @listStatus="listStatus" @refresh="channelList" />
+    <ChannelUpdateTip ref="channelUpdateTip" :status="updateStatus" />
   </div>
 </template>
 
@@ -143,6 +144,7 @@
 
   import messages from '../i18n';
   import AddChannel from './AddChannel';
+  import ChannelUpdateTip from './ChannelUpdateTip.vue';
   import UpdateChannel from './UpdateChannel';
   import { deleteChannel, getChannelList, postSendTestChannel } from '@/api';
   import BasePermission from '@/mixins/permission';
@@ -154,6 +156,7 @@
     },
     components: {
       AddChannel,
+      ChannelUpdateTip,
       UpdateChannel,
     },
     mixins: [BasePermission],
@@ -167,6 +170,7 @@
         },
         offsetTop: 0,
         loading: false,
+        updateStatus: {},
       };
     },
     computed: {
@@ -259,6 +263,10 @@
       },
       addChannel() {
         this.$refs.addChannel.open();
+      },
+      listStatus(status) {
+        this.updateStatus = status;
+        this.$refs.channelUpdateTip.open();
       },
     },
   };
