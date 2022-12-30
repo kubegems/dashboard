@@ -51,7 +51,12 @@
 
   import messages from '../i18n';
   import { getPodList } from '@/api';
-  import { N_GPU_MEMORY_USAGE, N_GPU_POWER, N_GPU_TEMP, N_GPU_USAGE } from '@/constants/prometheus';
+  import {
+    N_GPU_MEMORY_USAGE_PROMQL,
+    N_GPU_POWER_PROMQL,
+    N_GPU_TEMP_PROMQL,
+    N_GPU_USAGE_PROMQL,
+  } from '@/constants/prometheus';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
 
@@ -130,12 +135,15 @@
         this.gpuPowerMetrics();
       },
       async gpuUsage() {
-        const query = N_GPU_USAGE.replaceAll('$1', this.pods.join('|')).replaceAll('$2', this.$route.query.namespace);
+        const query = N_GPU_USAGE_PROMQL.replaceAll('$1', this.pods.join('|')).replaceAll(
+          '$2',
+          this.$route.query.namespace,
+        );
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
         if (data) this.gpu = data;
       },
       async gpuMemoryUsage() {
-        const query = N_GPU_MEMORY_USAGE.replaceAll('$1', this.pods.join('|')).replaceAll(
+        const query = N_GPU_MEMORY_USAGE_PROMQL.replaceAll('$1', this.pods.join('|')).replaceAll(
           '$2',
           this.$route.query.namespace,
         );
@@ -143,12 +151,18 @@
         if (data) this.gpuMemory = data;
       },
       async gpuTempMetrics() {
-        const query = N_GPU_TEMP.replaceAll('$1', this.pods.join('|')).replaceAll('$2', this.$route.query.namespace);
+        const query = N_GPU_TEMP_PROMQL.replaceAll('$1', this.pods.join('|')).replaceAll(
+          '$2',
+          this.$route.query.namespace,
+        );
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
         if (data) this.gpuTemp = data;
       },
       async gpuPowerMetrics() {
-        const query = N_GPU_POWER.replaceAll('$1', this.pods.join('|')).replaceAll('$2', this.$route.query.namespace);
+        const query = N_GPU_POWER_PROMQL.replaceAll('$1', this.pods.join('|')).replaceAll(
+          '$2',
+          this.$route.query.namespace,
+        );
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
         if (data) this.gpuPower = data;
       },

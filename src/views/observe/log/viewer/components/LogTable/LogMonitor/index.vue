@@ -49,7 +49,7 @@
         </v-tab>
       </v-tabs>
 
-      <component :is="tabItems[tab].value" :date="date" :item="item" :traceid="traceid" />
+      <component :is="tabItems[tab].value" :ref="tabItems[tab].value" :date="date" :item="item" :traceid="traceid" />
     </template>
   </BasePanel>
 </template>
@@ -115,7 +115,9 @@
         this.panel = true;
       },
       dispose() {
-        return;
+        if (this.$refs[this.tabItems[this.tab].value]) {
+          this.$refs[this.tabItems[this.tab].value].dispose();
+        }
       },
     },
   };

@@ -2,7 +2,9 @@
   "table": {
     "name": "名称",
     "channel": "渠道",
-    "default": "内置"
+    "default": "内置",
+    "status": "更新状态",
+    "cascade_name": "集群/环境/接收器"
   },
   "tip": {
     "email": "邮箱",
@@ -24,7 +26,8 @@
     "aliyun_msg": "阿里云短信",
     "aliyun_voice": "阿里云语音",
     "dingding": "钉钉",
-    "phone": "手机号"
+    "phone": "手机号",
+    "receiver_update": "以下接收器将同步更新"
   },
   "filter": {
     "channel_name": "告警渠道"

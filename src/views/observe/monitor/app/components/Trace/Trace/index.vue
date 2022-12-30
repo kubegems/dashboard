@@ -131,7 +131,7 @@
               <v-col cols="5">
                 <div class="text-subtitle-2 kubegems--text">{{ i18nLocal.t('tip.timeline') }}</div>
                 <BaseTimelineChart
-                  :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')}`"
+                  :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')} mt-n2`"
                   colorful
                   :duration="getDuration(item) / 1000"
                   :extend-height="100"
@@ -192,6 +192,21 @@
       env: undefined,
       date: undefined,
       service: undefined,
+    },
+  );
+
+  watch(
+    () => props.env,
+    async (newValue) => {
+      if (newValue && newValue.clusterName && newValue.namespace && props.service) {
+        nextTick(() => {
+          getTrace();
+        });
+      }
+    },
+    {
+      immediate: true,
+      deep: true,
     },
   );
 

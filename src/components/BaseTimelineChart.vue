@@ -83,7 +83,7 @@
       metrics: {
         handler(newValue) {
           if (newValue && newValue?.length >= 0 && document.getElementById(this.chartId)) {
-            this.height = 100 + 24 * newValue[0].data?.length;
+            this.height = 33.5 * newValue[0].data?.length;
             this.loadChart();
           }
         },
@@ -100,7 +100,7 @@
         const interval = setInterval(() => {
           if (document.getElementById(this.chartId)) {
             clearInterval(interval);
-            this.height = 100 + 24 * this.metrics[0].data?.length;
+            this.height = this.metrics?.length > 0 ? 33.5 * this.metrics[0].data?.length : 0;
             this.loadChart();
           }
         }, 300);
@@ -175,7 +175,7 @@
               borderWidth: 1,
               scales: {
                 xAxis: {
-                  min: this.metrics?.length > 0 ? this.metrics[0].data[0].x[0] : 0,
+                  min: this.metrics?.length > 0 ? this.metrics[0]?.data[0]?.x[0] : 0,
                   grid: {
                     display: false,
                   },

@@ -88,6 +88,21 @@
   );
 
   watch(
+    () => props.env,
+    async (newValue) => {
+      if (newValue && newValue.clusterName && newValue.namespace && props.service) {
+        nextTick(() => {
+          getOperation();
+        });
+      }
+    },
+    {
+      immediate: true,
+      deep: true,
+    },
+  );
+
+  watch(
     () => props.date,
     async (newValue) => {
       if (newValue && newValue.length === 2 && props.env.clusterName && props.service) {

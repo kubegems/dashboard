@@ -176,7 +176,8 @@
     "probe_interval": "周波数",
     "statistics": "統計学",
     "value": "価値",
-    "time": "時間"
+    "time": "時間",
+    "error_info": "エラーメッセージ"
   },
   "status": {
     "enabled": "有効",

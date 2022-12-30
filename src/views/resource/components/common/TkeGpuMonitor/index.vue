@@ -47,7 +47,7 @@
   import messages from '../../i18n';
   import DashboardCard from './DashboardCard';
   import { getPodList } from '@/api';
-  import { T_GPU_MEMORY_USAGE, T_GPU_USAGE } from '@/constants/prometheus';
+  import { T_GPU_MEMORY_USAGE_PROMQL, T_GPU_USAGE_PROMQL } from '@/constants/prometheus';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
 
@@ -126,12 +126,15 @@
         this.gpuMemoryUsage();
       },
       async gpuUsage() {
-        const query = T_GPU_USAGE.replaceAll('$1', this.pods.join('|')).replaceAll('$2', this.$route.query.namespace);
+        const query = T_GPU_USAGE_PROMQL.replaceAll('$1', this.pods.join('|')).replaceAll(
+          '$2',
+          this.$route.query.namespace,
+        );
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
         if (data) this.gpu = data;
       },
       async gpuMemoryUsage() {
-        const query = T_GPU_MEMORY_USAGE.replaceAll('$1', this.pods.join('|')).replaceAll(
+        const query = T_GPU_MEMORY_USAGE_PROMQL.replaceAll('$1', this.pods.join('|')).replaceAll(
           '$2',
           this.$route.query.namespace,
         );

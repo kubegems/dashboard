@@ -122,6 +122,9 @@
       if (this.timeinterval) clearInterval(this.timeinterval);
     },
     methods: {
+      dispose() {
+        if (this.timeinterval) clearInterval(this.timeinterval);
+      },
       async loadMetrics() {
         if (this.timeinterval) clearInterval(this.timeinterval);
         this.loadData();

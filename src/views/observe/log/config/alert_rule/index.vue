@@ -80,9 +80,9 @@
           hide-default-footer
           item-key="index"
           :items="items"
-          :items-per-page="itemsPerPage"
+          :items-per-page="params.size"
           :no-data-text="$root.$t('data.no_data')"
-          :page.sync="page"
+          :page.sync="params.page"
           show-expand
           show-select
           single-expand
@@ -111,19 +111,12 @@
                   {{ item.state }}
                 </v-chip>
               </span>
-              <v-flex v-if="item.channelStatus > 0" class="float-left">
-                <v-menu nudge-right="20px" nudge-top="8px" open-on-hover right>
-                  <template #activator="{ on }">
-                    <span v-on="on">
-                      <v-icon color="orange" small> mdi-alert-decagram </v-icon>
-                    </span>
+              <v-flex v-if="item.k8sResourceStatus.status === 'error'" class="float-left">
+                <RuleStatusTip :rule="item" :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)">
+                  <template #trigger>
+                    <v-icon color="orange" small> mdi-alert </v-icon>
                   </template>
-                  <v-card>
-                    <v-card-text class="pa-2 text-caption">
-                      {{ item.channelStatus === 1 ? $t('tip.channel_changed') : $t('tip.channel_lost') }}
-                    </v-card-text>
-                  </v-card>
-                </v-menu>
+                </RuleStatusTip>
               </v-flex>
             </v-flex>
           </template>
@@ -199,9 +192,9 @@
         </v-data-table>
         <BasePagination
           v-if="pageCount >= 1"
-          v-model="page"
+          v-model="params.page"
           :page-count="pageCount"
-          :size="itemsPerPage"
+          :size="params.size"
           @changepage="onPageIndexChange"
           @changesize="onPageSizeChange"
           @loaddata="alertRuleList"
@@ -232,6 +225,7 @@
   import BaseTable from '@/mixins/table';
   import AddAlertRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule';
   import CopyAlertRule from '@/views/observe/monitor/config/prometheusrule/components/CopyPrometheusRule';
+  import RuleStatusTip from '@/views/observe/monitor/config/prometheusrule/components/RuleStatusTip';
   import UpdateAlertRule from '@/views/observe/monitor/config/prometheusrule/components/UpdatePrometheusRule';
 
   export default {
@@ -242,6 +236,7 @@
     components: {
       AddAlertRule,
       CopyAlertRule,
+      RuleStatusTip,
       UpdateAlertRule,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
@@ -254,10 +249,10 @@
     data() {
       return {
         items: [],
-        page: 1,
         pageCount: 0,
-        itemsPerPage: 10,
         params: {
+          page: 1,
+          size: 10,
           state: '',
           isAdmin: false,
         },
@@ -441,11 +436,11 @@
         this.$refs.copyAlertRule.open();
       },
       onPageSizeChange(size) {
-        this.page = 1;
-        this.itemsPerPage = size;
+        this.params.page = 1;
+        this.params.size = size;
       },
       onPageIndexChange(page) {
-        this.page = page;
+        this.params.page = page;
       },
       onRowClick(item, { expand, isExpanded }) {
         expand(!isExpanded);

@@ -14,12 +14,13 @@
  * limitations under the License. 
 -->
 <template>
-  <div class="px-2">
+  <div class="px-4 mt-n2">
     <template v-if="traceid">
       <v-btn class="share__btn" color="primary" icon small @click="toTrace">
         <v-icon small>mdi-open-in-new</v-icon>
       </v-btn>
       <BaseTimelineChart
+        v-if="telemetry.spans"
         :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')}`"
         colorful
         :duration="getDuration(telemetry) / 1000"
@@ -108,12 +109,20 @@
     }).href;
     window.open(href);
   };
+
+  const dispose = (): void => {
+    return;
+  };
+
+  defineExpose({
+    dispose,
+  });
 </script>
 
 <style lang="scss" scoped>
   .share__btn {
     position: absolute;
-    right: 40px;
+    right: 10px;
     z-index: 999;
   }
 
