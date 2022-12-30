@@ -69,7 +69,12 @@
     "channel_lost": "Channel Lost",
     "trace": "Trace",
     "select_one_rule": "Select a rule",
-    "no_trace": "No trace"
+    "no_trace": "No trace",
+    "total_memory": "Total",
+    "used_memory": "Used",
+    "buffer_memory": "Buffers",
+    "cached_memory": "Cached",
+    "memory_used_status": "Memory Used Status"
   },
   "operate": {
     "download_log": "Download Log",

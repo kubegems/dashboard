@@ -24,6 +24,7 @@
     "load": "负载",
     "cpu_rate": "CPU使用率",
     "memory_rate": "内存使用率",
+    "memory_used_status": "内存使用状态",
     "network": "网络带宽",
     "remain_storage": "磁盘剩余容量",
     "disk_iops": "磁盘IOPS",
@@ -52,6 +53,10 @@
     "policy": "策略",
     "no_schedule": "不允许调度 (NoSchedule)",
     "prefer_no_schedule": "尽量不调度 (PreferNoSchedule)",
-    "no_execute": "不允许并驱逐已有容器组 (NoExecute)"
+    "no_execute": "不允许并驱逐已有容器组 (NoExecute)",
+    "total_memory": "总内存",
+    "used_memory": "使用内存",
+    "buffer_memory": "Buffers",
+    "cached_memory": "Cached"
   }
 }

@@ -24,6 +24,7 @@
     "load": "Load",
     "cpu_rate": "CPU Usage",
     "memory_rate": "Memory usage",
+    "memory_used_status": "Memory Used Status",
     "network": "Network bandwidth",
     "remain_storage": "Disk remaining capacity",
     "disk_iops": "Disk IOPS",
@@ -52,6 +53,10 @@
     "policy": "Policy",
     "no_schedule": "Scheduler is not allowed (Noedule)",
     "prefer_no_schedule": "Do not schedule (PreferNoSchedule)",
-    "no_execute": "Do not allow and remove existing container groups (Noecute)"
+    "no_execute": "Do not allow and remove existing container groups (Noecute)",
+    "total_memory": "Total",
+    "used_memory": "Used",
+    "buffer_memory": "Buffers",
+    "cached_memory": "Cached"
   }
 }

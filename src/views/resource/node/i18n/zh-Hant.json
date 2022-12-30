@@ -23,7 +23,8 @@
   "tip": {
     "load": "負載",
     "cpu_rate": "CPU使用率",
-    "memory_rate": "記憶體使用率",
+    "memory_rate": "內存使用率",
+    "memory_used_status": "內存使用狀態",
     "network": "網路頻寬",
     "remain_storage": "磁碟剩餘容量",
     "disk_iops": "磁碟IOPS",
@@ -52,6 +53,10 @@
     "policy": "策略",
     "no_schedule": "不允許調度 （NoSchedule）",
     "prefer_no_schedule": "盡量不調度 （PreferNoSchedule）",
-    "no_execute": "不允許並驅逐已有容器組 （NoExecute）"
+    "no_execute": "不允許並驅逐已有容器組 （NoExecute）",
+    "total_memory": "總內存",
+    "used_memory": "使用内存",
+    "buffer_memory": "Buffers",
+    "cached_memory": "Cached"
   }
 }

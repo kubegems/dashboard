@@ -96,7 +96,7 @@
 
         if (this.Locale !== 'zh-Hans' && this.Locale !== 'zh-Hant') {
           if (this.item.files['i18n/values.en.json']) {
-            const enSchemaJson = JSON.parse(this.item.files['i18n/values.en.json']);
+            const enSchemaJson = JSON.parse(this.item.files['i18n/values.en.json'] || '{}');
             this.schemaJson = Object.assign(this.schemaJson, enSchemaJson);
           } else {
             this.$store.commit('SET_SNACKBAR', {
