@@ -40,7 +40,13 @@
           <BaseAreaChart id="memory" label="node" :metrics="memory" :title="$t('tip.memory_rate')" type="%" />
         </v-col>
         <v-col cols="6">
-          <BaseAreaChart id="network" label="name" :metrics="network" :title="$t('tip.network')" type="network" />
+          <BaseAreaChart
+            id="memoryUsed"
+            label="name"
+            :metrics="memoryUsed"
+            :title="$t('tip.memory_used_status')"
+            type="memory"
+          />
         </v-col>
       </v-row>
       <v-row>
@@ -49,6 +55,11 @@
         </v-col>
         <v-col cols="6">
           <BaseAreaChart id="diskiops" label="name" :metrics="diskiops" :title="$t('tip.disk_iops')" type="" />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="6">
+          <BaseAreaChart id="network" label="name" :metrics="network" :title="$t('tip.network')" type="network" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -67,7 +78,11 @@
     NODE_LOAD15_PROMQL,
     NODE_LOAD1_PROMQL,
     NODE_LOAD5_PROMQL,
+    NODE_MEMORY_BUFFER_PROMQL,
+    NODE_MEMORY_CACHED_PROMQL,
+    NODE_MEMORY_TOTAL_PROMQL,
     NODE_MEMORY_USAGE_PROMQL,
+    NODE_MEMORY_USED_PROMQL,
     NODE_NETWORK_IN_PROMQL,
     NODE_NETWORK_OUT_PROMQL,
   } from '@/constants/prometheus';
@@ -94,6 +109,7 @@
         network: [],
         disk: [],
         diskiops: [],
+        memoryUsed: [],
         date: [],
         params: {
           start: '',
@@ -133,9 +149,46 @@
         this.nodeLoadRange();
         this.nodeCPUUsage();
         this.nodeMemoryUsage();
-        this.nodeNetworkUsage();
+        this.nodeMemoryUsed();
         this.nodeDiskSize();
         this.nodeDiskIOPS();
+        this.nodeNetworkUsage();
+      },
+      async nodeMemoryUsed() {
+        const data1 = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: NODE_MEMORY_TOTAL_PROMQL.replaceAll('$1', this.item.metadata.name),
+          }),
+        );
+        if (data1?.length > 0) data1[0].metric['name'] = this.$t('tip.total_memory');
+        const data2 = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: NODE_MEMORY_USED_PROMQL.replaceAll('$1', this.item.metadata.name),
+          }),
+        );
+        if (data2?.length > 0) data2[0].metric['name'] = this.$t('tip.used_memory');
+        const data3 = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: NODE_MEMORY_BUFFER_PROMQL.replaceAll('$1', this.item.metadata.name),
+          }),
+        );
+        if (data3?.length > 0) data3[0].metric['name'] = this.$t('tip.buffer_memory');
+        const data4 = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: NODE_MEMORY_CACHED_PROMQL.replaceAll('$1', this.item.metadata.name),
+          }),
+        );
+        if (data4?.length > 0) data4[0].metric['name'] = this.$t('tip.cached_memory');
+        let data = [];
+        if (data1) data = data.concat(data1);
+        if (data2) data = data.concat(data2);
+        if (data3) data = data.concat(data3);
+        if (data4) data = data.concat(data4);
+        this.memoryUsed = data;
       },
       async nodeLoadRange() {
         const data1 = await this.m_permission_matrix(

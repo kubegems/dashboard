@@ -70,7 +70,12 @@
     "channel_lost": "告警渠道已刪除",
     "trace": "鏈路追踪",
     "select_one_rule": "選擇一個規則",
-    "no_trace": "暫無鏈路"
+    "no_trace": "暫無鏈路",
+    "total_memory": "總內存",
+    "used_memory": "使用内存",
+    "buffer_memory": "Buffers",
+    "cached_memory": "Cached",
+    "memory_used_status": "內存使用狀態"
   },
   "operate": {
     "download_log": "下載日誌",

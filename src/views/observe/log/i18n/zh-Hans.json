@@ -69,7 +69,12 @@
     "channel_lost": "告警渠道已删除",
     "trace": "链路追踪",
     "select_one_rule": "选择一个规则",
-    "no_trace": "暂无链路"
+    "no_trace": "暂无链路",
+    "total_memory": "总内存",
+    "used_memory": "使用内存",
+    "buffer_memory": "Buffers",
+    "cached_memory": "Cached",
+    "memory_used_status": "内存使用状态"
   },
   "operate": {
     "download_log": "下载日志",

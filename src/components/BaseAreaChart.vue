@@ -98,6 +98,10 @@
         type: Boolean,
         default: () => false,
       },
+      stacked: {
+        type: Boolean,
+        default: () => false,
+      },
       timeDisplay: {
         type: String,
         default: () => 'HH:mm:ss',
@@ -275,6 +279,7 @@
                   },
                   beginAtZero: this.beginAtZero,
                   min: this.type === 'percent' || ['0-100', '0.0-1.0'].indexOf(this.unit) > -1 ? 0 : null,
+                  stacked: this.stacked,
                 },
                 x: {
                   display: !this.sample,

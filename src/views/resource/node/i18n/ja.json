@@ -24,6 +24,7 @@
     "load": "負荷",
     "cpu_rate": "CPU使用率",
     "memory_rate": "メモリ使用率",
+    "memory_used_status": "メモリ使用状況",
     "network": "インターネット帯域幅",
     "remain_storage": "残りのディスク容量",
     "disk_iops": "ディスクIOPS",
@@ -52,6 +53,10 @@
     "policy": "ストラテジー",
     "no_schedule": "No-スケジュールには適用できません",
     "prefer_no_schedule": "スケジュールから外す (PreferNo-スケジュール)",
-    "no_execute": "既存のポッド (NoExecute) を追放することはできません"
+    "no_execute": "既存のポッド (NoExecute) を追放することはできません",
+    "total_memory": "合計メモリ",
+    "used_memory": "メモリを使用する",
+    "buffer_memory": "Buffers",
+    "cached_memory": "Cached"
   }
 }

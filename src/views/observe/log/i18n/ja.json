@@ -69,7 +69,12 @@
     "channel_lost": "アラート チャネルが削除されました",
     "trace": "リンク追跡",
     "select_one_rule": "ルールを選択",
-    "no_trace": "リンクはまだありません"
+    "no_trace": "リンクはまだありません",
+    "total_memory": "合計メモリ",
+    "used_memory": "メモリを使用する",
+    "buffer_memory": "Buffers",
+    "cached_memory": "Cached",
+    "memory_used_status": "メモリ使用状況"
   },
   "operate": {
     "download_log": "ログをダウンロード",

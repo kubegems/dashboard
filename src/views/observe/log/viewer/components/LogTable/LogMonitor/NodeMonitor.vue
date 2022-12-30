@@ -43,11 +43,11 @@
         </v-col>
         <v-col cols="6">
           <BaseAreaChart
-            :global-plugins-check="false"
+            id="memoryUsed"
             label="name"
-            :metrics="network"
-            :title="$t('tip.network')"
-            type="network"
+            :metrics="memoryUsed"
+            :title="$t('tip.memory_used_status')"
+            type="memory"
           />
         </v-col>
       </v-row>
@@ -71,6 +71,17 @@
           />
         </v-col>
       </v-row>
+      <v-row>
+        <v-col cols="6">
+          <BaseAreaChart
+            :global-plugins-check="false"
+            label="name"
+            :metrics="network"
+            :title="$t('tip.network')"
+            type="network"
+          />
+        </v-col>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
@@ -87,7 +98,11 @@
     NODE_LOAD15_PROMQL,
     NODE_LOAD1_PROMQL,
     NODE_LOAD5_PROMQL,
+    NODE_MEMORY_BUFFER_PROMQL,
+    NODE_MEMORY_CACHED_PROMQL,
+    NODE_MEMORY_TOTAL_PROMQL,
     NODE_MEMORY_USAGE_PROMQL,
+    NODE_MEMORY_USED_PROMQL,
     NODE_NETWORK_IN_PROMQL,
     NODE_NETWORK_OUT_PROMQL,
   } from '@/constants/prometheus';
@@ -117,6 +132,7 @@
         network: [],
         disk: [],
         diskiops: [],
+        memoryUsed: [],
         params: {
           start: '',
           end: '',
@@ -157,9 +173,10 @@
         this.nodeLoadRange();
         this.nodeCPUUsage();
         this.nodeMemoryUsage();
-        this.nodeNetworkUsage();
+        this.nodeMemoryUsed();
         this.nodeDiskSize();
         this.nodeDiskIOPS();
+        this.nodeNetworkUsage();
       },
       async nodeLoadRange() {
         const data1 = await this.m_permission_matrix(
@@ -188,6 +205,42 @@
         if (data2) data = data.concat(data2);
         if (data3) data = data.concat(data3);
         this.load = data;
+      },
+      async nodeMemoryUsed() {
+        const data1 = await this.m_permission_matrix(
+          this.item.stream?.cluster,
+          Object.assign(this.params, {
+            query: NODE_MEMORY_TOTAL_PROMQL.replaceAll('$1', this.item.stream?.node),
+          }),
+        );
+        if (data1?.length > 0) data1[0].metric['name'] = this.$t('tip.total_memory');
+        const data2 = await this.m_permission_matrix(
+          this.item.stream?.cluster,
+          Object.assign(this.params, {
+            query: NODE_MEMORY_USED_PROMQL.replaceAll('$1', this.item.stream?.node),
+          }),
+        );
+        if (data2?.length > 0) data2[0].metric['name'] = this.$t('tip.used_memory');
+        const data3 = await this.m_permission_matrix(
+          this.item.stream?.cluster,
+          Object.assign(this.params, {
+            query: NODE_MEMORY_BUFFER_PROMQL.replaceAll('$1', this.item.stream?.node),
+          }),
+        );
+        if (data3?.length > 0) data3[0].metric['name'] = this.$t('tip.buffer_memory');
+        const data4 = await this.m_permission_matrix(
+          this.item.stream?.cluster,
+          Object.assign(this.params, {
+            query: NODE_MEMORY_CACHED_PROMQL.replaceAll('$1', this.item.stream?.node),
+          }),
+        );
+        if (data4?.length > 0) data4[0].metric['name'] = this.$t('tip.cached_memory');
+        let data = [];
+        if (data1) data = data.concat(data1);
+        if (data2) data = data.concat(data2);
+        if (data3) data = data.concat(data3);
+        if (data4) data = data.concat(data4);
+        this.memoryUsed = data;
       },
       async nodeCPUUsage() {
         const data = await this.m_permission_matrix(

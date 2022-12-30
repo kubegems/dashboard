@@ -321,11 +321,11 @@
       async parseFiles() {
         this.readme = this.filesCopy['README.md'] || {};
         if (this.filesCopy['values.schema.json']) {
-          this.schemaJson = JSON.parse(this.filesCopy['values.schema.json']);
+          this.schemaJson = JSON.parse(this.filesCopy['values.schema.json'] || '{}');
         }
         if (this.Locale !== 'zh-Hans' && this.Locale !== 'zh-Hant') {
           if (this.filesCopy['i18n/values.en.json']) {
-            const enSchemaJson = JSON.parse(this.filesCopy['i18n/values.en.json']);
+            const enSchemaJson = JSON.parse(this.filesCopy['i18n/values.en.json'] || '{}');
             this.schemaJson = Object.assign(this.schemaJson, enSchemaJson);
           } else {
             this.$store.commit('SET_SNACKBAR', {
