@@ -92,19 +92,19 @@
       },
       async renderSchema() {
         this.appValues = this.item.values;
-        this.schemaJson = JSON.parse(this.item.schema);
+        this.schemaJson = JSON.parse(this.item.files['values.schema.json'] || '{}');
 
-        // if (this.Locale !== 'zh-Hans' && this.Locale !== 'zh-Hant') {
-        //   if (this.filesCopy['i18n/values.en.json']) {
-        //     const enSchemaJson = JSON.parse(this.filesCopy['i18n/values.en.json']);
-        //     this.schemaJson = Object.assign(this.schemaJson, enSchemaJson);
-        //   } else {
-        //     this.$store.commit('SET_SNACKBAR', {
-        //       text: this.$t('tip.no_i18n_file'),
-        //       color: 'warning',
-        //     });
-        //   }
-        // }
+        if (this.Locale !== 'zh-Hans' && this.Locale !== 'zh-Hant') {
+          if (this.item.files['i18n/values.en.json']) {
+            const enSchemaJson = JSON.parse(this.item.files['i18n/values.en.json']);
+            this.schemaJson = Object.assign(this.schemaJson, enSchemaJson);
+          } else {
+            this.$store.commit('SET_SNACKBAR', {
+              text: this.$t('tip.no_i18n_file'),
+              color: 'warning',
+            });
+          }
+        }
 
         this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
       },
