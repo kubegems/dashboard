@@ -13,3 +13,67 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import axios from 'axios';
+
+import { Metadata } from './kubernetes';
+
+export class ModelDeployment {
+  constructor(modelDeployment?: { [key: string]: any }) {
+    this.apiVersion = 'models.kubegems.io/v1beta1';
+    this.kind = 'ModelDeployment';
+    this.metadata = new Metadata();
+
+    if (modelDeployment) Object.assign(this, modelDeployment);
+  }
+
+  apiVersion?: string = 'models.kubegems.io/v1beta1';
+  kind?: string = 'ModelDeployment';
+  metadata?: Metadata = new Metadata();
+  spec?: any;
+  status?: any;
+
+  public async getModelDeploymentList(
+    cluster: string,
+    params: KubePaginationRequest,
+  ): Promise<KubePaginationResponse<ModelDeployment[]>> {
+    const data: { [key: string]: any } = await axios(
+      `proxy/cluster/${cluster}/models.kubegems.io/v1beta1/namespaces/${this.metadata.namespace}/modeldeployments`,
+      {
+        params: params,
+      },
+    );
+    return data as KubePaginationResponse<ModelDeployment[]>;
+  }
+
+  public async getModelDeployment(cluster: string, params: KubeRequest = {}): Promise<ModelDeployment> {
+    const data: { [key: string]: any } = await axios(
+      `proxy/cluster/${cluster}/models.kubegems.io/v1beta1/namespaces/${this.metadata.namespace}/modeldeployments/${this.metadata.name}`,
+      {
+        params: params,
+      },
+    );
+    return data as ModelDeployment;
+  }
+
+  public async addModelDeployment(cluster: string): Promise<ModelDeployment> {
+    const data: { [key: string]: any } = await axios.post(
+      `proxy/cluster/${cluster}/models.kubegems.io/v1beta1/namespaces/${this.metadata.namespace}/modeldeployments/${this.metadata.name}`,
+      this,
+    );
+    return data as ModelDeployment;
+  }
+
+  public async updateModelDeployment(cluster: string): Promise<ModelDeployment> {
+    const data: { [key: string]: any } = await axios.patch(
+      `proxy/cluster/${cluster}/models.kubegems.io/v1beta1/namespaces/${this.metadata.namespace}/modeldeployments/${this.metadata.name}`,
+      this,
+    );
+    return data as ModelDeployment;
+  }
+
+  public async deleteModelDeployment(cluster: string): Promise<void> {
+    await axios.delete(
+      `proxy/cluster/${cluster}/models.kubegems.io/v1beta1/namespaces/${this.metadata.namespace}/modeldeployments/${this.metadata.name}`,
+    );
+  }
+}

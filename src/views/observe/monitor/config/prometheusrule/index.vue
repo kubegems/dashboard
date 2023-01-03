@@ -111,7 +111,7 @@
                   {{ item.state }}
                 </v-chip>
               </span>
-              <v-flex v-if="item.k8sResourceStatus.status === 'error'" class="float-left">
+              <v-flex v-if="item.k8sResourceStatus && item.k8sResourceStatus.status === 'error'" class="float-left">
                 <RuleStatusTip :rule="item" :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)">
                   <template #trigger>
                     <v-icon color="orange" small> mdi-alert </v-icon>

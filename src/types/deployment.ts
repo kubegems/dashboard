@@ -24,7 +24,7 @@ import { getApiVersion } from '@/utils/helpers';
 export class Deployment extends V1Deployment {
   constructor(deployment?: { [key: string]: any }) {
     super();
-    this.apiVersion = getApiVersion('deployment');
+    this.apiVersion = getApiVersion('deployment', 'apps/v1');
     this.kind = 'Deployment';
     this.metadata = new Metadata();
     this.spec = initKModel<V1DeploymentSpec>(V1DeploymentSpec.attributeTypeMap);
@@ -37,7 +37,7 @@ export class Deployment extends V1Deployment {
     cluster: string,
     params: KubePaginationRequest,
   ): Promise<KubePaginationResponse<Deployment[]>> {
-    const apiVersion: string = getApiVersion('deployment');
+    const apiVersion: string = getApiVersion('deployment', 'apps/v1');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/deployments`,
       {
@@ -48,7 +48,7 @@ export class Deployment extends V1Deployment {
   }
 
   public async getDeployment(cluster: string, params: KubeRequest = {}): Promise<Deployment> {
-    const apiVersion: string = getApiVersion('deployment');
+    const apiVersion: string = getApiVersion('deployment', 'apps/v1');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/deployments/${this.metadata.name}`,
       {
@@ -59,7 +59,7 @@ export class Deployment extends V1Deployment {
   }
 
   public async addDeployment(cluster: string): Promise<Deployment> {
-    const apiVersion: string = getApiVersion('deployment');
+    const apiVersion: string = getApiVersion('deployment', 'apps/v1');
     const data: { [key: string]: any } = await axios.post(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/deployments/${this.metadata.name}`,
       this,
@@ -68,7 +68,7 @@ export class Deployment extends V1Deployment {
   }
 
   public async updateDeployment(cluster: string): Promise<Deployment> {
-    const apiVersion: string = getApiVersion('deployment');
+    const apiVersion: string = getApiVersion('deployment', 'apps/v1');
     const data: { [key: string]: any } = await axios.patch(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/deployments/${this.metadata.name}`,
       this,
@@ -77,7 +77,7 @@ export class Deployment extends V1Deployment {
   }
 
   public async deleteDeployment(cluster: string): Promise<void> {
-    const apiVersion: string = getApiVersion('deployment');
+    const apiVersion: string = getApiVersion('deployment', 'apps/v1');
     await axios.delete(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/deployments/${this.metadata.name}`,
     );

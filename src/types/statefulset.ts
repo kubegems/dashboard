@@ -24,7 +24,7 @@ import { getApiVersion } from '@/utils/helpers';
 export class StatefulSet extends V1StatefulSet {
   constructor(statefulset?: { [key: string]: any }) {
     super();
-    this.apiVersion = getApiVersion('statefulset');
+    this.apiVersion = getApiVersion('statefulset', 'apps/v1');
     this.kind = 'StatefulSet';
     this.metadata = new Metadata();
     this.spec = initKModel<V1StatefulSetSpec>(V1StatefulSetSpec.attributeTypeMap);
@@ -37,7 +37,7 @@ export class StatefulSet extends V1StatefulSet {
     cluster: string,
     params: KubePaginationRequest,
   ): Promise<KubePaginationResponse<StatefulSet[]>> {
-    const apiVersion: string = getApiVersion('statefulset');
+    const apiVersion: string = getApiVersion('statefulset', 'apps/v1');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/statefulsets`,
       {
@@ -48,7 +48,7 @@ export class StatefulSet extends V1StatefulSet {
   }
 
   public async getStatefulSet(cluster: string, params: KubeRequest = {}): Promise<StatefulSet> {
-    const apiVersion: string = getApiVersion('statefulset');
+    const apiVersion: string = getApiVersion('statefulset', 'apps/v1');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/statefulsets/${this.metadata.name}`,
       {
@@ -59,7 +59,7 @@ export class StatefulSet extends V1StatefulSet {
   }
 
   public async addStatefulSet(cluster: string): Promise<StatefulSet> {
-    const apiVersion: string = getApiVersion('statefulset');
+    const apiVersion: string = getApiVersion('statefulset', 'apps/v1');
     const data: { [key: string]: any } = await axios.post(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/statefulsets/${this.metadata.name}`,
       this,
@@ -68,7 +68,7 @@ export class StatefulSet extends V1StatefulSet {
   }
 
   public async updateStatefulSet(cluster: string): Promise<StatefulSet> {
-    const apiVersion: string = getApiVersion('statefulset');
+    const apiVersion: string = getApiVersion('statefulset', 'apps/v1');
     const data: { [key: string]: any } = await axios.patch(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/statefulsets/${this.metadata.name}`,
       this,
@@ -77,7 +77,7 @@ export class StatefulSet extends V1StatefulSet {
   }
 
   public async deleteStatefulSet(cluster: string): Promise<void> {
-    const apiVersion: string = getApiVersion('statefulset');
+    const apiVersion: string = getApiVersion('statefulset', 'apps/v1');
     await axios.delete(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/statefulsets/${this.metadata.name}`,
     );

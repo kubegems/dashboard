@@ -24,7 +24,7 @@ import { getApiVersion } from '@/utils/helpers';
 export class CronJob extends V1CronJob {
   constructor(cronjob?: { [key: string]: any }) {
     super();
-    this.apiVersion = getApiVersion('cronjob');
+    this.apiVersion = getApiVersion('cronjob', 'batch/v1beta1');
     this.kind = 'CronJob';
     this.metadata = new Metadata();
     this.spec = initKModel<V1CronJobSpec>(V1CronJobSpec.attributeTypeMap);
@@ -37,7 +37,7 @@ export class CronJob extends V1CronJob {
     cluster: string,
     params: KubePaginationRequest,
   ): Promise<KubePaginationResponse<CronJob[]>> {
-    const apiVersion: string = getApiVersion('cronjob');
+    const apiVersion: string = getApiVersion('cronjob', 'batch/v1beta1');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/cronjobs`,
       {
@@ -48,7 +48,7 @@ export class CronJob extends V1CronJob {
   }
 
   public async getCronJob(cluster: string, params: KubeRequest = {}): Promise<CronJob> {
-    const apiVersion: string = getApiVersion('cronjob');
+    const apiVersion: string = getApiVersion('cronjob', 'batch/v1beta1');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/cronjobs/${this.metadata.name}`,
       {
@@ -59,7 +59,7 @@ export class CronJob extends V1CronJob {
   }
 
   public async addCronJob(cluster: string): Promise<CronJob> {
-    const apiVersion: string = getApiVersion('cronjob');
+    const apiVersion: string = getApiVersion('cronjob', 'batch/v1beta1');
     const data: { [key: string]: any } = await axios.post(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/cronjobs/${this.metadata.name}`,
       this,
@@ -68,7 +68,7 @@ export class CronJob extends V1CronJob {
   }
 
   public async updateCronJob(cluster: string): Promise<CronJob> {
-    const apiVersion: string = getApiVersion('cronjob');
+    const apiVersion: string = getApiVersion('cronjob', 'batch/v1beta1');
     const data: { [key: string]: any } = await axios.patch(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/cronjobs/${this.metadata.name}`,
       this,
@@ -77,7 +77,7 @@ export class CronJob extends V1CronJob {
   }
 
   public async deleteCronJob(cluster: string): Promise<void> {
-    const apiVersion: string = getApiVersion('cronjob');
+    const apiVersion: string = getApiVersion('cronjob', 'batch/v1beta1');
     await axios.delete(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/cronjobs/${this.metadata.name}`,
     );

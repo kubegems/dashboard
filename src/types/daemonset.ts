@@ -24,7 +24,7 @@ import { getApiVersion } from '@/utils/helpers';
 export class DaemonSet extends V1DaemonSet {
   constructor(daemonset?: { [key: string]: any }) {
     super();
-    this.apiVersion = getApiVersion('daemonset');
+    this.apiVersion = getApiVersion('daemonset', 'apps/v1');
     this.kind = 'DaemonSet';
     this.metadata = new Metadata();
     this.spec = initKModel<V1DaemonSetSpec>(V1DaemonSetSpec.attributeTypeMap);
@@ -37,7 +37,7 @@ export class DaemonSet extends V1DaemonSet {
     cluster: string,
     params: KubePaginationRequest,
   ): Promise<KubePaginationResponse<DaemonSet[]>> {
-    const apiVersion: string = getApiVersion('daemonset');
+    const apiVersion: string = getApiVersion('daemonset', 'apps/v1');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/daemonsets`,
       {
@@ -48,7 +48,7 @@ export class DaemonSet extends V1DaemonSet {
   }
 
   public async getDaemonSet(cluster: string, params: KubeRequest = {}): Promise<DaemonSet> {
-    const apiVersion: string = getApiVersion('daemonset');
+    const apiVersion: string = getApiVersion('daemonset', 'apps/v1');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/daemonsets/${this.metadata.name}`,
       {
@@ -59,7 +59,7 @@ export class DaemonSet extends V1DaemonSet {
   }
 
   public async addDaemonSet(cluster: string): Promise<DaemonSet> {
-    const apiVersion: string = getApiVersion('daemonset');
+    const apiVersion: string = getApiVersion('daemonset', 'apps/v1');
     const data: { [key: string]: any } = await axios.post(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/daemonsets/${this.metadata.name}`,
       this,
@@ -68,7 +68,7 @@ export class DaemonSet extends V1DaemonSet {
   }
 
   public async updateDaemonSet(cluster: string): Promise<DaemonSet> {
-    const apiVersion: string = getApiVersion('daemonset');
+    const apiVersion: string = getApiVersion('daemonset', 'apps/v1');
     const data: { [key: string]: any } = await axios.patch(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/daemonsets/${this.metadata.name}`,
       this,
@@ -77,7 +77,7 @@ export class DaemonSet extends V1DaemonSet {
   }
 
   public async deleteDaemonSet(cluster: string): Promise<void> {
-    const apiVersion: string = getApiVersion('daemonset');
+    const apiVersion: string = getApiVersion('daemonset', 'apps/v1');
     await axios.delete(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/daemonsets/${this.metadata.name}`,
     );

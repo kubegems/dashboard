@@ -24,7 +24,7 @@ import { getApiVersion } from '@/utils/helpers';
 export class Ingress extends V1Ingress {
   constructor(ingress?: { [key: string]: any }) {
     super();
-    this.apiVersion = getApiVersion('ingress');
+    this.apiVersion = getApiVersion('ingress', 'networking.k8s.io/v1');
     this.kind = 'Ingress';
     this.metadata = new Metadata();
     this.spec = initKModel<V1IngressSpec>(V1IngressSpec.attributeTypeMap);
@@ -37,7 +37,7 @@ export class Ingress extends V1Ingress {
     cluster: string,
     params: KubePaginationRequest,
   ): Promise<KubePaginationResponse<Ingress[]>> {
-    const apiVersion: string = getApiVersion('ingress');
+    const apiVersion: string = getApiVersion('ingress', 'networking.k8s.io/v1');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/ingresses`,
       {
@@ -48,7 +48,7 @@ export class Ingress extends V1Ingress {
   }
 
   public async getIngress(cluster: string, params: KubeRequest = {}): Promise<Ingress> {
-    const apiVersion: string = getApiVersion('ingress');
+    const apiVersion: string = getApiVersion('ingress', 'networking.k8s.io/v1');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/ingresses/${this.metadata.name}`,
       {
@@ -59,7 +59,7 @@ export class Ingress extends V1Ingress {
   }
 
   public async addIngress(cluster: string): Promise<Ingress> {
-    const apiVersion: string = getApiVersion('ingress');
+    const apiVersion: string = getApiVersion('ingress', 'networking.k8s.io/v1');
     const data: { [key: string]: any } = await axios.post(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/ingresses/${this.metadata.name}`,
       this,
@@ -68,7 +68,7 @@ export class Ingress extends V1Ingress {
   }
 
   public async updateIngress(cluster: string): Promise<Ingress> {
-    const apiVersion: string = getApiVersion('ingress');
+    const apiVersion: string = getApiVersion('ingress', 'networking.k8s.io/v1');
     const data: { [key: string]: any } = await axios.patch(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/ingresses/${this.metadata.name}`,
       this,
@@ -77,7 +77,7 @@ export class Ingress extends V1Ingress {
   }
 
   public async deleteIngress(cluster: string): Promise<void> {
-    const apiVersion: string = getApiVersion('ingress');
+    const apiVersion: string = getApiVersion('ingress', 'networking.k8s.io/v1');
     await axios.delete(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/ingresses/${this.metadata.name}`,
     );
