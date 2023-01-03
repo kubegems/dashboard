@@ -22,7 +22,7 @@ import { getApiVersion } from '@/utils/helpers';
 export class StorageClass extends V1StorageClass {
   constructor(storageclass?: { [key: string]: any }) {
     super();
-    this.apiVersion = getApiVersion('storageclass');
+    this.apiVersion = getApiVersion('storageclass', 'storage.k8s.io/v1');
     this.kind = 'StorageClass';
     this.metadata = new Metadata();
 
@@ -33,7 +33,7 @@ export class StorageClass extends V1StorageClass {
     cluster: string,
     params: KubePaginationRequest,
   ): Promise<KubePaginationResponse<StorageClass[]>> {
-    const apiVersion: string = getApiVersion('storageclass');
+    const apiVersion: string = getApiVersion('storageclass', 'storage.k8s.io/v1');
     const data: { [key: string]: any } = await axios(`proxy/cluster/${cluster}/${apiVersion}/storageclasses`, {
       params: params,
     });
@@ -41,7 +41,7 @@ export class StorageClass extends V1StorageClass {
   }
 
   public async getStorageClass(cluster: string, params: KubeRequest = {}): Promise<StorageClass> {
-    const apiVersion: string = getApiVersion('storageclass');
+    const apiVersion: string = getApiVersion('storageclass', 'storage.k8s.io/v1');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/storageclasses/${this.metadata.name}`,
       {
@@ -52,7 +52,7 @@ export class StorageClass extends V1StorageClass {
   }
 
   public async addStorageClass(cluster: string): Promise<StorageClass> {
-    const apiVersion: string = getApiVersion('storageclass');
+    const apiVersion: string = getApiVersion('storageclass', 'storage.k8s.io/v1');
     const data: { [key: string]: any } = await axios.post(
       `proxy/cluster/${cluster}/${apiVersion}/storageclasses/${this.metadata.name}`,
       this,
@@ -61,7 +61,7 @@ export class StorageClass extends V1StorageClass {
   }
 
   public async updateStorageClass(cluster: string): Promise<StorageClass> {
-    const apiVersion: string = getApiVersion('storageclass');
+    const apiVersion: string = getApiVersion('storageclass', 'storage.k8s.io/v1');
     const data: { [key: string]: any } = await axios.patch(
       `proxy/cluster/${cluster}/${apiVersion}/storageclasses/${this.metadata.name}`,
       this,
@@ -70,7 +70,7 @@ export class StorageClass extends V1StorageClass {
   }
 
   public async deleteStorageClass(cluster: string): Promise<void> {
-    const apiVersion: string = getApiVersion('storageclass');
+    const apiVersion: string = getApiVersion('storageclass', 'storage.k8s.io/v1');
     await axios.delete(`proxy/cluster/${cluster}/${apiVersion}/storageclasses/${this.metadata.name}`);
   }
 }

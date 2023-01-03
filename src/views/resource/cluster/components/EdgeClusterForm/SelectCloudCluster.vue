@@ -19,7 +19,7 @@
     <BaseSubTitle :title="i18n.t('form.definition', [i18nLocal.t('tip.register_cluster')])" />
     <v-card-text class="pa-2">
       <v-row>
-        <v-col cols="6">
+        <v-col cols="8">
           <v-autocomplete
             v-model="obj.spec.register.hubName"
             color="primary"
@@ -30,16 +30,16 @@
             :rules="objRule.hubName"
           >
             <template #item="{ item, disabled }">
-              <v-chip color="primary" :disabled="disabled" label small>
+              <v-chip class="mr-1" color="primary" :disabled="disabled" label small>
                 {{ item.value }}
               </v-chip>
-              {{ item.text }}
+              {{ i18nLocal.t('table.address') }}: {{ item.text }}
             </template>
             <template #selection="{ item, disabled }">
-              <v-chip color="primary" :disabled="disabled" label small>
+              <v-chip class="mr-1" color="primary" :disabled="disabled" label small>
                 {{ item.value }}
               </v-chip>
-              {{ item.text }}
+              {{ i18nLocal.t('table.address') }}: {{ item.text }}
             </template>
           </v-autocomplete>
         </v-col>

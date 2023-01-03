@@ -86,23 +86,25 @@
         </v-row>
       </v-card-text>
 
-      <component
-        :is="formComponent"
-        :ref="formComponent"
-        :data="obj.Labels"
-        @addData="addData"
-        @closeOverlay="closeExpand"
-      />
-      <BaseSubTitle :title="$t('table.label')" />
-      <v-card-text class="pa-2">
-        <LabelItem
-          :labels="obj.labels"
-          @expandCard="expandCard"
-          @removeLabels="removeLabels"
-          @updateLabels="updateLabels"
+      <template v-if="false">
+        <component
+          :is="formComponent"
+          :ref="formComponent"
+          :data="obj.Labels"
+          @addData="addData"
+          @closeOverlay="closeExpand"
         />
-        <div class="kubegems__clear-float" />
-      </v-card-text>
+        <BaseSubTitle :title="$t('table.label')" />
+        <v-card-text class="pa-2">
+          <LabelItem
+            :labels="obj.labels"
+            @expandCard="expandCard"
+            @removeLabels="removeLabels"
+            @updateLabels="updateLabels"
+          />
+          <div class="kubegems__clear-float" />
+        </v-card-text>
+      </template>
     </v-form>
   </v-flex>
 </template>

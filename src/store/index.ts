@@ -443,13 +443,10 @@ const store: Store<{ [key: string]: any }> = new Store({
           p[d.name] = d.enabled;
         });
         if (p) commit('SET_GLOBAL_PLUGINS', p);
-        return true;
       };
       if (!state.GlobalPluginsInterval && state.JWT) {
-        const r = await doFunc();
-        if (r) {
-          state.GlobalPluginsInterval = setInterval(doFunc, 1000 * 30);
-        }
+        await doFunc();
+        state.GlobalPluginsInterval = setInterval(doFunc, 1000 * 30);
       }
     },
     async INIT_PLUGINS(

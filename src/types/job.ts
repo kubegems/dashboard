@@ -24,7 +24,7 @@ import { getApiVersion } from '@/utils/helpers';
 export class Job extends V1Job {
   constructor(job?: { [key: string]: any }) {
     super();
-    this.apiVersion = getApiVersion('job');
+    this.apiVersion = getApiVersion('job', 'batch/v1');
     this.kind = 'Job';
     this.metadata = new Metadata();
     this.spec = initKModel<V1JobSpec>(V1JobSpec.attributeTypeMap);
@@ -34,7 +34,7 @@ export class Job extends V1Job {
   }
 
   public async getJobList(cluster: string, params: KubePaginationRequest): Promise<KubePaginationResponse<Job[]>> {
-    const apiVersion: string = getApiVersion('job');
+    const apiVersion: string = getApiVersion('job', 'batch/v1');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/jobs`,
       {
@@ -45,7 +45,7 @@ export class Job extends V1Job {
   }
 
   public async getJob(cluster: string, params: KubeRequest = {}): Promise<Job> {
-    const apiVersion: string = getApiVersion('job');
+    const apiVersion: string = getApiVersion('job', 'batch/v1');
     const data: { [key: string]: any } = await axios(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/jobs/${this.metadata.name}`,
       {
@@ -56,7 +56,7 @@ export class Job extends V1Job {
   }
 
   public async addJob(cluster: string): Promise<Job> {
-    const apiVersion: string = getApiVersion('job');
+    const apiVersion: string = getApiVersion('job', 'batch/v1');
     const data: { [key: string]: any } = await axios.post(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/jobs/${this.metadata.name}`,
       this,
@@ -65,7 +65,7 @@ export class Job extends V1Job {
   }
 
   public async updateJob(cluster: string): Promise<Job> {
-    const apiVersion: string = getApiVersion('job');
+    const apiVersion: string = getApiVersion('job', 'batch/v1');
     const data: { [key: string]: any } = await axios.patch(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/jobs/${this.metadata.name}`,
       this,
@@ -74,7 +74,7 @@ export class Job extends V1Job {
   }
 
   public async deleteJob(cluster: string): Promise<void> {
-    const apiVersion: string = getApiVersion('job');
+    const apiVersion: string = getApiVersion('job', 'batch/v1');
     await axios.delete(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/jobs/${this.metadata.name}`,
     );

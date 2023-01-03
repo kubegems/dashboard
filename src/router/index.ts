@@ -92,7 +92,7 @@ router.beforeEach(async (to, from, next): Promise<void> => {
     }
     let currentTenant: { [key: string]: string | number } = null;
     if (to.params.tenant) {
-      if (store.state.TenantStore.length === 0 || store.state.LatestTenant.tenant !== to.params.tenant) {
+      if (store.state.TenantStore?.length === 0 || store.state.LatestTenant?.tenant !== to.params.tenant) {
         await store.dispatch('UPDATE_TENANT_DATA');
       }
       const tenant: { [key: string]: string | number } =
@@ -109,7 +109,7 @@ router.beforeEach(async (to, from, next): Promise<void> => {
     }
     let currentProject: { [key: string]: string | number } = null;
     if (to.params.project) {
-      if (store.state.ProjectStore.length === 0 || store.state.LatestProject.project !== to.params.project) {
+      if (store.state.ProjectStore?.length === 0 || store.state.LatestProject?.project !== to.params.project) {
         await store.dispatch('UPDATE_PROJECT_DATA', currentTenant.ID);
       }
       const project: { [key: string]: string | number } =
@@ -126,8 +126,8 @@ router.beforeEach(async (to, from, next): Promise<void> => {
     }
     if (to.params.environment) {
       if (
-        store.state.EnvironmentStore.length === 0 ||
-        store.state.LatestEnvironment.environment !== to.params.environment
+        store.state.EnvironmentStore?.length === 0 ||
+        store.state.LatestEnvironment?.environment !== to.params.environment
       ) {
         await store.dispatch('UPDATE_ENVIRONMENT_DATA', currentProject.ID);
       }
