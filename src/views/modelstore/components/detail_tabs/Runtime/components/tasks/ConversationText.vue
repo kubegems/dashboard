@@ -30,7 +30,6 @@
   import { mapState } from 'vuex';
 
   import ParamsMixin from '../../mixins/params';
-  import { postModelApi } from '@/api';
 
   export default {
     name: 'ConversationText',
@@ -40,10 +39,6 @@
         type: Boolean,
         default: () => true,
       },
-      instance: {
-        type: Object,
-        default: () => null,
-      },
     },
     data() {
       return {
@@ -51,6 +46,11 @@
           textContent: '',
         },
         output: '',
+        conversation: {
+          uuid: '',
+          generated_responses: [],
+          past_user_inputs: [],
+        },
       };
     },
     computed: {
@@ -80,11 +80,17 @@
           });
           return;
         }
-        const data = this.composeInputs(this.conversationParam('conversations', { text: this.obj.textContent }));
-        const ret = await postModelApi(this.instance.environment, this.instance.name, data);
-        for (const out of ret.data.outputs) {
-          this.output = out.data;
-        }
+        const data = this.composeInputs(
+          this.conversationParam('array_inputs', {
+            new_user_input: this.obj.textContent,
+            uuid: this.conversation.uuid,
+            generated_responses: this.conversation.generated_responses,
+            past_user_inputs: this.conversation.past_user_inputs,
+          }),
+        );
+        const ret = this.infer(data);
+        this.output = JSON.parse(ret.outputs[0].data);
+        this.conversation.uuid = this.output.uuid;
       },
     },
   };

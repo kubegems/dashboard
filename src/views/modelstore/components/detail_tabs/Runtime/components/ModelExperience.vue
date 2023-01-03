@@ -15,16 +15,15 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="dialog" icon="mdi-variable" :title="$t('tip.experience')" @dispose="dispose">
-    <template #header>
-      <v-flex class="ml-2 text-h6 mt-n1">
-        {{ item ? item.name : '' }}
-      </v-flex>
-    </template>
-    <template #content>
-      <component :is="formComponent" :dialog="dialog" :instance="instance" />
-    </template>
-  </BaseFullScreenDialog>
+  <!-- BaseFullScreenDialog v-model="dialog" icon="mdi-variable" :title="$t('tip.experience')" @dispose="dispose" -->
+  <div>
+    <h3> show </h3>
+    <v-select v-model="currentTask" :items="options" />
+    <!-- v-flex class="ml-2 text-h6 mt-n1">
+    </!-->
+    {{ item ? item.name : '' }}
+    <component :is="formComponent" :current-task="currentTask" :dialog="dialog" :instance="instance" />
+  </div>
 </template>
 
 <script>
@@ -32,15 +31,15 @@
 
   import messages from '../../../../i18n';
   import Conversation from './tasks/ConversationText';
+  import FileInputs from './tasks/FileInputs';
   import ImageSegmentation from './tasks/ImageSegmentation';
   import QuestionAnswer from './tasks/QuestionAnswer';
-  import SingleFile from './tasks/SingleFile';
   import SingleImage from './tasks/SingleImage';
-  import SingleText from './tasks/SingleText';
-  import SingleTextInputs from './tasks/SingleTextInputs';
   import TableQuestionAnswer from './tasks/TableQuestionAnswer';
+  import TextInputs from './tasks/TextInputs';
   import VisualQuestionAnswer from './tasks/VisualQuestionAnswer';
   import ZeroShotClassification from './tasks/ZeroShotClassification';
+  import ZeroShotImageClassification from './tasks/ZeroShotImageClassification';
 
   export default {
     name: 'ModelExperience',
@@ -51,52 +50,79 @@
       Conversation,
       ImageSegmentation,
       QuestionAnswer,
-      SingleFile,
+      FileInputs,
       SingleImage,
-      SingleText,
-      SingleTextInputs,
+      TextInputs,
       TableQuestionAnswer,
       VisualQuestionAnswer,
       ZeroShotClassification,
+      ZeroShotImageClassification,
     },
     props: {
       item: {
         type: Object,
-        default: () => null,
+        default: () => {
+          return {
+            source: 'huggingface',
+            task: 'text-generation',
+          };
+        },
       },
     },
     data() {
       return {
         dialog: false,
-        instance: undefined,
+        currentTask: '',
+        instance: {},
         formComponent: '',
         formConponentItems: {
           openmmlab: SingleImage,
-          'text-generation': SingleText,
-          'text-classification': SingleText,
-          'text2text-generation': SingleText,
-          'token-classification': SingleTextInputs,
+          'text-generation': TextInputs,
+          'text-classification': TextInputs,
+          'text2text-generation': TextInputs,
+          'token-classification': TextInputs,
           'question-anwser': QuestionAnswer,
           'table-question-anwser': TableQuestionAnswer,
-          'feature-extraction': SingleText,
+          'feature-extraction': TextInputs,
           'visual-question-answering': VisualQuestionAnswer,
-          'fill-mask': SingleText,
-          summarization: SingleText,
+          'fill-mask': TextInputs,
+          summarization: TextInputs,
           'zero-shot-classification': ZeroShotClassification,
+          'zero-shot-image-classification': ZeroShotImageClassification,
           'image-classification': SingleImage,
           'image-segmentation': ImageSegmentation,
           'object-detection': ImageSegmentation,
           conversation: Conversation,
-          translation: SingleText,
-          'audio-classification': SingleFile,
-          'automatic-speech-recognition': SingleFile,
+          translation: TextInputs,
+          'audio-classification': FileInputs,
+          'automatic-speech-recognition': FileInputs,
         },
       };
     },
     computed: {
       ...mapState(['JWT']),
+      options() {
+        if (!this.formConponentItems) {
+          return [];
+        } else {
+          const arr = [];
+          Object.keys(this.formConponentItems).forEach((el) => {
+            arr.push({
+              text: el,
+              value: el,
+            });
+          });
+          return arr;
+        }
+      },
     },
     watch: {
+      currentTask: {
+        handler(nv) {
+          this.formComponent = this.formConponentItems[nv];
+        },
+      },
+      /*
       item: {
         handler(newValue) {
           if (newValue) {
@@ -114,6 +140,7 @@
         deep: true,
         immediate: true,
       },
+      */
     },
     methods: {
       open() {

@@ -20,7 +20,7 @@
 
       <v-col class="pl-8" cols="12" md="6">
         <div class="text-subtitle-1 mb-3">文本输出</div>
-        <pre>{{ output }}</pre>
+        <pre style="word-wrap: break-word">{{ output }}</pre>
       </v-col>
     </v-row>
   </v-form>
@@ -30,19 +30,19 @@
   import { mapState } from 'vuex';
 
   import ParamsMixin from '../../mixins/params';
-  import { postModelApi } from '@/api';
 
   export default {
-    name: 'SingleTextInputs',
+    name: 'TextInputs',
     mixins: [ParamsMixin],
     props: {
       dialog: {
         type: Boolean,
         default: () => true,
       },
-      instance: {
-        type: Object,
-        default: () => null,
+      currentTask: {
+        type: String,
+        required: true,
+        default: '',
       },
     },
     data() {
@@ -72,7 +72,22 @@
       },
     },
     methods: {
+      validInput(content) {
+        if (this.currentTask == 'fill-mask') {
+          console.log(content);
+          return content.indexOf('<mask>') !== -1;
+        } else {
+          return true;
+        }
+      },
       async submitContent() {
+        if (!this.validInput(this.obj.textContent)) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '输入的内容请包含内容 "<mask>"',
+            color: 'warning',
+          });
+          return;
+        }
         if (!this.obj.textContent.trim()) {
           this.$store.commit('SET_SNACKBAR', {
             text: '请输入文本',
@@ -80,11 +95,9 @@
           });
           return;
         }
-        const data = this.composeInputs(this.stringParam('inputs', this.obj.textContent));
-        const ret = await postModelApi(this.instance.environment, this.instance.name, data);
-        for (const out of ret.data.outputs) {
-          this.output = out.data;
-        }
+        const data = this.composeInputs(this.stringArrayParam('args', this.obj.textContent));
+        const ret = this.infer(data);
+        this.output = this.parseResult(ret);
       },
     },
   };

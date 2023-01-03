@@ -59,7 +59,6 @@
   import { mapState } from 'vuex';
 
   import ParamsMixin from '../../mixins/params';
-  import { postModelApi } from '@/api';
 
   export default {
     name: 'ZeroShotClassification',
@@ -68,10 +67,6 @@
       dialog: {
         type: Boolean,
         default: () => true,
-      },
-      instance: {
-        type: Object,
-        default: () => null,
       },
     },
     data() {
@@ -126,10 +121,8 @@
           this.stringParam('sequences', this.obj.textContent),
           this.jsonParams('candidate_labels', this.obj.tags),
         );
-        const ret = await postModelApi(this.instance.environment, this.instance.name, data);
-        for (const out of ret.data.outputs) {
-          this.output = out.data;
-        }
+        const ret = this.infer(data);
+        this.output = this.parseResult(ret);
       },
       createTag() {
         if (this.tagText.trim()) {
