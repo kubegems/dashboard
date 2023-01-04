@@ -51,7 +51,6 @@
   import { mapState } from 'vuex';
 
   import ParamsMixin from '../../mixins/params';
-  import { postModelApi } from '@/api';
 
   export default {
     name: 'VisualQuestionAnswer',
@@ -60,10 +59,6 @@
       dialog: {
         type: Boolean,
         default: () => true,
-      },
-      instance: {
-        type: Object,
-        default: () => null,
       },
     },
     data: () => {
@@ -121,10 +116,10 @@
         const _v = this;
         const reader = new FileReader();
         reader.onloadend = async function () {
-          const b64data = reader.result.split(',')[1];
-          const data = _v.composeInputs(_v.imageParam('iamge', b64data), _v.stringParam('question', _v.obj.question));
-          const ret = await postModelApi(_v.instance.environment, _v.instance.name, data);
-          _v.rawOut = ret.data.outputs;
+          const b64data = reader.result;
+          const data = _v.composeInputs(_v.jsonParams('args', [{ image: b64data, question: _v.obj.question }]));
+          const ret = _v.infer(data);
+          _v.rawOut = _v.parseResult(ret);
         };
         reader.readAsDataURL(this.obj.file);
       },

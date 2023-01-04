@@ -41,7 +41,6 @@
   import { mapState } from 'vuex';
 
   import ParamsMixin from '../../mixins/params';
-  import { postModelApi } from '@/api';
 
   export default {
     name: 'QuestionAnswer',
@@ -50,10 +49,6 @@
       dialog: {
         type: Boolean,
         default: () => true,
-      },
-      instance: {
-        type: Object,
-        default: () => null,
       },
     },
     data() {
@@ -103,9 +98,8 @@
           this.stringParam('context', this.obj.context),
           this.stringParam('question', this.obj.question),
         );
-        const ret = await postModelApi(this.instance.environment, this.instance.name, data);
-        const parsed = this.parseOut(ret.data.outputs);
-        this.rawOut = parsed.rawOut;
+        const ret = await this.infer(data);
+        this.rawOut = this.parseResult(ret);
       },
     },
   };

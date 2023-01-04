@@ -2,6 +2,35 @@
   <v-form class="pa-3" @submit.prevent>
     <v-row>
       <v-col class="pr-8" cols="12" md="6">
+        <div class="text-subtitle-1 mb-3"> labels </div>
+        <v-autocomplete
+          v-model="obj.tags"
+          dense
+          flat
+          hide-details
+          hide-selected
+          :items="tagItems"
+          label="tag"
+          multiple
+          :no-data-text="$root.$t('data.no_data')"
+          :search-input.sync="tagText"
+          solo
+          @keyup.enter="createTag"
+        >
+          <template #selection="{ item }">
+            <v-chip
+              class="my-1"
+              close
+              close-icon="mdi-close-circle"
+              color="primary"
+              small
+              text-color="white"
+              @click:close="removeTag(item)"
+            >
+              <strong class="mx-1"> {{ item.text }} </strong>
+            </v-chip>
+          </template>
+        </v-autocomplete>
         <div class="text-subtitle-1 mb-3">图片</div>
 
         <v-img v-if="obj.previewUrl" max-width="800" :src="obj.previewUrl" />
@@ -29,20 +58,8 @@
       </v-btn>
 
       <v-col class="pl-8" cols="12" md="6">
-        <div class="text-subtitle-1 mb-3">图片片段信息</div>
-        <v-row v-if="rawOut.length > 0">
-          <v-col v-for="(item, index) in rawOut" :key="index" cols="4">
-            <div class="text-body-1"> {{ item.label }} </div>
-            <div class="text-body-1"> {{ item.score }} </div>
-            <div v-if="item.box" class="text-body-1"> {{ item.box }} </div>
-            <v-img v-if="item.mask" :src="`${item.mask}`" />
-          </v-col>
-        </v-row>
-        <div v-else class="file__div">
-          <div class="kubegems__full-center">
-            <div class="text-subtitle-1">请先上传图片</div>
-          </div>
-        </div>
+        <div class="text-subtitle-1 mb-3">问答结果</div>
+        <pre>{{ rawOut }}</pre>
       </v-col>
     </v-row>
   </v-form>
@@ -54,37 +71,35 @@
   import ParamsMixin from '../../mixins/params';
 
   export default {
-    name: 'ImageSegmentation',
+    name: 'ZeroShotImageClassification',
     mixins: [ParamsMixin],
     props: {
       dialog: {
         type: Boolean,
         default: () => true,
       },
-      currentTask: {
-        type: String,
-        required: true,
-        default: '',
-      },
     },
     data: () => {
       return {
         obj: {
-          file: null,
           previewUrl: '',
+          file: null,
+          tags: [],
         },
-        rawOut: [],
+        rawOut: null,
+        tagItems: [],
+        tagText: '',
       };
     },
     computed: {
-      ...mapState(['Circular']),
+      ...mapState(['Scale', 'Circular']),
     },
     watch: {
       dialog: {
         handler(newValue) {
           if (!newValue) {
             this.obj = this.$options.data().obj;
-            this.rawOut = [];
+            this.rawOut = null;
           }
         },
         deep: true,
@@ -100,7 +115,13 @@
           this.obj.previewUrl = '';
           this.obj.file = null;
         }
-        this.rawOut = [];
+        this.rawOut = null;
+      },
+      createTag() {
+        if (this.tagText.trim()) {
+          this.obj.tags.push(this.tagText.trim());
+          this.tagItems.push({ text: this.tagText.trim(), value: this.tagText.trim() });
+        }
       },
       async submitContent() {
         if (!this.obj.file) {
@@ -110,19 +131,24 @@
           });
           return;
         }
+        if (this.obj.tags?.length === 0) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '请添加Tag',
+            color: 'warning',
+          });
+          return;
+        }
+
         const _v = this;
         const reader = new FileReader();
         reader.onloadend = async function () {
           const b64data = reader.result.split(',')[1];
-          let name = '';
-          if (_v.currentTask == 'object-detection') {
-            name = 'inputs';
-          } else {
-            name = 'images';
-          }
-          const data = _v.composeInputs(_v.imageParam(name, b64data));
-          const ret = await _v.infer(data);
-          _v.rawOut = _v.parseResult(ret)[0];
+          const data = _v.composeInputs(
+            _v.imageParam('images', b64data),
+            _v.stringParam('candidate_labels', ..._v.obj.tags),
+          );
+          const ret = await this.infer(data);
+          _v.rawOut = _v.parseResult(ret);
         };
         reader.readAsDataURL(this.obj.file);
       },
@@ -134,7 +160,7 @@
   .file {
     &__div {
       width: 100%;
-      height: 800px;
+      height: 600px;
       border: 1.5px solid #efefef;
       border-radius: 3px;
       position: relative;

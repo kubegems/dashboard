@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { InferenceResponse } from './../../types/modelstore';
+
 // 模型运行实例列表
 export const getModelRuntimeList = (
   source: string,
@@ -64,4 +66,7 @@ export const postModelApi = (
   environment: string,
   name: string,
   body: { [key: string]: any } = {},
-): Promise<{ [key: string]: any }> => axios.post(`${environment}/${name}/v2/models/model/infer`, body);
+): Promise<InferenceResponse> => axios.post(`${environment}/${name}/v2/models/model/infer`, body);
+
+export const postModelApidev = (body: { [key: string]: any } = {}): Promise<InferenceResponse> =>
+  axios.post(`v2/models/model/infer`, body);

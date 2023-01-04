@@ -22,19 +22,14 @@
   import { mapState } from 'vuex';
 
   import ParamsMixin from '../../mixins/params';
-  import { postModelApi } from '@/api';
 
   export default {
-    name: 'SingleFile',
+    name: 'FineInputs',
     mixins: [ParamsMixin],
     props: {
       dialog: {
         type: Boolean,
         default: () => true,
-      },
-      instance: {
-        type: Object,
-        default: () => null,
       },
     },
     data: () => {
@@ -82,14 +77,8 @@
         reader.onloadend = async function () {
           const b64data = reader.result.split(',')[1];
           const data = _v.composeInputs(_v.audioParam('inputs', b64data));
-          const ret = await postModelApi(_v.instance.environment, _v.instance.name, data);
-          const tmp = [];
-          for (const out of ret.data.outputs) {
-            if (out.name !== 'result_image') {
-              tmp.push(out);
-            }
-          }
-          _v.rawOut = tmp;
+          let ret = _v.infer(data);
+          _v.rawOut = _v.parseResult(ret);
         };
         reader.readAsDataURL(this.obj.file);
       },

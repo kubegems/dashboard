@@ -7,7 +7,7 @@
         <v-btn color="primary" icon small @click="coladd"> <v-icon small>mdi-table-column-plus-after </v-icon> </v-btn>
         <v-btn color="primary" icon small @click="rowdel"> <v-icon small>mdi-table-row-remove </v-icon> </v-btn>
         <v-btn color="primary" icon small @click="coldel"> <v-icon small>mdi-table-column-remove </v-icon> </v-btn>
-        <vue-table-dynamic class="mt-3" :params="params" />
+        <vue-table-dynamic ref="table" class="mt-3" :params="params" />
 
         <div class="text-subtitle-1 my-3">问题</div>
         <ACEEditor
@@ -38,7 +38,6 @@
   import { mapState } from 'vuex';
 
   import ParamsMixin from '../../mixins/params';
-  import { postModelApi } from '@/api';
 
   export default {
     name: 'TableQuestionAnswer',
@@ -50,10 +49,6 @@
       dialog: {
         type: Boolean,
         default: () => true,
-      },
-      instance: {
-        type: Object,
-        default: () => null,
       },
     },
     data() {
@@ -123,8 +118,9 @@
         }
 
         const data = {};
-        const header = this.params.data[0];
-        const dataarea = this.params.data.slice(1);
+        const currentData = this.$refs.table.getData();
+        const header = currentData[0];
+        const dataarea = currentData.slice(1);
         for (const index in header) {
           const key = header[index];
           const vals = [];
@@ -138,9 +134,8 @@
           this.jsonParams('table', data),
           this.stringParam('query', this.obj.question),
         );
-        const ret = await postModelApi(this.instance.environment, this.instance.name, inferData);
-        const parsed = this.parseOut(ret.data.outputs);
-        this.rawOut = parsed.raw_out;
+        const ret = await this.infer(inferData);
+        this.rawOut = this.parseResult(ret);
       },
     },
   };

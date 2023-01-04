@@ -1,23 +1,53 @@
+import { InferenceResponse, Conversation } from './../../../../../../types/modelstore';
+import { postModelApi, postModelApidev } from '@/api';
+import { jsonParse } from '@/utils/helpers';
 const ParamsMixin: { [key: string]: any } = {
+  props: {
+    devMode: {
+      type: Boolean,
+      default: () => false,
+    },
+    instance: {
+      type: Object,
+      default: () => null,
+    },
+  },
   methods: {
+    async infer(body: { [key: string]: any } = {}): Promise<InferenceResponse> {
+      if (this.devMode) {
+        return await postModelApidev(body);
+      } else {
+        return await postModelApi(this.instance.namespace, this.instance.name, body);
+      }
+    },
+    parseResult(response: InferenceResponse): Record<string, any>[] {
+      if (response.outputs.length > 0) {
+        const ret: Record<string, any>[] = [];
+        response.outputs[0].data.forEach((el) => {
+          ret.push(jsonParse(el));
+        });
+        return ret;
+      }
+      return [];
+    },
     jsonParams(name: string, data: { [key: string]: any }): { [key: string]: any } {
       return {
         name,
         parameters: {
-          content_type: 'json',
+          content_type: 'hg_json',
         },
         shape: [1],
         datatype: 'BYTES',
-        data: JSON.stringify(data),
+        data: [JSON.stringify(data)],
       };
     },
     imageParam(name: string, ...imagedatas: { [key: string]: any }[]): { [key: string]: any } {
       return {
         name,
         parameters: {
-          content_type: 'image',
+          content_type: 'pillow_image',
         },
-        shape: [1],
+        shape: [imagedatas.length],
         datatype: 'BYTES',
         data: imagedatas,
       };
@@ -26,9 +56,9 @@ const ParamsMixin: { [key: string]: any } = {
       return {
         name,
         parameters: {
-          content_type: 'string',
+          content_type: 'str',
         },
-        shape: [1],
+        shape: [elements.length],
         datatype: 'BYTES',
         data: elements,
       };
@@ -41,24 +71,28 @@ const ParamsMixin: { [key: string]: any } = {
         data: elements,
       };
     },
-    conversationParam(name: string, ...elements: { [key: string]: any }[]): { [key: string]: any } {
+    conversationParam(name: string, ...elements: Conversation[]): { [key: string]: any } {
+      const conversationDatas = [];
+      elements.forEach((el) => {
+        conversationDatas.push(JSON.stringify(el));
+      });
       return {
         name: name,
         parameters: {
-          content_type: 'conversation',
+          content_type: 'hg_conversation',
         },
-        shape: [1],
+        shape: [conversationDatas.length],
         datatype: 'BYTES',
-        data: JSON.stringify(elements),
+        data: conversationDatas,
       };
     },
     audioParam(name: string, ...elements: { [key: string]: any }[]): { [key: string]: any } {
       return {
         name: name,
         parameters: {
-          content_type: 'audio',
+          content_type: 'base64',
         },
-        shape: [1],
+        shape: [elements.length],
         datatype: 'BYTES',
         data: elements,
       };
