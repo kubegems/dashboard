@@ -37,6 +37,7 @@ export default defineConfig({
           'filepond',
           'filepond-plugin-file-validate-size',
           'filepond-plugin-file-validate-type',
+          'filepond-plugin-image-preview',
           'vue-filepond',
         ],
         '@iconify-json/logos': ['@iconify-json/logos'],

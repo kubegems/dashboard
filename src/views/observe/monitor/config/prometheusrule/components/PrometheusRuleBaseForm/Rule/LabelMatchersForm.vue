@@ -31,6 +31,7 @@
                 :label="i18nLocal.t('tip.label')"
                 :no-data-text="i18n.t('data.no_data')"
                 :rules="objRule.nameRules"
+                @change="nameChanged"
               >
                 <template #selection="{ item }">
                   <v-chip class="mx-1" color="primary" small>
@@ -57,14 +58,42 @@
               </v-autocomplete>
             </v-flex>
             <v-flex class="float-left text-subtitle-2 pt-4 primary--text kubegems__min-width" />
-            <v-flex class="float-left ml-2 kubegems__form-width">
+            <v-flex class="float-left ml-2 kubegems__long-width">
               <v-text-field
+                v-if="mode === 'logging'"
                 v-model="obj.value"
                 class="my-0"
                 :hint="i18nLocal.t('tip.split_by_vertical')"
                 :label="i18nLocal.t('tip.label_value')"
                 :rules="objRule.valueRules"
               />
+              <v-autocomplete
+                v-if="mode === 'monitor'"
+                v-model="labelValues"
+                color="primary"
+                hide-selected
+                :items="labelValueItems"
+                :label="i18nLocal.t('tip.label_value')"
+                multiple
+                :no-data-text="i18n.t('data.no_data')"
+                :rules="objRule.valueRules"
+                :search-input.sync="valueText"
+                @change="labelValueChanged"
+                @keyup.enter="createLabelValue"
+              >
+                <template #selection="{ item }">
+                  <v-chip
+                    class="mx-1"
+                    close
+                    close-icon="mdi-close-circle"
+                    color="primary"
+                    small
+                    @click:close="removeLabelValue(item)"
+                  >
+                    {{ item['text'] }}
+                  </v-chip>
+                </template>
+              </v-autocomplete>
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
@@ -83,12 +112,15 @@
   import { ComputedRef, computed, reactive, ref } from 'vue';
 
   import { useI18n } from '../../../../../i18n';
+  import { useRoute } from '@/composition/router';
   import { useGlobalI18n } from '@/i18n';
+  import { PrometheusRule } from '@/types/prometheus_rule';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();
+  const route = useRoute();
 
   type Matcher = {
     index?: number;
@@ -101,10 +133,14 @@
     defineProps<{
       labelMatchers?: Matcher[];
       labels?: { [key: string]: any };
+      promqlGenerator?: any;
+      mode: string;
     }>(),
     {
       labelMatchers: undefined,
       labels: undefined,
+      promqlGenerator: undefined,
+      mode: 'monitor',
     },
   );
 
@@ -132,10 +168,26 @@
   const form = ref(null);
   const emits = defineEmits(['closeOverlay', 'addData']);
 
-  const init = (data: Matcher): void => {
+  const init = async (data: Matcher): Promise<void> => {
     obj = Object.assign(obj, data);
     state.expand = true;
     form.value.resetValidation();
+    if (obj.value) {
+      await nameChanged();
+      labelValues.value = obj.value.split('|');
+      labelValues.value.forEach((val) => {
+        if (
+          !labelValueItems.value.find((item) => {
+            return item.value === val;
+          })
+        ) {
+          labelValueItems.value.push({
+            text: val,
+            value: val,
+          });
+        }
+      });
+    }
   };
 
   const addData = () => {
@@ -165,6 +217,52 @@
 
   const expandCard = (): void => {
     state.expand = true;
+  };
+
+  const labelValues = ref<string[]>([]);
+  const labelValueItems = ref<{ [key: string]: string }[]>([]);
+  const valueText = ref<string>('');
+  const nameChanged = async (): Promise<void> => {
+    if (props.mode === 'monitor') {
+      const data: string[] = await new PrometheusRule({
+        cluster: route.query.cluster,
+        namespace: route.query.namespace,
+      }).getLabelValues({
+        label: obj.name,
+        scope: props.promqlGenerator?.scope || null,
+        resource: props.promqlGenerator?.resource || null,
+        rule: props.promqlGenerator?.rule || null,
+        unit: props.promqlGenerator?.unit || null,
+      });
+      labelValueItems.value = data.map((d) => {
+        return { text: d, value: d };
+      });
+    }
+  };
+  const labelValueChanged = (): void => {
+    obj.value = labelValues.value.join('|');
+  };
+  const createLabelValue = (): void => {
+    if (
+      !labelValueItems.value.find((val) => {
+        return val.value === valueText.value.trim();
+      })
+    ) {
+      labelValueItems.value.push({
+        text: valueText.value.trim(),
+        value: valueText.value.trim(),
+      });
+      labelValues.value.push(valueText.value.trim());
+      labelValueChanged();
+    }
+  };
+  const removeLabelValue = (item: { [key: string]: string }): void => {
+    const index = labelValues.value.findIndex((val) => {
+      return val === item.value;
+    });
+    if (index > -1) {
+      labelValues.value.splice(index, 1);
+    }
   };
 
   defineExpose({

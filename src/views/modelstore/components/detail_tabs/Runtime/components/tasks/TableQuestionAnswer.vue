@@ -2,20 +2,24 @@
   <v-form class="pa-3" @submit.prevent>
     <v-row>
       <v-col class="pr-8" cols="12" md="6">
-        <div class="text-subtitle-1">问答表</div>
-        <v-btn color="primary" icon small @click="rowadd"> <v-icon small>mdi-table-row-plus-after </v-icon> </v-btn>
-        <v-btn color="primary" icon small @click="coladd"> <v-icon small>mdi-table-column-plus-after </v-icon> </v-btn>
-        <v-btn color="primary" icon small @click="rowdel"> <v-icon small>mdi-table-row-remove </v-icon> </v-btn>
-        <v-btn color="primary" icon small @click="coldel"> <v-icon small>mdi-table-column-remove </v-icon> </v-btn>
-        <vue-table-dynamic ref="table" class="mt-3" :params="params" />
+        <div :style="{ height: `${height / 2}px !important` }">
+          <div class="text-subtitle-1">{{ $t('tip.data_table') }}</div>
+          <v-btn color="primary" icon small @click="rowadd"> <v-icon small>mdi-table-row-plus-after </v-icon> </v-btn>
+          <v-btn color="primary" icon small @click="coladd">
+            <v-icon small>mdi-table-column-plus-after </v-icon>
+          </v-btn>
+          <v-btn color="primary" icon small @click="rowdel"> <v-icon small>mdi-table-row-remove </v-icon> </v-btn>
+          <v-btn color="primary" icon small @click="coldel"> <v-icon small>mdi-table-column-remove </v-icon> </v-btn>
+          <vue-table-dynamic ref="table" class="mt-3" :params="params" />
+        </div>
 
-        <div class="text-subtitle-1 my-3">问题</div>
+        <div class="text-subtitle-1 my-3">{{ $t('tip.question') }}</div>
         <ACEEditor
           v-model="obj.question"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} kubegems__rounded_small`"
           lang="plain_text"
           :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
-          :style="{ height: `200px !important` }"
+          :style="{ height: `${height / 2}px !important` }"
           theme="chrome"
           @keydown.stop
         />
@@ -25,9 +29,12 @@
         <v-icon>mdi-arrow-right-bold </v-icon>
       </v-btn>
 
-      <v-col class="pl-8" cols="12" md="6">
-        <div class="text-subtitle-1">问答结果</div>
+      <v-col class="pl-8" cols="12" md="6" :style="{ position: 'relative' }">
+        <div class="text-subtitle-1">{{ $t('tip.result') }}</div>
         <pre>{{ rawOut }}</pre>
+        <div v-if="!rawOut" class="kubegems__full-center text-subtitle-1" :style="{ marginTop: '-20px' }">
+          {{ $root.$t('data.no_data') }}
+        </div>
       </v-col>
     </v-row>
   </v-form>
@@ -37,10 +44,14 @@
   import VueTableDynamic from 'vue-table-dynamic';
   import { mapState } from 'vuex';
 
+  import messages from '../../../../../i18n';
   import ParamsMixin from '../../mixins/params';
 
   export default {
     name: 'TableQuestionAnswer',
+    i18n: {
+      messages: messages,
+    },
     components: {
       VueTableDynamic,
     },
@@ -69,6 +80,9 @@
     },
     computed: {
       ...mapState(['Scale', 'Circular']),
+      height() {
+        return window.innerHeight - 110;
+      },
     },
     watch: {
       dialog: {
@@ -111,7 +125,7 @@
       async submitContent() {
         if (!this.obj.question.trim()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请输入问题',
+            text: this.$t('tip.input_question'),
             color: 'warning',
           });
           return;

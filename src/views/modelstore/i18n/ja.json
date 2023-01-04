@@ -63,7 +63,19 @@
     "upgrage_strategy": "更新策略",
     "rollingupdate": "滚動更新",
     "recreate": "再構築",
-    "no_access": "アプリケーションを表示するために入る権限がありません"
+    "no_access": "アプリケーションを表示するために入る権限がありません",
+    "input": "テキスト入力",
+    "output": "テキスト出力",
+    "input_text": "テキストを入力してください",
+    "input_question": "質問を入力してください",
+    "mask_required": "コンテンツを含めてください \"<mask>\"",
+    "question": "質問をする",
+    "result": "結果",
+    "data_table": "データシート",
+    "input_tag": "追加してくださいTag",
+    "img": "写真",
+    "upload_img_tip": "写真をアップロードしてください",
+    "upload_img": "画像をアップロード"
   },
   "tab": {
     "description": "はじめに",

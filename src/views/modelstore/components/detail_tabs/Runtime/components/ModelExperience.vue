@@ -15,15 +15,18 @@
 -->
 
 <template>
-  <!-- BaseFullScreenDialog v-model="dialog" icon="mdi-variable" :title="$t('tip.experience')" @dispose="dispose" -->
-  <div>
-    <h3> show </h3>
-    <v-select v-model="currentTask" :items="options" />
-    <!-- v-flex class="ml-2 text-h6 mt-n1">
-    </!-->
-    {{ item ? item.name : '' }}
-    <component :is="formComponent" :current-task="currentTask" :dialog="dialog" :instance="instance" />
-  </div>
+  <BaseFullScreenDialog v-model="dialog" icon="mdi-variable" :title="$t('tip.experience')" @dispose="dispose">
+    <template #header>
+      <v-flex class="ml-2 text-h6 mt-n1">
+        {{ item ? item.name : '' }}
+        {{ $t('tip.task_type') }}:
+        {{ item ? item.task : '' }}
+      </v-flex>
+    </template>
+    <template #content>
+      <component :is="formComponent" :current-task="currentTask" :dialog="dialog" :instance="instance" />
+    </template>
+  </BaseFullScreenDialog>
 </template>
 
 <script>
@@ -101,20 +104,6 @@
     },
     computed: {
       ...mapState(['JWT']),
-      options() {
-        if (!this.formConponentItems) {
-          return [];
-        } else {
-          const arr = [];
-          Object.keys(this.formConponentItems).forEach((el) => {
-            arr.push({
-              text: el,
-              value: el,
-            });
-          });
-          return arr;
-        }
-      },
     },
     watch: {
       currentTask: {
@@ -122,7 +111,6 @@
           this.formComponent = this.formConponentItems[nv];
         },
       },
-      /*
       item: {
         handler(newValue) {
           if (newValue) {
@@ -140,7 +128,6 @@
         deep: true,
         immediate: true,
       },
-      */
     },
     methods: {
       open() {

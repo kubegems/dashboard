@@ -517,7 +517,13 @@
     "select_one_env": "環境を選ぶ",
     "select_one_cluster": "クラスタを選択",
     "cluster_type": "クラスタ タイプ",
-    "node_offline": "クラスタが切断されました。もう一度選択してください"
+    "node_offline": "クラスタが切断されました。もう一度選択してください",
+    "label_tap_to_retry": "リトライ",
+    "label_tap_to_cancel": "アップロードを停止",
+    "label_file_processing_complete": "アップロード完了",
+    "label_file_processing": "アップロード中",
+    "label_file_processing_error": "アップロードに失敗しました",
+    "file_upload": "<span class=\"filepond--label-action\">クリックしてファイルをアップロードしてください</span>"
   },
   "tab": {
     "overview": "概要",

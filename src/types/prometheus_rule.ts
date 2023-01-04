@@ -77,4 +77,13 @@ export class PrometheusRule {
     }
     return data as PrometheusRule;
   }
+
+  public async getLabelValues(params: KubeRequest = {}): Promise<string[]> {
+    const data: { [key: string]: any } = await axios(
+      `observability/cluster/${this.cluster}/namespaces/${this.namespace}/monitor/metrics/labelvalues`,
+      { params: params },
+    );
+
+    return data as string[];
+  }
 }

@@ -72,7 +72,20 @@
     "upgrage_strategy": "更新策略",
     "rollingupdate": "滚动更新",
     "recreate": "重建",
-    "no_access": "暂无权限进入查看应用"
+    "no_access": "暂无权限进入查看应用",
+
+    "input": "文本输入",
+    "output": "文本输出",
+    "input_text": "请输入文本",
+    "input_question": "请输入提问",
+    "mask_required": "输入的内容请包含内容 \"<mask>\"",
+    "question": "提问",
+    "result": "结果",
+    "data_table": "数据表",
+    "input_tag": "请添加Tag",
+    "img": "图片",
+    "upload_img_tip": "请上传图片",
+    "upload_img": "上传图片"
   },
   "tab": {
     "description": "介绍",

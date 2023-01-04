@@ -55,6 +55,7 @@
     "filepond": "^4.30.4",
     "filepond-plugin-file-validate-size": "^2.2.7",
     "filepond-plugin-file-validate-type": "^1.2.8",
+    "filepond-plugin-image-preview": "^4.6.11",
     "github-markdown-css": "^5.1.0",
     "highlight.js": "^11.5.1",
     "js-base64": "^3.6.0",

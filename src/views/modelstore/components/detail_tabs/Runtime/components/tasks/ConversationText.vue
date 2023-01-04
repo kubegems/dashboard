@@ -2,7 +2,7 @@
   <v-form class="pa-3" @submit.prevent>
     <v-row>
       <v-col class="pr-8" cols="12" md="6">
-        <div class="text-subtitle-1 mb-3">文本输入</div>
+        <div class="text-subtitle-1 mb-3">{{ $t('tip.input') }}</div>
         <ACEEditor
           v-model="obj.textContent"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} kubegems__rounded_small`"
@@ -18,9 +18,12 @@
         <v-icon>mdi-arrow-right-bold </v-icon>
       </v-btn>
 
-      <v-col class="pl-8" cols="12" md="6">
-        <div class="text-subtitle-1 mb-3">文本输出</div>
+      <v-col class="pl-8" cols="12" md="6" :style="{ position: 'relative' }">
+        <div class="text-subtitle-1 mb-3">{{ $t('tip.output') }}</div>
         <pre>{{ output }}</pre>
+        <div v-if="!output" class="kubegems__full-center text-subtitle-1" :style="{ marginTop: '-30px' }">
+          {{ $root.$t('data.no_data') }}
+        </div>
       </v-col>
     </v-row>
   </v-form>
@@ -29,10 +32,14 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../../../../i18n';
   import ParamsMixin from '../../mixins/params';
 
   export default {
     name: 'ConversationText',
+    i18n: {
+      messages: messages,
+    },
     mixins: [ParamsMixin],
     props: {
       dialog: {
@@ -75,7 +82,7 @@
       async submitContent() {
         if (!this.obj.textContent.trim()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请输入文本',
+            text: this.$t('tip.input_text'),
             color: 'warning',
           });
           return;

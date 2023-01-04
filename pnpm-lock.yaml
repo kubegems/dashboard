@@ -37,6 +37,7 @@ specifiers:
   filepond: ^4.30.4
   filepond-plugin-file-validate-size: ^2.2.7
   filepond-plugin-file-validate-type: ^1.2.8
+  filepond-plugin-image-preview: ^4.6.11
   github-markdown-css: ^5.1.0
   happy-dom: ^7.4.0
   highlight.js: ^11.5.1
@@ -95,6 +96,7 @@ dependencies:
   filepond: 4.30.4
   filepond-plugin-file-validate-size: 2.2.7_filepond@4.30.4
   filepond-plugin-file-validate-type: 1.2.8_filepond@4.30.4
+  filepond-plugin-image-preview: 4.6.11_filepond@4.30.4
   github-markdown-css: 5.1.0
   highlight.js: 11.6.0
   js-base64: 3.7.2
@@ -3282,6 +3284,14 @@ packages:
     resolution: {integrity: sha512-UBTqIWbk5+5R0GBELI8svu01MHWjFSLfc9DfCMvFtHKXLdJMxY1p37ChC4YKQjhfODaTuvLnNVRsukMGMFZBBg==}
     peerDependencies:
       filepond: '>=1.x <5.x'
+    dependencies:
+      filepond: 4.30.4
+    dev: false
+
+  /filepond-plugin-image-preview/4.6.11_filepond@4.30.4:
+    resolution: {integrity: sha512-0EmQ9HnOb/X0xc5rLcNRhhmdUbp7oiicRwQrcr90ZfVmPJOOZoX3ZGUEsEPj7luMI55huguhcVozdESxtqnuRw==}
+    peerDependencies:
+      filepond: '>=4.x <5.x'
     dependencies:
       filepond: 4.30.4
     dev: false

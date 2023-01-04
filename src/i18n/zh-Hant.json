@@ -517,7 +517,13 @@
     "select_one_env": "選擇一個環境",
     "select_one_cluster": "選擇一個集群",
     "cluster_type": "集群類型",
-    "node_offline": "集群已掉線，請重新選擇"
+    "node_offline": "集群已掉線，請重新選擇",
+    "label_tap_to_retry": "重試",
+    "label_tap_to_cancel": "停止上傳",
+    "label_file_processing_complete": "上傳完成",
+    "label_file_processing": "上傳中",
+    "label_file_processing_error": "上傳失敗",
+    "file_upload": "<span class=\"filepond--label-action\">請點擊上傳文件</span>"
   },
   "tab": {
     "overview": "概覽",

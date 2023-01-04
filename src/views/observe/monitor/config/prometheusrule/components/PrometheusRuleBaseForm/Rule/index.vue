@@ -156,7 +156,9 @@
           ref="labelMatchersForm"
           :label-matchers="mode === 'monitor' ? obj.promqlGenerator.labelMatchers : obj.logqlGenerator.labelMatchers"
           :labels="mode === 'monitor' ? obj.promqlGenerator.labelpairs : { container: '', pod: '', app: '' }"
+          :mode="mode"
           :namespace="obj.namespace"
+          :promql-generator="edit ? generator : obj.promqlGenerator"
           @addData="addMatcherData"
           @closeOverlay="closeExpand"
         />
