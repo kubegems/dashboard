@@ -20,7 +20,7 @@
         disable-sort
         :headers="headers"
         hide-default-footer
-        item-key="name"
+        item-key="creationTimestamp"
         :items="items"
         :items-per-page="params.size"
         :no-data-text="$root.$t('data.no_data')"

@@ -1,4 +1,4 @@
-import { InferenceResponse, Conversation } from './../../../../../../types/modelstore';
+import { Conversation, InferenceResponse } from './../../../../../../types/modelstore';
 import { postModelApi, postModelApidev } from '@/api';
 import { jsonParse } from '@/utils/helpers';
 const ParamsMixin: { [key: string]: any } = {

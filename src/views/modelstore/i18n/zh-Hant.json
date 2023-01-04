@@ -65,7 +65,19 @@
     "upgrage_strategy": "更新策略",
     "rollingupdate": "滾動更新",
     "recreate": "重建",
-    "no_access": "暫無權限進入查看應用"
+    "no_access": "暫無權限進入查看應用",
+    "input": "文本輸入",
+    "output": "文本輸出",
+    "input_text": "請輸入文本",
+    "input_question": "請輸入提問",
+    "mask_required": "輸入的內容請包含內容 \"<mask>\"",
+    "question": "提問",
+    "result": "結果",
+    "data_table": "數據表",
+    "input_tag": "請添加Tag",
+    "img": "圖片",
+    "upload_img_tip": "請上傳圖片",
+    "upload_img": "上傳圖片"
   },
   "tab": {
     "description": "介紹",

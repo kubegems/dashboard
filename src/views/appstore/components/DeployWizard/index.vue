@@ -287,7 +287,7 @@
         return (window.innerHeight - 64 - 1 - 24 - 8 - 88) / this.Scale;
       },
       showForm() {
-        return this.filesCopy['values.schema.json'] !== undefined && this.filesCopy['values.schema.json'] !== null;
+        return this.filesCopy?.['values.schema.json'] !== undefined && this.filesCopy?.['values.schema.json'] !== null;
       },
       tabItems() {
         return [
@@ -319,13 +319,13 @@
         return this.$refs.jsonSchema.validate();
       },
       async parseFiles() {
-        this.readme = this.filesCopy['README.md'] || {};
-        if (this.filesCopy['values.schema.json']) {
-          this.schemaJson = JSON.parse(this.filesCopy['values.schema.json'] || '{}');
+        this.readme = this.filesCopy?.['README.md'] || {};
+        if (this.filesCopy?.['values.schema.json']) {
+          this.schemaJson = JSON.parse(this.filesCopy?.['values.schema.json'] || '{}');
         }
         if (this.Locale !== 'zh-Hans' && this.Locale !== 'zh-Hant') {
-          if (this.filesCopy['i18n/values.en.json']) {
-            const enSchemaJson = JSON.parse(this.filesCopy['i18n/values.en.json'] || '{}');
+          if (this.filesCopy?.['i18n/values.en.json']) {
+            const enSchemaJson = JSON.parse(this.filesCopy?.['i18n/values.en.json'] || '{}');
             this.schemaJson = Object.assign(this.schemaJson, enSchemaJson);
           } else {
             this.$store.commit('SET_SNACKBAR', {
@@ -334,9 +334,9 @@
             });
           }
         }
-        if (this.filesCopy['values.yaml']) {
-          this.appValues = this.$yamlload(this.filesCopy['values.yaml']) || {};
-          this.appValuesOrigin = this.$yamlload(this.filesCopy['values.yaml']) || {};
+        if (this.filesCopy?.['values.yaml']) {
+          this.appValues = this.$yamlload(this.filesCopy?.['values.yaml']) || {};
+          this.appValuesOrigin = this.$yamlload(this.filesCopy?.['values.yaml']) || {};
           this.appValuesYaml = this.$yamldump(this.appValuesOrigin);
         }
         if (Object.keys(this.appValues).length === 0) {

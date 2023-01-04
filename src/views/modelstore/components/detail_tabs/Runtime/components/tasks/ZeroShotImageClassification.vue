@@ -2,7 +2,7 @@
   <v-form class="pa-3" @submit.prevent>
     <v-row>
       <v-col class="pr-8" cols="12" md="6">
-        <div class="text-subtitle-1 mb-3"> labels </div>
+        <div class="text-subtitle-1 mb-3"> Labels </div>
         <v-autocomplete
           v-model="obj.tags"
           dense
@@ -31,7 +31,7 @@
             </v-chip>
           </template>
         </v-autocomplete>
-        <div class="text-subtitle-1 mb-3">图片</div>
+        <div class="text-subtitle-1 mb-3">{{ $t('tip.img') }}</div>
 
         <v-img v-if="obj.previewUrl" max-width="800" :src="obj.previewUrl" />
         <div v-else class="file__div">
@@ -48,7 +48,7 @@
               solo
               @change="onFileChange"
             />
-            <div class="text-subtitle-1">上传图片</div>
+            <div class="text-subtitle-1">{{ $t('tip.upload_img') }}</div>
           </div>
         </div>
       </v-col>
@@ -57,9 +57,12 @@
         <v-icon>mdi-arrow-right-bold </v-icon>
       </v-btn>
 
-      <v-col class="pl-8" cols="12" md="6">
-        <div class="text-subtitle-1 mb-3">问答结果</div>
+      <v-col class="pl-8" cols="12" md="6" :style="{ position: 'relative' }">
+        <div class="text-subtitle-1 mb-3">{{ $t('tip.result') }}</div>
         <pre>{{ rawOut }}</pre>
+        <div v-if="!rawOut" class="kubegems__full-center text-subtitle-1" :style="{ marginTop: '-30px' }">
+          {{ $root.$t('data.no_data') }}
+        </div>
       </v-col>
     </v-row>
   </v-form>
@@ -68,10 +71,14 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../../../../i18n';
   import ParamsMixin from '../../mixins/params';
 
   export default {
     name: 'ZeroShotImageClassification',
+    i18n: {
+      messages: messages,
+    },
     mixins: [ParamsMixin],
     props: {
       dialog: {
@@ -126,14 +133,14 @@
       async submitContent() {
         if (!this.obj.file) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请上传图片',
+            text: this.$t('tip.upload_img_tip'),
             color: 'warning',
           });
           return;
         }
         if (this.obj.tags?.length === 0) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请添加Tag',
+            text: this.$t('tip.input_tag'),
             color: 'warning',
           });
           return;

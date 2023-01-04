@@ -30,7 +30,7 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" :style="{ width: `270px` }" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `100px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 primary--text">
                   {{ i18nLocal.t('tip.operate') }}
@@ -40,7 +40,7 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" :style="{ width: `270px` }" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `440px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 primary--text">
                   {{ i18nLocal.t('tip.label_value') }}

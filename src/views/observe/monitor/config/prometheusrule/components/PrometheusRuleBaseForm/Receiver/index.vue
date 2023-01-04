@@ -21,9 +21,9 @@
       <BaseSubTitle :title="$t('tip.alert_message')" />
       <v-card-text class="pa-2">
         <v-textarea v-model="obj.message" auto-grow class="my-0" :label="$t('tip.alert_message')" required>
-          <!-- <template #append>
-            <v-btn small text color="primary" @click="generateMessage">{{ $t('operate.generate_message') }}</v-btn>
-          </template> -->
+          <template #append>
+            <v-btn color="primary" small text @click="generateMessage">{{ $t('operate.generate_message') }}</v-btn>
+          </template>
         </v-textarea>
       </v-card-text>
 
