@@ -78,7 +78,12 @@
     "input_tag": "Please add tag",
     "img": "Image",
     "upload_img_tip": "Please upload image",
-    "upload_img": "Upload image"
+    "upload_img": "Upload image",
+    "segmentation": "Image segmentation",
+    "voice": "Voice",
+    "image_classily": "Image classification",
+    "image_preview": "Image preview",
+    "image_info": "Image info"
   },
   "tab": {
     "description": "Introduction",

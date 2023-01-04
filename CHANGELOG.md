@@ -1,4 +1,4 @@
-# 1.23.0-beta.0
+# 1.23.0-rc.1
 
 ### 🌟 新功能
 
@@ -6,6 +6,10 @@
 | --- | --- | --- |
 | - | [perf: ⚡ suuport aliyunmesg, aliyunvoice and dingding alert channels] | [7140d29](https://github.com/chenshunliang/dashboard/commit/7140d29bdcd7650aa9c68e3b71607f111d1c6ebe) |
 | - | [perf: 🐛 cancel plugins time interval] | [e994915](https://github.com/chenshunliang/dashboard/commit/e994915223322496435160fd450b2d756c84f432) |
+| - | [perf: ⚡ Add Host metics pannel "Memory Used" group by type] | [fc3f69a](https://github.com/chenshunliang/dashboard/commit/fc3f69acc4a111ec0fa50e944ca122fefb7812eb) |
+| - | [perf: ⚡ support i18n to cluster plugin schema] | [062e897](https://github.com/chenshunliang/dashboard/commit/062e897c5dcd35c4a98159efee35ba462bf06858) |
+| - | [perf: ⚡ support log trace chart and link to jaeger page] | [67bcf89](https://github.com/chenshunliang/dashboard/commit/67bcf897b9700aaae9d2fb0dfa380ef869cc7044) |
+| - | [perf: ⚡ support batch copy prometheus rule to other env] | [7bd3acd](https://github.com/chenshunliang/dashboard/commit/7bd3acdf0fd74f3f278145f19d45b11c72f51657) |
 
 ### Bug Fixes
 
@@ -13,12 +17,14 @@
 | --- | --- | --- |
 | - | [fix: 🐛 fix intergated center page mixed bug] | ([0321113](https://github.com/chenshunliang/dashboard/commit/032111386eccbf2ec00fff119aad71722d73262c)) |
 | - | [fix: 🐛 fix plugins params value not reconstruct when edited ] | ([c7ac5e54](https://github.com/chenshunliang/dashboard/commit/c7ac5e547f56778237c4af4930050f95adadbfd9)) |
+| - | [fix: 🐛 fix log viewer query sometimes missing progress bar bug ] | ([ccba56cc](https://github.com/chenshunliang/dashboard/commit/ccba56cc3e4814f862ac6e85d5066d2d2f6c8e75)) |
 
 ### 🔨 reflactor
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [build: :chrone: add sentry from .env file, optimization trace overview] | ([0f93576](https://github.com/chenshunliang/dashboard/commit/0f93576fb0b2daa6155552817371386b5f6ec137)) |
+| - | [perf: ⚡ optimization resource ts files] | ([ca56d68](https://github.com/chenshunliang/dashboard/commit/ca56d686d011d1c899cc2c96aad427f4ef21feea)) |
 
 # 1.23.0-alpha.2 (2022-12-19)
 

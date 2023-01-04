@@ -77,7 +77,12 @@
     "input_tag": "請添加Tag",
     "img": "圖片",
     "upload_img_tip": "請上傳圖片",
-    "upload_img": "上傳圖片"
+    "upload_img": "上傳圖片",
+    "segmentation": "圖片片段",
+    "voice": "語音",
+    "image_classily": "圖片分類",
+    "image_preview": "圖片預覽",
+    "image_info": "圖片信息"
   },
   "tab": {
     "description": "介紹",

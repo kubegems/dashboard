@@ -2,17 +2,20 @@
   <v-form class="pa-3" @submit.prevent>
     <v-row>
       <v-col class="pr-8" cols="12" md="6">
-        <div class="text-subtitle-1">语音</div>
-        <v-file-input accept="*/*" counter filled flat label="语音文件" show-size solo @change="onFileChange" />
+        <div class="text-subtitle-1">{{ $t('tip.voice') }}</div>
+        <v-file-input accept="*/*" counter filled flat :label="$t('tip.voice')" show-size solo @change="onFileChange" />
       </v-col>
 
       <v-btn class="kubegems__full-center" color="primary" icon :loading="Circular" x-large @click="submitContent">
         <v-icon>mdi-arrow-right-bold </v-icon>
       </v-btn>
 
-      <v-col class="pl-8" cols="12" md="6">
-        <div class="text-subtitle-1">语音信息</div>
+      <v-col class="pl-8" cols="12" md="6" :style="{ position: 'relative' }">
+        <div class="text-subtitle-1">{{ $t('tip.result') }}</div>
         <pre>{{ rawOut }}</pre>
+        <div v-if="!rawOut" class="kubegems__full-center text-subtitle-1">
+          {{ $root.$t('data.no_data') }}
+        </div>
       </v-col>
     </v-row>
   </v-form>
@@ -21,10 +24,14 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../../../../i18n';
   import ParamsMixin from '../../mixins/params';
 
   export default {
     name: 'FineInputs',
+    i18n: {
+      messages: messages,
+    },
     mixins: [ParamsMixin],
     props: {
       dialog: {
