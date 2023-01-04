@@ -27,6 +27,7 @@
       :id="id"
       class="my-2"
       :label="pathLevel === 1 ? '' : label"
+      :placeholder="param.placeholder || ''"
       :rules="textRule"
       :type="inputType ? inputType : 'text'"
       :value="param.value"

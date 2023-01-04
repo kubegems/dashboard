@@ -48,7 +48,7 @@ const yamlUtils = {
       const doc = YAML.parseDocument(JSON.stringify(values));
       const splittedPath = this.parsePath(path);
       const value = doc.getIn(splittedPath);
-      // 优先使用schema中的默认值
+
       return value || defaultValue;
     },
     parsePath(path) {
@@ -59,13 +59,24 @@ const yamlUtils = {
       return path.map((p) => jsonpatch.unescapePathComponent(p));
     },
     splitPath(path) {
-      return (
-        (path ?? '')
+      if (path?.indexOf('/') > -1) {
+        return (
           // ignore the first slash, if exists
-          .replace(/^\//, '')
-          // split by slashes
-          .split('/')
-      );
+          path
+            .replace(/^\//, '')
+            // split by slashes
+            .split('/')
+        );
+      } else if (path?.indexOf('.') > -1) {
+        return (
+          // ignore the first slash, if exists
+          path
+            .replace(/^\//, '')
+            // split by slashes
+            .split('.')
+        );
+      }
+      return [path];
     },
     parsePathAndValue(doc, path, value = null) {
       if (isEmpty(doc.contents)) {

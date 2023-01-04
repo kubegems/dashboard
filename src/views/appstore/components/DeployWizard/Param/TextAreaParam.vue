@@ -28,6 +28,7 @@
       auto-grow
       class="my-2"
       :label="pathLevel === 1 ? '' : label"
+      :placeholder="param.placeholder || ''"
       :rules="textareaRule"
       :value="param.value"
       @change="onChange($event)"

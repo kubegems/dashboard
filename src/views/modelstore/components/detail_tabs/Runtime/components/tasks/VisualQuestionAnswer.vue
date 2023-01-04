@@ -2,7 +2,7 @@
   <v-form class="pa-3" @submit.prevent>
     <v-row>
       <v-col class="pr-8" cols="12" md="6">
-        <div class="text-subtitle-1 mb-3">图片</div>
+        <div class="text-subtitle-1 mb-3">{{ $t('tip.img') }}</div>
 
         <v-img v-if="obj.previewUrl" max-width="800" :src="obj.previewUrl" />
         <div v-else class="file__div">
@@ -19,11 +19,11 @@
               solo
               @change="onFileChange"
             />
-            <div class="text-subtitle-1">上传图片</div>
+            <div class="text-subtitle-1">{{ $t('tip.upload_img') }}</div>
           </div>
         </div>
 
-        <div class="text-subtitle-1 mb-3">问提</div>
+        <div class="text-subtitle-1 mb-3">{{ $t('tip.question') }}</div>
         <ACEEditor
           v-model="obj.question"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} kubegems__rounded_small`"
@@ -39,9 +39,12 @@
         <v-icon>mdi-arrow-right-bold </v-icon>
       </v-btn>
 
-      <v-col class="pl-8" cols="12" md="6">
-        <div class="text-subtitle-1 mb-3">问答结果</div>
+      <v-col class="pl-8" cols="12" md="6" :style="{ position: 'relative' }">
+        <div class="text-subtitle-1 mb-3">{{ $t('tip.result') }}</div>
         <pre>{{ rawOut }}</pre>
+        <div v-if="!rawOut" class="kubegems__full-center text-subtitle-1" :style="{ marginTop: '-7px' }">
+          {{ $root.$t('data.no_data') }}
+        </div>
       </v-col>
     </v-row>
   </v-form>
@@ -50,11 +53,15 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../../../../i18n';
   import ParamsMixin from '../../mixins/params';
 
   export default {
     name: 'VisualQuestionAnswer',
     mixins: [ParamsMixin],
+    i18n: {
+      messages: messages,
+    },
     props: {
       dialog: {
         type: Boolean,
@@ -100,14 +107,14 @@
       async submitContent() {
         if (!this.obj.file) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请上传图片',
+            text: this.$t('tip.upload_img_tip'),
             color: 'warning',
           });
           return;
         }
         if (!this.obj.question.trim()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请输入问题',
+            text: this.$t('tip.input_question'),
             color: 'warning',
           });
           return;

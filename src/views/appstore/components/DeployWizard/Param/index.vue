@@ -158,8 +158,6 @@
             // A single condition: {value: string, path: any}
             // An array of conditions: {conditions: Array<{value: string, path: any}, operator: string}
             if (hidden.conditions?.length > 0) {
-              // If hidden is an object, a different logic should be applied
-              // based on the operator
               switch (hidden.operator) {
                 case 'and':
                   // Every value matches the referenced

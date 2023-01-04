@@ -75,7 +75,12 @@
     "input_tag": "追加してくださいTag",
     "img": "写真",
     "upload_img_tip": "写真をアップロードしてください",
-    "upload_img": "画像をアップロード"
+    "upload_img": "画像をアップロード",
+    "segmentation": "ピクチャークリップ",
+    "voice": "ボイス",
+    "image_classily": "画像分類",
+    "image_preview": "画像プレビュー",
+    "image_info": "画像情報"
   },
   "tab": {
     "description": "はじめに",

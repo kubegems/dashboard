@@ -2,7 +2,7 @@
   <v-form class="pa-3" @submit.prevent>
     <v-row>
       <v-col class="pr-8" cols="12" md="6">
-        <div class="text-subtitle-1 mb-3">图片</div>
+        <div class="text-subtitle-1 mb-3">{{ $t('tip.img') }}</div>
 
         <v-img v-if="obj.previewUrl" max-width="800" :src="obj.previewUrl" />
         <div v-else class="file__div">
@@ -19,7 +19,7 @@
               solo
               @change="onFileChange"
             />
-            <div class="text-subtitle-1">上传图片</div>
+            <div class="text-subtitle-1">{{ $t('tip.upload_img') }}</div>
           </div>
         </div>
       </v-col>
@@ -29,7 +29,7 @@
       </v-btn>
 
       <v-col class="pl-8" cols="12" md="6">
-        <div class="text-subtitle-1 mb-3">图片片段信息</div>
+        <div class="text-subtitle-1 mb-3">{{ $t('tip.segmentation') }}</div>
         <v-row v-if="rawOut.length > 0">
           <v-col v-for="(item, index) in rawOut" :key="index" cols="4">
             <div class="text-body-1"> {{ item.label }} </div>
@@ -40,7 +40,7 @@
         </v-row>
         <div v-else class="file__div">
           <div class="kubegems__full-center">
-            <div class="text-subtitle-1">请先上传图片</div>
+            <div class="text-subtitle-1">{{ $root.$t('data.no_data') }}</div>
           </div>
         </div>
       </v-col>
@@ -51,10 +51,14 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../../../../i18n';
   import ParamsMixin from '../../mixins/params';
 
   export default {
     name: 'ImageSegmentation',
+    i18n: {
+      messages: messages,
+    },
     mixins: [ParamsMixin],
     props: {
       dialog: {
@@ -105,7 +109,7 @@
       async submitContent() {
         if (!this.obj.file) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请上传图片',
+            text: this.$t('tip.upload_img_tip'),
             color: 'warning',
           });
           return;

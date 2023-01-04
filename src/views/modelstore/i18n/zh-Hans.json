@@ -85,7 +85,12 @@
     "input_tag": "请添加Tag",
     "img": "图片",
     "upload_img_tip": "请上传图片",
-    "upload_img": "上传图片"
+    "upload_img": "上传图片",
+    "segmentation": "图片片段",
+    "voice": "语音",
+    "image_classily": "图片分类",
+    "image_preview": "图片预览",
+    "image_info": "图片信息"
   },
   "tab": {
     "description": "介绍",

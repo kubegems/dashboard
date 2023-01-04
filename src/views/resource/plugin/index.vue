@@ -103,7 +103,7 @@
                     {{ $t('operate.upgrade') }}
                   </v-btn>
                   <v-btn v-if="plugin.enabled" color="primary" small text @click="upgradePlugin(plugin)">
-                    {{ $t('operate.update') }}
+                    {{ $root.$t('operate.update') }}
                   </v-btn>
                   <v-btn
                     v-if="plugin.enabled"
