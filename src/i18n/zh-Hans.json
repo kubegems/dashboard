@@ -58,7 +58,10 @@
     "password": "格式错误(包含大小写数字特殊字符8到16位密码)",
     "date": "格式错误(示例:YYYY-MM-dd)",
     "time": "格式错误(示例:HH:mm:ss)",
-    "datetime": "格式错误(示例:YYYY-MM-ddTHH:mm:ss)"
+    "datetime": "格式错误(示例:YYYY-MM-ddTHH:mm:ss)",
+    "regexp": "格式错误(示例:正则 {0})",
+    "lt_min": "格式错误(少于{0}字符)",
+    "gt_max": "格式错误(大于{0}字符)"
   },
 
   "role": {

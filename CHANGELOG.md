@@ -10,6 +10,7 @@
 | - | [perf: ⚡ support i18n to cluster plugin schema] | [062e897](https://github.com/chenshunliang/dashboard/commit/062e897c5dcd35c4a98159efee35ba462bf06858) |
 | - | [perf: ⚡ support log trace chart and link to jaeger page] | [67bcf89](https://github.com/chenshunliang/dashboard/commit/67bcf897b9700aaae9d2fb0dfa380ef869cc7044) |
 | - | [perf: ⚡ support batch copy prometheus rule to other env] | [7bd3acd](https://github.com/chenshunliang/dashboard/commit/7bd3acdf0fd74f3f278145f19d45b11c72f51657) |
+| - | [perf: :zap: optimization model experience image preview component, enhancement json schema render] | [56972b9](https://github.com/chenshunliang/dashboard/commit/56972b970b18f36af631e5856382e51c9a933759) |
 
 ### Bug Fixes
 

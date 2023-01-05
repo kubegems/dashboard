@@ -33,7 +33,7 @@
           </h6>
           <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.desc') }}</h5>
           <h6 class="text-body-2 mb-3">
-            {{ item ? item.message : '' }}
+            {{ item && item.description ? item.description : '-' }}
           </h6>
           <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.category') }}</h5>
           <h6 class="text-body-2 mb-3">
@@ -41,7 +41,7 @@
           </h6>
           <h5 class="text-subtitle-1 kubegems__text">{{ $root.$t('resource.namespace') }}</h5>
           <h6 class="text-body-2 mb-3">
-            {{ item ? item.namespace : '' }}
+            {{ item && item.namespace ? item.namespace : '-' }}
           </h6>
           <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.repository') }}</h5>
           <h6 class="text-body-2 mb-3">

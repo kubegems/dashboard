@@ -64,6 +64,29 @@
         return this.param.path.split('/').length;
       },
       textRule() {
+        if (this.param.type?.indexOf('null') > -1 && !this.param.value) {
+          return [];
+        }
+        if (this.param.minLength === 0) {
+          return [];
+        } else if (this.param.minLength > 0) {
+          let rule = [(v) => v?.length >= this.param.minLength || $t('ruler.lt_min', [this.param.minLength])];
+          if (this.param.maxLength) {
+            rule = rule.concat([
+              (v) => v?.length <= this.param.maxLength || $t('ruler.gt_max', [this.param.maxLength]),
+            ]);
+          }
+          return rule;
+        }
+        if (this.param.minimum && this.param.maximum) {
+          return [
+            (v) => parseFloat(v || 0) >= this.param.minimum || $t('ruler.lt_min', [this.param.minimum]),
+            (v) => parseFloat(v || 0) <= this.param.maximum || $t('ruler.gt_max', [this.param.maximum]),
+          ];
+        }
+        if (this.param.pattern) {
+          return (v) => !v || !!new RegExp(this.param.pattern).test(v) || $t('ruler.regexp', [this.param.pattern]);
+        }
         if (this.param.format === 'duration') {
           return [required, timeInterval];
         } else if (this.param.format === 'date-time') {
@@ -89,6 +112,8 @@
         }
         if (value) {
           this.$emit('changeBasicFormParam', this.param, value);
+        } else {
+          this.$emit('changeBasicFormParam', this.param, null);
         }
       },
     },

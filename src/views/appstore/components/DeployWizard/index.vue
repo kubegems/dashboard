@@ -442,10 +442,10 @@
           return (
             this.m_permisson_tenantAllow() ||
             this.Auth.projects.some((p) => {
-              return p.isAdmin && p.id === this.obj.TenantProjectId;
+              return (p.isAdmin || p.role === 'ops' || p.role === 'test') && p.id === this.obj.TenantProjectId;
             }) ||
             this.Auth.environments.some((authEnv) => {
-              return authEnv.isAdmin && authEnv.name === projectEnv.text;
+              return (authEnv.isAdmin || authEnv.role === 'operator') && authEnv.name === projectEnv.text;
             })
           );
         });
