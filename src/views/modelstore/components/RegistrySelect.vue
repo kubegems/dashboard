@@ -19,6 +19,7 @@
     <v-menu v-model="repoMenu" bottom class="mx-1 px-1" left offset-y origin="top center" transition="scale-transition">
       <template #activator="{ on }">
         <v-btn class="primary--text font-weight-medium" color="white" text v-on="on">
+          <BaseLogo class="mr-2" :icon-name="selectRepo.name" :ml="0" :style="{ marginTop: '6px' }" :width="16" />
           {{ selectRepo.name }}
           <v-icon v-if="repoMenu" right> mdi-chevron-up </v-icon>
           <v-icon v-else right> mdi-chevron-down </v-icon>
@@ -44,13 +45,19 @@
               <v-list-item
                 v-for="(repo, index) in item.values"
                 :key="index"
-                class="text-body-2 text-center font-weight-medium mx-2"
+                class="text-body-2 text-start font-weight-medium mx-2"
                 link
                 :style="{ color: repo.value === selectRepo.name ? `#1e88e5 !important` : `` }"
                 @click="setRepo(repo)"
               >
                 <v-list-item-content>
-                  <span>{{ repo.text }}</span>
+                  <div>
+                    <div class="float-left mr-2">
+                      <BaseLogo class="mr-2" :icon-name="repo.value" :ml="0" :mt="0" :width="16" />
+                    </div>
+                    <div class="float-left"> {{ repo.text }}</div>
+                    <div class="kubegems__clear-float" />
+                  </div>
                 </v-list-item-content>
               </v-list-item>
             </v-list>

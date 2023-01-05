@@ -33,34 +33,17 @@
         </v-autocomplete>
         <div class="text-subtitle-1 mb-3">{{ $t('tip.img') }}</div>
 
-        <v-img v-if="obj.previewUrl" max-width="800" :src="obj.previewUrl" />
-        <div v-else class="file__div">
-          <div class="kubegems__full-center">
-            <v-file-input
-              accept="image/*"
-              class="ml-5"
-              counter
-              filled
-              flat
-              hide-input
-              prepend-icon="mdi-file-image"
-              show-size
-              solo
-              @change="onFileChange"
-            />
-            <div class="text-subtitle-1">{{ $t('tip.upload_img') }}</div>
-          </div>
-        </div>
+        <BaseImagePreview v-model="obj.file" :preview-height="750" />
       </v-col>
 
       <v-btn class="kubegems__full-center" color="primary" icon :loading="Circular" x-large @click="submitContent">
         <v-icon>mdi-arrow-right-bold </v-icon>
       </v-btn>
 
-      <v-col class="pl-8" cols="12" md="6" :style="{ position: 'relative' }">
+      <v-col class="pl-8" cols="12" md="6" :style="{ position: 'relative', height: `${height}px` }">
         <div class="text-subtitle-1 mb-3">{{ $t('tip.result') }}</div>
         <pre>{{ rawOut }}</pre>
-        <div v-if="!rawOut" class="kubegems__full-center text-subtitle-1" :style="{ marginTop: '-30px' }">
+        <div v-if="!rawOut" class="kubegems__full-center text-subtitle-1" :style="{ marginTop: '-8px' }">
           {{ $root.$t('data.no_data') }}
         </div>
       </v-col>
@@ -89,7 +72,6 @@
     data: () => {
       return {
         obj: {
-          previewUrl: '',
           file: null,
           tags: [],
         },
@@ -100,6 +82,9 @@
     },
     computed: {
       ...mapState(['Scale', 'Circular']),
+      height() {
+        return window.innerHeight - 12;
+      },
     },
     watch: {
       dialog: {
@@ -114,16 +99,6 @@
       },
     },
     methods: {
-      onFileChange(e) {
-        if (e) {
-          this.obj.previewUrl = URL.createObjectURL(e);
-          this.obj.file = e;
-        } else {
-          this.obj.previewUrl = '';
-          this.obj.file = null;
-        }
-        this.rawOut = null;
-      },
       createTag() {
         if (this.tagText.trim()) {
           this.obj.tags.push(this.tagText.trim());
@@ -154,10 +129,10 @@
             _v.imageParam('images', b64data),
             _v.stringParam('candidate_labels', ..._v.obj.tags),
           );
-          const ret = await this.infer(data);
+          const ret = await _v.infer(data);
           _v.rawOut = _v.parseResult(ret);
         };
-        reader.readAsDataURL(this.obj.file);
+        reader.readAsDataURL(_v.obj.file);
       },
     },
   };

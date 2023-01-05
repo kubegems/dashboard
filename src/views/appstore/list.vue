@@ -180,12 +180,12 @@
             };
           case 'banzaicloud':
             return {
-              imgSrc: '/icon/banzaicloud.svg',
+              imgSrc: '/icon/banzaicloud-logo.svg',
               tip: this.$t('tip.banzaicloud'),
             };
           case 'hashicorp':
             return {
-              imgSrc: '/icon/hashicorp.svg',
+              imgSrc: '/icon/hashicorp-logo.svg',
               tip: this.$t('tip.hashicorp'),
             };
           case 'grafana':

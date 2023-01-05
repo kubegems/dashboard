@@ -54,9 +54,14 @@
               @change="onChannelTypeChange"
             >
               <template #selection="{ item }">
-                <v-chip class="mx-1" color="primary" small>
+                <v-chip class="mx-1" small>
+                  <BaseLogo class="mr-2" :icon-name="item.value" :ml="0" :mt="1" :width="20" />
                   {{ item['text'] }}
                 </v-chip>
+              </template>
+              <template #item="{ item }">
+                <BaseLogo class="mr-2" :icon-name="item.value" :ml="0" :mt="2" :width="18" />
+                {{ item.text }}
               </template>
             </v-autocomplete>
           </v-col>

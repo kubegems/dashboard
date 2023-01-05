@@ -119,6 +119,14 @@
               this.imgSrc = '/icon/paddlepaddle.svg';
               this.tip = this.$t('tip.paddlepaddle');
               break;
+            case 'banzaicloud':
+              this.imgSrc = '/icon/banzaicloud-logo.svg';
+              this.tip = this.$t('tip.banzaicloud');
+              break;
+            case 'hashicorp':
+              this.imgSrc = '/icon/hashicorp-logo.svg';
+              this.tip = this.$t('tip.hashicorp');
+              break;
             default:
               this.imgSrc = LOGO_BLUE;
               this.tip = this.$t('tip.kubegems');

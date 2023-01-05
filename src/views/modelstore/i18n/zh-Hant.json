@@ -8,6 +8,8 @@
     "chartmuseum": "ChartMuseum 是一個開源的、易於部署的、Helm Chart 儲存庫伺服器。",
     "pytorch": "發現模型並將其發佈到專為研究探索而設計的預訓練模型存儲庫。",
     "paddlepaddle": "源於產業實踐的開源深度學習平臺。",
+    "banzaicloud": "構建操作系統用於您的容器和雲",
+    "hashicorp": "HashiCorp 提供一致的工作流程來為任何應用程序配置、保護、連接和運行任何基礎設施。",
     "kubegems": "Kubegems內置演算法模型商店。",
     "platform_recomment": "平台推薦",
     "user_comment": "用戶評分",
@@ -82,7 +84,8 @@
     "voice": "語音",
     "image_classily": "圖片分類",
     "image_preview": "圖片預覽",
-    "image_info": "圖片信息"
+    "image_info": "圖片信息",
+    "upload_voice_tip": "請上傳語音文件"
   },
   "tab": {
     "description": "介紹",

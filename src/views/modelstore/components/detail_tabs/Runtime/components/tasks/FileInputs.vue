@@ -10,10 +10,10 @@
         <v-icon>mdi-arrow-right-bold </v-icon>
       </v-btn>
 
-      <v-col class="pl-8" cols="12" md="6" :style="{ position: 'relative' }">
+      <v-col class="pl-8" cols="12" md="6" :style="{ position: 'relative', height: `${height}px` }">
         <div class="text-subtitle-1">{{ $t('tip.result') }}</div>
         <pre>{{ rawOut }}</pre>
-        <div v-if="!rawOut" class="kubegems__full-center text-subtitle-1">
+        <div v-if="!rawOut" class="kubegems__full-center text-subtitle-1" :style="{ marginTop: '-8px' }">
           {{ $root.$t('data.no_data') }}
         </div>
       </v-col>
@@ -49,6 +49,9 @@
     },
     computed: {
       ...mapState(['Circular']),
+      height() {
+        return window.innerHeight - 12;
+      },
     },
     watch: {
       dialog: {
@@ -74,7 +77,7 @@
       async submitContent() {
         if (!this.obj.file) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请先上传音频文件',
+            text: this.$t('tip.upload_voice_tip'),
             color: 'warning',
           });
           return;
@@ -87,7 +90,7 @@
           let ret = _v.infer(data);
           _v.rawOut = _v.parseResult(ret);
         };
-        reader.readAsDataURL(this.obj.file);
+        reader.readAsDataURL(_v.obj.file);
       },
     },
   };

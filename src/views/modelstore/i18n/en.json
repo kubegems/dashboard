@@ -9,6 +9,8 @@
     "pytorch": "Discover the model and publish it to a repository of pre-training models designed specifically for research exploration.",
     "paddlepaddle": "Open source depth learning platform derived from industry practice.",
     "kubegems": "Kubegems built-in algorithm store.",
+    "banzaicloud": "Building the operating system for your containers and clouds",
+    "hashicorp": "HashiCorp delivers consistent workflows to provision, secure, connect, and run any infrastructure for any application.",
     "platform_recomment": "Platform recommendations",
     "user_comment": "User Rating",
     "comment": "Comment",
@@ -83,7 +85,8 @@
     "voice": "Voice",
     "image_classily": "Image classification",
     "image_preview": "Image preview",
-    "image_info": "Image info"
+    "image_info": "Image info",
+    "upload_voice_tip": "Please upload voice file"
   },
   "tab": {
     "description": "Introduction",

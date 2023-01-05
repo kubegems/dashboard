@@ -55,7 +55,10 @@
     "k8s_name": "不符合Kubernetes命名规范",
     "email": "邮箱格式错误",
     "mobile": "手机号格式错误",
-    "password": "格式错误(包含大小写数字特殊字符8到16位密码)"
+    "password": "格式错误(包含大小写数字特殊字符8到16位密码)",
+    "date": "格式错误(示例:YYYY-MM-dd)",
+    "time": "格式错误(示例:HH:mm:ss)",
+    "datetime": "格式错误(示例:YYYY-MM-ddTHH:mm:ss)"
   },
 
   "role": {

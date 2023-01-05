@@ -9,6 +9,8 @@
     "pytorch": "发现模型并将其发布到专为研究探索而设计的预训练模型存储库。",
     "paddlepaddle": "源于产业实践的开源深度学习平台。",
     "kubegems": "Kubegems内置算法模型商店。",
+    "banzaicloud": "构建操作系统用于您的容器和云",
+    "hashicorp": "HashiCorp 提供一致的工作流程来为任何应用程序配置、保护、连接和运行任何基础设施。",
 
     "platform_recomment": "平台推荐",
     "user_comment": "用户评分",
@@ -90,7 +92,8 @@
     "voice": "语音",
     "image_classily": "图片分类",
     "image_preview": "图片预览",
-    "image_info": "图片信息"
+    "image_info": "图片信息",
+    "upload_voice_tip": "请上传语音文件"
   },
   "tab": {
     "description": "介绍",
