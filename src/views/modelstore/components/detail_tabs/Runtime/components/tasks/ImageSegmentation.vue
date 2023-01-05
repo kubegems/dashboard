@@ -4,23 +4,8 @@
       <v-col class="pr-8" cols="12" md="6">
         <div class="text-subtitle-1 mb-3">{{ $t('tip.img') }}</div>
 
-        <v-img v-if="obj.previewUrl" max-width="800" :src="obj.previewUrl" />
-        <div v-else class="file__div">
-          <div class="kubegems__full-center">
-            <v-file-input
-              accept="image/*"
-              class="ml-5"
-              counter
-              filled
-              flat
-              hide-input
-              prepend-icon="mdi-file-image"
-              show-size
-              solo
-              @change="onFileChange"
-            />
-            <div class="text-subtitle-1">{{ $t('tip.upload_img') }}</div>
-          </div>
+        <div :style="{ height: '800px' }">
+          <BaseImagePreview v-model="obj.file" :preview-height="780" />
         </div>
       </v-col>
 
@@ -75,7 +60,6 @@
       return {
         obj: {
           file: null,
-          previewUrl: '',
         },
         rawOut: [],
       };
@@ -96,16 +80,6 @@
       },
     },
     methods: {
-      onFileChange(e) {
-        if (e) {
-          this.obj.previewUrl = URL.createObjectURL(e);
-          this.obj.file = e;
-        } else {
-          this.obj.previewUrl = '';
-          this.obj.file = null;
-        }
-        this.rawOut = [];
-      },
       async submitContent() {
         if (!this.obj.file) {
           this.$store.commit('SET_SNACKBAR', {
@@ -128,7 +102,7 @@
           const ret = await _v.infer(data);
           _v.rawOut = _v.parseResult(ret)[0];
         };
-        reader.readAsDataURL(this.obj.file);
+        reader.readAsDataURL(_v.obj.file);
       },
     },
   };

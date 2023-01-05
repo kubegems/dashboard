@@ -8,6 +8,8 @@
     "chartmuseum": "ChartMuseum は、オープン ソースのオープンソース プロジェクトで、Helm Chart リポジトリサーバです。",
     "pytorch": "検出されたモデルとリサーチのために設計された プリペイドモデルリポジトリに公開します。",
     "paddlepaddle": "は 産業を基盤とするオープンソース・ゼロ・学習プラットフォームです",
+    "banzaicloud": "コンテナとクラウド用のオペレーティング システムを構築する。",
+    "hashicorp": "HashiCorp は、あらゆるアプリケーションのあらゆるインフラストラクチャを構成、保護、接続、および実行するための一貫したワークフローを提供します。",
     "kubegems": "Kubegemsビルトインアルゴリズムモデル",
     "platform_recomment": "プラットフォームの提案",
     "user_comment": "ユーザースコア",
@@ -80,7 +82,8 @@
     "voice": "ボイス",
     "image_classily": "画像分類",
     "image_preview": "画像プレビュー",
-    "image_info": "画像情報"
+    "image_info": "画像情報",
+    "upload_voice_tip": "音声ファイルをアップロードしてください"
   },
   "tab": {
     "description": "はじめに",

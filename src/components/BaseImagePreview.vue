@@ -15,11 +15,10 @@
 -->
 <template>
   <FilePond
-    ref="filePond"
     accepted-file-types="image/png, image/jpeg, image/gif"
     allow-multiple="false"
     credits="false"
-    :files="files"
+    :image-preview-height="previewHeight"
     image-review-height="previewHeight"
     instant-upload="false"
     :label-file-processing="$t('tip.label_file_processing')"
@@ -32,9 +31,10 @@
   />
 </template>
 
-<script>
+<script lang="ts" setup>
   import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
   import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+  import { nextTick, onMounted } from 'vue';
   import vueFilePond from 'vue-filepond';
 
   import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
@@ -42,22 +42,23 @@
 
   const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 
-  export default {
-    name: 'BaseUploaderImage',
-    components: {
-      FilePond,
+  withDefaults(
+    defineProps<{
+      previewHeight?: number;
+    }>(),
+    {
+      previewHeight: 500,
     },
-    data() {
-      return {
-        files: [],
-      };
-    },
-    methods: {
-      reset() {
-        if (this.$refs.filePond) this.$refs.filePond.removeFiles();
-      },
-    },
-  };
+  );
+
+  const emits = defineEmits(['input']);
+  onMounted(() => {
+    nextTick(() => {
+      document.addEventListener('FilePond:addfile', (e: any) => {
+        emits('input', e?.detail?.file?.file || null);
+      });
+    });
+  });
 </script>
 
 <style lang="scss" scoped>

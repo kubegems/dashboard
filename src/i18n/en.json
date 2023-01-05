@@ -55,7 +55,10 @@
     "k8s_name": "Does not conform to Kubernetes naming conventions",
     "email": "Email error",
     "mobile": "Mobile error",
-    "password": "Error (includes uppercase and lowercase numeric special characters 8 to 16 passwords)"
+    "password": "Error (includes uppercase and lowercase numeric special characters 8 to 16 passwords)",
+    "date": "Error (example: YYYY-MM-dd)",
+    "time": "Error (example: HH:mm:ss)",
+    "datetime": "Error (example: YYYY-MM-ddTHH:mm:ss)"
   },
 
   "role": {

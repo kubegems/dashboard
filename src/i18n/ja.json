@@ -51,7 +51,10 @@
     "k8s_name": "Kubernetes命名仕様に合っていません",
     "email": "不正なメールアドレス",
     "mobile": "電話番号の形式が間違っています",
-    "password": "書式エラー (大文字・小文字を含み、8ないし16文字のパス)"
+    "password": "書式エラー (大文字・小文字を含み、8ないし16文字のパス)",
+    "date": "間違った形式 (例: YYYY-MM-dd)",
+    "time": "間違った形式 (例: HH:mm:ss)",
+    "datetime": "間違った形式 (例: YYYY-MM-ddTHH:mm:ss)"
   },
   "role": {
     "system": {

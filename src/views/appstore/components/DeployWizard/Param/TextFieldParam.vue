@@ -37,7 +37,7 @@
 </template>
 
 <script>
-  import { required } from '@/utils/rules';
+  import { required, timeInterval } from '@/utils/rules';
 
   export default {
     name: 'TextFieldParam',
@@ -59,14 +59,24 @@
         default: () => ({}),
       },
     },
-    data() {
-      return {
-        textRule: [required],
-      };
-    },
     computed: {
       pathLevel() {
         return this.param.path.split('/').length;
+      },
+      textRule() {
+        if (this.param.format === 'duration') {
+          return [required, timeInterval];
+        } else if (this.param.format === 'date-time') {
+          return [
+            required,
+            (v) => !v || !!new RegExp('(^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$)').test(v) || $t('ruler.datetime'),
+          ];
+        } else if (this.param.format === 'time') {
+          return [required, (v) => !v || !!new RegExp('(^\\d{2}:\\d{2}:\\d{2}$)').test(v) || $t('ruler.time')];
+        } else if (this.param.format === 'date') {
+          return [required, (v) => !v || !!new RegExp('(^\\d{4}-\\d{2}-\\d{2}$)').test(v) || $t('ruler.date')];
+        }
+        return [required];
       },
     },
     mounted() {
