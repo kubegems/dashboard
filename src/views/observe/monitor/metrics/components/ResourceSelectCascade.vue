@@ -41,8 +41,8 @@
         :solo="!singleLine"
         v-on="on"
       >
-        <template #selection="{ attrs, item, selected }">
-          <v-chip color="primary" :input-value="selected" :label="!singleLine" small v-bind="attrs">
+        <template #selection="{ item, selected }">
+          <v-chip color="primary" :input-value="selected" :label="!singleLine" small>
             <span class="pr-2">{{ item.resourceShowName }}-{{ item.showName }}</span>
           </v-chip>
         </template>

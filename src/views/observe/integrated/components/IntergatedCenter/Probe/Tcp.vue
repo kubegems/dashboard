@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { reactive } from 'vue';
+  import { reactive, watch } from 'vue';
 
   import { useI18n } from '../../../i18n';
   import { PrometheusProbe } from '@/types/prometheus_probe';
@@ -46,7 +46,7 @@
     },
   );
 
-  const obj = reactive<PrometheusProbe>(props.probe);
+  let obj = reactive<PrometheusProbe>(props.probe);
   const objRule = reactive({
     hostRules: [
       required,
@@ -54,4 +54,15 @@
         !v || !!new RegExp('\\w+:\\d{2,5}$').test(v) || i18nLocal.t('ruler.tcp_check').toString(),
     ],
   });
+
+  watch(
+    () => props.probe,
+    async (value) => {
+      if (!value) return;
+      obj = Object.assign(obj, value);
+    },
+    {
+      deep: true,
+    },
+  );
 </script>

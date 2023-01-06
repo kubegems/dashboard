@@ -81,7 +81,7 @@
           </v-tab>
         </v-tabs>
 
-        <component :is="tabItems[tab].value" :probe="probe" />
+        <component :is="tabItems[tab].value" v-if="tab >= 0" :probe="probe" />
       </v-form>
     </template>
     <template #action>
@@ -145,7 +145,7 @@
     { text: i18nLocal.t('tip.12_hour'), value: '12h' },
   ];
 
-  const tab = ref(0);
+  const tab = ref(undefined);
   const tabItems = [
     { text: 'ICMP', value: Icmp, module: 'ping' },
     { text: 'TCP', value: Tcp, module: 'tcp_connect' },

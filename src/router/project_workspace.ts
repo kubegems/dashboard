@@ -26,7 +26,7 @@ export const projectWorkspace: RouteConfig[] = [
             component: () => import('@/views/resource/project/detail.vue'),
             meta: {
               requireAuth: true,
-              title: 'routerbar.cluster.project_dashboaed',
+              title: 'routerbar.cluster.project_dashboard',
               icon: 'mdi-view-dashboard',
               show: true,
               rootName: 'project',

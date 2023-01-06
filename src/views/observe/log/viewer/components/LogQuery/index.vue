@@ -23,7 +23,17 @@
       </v-btn>
 
       <!-- 标签查询 -->
-      <v-combobox v-if="queryType === 'tag'" v-model="filter" dense flat full-width hide-details multiple solo>
+      <v-combobox
+        v-if="queryType === 'tag'"
+        v-model="filter"
+        dense
+        flat
+        full-width
+        hide-details
+        multiple
+        solo
+        @focus="expand = true"
+      >
         <template #prepend-inner>
           <v-chip
             v-for="tag in comboboxTags"

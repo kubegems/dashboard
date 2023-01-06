@@ -265,8 +265,9 @@
   "routerbar": {
     "cluster": {
       "cluster_dashboard": "資源概要",
-      "project_dashboaed": "プロジェクトリソース",
-      "environment_dashboaed": "環境リソース",
+      "project_dashboard": "プロジェクトリソース",
+      "environment_dashboard": "環境リソース",
+      "edge_dashboard": "エッジ クラスタの概要",
       "plugins": "拡張機能マネージャ",
       "node": "ノード",
       "workload": "ワークロード",

@@ -27,7 +27,7 @@ export const dashboard: RouteConfig[] = [
             component: () => import('@/views/resource/dashboard/index.vue'),
             meta: {
               requireAuth: true,
-              title: 'routerbar.cluster.environment_dashboaed',
+              title: 'routerbar.cluster.environment_dashboard',
               icon: 'mdi-view-dashboard',
               show: true,
               rootName: 'dashboard',

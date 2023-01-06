@@ -133,7 +133,7 @@
           <Tips v-if="tab === 0 && selectRepo !== 'kubegems'" class="mx-1" :msg="$t('tip.third_registry_deploy')" />
         </v-tab>
       </v-tabs>
-      <div v-if="tab === 0" class="py-2">
+      <div v-if="tab === 0" class="py-2" :style="{ height: `${height - 40}px` }">
         <JsonSchema
           ref="jsonSchema"
           :app-values="appValues"
@@ -149,7 +149,7 @@
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
           lang="yaml"
           :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
-          :style="{ height: `${height}px !important` }"
+          :style="{ height: `${height * Scale - 50}px !important` }"
           theme="chrome"
           @keydown.stop
         />
@@ -196,7 +196,7 @@
   import AppStoreComplete from './AppStoreComplete';
   import AppStoreDeployLoading from './AppStoreDeployLoading';
   import Tips from './Tips';
-  import { getAppStoreFiles, postDeployAppStore } from '@/api';
+  import { getAppStoreFiles, postDeployAppStore, postImportPrometheusRule } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -430,6 +430,19 @@
           clearTimeout(this.timeout);
         }, 3000);
         await postDeployAppStore(this.Tenant().ID, this.obj.TenantProjectId, this.obj.EnvironmentId, jsonData);
+
+        // 添加告警规则
+        if (this.filesCopy?.['alerts.yaml']) {
+          const environment = this.m_select_projectEnvironmentItems.find((e) => {
+            return e.value === this.obj.EnvironmentId;
+          });
+          const alertsYaml = this.filesCopy?.['alerts.yaml']
+            .replaceAll('__namespace__', environment?.namespace)
+            .replaceAll('__fullname__', this.obj.AppName)
+            .replaceAll(new RegExp('name: ([\\w-_]+)', 'g'), `name: ${this.obj.AppName}-$1`);
+          await postImportPrometheusRule(environment?.clusterName, environment?.namespace, alertsYaml);
+        }
+
         this.$refs.deploy.nextTab();
         this.deployDialog = false;
         if (this.timeout) clearTimeout(this.timeout);

@@ -510,7 +510,7 @@
       },
       onModChange() {
         this.load();
-        if (this.obj.promqlGenerator?.labelpairs) {
+        if (this.obj?.promqlGenerator?.labelpairs) {
           this.obj.promqlGenerator.labelpairs = {};
         }
         this.obj.inhibitLabels = [];
@@ -531,7 +531,7 @@
         }
         const lps = { ...labelpairs, ...mergeLabelpairs };
         this.$set(this.obj.promqlGenerator, 'labelpairs', lps);
-        this.inhibitLabelItems = Object.keys(this.obj.promqlGenerator.labelpairs).map((l) => {
+        this.inhibitLabelItems = Object.keys(this.obj.promqlGenerator?.labelpairs || {}).map((l) => {
           return { text: l, value: l };
         });
       },
@@ -545,6 +545,9 @@
               expr: this.obj.expr,
             },
           );
+          if (!this.obj.promqlGenerator) {
+            this.obj.promqlGenerator = {};
+          }
           if (!this.obj.promqlGenerator?.labelpairs) {
             this.obj.promqlGenerator.labelpairs = {};
           }

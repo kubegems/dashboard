@@ -432,7 +432,7 @@ const store: Store<{ [key: string]: any }> = new Store({
         [key: string]: any;
       }
     >): Promise<void> {
-      if (state.Edge) return;
+      // if (state.Edge) return;
 
       const doFunc = async () => {
         const data: any = await getPluginsList({
@@ -464,7 +464,7 @@ const store: Store<{ [key: string]: any }> = new Store({
       >,
       payload: string,
     ): Promise<void> {
-      if (state.Edge) return;
+      // if (state.Edge) return;
 
       type doHandle = () => Promise<boolean>;
       const doFunc: doHandle = async (): Promise<boolean> => {

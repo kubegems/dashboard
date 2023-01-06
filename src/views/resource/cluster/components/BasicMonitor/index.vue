@@ -181,6 +181,10 @@
         type: Object,
         default: () => null,
       },
+      edge: {
+        type: Boolean,
+        default: () => false,
+      },
     },
     data() {
       return {
@@ -194,7 +198,7 @@
       };
     },
     computed: {
-      ...mapState(['Scale']),
+      ...mapState(['Scale', 'Edge', 'Plugins']),
       ...mapGetters(['Cluster']),
     },
     watch: {
@@ -245,6 +249,7 @@
         });
       },
       async loadMetrics() {
+        if ((this.Edge || this.edge) && !this.Plugins['monitoring']) return;
         if (this.timeinterval) clearInterval(this.timeinterval);
         this.loadData();
         this.timeinterval = setInterval(() => {

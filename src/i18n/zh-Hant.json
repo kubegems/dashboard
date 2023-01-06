@@ -265,8 +265,9 @@
   "routerbar": {
     "cluster": {
       "cluster_dashboard": "資源概覽",
-      "project_dashboaed": "項目資源",
-      "environment_dashboaed": "環境資源",
+      "project_dashboard": "項目資源",
+      "environment_dashboard": "環境資源",
+      "edge_dashboard": "邊緣集群概覽",
       "plugins": "外掛程式管理",
       "node": "節點",
       "workload": "工作負載",

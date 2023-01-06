@@ -70,6 +70,10 @@
         type: Object,
         default: () => ({}),
       },
+      edge: {
+        type: Boolean,
+        default: () => false,
+      },
     },
     data() {
       return {
@@ -80,7 +84,7 @@
       };
     },
     computed: {
-      ...mapState(['Scale']),
+      ...mapState(['Scale', 'Edge', 'Plugins']),
       tabItems() {
         return [
           {
@@ -167,6 +171,7 @@
     },
     methods: {
       async loadMetrics(clearSeries = false) {
+        if ((this.Edge || this.edge) && !this.Plugins['monitoring']) return;
         if (this.timeinterval) clearInterval(this.timeinterval);
         if (clearSeries) this.count -= 1;
         const timeParam = this.updateTime();

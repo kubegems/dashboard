@@ -27,13 +27,14 @@
     </v-list-item-icon>
 
     <v-list-item-content v-if="item.meta.title">
-      <v-list-item-title v-text="$t(item.meta.title)" />
+      <v-list-item-title v-text="$t(getTitle(item.meta.title))" />
     </v-list-item-content>
   </v-list-item>
 </template>
 
 <script>
   import Themeable from 'vuetify/lib/mixins/themeable';
+  import { mapState } from 'vuex';
 
   export default {
     name: 'BaseItem',
@@ -50,8 +51,17 @@
       },
     },
     computed: {
+      ...mapState(['Edge']),
       href() {
         return this.item.href || (!this.item.to ? '#' : undefined);
+      },
+    },
+    methods: {
+      getTitle(title) {
+        if (this.Edge && title === 'routerbar.cluster.environment_dashboard') {
+          return 'routerbar.cluster.edge_dashboard';
+        }
+        return title;
       },
     },
   };

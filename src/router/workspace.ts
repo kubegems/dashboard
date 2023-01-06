@@ -27,7 +27,7 @@ export const workspace: RouteConfig[] = [
             component: () => import('@/views/resource/environment/detail.vue'),
             meta: {
               requireAuth: true,
-              title: 'routerbar.cluster.environment_dashboaed',
+              title: 'routerbar.cluster.environment_dashboard',
               icon: 'mdi-cloud',
               show: true,
               rootName: 'workspace',
@@ -43,6 +43,7 @@ export const workspace: RouteConfig[] = [
           title: 'routerbar.cluster.h_app',
           icon: 'mdi-view-grid',
           required: ['tenant'],
+          edge: false,
         },
         component: () => import('@/layouts/Container.vue'),
         redirect: { name: 'app-list' },
@@ -59,6 +60,7 @@ export const workspace: RouteConfig[] = [
               show: true,
               rootName: 'workspace',
               tip: 'app',
+              edge: false,
             },
           },
           {
@@ -74,6 +76,7 @@ export const workspace: RouteConfig[] = [
               rootName: 'workspace',
               tip: 'appconfig',
               dependencies: ['nacos'],
+              edge: false,
             },
           },
           {
@@ -87,6 +90,7 @@ export const workspace: RouteConfig[] = [
               show: false,
               rootName: 'workspace',
               tip: 'app',
+              edge: false,
             },
           },
           {
@@ -101,6 +105,7 @@ export const workspace: RouteConfig[] = [
               rootName: 'workspace',
               tip: 'deploy',
               dependencies: ['argo-rollouts'],
+              edge: false,
             },
           },
         ],
@@ -461,6 +466,7 @@ export const workspace: RouteConfig[] = [
               rootName: 'workspace',
               tip: 'certmanager',
               dependencies: ['cert-manager'],
+              edge: false,
             },
           },
           {
@@ -476,6 +482,7 @@ export const workspace: RouteConfig[] = [
               rootName: 'workspace',
               tip: 'certmanager',
               dependencies: ['cert-manager'],
+              edge: false,
             },
           },
         ],
@@ -532,6 +539,23 @@ export const workspace: RouteConfig[] = [
               show: true,
               rootName: 'workspace',
               tip: 'volumesnapshot',
+              edge: false,
+            },
+          },
+          // storageclass
+          {
+            path: `${prefix}/storageclasses`,
+            name: `storageclass-center`,
+            component: () => import('@/views/resource/storageclass/index.vue'),
+            meta: {
+              requireAuth: true,
+              title: 'routerbar.cluster.storageclass',
+              upToAdmin: true,
+              icon: 'mdi-database',
+              show: true,
+              rootName: 'workspace',
+              tip: 'storageclass',
+              edge: true,
             },
           },
         ],
