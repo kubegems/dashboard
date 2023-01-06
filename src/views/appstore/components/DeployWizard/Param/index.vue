@@ -49,7 +49,8 @@
           param.name !== 'storageClass' &&
           param.name !== 'nameOverride' &&
           param.name !== 'fullnameOverride') ||
-        type === 'integer'
+        type === 'integer' ||
+        type === 'number'
       "
       :id="id"
       :input-type="getInputType"
@@ -193,7 +194,7 @@
       getInputType() {
         const label = this.param.title || this.param.path;
         let inputType = 'string';
-        if (this.type === 'integer') {
+        if (this.type === 'integer' || this.type === 'number') {
           inputType = 'number';
         }
         if (
@@ -205,7 +206,9 @@
         return inputType;
       },
       pathLevel() {
-        return this.param.path.split('/').length;
+        if (this.param.path.indexOf('/') > -1) return this.param.path.split('/').length;
+        if (this.param.path.indexOf('.') > -1) return this.param.path.split('.').length;
+        return 1;
       },
     },
     methods: {

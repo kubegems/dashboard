@@ -54,7 +54,10 @@
     "password": "格式錯誤（包含大小寫數位特殊字元8到16位密碼）",
     "date": "格式錯誤(示例:YYYY-MM-dd)",
     "time": "格式錯誤(示例:HH:mm:ss)",
-    "datetime": "格式錯誤(示例:YYYY-MM-ddTHH:mm:ss)"
+    "datetime": "格式錯誤(示例:YYYY-MM-ddTHH:mm:ss)",
+    "regexp": "格式錯誤(示例:正則 {0})",
+    "lt_min": "格式錯誤(少於{0}字符)",
+    "gt_max": "格式錯誤(大於{0}字符)"
   },
   "role": {
     "system": {

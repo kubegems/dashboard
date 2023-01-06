@@ -17,7 +17,7 @@
 <template>
   <v-card class="my-3" flat>
     <BaseSubTitle class="pt-2" :divider="false" :title="i18n.t('resource.cluster')" />
-    <v-card-text class="pa-2">
+    <v-card-text class="pa-2 px-4">
       <v-tabs v-model="state.tab" class="rounded-t" height="30">
         <v-tab v-for="item in tabItems" :key="item.icon">
           <BaseLogo

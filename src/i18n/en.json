@@ -58,7 +58,10 @@
     "password": "Error (includes uppercase and lowercase numeric special characters 8 to 16 passwords)",
     "date": "Error (example: YYYY-MM-dd)",
     "time": "Error (example: HH:mm:ss)",
-    "datetime": "Error (example: YYYY-MM-ddTHH:mm:ss)"
+    "datetime": "Error (example: YYYY-MM-ddTHH:mm:ss)",
+    "regexp": "Error (example: regexp {0})",
+    "lt_min": "Error (less than {0} character)",
+    "gt_max": "Error (more than {0} character)"
   },
 
   "role": {

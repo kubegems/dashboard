@@ -61,13 +61,17 @@
         appValues: {},
         params: [],
         obj: {},
+        i18nDict: {
+          ja: 'jp',
+          en: 'en',
+        },
       };
     },
     computed: {
       ...mapState(['Scale', 'Locale']),
       ...mapGetters(['Cluster']),
       height() {
-        return (window.innerHeight - 202) / this.Scale;
+        return (window.innerHeight - 132) / this.Scale;
       },
     },
     watch: {
@@ -95,8 +99,10 @@
         this.schemaJson = JSON.parse(this.item.files?.['values.schema.json'] || '{}');
 
         if (this.Locale !== 'zh-Hans' && this.Locale !== 'zh-Hant') {
-          if (this.item.files?.['i18n/values.en.json']) {
-            const enSchemaJson = JSON.parse(this.item.files?.['i18n/values.en.json'] || '{}');
+          if (this.item.files?.[`i18n/values.schema.${this.i18nDict[this.Locale] || 'en'}.json`]) {
+            const enSchemaJson = JSON.parse(
+              this.item.files?.[`i18n/values.schema.${this.i18nDict[this.Locale] || 'en'}.json`] || '{}',
+            );
             this.schemaJson = Object.assign(this.schemaJson, enSchemaJson);
           } else {
             this.$store.commit('SET_SNACKBAR', {
