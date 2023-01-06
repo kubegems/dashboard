@@ -48,7 +48,7 @@
                 text
                 @click="operateAuthSource(item)"
               >
-                {{ item.enabled ? $t('disable') : $t('enable') }}
+                {{ item.enabled ? $t('operate.disable') : $t('operate.enable') }}
               </v-btn>
             </v-card-actions>
 

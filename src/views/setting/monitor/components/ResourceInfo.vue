@@ -45,7 +45,6 @@
           <thead>
             <tr>
               <th class="text-left">{{ $t('table.name') }}</th>
-              <th class="text-left">{{ $t('table.expr') }}</th>
               <th class="text-left">{{ $t('table.generator') }}</th>
               <th class="text-left">{{ $t('table.unit') }}</th>
             </tr>
@@ -53,9 +52,17 @@
           <tbody>
             <tr v-for="(item, index) in template ? template.graphs : []" :key="index">
               <td> {{ item.name }} </td>
-              <td> {{ item.expr }} </td>
               <td>
-                {{ item.promqlGenerator.scope }} | {{ item.promqlGenerator.resource }} | {{ item.promqlGenerator.rule }}
+                <div v-for="(target, idx) in item.targets" :key="idx">
+                  {{ target.targetName }}:
+                  <template v-if="target.promqlGenerator">
+                    {{ target.promqlGenerator.scope }} | {{ target.promqlGenerator.resource }} |
+                    {{ target.promqlGenerator.rule }}
+                  </template>
+                  <template v-else>
+                    {{ target.expr }}
+                  </template>
+                </div>
               </td>
               <td> {{ item.unit }} </td>
             </tr>

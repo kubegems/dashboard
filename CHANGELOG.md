@@ -27,6 +27,22 @@
 | - | [build: :chrone: add sentry from .env file, optimization trace overview] | ([0f93576](https://github.com/chenshunliang/dashboard/commit/0f93576fb0b2daa6155552817371386b5f6ec137)) |
 | - | [perf: ⚡ optimization resource ts files] | ([ca56d68](https://github.com/chenshunliang/dashboard/commit/ca56d686d011d1c899cc2c96aad427f4ef21feea)) |
 
+# 1.23.0-alpha.4 (2023-1-6)
+
+### 🌟 新功能
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [perf: ⚡ support trace link to jaeger] | [9abd3b3](https://github.com/chenshunliang/dashboard/commit/9abd3b3f6ee2bc123a69223d5c6a6baa0ba2f6fc) |
+
+# 1.23.0-alpha.3 (2023-1-5)
+
+### Bug Fixes
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [fix: 🐛 fix model deploy not show env bug] | ([aa9d433](https://github.com/chenshunliang/dashboard/commit/aa9d43395327b5ee7a1b2097b3f019120cbd9f82)) |
+
 # 1.23.0-alpha.2 (2022-12-19)
 
 ### 🌟 新功能
