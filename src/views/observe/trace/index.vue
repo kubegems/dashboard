@@ -97,11 +97,21 @@
         } else if (this.$route.query.service) {
           let url = `/api/v1/service-proxy/cluster/${
             this.cluster
-          }/namespace/observability/service/jaeger-query/port/16686/search?limit=20&lookback=1h&maxDuration&minDuration&service=${
+          }/namespace/observability/service/jaeger-query/port/16686/search?limit=${
+            this.$route.query.limit || '20'
+          }&lookback=${this.$route.query.lookback || '1h'}&maxDuration&minDuration&service=${
             this.$route.query.service
-          }&tags=${this.$route.query.tags || null}`;
+          }&tags=${this.$route.query.tags || null}&maxDuration=${this.$route.query.maxDuration || ''}&minDuration=${
+            this.$route.query.minDuration || ''
+          }`;
           if (this.$route.query.operation) {
             url += `&operation=${this.$route.query.operation}`;
+          }
+          if (this.$route.query.start) {
+            url += `&start=${this.$route.query.start}`;
+          }
+          if (this.$route.query.end) {
+            url += `&end=${this.$route.query.end}`;
           }
           return url;
         } else {
