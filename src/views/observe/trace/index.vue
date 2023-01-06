@@ -95,11 +95,15 @@
         if (this.isTraceId) {
           return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/trace/${this.traceid}?uiEmbed=v0`;
         } else if (this.$route.query.service) {
-          return `/api/v1/service-proxy/cluster/${
+          let url = `/api/v1/service-proxy/cluster/${
             this.cluster
-          }/namespace/observability/service/jaeger-query/port/16686/search?limit=20&lookback=1h&maxDuration&minDuration&operation=${
-            this.$route.query.operation || 'all'
-          }&service=${this.$route.query.service}&tags=${this.$route.query.tags || null}`;
+          }/namespace/observability/service/jaeger-query/port/16686/search?limit=20&lookback=1h&maxDuration&minDuration&service=${
+            this.$route.query.service
+          }&tags=${this.$route.query.tags || null}`;
+          if (this.$route.query.operation) {
+            url += `&operation=${this.$route.query.operation}`;
+          }
+          return url;
         } else {
           return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/search`;
         }
