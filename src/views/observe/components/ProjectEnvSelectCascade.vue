@@ -56,10 +56,10 @@
         :items="items"
         :label="$root.$t('resource.environment')"
         solo
-        v-on="on"
+        @focus="menu = true"
       >
-        <template #selection="{ attrs, item, selected }">
-          <v-chip color="primary" :input-value="selected" label small v-bind="attrs">
+        <template #selection="{ item, selected }">
+          <v-chip color="primary" :input-value="selected" label small>
             <span class="pr-2">{{ item.environmentName }}</span>
           </v-chip>
         </template>

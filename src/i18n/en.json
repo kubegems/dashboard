@@ -273,8 +273,9 @@
   "routerbar": {
     "cluster": {
       "cluster_dashboard": "Cluster",
-      "project_dashboaed": "Project",
-      "environment_dashboaed": "Environment",
+      "project_dashboard": "Project",
+      "environment_dashboard": "Environment",
+      "edge_dashboard": "Edge Cluster",
       "plugins": "Plugins",
       "node": "Node",
       "workload": "Workload",

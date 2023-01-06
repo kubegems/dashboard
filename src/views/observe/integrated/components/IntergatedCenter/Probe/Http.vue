@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { reactive } from 'vue';
+  import { reactive, watch } from 'vue';
 
   import { PrometheusProbe } from '@/types/prometheus_probe';
   import { required } from '@/utils/rules';
@@ -44,8 +44,19 @@
     },
   );
 
-  const obj = reactive<PrometheusProbe>(props.probe);
+  let obj = reactive<PrometheusProbe>(props.probe);
   const objRule = reactive({
     hostRules: [required],
   });
+
+  watch(
+    () => props.probe,
+    async (value) => {
+      if (!value) return;
+      obj = Object.assign(obj, value);
+    },
+    {
+      deep: true,
+    },
+  );
 </script>

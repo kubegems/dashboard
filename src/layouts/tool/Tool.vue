@@ -64,6 +64,7 @@
     if (store.getters.Cluster().ID === 0) {
       await store.dispatch('UPDATE_CLUSTER_DATA');
     }
+    store.commit('SET_EDGE', '');
     router.push({
       name: 'cluster-center',
       params: { cluster: store.getters.Cluster().ClusterName },

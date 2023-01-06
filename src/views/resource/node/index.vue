@@ -232,7 +232,7 @@
       };
     },
     computed: {
-      ...mapState(['JWT', 'Plugins']),
+      ...mapState(['JWT', 'Plugins', 'Edge']),
       filters() {
         return [{ text: this.$t('filter.node_name'), value: 'search', items: [] }];
       },
@@ -272,6 +272,7 @@
     },
     methods: {
       loadMetrics() {
+        if (this.Edge && !this.Plugins['monitoring']) return;
         this.nodeCPUUsage(true);
         this.nodeMemoryUsage(true);
         this.nodeLoad5(true);

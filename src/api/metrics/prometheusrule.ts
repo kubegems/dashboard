@@ -87,3 +87,11 @@ export const postGeneratePrometheusRuleMessage = (
   body: { [key: string]: any } = {},
 ): Promise<{ [key: string]: any }> =>
   axios.post(`observability/cluster/${clusterName}/namespaces/${namespace}/alerts/${name}/actions/message`, body);
+
+// 导入告警规则
+export const postImportPrometheusRule = (
+  clusterName: string,
+  namespace: string,
+  body: { [key: string]: any } = {},
+): Promise<{ [key: string]: any }> =>
+  axios.post(`observability/cluster/${clusterName}/namespaces/${namespace}/alerts-import`, body);

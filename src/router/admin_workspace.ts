@@ -422,6 +422,7 @@ export const adminWorkspace: RouteConfig[] = [
               rootName: 'admin-workspace',
               tip: 'certmanager',
               dependencies: ['cert-manager'],
+              edge: false,
             },
           },
           {
@@ -437,6 +438,7 @@ export const adminWorkspace: RouteConfig[] = [
               rootName: 'admin-workspace',
               tip: 'certmanager',
               dependencies: ['cert-manager'],
+              edge: false,
             },
           },
         ],
@@ -533,12 +535,13 @@ export const adminWorkspace: RouteConfig[] = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'volumesnapshot',
+              edge: false,
             },
           },
           // storageclass
           {
             path: `${prefix}/storageclasses`,
-            name: `storageclass-center`,
+            name: `${namePrefix}-storageclass-center`,
             component: () => import('@/views/resource/storageclass/index.vue'),
             meta: {
               requireAuth: true,

@@ -18,12 +18,12 @@
   <div class="mt-3">
     <v-row>
       <v-col class="pb-2" cols="12" lg="4">
-        <BasicMonitor :cluster="cluster" :has-etcd="false" :params="params" />
+        <BasicMonitor :cluster="cluster" edge :has-etcd="false" :params="params" />
         <ResourceInfo :cluster="cluster" :quota="quota" :workload="workloadsStatistics" />
       </v-col>
 
       <v-col class="pb-2" cols="12" lg="8">
-        <MetricMonitor :params="params" />
+        <MetricMonitor edge :params="params" />
       </v-col>
 
       <v-col v-for="(key, index) in resources" :key="index" class="down-top-padding pt-1 pb-2" cols="2">
