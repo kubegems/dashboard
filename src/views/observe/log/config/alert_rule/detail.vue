@@ -85,7 +85,6 @@
   import AlertBarChart from '@/views/observe/monitor/config/prometheusrule/components//AlertBarChart';
   import AlertList from '@/views/observe/monitor/config/prometheusrule/components/AlertList';
   import UpdateAlertRule from '@/views/observe/monitor/config/prometheusrule/components/UpdatePrometheusRule';
-  import BaseAlert from '@/views/observe/monitor/config/prometheusrule/mixins/alert';
 
   export default {
     name: 'AlertRuleDetail',
@@ -97,7 +96,7 @@
       AlertList,
       UpdateAlertRule,
     },
-    mixins: [BaseAlert, BasePermission, BaseResource],
+    mixins: [BasePermission, BaseResource],
     data() {
       return {
         date: [],

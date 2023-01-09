@@ -86,7 +86,6 @@
   import AlertBarChart from './components/AlertBarChart';
   import AlertList from './components/AlertList';
   import UpdatePrometheusRule from './components/UpdatePrometheusRule';
-  import BaseAlert from './mixins/alert';
   import { deletePrometheusRule, getPrometheusAlertHistory, getPrometheusRuleDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -101,7 +100,7 @@
       AlertList,
       UpdatePrometheusRule,
     },
-    mixins: [BaseAlert, BasePermission, BaseResource],
+    mixins: [BasePermission, BaseResource],
     data() {
       return {
         date: [],

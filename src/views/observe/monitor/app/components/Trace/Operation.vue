@@ -92,12 +92,15 @@
     async (newValue) => {
       if (newValue && newValue.clusterName && newValue.namespace && props.service) {
         nextTick(() => {
+          if (props.date.length === 2) {
+            pagination.start = moment(props.date[0]).utc().format();
+            pagination.end = moment(props.date[1]).utc().format();
+          }
           getOperation();
         });
       }
     },
     {
-      immediate: true,
       deep: true,
     },
   );
@@ -123,6 +126,10 @@
     async (newValue) => {
       if (newValue && props.env.clusterName) {
         nextTick(() => {
+          if (props.date.length === 2) {
+            pagination.start = moment(props.date[0]).utc().format();
+            pagination.end = moment(props.date[1]).utc().format();
+          }
           pagination.page = 1;
           getOperation();
         });

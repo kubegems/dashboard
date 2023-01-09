@@ -26,5 +26,8 @@
   "filter": {
     "edge_name": "名称",
     "device_id": "设备id"
+  },
+  "tip": {
+    "manufacture": "设备信息"
   }
 }

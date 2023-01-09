@@ -26,5 +26,8 @@
   "filter": {
     "edge_name": "名前",
     "device_id": "デバイスID"
+  },
+  "tip": {
+    "manufacture": "デバイス情報"
   }
 }

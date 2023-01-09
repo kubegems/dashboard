@@ -73,7 +73,7 @@
               class="my-0"
               color="primary"
               hide-selected
-              :items="m_metrics_unitItems"
+              :items="unitItems"
               :label="$t('form.unit')"
               :no-data-text="$root.$t('data.no_data')"
             >
@@ -94,16 +94,15 @@
 
 <script>
   import messages from '../i18n';
+  import { getUnitItems } from '@/composition/metrics';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
-  import Metrics from '@/views/observe/monitor/mixins/metrics';
 
   export default {
     name: 'TemplateBaseForm',
     i18n: {
       messages: messages,
     },
-    mixins: [Metrics],
     props: {
       edit: {
         type: Boolean,
@@ -139,6 +138,9 @@
           exprRule: [required],
           descriptionRule: [required],
         };
+      },
+      unitItems() {
+        return getUnitItems();
       },
     },
     watch: {

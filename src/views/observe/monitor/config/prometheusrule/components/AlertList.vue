@@ -110,7 +110,6 @@
   import { mapState } from 'vuex';
 
   import messages from '../../../i18n';
-  import BaseAlert from '../mixins/alert';
   import { getLogAlertRuleDetail, getPrometheusAlertHistory, getPrometheusRuleDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
 
@@ -119,7 +118,7 @@
     i18n: {
       messages: messages,
     },
-    mixins: [BaseAlert, BaseResource],
+    mixins: [BaseResource],
     props: {
       mode: {
         type: String,

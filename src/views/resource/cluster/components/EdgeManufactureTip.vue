@@ -17,7 +17,7 @@
   <v-menu
     :close-delay="200"
     :close-on-content-click="false"
-    max-width="250px"
+    max-width="345px"
     nudge-bottom="5px"
     offset-y
     open-on-hover
@@ -39,12 +39,16 @@
       <v-list class="pa-0 kubegems__tip" dense>
         <v-list-item>
           <v-list-item-content>
-            <v-list-item
-              v-for="(value, key) in edgeCluster.status.manufacture || {}"
-              :key="key"
-              class="float-left pa-0"
-              two-line
-            >
+            <v-list-item v-for="(value, key) in deviceInfo || {}" :key="key" class="float-left pa-0" two-line>
+              <v-list-item-content class="py-0">
+                <v-list-item-title class="kubegems__break-all"> {{ key }} </v-list-item-title>
+                <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
+                  {{ value }}
+                </v-list-item-content>
+              </v-list-item-content>
+            </v-list-item>
+            <v-divider class="mb-2" />
+            <v-list-item v-for="(value, key) in edgeInfo || {}" :key="key" class="float-left pa-0" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="kubegems__break-all"> {{ key }} </v-list-item-title>
                 <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
@@ -60,10 +64,12 @@
 </template>
 
 <script lang="ts" setup>
+  import { ref, watch } from 'vue';
+
   import { useI18n } from '../i18n';
   import { EdgeCluster } from '@/types/edge_cluster';
 
-  withDefaults(
+  const props = withDefaults(
     defineProps<{
       top?: boolean;
       edgeCluster?: EdgeCluster;
@@ -75,4 +81,26 @@
   );
 
   const i18nLocal = useI18n();
+
+  const deviceInfo = ref<{ [key: string]: string | number | boolean }>({});
+  const edgeInfo = ref<{ [key: string]: string | number | boolean }>({});
+
+  watch(
+    () => props.edgeCluster,
+    (newValue) => {
+      if (newValue?.status?.manufacture) {
+        Object.keys(newValue?.status?.manufacture).forEach((key) => {
+          if (key.startsWith('edge')) {
+            edgeInfo.value[key] = newValue?.status?.manufacture[key];
+          } else {
+            deviceInfo.value[key] = newValue?.status?.manufacture[key];
+          }
+        });
+      }
+    },
+    {
+      immediate: true,
+      deep: true,
+    },
+  );
 </script>

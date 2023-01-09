@@ -14,7 +14,10 @@
     "message": "安装状态",
     "now": "当前",
     "no_params": "暂无提供可更改的插件参数",
-    "no_i18n_file": "不存在翻译文件，使用原始语言"
+    "no_i18n_file": "不存在翻译文件，使用原始语言",
+    "requirement": "依赖",
+    "deployed_namespace": "部署命名空间",
+    "requirement_error": "依赖错误"
   },
   "operate": {
     "install": "启用",
