@@ -112,7 +112,7 @@
   import SingleSelectParam from './SingleSelectParam';
   import TextAreaParam from './TextAreaParam';
   import TextFieldParam from './TextFieldParam';
-  import BaseYaml from '@/mixins/yaml';
+  import { getValue } from '@/utils/yaml';
 
   export default {
     name: 'Param',
@@ -125,7 +125,6 @@
       TextAreaParam,
       TextFieldParam,
     },
-    mixins: [BaseYaml],
     props: {
       allParams: {
         type: Array,
@@ -214,7 +213,7 @@
     methods: {
       evalCondition(path, expectedValue = null) {
         // 从最新的appValues中获取路径对应的值
-        let val = this.getValue(this.appValues, path);
+        let val = getValue(this.appValues, path);
         if (val === undefined) {
           const target = this.getParamMatchingPath(this.allParams, path);
           val = target?.value;
@@ -222,7 +221,7 @@
         return val === (expectedValue ?? true);
       },
       evalConditionNot(path, expectedValue = null) {
-        let val = this.getValue(this.appValues, path);
+        let val = getValue(this.appValues, path);
         if (val === undefined) {
           const target = this.getParamMatchingPath(this.allParams, path);
           val = target?.value;

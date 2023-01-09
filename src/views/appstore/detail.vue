@@ -23,6 +23,10 @@
             <v-icon left small> mdi-rocket </v-icon>
             {{ $root.$t('operate.deploy') }}
           </v-btn>
+          <v-btn class="primary--text" small text @click="returnAppStore">
+            <v-icon left small>mdi-reply</v-icon>
+            {{ $root.$t('operate.return') }}
+          </v-btn>
         </v-flex>
       </template>
     </Breadcrumb>
@@ -159,6 +163,14 @@
       async deployAppStore() {
         this.$refs.deploy.init();
         this.$refs.deploy.open();
+      },
+      returnAppStore() {
+        this.$router.push({
+          name: 'appstore-center',
+          query: {
+            reponame: this.$route.query.reponame,
+          },
+        });
       },
     },
   };

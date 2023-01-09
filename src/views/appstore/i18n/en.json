@@ -30,7 +30,8 @@
     "opentelemetry": "High-quality, ubiquitous, and portable telemetry to enable effective observability.",
     "kubecost": "Kubecost provides real-time cost visibility and insights for teams using Kubernetes, helping you continuously reduce your cloud costs.",
     "scylla": "ScyllaDB is the distributed database for data-intensive apps that require high performance and low latency.",
-    "no_i18n_file": "No translation files exist, use the original language"
+    "no_i18n_file": "No translation files exist, use the original language",
+    "copyed": "Copied to Clipboard"
   },
   "filter": {
     "name": "App name"

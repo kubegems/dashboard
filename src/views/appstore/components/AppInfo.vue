@@ -41,6 +41,16 @@
                   <v-icon v-if="chartMenu" right> mdi-chevron-up </v-icon>
                   <v-icon v-else right> mdi-chevron-down </v-icon>
                 </v-btn>
+                <v-btn
+                  v-clipboard:copy="selectVersionBind"
+                  v-clipboard:success="onCopy"
+                  class="float-right mt-1"
+                  color="primary"
+                  icon
+                  small
+                >
+                  <v-icon small> mdi-content-copy</v-icon>
+                </v-btn>
               </template>
               <v-data-iterator
                 class="file-iterator"
@@ -165,6 +175,12 @@
       setVersion(version) {
         this.selectVersionBind = version;
         this.$emit('changeAppVersion', this.selectVersionBind);
+      },
+      onCopy() {
+        this.$store.commit('SET_SNACKBAR', {
+          text: this.$t('tip.copyed'),
+          color: 'success',
+        });
       },
     },
   };
