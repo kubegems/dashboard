@@ -287,13 +287,13 @@
   // import MetricsSuggestion from './components/MetricsSuggestion';
   import ResourceSelectCascade from './components/ResourceSelectCascade';
   import { getMetricsLabelValues, getMetricsLabels, getMetricsQueryrange } from '@/api';
+  import { units } from '@/composition/metrics';
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
   import { debounce, deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
   import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
   import AddPrometheusRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule';
-  import Metrics from '@/views/observe/monitor/mixins/metrics';
 
   export default {
     name: 'MetricsIndex',
@@ -308,7 +308,7 @@
       ProjectEnvSelectCascade,
       ResourceSelectCascade,
     },
-    mixins: [BasePermission, BaseSelect, Metrics],
+    mixins: [BasePermission, BaseSelect],
     data() {
       this.defaultParams = {
         _$id: `0-${Date.now()}`,
@@ -430,16 +430,16 @@
       // 设置各项独立的unitItems
       setUnitItems(index, custom = false) {
         const items = [];
-        Object.keys(this.m_metrics_units).forEach((unit) =>
-          this.m_metrics_units[unit].value.forEach((u) => {
+        Object.keys(units).forEach((unit) =>
+          units[unit].value.forEach((u) => {
             if (unit === 'short') {
               items.push({
-                text: `${this.m_metrics_units[unit].cn}`,
+                text: `${units[unit].cn}`,
                 value: `${unit}`,
               });
             } else {
               items.push({
-                text: `${this.m_metrics_units[unit].cn}/${u}`,
+                text: `${units[unit].cn}/${u}`,
                 value: `${unit}-${u}`,
               });
             }
@@ -613,7 +613,7 @@
             return u.value === query.unitText;
           })
         ) {
-          this.$set(this.m_metrics_units, 'custom', {
+          this.$set(units, 'custom', {
             cn: this.$t('tip.custom'),
             value: [query.unitText],
           });

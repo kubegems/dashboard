@@ -49,11 +49,11 @@
             class="my-0"
             color="primary"
             hide-selected
-            :items="m_metrics_unitItems"
+            :items="unitItems"
             :label="$t('tip.unit')"
             :no-data-text="$root.$t('data.no_data')"
-            :search-input.sync="m_metrics_unitText"
-            @keydown.enter="m_metrics_createUnit"
+            :search-input.sync="unitText"
+            @keydown.enter="createUnit"
           >
             <template #selection="{ item }">
               <v-chip class="mx-1" color="primary" small>
@@ -93,9 +93,9 @@
   import messages from '../../../i18n';
   import RuleForm from './RuleForm';
   import RuleItem from './RuleItem';
+  import { addCustomUnit, getUnitItems } from '@/composition/metrics';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
-  import Metrics from '@/views/observe/monitor/mixins/metrics';
 
   export default {
     name: 'GraphBaseForm',
@@ -106,7 +106,6 @@
       RuleForm,
       RuleItem,
     },
-    mixins: [Metrics],
     props: {
       edit: {
         type: Boolean,
@@ -118,6 +117,8 @@
       },
     },
     data() {
+      this.unitItems = getUnitItems();
+
       return {
         valid: false,
         obj: {
@@ -131,6 +132,7 @@
         },
         mode: 'template',
         expand: false,
+        unitText: '',
       };
     },
     computed: {
@@ -152,7 +154,7 @@
             })
               ? 'ql'
               : 'template';
-            this.m_metrics_initItems(this.obj.unit);
+            this.unitItems = getUnitItems(addCustomUnit(this.obj.unit));
           }
         },
         deep: true,
@@ -227,6 +229,12 @@
           this.$refs.ruleForm.init(data, data.promqlGenerator);
           this.expand = true;
         });
+      },
+      createUnit() {
+        if (this.unitText) {
+          this.unitItems = getUnitItems(addCustomUnit(this.unitText));
+          this.unitText = '';
+        }
       },
     },
   };

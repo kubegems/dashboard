@@ -45,7 +45,7 @@
     "create_at": "Create time",
     "select_environment": "Please select a distribution environment",
     "heartbeat_time": "Last heartbeat time",
-    "manufacture": "Manufacture"
+    "manufacture": "Device Information"
   },
   "form": {
     "format_rule": "Wrong format (example: max 1 decimal)",

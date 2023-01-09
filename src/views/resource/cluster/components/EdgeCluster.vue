@@ -86,7 +86,7 @@
         :page.sync="pagination.page"
       >
         <template #item.name="{ item, index }">
-          <div class="float-left mr-2">
+          <div class="float-left mr-2 ml-1">
             <EdgeStatusTip
               :edge-cluster="item"
               :top="pagination.size - index <= 5 || (pagination.items.length <= 5 && index >= 1)"
@@ -106,16 +106,19 @@
               {{ item.metadata.labels[EDGE_DEVICEID_KEY] || item.metadata.name }}
             </a>
             <span v-else> {{ item.metadata.name }} </span>
+          </div>
+          <div class="kubegems__clear-float" />
+          <div>
             <EdgeManufactureTip
               :edge-cluster="item"
               :top="pagination.size - index <= 5 || (pagination.items.length <= 5 && index >= 1)"
             >
               <template #trigger>
-                <v-icon color="success" small>mdi-text-box-outline</v-icon>
+                <v-icon class="mr-1" color="primary" small>mdi-text-box-outline</v-icon>
+                <span class="primary--text text-caption">{{ i18nLocal.t('tip.manufacture') }}</span>
               </template>
             </EdgeManufactureTip>
           </div>
-          <div class="kubegems__clear-float" />
         </template>
         <template #item.label="{ item, index }">
           <BaseCollapseChips

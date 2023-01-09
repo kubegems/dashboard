@@ -210,7 +210,6 @@
   import { required, timeInterval } from '@/utils/rules';
   // import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
   import ResourceSelectCascade from '@/views/observe/monitor/metrics/components/ResourceSelectCascade';
-  import Metrics from '@/views/observe/monitor/mixins/metrics';
 
   export default {
     name: 'Rule',
@@ -225,7 +224,7 @@
       // MetricsSuggestion,
       ResourceSelectCascade,
     },
-    mixins: [BaseResource, BaseSelect, Metrics],
+    mixins: [BaseResource, BaseSelect],
     props: {
       edit: {
         type: Boolean,

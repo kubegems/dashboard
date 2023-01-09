@@ -45,7 +45,7 @@
     "create_at": "創建時間",
     "select_environment": "請選擇分配環境",
     "heartbeat_time": "上次心跳時間",
-    "manufacture": "手冊"
+    "manufacture": "設備信息"
   },
   "form": {
     "format_rule": "格式錯誤（範例：最多1位小數）",

@@ -114,6 +114,10 @@
     async (newValue) => {
       if (newValue && newValue.clusterName && newValue.namespace && props.service) {
         nextTick(() => {
+          if (props.date.length === 2) {
+            kubeRequest.start = moment(props.date[0]).utc().format();
+            kubeRequest.end = moment(props.date[1]).utc().format();
+          }
           getRequest();
         });
       }
@@ -145,6 +149,10 @@
     async (newValue) => {
       if (newValue && props.env.clusterName) {
         nextTick(() => {
+          if (props.date.length === 2) {
+            kubeRequest.start = moment(props.date[0]).utc().format();
+            kubeRequest.end = moment(props.date[1]).utc().format();
+          }
           getRequest();
         });
       }

@@ -26,5 +26,8 @@
   "filter": {
     "edge_name": "Name",
     "device_id": "Device Id"
+  },
+  "tip": {
+    "manufacture": "Device Information"
   }
 }

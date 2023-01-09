@@ -31,6 +31,29 @@
           <h6 class="text-body-2 mb-3">
             {{ item ? item.version : '' }}
           </h6>
+          <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.requirement') }}</h5>
+          <h6 class="text-body-2 mb-3">
+            <div v-for="(require, index) in item ? item.requirements : []" :key="index">
+              <div class="mb-1">
+                <span
+                  class="v-avatar mr-2"
+                  :style="{
+                    height: '10px',
+                    minWidth: '10px',
+                    width: '10px',
+                    backgroundColor: `${require.message ? '#fb8c00' : '#00BCD4'}`,
+                  }"
+                />
+                <span class="mr-1">{{ require.name }}</span> {{ require.expr }}
+                <RequirementTip v-if="require.message" :requirement="require">
+                  <template #trigger>
+                    <v-icon class="ml-1" color="orange" small>mdi-alert-circle</v-icon>
+                  </template>
+                </RequirementTip>
+              </div>
+            </div>
+            <div v-if="!item || !item.requirements?.length">-</div>
+          </h6>
           <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.desc') }}</h5>
           <h6 class="text-body-2 mb-3">
             {{ item && item.description ? item.description : '-' }}
@@ -39,9 +62,9 @@
           <h6 class="text-body-2 mb-3">
             {{ item ? item.category : '' }}
           </h6>
-          <h5 class="text-subtitle-1 kubegems__text">{{ $root.$t('resource.namespace') }}</h5>
+          <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.deployed_namespace') }}</h5>
           <h6 class="text-body-2 mb-3">
-            {{ item && item.namespace ? item.namespace : '-' }}
+            {{ item && item.installNamespace ? item.installNamespace : '-' }}
           </h6>
           <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.repository') }}</h5>
           <h6 class="text-body-2 mb-3">
@@ -57,11 +80,15 @@
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';
+  import RequirementTip from './RequirementTip';
 
   export default {
     name: 'PluginInfo',
     i18n: {
       messages: messages,
+    },
+    components: {
+      RequirementTip,
     },
     props: {
       item: {
