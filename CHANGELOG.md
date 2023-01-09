@@ -19,6 +19,7 @@
 | - | [fix: 🐛 fix intergated center page mixed bug] | ([0321113](https://github.com/chenshunliang/dashboard/commit/032111386eccbf2ec00fff119aad71722d73262c)) |
 | - | [fix: 🐛 fix plugins params value not reconstruct when edited ] | ([c7ac5e54](https://github.com/chenshunliang/dashboard/commit/c7ac5e547f56778237c4af4930050f95adadbfd9)) |
 | - | [fix: 🐛 fix log viewer query sometimes missing progress bar bug ] | ([ccba56cc](https://github.com/chenshunliang/dashboard/commit/ccba56cc3e4814f862ac6e85d5066d2d2f6c8e75)) |
+| - | [fix: 🐛 fix monitor template detail page list graphs error bug ] | ([9781b1f](https://github.com/chenshunliang/dashboard/commit/9781b1fb57460ae896971257c5f2def9869b920c)) |
 
 ### 🔨 reflactor
 

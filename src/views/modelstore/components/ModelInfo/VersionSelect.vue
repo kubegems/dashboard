@@ -26,11 +26,21 @@
         transition="scale-transition"
       >
         <template #activator="{ on }">
-          <span class="text-body-2 mr-2">{{ $t('tip.version') }}</span>
+          <div class="text-body-2 mr-2 float-left mt-2">{{ $t('tip.version') }}</div>
           <v-btn class="primary--text font-weight-medium" color="white" text v-on="on">
             {{ selectVersion }}
             <v-icon v-if="versionMenu" right> mdi-chevron-up </v-icon>
             <v-icon v-else right> mdi-chevron-down </v-icon>
+          </v-btn>
+          <v-btn
+            v-clipboard:copy="selectVersion"
+            v-clipboard:success="onCopy"
+            class="float-right mt-1"
+            color="primary"
+            icon
+            small
+          >
+            <v-icon small> mdi-content-copy</v-icon>
           </v-btn>
         </template>
         <v-data-iterator
@@ -116,6 +126,12 @@
         this.selectVersion = ver?.name;
         this.$emit('change', this.selectVersion);
         this.$emit('input', this.selectVersion);
+      },
+      onCopy() {
+        this.$store.commit('SET_SNACKBAR', {
+          text: this.$t('tip.copyed'),
+          color: 'success',
+        });
       },
     },
   };

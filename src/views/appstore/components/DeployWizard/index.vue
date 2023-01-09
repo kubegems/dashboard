@@ -200,9 +200,9 @@
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
-  import BaseYaml from '@/mixins/yaml';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
+  import { getValueSchema, setValue, setYamlValue } from '@/utils/yaml';
 
   import 'vue-form-wizard/dist/vue-form-wizard.min.css';
 
@@ -219,7 +219,7 @@
       TabContent,
       Tips,
     },
-    mixins: [BasePermission, BaseResource, BaseSelect, BaseYaml],
+    mixins: [BasePermission, BaseResource, BaseSelect],
     props: {
       currentApp: {
         type: Object,
@@ -361,7 +361,7 @@
               // 使用schema中的默认值
               // const value = properties[propertyKey].default
               // 使用values.yaml的默认值
-              const value = this.getValueSchema(defaultValues, itemPath, properties[propertyKey].default);
+              const value = getValueSchema(defaultValues, itemPath, properties[propertyKey].default);
               const param = {
                 ...properties[propertyKey],
                 path: itemPath,
@@ -390,7 +390,7 @@
       },
       changeBasicFormParam(param, value) {
         // Change raw values 修改原始值, 返回的是字符串
-        this.appValues = this.setValue(this.appValues, param.path, value);
+        this.appValues = setValue(this.appValues, param.path, value);
         this.reRender();
       },
       reRender() {
@@ -508,8 +508,8 @@
         if (Object.prototype.hasOwnProperty.call(this.appValues, 'fullnameOverride')) {
           this.appValues.fullnameOverride = this.obj.AppName;
         }
-        this.appValuesYaml = this.setYamlValue(this.appValuesYaml, 'nameOverride', this.obj.AppName);
-        this.appValuesYaml = this.setYamlValue(this.appValuesYaml, 'fullnameOverride', this.obj.AppName);
+        this.appValuesYaml = setYamlValue(this.appValuesYaml, 'nameOverride', this.obj.AppName);
+        this.appValuesYaml = setYamlValue(this.appValuesYaml, 'fullnameOverride', this.obj.AppName);
 
         // 数据驱动组件重新渲染
         this.params = [];

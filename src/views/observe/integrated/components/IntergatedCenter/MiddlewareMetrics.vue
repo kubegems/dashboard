@@ -137,8 +137,8 @@
   import messages from '../../i18n';
   import ProjectEnvSelect from './ProjectEnvSelect';
   import { getAppStoreRunningDetail, getChartSchema, getServiceMonitorStatus, postDeployAppStore } from '@/api';
-  import BaseYaml from '@/mixins/yaml';
   import { randomString } from '@/utils/helpers';
+  import { getValueSchema, setValue } from '@/utils/yaml';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
 
   export default {
@@ -150,7 +150,6 @@
       JsonSchema,
       ProjectEnvSelect,
     },
-    mixins: [BaseYaml],
     props: {
       appName: {
         type: String,
@@ -270,7 +269,7 @@
               // 使用schema中的默认值
               // const value = properties[propertyKey].default
               // 使用values.yaml的默认值
-              const value = this.getValueSchema(defaultValues, itemPath, properties[propertyKey].default);
+              const value = getValueSchema(defaultValues, itemPath, properties[propertyKey].default);
               const param = {
                 ...properties[propertyKey],
                 path: itemPath,
@@ -299,7 +298,7 @@
       },
       changeBasicFormParam(param, value) {
         // Change raw values 修改原始值, 返回的是字符串
-        this.appValues = this.setValue(this.appValues, param.path, value);
+        this.appValues = setValue(this.appValues, param.path, value);
         this.reRender();
       },
       reRender() {

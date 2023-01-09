@@ -93,7 +93,8 @@
     "image_classily": "图片分类",
     "image_preview": "图片预览",
     "image_info": "图片信息",
-    "upload_voice_tip": "请上传语音文件"
+    "upload_voice_tip": "请上传语音文件",
+    "copyed": "已复制到粘贴板"
   },
   "tab": {
     "description": "介绍",

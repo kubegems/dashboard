@@ -50,8 +50,8 @@
 <script>
   import { mapState } from 'vuex';
 
-  import BaseYaml from '@/mixins/yaml';
   import { deepCopy } from '@/utils/helpers';
+  import { getValueSchema, setValue } from '@/utils/yaml';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
 
   export default {
@@ -59,7 +59,6 @@
     components: {
       JsonSchema,
     },
-    mixins: [BaseYaml],
     data() {
       return {
         appValues: {},
@@ -88,7 +87,7 @@
       },
       changeBasicFormParam(param, value) {
         // Change raw values 修改原始值, 返回的是字符串
-        this.appValues = this.setValue(this.appValues, param.path, value);
+        this.appValues = setValue(this.appValues, param.path, value);
         this.reRender();
       },
       reRender() {
@@ -107,7 +106,7 @@
               // 使用schema中的默认值
               // const value = properties[propertyKey].default
               // 使用values.yaml的默认值
-              const value = this.getValueSchema(defaultValues, itemPath, properties[propertyKey].default);
+              const value = getValueSchema(defaultValues, itemPath, properties[propertyKey].default);
               const param = {
                 ...properties[propertyKey],
                 path: itemPath,

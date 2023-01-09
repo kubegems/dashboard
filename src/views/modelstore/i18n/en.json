@@ -86,7 +86,8 @@
     "image_classily": "Image classification",
     "image_preview": "Image preview",
     "image_info": "Image info",
-    "upload_voice_tip": "Please upload voice file"
+    "upload_voice_tip": "Please upload voice file",
+    "copyed": "Copied to Clipboard"
   },
   "tab": {
     "description": "Introduction",

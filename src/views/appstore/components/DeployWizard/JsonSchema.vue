@@ -40,7 +40,6 @@
   import { getAppStoreDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
-  import BaseYaml from '@/mixins/yaml';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
@@ -48,7 +47,7 @@
     components: {
       Param,
     },
-    mixins: [BaseResource, BaseSelect, BaseYaml],
+    mixins: [BaseResource, BaseSelect],
     props: {
       appValues: {
         type: Object,

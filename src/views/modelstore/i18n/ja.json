@@ -83,7 +83,8 @@
     "image_classily": "画像分類",
     "image_preview": "画像プレビュー",
     "image_info": "画像情報",
-    "upload_voice_tip": "音声ファイルをアップロードしてください"
+    "upload_voice_tip": "音声ファイルをアップロードしてください",
+    "copyed": "クリップボードにコピーしました"
   },
   "tab": {
     "description": "はじめに",

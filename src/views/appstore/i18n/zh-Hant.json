@@ -30,7 +30,8 @@
     "opentelemetry": "高質量、無處不在的便攜式遙測技術，以實現有效的可觀測性。",
     "kubecost": "Kubecost 的團隊使用 Kubernetes 的真實成本和持續性為力，幫助您不斷降低云成本。",
     "scylla": "ScyllaDB 是用於需要高性能和低延遲的數據密集型應用程序的分佈式數據庫。",
-    "no_i18n_file": "不存在翻譯文件，使用原始語言"
+    "no_i18n_file": "不存在翻譯文件，使用原始語言",
+    "copyed": "已複製到粘貼板"
   },
   "filter": {
     "name": "應用名稱"
