@@ -17,7 +17,6 @@
 <template>
   <v-flex :class="`pa-0 clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
     <BaseAreaChart
-      id="log_line"
       chart-type="line"
       :labels="
         chart

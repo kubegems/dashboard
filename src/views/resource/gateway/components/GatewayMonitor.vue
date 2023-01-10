@@ -29,16 +29,10 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseAreaChart id="qps" label="host" :metrics="qps" title="QPS" type="" />
+          <BaseAreaChart label="host" :metrics="qps" title="QPS" type="" />
         </v-col>
         <v-col cols="6">
-          <BaseAreaChart
-            id="connection"
-            label="state"
-            :metrics="connections"
-            :title="$t('tip.connect_count')"
-            type=""
-          />
+          <BaseAreaChart label="state" :metrics="connections" :title="$t('tip.connect_count')" type="" />
         </v-col>
       </v-row>
     </v-card-text>

@@ -43,7 +43,6 @@
       <v-card :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} mt-4`" flat>
         <v-card-text class="py-0">
           <BaseAreaChart
-            id="cpu"
             :extend-height="280"
             label="tenant"
             :metrics="cpu"
@@ -52,7 +51,6 @@
           />
 
           <BaseAreaChart
-            id="memory"
             :extend-height="280"
             label="tenant"
             :metrics="memory"

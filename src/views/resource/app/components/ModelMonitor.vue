@@ -13,17 +13,10 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseAreaChart
-            id="cpu"
-            label="pod"
-            :metrics="cpu"
-            :title="$t('tip.used', [$root.$t('resource.cpu')])"
-            type="cpu"
-          />
+          <BaseAreaChart label="pod" :metrics="cpu" :title="$t('tip.used', [$root.$t('resource.cpu')])" type="cpu" />
         </v-col>
         <v-col cols="6">
           <BaseAreaChart
-            id="memory"
             label="pod"
             :metrics="memory"
             :title="$t('tip.used', [$root.$t('resource.memory')])"

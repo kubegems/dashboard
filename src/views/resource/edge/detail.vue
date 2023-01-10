@@ -16,7 +16,7 @@
 
 <template>
   <v-container fluid>
-    <BaseViewportHeader :selectable="false" />
+    <BaseViewportHeader />
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">

@@ -16,7 +16,6 @@
 
 <template>
   <BaseBarChart
-    id="message_bar"
     :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
     :color="['#26C6DA', '#FB8C00']"
     height="290px"

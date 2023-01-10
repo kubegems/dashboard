@@ -19,7 +19,6 @@
     <BaseSubTitle :divider="false" :title="$t('tip.alert_trend')" />
     <div class="mx-3 mb-3" :style="{ height: `100%` }">
       <BaseAreaChart
-        id="alert_history"
         chart-type="line"
         :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
         colorful

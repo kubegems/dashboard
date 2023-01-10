@@ -29,17 +29,10 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseAreaChart
-            id="outqps"
-            label="destination_workload"
-            :metrics="qpsMetrics"
-            :title="$t('tip.egress_qps')"
-            type=""
-          />
+          <BaseAreaChart label="destination_workload" :metrics="qpsMetrics" :title="$t('tip.egress_qps')" type="" />
         </v-col>
         <v-col cols="6">
           <BaseAreaChart
-            id="outTime"
             label="destination_workload"
             :metrics="responseDurationMetrics"
             :title="$t('tip.egress_time')"
@@ -47,17 +40,10 @@
           />
         </v-col>
         <v-col cols="6">
-          <BaseAreaChart
-            id="in80Qps"
-            label="pod"
-            :metrics="downstream80QpsMetrics"
-            :title="$t('tip.ingress_80_qps')"
-            type=""
-          />
+          <BaseAreaChart label="pod" :metrics="downstream80QpsMetrics" :title="$t('tip.ingress_80_qps')" type="" />
         </v-col>
         <v-col cols="6">
           <BaseAreaChart
-            id="in80Time"
             label="pod"
             :metrics="downstream80ResponseDurationMetrics"
             :title="$t('tip.ingress_80_time')"
@@ -65,17 +51,10 @@
           />
         </v-col>
         <v-col cols="6">
-          <BaseAreaChart
-            id="in443Qps"
-            label="pod"
-            :metrics="downstream443QpsMetrics"
-            :title="$t('tip.ingress_443_qps')"
-            type=""
-          />
+          <BaseAreaChart label="pod" :metrics="downstream443QpsMetrics" :title="$t('tip.ingress_443_qps')" type="" />
         </v-col>
         <v-col cols="6">
           <BaseAreaChart
-            id="in443Time"
             label="pod"
             :metrics="downstream443ResponseDurationMetrics"
             :title="$t('tip.ingress_443_time')"

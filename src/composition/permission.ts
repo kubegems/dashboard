@@ -65,3 +65,56 @@ export const useVirtualSpaceRole = (): string => {
   }
   return 'normal';
 };
+
+export const useEnvironmentAllow = (env: string = undefined): boolean => {
+  return (
+    store.state.Auth.environments.findIndex((t) => {
+      if (env) {
+        return t.name === env && t.isAdmin;
+      } else {
+        return t.id === store.getters.Environment().ID && t.isAdmin;
+      }
+    }) > -1 ||
+    store.state.Admin ||
+    useProjectAllow() ||
+    useTenantAllow()
+  );
+};
+
+export const useProjectAllow = (project: string = undefined): boolean => {
+  return (
+    store.state.Auth.projects.findIndex((t) => {
+      if (project) {
+        return t.name === project && (t.isAdmin || t.role === 'ops');
+      } else {
+        return t.id === store.getters.Project().ID && (t.isAdmin || t.role === 'ops');
+      }
+    }) > -1 ||
+    store.state.Admin ||
+    useTenantAllow()
+  );
+};
+
+export const useTenantAllow = (tenant: string = undefined): boolean => {
+  return (
+    store.state.Auth.Auth.tenant.findIndex((t) => {
+      if (tenant) {
+        return t.name === tenant && t.isAdmin;
+      } else {
+        return t.id === store.getters.Tenant().ID && t.isAdmin;
+      }
+    }) > -1 || store.state.Admin
+  );
+};
+
+export const useVirtualSpaceAllow = (virtualspace: string = undefined): boolean => {
+  return (
+    store.state.Auth.virtualSpaces.findIndex((t) => {
+      if (virtualspace) {
+        return t.isAdmin && t.name === virtualspace;
+      } else {
+        return t.isAdmin && t.id === store.getters.VirtualSpace().ID;
+      }
+    }) > -1 || store.state.Admin
+  );
+};

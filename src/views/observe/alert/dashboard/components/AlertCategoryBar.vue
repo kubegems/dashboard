@@ -26,7 +26,6 @@
 
     <div class="mx-3 mb-3">
       <BaseBarChart
-        id="alert_category"
         :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
         colorful
         :label-show="false"

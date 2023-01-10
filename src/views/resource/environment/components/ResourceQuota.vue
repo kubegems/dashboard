@@ -21,7 +21,6 @@
       <v-row>
         <v-col class="py-0" cols="3">
           <BaseRadialBarChart
-            id="env_cpu"
             class="my-3"
             :metrics="cpuSeries"
             :title="$root.$t('resource.cpu')"
@@ -32,7 +31,6 @@
         </v-col>
         <v-col class="py-0" cols="3">
           <BaseRadialBarChart
-            id="env_memory"
             class="my-3"
             :metrics="memorySeries"
             :title="$root.$t('resource.memory')"
@@ -43,7 +41,6 @@
         </v-col>
         <v-col class="py-0" cols="3">
           <BaseRadialBarChart
-            id="env_storage"
             class="my-3"
             :metrics="storageSeries"
             :title="$root.$t('resource.storage')"
@@ -54,7 +51,6 @@
         </v-col>
         <v-col class="py-0" cols="3">
           <BaseRadialBarChart
-            id="env_pod"
             class="my-3"
             :metrics="podSeries"
             :title="$root.$t('resource.pod')"
@@ -69,7 +65,6 @@
         <v-row>
           <v-col v-if="nvidia && showMore" class="py-0" cols="3">
             <BaseRadialBarChart
-              id="env_nvidia_gpu"
               class="my-3"
               :metrics="nvidiaGpuSeries"
               :title="`Nvidia ${$root.$t('resource.gpu')}`"
@@ -81,7 +76,6 @@
           <template v-if="tke && showMore">
             <v-col class="py-0" cols="3">
               <BaseRadialBarChart
-                id="env_tke_gpu"
                 class="my-3"
                 :metrics="tkeGpuSeries"
                 :title="`Tke ${$root.$t('resource.gpu')}`"
@@ -92,7 +86,6 @@
             </v-col>
             <v-col class="py-0" cols="3">
               <BaseRadialBarChart
-                id="env_tke_memory"
                 class="my-3"
                 :metrics="tkeMemorySeries"
                 :title="`Tke ${$root.$t('resource.video_memory')}`"

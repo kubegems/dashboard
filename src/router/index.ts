@@ -144,8 +144,8 @@ router.beforeEach(async (to, from, next): Promise<void> => {
         await store.dispatch('LOAD_RESTMAPPING_RESOURCES', { clusterName: environment?.ClusterName });
       }
       store.commit('SET_LATEST_ENVIRONMENT', {
-        environment: environment.EnvironmentName,
-        cluster: environment.ClusterName,
+        environment: store.state.Edge ? '' : environment.EnvironmentName,
+        cluster: store.state.Edge ? '' : environment.ClusterName,
       });
       await store.dispatch('INIT_PLUGINS', environment?.ClusterName);
     }
