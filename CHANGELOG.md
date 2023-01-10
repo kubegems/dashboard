@@ -12,6 +12,8 @@
 | - | [perf: ⚡ support batch copy prometheus rule to other env] | [7bd3acd](https://github.com/chenshunliang/dashboard/commit/7bd3acdf0fd74f3f278145f19d45b11c72f51657) |
 | - | [perf: :zap: optimization model experience image preview component, enhancement json schema render] | [56972b9](https://github.com/chenshunliang/dashboard/commit/56972b970b18f36af631e5856382e51c9a933759) |
 | - | [perf: ⚡ support plugin requirements tips] | [6b14181](https://github.com/chenshunliang/dashboard/commit/6b1418131e12bfe84ddeb3e6a3e72abe9ca27c96) |
+| - | [perf: ⚡ support mongodb v2 for integrated center] | [3e51ecc](https://github.com/chenshunliang/dashboard/commit/3e51ecc397f598c0ede61d05efb1d23003a54d5b) |
+| - | [perf: ⚡ optimization edge cluster dashboard route path] | [147a700](https://github.com/chenshunliang/dashboard/commit/147a700f99048def195bf4387778c1088b55efac) |
 
 ### Bug Fixes
 

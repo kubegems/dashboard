@@ -141,7 +141,7 @@
             </a>
           </template>
           <template #[`item.modelName`]="{ item }">
-            {{ item.spec.model.name }}
+            {{ item.spec ? item.spec.model.name : '' }}
           </template>
           <template #[`item.modelVersion`]="{ item }">
             {{ item.spec.model.version }}

@@ -200,7 +200,7 @@
               plugins: {
                 title: {
                   align: 'start',
-                  display: true,
+                  display: Boolean(this.title),
                   text: this.title,
                 },
                 legend: {

@@ -107,7 +107,15 @@
     "label": "标签名",
     "operate": "表达式",
     "label_value": "标签值",
-    "need_copy": "需要复制的规则"
+    "need_copy": "需要复制的规则",
+
+    "base_info": "基本信息",
+    "address": " 站点",
+    "http_version": "HTTP版本",
+    "tls_version": "TLS版本",
+    "http_cert_expired": "证书过期时间",
+    "disabled": "未启用",
+    "enabled": "启用"
   },
   "tab": {
     "generate_from_template": "由模版生成",

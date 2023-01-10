@@ -99,7 +99,14 @@
     "label": "タグ名",
     "operate": "表現",
     "label_value": "タグ値",
-    "need_copy": "コピーするルール"
+    "need_copy": "コピーするルール",
+    "base_info": "基本情報",
+    "address": " サイト",
+    "http_version": "HTTP バージョン",
+    "tls_version": "TLS バージョン",
+    "http_cert_expired": "証明書の有効期限",
+    "disabled": "有効になっていません",
+    "enabled": "有効"
   },
   "tab": {
     "generate_from_template": "テンプレート生成",

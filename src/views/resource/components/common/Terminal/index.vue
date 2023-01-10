@@ -93,12 +93,7 @@
       </v-sheet>
     </template>
     <template #content>
-      <div
-        id="terminal"
-        :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-        @click="click"
-        @dblclick="dbclick"
-      />
+      <div id="terminal" :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`" />
       <FileDownloader :container="container" :file="file" :left="left" :top="top" />
     </template>
   </BaseFullScreenDialog>
@@ -341,7 +336,7 @@
             background: '#f6f6f6',
             foreground: '#4D4D4C',
             cursor: '#4D4D4C',
-            selection: 'rgba(222, 184, 135, 0.5)',
+            selectionBackground: 'rgba(222, 184, 135, 0.5)',
             black: '#000000',
             red: '#D32F2F',
             green: '#43A047',
@@ -424,21 +419,16 @@
         this.dialog = false;
         window.open(routeData.href, '_blank');
       },
-      dbclick(e) {
-        this.doDownload(e);
-      },
-      click(e) {
-        this.doDownload(e, false);
-      },
       doDownload(e, setFile = true) {
         if (this.terminalType === 'kubectl') return;
         if (this.term.hasSelection()) {
           const reg = RegExp('^[\\w- _\\.#\\(\\)\\u4e00-\\u9fa5]*(\\.[\\w-_\\.#]*)?$', 'g');
           const selection = this.term.getSelection().replaceAll(' ', '');
           if (selection && reg.exec(selection)) {
-            if (e) {
-              this.top = e.clientY / this.Scale;
-              this.left = e.clientX / this.Scale;
+            const position = this.term.getSelectionPosition();
+            if (position) {
+              this.top = ((position.end.y + 1) * 20 + 64) / this.Scale;
+              this.left = (position.end.x * 8) / this.Scale;
             }
             if (setFile) {
               this.file = `${this.dist}/${selection}`;

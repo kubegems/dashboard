@@ -34,6 +34,25 @@
     <template #content>
       <v-card class="mt-4" flat>
         <v-card-text class="py-0">
+          <div class="text-subtitle-2">{{ i18nLocal.t('tip.base_info') }}</div>
+          <template v-if="probe && probe.spec.module === 'http_2xx'">
+            <div class="text-body-2 ml-4">
+              <div class="http__div">
+                {{ i18nLocal.t('tip.address') }}: {{ probe ? probe.spec.targets.staticConfig.static[0] : '' }}</div
+              >
+              <div class="http__div">
+                HTTPS: {{ httpsEnabled === '0' ? i18nLocal.t('tip.disabled') : i18nLocal.t('tip.enabled') }}
+              </div>
+              <div class="http__div">
+                {{ i18nLocal.t('tip.http_version') }}: {{ httpVersion === '0' ? 'http' : 'http2' }}
+              </div>
+              <template v-if="httpsEnabled === '1'">
+                <div class="http__div">{{ i18nLocal.t('tip.tls_version') }}: {{ tlsVersion }}</div>
+                <div class="http__div">{{ i18nLocal.t('tip.http_cert_expired') }}: {{ httpCertExpired }}</div>
+              </template>
+            </div>
+          </template>
+
           <v-simple-table>
             <template #default>
               <thead>
@@ -55,6 +74,7 @@
 
           <v-divider class="mt-3" />
 
+          <div class="text-subtitle-2 mt-5">{{ i18nLocal.t('tip.trend') }}</div>
           <BaseAreaChart
             chart-type="line"
             :class="`mt-3 clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')}`"
@@ -63,7 +83,7 @@
             :global-plugins-check="false"
             label="instance"
             :metrics="duration"
-            :title="i18nLocal.t('tip.trend')"
+            title=""
             unit="s"
           />
         </v-card-text>
@@ -82,6 +102,10 @@
     PROBE_AVG_DURATION_PROMQL,
     PROBE_DURATION_PROMQL,
     PROBE_MAX_DURATION_PROMQL,
+    PROBE_HTTPS_ENABLED_PROMQ,
+    PROBE_HTTP_VERSION_PROMQ,
+    PROBE_HTTP_TLS_VERSION_PROMQ,
+    PROBE_HTTP_CERT_EXPIRY_PROMQ,
   } from '@/constants/prometheus';
   import { useStore } from '@/store';
   import { Matrix, Vector } from '@/types/prometheus';
@@ -145,6 +169,65 @@
     start: '',
     end: '',
   });
+  const httpsEnabled = ref('');
+  const getHttpsEnabled = async (): Promise<void> => {
+    const query = PROBE_HTTPS_ENABLED_PROMQ.replaceAll(
+      '$1',
+      `${probe.value.metadata.namespace}/${probe.value.metadata.name}`,
+    );
+    const data = await new Vector().getVector(props.env.clusterName, {
+      query: query,
+      start: params.value.start,
+      end: params.value.end,
+    });
+    if (data) httpsEnabled.value = (data[0] ? data[0].value[1] : 0) as string;
+  };
+
+  const httpVersion = ref('');
+  const getHttpVersion = async (): Promise<void> => {
+    const query = PROBE_HTTP_VERSION_PROMQ.replaceAll(
+      '$1',
+      `${probe.value.metadata.namespace}/${probe.value.metadata.name}`,
+    );
+    const data = await new Vector().getVector(props.env.clusterName, {
+      query: query,
+      start: params.value.start,
+      end: params.value.end,
+    });
+    if (data) httpVersion.value = (data[0] ? data[0].value[1] : 0) as string;
+  };
+
+  const tlsVersion = ref('');
+  const getTlsVersion = async (): Promise<void> => {
+    const query = PROBE_HTTP_TLS_VERSION_PROMQ.replaceAll(
+      '$1',
+      `${probe.value.metadata.namespace}/${probe.value.metadata.name}`,
+    );
+    const data = await new Vector().getVector(props.env.clusterName, {
+      query: query,
+      start: params.value.start,
+      end: params.value.end,
+    });
+    if (data) tlsVersion.value = (data[0] ? data[0].metric?.version : '') as string;
+  };
+
+  const httpCertExpired = ref('');
+  const getHttpCertExpired = async (): Promise<void> => {
+    const query = PROBE_HTTP_CERT_EXPIRY_PROMQ.replaceAll(
+      '$1',
+      `${probe.value.metadata.namespace}/${probe.value.metadata.name}`,
+    );
+    const data = await new Vector().getVector(props.env.clusterName, {
+      query: query,
+      start: params.value.start,
+      end: params.value.end,
+    });
+    if (data)
+      httpCertExpired.value = (
+        data[0] ? moment(new Date(parseInt(data[0].value[1] as string) * 1000)).format('YYYY-MM-DD HH:mm:ss') : 0
+      ) as string;
+  };
+
   const duration = ref([]);
   const getDuration = async (): Promise<void> => {
     const query = PROBE_DURATION_PROMQL.replaceAll(
@@ -190,7 +273,7 @@
       end: params.value.end,
     });
     if (data) {
-      statistics.value[1].v = beautifyTime(data[0].value[1] as string, 1000000);
+      statistics.value[1].v = beautifyTime((data[0] ? data[0].value[1] : 0) as string, 1000000);
       statistics.value[1].t = moment(params.value.end).format('YYYY-MM-DD HH:mm:ss');
     }
   };
@@ -206,7 +289,7 @@
       end: params.value.end,
     });
     if (data) {
-      statistics.value[0].v = beautifyTime(data[0].value[1] as string, 1000000);
+      statistics.value[0].v = beautifyTime((data[0] ? data[0].value[1] : 0) as string, 1000000);
       statistics.value[0].t = moment(params.value.end).format('YYYY-MM-DD HH:mm:ss');
     }
   };
@@ -214,6 +297,12 @@
   let interval: NodeJS.Timeout = undefined;
   const loadMetrics = () => {
     if (interval) clearInterval(interval);
+    if (probe.value.spec.module === 'http_2xx') {
+      getHttpsEnabled();
+      getHttpVersion();
+      getTlsVersion();
+      getHttpCertExpired();
+    }
     getDuration();
     getAvgDuration();
     getMaxDuration();
@@ -246,3 +335,9 @@
     open,
   });
 </script>
+
+<style lang="scss" scoped>
+  .http__div {
+    line-height: 24px;
+  }
+</style>
