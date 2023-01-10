@@ -39,7 +39,7 @@
     "http_check": "HTTPリクエストの確認",
     "shell_check": "コマンドのチェック実行",
     "tcp_check": "TCPポートチェック",
-    "delay_msg": "初期遅延:{0}s&nbsp;{1}間待機&nbsp;",
+    "delay_msg": "初期遅延:{0}s;{1}間待機;",
     "command": "コマンド",
     "live_probe": "生存確認",
     "readness_probe": "準備完了",

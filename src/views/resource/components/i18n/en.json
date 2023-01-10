@@ -25,7 +25,7 @@
     "http_check": "HTTP Request Check",
     "shell_check": "Execute command check",
     "tcp_check": "TCP Port Check",
-    "delay_msg": "Initial delay{0}s&nbsp;timeout{1}s&nbsp;frequencies{2}s",
+    "delay_msg": "Initial delay{0}s;timeout{1}s;frequencies{2}s",
     "path": "Path",
     "port": "Port",
     "command": "Commands",

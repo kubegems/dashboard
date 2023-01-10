@@ -39,7 +39,7 @@
     "http_check": "HTTP Request Check",
     "shell_check": "Execute command check",
     "tcp_check": "TCP Port Check",
-    "delay_msg": "Initial delay{0}s&nbsp;timeout of{1}s&nbsp;",
+    "delay_msg": "Initial delay{0}s;timeout of{1}s;",
     "command": "Commands",
     "live_probe": "Survive Check",
     "readness_probe": "Ready check",

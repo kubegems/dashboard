@@ -39,7 +39,7 @@
     "http_check": "HTTP請求檢查",
     "shell_check": "執行命令檢查",
     "tcp_check": "TCP端口檢查",
-    "delay_msg": "初始延遲{0}s&nbsp;超時{1}s&nbsp;",
+    "delay_msg": "初始延遲{0}s;超時{1}s;",
     "command": "命令",
     "live_probe": "存活檢查",
     "readness_probe": "就緒檢查",

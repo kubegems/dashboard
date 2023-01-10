@@ -21,6 +21,7 @@
 | - | [fix: 🐛 fix plugins params value not reconstruct when edited ] | ([c7ac5e54](https://github.com/chenshunliang/dashboard/commit/c7ac5e547f56778237c4af4930050f95adadbfd9)) |
 | - | [fix: 🐛 fix log viewer query sometimes missing progress bar bug ] | ([ccba56cc](https://github.com/chenshunliang/dashboard/commit/ccba56cc3e4814f862ac6e85d5066d2d2f6c8e75)) |
 | - | [fix: 🐛 fix monitor template detail page list graphs error bug ] | ([9781b1f](https://github.com/chenshunliang/dashboard/commit/9781b1fb57460ae896971257c5f2def9869b920c)) |
+| - | [fix: 🐛 fix update monitor rule label matchers not effect bug ] | ([35cf874](https://github.com/chenshunliang/dashboard/commit/35cf874dd8d67bece8d1f9f4b5cb7f2e3d16a5be)) |
 
 ### 🔨 reflactor
 
