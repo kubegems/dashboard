@@ -113,7 +113,7 @@ export const T_GPU_MEMORY_USAGE_PROMQL = `round(container_gpu_memory_total{pod=~
 export const MODEL_WORKLOAD_CPU_USAGE_CORE_PROMQL = `round(sum(gems_container_cpu_usage_cores{pod=~"$1", namespace=~"$2"})without(container), 0.001) * 1000 * 1000 * 1000`;
 export const MODEL_WORKLOAD_MEMORY_USAGE_BYTE_PROMQL = `sum(gems_container_memory_usage_bytes{pod=~"$1", namespace=~"$2"})without(container)`;
 
-export const PROBE_DURATION_PROMQL = `sum(probe_duration_seconds{job='probe/$1'}) by (instance)`;
+export const PROBE_DURATION_PROMQL = `probe_duration_seconds{job='probe/$1'}`;
 export const PROBE_AVG_DURATION_PROMQL = `avg_over_time(probe_duration_seconds{job="probe/$1", instance="$2"}[30m])`;
 export const PROBE_MAX_DURATION_PROMQL = `max_over_time(probe_duration_seconds{job="probe/$1", instance="$2"}[30m])`;
 export const PROBE_AVAILABILITY_PROMQL = `probe_success{job="probe/$1", instance="$2"}`;

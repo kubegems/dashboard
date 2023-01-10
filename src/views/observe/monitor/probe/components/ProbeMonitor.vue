@@ -190,7 +190,7 @@
       end: params.value.end,
     });
     if (data) {
-      statistics.value[1].v = beautifyTime(data[0].value[1] as string, 1000000);
+      statistics.value[1].v = beautifyTime((data[0] ? data[0].value[1] : 0) as string, 1000000);
       statistics.value[1].t = moment(params.value.end).format('YYYY-MM-DD HH:mm:ss');
     }
   };
@@ -206,7 +206,7 @@
       end: params.value.end,
     });
     if (data) {
-      statistics.value[0].v = beautifyTime(data[0].value[1] as string, 1000000);
+      statistics.value[0].v = beautifyTime((data[0] ? data[0].value[1] : 0) as string, 1000000);
       statistics.value[0].t = moment(params.value.end).format('YYYY-MM-DD HH:mm:ss');
     }
   };
