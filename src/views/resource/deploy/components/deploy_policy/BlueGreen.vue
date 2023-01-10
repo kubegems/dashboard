@@ -140,17 +140,20 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import AnalysisTemplateForm from './analysis_template/AnalysisTemplateForm';
   import AnalysisTemplateItem from './analysis_template/AnalysisTemplateItem';
   import BaseDeployInfoForm from './base/BaseDeployInfoForm';
-  import { getAppResourceFileMetas, postStrategyDeployEnvironmentApps } from '@/api';
+  import {
+    getAppResourceFileMetas,
+    getStrategyDeployEnvironmentAppsDetail,
+    postStrategyDeployEnvironmentApps,
+  } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import { positiveInteger, required } from '@/utils/rules';
-  import StrategyDeploy from '@/views/resource/deploy/mixins/deploy';
 
   export default {
     name: 'BlueGreen',
@@ -162,7 +165,7 @@
       AnalysisTemplateItem,
       BaseDeployInfoForm,
     },
-    mixins: [BaseResource, StrategyDeploy],
+    mixins: [BaseResource],
     data() {
       return {
         dialog: false,
@@ -196,10 +199,12 @@
           autoPromotionEnabledRules: [required],
           autoPromotionSecondsRules: [positiveInteger],
         },
+        runtime: {},
       };
     },
     computed: {
       ...mapState(['Circular']),
+      ...mapGetters(['Tenant', 'Project', 'Environment']),
       updatePolicyitems() {
         return [
           { text: this.$t('tip.manual'), value: 'manual' },
@@ -217,6 +222,15 @@
         if (this.runtime.strategy.type === 'BlueGreen') {
           this.obj = deepCopy(this.runtime);
         }
+      },
+      async strategyDeployEnvironmentAppsDetail() {
+        const data = await getStrategyDeployEnvironmentAppsDetail(
+          this.Tenant().ID,
+          this.Project().ID,
+          this.Environment().ID,
+          this.$route.params.name,
+        );
+        this.runtime = data;
       },
       async strategyDeployEnvironmentApps() {
         if (this.$refs.baseDeployInfoForm.validate() && this.$refs.form.validate(true)) {

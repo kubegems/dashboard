@@ -56,14 +56,13 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import BaseDeployInfoForm from './base/BaseDeployInfoForm';
-  import { postStrategyDeployEnvironmentApps } from '@/api';
+  import { getStrategyDeployEnvironmentAppsDetail, postStrategyDeployEnvironmentApps } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
-  import StrategyDeploy from '@/views/resource/deploy/mixins/deploy';
 
   export default {
     name: 'RollingUpdate',
@@ -73,7 +72,6 @@
     components: {
       BaseDeployInfoForm,
     },
-    mixins: [StrategyDeploy],
     data() {
       return {
         dialog: false,
@@ -94,10 +92,12 @@
           maxUnavailableRules: [required],
           maxSurgeRules: [required],
         },
+        runtime: {},
       };
     },
     computed: {
       ...mapState(['Circular']),
+      ...mapGetters(['Tenant', 'Project', 'Environment']),
     },
     methods: {
       open() {
@@ -108,6 +108,15 @@
         if (this.runtime.strategy.type === 'RollingUpdate') {
           this.obj = deepCopy(this.runtime);
         }
+      },
+      async strategyDeployEnvironmentAppsDetail() {
+        const data = await getStrategyDeployEnvironmentAppsDetail(
+          this.Tenant().ID,
+          this.Project().ID,
+          this.Environment().ID,
+          this.$route.params.name,
+        );
+        this.runtime = data;
       },
       async strategyDeployEnvironmentApps() {
         if (this.$refs.baseDeployInfoForm.validate() && this.$refs.form.validate(true)) {

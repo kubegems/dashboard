@@ -316,10 +316,10 @@
         if (this.ruleIndex > -1) {
           this.resource = {
             ...this.ruleObj,
-            resource: this.resourceObj?.name,
+            resource: this.resourceObj?.name || this.generator?.resource,
             resourceShowName: this.resourceObj?.showName,
-            rule: this.ruleObj?.name,
-            scope: this.scopeObj?.name,
+            rule: this.ruleObj?.name || this.generator?.rule,
+            scope: this.scopeObj?.name || this.generator?.scope,
             namespaced: this.scopeObj?.namespaced,
           };
           this.items = [this.resource];
