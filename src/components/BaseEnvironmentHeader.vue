@@ -357,10 +357,18 @@
   const cluster: ComputedRef<Cluster> = computed(() => {
     return state.edgeClusterPagination[state.edgeCluster] as Cluster;
   });
+  let name: string = route.name;
+  let query = route.query;
+  let param = route.params;
   const selectCluster = async (isEdge = false): Promise<void> => {
     if (isEdge) {
       if (cluster.value?.Status === 'Online') {
         store.commit('SET_EDGE', cluster.value.ClusterName);
+        if (route.name === 'environment-detail') {
+          name = 'edge-detail';
+          query = { ...query, edgeName: cluster.value.ClusterName };
+          param = { ...param, name: cluster.value.ClusterName };
+        }
       } else {
         store.commit('SET_SNACKBAR', {
           text: i18n.t('tip.node_offline'),
@@ -370,14 +378,22 @@
       }
     } else {
       store.commit('SET_EDGE', '');
+      await store.dispatch('INIT_PLUGINS', environment.value.Cluster.ClusterName);
+      if (route.name === 'edge-detail') {
+        name = 'environment-detail';
+        query = {};
+      }
     }
     await router.replace({
+      name: name,
       params: {
+        ...param,
         tenant: store.getters.Tenant().TenantName,
         project: project.value.ProjectName,
         environment: environment.value.EnvironmentName,
       },
       query: {
+        ...query,
         timestamp: Date.parse(new Date().toString()).toString(),
       },
     });

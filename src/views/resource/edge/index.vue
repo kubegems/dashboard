@@ -303,9 +303,10 @@
     edgeCluster.value.open();
   };
   const edgeDetail = (item: EdgeCluster): void => {
+    store.commit('SET_EDGE', item.metadata.name);
     router.push({
       name: 'edge-detail',
-      params: { name: item.metadata.name, ...route.params },
+      params: { ...route.params, name: item.metadata.name },
       query: { edgeName: item.metadata.name },
     });
   };

@@ -131,7 +131,7 @@
       return true;
     } else {
       if (store.state.Edge) return edge && store.getters.Environment().AllowEdgeRegistration;
-      else return true;
+      else return !Boolean(edge);
     }
   };
 

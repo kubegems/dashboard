@@ -482,7 +482,10 @@ const store: Store<{ [key: string]: any }> = new Store({
       let refresh = false;
       if (state.AdminViewport && state.LatestCluster.cluster !== getters.Cluster().ClusterName) {
         refresh = true;
-      } else if (!state.AdminViewport && state.LatestEnvironment.cluster !== getters.Environment().ClusterName) {
+      } else if (
+        (!state.AdminViewport && state.LatestEnvironment.cluster !== getters.Environment().ClusterName) ||
+        state.Edge
+      ) {
         refresh = true;
       }
       if ((!state.PluginsInterval && state.JWT) || refresh) {

@@ -15,6 +15,7 @@
  */
 import axios from 'axios';
 
+import { Cluster } from './cluster';
 import { Project } from './project';
 import { ResourceRole, UserRole } from './role';
 import { User } from './user';
@@ -25,6 +26,7 @@ export class Environment implements UserRole<Environment> {
   }
 
   ID: number;
+  Cluster?: Cluster;
   ClusterID: number;
   DeletePolicy: string;
   EnvironmentName: string;

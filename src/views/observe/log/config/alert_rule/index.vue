@@ -88,7 +88,6 @@
           single-expand
           @click:row="onRowClick"
           @item-selected="selectRule"
-          @page-count="pageCount = $event"
           @toggle-select-all="selectAllRule"
         >
           <template #[`item.name`]="{ item }">

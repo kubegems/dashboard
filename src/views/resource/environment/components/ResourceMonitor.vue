@@ -27,7 +27,6 @@
       <v-row>
         <v-col cols="6">
           <BaseAreaChart
-            id="cpu"
             label="environment"
             :label-show="false"
             :metrics="cpu"
@@ -37,7 +36,6 @@
         </v-col>
         <v-col cols="6">
           <BaseAreaChart
-            id="memory"
             label="environment"
             :label-show="false"
             :metrics="memory"
@@ -49,7 +47,6 @@
       <v-row>
         <v-col cols="6">
           <BaseAreaChart
-            id="networkin"
             label="environment"
             :label-show="false"
             :metrics="networkin"
@@ -59,7 +56,6 @@
         </v-col>
         <v-col cols="6">
           <BaseAreaChart
-            id="networkout"
             label="environment"
             :label-show="false"
             :metrics="networkout"

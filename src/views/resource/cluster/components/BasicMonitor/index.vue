@@ -39,7 +39,6 @@
           <div :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`" :style="{ flexGrow: 2 }">
             <div class="white--text mt-3 text-caption px-5">{{ $t('tip.api_success_rate') }}</div>
             <BaseAreaChart
-              id="api_rate"
               chart-type="line"
               class="px-4 float-right"
               :color="['#ffffff']"

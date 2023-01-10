@@ -13,7 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { useStore } from '@/store';
+import { Matrix, Vector } from '@/types/prometheus';
 import { PrometheusProbe } from '@/types/prometheus_probe';
+
+const store = useStore();
 
 export const usePrometheusProbePagination = async (
   probe: PrometheusProbe,
@@ -32,4 +36,20 @@ export const usePrometheusProbePagination = async (
     page: _data.CurrentPage,
     size: _data.CurrentSize,
   } as Pagination<PrometheusProbe>;
+};
+
+export const useMatrixWhitPermission = async (cluster: string, query: KubeRequest = {}): Promise<any> => {
+  if (store.state.Plugins?.['monitoring'] || query.pass) {
+    const data = await new Matrix().getMatrix(cluster, query);
+    return data;
+  }
+  return [];
+};
+
+export const useVectorWhitPermission = async (cluster: string, query: KubeRequest = {}): Promise<any> => {
+  if (store.state.Plugins?.['monitoring'] || query.pass) {
+    const data = await new Vector().getVector(cluster, query);
+    return data;
+  }
+  return [];
 };

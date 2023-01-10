@@ -21,7 +21,6 @@
       <v-row class="mt-2">
         <v-col cols="4">
           <BaseRadialBarChart
-            id="node_cpu"
             class="my-3"
             :extend-height="200"
             :metrics="cpuSeries"
@@ -33,7 +32,6 @@
         </v-col>
         <v-col cols="4">
           <BaseRadialBarChart
-            id="node_memory"
             class="my-3"
             :extend-height="200"
             :metrics="memorySeries"
@@ -45,7 +43,6 @@
         </v-col>
         <v-col cols="4">
           <BaseRadialBarChart
-            id="node_pod"
             class="my-3"
             :extend-height="200"
             :metrics="podSeries"
@@ -61,7 +58,6 @@
         <v-row v-if="showMore && tke">
           <v-col cols="4">
             <BaseRadialBarChart
-              id="node_tke_gpu"
               class="my-3"
               :extend-height="200"
               :metrics="gpuTkeSeries"
@@ -75,7 +71,6 @@
           </v-col>
           <v-col cols="4">
             <BaseRadialBarChart
-              id="node_tke_memory"
               class="my-3"
               :extend-height="200"
               :metrics="gpuTkeMemorySeries"
@@ -96,7 +91,6 @@
         <v-row v-if="showMore && nvidia">
           <v-col cols="4">
             <BaseRadialBarChart
-              id="node_nvidia_gpu"
               class="my-3"
               :extend-height="200"
               :metrics="gpuNvidiaSeries"

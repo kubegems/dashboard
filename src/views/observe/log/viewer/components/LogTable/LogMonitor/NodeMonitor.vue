@@ -42,13 +42,7 @@
           />
         </v-col>
         <v-col cols="6">
-          <BaseAreaChart
-            id="memoryUsed"
-            label="name"
-            :metrics="memoryUsed"
-            :title="$t('tip.memory_used_status')"
-            type="memory"
-          />
+          <BaseAreaChart label="name" :metrics="memoryUsed" :title="$t('tip.memory_used_status')" type="memory" />
         </v-col>
       </v-row>
       <v-row>

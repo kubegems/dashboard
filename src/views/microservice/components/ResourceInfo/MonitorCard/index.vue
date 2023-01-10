@@ -50,7 +50,6 @@
 
         <div class="mx-4">
           <BaseAreaChart
-            id="requests"
             :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
             :extend-height="80"
             :global-plugins-check="false"
@@ -84,7 +83,6 @@
 
         <div class="mx-4">
           <BaseAreaChart
-            id="avgresponsetime"
             :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
             :extend-height="80"
             :global-plugins-check="false"
@@ -124,7 +122,6 @@
 
         <div class="mx-4">
           <BaseAreaChart
-            id="errrequests"
             :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
             :extend-height="80"
             :global-plugins-check="false"
@@ -162,7 +159,6 @@
 
         <div class="mx-4">
           <BaseAreaChart
-            id="network"
             :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
             :extend-height="80"
             :global-plugins-check="false"

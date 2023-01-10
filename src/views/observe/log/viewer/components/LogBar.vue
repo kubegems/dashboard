@@ -17,7 +17,6 @@
 <template>
   <v-flex :class="`pa-0`">
     <BaseBarChart
-      id="log_bar"
       :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
       :color="color"
       :extend-height="180"

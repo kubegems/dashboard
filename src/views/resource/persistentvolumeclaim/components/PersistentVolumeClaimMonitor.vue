@@ -29,22 +29,10 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseAreaChart
-            id="used"
-            label="persistentvolumeclaim"
-            :metrics="used"
-            :title="$t('tip.used')"
-            type="storage"
-          />
+          <BaseAreaChart label="persistentvolumeclaim" :metrics="used" :title="$t('tip.used')" type="storage" />
         </v-col>
         <v-col cols="6">
-          <BaseAreaChart
-            id="inode"
-            label="persistentvolumeclaim"
-            :metrics="inodeused"
-            :title="$t('tip.inode_rate')"
-            type=""
-          />
+          <BaseAreaChart label="persistentvolumeclaim" :metrics="inodeused" :title="$t('tip.inode_rate')" type="" />
         </v-col>
       </v-row>
     </v-card-text>

@@ -236,7 +236,7 @@
           return true;
         } else {
           if (this.Edge) return edge && this.Environment().AllowEdgeRegistration;
-          else return true;
+          else return !Boolean(edge);
         }
       },
       reloadSidebar() {
