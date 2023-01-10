@@ -150,7 +150,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import AnalysisTemplateForm from './analysis_template/AnalysisTemplateForm';
@@ -159,11 +159,14 @@
   import DefaultTraffic from './traffic/DefaultTraffic';
   import HeaderTraffic from './traffic/HeaderTraffic';
   import UriTraffic from './traffic/UriTraffic';
-  import { getAppResourceFileMetas, postStrategyDeployEnvironmentApps } from '@/api';
+  import {
+    getAppResourceFileMetas,
+    getStrategyDeployEnvironmentAppsDetail,
+    postStrategyDeployEnvironmentApps,
+  } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import { positiveInteger, required } from '@/utils/rules';
-  import StrategyDeploy from '@/views/resource/deploy/mixins/deploy';
 
   export default {
     i18n: {
@@ -178,7 +181,7 @@
       HeaderTraffic,
       UriTraffic,
     },
-    mixins: [BaseResource, StrategyDeploy],
+    mixins: [BaseResource],
     data() {
       return {
         dialog: false,
@@ -209,10 +212,12 @@
           istioVersion: '',
         },
         tab: 0,
+        runtime: {},
       };
     },
     computed: {
       ...mapState(['Circular']),
+      ...mapGetters(['Tenant', 'Project', 'Environment']),
       canaryRules() {
         const rule = {
           trafficRoutingRule: [required],
@@ -251,6 +256,15 @@
             this.trafficRouting = 'istio';
           }
         }
+      },
+      async strategyDeployEnvironmentAppsDetail() {
+        const data = await getStrategyDeployEnvironmentAppsDetail(
+          this.Tenant().ID,
+          this.Project().ID,
+          this.Environment().ID,
+          this.$route.params.name,
+        );
+        this.runtime = data;
       },
       async strategyDeployEnvironmentApps() {
         if (

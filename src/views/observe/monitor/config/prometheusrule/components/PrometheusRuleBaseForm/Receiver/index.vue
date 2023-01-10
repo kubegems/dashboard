@@ -99,7 +99,7 @@
     mounted() {
       if (this.item) {
         // 如果是更新
-        this.obj = this.$_.merge(this.obj, deepCopy(this.item));
+        this.obj = this.$_.merge(this.item, deepCopy(this.obj));
         if (this.item.receivers) {
           this.$set(this.obj.receivers, this.item.receivers);
         }
@@ -109,7 +109,7 @@
       init(data) {
         this.$nextTick(() => {
           this.obj.receivers = [];
-          this.obj = this.$_.merge(this.obj, deepCopy(data));
+          this.obj = deepCopy(data);
         });
       },
       back(data) {
@@ -165,7 +165,7 @@
           this.obj.name,
           this.obj,
         );
-        this.obj.message = data;
+        this.$set(this.obj, 'message', data);
       },
     },
   };
