@@ -32,7 +32,6 @@
                   hide-selected
                   :items="[]"
                   multiple
-                  :rules="objRules.commandRule"
                   :search-input.sync="commandText"
                   @change="onCommandChange"
                   @keydown.enter="createCommand"
@@ -156,7 +155,6 @@
 <script>
   import messages from '../../../../i18n';
   import { deepCopy } from '@/utils/helpers';
-  import { required } from '@/utils/rules';
 
   export default {
     name: 'ContainerRunCommand',
@@ -178,9 +176,6 @@
         obj: {
           commands: [],
           args: [],
-        },
-        objRules: {
-          commandRule: [required],
         },
         containerCopy: null,
       };

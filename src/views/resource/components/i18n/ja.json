@@ -25,7 +25,7 @@
     "http_check": "HTTPリクエストの確認",
     "shell_check": "コマンドのチェック実行",
     "tcp_check": "TCPポートチェック",
-    "delay_msg": "{0}の初期遅延&nbsp;{1}s&nbsp;周波数{2}s",
+    "delay_msg": "{0}の初期遅延;{1}s;周波数{2}s",
     "path": "パス",
     "port": "ポート",
     "command": "コマンド",
