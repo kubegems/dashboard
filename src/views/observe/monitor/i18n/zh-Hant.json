@@ -98,7 +98,14 @@
     "label": "標籤名",
     "operate": "表達式",
     "label_value": "標籤值",
-    "need_copy": "需要復制的規則"
+    "need_copy": "需要復制的規則",
+    "base_info": "基本信息",
+    "address": " 站點",
+    "http_version": "HTTP版本",
+    "tls_version": "TLS版本",
+    "http_cert_expired": "證書過期時間",
+    "disabled": "未啟用",
+    "enabled": "啟用"
   },
   "tab": {
     "generate_from_template": "由模版生成",

@@ -117,3 +117,7 @@ export const PROBE_DURATION_PROMQL = `probe_duration_seconds{job='probe/$1'}`;
 export const PROBE_AVG_DURATION_PROMQL = `avg_over_time(probe_duration_seconds{job="probe/$1", instance="$2"}[30m])`;
 export const PROBE_MAX_DURATION_PROMQL = `max_over_time(probe_duration_seconds{job="probe/$1", instance="$2"}[30m])`;
 export const PROBE_AVAILABILITY_PROMQL = `probe_success{job="probe/$1", instance="$2"}`;
+export const PROBE_HTTPS_ENABLED_PROMQ = `probe_http_ssl{job="probe/$1"}`;
+export const PROBE_HTTP_VERSION_PROMQ = `probe_http_version{job="probe/$1"}`;
+export const PROBE_HTTP_TLS_VERSION_PROMQ = `probe_tls_version_info{job="probe/$1"}`;
+export const PROBE_HTTP_CERT_EXPIRY_PROMQ = `probe_ssl_earliest_cert_expiry{job="probe/$1"}`;
