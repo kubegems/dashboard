@@ -124,14 +124,14 @@
     return pass;
   };
 
-  const passEdge = (edge: string): boolean => {
+  const passEdge = (edge: string | boolean): boolean => {
     if (edge === undefined) return true;
     if (store.state.AdminViewport) {
       if (store.state.Edge) return Boolean(edge);
       return true;
     } else {
       if (store.state.Edge) return edge && store.getters.Environment().AllowEdgeRegistration;
-      else return !Boolean(edge);
+      else return !Boolean(edge) || (edge === 'check' && store.getters.Environment().AllowEdgeRegistration);
     }
   };
 

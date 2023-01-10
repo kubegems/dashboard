@@ -105,6 +105,7 @@
         this.obj.extend.validate = data.connectable ? 'success' : 'error';
         this.obj.extend.clusterName = data.clusterName;
         this.obj.extend.existInstaller = data.existInstaller;
+        this.obj.DefaultStorageClass = data.globalValues.storageClass;
         this.$emit('refresh', this.obj);
       },
       validate() {

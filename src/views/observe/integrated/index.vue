@@ -112,6 +112,7 @@
               { name: 'elasticsearch', chart: 'prometheus-elasticsearch-exporter' },
               { name: 'memcached', chart: 'prometheus-memcached-exporter' },
               { name: 'mongodb', chart: 'prometheus-mongodb-exporter' },
+              { name: 'mongodb v2', chart: 'prometheus-mongodb-exporter-v2' },
               { name: 'mysql', chart: 'prometheus-mysql-exporter' },
               { name: 'rabbitmq', chart: 'prometheus-rabbitmq-exporter' },
               { name: 'redis', chart: 'prometheus-redis-exporter' },

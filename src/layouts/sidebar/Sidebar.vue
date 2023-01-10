@@ -236,7 +236,7 @@
           return true;
         } else {
           if (this.Edge) return edge && this.Environment().AllowEdgeRegistration;
-          else return !Boolean(edge);
+          else return !Boolean(edge) || (edge === 'check' && this.Environment().AllowEdgeRegistration);
         }
       },
       reloadSidebar() {
