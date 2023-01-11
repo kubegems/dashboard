@@ -17,7 +17,11 @@ const ParamsMixin: { [key: string]: any } = {
       if (this.devMode) {
         return await postModelApidev(body);
       } else {
-        return await postModelApi(this.instance.namespace, this.instance.name, body);
+        return await postModelApi(
+          this.instance.namespace || this.instance.metadata.namespace,
+          this.instance.name || this.instance.metadata.name,
+          body,
+        );
       }
     },
     parseResult(response: InferenceResponse): Record<string, any>[] {

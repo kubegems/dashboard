@@ -186,6 +186,11 @@
               </template>
               <v-card>
                 <v-card-text class="pa-2">
+                  <v-flex v-if="item.spec.model.source === 'huggingface' || item.spec.model.source === 'openmmlab'">
+                    <v-btn color="primary" small text @click="experienceModel(item)">
+                      {{ $t('operate.experience') }}
+                    </v-btn>
+                  </v-flex>
                   <v-flex>
                     <v-btn color="primary" small text @click="updateModelRuntime(item)">
                       {{ $root.$t('operate.edit') }}
@@ -216,10 +221,12 @@
     <LinkApp ref="linkApp" @refresh="appRunningList" />
     <DeployApp ref="deployApp" @refresh="appRunningList" />
     <UpdateModelRuntime ref="updateModelRuntime" @refresh="appRunningList" />
+    <ModelExperience ref="modelExperience" :item="item" />
   </v-container>
 </template>
 
 <script>
+  import { Base64 } from 'js-base64';
   import { mapGetters, mapState } from 'vuex';
 
   import AppStatusTip from './components/AppStatusTip';
@@ -234,12 +241,14 @@
     getAppStoreRunningList,
     getAppTaskList,
     getModelRuntimePodList,
+    getModelStoreDetail,
   } from '@/api';
   import { ARGO_STATUS_COLOR, POD_STATUS_COLOR } from '@/constants/resource';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
+  import ModelExperience from '@/views/modelstore/components/detail_tabs/Runtime/components/ModelExperience';
   import DeployApp from '@/views/resource/appmanifest/components/DeployApp';
   import LinkApp from '@/views/resource/appmanifest/components/LinkApp';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
@@ -253,6 +262,7 @@
       AppStatusTip,
       DeployApp,
       LinkApp,
+      ModelExperience,
       NamespaceFilter,
       TaskStatusTip,
       UpdateModelRuntime,
@@ -275,6 +285,7 @@
           size: 10,
         },
         tab: this.tabMap[this.$route.query.tab] || 0,
+        item: {},
       };
     },
     computed: {
@@ -623,6 +634,15 @@
       updateModelRuntime(item) {
         this.$refs.updateModelRuntime.init(item);
         this.$refs.updateModelRuntime.open();
+      },
+      async modelDetail(item) {
+        const data = await getModelStoreDetail(item.spec.model.source, Base64.encode(item.metadata.name));
+        this.item = { ...data };
+      },
+      async experienceModel(item) {
+        await this.modelDetail(item);
+        this.$refs.modelExperience.init(item);
+        this.$refs.modelExperience.open();
       },
     },
   };

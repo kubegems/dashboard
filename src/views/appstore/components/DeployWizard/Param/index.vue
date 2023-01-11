@@ -214,7 +214,7 @@
       evalCondition(path, expectedValue = null) {
         // 从最新的appValues中获取路径对应的值
         let val = getValue(this.appValues, path);
-        if (val === undefined) {
+        if (val === undefined || val === null) {
           const target = this.getParamMatchingPath(this.allParams, path);
           val = target?.value;
         }
@@ -235,6 +235,7 @@
       },
       // 递归获取匹配路径的参数
       getParamMatchingPath(params, path) {
+        path = path.replaceAll('.', '/');
         let targetParam;
         for (const p of params) {
           if (p.path === path) {

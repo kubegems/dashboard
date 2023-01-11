@@ -9,7 +9,8 @@
     "rollback": "ロールバック",
     "auto_scale_policy": "柔軟スケーリングポリシー",
     "confirm_and_publish": "確定",
-    "upgrade_model": "モデルの更新"
+    "upgrade_model": "モデルの更新",
+    "experience": "体験する"
   },
   "tip": {
     "platform_app": "プラットフォームのアプリ",

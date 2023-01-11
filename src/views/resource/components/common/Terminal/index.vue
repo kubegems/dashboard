@@ -321,7 +321,7 @@
         };
 
         this.websock.onclose = () => {
-          this.term.setOption('cursorBlink', false);
+          // this.term.setOption('cursorBlink', false);
           this.doClose();
         };
       },
@@ -382,7 +382,7 @@
         this.websock.send(msg);
       },
       onWindowResize() {
-        this.term.fit();
+        this.term?.fit();
       },
       doLink(ev, url) {
         if (ev.type === 'click') {
@@ -421,11 +421,11 @@
       },
       doDownload(e, setFile = true) {
         if (this.terminalType === 'kubectl') return;
-        if (this.term.hasSelection()) {
+        if (this.term?.hasSelection()) {
           const reg = RegExp('^[\\w- _\\.#\\(\\)\\u4e00-\\u9fa5]*(\\.[\\w-_\\.#]*)?$', 'g');
-          const selection = this.term.getSelection().replaceAll(' ', '');
+          const selection = this.term?.getSelection().replaceAll(' ', '');
           if (selection && reg.exec(selection)) {
-            const position = this.term.getSelectionPosition();
+            const position = this.term?.getSelectionPosition();
             if (position) {
               this.top = ((position.end.y + 1) * 20 + 64) / this.Scale;
               this.left = (position.end.x * 8) / this.Scale;

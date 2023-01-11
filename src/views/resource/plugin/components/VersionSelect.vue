@@ -21,7 +21,7 @@
     :close-on-content-click="false"
     content-class="menu"
     max-height="300px"
-    max-width="180px"
+    max-width="200px"
     min-width="100px"
     nudge-bottom="5px"
     offset-y
@@ -31,7 +31,7 @@
   >
     <template #activator="{ on }">
       <div class="float-left">
-        <v-btn class="font-weight-medium primary--text" color="white" dark depressed small v-on="on">
+        <v-btn class="font-weight-medium primary--text select__btn" color="white" dark depressed small v-on="on">
           {{ version }}
           <v-icon v-if="menu" right> mdi-chevron-up </v-icon>
           <v-icon v-else right> mdi-chevron-down </v-icon>
@@ -130,3 +130,9 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .select__btn {
+    padding: 0 2px !important;
+  }
+</style>

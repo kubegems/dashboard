@@ -99,14 +99,29 @@
                   </v-list-item-content>
                 </v-list-item>
                 <v-flex class="float-right">
-                  <v-btn v-if="plugin.upgradeableVersion" color="primary" small text @click="upgradePlugin(plugin)">
+                  <v-btn
+                    v-if="plugin.upgradeableVersion"
+                    class="plugins__btn"
+                    color="primary"
+                    small
+                    text
+                    @click="upgradePlugin(plugin)"
+                  >
                     {{ $t('operate.upgrade') }}
                   </v-btn>
-                  <v-btn v-if="plugin.enabled" color="primary" small text @click="upgradePlugin(plugin)">
+                  <v-btn
+                    v-if="plugin.enabled"
+                    class="plugins__btn"
+                    color="primary"
+                    small
+                    text
+                    @click="upgradePlugin(plugin)"
+                  >
                     {{ $root.$t('operate.update') }}
                   </v-btn>
                   <v-btn
                     v-if="plugin.enabled"
+                    class="plugins__btn"
                     :color="getStatus(plugin).color"
                     :disabled="plugin.enabled && plugin.required"
                     small
@@ -115,7 +130,14 @@
                   >
                     {{ getStatus(plugin).text }}
                   </v-btn>
-                  <v-btn v-else-if="!plugin.skip" color="primary" small text @click="upgradePlugin(plugin)">
+                  <v-btn
+                    v-else-if="!plugin.skip"
+                    class="plugins__btn"
+                    color="primary"
+                    small
+                    text
+                    @click="upgradePlugin(plugin)"
+                  >
                     {{ $t('operate.install') }}
                   </v-btn>
                 </v-flex>
@@ -367,6 +389,10 @@
 
     &__install {
       line-height: 28px;
+    }
+
+    &__btn {
+      padding: 0 2px !important;
     }
   }
 </style>
