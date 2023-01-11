@@ -6,7 +6,15 @@
         <v-file-input accept="*/*" counter filled flat :label="$t('tip.voice')" show-size solo @change="onFileChange" />
       </v-col>
 
-      <v-btn class="kubegems__full-center" color="primary" icon :loading="Circular" x-large @click="submitContent">
+      <v-btn
+        class="kubegems__full-center"
+        color="primary"
+        icon
+        :loading="Circular"
+        :style="{ zIndex: 99 }"
+        x-large
+        @click="submitContent"
+      >
         <v-icon>mdi-arrow-right-bold </v-icon>
       </v-btn>
 

@@ -14,6 +14,7 @@
 | - | [perf: ⚡ support plugin requirements tips] | [6b14181](https://github.com/chenshunliang/dashboard/commit/6b1418131e12bfe84ddeb3e6a3e72abe9ca27c96) |
 | - | [perf: ⚡ support mongodb v2 for integrated center] | [3e51ecc](https://github.com/chenshunliang/dashboard/commit/3e51ecc397f598c0ede61d05efb1d23003a54d5b) |
 | - | [perf: ⚡ optimization edge cluster dashboard route path] | [147a700](https://github.com/chenshunliang/dashboard/commit/147a700f99048def195bf4387778c1088b55efac) |
+| - | [perf: ⚡ optimization http get dial panel info] | [3540ff4](https://github.com/chenshunliang/dashboard/commit/3540ff43f92b80428c36965328e7801a0487318a) |
 
 ### Bug Fixes
 
@@ -32,6 +33,7 @@
 | --- | --- | --- |
 | - | [build: :chrone: add sentry from .env file, optimization trace overview] | ([0f93576](https://github.com/chenshunliang/dashboard/commit/0f93576fb0b2daa6155552817371386b5f6ec137)) |
 | - | [perf: ⚡ optimization resource ts files] | ([ca56d68](https://github.com/chenshunliang/dashboard/commit/ca56d686d011d1c899cc2c96aad427f4ef21feea)) |
+| - | [refactor: ➕ upgrade xterm 4.19.0 => 5.1.0] | ([f091403](https://github.com/chenshunliang/dashboard/commit/f091403eab9a7904a344e03dff07b96574aa0353)) |
 
 # 1.23.0-alpha.4 (2023-1-6)
 
