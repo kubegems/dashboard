@@ -28,7 +28,7 @@
 
       <v-col class="pl-8" cols="12" md="6" :style="{ position: 'relative' }">
         <div class="text-subtitle-1 mb-3">{{ $t('tip.output') }}</div>
-        <pre>{{ output }}</pre>
+        <pre :style="{ wordBreak: 'break-all', whiteSpace: 'break-spaces' }">{{ output }}</pre>
         <div v-if="!output" class="kubegems__full-center text-subtitle-1" :style="{ marginTop: '-30px' }">
           {{ $root.$t('data.no_data') }}
         </div>
@@ -103,7 +103,7 @@
             past_user_inputs: this.conversation.past_user_inputs,
           }),
         );
-        const ret = this.infer(data);
+        const ret = await this.infer(data);
         this.output = JSON.parse(ret.outputs[0].data);
         this.conversation.uuid = this.output.uuid;
       },

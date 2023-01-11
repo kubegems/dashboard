@@ -30,7 +30,7 @@
           </div>
         </div>
         <div class="text-subtitle-1 mb-3">{{ $t('tip.image_info') }}</div>
-        <pre>{{ rawOut }}</pre>
+        <pre :style="{ wordBreak: 'break-all', whiteSpace: 'break-spaces' }">{{ rawOut }}</pre>
         <div v-if="!rawOut" class="kubegems__full-center text-subtitle-1" :style="{ marginTop: '280px' }">
           {{ $root.$t('data.no_data') }}
         </div>
@@ -96,7 +96,7 @@
         reader.onloadend = async function () {
           const b64data = reader.result.split(',')[1];
           const data = _v.composeInputs(_v.imageParam('images', b64data));
-          const ret = _v.infer(data);
+          const ret = await _v.infer(data);
           _v.rawOut = _v.parseResult(ret);
         };
         reader.readAsDataURL(_v.obj.file);

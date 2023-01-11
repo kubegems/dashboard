@@ -28,7 +28,7 @@
 
       <v-col class="pl-8" cols="12" md="6" :style="{ position: 'relative' }">
         <div class="text-subtitle-1 mb-3">{{ $t('tip.output') }}</div>
-        <pre style="word-wrap: break-word">{{ output }}</pre>
+        <pre :style="{ wordBreak: 'break-all', whiteSpace: 'break-spaces' }">{{ output }}</pre>
         <div v-if="!output" class="kubegems__full-center text-subtitle-1" :style="{ marginTop: '-30px' }">
           {{ $root.$t('data.no_data') }}
         </div>
@@ -110,7 +110,7 @@
           return;
         }
         const data = this.composeInputs(this.stringArrayParam('args', this.obj.textContent));
-        const ret = this.infer(data);
+        const ret = await this.infer(data);
         this.output = this.parseResult(ret);
       },
     },

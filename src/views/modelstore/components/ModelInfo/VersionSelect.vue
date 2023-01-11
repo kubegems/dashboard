@@ -104,7 +104,7 @@
     watch: {
       versions: {
         handler(newValue) {
-          if (newValue && newValue.length > 0) {
+          if (newValue && newValue?.length > 0) {
             this.selectVersion = newValue[0]?.name;
             this.$emit('change', this.selectVersion);
             this.$emit('input', this.selectVersion);

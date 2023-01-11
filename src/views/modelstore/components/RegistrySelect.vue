@@ -122,7 +122,7 @@
           });
           this.$emit('change', this.selectRepo);
           this.$emit('input', this.selectRepo);
-        } else if (this.repoItems.length > 0) {
+        } else if (this.repoItems?.length > 0) {
           this.selectRepo = this.repoItems[0];
           this.$emit('change', this.selectRepo);
           this.$emit('input', this.selectRepo);
