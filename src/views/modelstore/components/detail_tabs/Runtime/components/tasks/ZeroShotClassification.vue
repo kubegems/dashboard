@@ -57,7 +57,7 @@
 
       <v-col class="pl-8" cols="12" md="6" :style="{ position: 'relative' }">
         <div class="text-subtitle-1 mb-3">{{ $t('tip.output') }}</div>
-        <pre>{{ output }}</pre>
+        <pre :style="{ wordBreak: 'break-all', whiteSpace: 'break-spaces' }">{{ output }}</pre>
         <div v-if="!output" class="kubegems__full-center text-subtitle-1" :style="{ marginTop: '-30px' }">
           {{ $root.$t('data.no_data') }}
         </div>
@@ -136,7 +136,7 @@
           this.stringParam('sequences', this.obj.textContent),
           this.jsonParams('candidate_labels', this.obj.tags),
         );
-        const ret = this.infer(data);
+        const ret = await this.infer(data);
         this.output = this.parseResult(ret);
       },
       createTag() {

@@ -66,7 +66,10 @@ export const postModelApi = (
   environment: string,
   name: string,
   body: { [key: string]: any } = {},
-): Promise<InferenceResponse> => axios.post(`${environment}/${name}/v2/models/model/infer`, body);
+): Promise<InferenceResponse> =>
+  axios.post(`${environment}/${name}/v2/models/model/infer`, body, {
+    timeout: 60 * 1000,
+  });
 
 export const postModelApidev = (body: { [key: string]: any } = {}): Promise<InferenceResponse> =>
-  axios.post(`v2/models/model/infer`, body);
+  axios.post(`v2/models/model/infer`, body, { timeout: 60 * 1000 });

@@ -469,7 +469,7 @@ const store: Store<{ [key: string]: any }> = new Store({
       type doHandle = () => Promise<boolean>;
       const doFunc: doHandle = async (): Promise<boolean> => {
         const cluster: string = payload;
-        if (cluster && cluster.length > 0) {
+        if (cluster && cluster?.length > 0) {
           const data: any = await getClusterPluginsList(cluster, {
             simple: true,
             noprocessing: true,

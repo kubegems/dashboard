@@ -21,7 +21,7 @@ const ParamsMixin: { [key: string]: any } = {
       }
     },
     parseResult(response: InferenceResponse): Record<string, any>[] {
-      if (response.outputs.length > 0) {
+      if (response.outputs?.length > 0) {
         const ret: Record<string, any>[] = [];
         response.outputs[0].data.forEach((el) => {
           ret.push(jsonParse(el));
