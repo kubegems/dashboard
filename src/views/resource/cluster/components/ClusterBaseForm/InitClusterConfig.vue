@@ -138,6 +138,10 @@
       init(data) {
         this.$nextTick(() => {
           this.obj = deepCopy(data);
+          if (this.obj.extend.existInstaller) {
+            this.obj.Primary = true;
+            this.onPrimaryChange();
+          }
         });
       },
       back(data) {

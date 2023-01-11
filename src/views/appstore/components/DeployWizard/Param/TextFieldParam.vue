@@ -70,34 +70,35 @@
         if (this.param.minLength === 0) {
           return [];
         } else if (this.param.minLength > 0) {
-          let rule = [(v) => v?.length >= this.param.minLength || $t('ruler.lt_min', [this.param.minLength])];
+          let rule = [(v) => v?.length >= this.param.minLength || this.$t('ruler.lt_min', [this.param.minLength])];
           if (this.param.maxLength) {
             rule = rule.concat([
-              (v) => v?.length <= this.param.maxLength || $t('ruler.gt_max', [this.param.maxLength]),
+              (v) => v?.length <= this.param.maxLength || this.$t('ruler.gt_max', [this.param.maxLength]),
             ]);
           }
           return rule;
         }
         if (this.param.minimum && this.param.maximum) {
           return [
-            (v) => parseFloat(v || 0) >= this.param.minimum || $t('ruler.lt_min', [this.param.minimum]),
-            (v) => parseFloat(v || 0) <= this.param.maximum || $t('ruler.gt_max', [this.param.maximum]),
+            (v) => parseFloat(v || 0) >= this.param.minimum || this.$t('ruler.lt_num_min', [this.param.minimum]),
+            (v) => parseFloat(v || 0) <= this.param.maximum || this.$t('ruler.gt_num_max', [this.param.maximum]),
           ];
         }
         if (this.param.pattern) {
-          return (v) => !v || !!new RegExp(this.param.pattern).test(v) || $t('ruler.regexp', [this.param.pattern]);
+          return (v) => !v || !!new RegExp(this.param.pattern).test(v) || this.$t('ruler.regexp', [this.param.pattern]);
         }
         if (this.param.format === 'duration') {
           return [required, timeInterval];
         } else if (this.param.format === 'date-time') {
           return [
             required,
-            (v) => !v || !!new RegExp('(^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$)').test(v) || $t('ruler.datetime'),
+            (v) =>
+              !v || !!new RegExp('(^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$)').test(v) || this.$t('ruler.datetime'),
           ];
         } else if (this.param.format === 'time') {
-          return [required, (v) => !v || !!new RegExp('(^\\d{2}:\\d{2}:\\d{2}$)').test(v) || $t('ruler.time')];
+          return [required, (v) => !v || !!new RegExp('(^\\d{2}:\\d{2}:\\d{2}$)').test(v) || this.$t('ruler.time')];
         } else if (this.param.format === 'date') {
-          return [required, (v) => !v || !!new RegExp('(^\\d{4}-\\d{2}-\\d{2}$)').test(v) || $t('ruler.date')];
+          return [required, (v) => !v || !!new RegExp('(^\\d{4}-\\d{2}-\\d{2}$)').test(v) || this.$t('ruler.date')];
         }
         return [required];
       },

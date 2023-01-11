@@ -9,7 +9,8 @@
     "rollback": "回滚",
     "auto_scale_policy": "弹性伸缩策略",
     "confirm_and_publish": "确定并发布",
-    "upgrade_model": "更新模型"
+    "upgrade_model": "更新模型",
+    "experience": "体验"
   },
   "tip": {
     "platform_app": "平台应用",

@@ -116,7 +116,8 @@
     "publish_comment": "コメントを投稿",
     "publish_reply": "返信を投稿する",
     "reply_c": "{0} に返信",
-    "view_deploy_status": "展開する状態を確認する"
+    "view_deploy_status": "展開する状態を確認する",
+    "experience": "体験する"
   },
   "form": {
     "cpu_rule": "フォーマットが正しくありません(例: 1m,1)",

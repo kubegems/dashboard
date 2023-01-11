@@ -61,7 +61,9 @@
     "datetime": "Error (example: YYYY-MM-ddTHH:mm:ss)",
     "regexp": "Error (example: regexp {0})",
     "lt_min": "Error (less than {0} character)",
-    "gt_max": "Error (more than {0} character)"
+    "gt_max": "Error (more than {0} character)",
+    "gt_num_max": "Error (more than {0})",
+    "lt_num_max": "Error (less than {0})"
   },
 
   "role": {

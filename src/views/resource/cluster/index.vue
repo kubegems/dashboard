@@ -40,6 +40,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   import CloudCluster from './components/CloudCluster';
   import EdgeCluster from './components/EdgeCluster';
   import messages from './i18n';
@@ -64,11 +66,13 @@
       };
     },
     computed: {
+      ...mapState(['GlobalPlugins']),
       tabItems() {
-        return [
-          { text: this.$t('tab.cloud_cluster'), value: 'CloudCluster', icon: 'kubernetes', tab: 'cloud' },
-          { text: this.$t('tab.edge_cluster'), value: 'EdgeCluster', icon: 'k3s', tab: 'edge' },
-        ];
+        const tabs = [{ text: this.$t('tab.cloud_cluster'), value: 'CloudCluster', icon: 'kubernetes', tab: 'cloud' }];
+        if (this.GlobalPlugins['kubegems-edge']) {
+          tabs.push({ text: this.$t('tab.edge_cluster'), value: 'EdgeCluster', icon: 'k3s', tab: 'edge' });
+        }
+        return tabs;
       },
     },
     mounted() {
@@ -77,7 +81,7 @@
     methods: {
       onTabChange() {
         this.$router.replace({
-          query: { tab: this.tabItems[this.tab].tab, ...this.$route.query },
+          query: { ...this.$route.query, tab: this.tabItems[this.tab].tab },
         });
       },
     },

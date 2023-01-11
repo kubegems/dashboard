@@ -43,15 +43,18 @@
   import CloudCluster from './CloudCluster.vue';
   import EdgeCluster from './EdgeCluster.vue';
   import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();
+  const store = useStore();
 
   const state = reactive({
     tab: 0,
   });
-  const tabItems = ref([
-    { text: i18nLocal.t('tab.cloud_cluster'), value: CloudCluster, icon: 'kubernetes' },
-    { text: i18nLocal.t('tab.edge_cluster'), value: EdgeCluster, icon: 'k3s' },
-  ]);
+
+  const tabItems = ref<any[]>([{ text: i18nLocal.t('tab.cloud_cluster'), value: CloudCluster, icon: 'kubernetes' }]);
+  if (store.state.GlobalPlugins['kubegems-edge']) {
+    tabItems.value.push({ text: i18nLocal.t('tab.edge_cluster'), value: EdgeCluster, icon: 'k3s' });
+  }
 </script>

@@ -32,7 +32,11 @@
         <v-btn class="kubegems__full-center" color="primary" small @click="renderSchema">>></v-btn>
       </v-col>
       <v-col cols="5">
-        <v-card :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded-0`" :height="height - 120">
+        <v-card
+          :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded-0`"
+          :height="height - 120"
+          :style="{ overflowY: 'auto' }"
+        >
           <JsonSchema
             ref="jsonSchema"
             :app-values="appValues"
