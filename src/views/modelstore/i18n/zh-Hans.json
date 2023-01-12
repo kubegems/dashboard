@@ -129,7 +129,7 @@
     "publish_reply": "发表回复",
     "reply_c": "回复{0}",
     "view_deploy_status": "查看部署状态",
-    "experience": "体验"
+    "experience": "预览"
   },
   "form": {
     "cpu_rule": "格式错误(示例:1m,1)",

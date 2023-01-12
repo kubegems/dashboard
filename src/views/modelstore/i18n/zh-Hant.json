@@ -120,7 +120,7 @@
     "publish_reply": "發表回復",
     "reply_c": "回覆{0}",
     "view_deploy_status": "查看部署狀態",
-    "experience": "體驗"
+    "experience": "預覽"
   },
   "form": {
     "cpu_rule": "格式錯誤（範例：1m，1）",

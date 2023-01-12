@@ -1,6 +1,7 @@
-import { Conversation, InferenceResponse } from './../../../../../../types/modelstore';
 import { postModelApi, postModelApidev } from '@/api';
+import { Conversation, InferenceResponse } from '@/types/modelstore';
 import { jsonParse } from '@/utils/helpers';
+
 const ParamsMixin: { [key: string]: any } = {
   props: {
     devMode: {
