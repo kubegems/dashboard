@@ -23,7 +23,7 @@
     "forbid": "禁用",
     "active": "激活",
     "forbid_c": "禁用{0}",
-    "active_C": "激活{0}",
+    "active_c": "激活{0}",
     "check": "校验",
 
     "cancel_auth_flag": "取消认证标识",

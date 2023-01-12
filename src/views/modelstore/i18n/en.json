@@ -87,7 +87,8 @@
     "image_preview": "Image preview",
     "image_info": "Image info",
     "upload_voice_tip": "Please upload voice file",
-    "copyed": "Copied to Clipboard"
+    "copyed": "Copied to Clipboard",
+    "status_error": "Model Instance Status Error"
   },
   "tab": {
     "description": "Introduction",

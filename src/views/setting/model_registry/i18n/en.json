@@ -23,7 +23,7 @@
     "forbid": "Disabled",
     "active": "Activate",
     "forbid_c": "Disable {0}",
-    "active_C": "Activate {0}",
+    "active_c": "Activate {0}",
     "check": "Validation",
 
     "cancel_auth_flag": "Cancel authentication mark",

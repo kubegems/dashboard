@@ -84,7 +84,8 @@
     "image_preview": "画像プレビュー",
     "image_info": "画像情報",
     "upload_voice_tip": "音声ファイルをアップロードしてください",
-    "copyed": "クリップボードにコピーしました"
+    "copyed": "クリップボードにコピーしました",
+    "status_error": "モデル インスタンスの状態が異常です"
   },
   "tab": {
     "description": "はじめに",

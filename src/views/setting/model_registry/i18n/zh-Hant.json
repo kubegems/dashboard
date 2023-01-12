@@ -23,7 +23,7 @@
     "forbid": "禁用",
     "active": "啟動",
     "forbid_c": "關閉{0}",
-    "active_C": "啟動{0}",
+    "active_c": "啟動{0}",
     "check": "校驗",
 
     "cancel_auth_flag": "取消認證標識",

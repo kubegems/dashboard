@@ -640,6 +640,13 @@
         this.item = { ...data };
       },
       async experienceModel(item) {
+        if (item?.status?.phase !== 'Running') {
+          this.$store.commit('SET_SNACKBAR', {
+            text: this.$t('tip.status_error'),
+            color: 'warning',
+          });
+          return;
+        }
         await this.modelDetail(item);
         this.$refs.modelExperience.init(item);
         this.$refs.modelExperience.open();

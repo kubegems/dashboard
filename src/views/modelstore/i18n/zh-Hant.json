@@ -86,7 +86,8 @@
     "image_preview": "圖片預覽",
     "image_info": "圖片信息",
     "upload_voice_tip": "請上傳語音文件",
-    "copyed": "已複製到粘貼板"
+    "copyed": "已複製到粘貼板",
+    "status_error": "模型實例狀態異常"
   },
   "tab": {
     "description": "介紹",

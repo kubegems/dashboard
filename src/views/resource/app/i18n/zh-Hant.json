@@ -31,7 +31,8 @@
     "port_name": "端口名稱",
     "container_port": "容器端口",
     "host_address": "主機位址",
-    "host_port": "主機端口"
+    "host_port": "主機端口",
+    "status_error": "模型實例狀態異常"
   },
   "table": {
     "name": "應用名稱",

@@ -17,7 +17,15 @@ const ParamsMixin: { [key: string]: any } = {
       if (this.devMode) {
         return await postModelApidev(body);
       } else {
+        const url = this.instance?.status?.url || this.instance?.url;
+        const baseRex = new RegExp('(http[s]?://.*?)/.*', 'g');
+        const match = baseRex.exec(url);
+        let modelBaseUrl = '';
+        if (match && match?.length > 1) {
+          modelBaseUrl = match[1];
+        }
         return await postModelApi(
+          modelBaseUrl,
           this.instance.namespace || this.instance.metadata.namespace,
           this.instance.name || this.instance.metadata.name,
           body,

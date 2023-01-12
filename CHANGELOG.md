@@ -26,6 +26,7 @@
 | - | [fix: 🐛 fix monitor template detail page list graphs error bug ] | ([9781b1f](https://github.com/chenshunliang/dashboard/commit/9781b1fb57460ae896971257c5f2def9869b920c)) |
 | - | [fix: 🐛 fix update monitor rule label matchers not effect bug ] | ([35cf874](https://github.com/chenshunliang/dashboard/commit/35cf874dd8d67bece8d1f9f4b5cb7f2e3d16a5be)) |
 | - | [fix: 🐛 remove required validate for container command and args ] | ([d345930](https://github.com/chenshunliang/dashboard/commit/d34593041357964d761d56cab45e74dc52604130)) |
+| - | [fix: 🐛 fix jsonschema render hidden condition default value not correct bug ] | ([d345930](https://github.com/chenshunliang/dashboard/commit/d34593041357964d761d56cab45e74dc52604130)) |
 
 ### 🔨 reflactor
 
