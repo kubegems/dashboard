@@ -18,6 +18,7 @@
   <v-menu
     v-model="menu"
     bottom
+    :close-on-click="false"
     :close-on-content-click="false"
     max-height="450px"
     :min-width="maxWidth"
@@ -52,7 +53,8 @@
       <div class="text-subtitle-2 mx-2 kubegems__text select__title">
         <div class="float-left"> {{ $t('tip.select_one_rule') }} </div>
         <div class="float-right">
-          <v-btn color="primary" small @click="reset">{{ $root.$t('operate.reset') }}</v-btn>
+          <v-btn class="mr-1" color="primary" small @click="reset">{{ $root.$t('operate.reset') }}</v-btn>
+          <v-btn color="error" small @click="menu = false">{{ $root.$t('operate.close') }}</v-btn>
         </div>
         <div class="kubegems__clear-float" />
       </div>

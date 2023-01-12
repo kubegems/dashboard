@@ -74,11 +74,6 @@ export default defineConfig({
     port: 3000,
     strictPort: true,
     proxy: {
-      '^/api/v1/(.*/models/model/infer)': {
-        target: 'http://api.models.kubegems.io:31956',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/v1/, ''),
-      },
       '/api/v1/edge-': {
         target: 'http://172.16.23.231:30001',
         changeOrigin: true,

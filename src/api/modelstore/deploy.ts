@@ -63,13 +63,15 @@ export const postDeployModel = (
 
 // 模型运行实例Api
 export const postModelApi = (
+  modelBaseUrl: string,
   environment: string,
   name: string,
   body: { [key: string]: any } = {},
 ): Promise<InferenceResponse> =>
   axios.post(`${environment}/${name}/v2/models/model/infer`, body, {
     timeout: 60 * 1000,
+    baseURL: modelBaseUrl || 'http://api.models.kubegems.io:31956',
   });
 
 export const postModelApidev = (body: { [key: string]: any } = {}): Promise<InferenceResponse> =>
-  axios.post(`v2/models/model/infer`, body, { timeout: 60 * 1000 });
+  axios.post(`v2/models/model/infer`, body, { timeout: 60 * 1000, baseURL: 'http://api.models.kubegems.io:31956' });

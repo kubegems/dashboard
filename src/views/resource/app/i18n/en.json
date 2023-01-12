@@ -31,7 +31,8 @@
     "port_name": "Port Name",
     "container_port": "Container Port",
     "host_address": "Host address",
-    "host_port": "Host Port"
+    "host_port": "Host Port",
+    "status_error": "Model Instance Status Error"
   },
   "table": {
     "name": "App name",

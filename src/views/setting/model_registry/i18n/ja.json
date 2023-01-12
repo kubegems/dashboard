@@ -23,7 +23,7 @@
     "forbid": "無効",
     "active": "有効",
     "forbid_c": "{0} を無効化",
-    "active_C": "{0}をアクティベートする",
+    "active_c": "{0}をアクティベートする",
     "check": "チェックサム",
 
     "cancel_auth_flag": "認証マークを取り消す",

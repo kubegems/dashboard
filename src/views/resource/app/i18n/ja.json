@@ -31,7 +31,8 @@
     "port_name": "ポート名",
     "container_port": "コンテナポート",
     "host_address": "ホスト",
-    "host_port": "ポート"
+    "host_port": "ポート",
+    "status_error": "モデル インスタンスの状態が異常です"
   },
   "table": {
     "name": "アプリケーション名",

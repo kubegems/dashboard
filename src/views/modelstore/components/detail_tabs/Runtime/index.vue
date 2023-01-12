@@ -180,6 +180,13 @@
         }
       },
       experienceModel(item) {
+        if (item?.phase !== 'Running') {
+          this.$store.commit('SET_SNACKBAR', {
+            text: this.$t('tip.status_error'),
+            color: 'warning',
+          });
+          return;
+        }
         this.$refs.modelExperience.init(item);
         this.$refs.modelExperience.open();
       },
