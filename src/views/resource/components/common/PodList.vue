@@ -20,10 +20,14 @@
       <v-data-table
         :headers="headers"
         hide-default-footer
+        item-key="metadata.resourceVersion"
         :items="items"
         :items-per-page="params.size"
         :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
+        show-expand
+        single-expand
+        @click:row="onRowClick"
         @update:sort-by="m_table_sortBy"
         @update:sort-desc="m_table_sortDesc"
       >
@@ -172,14 +176,16 @@
                     m_permisson_resourceAllow && item.status.phase === 'Running' && !item.metadata.deletionTimestamp
                   "
                 >
-                  <v-btn color="primary" small text @click="containerShell(item)"> {{ $t('operate.terminal') }} </v-btn>
+                  <v-btn color="primary" small text @click.stop="containerShell(item)">
+                    {{ $t('operate.terminal') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex
                   v-if="
                     m_permisson_resourceAllow && item.status.phase === 'Running' && !item.metadata.deletionTimestamp
                   "
                 >
-                  <v-btn color="primary" small text @click="containerDebug(item)"> Debug </v-btn>
+                  <v-btn color="primary" small text @click.stop="containerDebug(item)"> Debug </v-btn>
                 </v-flex>
                 <v-flex
                   v-if="
@@ -187,7 +193,7 @@
                     !item.metadata.deletionTimestamp
                   "
                 >
-                  <v-btn color="primary" small text @click="containerLog(item)"> {{ $t('operate.log') }} </v-btn>
+                  <v-btn color="primary" small text @click.stop="containerLog(item)"> {{ $t('operate.log') }} </v-btn>
                 </v-flex>
                 <v-flex
                   v-if="
@@ -201,6 +207,17 @@
               </v-card-text>
             </v-card>
           </v-menu>
+        </template>
+        <template #expanded-item="{ headers, item }">
+          <td class="my-2 py-2" :colspan="headers.length">
+            <ContainerItems
+              :container-statuses="item && item.status ? item.status.containerStatuses : []"
+              :containers="item && item.spec.containers"
+              :init-container-statuses="item && item.status ? item.status.initContainerStatuses : []"
+              :init-containers="item && item.spec.initContainers"
+              :item="item"
+            />
+          </td>
         </template>
       </v-data-table>
       <BasePagination
@@ -234,6 +251,7 @@
   import BaseTable from '@/mixins/table';
   import { beautifyCpuUnit, beautifyStorageUnit } from '@/utils/helpers';
   import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
+  import ContainerItems from '@/views/resource/pod/components/ContainerItems';
 
   export default {
     name: 'PodList',
@@ -241,6 +259,7 @@
       messages: messages,
     },
     components: {
+      ContainerItems,
       ContainerLog,
       EventTip,
       RealDatetimeTip,
@@ -300,6 +319,7 @@
             width: 20,
             sortable: false,
           },
+          { text: '', value: 'data-table-expand' },
         ];
       },
     },
@@ -545,6 +565,9 @@
       },
       onPageIndexChange(page) {
         this.params.page = page;
+      },
+      onRowClick(item, { expand, isExpanded }) {
+        expand(!isExpanded);
       },
     },
   };

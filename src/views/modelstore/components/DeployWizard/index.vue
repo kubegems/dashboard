@@ -42,7 +42,7 @@
       :lazy="false"
       :title="$t('tip.detail_config')"
     >
-      <DeployAdvancedConf ref="advancedConf" :base="obj.base" :item="item" :spec="obj.spec" />
+      <DeployAdvancedConf ref="advancedConf" :base="obj.base" :item="item" :metadata="obj.metadata" :spec="obj.spec" />
     </TabContent>
     <TabContent
       :class="`kubegems__wizard-tab-content mt-12`"
@@ -113,6 +113,7 @@
           },
           metadata: {
             name: '',
+            annotations: {},
           },
           spec: {
             host: '',
@@ -168,6 +169,8 @@
       async deploy() {
         if (this.$refs.advancedConf.validate()) {
           const spec = this.$refs.advancedConf.getData();
+          const metadata = this.$refs.advancedConf.getMetadata();
+          this.obj.metadata = metadata;
           this.obj.spec = spec;
           this.obj.spec.model.source = this.item.source;
           this.obj.spec.model.name = this.item.name;

@@ -133,7 +133,9 @@
     "rox": "多节点只读",
     "mount_path": "挂载路径",
     "mount_type": "挂载方式",
-    "name": "名称"
+    "name": "名称",
+    "container_count": "容器数",
+    "restart_count": "重启次数"
   },
   "tab": {
     "resource_limit": "资源限制",

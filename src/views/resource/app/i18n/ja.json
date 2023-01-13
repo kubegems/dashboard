@@ -32,7 +32,8 @@
     "container_port": "コンテナポート",
     "host_address": "ホスト",
     "host_port": "ポート",
-    "status_error": "モデル インスタンスの状態が異常です"
+    "status_error": "モデル インスタンスの状態が異常です",
+    "image_preview": "画像プレビュー"
   },
   "table": {
     "name": "アプリケーション名",
@@ -48,7 +49,8 @@
     "source": "モデルソース",
     "image": "ミラー",
     "creator": "作成者",
-    "now_version": "現在のバージョン"
+    "now_version": "現在のバージョン",
+    "replicas": "部数"
   },
   "tab": {
     "manifest": "資源ガイド",

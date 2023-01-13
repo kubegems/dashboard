@@ -46,6 +46,7 @@
               origin: `top center`,
             }"
             :rules="objRules.implementationRules"
+            @change="onKindChanged"
           >
             <template #selection="{ item }">
               <v-chip small>
@@ -161,6 +162,8 @@
             </v-autocomplete>
 
             <Port v-model="obj.server.ports" />
+
+            <v-switch v-model="enabledProbe" :label="$t('tip.enabled_probe')" />
           </v-col>
         </v-row>
       </v-card-text>
@@ -203,6 +206,7 @@
   import Port from './Port';
   import ResourceConf from './ResourceConf';
   import { getGatewayOriginList, getModelSourceDetail } from '@/api';
+  import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
@@ -230,6 +234,13 @@
       spec: {
         type: Object,
         default: () => null,
+      },
+      metadata: {
+        type: Object,
+        default: () => ({
+          name: '',
+          annotations: {},
+        }),
       },
     },
     data: function () {
@@ -275,6 +286,7 @@
             gatewayName: '',
             host: 'api.models.kubegems.io',
           },
+          enabledProbe: false,
         },
         objRules: {
           imageRules: [required],
@@ -375,6 +387,15 @@
         this.obj.replicas = data.replicas;
         return this.obj;
       },
+      getMetadata() {
+        const metadata = deepCopy(this.metadata);
+        if (this.enabledProbe) {
+          metadata.annotations['models.kubegems.io/enable-probes'] = 'true';
+        } else {
+          metadata.annotations['models.kubegems.io/enable-probes'] = 'false';
+        }
+        return metadata;
+      },
       reset() {
         this.$refs.form.resetValidation() && this.$refs.resourceConf.reset();
       },
@@ -384,6 +405,9 @@
         } else {
           this.obj.ingress.gatewayName = this.gatewayObj.metadata.name;
         }
+      },
+      onKindChanged() {
+        this.enabledProbe = Boolean(this.obj.server.kind);
       },
     },
   };

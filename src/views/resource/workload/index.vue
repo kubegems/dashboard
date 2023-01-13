@@ -74,11 +74,15 @@
         <v-data-table
           :headers="headers"
           hide-default-footer
+          item-key="workload.metadata.resourceVersion"
           :items="items"
           :items-per-page="params.size"
           :no-data-text="$root.$t('data.no_data')"
           :page.sync="params.page"
+          show-expand
           show-select
+          single-expand
+          @click:row="onRowClick"
           @toggle-select-all="m_table_onResourceToggleSelect"
           @update:sort-by="m_table_sortBy"
           @update:sort-desc="m_table_sortDesc"
@@ -198,6 +202,11 @@
               </v-card>
             </v-menu>
           </template>
+          <template #expanded-item="{ headers, item }">
+            <td class="my-2 py-2" :colspan="headers.length">
+              <PodItems :workload="item.workload" />
+            </td>
+          </template>
         </v-data-table>
         <BasePagination
           v-if="pageCount >= 1"
@@ -220,6 +229,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import AddWorkload from './components/AddWorkload';
+  import PodItems from './components/PodItems';
   import ResourceAdvise from './components/ResourceAdvise';
   import ResourceLimit from './components/ResourceLimit';
   import UpdateWorkload from './components/UpdateWorkload';
@@ -253,6 +263,7 @@
       EventTip,
       GpuTip,
       NamespaceFilter,
+      PodItems,
       ResourceAdvise,
       ResourceLimit,
       UpdateWorkload,
@@ -303,6 +314,7 @@
             sortable: false,
           });
         }
+        items.push({ text: '', value: 'data-table-expand' });
         return items;
       },
       filters() {
@@ -617,6 +629,9 @@
           }
         });
         return gpu;
+      },
+      onRowClick(item, { expand, isExpanded }) {
+        expand(!isExpanded);
       },
     },
   };

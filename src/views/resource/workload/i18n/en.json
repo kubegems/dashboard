@@ -128,7 +128,9 @@
     "rox": "Multi-node read-only",
     "mount_path": "Mount Path",
     "mount_type": "Mount Method",
-    "name": "Name"
+    "name": "Name",
+    "container_count": "Container Count",
+    "restart_count": "Restart Count"
   },
   "tab": {
     "resource_limit": "Resource Limit",

@@ -47,7 +47,21 @@
         </template>
         <template #[`item.url`]="{ item }">
           {{ item.url }}
-          <v-btn v-if="item.phase === 'Running'" color="primary" small text @click="experienceModel(item)">
+          <v-btn v-clipboard:copy="item.url" v-clipboard:success="onCopy" color="primary" icon small>
+            <v-icon color="primary" small> mdi-content-copy </v-icon>
+          </v-btn>
+        </template>
+        <template #[`item.preview`]="{ item }">
+          <v-btn
+            v-if="
+              item.phase === 'Running' &&
+              ($route.query.registry === 'huggingface' || $route.query.registry === 'openmmlab')
+            "
+            color="primary"
+            small
+            text
+            @click="experienceModel(item)"
+          >
             <v-icon color="primary" left> mdi-eye </v-icon>
             {{ $t('operate.experience') }}
           </v-btn>
@@ -115,6 +129,7 @@
           { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
           { text: this.$t('table.creator'), value: 'creator', align: 'start' },
           { text: 'Api', value: 'url', align: 'start' },
+          { text: '', value: 'preview', align: 'start' },
         ];
       },
     },
@@ -173,6 +188,12 @@
         }
         this.$refs.modelExperience.init(item);
         this.$refs.modelExperience.open();
+      },
+      onCopy() {
+        this.$store.commit('SET_SNACKBAR', {
+          text: this.$t('tip.copyed'),
+          color: 'success',
+        });
       },
     },
   };

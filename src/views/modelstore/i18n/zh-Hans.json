@@ -95,7 +95,8 @@
     "image_info": "图片信息",
     "upload_voice_tip": "请上传语音文件",
     "copyed": "已复制到粘贴板",
-    "status_error": "模型实例状态异常"
+    "status_error": "模型实例状态异常",
+    "enabled_probe": "启用探针"
   },
   "tab": {
     "description": "介绍",

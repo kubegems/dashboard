@@ -87,7 +87,8 @@
     "image_info": "圖片信息",
     "upload_voice_tip": "請上傳語音文件",
     "copyed": "已複製到粘貼板",
-    "status_error": "模型實例狀態異常"
+    "status_error": "模型實例狀態異常",
+    "enabled_probe": "啟用探針"
   },
   "tab": {
     "description": "介紹",

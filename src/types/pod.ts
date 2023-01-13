@@ -21,7 +21,11 @@ import axios from 'axios';
 import { Metadata, initKModel } from './kubernetes';
 import { getApiVersion } from '@/utils/helpers';
 
-export class Pod extends V1Pod {
+interface PodExtend {
+  getPodListByResourceKind(cluster: string, params: KubePaginationRequest): Promise<KubePaginationResponse<Pod[]>>;
+}
+
+export class Pod extends V1Pod implements PodExtend {
   constructor(pod?: { [key: string]: any }) {
     super();
     this.apiVersion = getApiVersion('pod');
@@ -78,5 +82,19 @@ export class Pod extends V1Pod {
     await axios.delete(
       `proxy/cluster/${cluster}/${apiVersion}/namespaces/${this.metadata.namespace}/pods/${this.metadata.name}`,
     );
+  }
+
+  // pod extend
+  public async getPodListByResourceKind(
+    cluster: string,
+    params: KubePaginationRequest,
+  ): Promise<KubePaginationResponse<Pod[]>> {
+    const data: { [key: string]: any } = await axios(
+      `proxy/cluster/${cluster}/custom/core/v1/namespaces/${this.metadata.namespace}/pods`,
+      {
+        params: params,
+      },
+    );
+    return data as KubePaginationResponse<Pod[]>;
   }
 }
