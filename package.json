@@ -1,6 +1,6 @@
 {
   "name": "kubegems-dashboard",
-  "version": "1.23.0-alpha.3",
+  "version": "1.23.0",
   "private": true,
   "license": "Apache-2.0",
   "scripts": {

@@ -121,7 +121,7 @@
     "publish_reply": "Post Reply",
     "reply_c": "Reply to {0}",
     "view_deploy_status": "View Deployment Status",
-    "experience": "Experience"
+    "experience": "Preview"
   },
   "form": {
     "cpu_rule": "Wrong format (example:1m,1)",

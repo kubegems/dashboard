@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="dialog" icon="mdi-variable" :title="$t('tip.experience')" @dispose="dispose">
+  <BaseFullScreenDialog v-model="dialog" icon="mdi-eye" :title="$t('tip.experience')" @dispose="dispose">
     <template #header>
       <v-flex class="ml-2 text-h6 mt-n1">
         {{ item ? item.name : '' }}
@@ -30,8 +30,6 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
-
   import messages from '../../../../i18n';
   import Conversation from './tasks/ConversationText';
   import FileInputs from './tasks/FileInputs';
@@ -102,9 +100,6 @@
         },
       };
     },
-    computed: {
-      ...mapState(['JWT']),
-    },
     watch: {
       currentTask: {
         handler(nv) {
@@ -117,7 +112,7 @@
             if (newValue.source === 'openmmlab') {
               this.formComponent = this.formConponentItems['openmmlab'];
               return;
-            } else if (newValue.source === 'huggingface') {
+            } else {
               if (Object.prototype.hasOwnProperty.call(this.formConponentItems, newValue.task)) {
                 this.formComponent = this.formConponentItems[newValue.task];
                 return;

@@ -46,26 +46,11 @@
           </span>
         </template>
         <template #[`item.url`]="{ item }">
-          <a :href="item.url" target="_blank" @click.stop>{{ item.url }}</a>
-        </template>
-        <template #[`item.action`]="{ item }">
-          <v-flex :id="`r${item.name}`" />
-          <v-menu :attach="`#r${item.name}`" left>
-            <template #activator="{ on }">
-              <v-btn icon>
-                <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-text class="pa-2">
-                <v-flex>
-                  <v-btn color="primary" small text @click="experienceModel(item)">
-                    {{ $t('operate.experience') }}
-                  </v-btn>
-                </v-flex>
-              </v-card-text>
-            </v-card>
-          </v-menu>
+          {{ item.url }}
+          <v-btn v-if="item.phase === 'Running'" color="primary" small text @click="experienceModel(item)">
+            <v-icon color="primary" left> mdi-eye </v-icon>
+            {{ $t('operate.experience') }}
+          </v-btn>
         </template>
       </v-data-table>
       <BasePagination
@@ -130,7 +115,6 @@
           { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
           { text: this.$t('table.creator'), value: 'creator', align: 'start' },
           { text: 'Api', value: 'url', align: 'start' },
-          { text: '', value: 'action', align: 'center', width: 20, sortable: false },
         ];
       },
     },

@@ -1,3 +1,11 @@
+# 1.23.0
+
+### Bug Fixes
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [fix: 🐛 fix log project env cascade selector first trigger not effect bug] | ([caa750a](https://github.com/chenshunliang/dashboard/commit/caa750a3fdee2ccf45ed93d08636fb48c95eb954) |
+
 # 1.23.0-alpha.3 (2023-1-11)
 
 ### 🌟 新功能

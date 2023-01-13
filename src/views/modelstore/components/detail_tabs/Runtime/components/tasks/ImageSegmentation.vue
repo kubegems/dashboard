@@ -101,7 +101,7 @@
         reader.onloadend = async function () {
           const b64data = reader.result.split(',')[1];
           let name = '';
-          if (_v.currentTask == 'object-detection') {
+          if (_v.currentTask === 'object-detection') {
             name = 'inputs';
           } else {
             name = 'images';

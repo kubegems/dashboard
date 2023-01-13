@@ -171,7 +171,11 @@
             {{ item.spec.model.image }}
           </template>
           <template #[`item.url`]="{ item }">
-            <a :href="item.status.url" target="_blank" @click.stop>{{ item.status.url }}</a>
+            {{ item.status.url }}
+            <v-btn v-if="item.status.phase === 'Running'" color="primary" small text @click="experienceModel(item)">
+              <v-icon color="primary" left> mdi-eye </v-icon>
+              {{ $t('operate.experience') }}
+            </v-btn>
           </template>
           <template #[`item.creationTimestamp`]="{ item }">
             {{ $moment(item.metadata.creationTimestamp).format('lll') }}
@@ -186,11 +190,6 @@
               </template>
               <v-card>
                 <v-card-text class="pa-2">
-                  <v-flex v-if="item.spec.model.source === 'huggingface' || item.spec.model.source === 'openmmlab'">
-                    <v-btn color="primary" small text @click="experienceModel(item)">
-                      {{ $t('operate.experience') }}
-                    </v-btn>
-                  </v-flex>
                   <v-flex>
                     <v-btn color="primary" small text @click="updateModelRuntime(item)">
                       {{ $root.$t('operate.edit') }}
@@ -636,7 +635,7 @@
         this.$refs.updateModelRuntime.open();
       },
       async modelDetail(item) {
-        const data = await getModelStoreDetail(item.spec.model.source, Base64.encode(item.metadata.name));
+        const data = await getModelStoreDetail(item.spec.model.source, Base64.encode(item.spec.model.name));
         this.item = { ...data };
       },
       async experienceModel(item) {
