@@ -147,7 +147,18 @@
             {{ item.spec.model.version }}
           </template>
           <template #[`item.source`]="{ item }">
-            {{ item.spec.model.source }}
+            <div class="float-left">
+              <BaseLogo
+                class="mr-1"
+                :icon-name="item.spec.model.source"
+                :ml="0"
+                :style="{ marginTop: '0px' }"
+                :width="18"
+              />
+            </div>
+            <div class="float-left">
+              {{ item.spec.model.source }}
+            </div>
           </template>
           <template #[`item.phase`]="{ item }">
             <span
@@ -167,15 +178,14 @@
               {{ item.status.phase || 'No Status' }}
             </span>
           </template>
-          <template #[`item.modelImage`]="{ item }">
-            {{ item.spec.model.image }}
-          </template>
           <template #[`item.url`]="{ item }">
             {{ item.status.url }}
-            <v-btn v-if="item.status.phase === 'Running'" color="primary" small text @click="experienceModel(item)">
-              <v-icon color="primary" left> mdi-eye </v-icon>
-              {{ $t('operate.experience') }}
+            <v-btn v-clipboard:copy="item.status.url" v-clipboard:success="onCopy" color="primary" icon small>
+              <v-icon color="primary" small> mdi-content-copy </v-icon>
             </v-btn>
+          </template>
+          <template #[`item.replicas`]="{ item }">
+            {{ item.spec.replicas }}
           </template>
           <template #[`item.creationTimestamp`]="{ item }">
             {{ $moment(item.metadata.creationTimestamp).format('lll') }}
@@ -203,6 +213,22 @@
                 </v-card-text>
               </v-card>
             </v-menu>
+          </template>
+          <template #[`item.preview`]="{ item }">
+            <v-btn
+              v-if="
+                item &&
+                item.status.phase === 'Running' &&
+                (item.spec.model.source === 'huggingface' || item.spec.model.source === 'openmmlab')
+              "
+              color="primary"
+              small
+              text
+              @click="experienceModel(item)"
+            >
+              <v-icon color="primary" left> mdi-eye </v-icon>
+              {{ $t('operate.experience') }}
+            </v-btn>
           </template>
         </v-data-table>
         <BasePagination
@@ -355,14 +381,15 @@
           }
         } else {
           items = [
-            { text: this.$t('table.instance_name'), value: 'instanceName', align: 'start', width: 100 },
+            { text: this.$t('table.instance_name'), value: 'instanceName', align: 'start', width: 200 },
             { text: this.$t('table.model_name'), value: 'modelName', align: 'start', sortable: false },
             { text: this.$t('table.model_version'), value: 'modelVersion', align: 'start', sortable: false },
-            { text: this.$t('table.source'), value: 'source', align: 'start', sortable: false },
-            { text: this.$t('table.image'), value: 'modelImage', align: 'start', sortable: false },
+            { text: this.$t('table.replicas'), value: 'replicas', align: 'start', sortable: false },
+            { text: this.$t('table.source'), value: 'source', align: 'start', sortable: false, width: 180 },
             { text: this.$t('table.status'), value: 'phase', align: 'start', sortable: false, width: 120 },
             { text: 'Api', value: 'url', align: 'start', sortable: false },
             { text: this.$root.$t('resource.create_at'), value: 'creationTimestamp', align: 'start' },
+            { text: '', value: 'preview', align: 'center', sortable: false },
             { text: '', value: 'modelAction', align: 'center', width: 20, sortable: false },
           ];
         }
@@ -649,6 +676,12 @@
         await this.modelDetail(item);
         this.$refs.modelExperience.init(item);
         this.$refs.modelExperience.open();
+      },
+      onCopy() {
+        this.$store.commit('SET_SNACKBAR', {
+          text: this.$t('tip.copyed'),
+          color: 'success',
+        });
       },
     },
   };

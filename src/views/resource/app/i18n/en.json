@@ -32,7 +32,8 @@
     "container_port": "Container Port",
     "host_address": "Host address",
     "host_port": "Host Port",
-    "status_error": "Model Instance Status Error"
+    "status_error": "Model Instance Status Error",
+    "copyed": "Copied to Clipboard"
   },
   "table": {
     "name": "App name",
@@ -48,7 +49,8 @@
     "source": "Model Source",
     "image": "Mirror",
     "creator": "Created By",
-    "now_version": "Current version"
+    "now_version": "Current version",
+    "replicas": "Replicas"
   },
   "tab": {
     "manifest": "Resource Organization",

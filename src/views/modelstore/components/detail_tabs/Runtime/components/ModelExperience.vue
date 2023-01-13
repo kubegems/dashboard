@@ -18,9 +18,30 @@
   <BaseFullScreenDialog v-model="dialog" icon="mdi-eye" :title="$t('tip.experience')" @dispose="dispose">
     <template #header>
       <v-flex class="ml-2 text-h6 mt-n1">
-        {{ item ? item.name : '' }}
-        {{ $t('tip.task_type') }}:
-        {{ item ? item.task : '' }}
+        <div class="float-left">
+          <BaseLogo class="mr-2" :icon-name="item ? item.source : ''" :ml="0" :mt="1" :width="24" />
+        </div>
+        <div class="float-left">
+          <div class="float-left mr-4">
+            {{ item ? item.name : '' }}
+          </div>
+          <div class="float-left mr-1"> {{ $t('tip.task_type') }} </div>
+          <div class="float-left">
+            <BaseLogo
+              class="filter__logo"
+              default-logo="tags"
+              :icon-name="item ? item.task : ''"
+              :ml="0"
+              :mt="1"
+              :width="24"
+            />
+          </div>
+          <div class="float-left">
+            {{ item ? item.task : '' }}
+          </div>
+          <div class="kubegems__clear-float" />
+        </div>
+        <div class="kubegems__clear-float" />
       </v-flex>
     </template>
     <template #content>
@@ -112,7 +133,7 @@
             if (newValue.source === 'openmmlab') {
               this.formComponent = this.formConponentItems['openmmlab'];
               return;
-            } else {
+            } else if (newValue.source === 'huggingface') {
               if (Object.prototype.hasOwnProperty.call(this.formConponentItems, newValue.task)) {
                 this.formComponent = this.formConponentItems[newValue.task];
                 return;
