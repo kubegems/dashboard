@@ -129,7 +129,7 @@
           { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
           { text: this.$t('table.creator'), value: 'creator', align: 'start' },
           { text: 'Api', value: 'url', align: 'start' },
-          { text: '', value: 'preview', align: 'start' },
+          { text: '', value: 'preview', align: 'start', width: 50 },
         ];
       },
     },

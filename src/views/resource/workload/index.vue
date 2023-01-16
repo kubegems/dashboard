@@ -72,6 +72,7 @@
           </v-tab>
         </v-tabs>
         <v-data-table
+          class="kubegems__table-row-pointer"
           :headers="headers"
           hide-default-footer
           item-key="workload.metadata.resourceVersion"
