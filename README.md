@@ -66,7 +66,7 @@ npm install -g pnpm
 Clone the repository, and run `pnpm && pnpm build`
 
 ```sh
-git clone https://github.com/kubegems/dsahboard.git
+git clone https://github.com/kubegems/dashboard.git
 cd dashboard/
 pnpm && pnpm build
 pnpm start
