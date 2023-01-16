@@ -18,6 +18,7 @@
   <v-card>
     <v-card-text>
       <v-data-table
+        class="kubegems__table-row-pointer"
         :headers="headers"
         hide-default-footer
         item-key="metadata.resourceVersion"

@@ -1,5 +1,11 @@
 # 1.23.0
 
+### 🌟 新功能
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [perf: ⚡ optimization model pages] | [0b50c32](https://github.com/chenshunliang/dashboard/commit/0b50c323d98d28852e2ef63a0adb78b66dab823b) |
+
 ### Bug Fixes
 
 | 范围 | 描述 | commitId |

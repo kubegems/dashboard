@@ -102,16 +102,16 @@
                   <template #default>
                     <thead>
                       <tr>
-                        <th class="text-left" :style="{ width: `180px` }">{{ i18nLocal.t('table.start_time') }}</th>
+                        <th class="text-left" :style="{ width: `110px` }">{{ i18nLocal.t('table.start_time') }}</th>
                         <th class="text-left">SpanID</th>
                         <th class="text-left">Service</th>
-                        <th class="text-left" :style="{ width: `300px` }">Operation</th>
+                        <th class="text-left">Operation</th>
                         <th class="text-left" :style="{ width: `100px` }">{{ i18nLocal.t('table.duration') }}</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr v-for="span in item.spans" :key="span.spanID">
-                        <td>{{ moment(span.startTime / 1000).format('MM-DD HH:mm:ss.SSS') }}</td>
+                        <td>{{ moment(span.startTime / 1000).format('HH:mm:ss.SSS') }}</td>
                         <td>{{ span.spanID }}</td>
                         <td>{{ item.processes[span.processID].serviceName }}</td>
                         <td :class="{ 'error--text': isErrorSpan(span) }">
