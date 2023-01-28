@@ -18,7 +18,7 @@
     v-model="panel"
     icon="mdi-chart-areaspline-variant"
     :title="$t('tip.container_monitor')"
-    :width="`50%`"
+    :width="`60%`"
     @dispose="dispose"
   >
     <template #header>
