@@ -83,7 +83,7 @@
       metrics: {
         handler(newValue) {
           if (newValue && newValue?.length >= 0 && document.getElementById(this.chartId)) {
-            this.height = 33.5 * newValue[0].data?.length;
+            this.height = this.getHeight(newValue[0].data);
             this.loadChart();
           }
         },
@@ -100,7 +100,7 @@
         const interval = setInterval(() => {
           if (document.getElementById(this.chartId)) {
             clearInterval(interval);
-            this.height = this.metrics?.length > 0 ? 33.5 * this.metrics[0].data?.length : 0;
+            this.height = this.getHeight(this.metrics?.length ? this.metrics[0].data : null);
             this.loadChart();
           }
         }, 300);
@@ -256,6 +256,22 @@
         if (range < 100000) {
           return 1000;
         }
+      },
+      getHeight(items) {
+        if (items?.length) {
+          if (items.length <= 10) {
+            return 28 * items.length + 66;
+          } else if (items.length <= 15) {
+            return 33.6 * items.length;
+          } else if (items.length <= 20) {
+            return 33.2 * items.length;
+          } else if (items.length < 30) {
+            return 32.5 * items.length;
+          } else {
+            return 32.2 * items.length;
+          }
+        }
+        return 0;
       },
     },
   };

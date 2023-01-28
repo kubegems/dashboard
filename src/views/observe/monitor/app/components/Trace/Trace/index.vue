@@ -102,8 +102,8 @@
                   <template #default>
                     <thead>
                       <tr>
-                        <th class="text-left" :style="{ width: `110px` }">{{ i18nLocal.t('table.start_time') }}</th>
-                        <th class="text-left">SpanID</th>
+                        <th class="text-left" :style="{ width: `75px` }">{{ i18nLocal.t('table.start_time') }}</th>
+                        <th class="text-left" :style="{ width: `120px` }">SpanID</th>
                         <th class="text-left">Service</th>
                         <th class="text-left">Operation</th>
                         <th class="text-left" :style="{ width: `100px` }">{{ i18nLocal.t('table.duration') }}</th>
@@ -111,16 +111,25 @@
                     </thead>
                     <tbody>
                       <tr v-for="span in item.spans" :key="span.spanID">
-                        <td>{{ moment(span.startTime / 1000).format('HH:mm:ss.SSS') }}</td>
+                        <td>{{ moment(span.startTime / 1000).format('mm:ss.SSS') }}</td>
                         <td>{{ span.spanID }}</td>
                         <td>{{ item.processes[span.processID].serviceName }}</td>
                         <td :class="{ 'error--text': isErrorSpan(span) }">
-                          {{ span.operationName }}
-                          <SpanWarnTip v-if="span.warnings" :warnings="span.warnings">
-                            <template #trigger>
-                              <v-icon color="orange" small>mdi-alert-circle</v-icon>
+                          <v-menu :close-delay="200" nudge-top="24px" :open-delay="100" open-on-hover top>
+                            <template #activator="{ on }">
+                              <div class="operation" v-on="on">
+                                {{ span.operationName }}
+                                <SpanWarnTip v-if="span.warnings" :warnings="span.warnings">
+                                  <template #trigger>
+                                    <v-icon color="orange" small>mdi-alert-circle</v-icon>
+                                  </template>
+                                </SpanWarnTip>
+                              </div>
                             </template>
-                          </SpanWarnTip>
+                            <v-card>
+                              <v-card-text class="pa-2 text-caption"> {{ span.operationName }} </v-card-text>
+                            </v-card>
+                          </v-menu>
                         </td>
                         <td>{{ beautifyTime(span.duration) }} </td>
                       </tr>
@@ -131,12 +140,13 @@
               <v-col cols="5">
                 <div class="text-subtitle-2 kubegems--text">{{ i18nLocal.t('tip.timeline') }}</div>
                 <BaseTimelineChart
-                  :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')} mt-n2`"
+                  :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')}`"
                   colorful
                   :duration="getDuration(item) / 1000"
                   :extend-height="100"
                   :label-show="false"
                   :metrics="getMetrics(item)"
+                  :style="{ marginTop: '-6px' }"
                 />
               </v-col>
             </v-row>
@@ -373,5 +383,12 @@
     right: 0;
     top: 20px;
     min-height: 88%;
+  }
+
+  .operation {
+    text-overflow: ellipsis;
+    width: 285px;
+    white-space: nowrap;
+    overflow-x: auto;
   }
 </style>

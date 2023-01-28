@@ -16,17 +16,19 @@
 <template>
   <div class="px-4 mt-n2">
     <template v-if="traceid">
-      <v-btn class="share__btn" color="primary" icon small @click="toTrace">
-        <v-icon small>mdi-open-in-new</v-icon>
-      </v-btn>
-      <BaseTimelineChart
-        v-if="telemetry.spans"
-        :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')}`"
-        colorful
-        :duration="getDuration(telemetry) / 1000"
-        :label-show="false"
-        :metrics="getMetrics(telemetry)"
-      />
+      <div class="content">
+        <v-btn class="share__btn" color="primary" icon small @click="toTrace">
+          <v-icon small>mdi-open-in-new</v-icon>
+        </v-btn>
+        <BaseTimelineChart
+          v-if="telemetry.spans"
+          :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')}`"
+          colorful
+          :duration="getDuration(telemetry) / 1000"
+          :label-show="false"
+          :metrics="getMetrics(telemetry)"
+        />
+      </div>
     </template>
     <div v-else class="no__trace text-subtitle-1">{{ i18nLocal.t('tip.no_trace') }}</div>
   </div>
@@ -90,8 +92,8 @@
         data: item.spans.map((span) => {
           return {
             x: [span.startTime / 1000, span.startTime / 1000 + span.duration / 1000],
-            y: span.spanID.substr(0, 7),
-            operation: span.operationName,
+            y: `${item.processes[span.processID].serviceName}-${span.spanID.substr(0, 7)}`,
+            operation: `${span.operationName}   ${span.duration / 1000}ms`,
           };
         }),
       },
@@ -120,9 +122,13 @@
 </script>
 
 <style lang="scss" scoped>
+  .content {
+    position: relative;
+  }
+
   .share__btn {
     position: absolute;
-    right: 10px;
+    right: 0;
     z-index: 999;
   }
 

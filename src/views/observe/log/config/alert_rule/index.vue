@@ -139,7 +139,15 @@
             {{ item.for }}
           </template>
           <template #[`item.receivers`]="{ item }">
-            {{ item.receiversStr }}
+            <div v-for="(channel, index) in item.receivers || []" :key="index" class="my-1">
+              <div class="float-left mr-1">
+                <BaseLogo :icon-name="channel.alertChannel.channelConfig.channelType" :ml="0" :mt="0" :width="18" />
+              </div>
+              <div class="float-left">
+                {{ channel.alertChannel.name }}
+              </div>
+              <div class="kubegems__clear-float" />
+            </div>
           </template>
           <template #[`item.open`]="{ item }">
             <span v-if="item.isOpen">
@@ -154,7 +162,7 @@
           <template #expanded-item="{ headers, item }">
             <td class="my-2 py-2" :colspan="headers.length">
               <span class="text-subtitle-2 kubegems__text">{{ $t('tip.message_template') }} : </span>
-              <v-flex class="text-body-2 break-word">
+              <v-flex class="text-body-2 kubegems__break-all">
                 {{ item.message }}
               </v-flex>
             </td>
@@ -272,7 +280,7 @@
           { text: this.$t('table.name'), value: 'name', align: 'start' },
           { text: this.$t('table.expr'), value: 'expr', align: 'start' },
           { text: this.$t('table.for'), value: 'for', align: 'start' },
-          { text: this.$root.$t('resource.receiver'), value: 'receivers', align: 'start' },
+          { text: this.$root.$t('resource.receiver'), value: 'receivers', align: 'start', width: 250 },
           { text: this.$t('table.status'), value: 'open', align: 'start', width: 80 },
         ];
         if (this.m_permisson_resourceAllow(this.$route.query.env)) {
@@ -447,17 +455,3 @@
     },
   };
 </script>
-
-<style lang="scss" scoped>
-  .break-word {
-    word-break: break-all;
-  }
-  .chip-width {
-    width: 70px;
-    display: block;
-    text-align: center;
-  }
-  .font-weight {
-    font-weight: 600;
-  }
-</style>
