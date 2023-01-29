@@ -20,7 +20,7 @@
       <Duration v-model="duration" reverse />
     </template>
     <template #content>
-      <div class="d-flex flex-column mt-0 mx-2">
+      <div class="d-flex flex-column mt-3 mx-2">
         <BaseAreaChart
           chart-type="line"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"

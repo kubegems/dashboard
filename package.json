@@ -77,7 +77,7 @@
     "vue-table-dynamic": "^0.4.10",
     "vue2-ace-editor": "^0.0.15",
     "vuedraggable": "^2.24.3",
-    "vuetify": "^2.6.13",
+    "vuetify": "^2.6.14",
     "vuex": "^3.6.2",
     "xterm": "^5.1.0",
     "xterm-addon-fit": "^0.7.0",

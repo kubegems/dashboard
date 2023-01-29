@@ -145,3 +145,5 @@ const permission: { [key: string]: any } = {
 };
 
 export default permission;
+
+// done

@@ -17,7 +17,6 @@
 <template>
   <div :style="{ width: width, height: height }">
     <BasePieChart
-      :id="chartId"
       :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
       colorful
       height="290px"
@@ -25,11 +24,6 @@
       :metrics="series"
       :title="title"
     />
-
-    <!-- <div v-for="(label, index) in labels" :key="index" class="text-caption ml-4">
-      <v-icon small :style="{ color: $LINE_THEME_FUL_COLORS[index] }"> mdi-checkbox-blank-circle </v-icon>
-      {{ label }}
-    </div> -->
   </div>
 </template>
 
@@ -39,10 +33,6 @@
   export default {
     name: 'MessageLineChart',
     props: {
-      chartId: {
-        type: String,
-        default: () => '',
-      },
       data: {
         type: Array,
         default: () => [],

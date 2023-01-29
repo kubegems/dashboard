@@ -16,44 +16,36 @@
 
 <template>
   <div>
-    <div class="mx-3">
+    <div class="mx-3 mt-3">
       <MessageBarChart :data="data" :date="date" />
     </div>
     <div class="my-8" />
     <div class="d-flex justify-space-around">
       <div class="kubegems__h-24 kubegems__w-11">
-        <EventPieChart :data="data" :title="$t('tip.event_source')" type="source_component" />
+        <EventPieChart :data="data" :title="i18nLocal.t('tip.event_source').toString()" type="source_component" />
       </div>
       <div class="kubegems__h-24 kubegems__w-11">
-        <EventPieChart :data="data" :title="$t('tip.event_type')" type="reason" />
+        <EventPieChart :data="data" :title="i18nLocal.t('tip.event_type').toString()" type="reason" />
       </div>
     </div>
   </div>
 </template>
 
-<script>
-  import messages from '../../../../i18n';
-  import EventPieChart from './EventPieChart';
-  import MessageBarChart from './MessageBarChart';
+<script lang="ts" setup>
+  import { useI18n } from '../../../../i18n';
+  import EventPieChart from './EventPieChart.vue';
+  import MessageBarChart from './MessageBarChart.vue';
 
-  export default {
-    name: 'Chart',
-    i18n: {
-      messages: messages,
+  const i18nLocal = useI18n();
+
+  withDefaults(
+    defineProps<{
+      data?: any[];
+      date?: any[];
+    }>(),
+    {
+      data: undefined,
+      date: undefined,
     },
-    components: {
-      EventPieChart,
-      MessageBarChart,
-    },
-    props: {
-      data: {
-        type: Array,
-        default: () => [],
-      },
-      date: {
-        type: Array,
-        default: () => [],
-      },
-    },
-  };
+  );
 </script>

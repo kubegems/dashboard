@@ -74,7 +74,7 @@ specifiers:
   vue-table-dynamic: ^0.4.10
   vue2-ace-editor: ^0.0.15
   vuedraggable: ^2.24.3
-  vuetify: ^2.6.13
+  vuetify: ^2.6.14
   vuex: ^3.6.2
   xterm: ^5.1.0
   xterm-addon-fit: ^0.7.0
@@ -118,7 +118,7 @@ dependencies:
   vue-table-dynamic: 0.4.10
   vue2-ace-editor: 0.0.15
   vuedraggable: 2.24.3
-  vuetify: 2.6.13_vue@2.7.14
+  vuetify: 2.6.14_vue@2.7.14
   vuex: 3.6.2_vue@2.7.14
   xterm: 5.1.0
   xterm-addon-fit: 0.7.0_xterm@5.1.0
@@ -145,7 +145,7 @@ devDependencies:
   eslint-plugin-import: 2.26.0_ikhbatbdg7pjmlnrhxcioi2mri
   eslint-plugin-prettier: 4.2.1_7gsvg5lgwpfdww3i7smtqxamuy
   eslint-plugin-vue: 8.7.1_eslint@7.32.0
-  eslint-plugin-vuetify: 1.1.0_vobodcawx65krumghayad4kvbu
+  eslint-plugin-vuetify: 1.1.0_gmpqjcj4hxc4vlzfwlhyuf2hku
   happy-dom: 7.6.6
   husky: 7.0.4
   lint-staged: 11.2.6
@@ -2973,7 +2973,7 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-vuetify/1.1.0_vobodcawx65krumghayad4kvbu:
+  /eslint-plugin-vuetify/1.1.0_gmpqjcj4hxc4vlzfwlhyuf2hku:
     resolution: {integrity: sha512-I1YRUCGkDqe8F7O0tdf63UZVKtk4734+8fzbZ24YIZKTTyQp/FIR0nSZYG8mPFhTWerzPta7oXNzliBOwP2XeQ==}
     peerDependencies:
       eslint: ^6.2.0 || ^7.0.0 || ^8.0.0
@@ -2982,7 +2982,7 @@ packages:
       eslint: 7.32.0
       eslint-plugin-vue: 7.20.0_eslint@7.32.0
       requireindex: 1.2.0
-      vuetify: 2.6.13_vue@2.7.14
+      vuetify: 2.6.14_vue@2.7.14
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -6746,8 +6746,8 @@ packages:
       sortablejs: 1.10.2
     dev: false
 
-  /vuetify/2.6.13_vue@2.7.14:
-    resolution: {integrity: sha512-HhJi52IzhfrmWFwcYFUiA1GRIzz9smbR06Lj61Ml5HgD5PBcMiDywUnNPVid1VsXO4qWpBU6kO3O89uTxH1yzw==}
+  /vuetify/2.6.14_vue@2.7.14:
+    resolution: {integrity: sha512-nr6wU3uTzhhEPssH23cW0Ee/hCrayp7cjl3nNjM2OmNwiJlV91tZiL1VO3597SqZyjh1xIa+m9J2rpKTSdIlrA==}
     peerDependencies:
       vue: ^2.6.4
     dependencies:

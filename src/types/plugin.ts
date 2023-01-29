@@ -13,25 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const basefilter: { [key: string]: any } = {
-  inject: ['reload'],
-  methods: {
-    async m_filter_list(params: { [key: string]: any }, reload = true): Promise<void> {
-      // 处理多tab列表
-      const tab: string | null = this.$route.query.tab || null;
-      Object.assign(this.params, params);
-      await this.$router.replace({
-        params: this.$route.params,
-        name: this.$route.name,
-        query: Object.assign({ tab: tab, ...this.$route.query, ...{ page: 1 } }, params),
-      });
-      if (reload) {
-        this.reload();
-      }
-    },
-  },
-};
+import axios from 'axios';
 
-export default basefilter;
+export class Plugin {
+  constructor(plugin?: { [key: string]: any }) {
+    Object.assign(this, plugin);
+  }
 
-// done
+  [others: string]: any;
+
+  public async getPluginList(cluster: string, params: KubeRequest): Promise<{ [key: string]: any }> {
+    const data: { [key: string]: any } = await axios(`proxy/cluster/${cluster}/plugins`, { params: params });
+    return data as { [key: string]: any };
+  }
+}
