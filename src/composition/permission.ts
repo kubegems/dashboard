@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 import { useStore } from '@/store';
+import { Plugin } from '@/types/plugin';
+import { Matrix, Vector } from '@/types/prometheus';
 import { Auth } from '@/types/role';
 
 const store = useStore();
@@ -117,4 +119,32 @@ export const useVirtualSpaceAllow = (virtualspace: string = undefined): boolean 
       }
     }) > -1 || store.state.Admin
   );
+};
+
+export const useMatrixWithPermission = async (cluster: string, query: any = {}): Promise<Matrix[]> => {
+  if (store.state.Plugins?.['monitoring'] || query.pass) {
+    const data = await new Matrix().getMatrix(cluster, query);
+    return data;
+  }
+  return [];
+};
+
+export const useVectorWithPermission = async (cluster: string, query: any = {}): Promise<Vector[]> => {
+  if (store.state.Plugins?.['monitoring'] || query.pass) {
+    const data = await new Vector().getVector(cluster, query);
+    return data;
+  }
+  return [];
+};
+
+export const usePluginPass = async (cluster: string, plugins: string[] = []): Promise<string[]> => {
+  if (plugins && plugins.length === 0) return [];
+  const data = await new Plugin().getPluginList(cluster, {
+    simple: true,
+    noprocessing: true,
+  });
+  const notPassPluins = plugins.filter((p) => {
+    return !data[p];
+  });
+  return notPassPluins;
 };
