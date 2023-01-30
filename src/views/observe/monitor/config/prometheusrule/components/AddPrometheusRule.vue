@@ -122,9 +122,11 @@
                 delete obj.promqlGenerator.labelpairs[key];
               }
             }
+            delete obj.logqlGenerator;
             await postAddPrometheusRule(this.$route.query.cluster, this.$route.query.namespace, obj);
           } else if (this.mode === 'logging') {
             obj.source = 'kubegems-default-logging-alert-rule';
+            delete obj.promqlGenerator;
             await postAddLogAlertRule(this.$route.query.cluster, this.$route.query.namespace, obj);
           }
           this.reset();

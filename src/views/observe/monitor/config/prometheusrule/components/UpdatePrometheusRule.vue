@@ -107,9 +107,10 @@
                 delete obj.promqlGenerator.labelpairs[key];
               }
             }
-
+            delete obj.logqlGenerator;
             await putUpdatePrometheusRule(this.$route.query.cluster, this.$route.query.namespace, obj.name, obj);
           } else if (this.mode === 'logging') {
+            delete obj.promqlGenerator;
             await putUpdateLogAlertRule(this.$route.query.cluster, this.$route.query.namespace, obj.name, obj);
           }
 

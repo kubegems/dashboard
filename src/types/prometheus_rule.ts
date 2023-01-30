@@ -79,10 +79,22 @@ export class PrometheusRule {
   }
 
   public async getLabelValues(params: KubeRequest = {}): Promise<string[]> {
-    const data: { [key: string]: any } = await axios(
-      `observability/cluster/${this.cluster}/namespaces/${this.namespace}/monitor/metrics/labelvalues`,
-      { params: params },
-    );
+    let data: { [key: string]: any };
+    if (this.alertType === 'monitor') {
+      data = await axios(
+        `observability/cluster/${this.cluster}/namespaces/${this.namespace}/monitor/metrics/labelvalues`,
+        { params: params },
+      );
+    } else if (this.alertType === 'logging') {
+      const resData: { [key: string]: any } = await axios(`proxy/cluster/${this.cluster}/custom/loki/v1/series`, {
+        params: params,
+      });
+      const values = [];
+      resData.forEach((d) => {
+        if (values.indexOf(d[params.label]) === -1 && d[params.label]) values.push(d[params.label]);
+      });
+      data = values;
+    }
 
     return data as string[];
   }

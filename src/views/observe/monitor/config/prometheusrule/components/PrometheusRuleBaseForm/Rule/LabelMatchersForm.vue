@@ -59,16 +59,7 @@
             </v-flex>
             <v-flex class="float-left text-subtitle-2 pt-4 primary--text kubegems__min-width" />
             <v-flex class="float-left ml-2 kubegems__long-width">
-              <v-text-field
-                v-if="mode === 'logging'"
-                v-model="obj.value"
-                class="my-0"
-                :hint="i18nLocal.t('tip.split_by_vertical')"
-                :label="i18nLocal.t('tip.label_value')"
-                :rules="objRule.valueRules"
-              />
               <v-autocomplete
-                v-if="mode === 'monitor'"
                 v-model="labelValues"
                 color="primary"
                 hide-selected
@@ -223,21 +214,29 @@
   const labelValueItems = ref<{ [key: string]: string }[]>([]);
   const valueText = ref<string>('');
   const nameChanged = async (): Promise<void> => {
+    let params = {};
     if (props.mode === 'monitor') {
-      const data: string[] = await new PrometheusRule({
-        cluster: route.query.cluster,
-        namespace: route.query.namespace,
-      }).getLabelValues({
+      params = {
         label: obj.name,
         scope: props.promqlGenerator?.scope || null,
         resource: props.promqlGenerator?.resource || null,
         rule: props.promqlGenerator?.rule || null,
         unit: props.promqlGenerator?.unit || null,
-      });
-      labelValueItems.value = data.map((d) => {
-        return { text: d, value: d };
-      });
+      };
+    } else {
+      params = {
+        label: obj.name,
+        match: `{namespace="${route.query.namespace}"}`,
+      };
     }
+    const data: string[] = await new PrometheusRule({
+      cluster: route.query.cluster,
+      namespace: route.query.namespace,
+      alertType: props.mode,
+    }).getLabelValues(params);
+    labelValueItems.value = data.map((d) => {
+      return { text: d, value: d };
+    });
   };
   const labelValueChanged = (): void => {
     obj.value = labelValues.value.join('|');

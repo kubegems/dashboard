@@ -17,7 +17,7 @@
 <template>
   <v-flex :class="`pa-0 clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
     <BaseAreaChart
-      chart-type="line"
+      :global-plugins-check="false"
       :labels="
         chart
           ? chart['xAxis-data'].map((x) => {
