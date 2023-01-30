@@ -82,6 +82,7 @@
     "trend": "Time-consuming trend",
     "avg_duration": "Average response time",
     "max_duration": "Maximum response time",
+    "min_duration": "Minimum response time",
     "availability": "Availability",
     "probe_config": "Prometheus Probe Config",
     "task_name": "Task Name",

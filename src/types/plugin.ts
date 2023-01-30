@@ -15,7 +15,13 @@
  */
 import axios from 'axios';
 
-export class Plugin {
+interface Operator {
+  enablePlugin(cluster: string, name: string, body: KubeRequest): Promise<Plugin>;
+  disablePlugin(cluster: string, name: string, body: KubeRequest): Promise<void>;
+  checkUpdate(cluster: string, body: KubeRequest): Promise<Plugin[]>;
+}
+
+export class Plugin implements Operator {
   constructor(plugin?: { [key: string]: any }) {
     Object.assign(this, plugin);
   }
@@ -25,5 +31,30 @@ export class Plugin {
   public async getPluginList(cluster: string, params: KubeRequest): Promise<{ [key: string]: any }> {
     const data: { [key: string]: any } = await axios(`proxy/cluster/${cluster}/plugins`, { params: params });
     return data as { [key: string]: any };
+  }
+
+  public async getPlugin(cluster: string, name: string, params: KubeRequest): Promise<{ [key: string]: any }> {
+    const data: { [key: string]: any } = await axios(`proxy/cluster/${cluster}/plugins/${name}`, { params: params });
+    return data as { [key: string]: any };
+  }
+
+  public async getGlobalPluginList(params: KubeRequest): Promise<{ [key: string]: string | boolean }[]> {
+    const data: { [key: string]: any } = await axios(`plugins`, { params: params });
+    return data as { [key: string]: string | boolean }[];
+  }
+
+  //Operator
+  public async enablePlugin(cluster: string, name: string, body: KubeRequest): Promise<Plugin> {
+    const data: { [key: string]: any } = await axios.post(`proxy/cluster/${cluster}/plugins/${name}`, body);
+    return data as Plugin;
+  }
+
+  public async disablePlugin(cluster: string, name: string, body: KubeRequest): Promise<void> {
+    await axios.delete(`proxy/cluster/${cluster}/plugins/${name}`, body);
+  }
+
+  public async checkUpdate(cluster: string, body: KubeRequest): Promise<Plugin[]> {
+    const data: { [key: string]: any } = await axios.post(`proxy/cluster/${cluster}/plugins:check-update`, body);
+    return data as Plugin[];
   }
 }

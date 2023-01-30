@@ -1,10 +1,11 @@
-# 1.23.0
+# 1.23.0-rc.0 (2023-1-29)
 
 ### 🌟 新功能
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [perf: ⚡ optimization model pages] | [0b50c32](https://github.com/chenshunliang/dashboard/commit/0b50c323d98d28852e2ef63a0adb78b66dab823b) |
+| - | [perf: ⚡ optimization trace chart style and alert rule channels] | [e72cf0ae](https://github.com/chenshunliang/dashboard/commit/e72cf0ae7fde3108a5052c9940ed4217b8f07188) |
 
 ### Bug Fixes
 

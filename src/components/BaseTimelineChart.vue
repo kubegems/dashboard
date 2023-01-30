@@ -71,6 +71,14 @@
         type: String,
         default: () => '',
       },
+      xDisplay: {
+        type: Boolean,
+        default: () => true,
+      },
+      yDisplay: {
+        type: Boolean,
+        default: () => true,
+      },
     },
     data() {
       return {
@@ -159,7 +167,7 @@
                   align: (context) => {
                     return (context.dataset.data[context.dataIndex].x[0] - context.dataset.data[0].x[0]) /
                       this.duration <
-                      0.3
+                      0.2
                       ? 'right'
                       : 'left';
                   },
@@ -175,6 +183,7 @@
               borderWidth: 1,
               scales: {
                 xAxis: {
+                  display: this.xDisplay,
                   min: this.metrics?.length > 0 ? this.metrics[0]?.data[0]?.x[0] : 0,
                   grid: {
                     display: false,
@@ -195,6 +204,7 @@
                   },
                 },
                 yAxis: {
+                  display: this.yDisplay,
                   ticks: {
                     autoSkip: true,
                     maxTicksLimit: 100,
@@ -260,15 +270,15 @@
       getHeight(items) {
         if (items?.length) {
           if (items.length <= 10) {
-            return 28 * items.length + 66;
+            return 28 * items.length + 36;
           } else if (items.length <= 15) {
-            return 33.6 * items.length;
+            return 31.6 * items.length;
           } else if (items.length <= 20) {
-            return 33.2 * items.length;
+            return 31.1 * items.length;
           } else if (items.length < 30) {
-            return 32.5 * items.length;
+            return 30.5 * items.length;
           } else {
-            return 32.2 * items.length;
+            return 29.8 * items.length;
           }
         }
         return 0;

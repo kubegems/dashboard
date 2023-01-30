@@ -81,6 +81,7 @@
     "trend": "耗時走勢",
     "avg_duration": "平均響應時間",
     "max_duration": "最大響應時間",
+    "min_duration": "最小響應時間",
     "availability": "可用率",
     "probe_config": "雲撥測配置",
     "task_name": "任務名稱",

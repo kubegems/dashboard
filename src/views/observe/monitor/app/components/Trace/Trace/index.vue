@@ -96,7 +96,7 @@
         <template #expanded-item="{ headers, item }">
           <td class="my-2 py-2" :colspan="headers.length">
             <v-row>
-              <v-col cols="7">
+              <v-col cols="8">
                 <div class="text-subtitle-2 kubegems--text">Span</div>
                 <v-simple-table dense>
                   <template #default>
@@ -111,7 +111,7 @@
                     </thead>
                     <tbody>
                       <tr v-for="span in item.spans" :key="span.spanID">
-                        <td>{{ moment(span.startTime / 1000).format('mm:ss.SSS') }}</td>
+                        <td>{{ moment(span.startTime / 1000).format('HH:mm:ss.SSS') }}</td>
                         <td>{{ span.spanID }}</td>
                         <td>{{ item.processes[span.processID].serviceName }}</td>
                         <td :class="{ 'error--text': isErrorSpan(span) }">
@@ -137,7 +137,7 @@
                   </template>
                 </v-simple-table>
               </v-col>
-              <v-col cols="5">
+              <v-col cols="4">
                 <div class="text-subtitle-2 kubegems--text">{{ i18nLocal.t('tip.timeline') }}</div>
                 <BaseTimelineChart
                   :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')}`"
@@ -147,6 +147,8 @@
                   :label-show="false"
                   :metrics="getMetrics(item)"
                   :style="{ marginTop: '-6px' }"
+                  :x-display="false"
+                  :y-display="false"
                 />
               </v-col>
             </v-row>
@@ -328,7 +330,7 @@
           return {
             x: [span.startTime / 1000, span.startTime / 1000 + span.duration / 1000],
             y: span.spanID.substr(0, 7),
-            operation: span.operationName,
+            operation: `${beautifyTime(span.duration)}`,
           };
         }),
       },
@@ -387,7 +389,7 @@
 
   .operation {
     text-overflow: ellipsis;
-    width: 285px;
+    width: 375px;
     white-space: nowrap;
     overflow-x: auto;
   }

@@ -82,6 +82,7 @@
     "trend": "時間のかかる傾向",
     "avg_duration": "平均応答時間",
     "max_duration": "最大応答時間",
+    "min_duration": "最小応答時間",
     "availability": "可用性",
     "probe_config": "クラウド ダイヤル テストの構成",
     "task_name": "ミッション名",
