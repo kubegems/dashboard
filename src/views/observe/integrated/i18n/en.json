@@ -46,7 +46,8 @@
     "12_hour": "12 hours",
     "probe_type_config": "Probe type config",
     "all_probe_address": "All probe cluster",
-    "need_probe_address": "Need probe cluster"
+    "need_probe_address": "Need probe cluster",
+    "add_alert_failed": "Failed to add alert rule"
   },
   "operate": {
     "open": "Open",

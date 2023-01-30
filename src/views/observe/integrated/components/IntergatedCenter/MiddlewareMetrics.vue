@@ -136,7 +136,13 @@
 
   import messages from '../../i18n';
   import ProjectEnvSelect from './ProjectEnvSelect';
-  import { getAppStoreRunningDetail, getChartSchema, getServiceMonitorStatus, postDeployAppStore } from '@/api';
+  import {
+    getAppStoreRunningDetail,
+    getChartSchema,
+    getServiceMonitorStatus,
+    postDeployAppStore,
+    postImportPrometheusRule,
+  } from '@/api';
   import { randomString } from '@/utils/helpers';
   import { getValueSchema, setValue } from '@/utils/yaml';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
@@ -236,8 +242,25 @@
               values: this.appValues,
             };
             await postDeployAppStore(this.Tenant().ID, this.env?.projectid, this.env?.value, data);
+
             this.deploying = true;
             this.$emit('deploying');
+
+            // 添加告警规则
+            if (this.chart?.['alerts.yaml']) {
+              try {
+                const alertsYaml = Base64.decode(this.chart['alerts.yaml'])
+                  .replaceAll('__namespace__', this.env?.namespace)
+                  .replaceAll('__fullname__', appName)
+                  .replaceAll(new RegExp('name: ([\\w-_]+)', 'g'), `name: $1-${this.randomStr}`);
+                await postImportPrometheusRule(this.env?.clusterName, this.env?.namespace, alertsYaml);
+              } catch {
+                this.$store.commit('SET_SNACKBAR', {
+                  text: this.$t('tip.add_alert_failed'),
+                  color: 'warning',
+                });
+              }
+            }
 
             this.getAppStatus();
             this.appStatusInterval = setInterval(() => {

@@ -156,10 +156,14 @@
                     if (!this.horizontal) return false;
                     return context.dataset.data[context.dataIndex] !== null ? 'auto' : false;
                   },
-                  formatter: (value) => {
+                  formatter: (value, context) => {
                     return this.horizontal
                       ? this.type === 'time'
-                        ? beautifyTime(value.x, 1000000)
+                        ? context.dataset.data[context.dataIndex].x / context.dataset.data[0].x < 0.3
+                          ? `${value.y}  ${beautifyTime(value.x, 1000000)}`
+                          : beautifyTime(value.x, 1000000)
+                        : context.dataset.data[context.dataIndex].x / context.dataset.data[0].x < 0.3
+                        ? `${value.y}  ${value.x.toFixed(1)}`
                         : value.x.toFixed(1)
                       : value.y;
                   },
@@ -212,9 +216,17 @@
             datalabels: {
               labels: {
                 name: {
-                  align: 'right',
+                  align: (context) => {
+                    return context.dataset.data[context.dataIndex].x / context.dataset.data[0].x < 0.3
+                      ? 'left'
+                      : 'right';
+                  },
                   anchor: 'start',
-                  color: 'white',
+                  color: (context) => {
+                    return context.dataset.data[context.dataIndex].x / context.dataset.data[0].x < 0.3
+                      ? 'grey'
+                      : 'white';
+                  },
                   formatter: function (value) {
                     return value.y;
                   },

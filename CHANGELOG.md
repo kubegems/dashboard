@@ -12,6 +12,7 @@
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [fix: 🐛 fix log project env cascade selector first trigger not effect bug] | ([caa750a](https://github.com/chenshunliang/dashboard/commit/caa750a3fdee2ccf45ed93d08636fb48c95eb954) |
+| - | [fix: 🐛 fix alert channel type lost bug, optimization trace timeline chart] | ([68c1bfa](https://github.com/chenshunliang/dashboard/commit/68c1bfa8303368ee19bb7f05c55b20b2680c1e1b) |
 
 # 1.23.0-alpha.3 (2023-1-11)
 
