@@ -101,8 +101,8 @@
               <template #default>
                 <thead>
                   <tr>
-                    <th class="text-left" :style="{ width: `75px` }">{{ i18nLocal.t('table.start_time') }}</th>
-                    <th class="text-left" :style="{ width: `120px` }">SpanID</th>
+                    <th class="text-left" :style="{ width: `120px` }">{{ i18nLocal.t('table.start_time') }}</th>
+                    <th class="text-left" :style="{ width: `180px` }">SpanID</th>
                     <th class="text-left">Service</th>
                     <th class="text-left">Operation</th>
                     <th class="text-left">{{ i18nLocal.t('table.duration') }}</th>
@@ -114,28 +114,27 @@
                     <td>{{ span.spanID }}</td>
                     <td>{{ item.processes[span.processID].serviceName }}</td>
                     <td :class="{ 'error--text': isErrorSpan(span) }">
-                      <v-menu :close-delay="200" nudge-top="24px" :open-delay="100" open-on-hover top>
-                        <template #activator="{ on }">
-                          <div class="operation" v-on="on">
-                            {{ span.operationName }}
-                            <SpanWarnTip v-if="span.warnings" :warnings="span.warnings">
-                              <template #trigger>
-                                <v-icon color="orange" small>mdi-alert-circle</v-icon>
-                              </template>
-                            </SpanWarnTip>
-                          </div>
-                        </template>
-                        <v-card>
-                          <v-card-text class="pa-2 text-caption"> {{ span.operationName }} </v-card-text>
-                        </v-card>
-                      </v-menu>
+                      <div class="operation">
+                        {{ span.operationName }}
+                        <SpanWarnTip v-if="span.warnings" :warnings="span.warnings">
+                          <template #trigger>
+                            <v-icon color="orange" small>mdi-alert-circle</v-icon>
+                          </template>
+                        </SpanWarnTip>
+                      </div>
                     </td>
                     <td>
-                      <div class="float-left" :style="{ width: `100px` }">
-                        {{ beautifyTime(span.duration) }}
-                      </div>
-                      <div class="float-left">
-                        <div class="timeline float-left" :style="{ width: `${getLeft(item, span)}px` }" />
+                      <div>
+                        <div
+                          class="timeline float-left text-end text-body-2 pr-1"
+                          :style="{ width: `${getLeft(item, span)}px` }"
+                        >
+                          {{
+                            getTimeline(item, span) < 100 && getLeft(item, span) >= 100
+                              ? beautifyTime(span.duration)
+                              : ''
+                          }}
+                        </div>
                         <div
                           :class="{
                             'float-left': true,
@@ -143,12 +142,23 @@
                             error: isErrorSpan(span) && !span.warnings,
                             primary: !isErrorSpan(span) && !span.warnings,
                             orange: span.warnings,
+                            'text-center': true,
+                            'white--text': true,
+                            'text-body-2': true,
                           }"
-                          :style="{ width: `${(300 * span.duration) / getDuration(item)}px` }"
-                        />
+                          :style="{ width: `${getTimeline(item, span)}px` }"
+                        >
+                          {{ getTimeline(item, span) < 100 ? '' : beautifyTime(span.duration) }}
+                        </div>
+                        <div class="timeline float-left text-start text-body-2 pl-1">
+                          {{
+                            getTimeline(item, span) < 100 && getLeft(item, span) < 100
+                              ? beautifyTime(span.duration)
+                              : ''
+                          }}
+                        </div>
                         <div class="kubegems__clear-float" />
                       </div>
-                      <div class="kubegems__clear-float" />
                     </td>
                   </tr>
                 </tbody>
@@ -324,7 +334,11 @@
 
   const getLeft = (item: Telemetry, span: any): number => {
     const firstSpan = item.spans[0];
-    return ((span.startTime - firstSpan.startTime) / getDuration(item)) * 300;
+    return ((span.startTime - firstSpan.startTime) / getDuration(item)) * 400;
+  };
+
+  const getTimeline = (item: Telemetry, span: any): number => {
+    return (400 * span.duration) / getDuration(item);
   };
 
   const getErrorSpanCount = (item: Telemetry): number => {
@@ -379,7 +393,7 @@
 
   .operation {
     text-overflow: ellipsis;
-    width: 450px;
+    // width: 400px;
     white-space: nowrap;
     overflow-x: auto;
   }

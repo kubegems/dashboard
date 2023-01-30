@@ -1,3 +1,11 @@
+# 1.23.0-rc.1 (2023-1-30)
+
+### 🌟 新功能
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [perf: ⚡ customize trace timeline chart and remove timeline chart component] | [c588c43](https://github.com/chenshunliang/dashboard/commit/c588c43e56fbfe5004d25ed0bea7f2dfd40f556a) |
+
 # 1.23.0-rc.0 (2023-1-29)
 
 ### 🌟 新功能

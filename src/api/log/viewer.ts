@@ -5,6 +5,13 @@ export const getLogLabels = (
   clusterName: string,
   query: { [key: string]: any } = {},
 ): Promise<{ [key: string]: any }> => axios(`log/${clusterName}/labels`, { params: query, timeout: 60 * 1000 });
+// 日志标签值
+export const getLogLabelValues = (
+  clusterName: string,
+  label: string,
+  query: { [key: string]: any } = {},
+): Promise<{ [key: string]: any }> =>
+  axios(`log/${clusterName}/labels/${label}/values`, { params: query, timeout: 60 * 1000 });
 // 日志查询
 export const getLogQueryRange = (
   clusterName: string,
