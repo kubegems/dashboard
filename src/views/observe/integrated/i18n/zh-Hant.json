@@ -45,7 +45,8 @@
     "12_hour": "12小時",
     "probe_type_config": "探測類型配置",
     "all_probe_address": "全部監測點",
-    "need_probe_address": "需要監測點"
+    "need_probe_address": "需要監測點",
+    "add_alert_failed": "添加告警規則失敗"
   },
   "operate": {
     "open": "開啟",

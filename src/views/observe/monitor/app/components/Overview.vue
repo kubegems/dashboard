@@ -163,12 +163,17 @@
         data: [],
         label: '',
       };
-      metric.data = data[key].slice(0, 10).map((t) => {
-        return {
-          y: t.labelvalue,
-          x: parseFloat(t.value),
-        };
-      });
+      metric.data = data[key]
+        .slice(0, 10)
+        .map((t) => {
+          return {
+            y: t.labelvalue,
+            x: parseFloat(t.value),
+          };
+        })
+        .filter((t) => {
+          return t.x > 0;
+        });
       metrics.value[key] = [metric];
     });
   };

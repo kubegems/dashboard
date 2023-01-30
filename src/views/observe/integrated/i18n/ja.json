@@ -46,7 +46,8 @@
     "12_hour": "12時間",
     "probe_type_config": "プローブ タイプの設定",
     "all_probe_address": "全監視ポイント",
-    "need_probe_address": "監視が必要"
+    "need_probe_address": "監視が必要",
+    "add_alert_failed": "アラート ルールを追加できませんでした"
   },
   "operate": {
     "open": "オン",
