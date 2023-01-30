@@ -88,6 +88,7 @@
     "trend": "耗时走势",
     "avg_duration": "平均响应时间",
     "max_duration": "最大响应时间",
+    "min_duration": "最小响应时间",
     "availability": "可用率",
 
     "probe_config": "云拨测配置",

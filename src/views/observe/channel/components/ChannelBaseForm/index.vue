@@ -183,6 +183,7 @@
           };
         } else if (this.channelType === 'AliyunMsg' && !this.edit) {
           this.obj.channelConfig = {
+            channelType: 'aliyunMsg',
             accessKeyId: '',
             accessKeySecret: '',
             phoneNumbers: '',
@@ -192,6 +193,7 @@
           };
         } else if (this.channelType === 'AliyunVoice' && !this.edit) {
           this.obj.channelConfig = {
+            channelType: 'aliyunVoice',
             accessKeyId: '',
             accessKeySecret: '',
             callNumber: '',
@@ -200,6 +202,7 @@
           };
         } else if (this.channelType === 'Dingding' && !this.edit) {
           this.obj.channelConfig = {
+            channelType: 'dingding',
             url: '',
             atMobiles: '',
             signSecret: '',

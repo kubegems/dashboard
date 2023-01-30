@@ -105,7 +105,6 @@
     PROBE_HTTP_CERT_EXPIRY_PROMQ,
     PROBE_HTTP_TLS_VERSION_PROMQ,
     PROBE_HTTP_VERSION_PROMQ,
-    PROBE_MAX_DURATION_PROMQL,
   } from '@/constants/prometheus';
   import { useStore } from '@/store';
   import { Matrix, Vector } from '@/types/prometheus';
@@ -149,12 +148,17 @@
 
   const statistics = ref([
     {
-      s: i18nLocal.t('tip.avg_duration'),
+      s: i18nLocal.t('tip.min_duration'),
       v: undefined,
       t: undefined,
     },
     {
       s: i18nLocal.t('tip.max_duration'),
+      v: undefined,
+      t: undefined,
+    },
+    {
+      s: i18nLocal.t('tip.avg_duration'),
       v: undefined,
       t: undefined,
     },
@@ -239,7 +243,29 @@
       start: params.value.start,
       end: params.value.end,
     });
-    if (data) duration.value = data;
+    if (data) {
+      duration.value = data;
+      const values = data[0].values.map((d) => {
+        return d[1] as number;
+      });
+      const maxDur = Math.max(...values);
+      const maxTime = data[0].values[
+        values.findIndex((v) => {
+          return v.toString() === maxDur.toString();
+        })
+      ][0] as number;
+      statistics.value[1].v = beautifyTime((maxDur.toString() || 0) as string, 1000000);
+      statistics.value[1].t = moment(data[0] ? maxTime * 1000 : 0).format('YYYY-MM-DD HH:mm:ss');
+
+      const minDur = Math.min(...values);
+      const minTime = data[0].values[
+        values.findIndex((v) => {
+          return v.toString() === minDur.toString();
+        })
+      ][0] as number;
+      statistics.value[0].v = beautifyTime((minDur.toString() || 0) as string, 1000000);
+      statistics.value[0].t = moment(data[0] ? minTime * 1000 : 0).format('YYYY-MM-DD HH:mm:ss');
+    }
   };
 
   const getAvailability = async (): Promise<void> => {
@@ -257,24 +283,8 @@
       const success = data.filter((d) => {
         return d.values[0][1] === '1';
       }).length;
-      statistics.value[2].v = `${((success / all) * 100).toFixed(1)}%`;
-      statistics.value[2].t = moment(params.value.end).format('YYYY-MM-DD HH:mm:ss');
-    }
-  };
-
-  const getMaxDuration = async (): Promise<void> => {
-    const query = PROBE_MAX_DURATION_PROMQL.replaceAll(
-      '$1',
-      `${probe.value.metadata.namespace}/${probe.value.metadata.name}`,
-    ).replaceAll('$2', probe.value.spec.targets.staticConfig.static[0]);
-    const data = await new Vector().getVector(props.env.clusterName, {
-      query: query,
-      start: params.value.start,
-      end: params.value.end,
-    });
-    if (data) {
-      statistics.value[1].v = beautifyTime((data[0] ? data[0].value[1] : 0) as string, 1000000);
-      statistics.value[1].t = moment(params.value.end).format('YYYY-MM-DD HH:mm:ss');
+      statistics.value[3].v = `${((success / all) * 100).toFixed(1)}%`;
+      statistics.value[3].t = '--';
     }
   };
 
@@ -289,8 +299,8 @@
       end: params.value.end,
     });
     if (data) {
-      statistics.value[0].v = beautifyTime((data[0] ? data[0].value[1] : 0) as string, 1000000);
-      statistics.value[0].t = moment(params.value.end).format('YYYY-MM-DD HH:mm:ss');
+      statistics.value[2].v = beautifyTime((data[0] ? data[0].value[1] : 0) as string, 1000000);
+      statistics.value[2].t = '--';
     }
   };
 
@@ -305,14 +315,12 @@
     }
     getDuration();
     getAvgDuration();
-    getMaxDuration();
     getAvailability();
     interval = setInterval(() => {
       params.value.start = moment(params.value.start).utc().add(30, 'seconds').format();
       params.value.end = moment(params.value.end).utc().add(30, 'seconds').format();
       getDuration();
       getAvgDuration();
-      getMaxDuration();
       getAvailability();
     }, 30 * 1000);
   };
