@@ -25,45 +25,49 @@
               <div class="text-center">
                 <Icon height="120px" icon="mdi:account" :style="{ color: `#1e88e5` }" width="120px" />
                 <h3 class="mt-2 text-h6 font-weight-regular">
-                  {{ User.Username }}
+                  {{ store.state.User.Username }}
                   <v-chip class="mr-1 mt-n1" pill small>
                     <v-avatar left>
                       <v-btn class="white--text" color="grey lighten-4" small>
                         <BaseLogo
                           class="primary--text logo-margin mt-1"
-                          :icon-name="User.SourceVendor ? User.SourceVendor.toLocaleLowerCase() : 'kubegems'"
+                          :icon-name="
+                            store.state.User.SourceVendor
+                              ? store.state.User.SourceVendor.toLocaleLowerCase()
+                              : 'kubegems'
+                          "
                           :ml="0"
                           :width="20"
                         />
                       </v-btn>
                     </v-avatar>
                     <span class="font-weight-medium kubegems__text">
-                      {{ VENDOR[User.SourceVendor] || 'Selfhosted' }}
+                      {{ VENDOR[store.state.User.SourceVendor] || 'Selfhosted' }}
                     </span>
                   </v-chip>
                 </h3>
                 <h5 class="text-subtitle-2 mt-1">
-                  {{ Admin ? $root.$t('role.system.administrator') : $root.$t('role.system.normal') }}
+                  {{ store.state.Admin ? i18n.t('role.system.administrator') : i18n.t('role.system.normal') }}
                 </h5>
               </div>
             </div>
             <v-divider />
             <div class="py-5">
-              <h5 class="text-subtitle-1 kubegems__text">{{ $t('table.email') }}</h5>
+              <h5 class="text-subtitle-1 kubegems__text">{{ i18nLocal.t('table.email') }}</h5>
               <h6 class="text-body-2 mb-3">
-                {{ User.Email || $root.$t('data.unknown') }}
+                {{ store.state.User.Email || i18n.t('data.unknown') }}
               </h6>
-              <h5 class="text-subtitle-1 kubegems__text">{{ $t('table.mobile') }}</h5>
+              <h5 class="text-subtitle-1 kubegems__text">{{ i18nLocal.t('table.mobile') }}</h5>
               <h6 class="text-body-2 mb-3">
-                {{ User.Phone || $root.$t('data.unknown') }}
+                {{ store.state.User.Phone || i18n.t('data.unknown') }}
               </h6>
-              <h5 class="text-subtitle-1 kubegems__text">{{ $t('table.registe_at') }}</h5>
+              <h5 class="text-subtitle-1 kubegems__text">{{ i18nLocal.t('table.registe_at') }}</h5>
               <h6 class="text-body-2 mb-3">
-                {{ User.CreatedAt ? $moment(User.CreatedAt).format('lll') : '' }}
+                {{ store.state.User.CreatedAt ? moment(store.state.User.CreatedAt).format('lll') : '' }}
               </h6>
-              <h5 class="text-subtitle-1 kubegems__text">{{ $t('table.last_login_at') }}</h5>
+              <h5 class="text-subtitle-1 kubegems__text">{{ i18nLocal.t('table.last_login_at') }}</h5>
               <h6 class="text-body-2 mb-3">
-                {{ User.LastLoginAt ? $moment(User.LastLoginAt).format('lll') : '' }}
+                {{ store.state.User.LastLoginAt ? moment(store.state.User.LastLoginAt).format('lll') : '' }}
               </h6>
             </div>
           </v-card-text>
@@ -85,56 +89,38 @@
   </v-container>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import moment from 'moment';
+  import { onMounted, ref } from 'vue';
 
-  import AccessToken from './components/AccessToken';
-  import AuditList from './components/AuditList';
-  import MessageBox from './components/MessageBox';
-  import OwnerSetting from './components/OwnerSetting';
-  import messages from './i18n';
-  import { getLoginUserInfo } from '@/api';
+  import AccessToken from './components/AccessToken/index.vue';
+  import AuditList from './components/AuditList.vue';
+  import MessageBox from './components/MessageBox.vue';
+  import OwnerSetting from './components/OwnerSetting.vue';
+  import { useI18n } from './i18n';
   import { VENDOR } from '@/constants/platform';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+  import { Auth } from '@/types/auth';
 
-  export default {
-    name: 'UserCenter',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      AccessToken,
-      AuditList,
-      MessageBox,
-      OwnerSetting,
-    },
-    data() {
-      this.VENDOR = VENDOR;
+  const store = useStore();
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
 
-      return {
-        tab: 0,
-      };
-    },
-    computed: {
-      ...mapState(['JWT', 'User', 'Admin']),
-      tabItems() {
-        return [
-          { text: this.$t('tab.setting'), value: 'OwnerSetting' },
-          { text: this.$t('tab.audit'), value: 'AuditList' },
-          { text: this.$t('tab.message'), value: 'MessageBox' },
-          { text: this.$t('tab.auth'), value: 'AccessToken' },
-        ];
-      },
-    },
-    mounted() {
-      this.loginUserInfo();
-    },
-    methods: {
-      async loginUserInfo() {
-        const data = await getLoginUserInfo();
-        if (data) {
-          this.$store.commit('SET_USER', data);
-        }
-      },
-    },
+  const tab = ref<number>(0);
+  const tabItems = ref([
+    { text: i18nLocal.t('tab.setting'), value: OwnerSetting },
+    { text: i18nLocal.t('tab.audit'), value: AuditList },
+    { text: i18nLocal.t('tab.message'), value: MessageBox },
+    { text: i18nLocal.t('tab.auth'), value: AccessToken },
+  ]);
+
+  const getLoginUser = async (): Promise<void> => {
+    const data = await new Auth().getLoginUser();
+    store.commit('SET_USER', data);
   };
+
+  onMounted(() => {
+    getLoginUser();
+  });
 </script>

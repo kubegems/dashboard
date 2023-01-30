@@ -74,6 +74,7 @@
         :no-data-text="i18n.t('data.no_data')"
         :page.sync="pagination.page"
         show-expand
+        single-expand
       >
         <template #item.startTime="{ item }">
           {{ getStartTime(item) }}
@@ -95,63 +96,64 @@
         </template>
         <template #expanded-item="{ headers, item }">
           <td class="my-2 py-2" :colspan="headers.length">
-            <v-row>
-              <v-col cols="8">
-                <div class="text-subtitle-2 kubegems--text">Span</div>
-                <v-simple-table dense>
-                  <template #default>
-                    <thead>
-                      <tr>
-                        <th class="text-left" :style="{ width: `75px` }">{{ i18nLocal.t('table.start_time') }}</th>
-                        <th class="text-left" :style="{ width: `120px` }">SpanID</th>
-                        <th class="text-left">Service</th>
-                        <th class="text-left">Operation</th>
-                        <th class="text-left" :style="{ width: `100px` }">{{ i18nLocal.t('table.duration') }}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="span in item.spans" :key="span.spanID">
-                        <td>{{ moment(span.startTime / 1000).format('HH:mm:ss.SSS') }}</td>
-                        <td>{{ span.spanID }}</td>
-                        <td>{{ item.processes[span.processID].serviceName }}</td>
-                        <td :class="{ 'error--text': isErrorSpan(span) }">
-                          <v-menu :close-delay="200" nudge-top="24px" :open-delay="100" open-on-hover top>
-                            <template #activator="{ on }">
-                              <div class="operation" v-on="on">
-                                {{ span.operationName }}
-                                <SpanWarnTip v-if="span.warnings" :warnings="span.warnings">
-                                  <template #trigger>
-                                    <v-icon color="orange" small>mdi-alert-circle</v-icon>
-                                  </template>
-                                </SpanWarnTip>
-                              </div>
-                            </template>
-                            <v-card>
-                              <v-card-text class="pa-2 text-caption"> {{ span.operationName }} </v-card-text>
-                            </v-card>
-                          </v-menu>
-                        </td>
-                        <td>{{ beautifyTime(span.duration) }} </td>
-                      </tr>
-                    </tbody>
-                  </template>
-                </v-simple-table>
-              </v-col>
-              <v-col cols="4">
-                <div class="text-subtitle-2 kubegems--text">{{ i18nLocal.t('tip.timeline') }}</div>
-                <BaseTimelineChart
-                  :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')}`"
-                  colorful
-                  :duration="getDuration(item) / 1000"
-                  :extend-height="100"
-                  :label-show="false"
-                  :metrics="getMetrics(item)"
-                  :style="{ marginTop: '-6px' }"
-                  :x-display="false"
-                  :y-display="false"
-                />
-              </v-col>
-            </v-row>
+            <div class="text-subtitle-2 kubegems--text">Span</div>
+            <v-simple-table dense>
+              <template #default>
+                <thead>
+                  <tr>
+                    <th class="text-left" :style="{ width: `75px` }">{{ i18nLocal.t('table.start_time') }}</th>
+                    <th class="text-left" :style="{ width: `120px` }">SpanID</th>
+                    <th class="text-left">Service</th>
+                    <th class="text-left">Operation</th>
+                    <th class="text-left">{{ i18nLocal.t('table.duration') }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="span in item.spans" :key="span.spanID">
+                    <td>{{ moment(span.startTime / 1000).format('HH:mm:ss.SSS') }}</td>
+                    <td>{{ span.spanID }}</td>
+                    <td>{{ item.processes[span.processID].serviceName }}</td>
+                    <td :class="{ 'error--text': isErrorSpan(span) }">
+                      <v-menu :close-delay="200" nudge-top="24px" :open-delay="100" open-on-hover top>
+                        <template #activator="{ on }">
+                          <div class="operation" v-on="on">
+                            {{ span.operationName }}
+                            <SpanWarnTip v-if="span.warnings" :warnings="span.warnings">
+                              <template #trigger>
+                                <v-icon color="orange" small>mdi-alert-circle</v-icon>
+                              </template>
+                            </SpanWarnTip>
+                          </div>
+                        </template>
+                        <v-card>
+                          <v-card-text class="pa-2 text-caption"> {{ span.operationName }} </v-card-text>
+                        </v-card>
+                      </v-menu>
+                    </td>
+                    <td>
+                      <div class="float-left" :style="{ width: `100px` }">
+                        {{ beautifyTime(span.duration) }}
+                      </div>
+                      <div class="float-left">
+                        <div class="timeline float-left" :style="{ width: `${getLeft(item, span)}px` }" />
+                        <div
+                          :class="{
+                            'float-left': true,
+                            timeline: true,
+                            error: isErrorSpan(span) && !span.warnings,
+                            primary: !isErrorSpan(span) && !span.warnings,
+                            orange: span.warnings,
+                          }"
+                          :style="{ width: `${(300 * span.duration) / getDuration(item)}px` }"
+                        />
+                        <div class="kubegems__clear-float" />
+                      </div>
+                      <div class="kubegems__clear-float" />
+                    </td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
           </td>
         </template>
       </v-data-table>
@@ -178,13 +180,11 @@
   import { useRouter } from '@/composition/router';
   import { useTracePagination } from '@/composition/telemetry';
   import { useGlobalI18n } from '@/i18n';
-  import { useStore } from '@/store';
   import { Telemetry } from '@/types/opentelemetry';
   import { beautifyTime } from '@/utils/helpers';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();
-  const store = useStore();
   const router = useRouter();
 
   type Env = {
@@ -322,19 +322,9 @@
     return 0;
   };
 
-  const getMetrics = (item: Telemetry): any[] => {
-    return [
-      {
-        label: item.traceID,
-        data: item.spans.map((span) => {
-          return {
-            x: [span.startTime / 1000, span.startTime / 1000 + span.duration / 1000],
-            y: span.spanID.substr(0, 7),
-            operation: `${beautifyTime(span.duration)}`,
-          };
-        }),
-      },
-    ];
+  const getLeft = (item: Telemetry, span: any): number => {
+    const firstSpan = item.spans[0];
+    return ((span.startTime - firstSpan.startTime) / getDuration(item)) * 300;
   };
 
   const getErrorSpanCount = (item: Telemetry): number => {
@@ -389,8 +379,12 @@
 
   .operation {
     text-overflow: ellipsis;
-    width: 375px;
+    width: 450px;
     white-space: nowrap;
     overflow-x: auto;
+  }
+
+  .timeline {
+    height: 20px;
   }
 </style>

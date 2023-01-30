@@ -6,6 +6,7 @@
 | --- | --- | --- |
 | - | [perf: ⚡ optimization model pages] | [0b50c32](https://github.com/chenshunliang/dashboard/commit/0b50c323d98d28852e2ef63a0adb78b66dab823b) |
 | - | [perf: ⚡ optimization trace chart style and alert rule channels] | [e72cf0ae](https://github.com/chenshunliang/dashboard/commit/e72cf0ae7fde3108a5052c9940ed4217b8f07188) |
+| - | [perf: ⚡ add alert rule when create middleware integrated, optimization app monitor bar chart] | [d1e7902](https://github.com/chenshunliang/dashboard/commit/d1e7902c14f927ac96c7eab5aa9ca148db7474c2) |
 
 ### Bug Fixes
 
