@@ -17,7 +17,7 @@
 <template>
   <v-card class="pa-2" flat>
     <v-card-title class="pa-0">
-      <v-chip-group v-model="messageType" class="ml-2 align-center" column @change="onMessageTypeChange">
+      <v-chip-group v-model="messageType" class="ml-2 align-center" column @change="messageTypeChange">
         <v-chip
           v-for="(item, index) in messageTypeItems"
           :key="index"
@@ -38,98 +38,85 @@
       disable-sort
       :headers="headers"
       hide-default-footer
-      :items="items"
-      :items-per-page="params.size"
-      :no-data-text="$root.$t('data.no_data')"
-      :page.sync="params.page"
+      :items="pagination.items"
+      :items-per-page="pagination.size"
+      :no-data-text="i18n.t('data.no_data')"
+      :page.sync="pagination.page"
     >
-      <template #[`item.createdAt`]="{ item }">
-        {{ item.CreatedAt ? $moment(item.CreatedAt).format('lll') : '' }}
+      <template #item.createdAt="{ item }">
+        {{ item.CreatedAt ? moment(item.CreatedAt).format('lll') : '' }}
       </template>
-      <template #[`item.title`]="{ item }">
+      <template #item.title="{ item }">
         {{ item.Title }}
       </template>
-      <template #[`item.messageType`]="{ item }">
-        {{ $t(`message.filter.${item.MessageType}`) }}
+      <template #item.messageType="{ item }">
+        {{ i18nLocal.t(`message.filter.${item.MessageType}`) }}
       </template>
     </v-data-table>
     <BasePagination
-      v-if="pageCount >= 1"
-      v-model="params.page"
-      :page-count="pageCount"
-      :size="params.size"
-      @changepage="onPageIndexChange"
-      @changesize="onPageSizeChange"
-      @loaddata="messageList"
+      v-if="pagination.pageCount >= 1"
+      v-model="pagination.page"
+      :page-count="pagination.pageCount"
+      :size="pagination.size"
+      @changepage="pageChange"
+      @changesize="sizeChange"
+      @loaddata="getMessageList"
     />
   </v-card>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import moment from 'moment';
+  import { onMounted, reactive, ref } from 'vue';
 
-  import messages from '../i18n';
-  import { getMessageList } from '@/api';
+  import { useI18n } from '../i18n';
+  import { useMessagePagination } from '@/composition/message';
+  import { useGlobalI18n } from '@/i18n';
+  import { Message } from '@/types/message';
 
-  export default {
-    name: 'MessageBox',
-    i18n: {
-      messages: messages,
-    },
-    data() {
-      return {
-        items: [],
-        pageCount: 0,
-        messageType: null,
-      };
-    },
-    computed: {
-      ...mapState(['JWT']),
-      params() {
-        return {
-          page: 1,
-          size: 20,
-          is_read: true,
-          message_type:
-            this.messageType || this.messageType === 0 ? this.messageTypeItems[this.messageType].value : null,
-        };
-      },
-      headers() {
-        return [
-          { text: this.$t('message.table.time'), value: 'createdAt', align: 'start', width: 220 },
-          { text: this.$t('message.table.message'), value: 'title', align: 'start' },
-          { text: this.$t('message.table.type'), value: 'messageType', align: 'end', width: 50 },
-          { text: '', value: '', align: 'end', width: 30 },
-        ];
-      },
-      messageTypeItems() {
-        return [
-          { text: this.$t('message.filter.notify'), color: 'success', value: 'message' },
-          { text: this.$t('message.filter.approval'), color: 'primary', value: 'approve' },
-          { text: this.$t('message.filter.alert'), color: 'error', value: 'alert' },
-        ];
-      },
-    },
-    mounted() {
-      this.messageList();
-    },
-    methods: {
-      onMessageTypeChange() {
-        this.messageList();
-      },
-      async messageList(noprocess = false) {
-        const data = await getMessageList(Object.assign(this.params, { noprocessing: noprocess }));
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
-      },
-      onPageSizeChange(size) {
-        this.params.page = 1;
-        this.params.size = size;
-      },
-      onPageIndexChange(page) {
-        this.params.page = page;
-      },
-    },
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+
+  const headers = [
+    { text: i18nLocal.t('message.table.time'), value: 'createdAt', align: 'start', width: 220 },
+    { text: i18nLocal.t('message.table.message'), value: 'title', align: 'start' },
+    { text: i18nLocal.t('message.table.type'), value: 'messageType', align: 'end', width: 50 },
+    { text: '', value: '', align: 'end', width: 30 },
+  ];
+
+  const messageType = ref<number>(undefined);
+  const messageTypeItems = [
+    { text: i18nLocal.t('message.filter.notify'), color: 'success', value: 'message' },
+    { text: i18nLocal.t('message.filter.approval'), color: 'primary', value: 'approve' },
+    { text: i18nLocal.t('message.filter.alert'), color: 'error', value: 'alert' },
+  ];
+
+  let pagination: Pagination<Message> = reactive<Pagination<Message>>({
+    page: 1,
+    size: 10,
+    pageCount: 0,
+    items: [],
+  });
+
+  const getMessageList = async (params: KubePaginationRequest = pagination): Promise<void> => {
+    const data: Pagination<Message> = await useMessagePagination(new Message(), params.page, params.size);
+    pagination = Object.assign(pagination, data);
   };
+
+  const pageChange = (page: number): void => {
+    pagination.page = page;
+  };
+
+  const sizeChange = (size: number): void => {
+    pagination.page = 1;
+    pagination.size = size;
+  };
+
+  const messageTypeChange = (): void => {
+    getMessageList();
+  };
+
+  onMounted(() => {
+    getMessageList();
+  });
 </script>

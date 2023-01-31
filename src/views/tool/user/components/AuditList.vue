@@ -17,7 +17,7 @@
 <template>
   <v-card class="pa-2" flat>
     <v-card-title class="pa-0">
-      <v-chip-group v-model="action" class="ml-2 align-center" column @change="onActionStatusChange">
+      <v-chip-group v-model="action" class="ml-2 align-center" column @change="actionStatusChange">
         <v-chip
           v-for="(item, index) in actionItems"
           :key="index"
@@ -38,17 +38,17 @@
       :headers="headers"
       hide-default-footer
       item-key="ID"
-      :items="items"
-      :items-per-page="params.size"
+      :items="pagination.items"
+      :items-per-page="pagination.size"
       :no-data-text="$root.$t('data.no_data')"
-      :page.sync="params.page"
+      :page.sync="pagination.page"
       show-expand
       single-expand
-      @click:row="onRowClick"
+      @click:row="rowClick"
       @item-expanded="convertYaml"
     >
       <template #[`item.createdAt`]="{ item }">
-        {{ item.CreatedAt ? $moment(item.CreatedAt).format('lll') : '' }}
+        {{ item.CreatedAt ? moment(item.CreatedAt).format('lll') : '' }}
       </template>
       <template #[`item.clientIP`]="{ item }">
         {{ item.ClientIP }}
@@ -71,7 +71,7 @@
       </template>
       <template #expanded-item="{ headers }">
         <td :colspan="headers.length">
-          <pre class="kubegems__word-all-break">{{ yaml }}</pre>
+          <pre class="kubegems__word-all-break">{{ yamlStr }}</pre>
         </td>
       </template>
       <template #[`item.labels`]="{ item }">
@@ -89,114 +89,104 @@
       </template>
     </v-data-table>
     <BasePagination
-      v-if="pageCount >= 1"
-      v-model="params.page"
-      :page-count="pageCount"
-      :size="params.size"
-      @changepage="onPageIndexChange"
-      @changesize="onPageSizeChange"
-      @loaddata="auditList"
+      v-if="pagination.pageCount >= 1"
+      v-model="pagination.page"
+      :page-count="pagination.pageCount"
+      :size="pagination.size"
+      @changepage="pageChange"
+      @changesize="sizeChange"
+      @loaddata="getAuditList"
     />
   </v-card>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import yaml from 'js-yaml';
+  import moment from 'moment';
+  import { onMounted, reactive, ref } from 'vue';
 
-  import messages from '../i18n';
-  import { getAuditList } from '@/api';
+  import { useI18n } from '../i18n';
+  import { useAuditPagination } from '@/composition/audit';
+  import { useGlobalI18n } from '@/i18n';
+  import { Audit } from '@/types/audit';
 
-  export default {
-    name: 'AuditList',
-    i18n: {
-      messages: messages,
-    },
-    data() {
-      return {
-        items: [],
-        pageCount: 0,
-        action: null,
-        yaml: '',
-      };
-    },
-    computed: {
-      ...mapState(['JWT', 'User']),
-      params() {
-        return {
-          page: 1,
-          size: 20,
-          order: '-CreatedAt',
-          Username: this.User.Username,
-          Action: this.action || this.action === 0 ? this.actionItems[this.action].value : null,
-        };
-      },
-      headers() {
-        return [
-          { text: this.$t('audit.table.trigger_time'), value: 'createdAt', align: 'start', width: 220 },
-          { text: this.$t('audit.table.tenant'), value: 'tenant', align: 'start', width: 100 },
-          { text: this.$t('audit.table.operate'), value: 'action', align: 'start', width: 100 },
-          { text: 'Kind', value: 'module', align: 'start', width: 250 },
-          { text: this.$t('audit.table.object'), value: 'name', align: 'start', width: 300 },
-          { text: this.$t('audit.table.label'), value: 'labels', align: 'start' },
-          { text: 'ClientIP', value: 'clientIP', align: 'start', width: 150 },
-          { text: this.$t('audit.table.status'), value: 'success', align: 'start', width: 100 },
-          { text: '', value: 'data-table-expand' },
-        ];
-      },
-      actionItems() {
-        return [
-          { text: this.$root.$t('operate.create'), value: '创建', color: 'primary' },
-          { text: this.$root.$t('operate.delete'), value: '删除', color: 'error' },
-          { text: this.$root.$t('operate.update'), value: '更新', color: 'warning' },
-          { text: this.$root.$t('operate.shell'), value: '执行命令', color: 'grey' },
-          { text: this.$root.$t('operate.login'), value: '登录', color: 'success' },
-          { text: this.$root.$t('operate.enable'), value: '启用', color: 'success' },
-          { text: this.$root.$t('operate.disable'), value: '禁用', color: 'error' },
-        ];
-      },
-    },
-    mounted() {
-      this.auditList();
-    },
-    methods: {
-      onActionStatusChange() {
-        this.auditList();
-      },
-      async auditList(noprocess = false) {
-        const data = await getAuditList(Object.assign(this.params, { noprocessing: noprocess }));
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
-      },
-      convertYaml({ item, value }) {
-        if (value) {
-          if (item.RawData.request) {
-            try {
-              item.RawData.request = JSON.parse(item.RawData.request);
-            } catch {
-              //
-            }
-          }
-          if (item.RawData.response) {
-            try {
-              item.RawData.response = JSON.parse(item.RawData.response);
-            } catch {
-              //
-            }
-          }
-          this.yaml = this.$yamldump(item.RawData);
-        }
-      },
-      onPageSizeChange(size) {
-        this.params.page = 1;
-        this.params.size = size;
-      },
-      onPageIndexChange(page) {
-        this.params.page = page;
-      },
-      onRowClick(item, { expand, isExpanded }) {
-        expand(!isExpanded);
-      },
-    },
+  const i18nLocal = useI18n();
+  const i18n = useGlobalI18n();
+
+  const headers = [
+    { text: i18nLocal.t('audit.table.trigger_time'), value: 'createdAt', align: 'start', width: 220 },
+    { text: i18nLocal.t('audit.table.tenant'), value: 'tenant', align: 'start', width: 100 },
+    { text: i18nLocal.t('audit.table.operate'), value: 'action', align: 'start', width: 100 },
+    { text: 'Kind', value: 'module', align: 'start', width: 250 },
+    { text: i18nLocal.t('audit.table.object'), value: 'name', align: 'start', width: 300 },
+    { text: i18nLocal.t('audit.table.label'), value: 'labels', align: 'start' },
+    { text: 'ClientIP', value: 'clientIP', align: 'start', width: 150 },
+    { text: i18nLocal.t('audit.table.status'), value: 'success', align: 'start', width: 100 },
+    { text: '', value: 'data-table-expand' },
+  ];
+
+  const action = ref<number>(undefined);
+  const actionItems = [
+    { text: i18n.t('operate.create'), value: '创建', color: 'primary' },
+    { text: i18n.t('operate.delete'), value: '删除', color: 'error' },
+    { text: i18n.t('operate.update'), value: '更新', color: 'warning' },
+    { text: i18n.t('operate.shell'), value: '执行命令', color: 'grey' },
+    { text: i18n.t('operate.login'), value: '登录', color: 'success' },
+    { text: i18n.t('operate.enable'), value: '启用', color: 'success' },
+    { text: i18n.t('operate.disable'), value: '禁用', color: 'error' },
+  ];
+
+  const actionStatusChange = (): void => {
+    getAuditList();
   };
+
+  let pagination: Pagination<Audit> = reactive<Pagination<Audit>>({
+    page: 1,
+    size: 10,
+    pageCount: 0,
+    items: [],
+  });
+
+  const getAuditList = async (params: KubePaginationRequest = pagination): Promise<void> => {
+    const data: Pagination<Audit> = await useAuditPagination(new Audit(), params.page, params.size);
+    pagination = Object.assign(pagination, data);
+  };
+
+  const pageChange = (page: number): void => {
+    pagination.page = page;
+  };
+
+  const sizeChange = (size: number): void => {
+    pagination.page = 1;
+    pagination.size = size;
+  };
+
+  const rowClick = (item, { expand, isExpanded }): void => {
+    expand(!isExpanded);
+  };
+
+  const yamlStr = ref<string>('');
+  const convertYaml = ({ item, value }): void => {
+    if (value) {
+      if (item.RawData.request) {
+        try {
+          item.RawData.request = JSON.parse(item.RawData.request);
+        } catch {
+          //
+        }
+      }
+      if (item.RawData.response) {
+        try {
+          item.RawData.response = JSON.parse(item.RawData.response);
+        } catch {
+          //
+        }
+      }
+      yamlStr.value = yaml.dump(item.RawData);
+    }
+  };
+
+  onMounted(() => {
+    getAuditList();
+  });
 </script>

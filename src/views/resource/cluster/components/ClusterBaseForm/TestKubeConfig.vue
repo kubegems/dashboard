@@ -106,6 +106,7 @@
         this.obj.extend.clusterName = data.clusterName;
         this.obj.extend.existInstaller = data.existInstaller;
         this.obj.DefaultStorageClass = data.globalValues.storageClass;
+        this.obj.extend.image = `${data.globalValues.imageRegistry}/${data.globalValues.imageRepository}`;
         this.$emit('refresh', this.obj);
       },
       validate() {

@@ -20,20 +20,20 @@
       <v-col cols="6">
         <v-card flat>
           <v-card-text class="pa-2">
-            <BaseSubTitle :divider="false" :title="$t('setting.tip.personal_info')" />
-            <v-form ref="infoForm" v-model="validInfo" class="px-4" lazy-validation @submit.prevent>
+            <BaseSubTitle :divider="false" :title="i18nLocal.t('setting.tip.personal_info')" />
+            <v-form ref="infoForm" v-model="infoState.valid" class="px-4" lazy-validation @submit.prevent>
               <v-row class="mt-0">
                 <v-col cols="12">
-                  <v-flex class="text-subtitle-2 kubegems__text"> {{ $t('table.email') }} </v-flex>
+                  <v-flex class="text-subtitle-2 kubegems__text"> {{ i18nLocal.t('table.email') }} </v-flex>
                   <v-text-field v-model="objInfo.Email" class="pt-0" dense flat :rules="objInfoRules.emailRules" solo />
                 </v-col>
                 <v-col cols="12">
-                  <v-flex class="text-subtitle-2 kubegems__text"> {{ $t('table.mobile') }} </v-flex>
+                  <v-flex class="text-subtitle-2 kubegems__text"> {{ i18nLocal.t('table.mobile') }} </v-flex>
                   <v-text-field v-model="objInfo.Phone" class="pt-0" dense flat :rules="objInfoRules.phoneRules" solo />
                 </v-col>
               </v-row>
               <v-btn class="my-4" color="primary" small @click="updateUser">
-                {{ $root.$t('operate.update_c', [$t('setting.tip.personal_info')]) }}
+                {{ i18n.t('operate.update_c', [i18nLocal.t('setting.tip.personal_info')]) }}
               </v-btn>
             </v-form>
           </v-card-text>
@@ -41,8 +41,8 @@
 
         <v-card class="mt-3" flat>
           <v-card-text class="pa-2">
-            <BaseSubTitle :divider="false" :title="$t('setting.tip.i18n')" />
-            <v-form ref="infoForm" v-model="validInfo" class="px-4" lazy-validation @submit.prevent>
+            <BaseSubTitle :divider="false" :title="i18nLocal.t('setting.tip.i18n')" />
+            <v-form ref="infoForm" v-model="localeState.valid" class="px-4" lazy-validation @submit.prevent>
               <v-row class="mt-0">
                 <v-col cols="12">
                   <v-autocomplete
@@ -52,7 +52,7 @@
                     hide-details
                     item-text="title"
                     item-value="locale"
-                    :items="languages"
+                    :items="locales"
                     :menu-props="{
                       bottom: true,
                       left: true,
@@ -64,7 +64,7 @@
                 </v-col>
               </v-row>
               <v-btn class="my-4" color="primary" small @click="updateLanguage">
-                {{ $root.$t('operate.update_c', [$t('setting.tip.i18n')]) }}
+                {{ i18n.t('operate.update_c', [i18nLocal.t('setting.tip.i18n')]) }}
               </v-btn>
             </v-form>
           </v-card-text>
@@ -74,58 +74,60 @@
       <v-col cols="6">
         <v-card flat>
           <v-card-text class="pa-2">
-            <BaseSubTitle :divider="false" :title="$root.$t('passwd')" />
-            <v-form ref="pwdForm" v-model="validPwd" class="px-4" lazy-validation @submit.prevent>
+            <BaseSubTitle :divider="false" :title="i18n.t('passwd')" />
+            <v-form ref="pwdForm" v-model="pwdState.valid" class="px-4" lazy-validation @submit.prevent>
               <v-row class="mt-0">
                 <v-col cols="12">
                   <v-flex class="text-subtitle-2 kubegems__text">
-                    {{ $t('setting.tip.old', [$root.$t('passwd')]) }}
+                    {{ i18nLocal.t('setting.tip.old', [i18n.t('passwd')]) }}
                   </v-flex>
                   <v-text-field
                     v-model="objPwd.origin"
-                    :append-icon="showOrigin ? 'mdi-eye' : 'mdi-eye-off'"
+                    :append-icon="pwdState.showOrigin ? 'mdi-eye' : 'mdi-eye-off'"
                     class="my-0"
                     dense
                     flat
                     :rules="objPwdRules.originRules"
                     solo
-                    :type="showOrigin ? 'text' : 'password'"
-                    @click:append="showOrigin = !showOrigin"
+                    :type="pwdState.showOrigin ? 'text' : 'password'"
+                    @click:append="pwdState.showOrigin = !pwdState.showOrigin"
                   />
                 </v-col>
                 <v-col cols="12">
                   <v-flex class="text-subtitle-2 kubegems__text">
-                    {{ $t('setting.tip.new', [$root.$t('passwd')]) }}
+                    {{ i18nLocal.t('setting.tip.new', [i18n.t('passwd')]) }}
                   </v-flex>
                   <v-text-field
                     v-model="objPwd.new1"
-                    :append-icon="showNew1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :append-icon="pwdState.showNew1 ? 'mdi-eye' : 'mdi-eye-off'"
                     class="my-0"
                     dense
                     flat
                     :rules="objPwdRules.new1Rules"
                     solo
-                    :type="showNew1 ? 'text' : 'password'"
-                    @click:append="showNew1 = !showNew1"
+                    :type="pwdState.showNew1 ? 'text' : 'password'"
+                    @click:append="pwdState.showNew1 = !pwdState.showNew1"
                   />
                 </v-col>
                 <v-col cols="12">
-                  <v-flex class="text-subtitle-2 kubegems__text"> {{ $t('setting.tip.confirm_passwd') }} </v-flex>
+                  <v-flex class="text-subtitle-2 kubegems__text">
+                    {{ i18nLocal.t('setting.tip.confirm_passwd') }}
+                  </v-flex>
                   <v-text-field
                     v-model="objPwd.new2"
-                    :append-icon="showNew2 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :append-icon="pwdState.showNew2 ? 'mdi-eye' : 'mdi-eye-off'"
                     class="my-0"
                     dense
                     flat
                     :rules="objPwdRules.new2Rules"
                     solo
-                    :type="showNew2 ? 'text' : 'password'"
-                    @click:append="showNew2 = !showNew2"
+                    :type="pwdState.showNew2 ? 'text' : 'password'"
+                    @click:append="pwdState.showNew2 = !pwdState.showNew2"
                   />
                 </v-col>
               </v-row>
               <v-btn class="my-4" color="primary" small @click="resetPassword">
-                {{ $root.$t('operate.update_c', [$root.$t('passwd')]) }}
+                {{ i18n.t('operate.update_c', [i18n.t('passwd')]) }}
               </v-btn>
             </v-form>
           </v-card-text>
@@ -135,127 +137,127 @@
   </div>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import moment from 'moment';
+  import { inject, nextTick, onMounted, reactive, ref, watch } from 'vue';
 
-  import messages from '../i18n';
-  import { getLoginUserInfo, postResetPassword, putUpdateUser } from '@/api';
+  import { useI18n } from '../i18n';
+  import { useRoute } from '@/composition/router';
   import { PLATFORM } from '@/constants/platform';
+  import iii, { useGlobalI18n } from '@/i18n';
   import locales from '@/i18n/locales';
+  import { useStore } from '@/store';
+  import { Auth } from '@/types/auth';
+  import { User } from '@/types/user';
   import { email, password, phone, required } from '@/utils/rules';
 
-  export default {
-    name: 'OwnerSetting',
-    i18n: {
-      messages: messages,
-    },
-    inject: ['reload'],
-    data() {
-      return {
-        validInfo: false,
-        validPwd: false,
-        user: null,
-        objInfo: {
-          Email: '',
-          Phone: '',
-        },
-        objPwd: {
-          origin: '',
-          new1: '',
-          new2: '',
-        },
-        showOrigin: false,
-        showNew1: false,
-        showNew2: false,
+  const i18nLocal = useI18n();
+  const i18n = useGlobalI18n();
+  const store = useStore();
+  const route = useRoute();
 
-        language: '',
-      };
-    },
-    computed: {
-      ...mapState(['User', 'Locale']),
-      objInfoRules() {
-        return {
-          emailRules: [email],
-          phoneRules: [phone],
-        };
-      },
-      objPwdRules() {
-        return {
-          originRules: [required],
-          new1Rules: [required, password],
-          new2Rules: [required, password],
-        };
-      },
-      i18nRules() {
-        return {
-          languageRules: [required],
-        };
-      },
-      languages() {
-        return locales;
-      },
-    },
-    watch: {
-      '$store.state.User': {
-        handler(newValue) {
-          if (newValue) {
-            this.user = newValue;
-            this.objInfo = Object.assign(this.objInfo, this.user);
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    mounted() {
-      this.$nextTick(() => {
-        this.language = this.Locale;
-      });
-    },
-    methods: {
-      async updateUser() {
-        if (this.$refs.infoForm.validate(true)) {
-          this.$store.commit('SET_CONFIRM', {
-            title: this.$root.$t('operate.update_c', [this.$t('setting.tip.personal_info')]),
-            content: {
-              text: this.$root.$t('operate.update_c', [this.$t('setting.tip.personal_info')]),
-              type: 'confirm',
-            },
-            param: {},
-            doFunc: async () => {
-              await putUpdateUser(Object.assign(this.user, this.objInfo));
-              const data = await getLoginUserInfo();
-              this.$store.commit('SET_USER', data);
-            },
-          });
-        }
-      },
-      async resetPassword() {
-        if (this.$refs.pwdForm.validate(true)) {
-          this.$store.commit('SET_CONFIRM', {
-            title: this.$root.$t('operate.update_c', [this.$root.$t('passwd')]),
-            content: {
-              text: this.$root.$t('operate.update_c', [this.$root.$t('passwd')]),
-              type: 'confirm',
-            },
-            param: {},
-            doFunc: async () => {
-              await postResetPassword(this.objPwd);
-              this.$refs.pwdForm.reset();
-            },
-          });
-        }
-      },
-      updateLanguage() {
-        if (this.Locale === this.language) return;
-        this.$_i18n.locale = this.language;
-        this.$moment.locale(this.language === 'zh-Hans' ? 'zh-cn' : this.language);
-        if (window) {
-          window.document.title = `${this.$t(this.$route.meta.title)} - ${PLATFORM}`;
-        }
-        this.$store.commit('SET_LOCALE', this.language);
-        this.reload();
-      },
-    },
+  const infoState = reactive({
+    valid: false,
+  });
+
+  let objInfo = reactive({
+    Email: '',
+    Phone: '',
+  });
+  const objInfoRules = {
+    emailRules: [email],
+    phoneRules: [phone],
   };
+  const user = ref(null);
+  const infoForm = ref(null);
+  const updateUser = async (): Promise<void> => {
+    if (infoForm.value.validate(true)) {
+      store.commit('SET_CONFIRM', {
+        title: i18n.t('operate.update_c', [i18nLocal.t('setting.tip.personal_info')]),
+        content: {
+          text: i18n.t('operate.update_c', [i18nLocal.t('setting.tip.personal_info')]),
+          type: 'confirm',
+        },
+        param: {},
+        doFunc: async () => {
+          await new User(Object.assign(user.value, objInfo)).updateUser();
+          const data = await new Auth().getLoginUser();
+          store.commit('SET_USER', data);
+        },
+      });
+    }
+  };
+  watch(
+    () => store.state.User,
+    async (newValue) => {
+      if (newValue) {
+        user.value = newValue;
+        objInfo = Object.assign(objInfo, user.value);
+      }
+    },
+    {
+      immediate: true,
+      deep: true,
+    },
+  );
+
+  const localeState = reactive({
+    valid: false,
+  });
+  const language = ref('');
+  const i18nRules = {
+    languageRules: [required],
+  };
+  type reloadHandler = () => void;
+  const reload: reloadHandler = inject('reload');
+  const updateLanguage = () => {
+    if (store.state.Locale === language.value) return;
+    iii.locale = language.value;
+    moment.locale(language.value === 'zh-Hans' ? 'zh-cn' : language.value);
+    if (window) {
+      window.document.title = `${i18nLocal.t(route.meta.title)} - ${PLATFORM}`;
+    }
+    store.commit('SET_LOCALE', language.value);
+    reload();
+  };
+
+  const pwdState = reactive({
+    valid: false,
+    showOrigin: false,
+    showNew1: false,
+    showNew2: false,
+  });
+  const objPwd = reactive({
+    origin: '',
+    new1: '',
+    new2: '',
+  });
+  const objPwdRules = {
+    originRules: [required],
+    new1Rules: [required, password],
+    new2Rules: [required, password],
+  };
+  const pwdForm = ref(null);
+  const resetPassword = async (): Promise<void> => {
+    if (pwdForm.value.validate(true)) {
+      store.commit('SET_CONFIRM', {
+        title: i18n.t('operate.update_c', [i18n.t('passwd')]),
+        content: {
+          text: i18n.t('operate.update_c', [i18n.t('passwd')]),
+          type: 'confirm',
+        },
+        param: {},
+        doFunc: async () => {
+          await new Auth().resetPasswd(objPwd);
+          pwdForm.value.reset();
+        },
+      });
+    }
+  };
+
+  onMounted(() => {
+    nextTick(() => {
+      language.value = store.state.Locale;
+    });
+  });
 </script>
