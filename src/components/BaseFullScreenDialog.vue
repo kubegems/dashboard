@@ -119,6 +119,7 @@
           click: function () {
             vm.$emit('click', false);
             vm.$emit('dispose');
+            vm.$store.commit('SET_FULL_DIALOG', false);
           },
         });
       },
@@ -135,6 +136,7 @@
       escOccur() {
         this.$emit('click', false);
         this.$emit('dispose');
+        this.$store.commit('SET_FULL_DIALOG', false);
       },
     },
   };

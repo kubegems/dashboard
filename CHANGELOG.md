@@ -1,3 +1,11 @@
+# 1.23.0 (2023-1-30)
+
+### 🌟 新功能
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [perf: ⚡ support label suggestion when create log alert rule] | [888db59](https://github.com/chenshunliang/dashboard/commit/888db590a9a2b897283c05395131d7cc9fdfbb68) |
+
 # 1.23.0-rc.1 (2023-1-30)
 
 ### 🌟 新功能
