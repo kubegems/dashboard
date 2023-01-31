@@ -6,6 +6,12 @@
 | --- | --- | --- |
 | - | [perf: ⚡ support label suggestion when create log alert rule] | [888db59](https://github.com/chenshunliang/dashboard/commit/888db590a9a2b897283c05395131d7cc9fdfbb68) |
 
+### Bug Fixes
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [fix: 🐛 fix log project env cascade selector first trigger not effect bug] | ([3de254c](https://github.com/chenshunliang/dashboard/commit/3de254caca8279abf04d4132842f7a6f83c8cce5) |
+
 # 1.23.0-rc.1 (2023-1-30)
 
 ### 🌟 新功能

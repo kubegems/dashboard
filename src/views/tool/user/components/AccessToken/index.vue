@@ -20,7 +20,7 @@
       <v-spacer />
       <v-btn color="primary" small text @click="generateAccessToken">
         <v-icon left small>mdi-key-chain-variant</v-icon>
-        {{ $t('operate.generate_c', [$t('setting.tip.auth')]) }}
+        {{ i18nLocal.t('operate.generate_c', [i18nLocal.t('setting.tip.auth')]) }}
       </v-btn>
     </v-card-title>
     <v-data-table
@@ -28,27 +28,27 @@
       disable-sort
       :headers="headers"
       hide-default-footer
-      :items="items"
-      :items-per-page="params.size"
-      :no-data-text="$root.$t('data.no_data')"
-      :page.sync="params.page"
+      :items="pagination.items"
+      :items-per-page="pagination.size"
+      :no-data-text="i18n.t('data.no_data')"
+      :page.sync="pagination.page"
     >
-      <template #[`item.token`]="{ item }">
+      <template #item.token="{ item }">
         {{ `*********${item.token.substr(item.token.length - 20, 12)}*********` }}
-        <v-btn v-clipboard:copy="item.token" v-clipboard:success="onCopy" color="primary" icon small>
+        <v-btn v-clipboard:copy="item.token" v-clipboard:success="copyed" color="primary" icon small>
           <v-icon small> mdi-content-copy</v-icon>
         </v-btn>
       </template>
-      <template #[`item.expireAt`]="{ item }">
-        {{ item.expireAt ? $moment(item.expireAt).format('lll') : '' }}
+      <template #item.expireAt="{ item }">
+        {{ item.expireAt ? moment(item.expireAt).format('lll') : '' }}
       </template>
-      <template #[`item.createdAt`]="{ item }">
-        {{ item.createdAt ? $moment(item.createdAt).format('lll') : '' }}
+      <template #item.createdAt="{ item }">
+        {{ item.createdAt ? moment(item.createdAt).format('lll') : '' }}
       </template>
-      <template #[`item.expired`]="{ item }">
-        {{ item.expired ? $t('auth.table.yes') : $t('auth.table.no') }}
+      <template #item.expired="{ item }">
+        {{ item.expired ? i18nLocal.t('auth.table.yes') : i18nLocal.t('auth.table.no') }}
       </template>
-      <template #[`item.action`]="{ item }">
+      <template #item.action="{ item }">
         <v-flex :id="`r${item.id}`" />
         <v-menu :attach="`#r${item.id}`" left>
           <template #activator="{ on }">
@@ -59,7 +59,7 @@
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn color="error" small text @click="removeToken(item)"> {{ $root.$t('operate.delete') }} </v-btn>
+                <v-btn color="error" small text @click="removeToken(item)"> {{ i18n.t('operate.delete') }} </v-btn>
               </v-flex>
             </v-card-text>
           </v-card>
@@ -67,103 +67,93 @@
       </template>
     </v-data-table>
     <BasePagination
-      v-if="pageCount >= 1"
-      v-model="params.page"
-      :page-count="pageCount"
-      :size="params.size"
-      @changepage="onPageIndexChange"
-      @changesize="onPageSizeChange"
-      @loaddata="tokenList"
+      v-if="pagination.pageCount >= 1"
+      v-model="pagination.page"
+      :page-count="pagination.pageCount"
+      :size="pagination.size"
+      @changepage="pageChange"
+      @changesize="sizeChange"
+      @loaddata="getAccessTokenList"
     />
 
-    <GenerateToken ref="generateToken" @refresh="tokenList" />
+    <GenerateToken ref="generateToken" @refresh="getAccessTokenList" />
   </v-card>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import moment from 'moment';
+  import { onMounted, reactive, ref } from 'vue';
 
-  import messages from '../../i18n';
-  import GenerateToken from './GenerateToken';
-  import { deleteToken, getTokenList } from '@/api';
+  import { useI18n } from '../../i18n';
+  import GenerateToken from './GenerateToken.vue';
+  import { useAccessTokenPagination } from '@/composition/auth';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+  import { AccessToken, Auth } from '@/types/auth';
 
-  export default {
-    name: 'AccessToken',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      GenerateToken,
-    },
-    data() {
-      return {
-        items: [],
-        pageCount: 0,
-      };
-    },
-    computed: {
-      ...mapState(['JWT']),
-      params() {
-        return {
-          page: 1,
-          size: 10,
-        };
-      },
-      headers() {
-        return [
-          { text: 'token', value: 'token', align: 'start' },
-          { text: 'scope', value: 'scope', align: 'start' },
-          { text: this.$t('auth.table.grant_type'), value: 'grantType', align: 'start' },
-          { text: this.$t('auth.table.expired'), value: 'expired', align: 'start' },
-          { text: this.$t('auth.table.expire_at'), value: 'expireAt', align: 'start' },
-          { text: this.$root.$t('resource.create_at'), value: 'createdAt', align: 'start' },
-          { text: '', value: 'action', align: 'center', width: 20 },
-        ];
-      },
-    },
-    mounted() {
-      this.tokenList();
-    },
-    methods: {
-      onActionStatusChange() {
-        this.tokenList();
-      },
-      async tokenList() {
-        const data = await getTokenList(this.params);
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
-      },
-      onPageSizeChange(size) {
-        this.params.page = 1;
-        this.params.size = size;
-      },
-      onPageIndexChange(page) {
-        this.params.page = page;
-      },
-      generateAccessToken() {
-        this.$refs.generateToken.open();
-      },
-      removeToken(item) {
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.delete_c', ['Token']),
-          content: {
-            text: this.$root.$t('operate.delete_c', ['Token']),
-            type: 'confirm',
-          },
-          param: { item },
-          doFunc: async (param) => {
-            await deleteToken(param.item.id);
-            this.tokenList();
-          },
-        });
-      },
-      onCopy() {
-        this.$store.commit('SET_SNACKBAR', {
-          text: this.$t('auth.tip.copyed'),
-          color: 'success',
-        });
-      },
-    },
+  const i18nLocal = useI18n();
+  const i18n = useGlobalI18n();
+  const store = useStore();
+
+  const headers = [
+    { text: 'token', value: 'token', align: 'start' },
+    { text: 'scope', value: 'scope', align: 'start' },
+    { text: i18nLocal.t('auth.table.grant_type'), value: 'grantType', align: 'start' },
+    { text: i18nLocal.t('auth.table.expired'), value: 'expired', align: 'start' },
+    { text: i18nLocal.t('auth.table.expire_at'), value: 'expireAt', align: 'start' },
+    { text: i18n.t('resource.create_at'), value: 'createdAt', align: 'start' },
+    { text: '', value: 'action', align: 'center', width: 20 },
+  ];
+
+  let pagination: Pagination<AccessToken> = reactive<Pagination<AccessToken>>({
+    page: 1,
+    size: 10,
+    pageCount: 0,
+    items: [],
+  });
+
+  const getAccessTokenList = async (params: KubePaginationRequest = pagination): Promise<void> => {
+    const data: Pagination<AccessToken> = await useAccessTokenPagination(new Auth(), params.page, params.size);
+    pagination = Object.assign(pagination, data);
   };
+
+  const pageChange = (page: number): void => {
+    pagination.page = page;
+  };
+
+  const sizeChange = (size: number): void => {
+    pagination.page = 1;
+    pagination.size = size;
+  };
+
+  const generateToken = ref(null);
+  const generateAccessToken = (): void => {
+    generateToken.value.open();
+  };
+
+  const removeToken = async (item: any): Promise<void> => {
+    store.commit('SET_CONFIRM', {
+      title: i18n.t('operate.delete_c', ['Token']),
+      content: {
+        text: i18n.t('operate.delete_c', ['Token']),
+        type: 'confirm',
+      },
+      param: { item },
+      doFunc: async (param) => {
+        await new Auth().removeAccesstoken(param.item);
+        getAccessTokenList();
+      },
+    });
+  };
+
+  const copyed = () => {
+    store.commit('SET_SNACKBAR', {
+      text: i18nLocal.t('auth.tip.copyed'),
+      color: 'success',
+    });
+  };
+
+  onMounted(() => {
+    getAccessTokenList();
+  });
 </script>

@@ -59,9 +59,9 @@
   import { reactive, ref } from 'vue';
 
   import { useI18n } from '../../i18n';
-  import { postGenerateToken } from '@/api';
   import { useGlobalI18n } from '@/i18n';
   import { useStore } from '@/store';
+  import { Auth } from '@/types/auth';
   import { positiveInteger, required } from '@/utils/rules';
 
   const i18n = useGlobalI18n();
@@ -95,7 +95,7 @@
   const emit = defineEmits(['refresh']);
   const generateToken = async (): Promise<void> => {
     if (form.value.validate(true)) {
-      await postGenerateToken(obj);
+      await new Auth().generateAccessToken(obj);
       reset();
       emit('refresh');
     }

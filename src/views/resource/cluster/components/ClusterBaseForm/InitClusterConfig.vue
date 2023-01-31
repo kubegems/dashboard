@@ -140,6 +140,7 @@
           this.obj = deepCopy(data);
           if (this.obj.extend.existInstaller) {
             this.obj.Primary = true;
+            this.obj.ImageRepo = this.obj.extend.image;
             this.onPrimaryChange();
           }
         });
