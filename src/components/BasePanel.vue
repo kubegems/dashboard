@@ -92,6 +92,7 @@
           click: function () {
             vm.$emit('click', false);
             vm.$emit('dispose');
+            vm.$store.commit('SET_PANEL', false);
           },
         });
       },
@@ -127,6 +128,7 @@
         if (e.key === 'Escape') {
           this.$emit('click', false);
           this.$emit('dispose');
+          this.$store.commit('SET_PANEL', false);
         }
       },
     },

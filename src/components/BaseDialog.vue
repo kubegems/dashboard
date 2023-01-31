@@ -92,6 +92,7 @@
           click: function () {
             vm.$emit('click', false);
             vm.$emit('reset');
+            vm.$store.commit('SET_DIALOG', false);
           },
         });
       },
