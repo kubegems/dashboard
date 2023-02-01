@@ -6,6 +6,7 @@
 | --- | --- | --- |
 | - | [perf: ⚡ support label suggestion when create log alert rule] | [888db59](https://github.com/chenshunliang/dashboard/commit/888db590a9a2b897283c05395131d7cc9fdfbb68) |
 | - | [perf: ⚡ set callback data to form when create cluster, upgrade vue3 style to tool components] | [4119bb6](https://github.com/chenshunliang/dashboard/commit/4119bb6f37673ece301a1256d3646326f866d583) |
+| - | [perf: ⚡ optimization few page styles] | [1fbebbb](https://github.com/chenshunliang/dashboard/commit/1fbebbba50b96b5864c07d30f90483f351c51fed) |
 
 ### Bug Fixes
 

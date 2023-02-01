@@ -89,10 +89,10 @@
     return [
       {
         label: item.traceID,
-        data: item.spans.map((span, index) => {
+        data: item.spans.map((span) => {
           return {
             x: [span.startTime / 1000, span.startTime / 1000 + span.duration / 1000],
-            y: `No.${index + 1} ${item.processes[span.processID].serviceName}`,
+            y: `${item.processes[span.processID].serviceName} (${span.spanID.substr(0, 7)})`,
             operation: `${span.operationName}   ${span.duration / 1000}ms`,
           };
         }),
