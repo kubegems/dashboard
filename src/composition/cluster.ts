@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { EDGE_DEVICEID_KEY } from '@/constants/label';
 import { Cluster } from '@/types/cluster';
 import { EdgeCluster } from '@/types/edge_cluster';
 import { EdgeHub } from '@/types/edge_hub';
@@ -57,7 +58,7 @@ export const useEdgeClusterList = async (
   const clusterList = _data.List.map((edge: EdgeCluster, index: number) => {
     return {
       ID: index,
-      ClusterName: edge.metadata.name,
+      ClusterName: edge.metadata.labels[EDGE_DEVICEID_KEY] || edge.metadata.name,
       Version: edge.spec.register.hubName,
       Upstream: edge.spec.register.hubName,
       Status: edge.status.phase,
