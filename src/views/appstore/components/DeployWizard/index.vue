@@ -423,6 +423,9 @@
           chartVersion: this.obj.selectVersion,
           tenant_id: this.Tenant().ID,
           values: this.appValues,
+          annotations: {
+            'application.kubegems.io/repo': this.selectRepo,
+          },
         };
         this.deployDialog = true;
         this.timeout = setTimeout(() => {

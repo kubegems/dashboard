@@ -51,7 +51,8 @@
     "creator": "創建人",
     "now_version": "當前版本",
     "replicas": "副本數",
-    "task": "任務類型"
+    "task": "任務類型",
+    "repo": "倉庫"
   },
   "tab": {
     "manifest": "資源編排",

@@ -51,7 +51,8 @@
     "creator": "Created By",
     "now_version": "Current version",
     "replicas": "Replicas",
-    "task": "Task"
+    "task": "Task",
+    "repo": "Repository"
   },
   "tab": {
     "manifest": "Resource Organization",
