@@ -111,6 +111,30 @@
               <span class="white--text"> {{ item.StoragePercentage }}% </span>
             </v-progress-linear>
           </template>
+          <template #[`item.gpuUsed`]="{ item }">
+            <div>
+              <div class="float-left">
+                <BaseLogo class="mr-1" icon-name="nvidia" :ml="0" :style="{ marginTop: '0px' }" :width="20" />
+              </div>
+              <div class="float-left text-caption">
+                Gpu {{ item.UsedNvidiaGpu.toFixed(1) }} / {{ item.NvidiaGpu.toFixed(1) }}
+              </div>
+              <div class="kubegems__clear-float" />
+            </div>
+            <div>
+              <div class="float-left">
+                <BaseLogo class="mr-1" icon-name="tke" :ml="0" :style="{ marginTop: '0px' }" :width="20" />
+              </div>
+              <div class="float-left text-caption">
+                <div> Gpu {{ item.UsedTkeGpu.toFixed(1) }} / {{ item.TkeGpu.toFixed(1) }} </div>
+                <div>
+                  {{ $root.$t('resource.video_memory') }} {{ item.UsedTkeMemory.toFixed(1) }}Gi /
+                  {{ item.TkeMemory.toFixed(1) }}Gi
+                </div>
+              </div>
+              <div class="kubegems__clear-float" />
+            </div>
+          </template>
           <template #[`item.isolation`]="{ item }">
             <v-switch
               v-model="item.Isolation"
@@ -203,6 +227,12 @@
             align: 'start',
             width: 150,
           },
+          {
+            text: this.$t('table.used', [this.$root.$t('resource.gpu')]),
+            value: 'gpuUsed',
+            align: 'start',
+            width: 180,
+          },
         ];
         if (this.m_permisson_resourceAllow()) {
           items.push({
@@ -257,10 +287,22 @@
                 e.Storage = e.ResourceQuota.status.hard['requests.storage']
                   ? parseFloat(sizeOfStorage(e.ResourceQuota.status.hard['requests.storage']))
                   : 0;
+                e.NvidiaGpu = e.ResourceQuota.status.hard['limits.nvidia.com/gpu']
+                  ? parseFloat(e.ResourceQuota.status.hard['limits.nvidia.com/gpu'])
+                  : 0;
+                e.TkeGpu = e.ResourceQuota.status.hard['limits.tencent.com/vcuda-core']
+                  ? parseFloat(e.ResourceQuota.status.hard['limits.tencent.com/vcuda-core']) / 100
+                  : 0;
+                e.TkeMemory = e.ResourceQuota.status.hard['limits.tencent.com/vcuda-memory']
+                  ? (parseFloat(e.ResourceQuota.status.hard['limits.tencent.com/vcuda-memory']) * 256) / 1024
+                  : 0;
               } else {
                 e.Cpu = 0;
                 e.Memory = 0;
                 e.Storage = 0;
+                e.NvidiaGpu = 0;
+                e.TkeGpu = 0;
+                e.TkeMemory = 0;
               }
               if (e.ResourceQuota && e.ResourceQuota.status.used) {
                 e.UsedCpu = e.ResourceQuota.status.used['limits.cpu']
@@ -272,15 +314,28 @@
                 e.UsedStorage = e.ResourceQuota.status.used['requests.storage']
                   ? parseFloat(sizeOfStorage(e.ResourceQuota.status.used['requests.storage']))
                   : 0;
+                e.UsedNvidiaGpu = e.ResourceQuota.status.used['requests.nvidia.com/gpu']
+                  ? parseFloat(e.ResourceQuota.status.used['requests.nvidia.com/gpu'])
+                  : 0;
+                e.UsedTkeGpu = e.ResourceQuota.status.used['requests.tencent.com/vcuda-core']
+                  ? parseFloat(e.ResourceQuota.status.used['requests.tencent.com/vcuda-core'] / 100)
+                  : 0;
+                e.UsedTkeMemory = e.ResourceQuota.status.used['requests.tencent.com/vcuda-memory']
+                  ? parseFloat((e.ResourceQuota.status.used['requests.tencent.com/vcuda-memory'] * 256) / 1024)
+                  : 0;
               } else {
                 e.UsedCpu = 0;
                 e.UsedMemory = 0;
                 e.UsedStorage = 0;
+                e.UsedNvidiaGpu = 0;
+                e.UsedTkeGpu = 0;
+                e.UsedTkeMemory = 0;
               }
               e.CpuPercentage = e.Cpu > 0 ? ((e.UsedCpu / e.Cpu) * 100).toFixed(1) : 0;
               e.MemoryPercentage = e.Memory > 0 ? ((e.UsedMemory / e.Memory) * 100).toFixed(1) : 0;
               e.StoragePercentage = e.Storage > 0 ? ((e.UsedStorage / e.Storage) * 100).toFixed(1) : 0;
               envs.push(e);
+
               this.items[key] = envs;
             });
           }
