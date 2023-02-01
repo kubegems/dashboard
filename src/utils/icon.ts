@@ -152,6 +152,7 @@ export function getIconName(name: string, def = 'kubernetes'): string {
   if (name.indexOf('java') > -1) return 'logos:java';
   if (name.indexOf('jmx') > -1) return 'logos:java';
   if (name.indexOf('php') > -1) return 'logos:php';
+  if (name.indexOf('helm') > -1) return 'logos:helm';
   if (name.indexOf('python') > -1) return 'logos:python';
   if (name.indexOf('ruby') > -1) return 'logos:ruby';
   if (name.indexOf('rust') > -1) return 'logos:rust';

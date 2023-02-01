@@ -51,7 +51,8 @@
     "creator": "作成者",
     "now_version": "現在のバージョン",
     "replicas": "部数",
-    "task": "タスクの種類"
+    "task": "タスクの種類",
+    "repo": "倉庫"
   },
   "tab": {
     "manifest": "資源ガイド",

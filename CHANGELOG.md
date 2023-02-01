@@ -6,6 +6,12 @@
 | --- | --- | --- |
 | - | [perf: ⚡ add gpu statistics for cluster detail and for environment list in project detail] | [a56d8ec](https://github.com/chenshunliang/dashboard/commit/a56d8ec3f439a65336ede0c9a7ac2fa73b98dc7d) |
 
+### Bug Fixes
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [fix: 🐛 fix select edge cluster whitout env condition bug, list edge cluster device-id first] | ([6af6959](https://github.com/chenshunliang/dashboard/commit/6af69594c591bb3fad4d86107bb8c9fd1ebf6b8d) |
+
 # 1.23.0 (2023-1-31)
 
 ### 🌟 新功能

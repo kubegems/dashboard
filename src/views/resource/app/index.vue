@@ -83,6 +83,20 @@
           <template #[`item.creator`]="{ item }">
             {{ item.creator }}
           </template>
+          <template #[`item.repo`]="{ item }">
+            <div class="float-left">
+              <BaseLogo
+                class="mr-1"
+                :icon-name="item.runtime.raw.metadata.annotations['application.kubegems.io/repo'] || 'helm'"
+                :ml="0"
+                :style="{ marginTop: '0px' }"
+                :width="18"
+              />
+            </div>
+            <div class="float-left">
+              {{ item.runtime.raw.metadata.annotations['application.kubegems.io/repo'] || '--' }}
+            </div>
+          </template>
           <template #[`item.images`]="{ item }">
             <v-flex v-for="(value, index) in item.runtime.images" :key="index">
               {{ value }}
@@ -382,6 +396,12 @@
             items.splice(1, 0, {
               text: 'Chart',
               value: 'chart',
+              align: 'start',
+              sortable: false,
+            });
+            items.splice(2, 0, {
+              text: this.$t('table.repo'),
+              value: 'repo',
               align: 'start',
               sortable: false,
             });
