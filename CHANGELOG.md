@@ -1,10 +1,11 @@
-# 1.23.0 (2023-1-30)
+# 1.23.0 (2023-1-31)
 
 ### 🌟 新功能
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [perf: ⚡ support label suggestion when create log alert rule] | [888db59](https://github.com/chenshunliang/dashboard/commit/888db590a9a2b897283c05395131d7cc9fdfbb68) |
+| - | [perf: ⚡ set callback data to form when create cluster, upgrade vue3 style to tool components] | [4119bb6](https://github.com/chenshunliang/dashboard/commit/4119bb6f37673ece301a1256d3646326f866d583) |
 
 ### Bug Fixes
 

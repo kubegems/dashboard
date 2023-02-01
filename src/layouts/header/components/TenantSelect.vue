@@ -113,6 +113,7 @@
       async setTenant(item) {
         this.$store.commit('CLEAR_RESOURCE');
         this.$store.commit('SET_ADMIN_VIEWPORT', false);
+        this.$store.commit('SET_DIALOG', false);
         await this.$router.push({
           name: 'resource-dashboard',
           params: { tenant: item.text },

@@ -50,7 +50,8 @@
     "image": "Mirror",
     "creator": "Created By",
     "now_version": "Current version",
-    "replicas": "Replicas"
+    "replicas": "Replicas",
+    "task": "Task"
   },
   "tab": {
     "manifest": "Resource Organization",

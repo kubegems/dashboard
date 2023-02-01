@@ -23,6 +23,7 @@ export function getIconName(name: string, def = 'kubernetes'): string {
   if (name === 'k3s') return 'img:k3s.svg';
   if (name === 'k3s-light') return 'img:k3s-light.svg';
   if (name.indexOf('seldon') > -1) return 'img:seldon-icon.svg';
+  if (name.indexOf('cloudminds') > -1) return 'img:cloudminds.svg';
   if (name.indexOf('banzaicloud') > -1) return 'img:banzaicloud.svg';
   if (name.indexOf('hashicorp') > -1) return 'img:hashicorp.svg';
   if (name.indexOf('knative') > -1) return 'img:knative.svg';
