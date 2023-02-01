@@ -50,7 +50,8 @@
     "image": "镜像",
     "creator": "创建人",
     "now_version": "当前版本",
-    "replicas": "副本数"
+    "replicas": "副本数",
+    "task": "任务类型"
   },
   "tab": {
     "manifest": "资源编排",

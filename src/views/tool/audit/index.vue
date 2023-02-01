@@ -41,7 +41,11 @@
     </BaseBreadcrumb>
     <v-card>
       <v-card-title class="py-4">
-        <BaseFilter :default="{ items: [], text: '检索', value: 'search' }" :filters="filters" @refresh="filterList" />
+        <BaseFilter
+          :default="{ items: [], text: $t('filter.search'), value: 'search' }"
+          :filters="filters"
+          @refresh="filterList"
+        />
       </v-card-title>
       <v-data-table
         class="mx-4 kubegems__table-row-pointer"

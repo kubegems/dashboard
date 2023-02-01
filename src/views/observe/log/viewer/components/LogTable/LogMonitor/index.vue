@@ -104,10 +104,10 @@
         const end = this.$moment(this.item.info.timestampstr).utc().add(15, 'minutes').format();
         this.date = [start, end];
 
-        const matches = item.info.message.match(new RegExp('\\w{32}'));
+        const matches = item.info.message.match(new RegExp('[a-z\\d]{32}'));
         this.traceid = matches ? matches[0] : '';
         this.item.info.message = this.item.info.message.replace(
-          new RegExp('(\\w{32})'),
+          new RegExp('([a-z\\d]{32})'),
           '<b style="color: #fb8c00 !important;">$1</b>',
         );
       },

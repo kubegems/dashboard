@@ -92,7 +92,9 @@
           </v-btn>
         </template>
         <template #item.spanCount="{ item }">
-          {{ `${item.spans.length} (${getErrorSpanCount(item)}) errors` }}
+          <div :class="{ 'error--text': getErrorSpanCount(item) > 0 }">
+            {{ `${item.spans.length} (${getErrorSpanCount(item)}) errors` }}
+          </div>
         </template>
         <template #expanded-item="{ headers, item }">
           <td class="my-2 py-2" :colspan="headers.length">
@@ -333,12 +335,14 @@
   };
 
   const getLeft = (item: Telemetry, span: any): number => {
+    const perDeg = 400 / getDuration(item);
     const firstSpan = item.spans[0];
-    return ((span.startTime - firstSpan.startTime) / getDuration(item)) * 400;
+    return (span.startTime - firstSpan.startTime) * perDeg;
   };
 
   const getTimeline = (item: Telemetry, span: any): number => {
-    return (400 * span.duration) / getDuration(item);
+    const perDeg = 400 / getDuration(item);
+    return span.duration * perDeg;
   };
 
   const getErrorSpanCount = (item: Telemetry): number => {

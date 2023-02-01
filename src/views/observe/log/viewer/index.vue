@@ -199,7 +199,7 @@
         cluster: {},
         date: [],
         params: {
-          limit: 500,
+          limit: 100,
           direction: 'backward',
           levels: [],
           logQL: '',

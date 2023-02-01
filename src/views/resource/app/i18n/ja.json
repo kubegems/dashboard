@@ -50,7 +50,8 @@
     "image": "ミラー",
     "creator": "作成者",
     "now_version": "現在のバージョン",
-    "replicas": "部数"
+    "replicas": "部数",
+    "task": "タスクの種類"
   },
   "tab": {
     "manifest": "資源ガイド",

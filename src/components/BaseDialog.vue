@@ -100,7 +100,7 @@
     watch: {
       dialog: {
         handler(newValue) {
-          if (newValue) this.$store.commit('SET_DIALOG', newValue);
+          if (newValue !== undefined) this.$store.commit('SET_DIALOG', newValue);
         },
         deep: true,
       },

@@ -59,6 +59,7 @@
         </v-tabs>
 
         <v-data-table
+          calculate-widths
           :headers="headers"
           hide-default-footer
           :items="items"
@@ -159,6 +160,9 @@
             <div class="float-left">
               {{ item.spec.model.source }}
             </div>
+          </template>
+          <template #[`item.task`]="{ item }">
+            {{ item.spec.model.task }}
           </template>
           <template #[`item.phase`]="{ item }">
             <span
@@ -381,14 +385,15 @@
           }
         } else {
           items = [
-            { text: this.$t('table.instance_name'), value: 'instanceName', align: 'start', width: 200 },
+            { text: this.$t('table.instance_name'), value: 'instanceName', align: 'start', width: 150 },
             { text: this.$t('table.model_name'), value: 'modelName', align: 'start', sortable: false },
+            { text: this.$t('table.task'), value: 'task', align: 'start', sortable: false, width: 120 },
             { text: this.$t('table.model_version'), value: 'modelVersion', align: 'start', sortable: false },
             { text: this.$t('table.replicas'), value: 'replicas', align: 'start', sortable: false },
-            { text: this.$t('table.source'), value: 'source', align: 'start', sortable: false, width: 180 },
+            { text: this.$t('table.source'), value: 'source', align: 'start', sortable: false, width: 150 },
             { text: this.$t('table.status'), value: 'phase', align: 'start', sortable: false, width: 120 },
             { text: 'Api', value: 'url', align: 'start', sortable: false },
-            { text: this.$root.$t('resource.create_at'), value: 'creationTimestamp', align: 'start' },
+            { text: this.$root.$t('resource.create_at'), value: 'creationTimestamp', align: 'start', width: 120 },
             { text: '', value: 'preview', align: 'center', sortable: false },
             { text: '', value: 'modelAction', align: 'center', width: 20, sortable: false },
           ];
