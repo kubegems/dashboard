@@ -87,14 +87,14 @@
             <div class="float-left">
               <BaseLogo
                 class="mr-1"
-                :icon-name="item.runtime.raw.metadata.annotations['application.kubegems.io/repo'] || 'helm'"
+                :icon-name="item.runtime.annotations['application.kubegems.io/repo'] || 'helm'"
                 :ml="0"
                 :style="{ marginTop: '0px' }"
                 :width="18"
               />
             </div>
             <div class="float-left">
-              {{ item.runtime.raw.metadata.annotations['application.kubegems.io/repo'] || '--' }}
+              {{ item.runtime.annotations['application.kubegems.io/repo'] || '--' }}
             </div>
           </template>
           <template #[`item.images`]="{ item }">

@@ -5,6 +5,7 @@
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [perf: ⚡ add gpu statistics for cluster detail and for environment list in project detail] | [a56d8ec](https://github.com/chenshunliang/dashboard/commit/a56d8ec3f439a65336ede0c9a7ac2fa73b98dc7d) |
+| - | [perf: ⚡ add appstore repository name for list page ] | [e658dc4](https://github.com/chenshunliang/dashboard/commit/e658dc405d11b713c8bab316312e409f116da288) |
 
 ### Bug Fixes
 
