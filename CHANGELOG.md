@@ -1,3 +1,11 @@
+# 1.23.1 (2023-2-1)
+
+### 🌟 新功能
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [perf: ⚡ add gpu statistics for cluster detail and for environment list in project detail] | [a56d8ec](https://github.com/chenshunliang/dashboard/commit/a56d8ec3f439a65336ede0c9a7ac2fa73b98dc7d) |
+
 # 1.23.0 (2023-1-31)
 
 ### 🌟 新功能

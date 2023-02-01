@@ -162,7 +162,19 @@
             </div>
           </template>
           <template #[`item.task`]="{ item }">
-            {{ item.spec.model.task }}
+            <div class="float-left">
+              <BaseLogo
+                class="mr-1"
+                default-logo="task"
+                :icon-name="item.spec.model.task"
+                :ml="0"
+                :style="{ marginTop: '0px' }"
+                :width="18"
+              />
+            </div>
+            <div class="float-left">
+              {{ item.spec.model.task }}
+            </div>
           </template>
           <template #[`item.phase`]="{ item }">
             <span
@@ -387,10 +399,10 @@
           items = [
             { text: this.$t('table.instance_name'), value: 'instanceName', align: 'start', width: 150 },
             { text: this.$t('table.model_name'), value: 'modelName', align: 'start', sortable: false },
-            { text: this.$t('table.task'), value: 'task', align: 'start', sortable: false, width: 120 },
             { text: this.$t('table.model_version'), value: 'modelVersion', align: 'start', sortable: false },
             { text: this.$t('table.replicas'), value: 'replicas', align: 'start', sortable: false },
             { text: this.$t('table.source'), value: 'source', align: 'start', sortable: false, width: 150 },
+            { text: this.$t('table.task'), value: 'task', align: 'start', sortable: false, width: 230 },
             { text: this.$t('table.status'), value: 'phase', align: 'start', sortable: false, width: 120 },
             { text: 'Api', value: 'url', align: 'start', sortable: false },
             { text: this.$root.$t('resource.create_at'), value: 'creationTimestamp', align: 'start', width: 120 },

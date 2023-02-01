@@ -344,11 +344,13 @@
   const selectEnvironment = async (): Promise<void> => {
     if (state.environment > -1) {
       state.width = 740;
-      state.edgeClusterPagination = await useEdgeClusterList(new EdgeCluster(), {
-        [ENVIRONMENT_KEY]: [environment.value.EnvironmentName],
-        [PROJECT_KEY]: [project.value.ProjectName],
-        [TENANT_KEY]: [route.params.tenant],
-      });
+      if (environment.value.AllowEdgeRegistration)
+        state.edgeClusterPagination = await useEdgeClusterList(new EdgeCluster(), {
+          [ENVIRONMENT_KEY]: [environment.value.EnvironmentName],
+          [PROJECT_KEY]: [project.value.ProjectName],
+          [TENANT_KEY]: [route.params.tenant],
+        });
+      else state.edgeClusterPagination = [];
     } else {
       state.width = 460;
     }
