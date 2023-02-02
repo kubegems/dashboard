@@ -19,6 +19,7 @@
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [style: 💄 optimization model card styles] | ([6af6959](https://github.com/chenshunliang/dashboard/commit/6af69594c591bb3fad4d86107bb8c9fd1ebf6b8d) |
+| - | [style: 💄 optimization base cluster header and base environment header styles] | ([90e8770](https://github.com/chenshunliang/dashboard/commit/90e877019476efb0f74faba6b954a00a21054db1) |
 
 # 1.23.0 (2023-1-31)
 
