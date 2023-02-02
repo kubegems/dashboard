@@ -120,7 +120,6 @@
           this.formComponent = 'IssuerBaseForm';
           this.$nextTick(() => {
             this.$refs[this.formComponent].setData(data);
-            this.$refs[this.formComponent].init();
           });
         }
       },
