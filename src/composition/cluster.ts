@@ -62,7 +62,7 @@ export const useEdgeClusterList = async (
       Version: edge.spec.register.hubName,
       Upstream: edge.spec.register.hubName,
       Status: edge.status.phase,
-      DisplayName: edge.metadata.labels[EDGE_DEVICEID_KEY] || edge.metadata.name,
+      DisplayName: edge.metadata.labels[EDGE_DEVICEID_KEY],
     };
   });
   return clusterList as Cluster[];

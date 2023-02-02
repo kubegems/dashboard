@@ -110,7 +110,8 @@
                               :show-text="false"
                             />
                           </div>
-                          {{ item.DisplayName || item.ClusterName }}
+                          {{ item.ClusterName }}
+                          <div v-if="item.DisplayName" class="pl-5 text-caption"> {{ item.DisplayName }} </div>
                           <div class="float-right text-caption ml-2 select__list__badge">
                             {{ item.Version }}
                           </div>
