@@ -13,6 +13,7 @@
 | --- | --- | --- |
 | - | [fix: 🐛 fix select edge cluster whitout env condition bug, list edge cluster device-id first] | ([67efbfa](https://github.com/chenshunliang/dashboard/commit/67efbfae82a10abcebe47f25c9c3e85af7c5ccc9) |
 | - | [fix: 🐛 fix app manifest create error bug] | ([25e4c1e](https://github.com/chenshunliang/dashboard/commit/25e4c1e129478fc59f2add2775ab557f912fd7e5) |
+| - | [fix: 🐛 fix generate alert message missing namespace bug] | ([7ffba4d](https://github.com/chenshunliang/dashboard/commit/7ffba4dda231d074b70f02623305ec2455506fa8) |
 
 ### Styles
 
