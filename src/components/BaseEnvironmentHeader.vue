@@ -311,14 +311,16 @@
       return environment.EnvironmentName === params.value.environment;
     });
     if (state.environment > -1) {
-      state.edgeClusterPagination = await useEdgeClusterList(new EdgeCluster(), {
-        [ENVIRONMENT_KEY]: [params.value.environment],
-        [PROJECT_KEY]: [route.params.project],
-        [TENANT_KEY]: [route.params.tenant],
-      });
-      state.edgeCluster = state.edgeClusterPagination.findIndex((edgeCluster: Cluster) => {
-        return edgeCluster.ClusterName === store.state.Edge;
-      });
+      if (environment.value.AllowEdgeRegistration) {
+        state.edgeClusterPagination = await useEdgeClusterList(new EdgeCluster(), {
+          [ENVIRONMENT_KEY]: [params.value.environment],
+          [PROJECT_KEY]: [route.params.project],
+          [TENANT_KEY]: [route.params.tenant],
+        });
+        state.edgeCluster = state.edgeClusterPagination.findIndex((edgeCluster: Cluster) => {
+          return edgeCluster.ClusterName === store.state.Edge;
+        });
+      }
     }
   };
 
