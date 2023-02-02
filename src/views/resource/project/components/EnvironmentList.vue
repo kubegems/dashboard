@@ -116,8 +116,9 @@
               <div class="float-left">
                 <BaseLogo class="mr-1" icon-name="nvidia" :ml="0" :style="{ marginTop: '0px' }" :width="20" />
               </div>
-              <div class="float-left text-caption">
-                Gpu {{ item.UsedNvidiaGpu.toFixed(1) }} / {{ item.NvidiaGpu.toFixed(1) }}
+              <div class="float-left">
+                <div v-if="item.NvidiaGpu"> {{ item.UsedNvidiaGpu.toFixed(1) }} / {{ item.NvidiaGpu.toFixed(1) }} </div>
+                <div v-else>--</div>
               </div>
               <div class="kubegems__clear-float" />
             </div>
@@ -125,15 +126,18 @@
               <div class="float-left">
                 <BaseLogo class="mr-1" icon-name="tke" :ml="0" :style="{ marginTop: '0px' }" :width="20" />
               </div>
-              <div class="float-left text-caption">
-                <div> Gpu {{ item.UsedTkeGpu.toFixed(1) }} / {{ item.TkeGpu.toFixed(1) }} </div>
-                <div>
-                  {{ $root.$t('resource.video_memory') }} {{ item.UsedTkeMemory.toFixed(1) }}Gi /
-                  {{ item.TkeMemory.toFixed(1) }}Gi
-                </div>
+              <div class="float-left">
+                <div v-if="item.TkeGpu > 0"> {{ item.UsedTkeGpu.toFixed(1) }} / {{ item.TkeGpu.toFixed(1) }} </div>
+                <div v-else>--</div>
               </div>
               <div class="kubegems__clear-float" />
             </div>
+          </template>
+          <template #[`item.gpuMemoryUsed`]="{ item }">
+            <div v-if="item.TkeMemory > 0">
+              {{ item.UsedTkeMemory.toFixed(1) }}Gi / {{ item.TkeMemory.toFixed(1) }}Gi
+            </div>
+            <div v-else>--</div>
           </template>
           <template #[`item.isolation`]="{ item }">
             <v-switch
@@ -231,7 +235,13 @@
             text: this.$t('table.used', [this.$root.$t('resource.gpu')]),
             value: 'gpuUsed',
             align: 'start',
-            width: 180,
+            width: 150,
+          },
+          {
+            text: this.$t('table.used', [this.$root.$t('resource.video_memory')]),
+            value: 'gpuMemoryUsed',
+            align: 'start',
+            width: 150,
           },
         ];
         if (this.m_permisson_resourceAllow()) {

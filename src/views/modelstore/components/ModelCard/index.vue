@@ -21,7 +21,7 @@
           <v-card class="mx-auto card__pos" :elevation="hover ? 5 : 0" flat height="100%">
             <v-list-item class="mb-5" three-line>
               <v-list-item-avatar size="80" tile>
-                <BaseLogo icon-name="ai-model" :ml="0" :width="60" />
+                <BaseLogo default-logo="model" :icon-name="$route.query.registry" :ml="0" :width="60" />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="text-subtitle-1 mb-3 card__title">
@@ -138,7 +138,7 @@
           if (newValue) {
             this.items = [];
             this.pageCount = 0;
-            this.page = 1;
+            this.params.page = 1;
             this.modelStoreList();
           }
         },
