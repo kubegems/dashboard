@@ -207,13 +207,13 @@
         }
       },
       checkSaved() {
-        if (this.$refs[this.formComponent].expand) {
-          return !this.$refs[this.formComponent].expand;
-        }
+        // if (this.$refs[this.formComponent].expand) {
+        //   return !this.$refs[this.formComponent].expand;
+        // }
         return true;
       },
       reset() {
-        this.$refs[this.formComponent].closeCard();
+        // this.$refs[this.formComponent].closeCard();
         this.$refs.form.reset();
       },
       setData(data) {
