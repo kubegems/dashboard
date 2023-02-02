@@ -438,13 +438,8 @@
         if (this.$refs.addNamespace) this.$refs.addNamespace.closeCard();
         if (this.$refs.limitRange) this.$refs.limitRange.closeCard();
         this.dialog = false;
-        this.$refs.form.reset();
-        this.obj.data.EnvironmentName = '';
-        this.obj.data.MetaType = '';
-        this.obj.data.Remark = '';
-        this.obj.data.ClusterID = null;
-        this.obj.data.Namespace = '';
-        this.obj.data.DeletePolicy = 'delLabels';
+        this.$refs.form.resetValidation();
+        this.obj.data = this.$options.data().obj.data;
         this.users = [];
         this.readerUsers = [];
         this.operatorUsers = [];
