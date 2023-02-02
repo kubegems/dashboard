@@ -158,7 +158,7 @@
                                 :show-text="false"
                               />
                             </div>
-                            {{ item.ClusterName }}
+                            {{ item.DisplayName || item.ClusterName }}
                             <div class="float-right text-caption ml-2 select__list__badge">
                               {{ item.Version }}
                             </div>

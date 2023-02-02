@@ -58,10 +58,11 @@ export const useEdgeClusterList = async (
   const clusterList = _data.List.map((edge: EdgeCluster, index: number) => {
     return {
       ID: index,
-      ClusterName: edge.metadata.labels[EDGE_DEVICEID_KEY] || edge.metadata.name,
+      ClusterName: edge.metadata.name,
       Version: edge.spec.register.hubName,
       Upstream: edge.spec.register.hubName,
       Status: edge.status.phase,
+      DisplayName: edge.metadata.labels[EDGE_DEVICEID_KEY] || edge.metadata.name,
     };
   });
   return clusterList as Cluster[];

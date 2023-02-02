@@ -225,6 +225,8 @@ export function getIconName(name: string, def = 'kubernetes'): string {
       return 'mdi:bank-outline';
     case 'kubegems':
       return 'img:kubegems.svg';
+    case 'model':
+      return 'img:ai-model.svg';
     default:
       return 'logos:kubernetes';
   }

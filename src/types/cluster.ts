@@ -35,6 +35,7 @@ export class Cluster {
   };
   Upstream?: string = '';
   Status?: string = '';
+  DisplayName: string;
   [others: string]: any;
 
   public async getClusterList(params: KubePaginationRequest): Promise<KubePaginationResponse<Cluster[]>> {

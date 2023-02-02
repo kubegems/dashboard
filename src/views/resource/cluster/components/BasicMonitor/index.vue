@@ -26,9 +26,22 @@
           </div>
           <div class="ml-4 mt-2" :style="{ flexGrow: 2 }">
             <h3 class="card-text-h4 white--text text-h5 font-weight-regular">
-              {{ cluster && cluster.ClusterName ? cluster.ClusterName : '' }}
+              <div class="text-h6 white--text">
+                <v-menu :close-delay="200" nudge-right="25px" nudge-top="-5px" open-on-hover top>
+                  <template #activator="{ on }">
+                    <span v-on="on">
+                      {{ cluster && cluster.ClusterName ? cluster.ClusterName : '' }}
+                    </span>
+                  </template>
+                  <v-card>
+                    <v-card-text class="pa-2 text-body-2">
+                      {{ cluster && cluster.ClusterName ? cluster.ClusterName : '' }}
+                    </v-card-text>
+                  </v-card>
+                </v-menu>
+              </div>
             </h3>
-            <h6 class="card-subtitle white--text text-subtitle-1 font-weight-regular mb-2">
+            <h6 class="card-subtitle white--text text-subtitle-1 font-weight-regular mb-2 mt-4">
               {{ cluster && cluster.Version ? cluster.Version : '' }}
             </h6>
             <span class="texture-left pa-1 text-caption"> {{ $t('tip.cert_expired') }} : </span>
@@ -289,5 +302,13 @@
   .texture-right {
     color: white;
     background-color: rgb(0, 187, 212);
+  }
+
+  .title {
+    width: 100%;
+    word-break: break-all;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
   }
 </style>
