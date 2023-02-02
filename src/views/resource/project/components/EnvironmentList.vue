@@ -114,24 +114,27 @@
           <template #[`item.gpuUsed`]="{ item }">
             <div>
               <div class="float-left">
-                <BaseLogo class="mr-1" icon-name="nvidia" :ml="0" :style="{ marginTop: '0px' }" :width="20" />
-              </div>
-              <div class="float-left">
-                <div v-if="item.NvidiaGpu"> {{ item.UsedNvidiaGpu.toFixed(1) }} / {{ item.NvidiaGpu.toFixed(1) }} </div>
-                <div v-else>--</div>
+                <div v-if="item.NvidiaGpu">
+                  <div class="float-left">
+                    <BaseLogo class="mr-1" icon-name="nvidia" :ml="0" :style="{ marginTop: '0px' }" :width="20" />
+                  </div>
+                  {{ item.UsedNvidiaGpu.toFixed(1) }} / {{ item.NvidiaGpu.toFixed(1) }}
+                </div>
               </div>
               <div class="kubegems__clear-float" />
             </div>
             <div>
               <div class="float-left">
-                <BaseLogo class="mr-1" icon-name="tke" :ml="0" :style="{ marginTop: '0px' }" :width="20" />
-              </div>
-              <div class="float-left">
-                <div v-if="item.TkeGpu > 0"> {{ item.UsedTkeGpu.toFixed(1) }} / {{ item.TkeGpu.toFixed(1) }} </div>
-                <div v-else>--</div>
+                <div v-if="item.TkeGpu > 0">
+                  <div class="float-left">
+                    <BaseLogo class="mr-1" icon-name="tke" :ml="0" :style="{ marginTop: '0px' }" :width="20" />
+                  </div>
+                  {{ item.UsedTkeGpu.toFixed(1) }} / {{ item.TkeGpu.toFixed(1) }}
+                </div>
               </div>
               <div class="kubegems__clear-float" />
             </div>
+            <div v-if="item.NvidiaGpu === 0 && item.TkeGpu === 0">--</div>
           </template>
           <template #[`item.gpuMemoryUsed`]="{ item }">
             <div v-if="item.TkeMemory > 0">
