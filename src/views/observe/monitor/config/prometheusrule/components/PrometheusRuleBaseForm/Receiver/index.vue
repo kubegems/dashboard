@@ -161,7 +161,7 @@
         this.obj.alertType = this.mode;
         const data = await postGeneratePrometheusRuleMessage(
           this.$route.query.cluster,
-          this.obj.namespace,
+          this.$route.query.namespace,
           this.obj.name,
           this.obj,
         );
