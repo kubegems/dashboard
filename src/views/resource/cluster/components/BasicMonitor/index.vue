@@ -19,51 +19,59 @@
     <v-card-text class="primary pa-0" :style="{ height: `100%` }">
       <div class="d-flex">
         <div class="d-flex space-and-grow">
-          <div>
-            <h1 class="white--text text-h4 mt-4">
-              <BaseLogo class="mx-3" :icon-name="cluster ? cluster.Vendor : ''" :width="60" />
-            </h1>
-          </div>
-          <div class="ml-4 mt-2" :style="{ flexGrow: 2 }">
-            <h3 class="card-text-h4 white--text text-h5 font-weight-regular">
-              <div class="text-h6 white--text">
-                <v-menu :close-delay="200" nudge-right="25px" nudge-top="-5px" open-on-hover top>
-                  <template #activator="{ on }">
-                    <span v-on="on">
-                      {{ cluster && cluster.ClusterName ? cluster.ClusterName : '' }}
-                    </span>
-                  </template>
-                  <v-card>
-                    <v-card-text class="pa-2 text-body-2">
-                      {{ cluster && cluster.ClusterName ? cluster.ClusterName : '' }}
-                    </v-card-text>
-                  </v-card>
-                </v-menu>
+          <v-row>
+            <v-col cols="2">
+              <div>
+                <h1 class="white--text text-h4 mt-4">
+                  <BaseLogo class="mx-3" :icon-name="cluster ? cluster.Vendor : ''" :width="60" />
+                </h1>
               </div>
-            </h3>
-            <h6 class="card-subtitle white--text text-subtitle-1 font-weight-regular mb-2 mt-4">
-              {{ cluster && cluster.Version ? cluster.Version : '' }}
-            </h6>
-            <span class="texture-left pa-1 text-caption"> {{ $t('tip.cert_expired') }} : </span>
-            <span class="texture-right pa-1 text-caption">{{
-              certInfo && certInfo.ExpiredAt ? $moment(certInfo.ExpiredAt).format('YYYY/MM/DD h:mm') : ''
-            }}</span>
-          </div>
-          <div :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`" :style="{ flexGrow: 2 }">
-            <div class="white--text mt-3 text-caption px-5">{{ $t('tip.api_success_rate') }}</div>
-            <BaseAreaChart
-              chart-type="line"
-              class="px-4 float-right"
-              :color="['#ffffff']"
-              :extend-height="100"
-              :global-plugins-check="false"
-              :metrics="apiServerSuccessRate"
-              sample
-              title=""
-              unit="0-100"
-              width="190px"
-            />
-          </div>
+            </v-col>
+            <v-col cols="6">
+              <div class="ml-4 mt-2" :style="{ flexGrow: 2 }">
+                <h3 class="card-text-h4 white--text text-h5 font-weight-regular">
+                  <div class="cluster-title white--text">
+                    <v-menu :close-delay="200" nudge-right="25px" nudge-top="-5px" open-on-hover top>
+                      <template #activator="{ on }">
+                        <span v-on="on">
+                          {{ cluster && cluster.ClusterName ? cluster.ClusterName : '' }}
+                        </span>
+                      </template>
+                      <v-card>
+                        <v-card-text class="pa-2 text-body-2">
+                          {{ cluster && cluster.ClusterName ? cluster.ClusterName : '' }}
+                        </v-card-text>
+                      </v-card>
+                    </v-menu>
+                  </div>
+                </h3>
+                <h6 class="card-subtitle white--text text-subtitle-1 font-weight-regular mb-2 mt-4">
+                  {{ cluster && cluster.Version ? cluster.Version : '' }}
+                </h6>
+                <span class="texture-left pa-1 text-caption"> {{ $t('tip.cert_expired') }} : </span>
+                <span class="texture-right pa-1 text-caption">{{
+                  certInfo && certInfo.ExpiredAt ? $moment(certInfo.ExpiredAt).format('YYYY/MM/DD h:mm') : ''
+                }}</span>
+              </div>
+            </v-col>
+            <v-col cols="4">
+              <div :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`" :style="{ flexGrow: 2 }">
+                <div class="white--text mt-3 text-caption px-5">{{ $t('tip.api_success_rate') }}</div>
+                <BaseAreaChart
+                  chart-type="line"
+                  class="px-4 float-right"
+                  :color="['#ffffff']"
+                  :extend-height="100"
+                  :global-plugins-check="false"
+                  :metrics="apiServerSuccessRate"
+                  sample
+                  title=""
+                  unit="0-100"
+                  width="190px"
+                />
+              </div>
+            </v-col>
+          </v-row>
         </div>
         <div class="d-flex justify-space-between px-4 fix">
           <div v-if="hasEtcd" class="d-flex">
@@ -304,8 +312,8 @@
     background-color: rgb(0, 187, 212);
   }
 
-  .title {
-    width: 100%;
+  .cluster-title {
+    max-width: 100%;
     word-break: break-all;
     white-space: nowrap;
     text-overflow: ellipsis;

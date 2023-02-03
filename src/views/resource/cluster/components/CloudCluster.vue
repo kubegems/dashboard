@@ -193,7 +193,7 @@
         this.$store.commit('SET_EDGE', '');
         this.$router.push({
           name: 'cluster-detail',
-          params: Object.assign(this.$route.params, { name: item.ClusterName }),
+          params: Object.assign(this.$route.params, { name: item.ClusterName, cluster: item.ClusterName }),
           query: { id: item.ID },
         });
       },

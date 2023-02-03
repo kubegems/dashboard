@@ -236,16 +236,13 @@
       // 递归获取匹配路径的参数
       getParamMatchingPath(params, path) {
         path = path.replaceAll('.', '/');
-        let targetParam;
         for (const p of params) {
           if (p.path === path) {
-            targetParam = p;
-            break;
+            return p;
           } else if (p.children && p.children?.length > 0) {
-            targetParam = this.getParamMatchingPath(p.children, path);
+            return this.getParamMatchingPath(p.children, path);
           }
         }
-        return targetParam;
       },
     },
   };
