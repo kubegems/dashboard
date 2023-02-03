@@ -86,8 +86,8 @@ router.beforeEach(async (to, from, next): Promise<void> => {
         if (to.params.cluster !== store.state.LatestCluster.cluster) {
           await store.dispatch('LOAD_RESTMAPPING_RESOURCES', { clusterName: to.params.cluster });
         }
-        store.commit('SET_LATEST_CLUSTER', { cluster: to.params.cluster });
         await store.dispatch('INIT_PLUGINS', to.params.cluster);
+        store.commit('SET_LATEST_CLUSTER', { cluster: to.params.cluster });
       }
     }
     let currentTenant: { [key: string]: string | number } = null;
@@ -143,11 +143,11 @@ router.beforeEach(async (to, from, next): Promise<void> => {
       if (environment.ClusterName !== store.state.LatestEnvironment.cluster) {
         await store.dispatch('LOAD_RESTMAPPING_RESOURCES', { clusterName: environment?.ClusterName });
       }
+      await store.dispatch('INIT_PLUGINS', environment?.ClusterName);
       store.commit('SET_LATEST_ENVIRONMENT', {
         environment: store.state.Edge ? '' : environment.EnvironmentName,
         cluster: store.state.Edge ? '' : environment.ClusterName,
       });
-      await store.dispatch('INIT_PLUGINS', environment?.ClusterName);
     }
     store.dispatch('INIT_GLOBAL_PLUGINS');
     if (store.state.AdminViewport && to.meta.upToAdmin) {

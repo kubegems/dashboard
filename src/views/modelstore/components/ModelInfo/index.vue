@@ -28,7 +28,7 @@
       <v-card-text class="pt-7 px-7">
         <div class="d-flex justify-center my-3">
           <div class="text-center" :style="{ wordBreak: 'break-all' }">
-            <BaseLogo icon-name="ai-model" large :width="100" />
+            <BaseLogo default-logo="model" :icon-name="$route.query.registry" :width="100" />
             <h3 class="text-h6 font-weight-medium primary--text">
               {{ $route.params.name }}
             </h3>
