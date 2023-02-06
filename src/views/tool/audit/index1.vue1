@@ -116,16 +116,16 @@
 </template>
 
 <script lang="ts" setup>
-  import { convertStrToNum } from '@/utils/helpers';
-
   import yaml from 'js-yaml';
   import moment from 'moment';
-  import { Audit } from '@/types/audit';
   import { onMounted, reactive, ref } from 'vue';
+
   import { useI18n } from './i18n';
-  import { useGlobalI18n } from '@/i18n';
   import { useAuditPagination } from '@/composition/audit';
   import { useRoute, useRouter } from '@/composition/router';
+  import { useGlobalI18n } from '@/i18n';
+  import { Audit } from '@/types/audit';
+  import { convertStrToNum } from '@/utils/helpers';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();

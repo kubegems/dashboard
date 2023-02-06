@@ -22,7 +22,7 @@ import { stringifySelector } from '@/utils/k8s_selector';
 export const useClusterList = async (cluster: Cluster): Promise<Cluster[]> => {
   const _data: KubePaginationResponse<Cluster[]> = await cluster.getClusterList({
     page: 1,
-    size: 100,
+    size: 1000,
     noprocessing: true,
   });
   return _data.List as Cluster[];
@@ -51,7 +51,7 @@ export const useEdgeClusterList = async (
 
   const _data: KubePaginationResponse<EdgeCluster[]> = await edge.getEdgeClusterList({
     page: 1,
-    size: 100,
+    size: 1000,
     noprocessing: true,
     labels: labelSelector,
   });

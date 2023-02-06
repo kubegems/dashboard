@@ -87,7 +87,7 @@ axios.interceptors.request.use(
     if (window.localStorage.getItem('JWT')) {
       config.headers.Authorization = `Bearer ${window.localStorage.getItem('JWT')}`;
     }
-    if (config.method.toLocaleLowerCase() in ['post', 'patch', 'put', 'delete']) {
+    if (['post', 'patch', 'put', 'delete'].indexOf(config.method.toLocaleLowerCase()) > -1) {
       config.headers['Content-type'] = 'application/json;charset=utf-8';
     }
 

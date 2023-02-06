@@ -210,7 +210,14 @@
           </template>
           <template #[`item.url`]="{ item }">
             {{ item.status.url }}
-            <v-btn v-clipboard:copy="item.status.url" v-clipboard:success="onCopy" color="primary" icon small>
+            <v-btn
+              v-if="item.status.url"
+              v-clipboard:copy="item.status.url"
+              v-clipboard:success="onCopy"
+              color="primary"
+              icon
+              small
+            >
               <v-icon color="primary" small> mdi-content-copy </v-icon>
             </v-btn>
           </template>
