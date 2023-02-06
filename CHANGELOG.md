@@ -11,17 +11,18 @@
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
-| - | [fix: 🐛 fix select edge cluster whitout env condition bug, list edge cluster device-id first] | ([67efbfa](https://github.com/chenshunliang/dashboard/commit/67efbfae82a10abcebe47f25c9c3e85af7c5ccc9) |
-| - | [fix: 🐛 fix app manifest create error bug] | ([25e4c1e](https://github.com/chenshunliang/dashboard/commit/25e4c1e129478fc59f2add2775ab557f912fd7e5) |
-| - | [fix: 🐛 fix generate alert message missing namespace bug] | ([7ffba4d](https://github.com/chenshunliang/dashboard/commit/7ffba4dda231d074b70f02623305ec2455506fa8) |
-| - | [fix: 🐛 fix data not callback in form when edit environment bug] | ([1689371](https://github.com/chenshunliang/dashboard/commit/16893718b781f893f5b0af54dd814e6b686e03cf) |
+| - | [fix: 🐛 fix select edge cluster whitout env condition bug, list edge cluster device-id first] | [67efbfa](https://github.com/chenshunliang/dashboard/commit/67efbfae82a10abcebe47f25c9c3e85af7c5ccc9) |
+| - | [fix: 🐛 fix app manifest create error bug] | [25e4c1e](https://github.com/chenshunliang/dashboard/commit/25e4c1e129478fc59f2add2775ab557f912fd7e5) |
+| - | [fix: 🐛 fix generate alert message missing namespace bug] | [7ffba4d](https://github.com/chenshunliang/dashboard/commit/7ffba4dda231d074b70f02623305ec2455506fa8) |
+| - | [fix: 🐛 fix data not callback in form when edit environment bug] | [1689371](https://github.com/chenshunliang/dashboard/commit/16893718b781f893f5b0af54dd814e6b686e03cf) |
+| - | [fix: 🐛 fix check condition not correct when json schema render bug, optimization plugin polling] | [972658d](https://github.com/chenshunliang/dashboard/commit/972658d97f30000632fd460666c8f73591721866) |
 
 ### Styles
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
-| - | [style: 💄 optimization model card styles] | ([6af6959](https://github.com/chenshunliang/dashboard/commit/6af69594c591bb3fad4d86107bb8c9fd1ebf6b8d) |
-| - | [style: 💄 optimization base cluster header and base environment header styles] | ([90e8770](https://github.com/chenshunliang/dashboard/commit/90e877019476efb0f74faba6b954a00a21054db1) |
+| - | [style: 💄 optimization model card styles] | [6af6959](https://github.com/chenshunliang/dashboard/commit/6af69594c591bb3fad4d86107bb8c9fd1ebf6b8d) |
+| - | [style: 💄 optimization base cluster header and base environment header styles] | [90e8770](https://github.com/chenshunliang/dashboard/commit/90e877019476efb0f74faba6b954a00a21054db1) |
 
 # 1.23.0 (2023-1-31)
 
@@ -37,7 +38,7 @@
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
-| - | [fix: 🐛 fix log project env cascade selector first trigger not effect bug] | ([3de254c](https://github.com/chenshunliang/dashboard/commit/3de254caca8279abf04d4132842f7a6f83c8cce5) |
+| - | [fix: 🐛 fix log project env cascade selector first trigger not effect bug] | [3de254c](https://github.com/chenshunliang/dashboard/commit/3de254caca8279abf04d4132842f7a6f83c8cce5) |
 
 # 1.23.0-rc.1 (2023-1-30)
 
@@ -61,8 +62,8 @@
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
-| - | [fix: 🐛 fix log project env cascade selector first trigger not effect bug] | ([caa750a](https://github.com/chenshunliang/dashboard/commit/caa750a3fdee2ccf45ed93d08636fb48c95eb954) |
-| - | [fix: 🐛 fix alert channel type lost bug, optimization trace timeline chart] | ([68c1bfa](https://github.com/chenshunliang/dashboard/commit/68c1bfa8303368ee19bb7f05c55b20b2680c1e1b) |
+| - | [fix: 🐛 fix log project env cascade selector first trigger not effect bug] | [caa750a](https://github.com/chenshunliang/dashboard/commit/caa750a3fdee2ccf45ed93d08636fb48c95eb954) |
+| - | [fix: 🐛 fix alert channel type lost bug, optimization trace timeline chart] | [68c1bfa](https://github.com/chenshunliang/dashboard/commit/68c1bfa8303368ee19bb7f05c55b20b2680c1e1b) |
 
 # 1.23.0-alpha.3 (2023-1-11)
 
@@ -86,21 +87,21 @@
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
-| - | [fix: 🐛 fix intergated center page mixed bug] | ([0321113](https://github.com/chenshunliang/dashboard/commit/032111386eccbf2ec00fff119aad71722d73262c)) |
-| - | [fix: 🐛 fix plugins params value not reconstruct when edited ] | ([c7ac5e54](https://github.com/chenshunliang/dashboard/commit/c7ac5e547f56778237c4af4930050f95adadbfd9)) |
-| - | [fix: 🐛 fix log viewer query sometimes missing progress bar bug ] | ([ccba56cc](https://github.com/chenshunliang/dashboard/commit/ccba56cc3e4814f862ac6e85d5066d2d2f6c8e75)) |
-| - | [fix: 🐛 fix monitor template detail page list graphs error bug ] | ([9781b1f](https://github.com/chenshunliang/dashboard/commit/9781b1fb57460ae896971257c5f2def9869b920c)) |
-| - | [fix: 🐛 fix update monitor rule label matchers not effect bug ] | ([35cf874](https://github.com/chenshunliang/dashboard/commit/35cf874dd8d67bece8d1f9f4b5cb7f2e3d16a5be)) |
-| - | [fix: 🐛 remove required validate for container command and args ] | ([d345930](https://github.com/chenshunliang/dashboard/commit/d34593041357964d761d56cab45e74dc52604130)) |
-| - | [fix: 🐛 fix jsonschema render hidden condition default value not correct bug ] | ([d345930](https://github.com/chenshunliang/dashboard/commit/d34593041357964d761d56cab45e74dc52604130)) |
+| - | [fix: 🐛 fix intergated center page mixed bug] | [0321113](https://github.com/chenshunliang/dashboard/commit/032111386eccbf2ec00fff119aad71722d73262c)) |
+| - | [fix: 🐛 fix plugins params value not reconstruct when edited ] | [c7ac5e54](https://github.com/chenshunliang/dashboard/commit/c7ac5e547f56778237c4af4930050f95adadbfd9)) |
+| - | [fix: 🐛 fix log viewer query sometimes missing progress bar bug ] | [ccba56cc](https://github.com/chenshunliang/dashboard/commit/ccba56cc3e4814f862ac6e85d5066d2d2f6c8e75)) |
+| - | [fix: 🐛 fix monitor template detail page list graphs error bug ] | [9781b1f](https://github.com/chenshunliang/dashboard/commit/9781b1fb57460ae896971257c5f2def9869b920c)) |
+| - | [fix: 🐛 fix update monitor rule label matchers not effect bug ] | [35cf874](https://github.com/chenshunliang/dashboard/commit/35cf874dd8d67bece8d1f9f4b5cb7f2e3d16a5be)) |
+| - | [fix: 🐛 remove required validate for container command and args ] | [d345930](https://github.com/chenshunliang/dashboard/commit/d34593041357964d761d56cab45e74dc52604130)) |
+| - | [fix: 🐛 fix jsonschema render hidden condition default value not correct bug ] | [d345930](https://github.com/chenshunliang/dashboard/commit/d34593041357964d761d56cab45e74dc52604130)) |
 
 ### 🔨 reflactor
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
-| - | [build: :chrone: add sentry from .env file, optimization trace overview] | ([0f93576](https://github.com/chenshunliang/dashboard/commit/0f93576fb0b2daa6155552817371386b5f6ec137)) |
-| - | [perf: ⚡ optimization resource ts files] | ([ca56d68](https://github.com/chenshunliang/dashboard/commit/ca56d686d011d1c899cc2c96aad427f4ef21feea)) |
-| - | [refactor: ➕ upgrade xterm 4.19.0 => 5.1.0] | ([f091403](https://github.com/chenshunliang/dashboard/commit/f091403eab9a7904a344e03dff07b96574aa0353)) |
+| - | [build: :chrone: add sentry from .env file, optimization trace overview] | [0f93576](https://github.com/chenshunliang/dashboard/commit/0f93576fb0b2daa6155552817371386b5f6ec137)) |
+| - | [perf: ⚡ optimization resource ts files] | [ca56d68](https://github.com/chenshunliang/dashboard/commit/ca56d686d011d1c899cc2c96aad427f4ef21feea)) |
+| - | [refactor: ➕ upgrade xterm 4.19.0 => 5.1.0] | [f091403](https://github.com/chenshunliang/dashboard/commit/f091403eab9a7904a344e03dff07b96574aa0353)) |
 
 # 1.23.0-alpha.2 (2022-12-19)
 
@@ -117,9 +118,9 @@
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
-| - | [fix: 🐛 fix plugin refresh bug] | ([1726c7e](https://github.com/chenshunliang/dashboard/commit/1726c7e6bfbc1284e1a2399f30e8a3470c4688d5)) |
-| - | [fix: 🐛 fix app name check regex not correct bug] | ([d97657d](https://github.com/chenshunliang/dashboard/commit/d97657db9ca0861eb6a9021d3416c2d8a3a94aaa)) |
-| - | [fix: 🐛 fix url encode bug] | ([bf4a7b8](https://github.com/chenshunliang/dashboard/commit/bf4a7b84c8988d5c8091f18585f8c5ef3b348b6f)) |
+| - | [fix: 🐛 fix plugin refresh bug] | [1726c7e](https://github.com/chenshunliang/dashboard/commit/1726c7e6bfbc1284e1a2399f30e8a3470c4688d5) |
+| - | [fix: 🐛 fix app name check regex not correct bug] | [d97657d](https://github.com/chenshunliang/dashboard/commit/d97657db9ca0861eb6a9021d3416c2d8a3a94aaa) |
+| - | [fix: 🐛 fix url encode bug] | [bf4a7b8](https://github.com/chenshunliang/dashboard/commit/bf4a7b84c8988d5c8091f18585f8c5ef3b348b6f) |
 
 # 1.23.0-alpha.0 (2022-12-01)
 

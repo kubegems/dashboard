@@ -16,6 +16,7 @@
 import { Environment } from '@/types/environment';
 import { Project } from '@/types/project';
 import { Tenant } from '@/types/tenant';
+import { User } from '@/types/user';
 
 export const useTenantList = async (tenant: Tenant): Promise<Tenant[]> => {
   const _data: KubePaginationResponse<Tenant[]> = await tenant.getTenantList({
@@ -29,7 +30,7 @@ export const useTenantList = async (tenant: Tenant): Promise<Tenant[]> => {
 export const useProjectListInTenant = async (tenant: Tenant): Promise<Project[]> => {
   const _data: KubePaginationResponse<Project[]> = await tenant.getProjectList({
     page: 1,
-    size: 100,
+    size: 1000,
     noprocessing: true,
     preload: 'Cluster',
   });
@@ -39,9 +40,18 @@ export const useProjectListInTenant = async (tenant: Tenant): Promise<Project[]>
 export const useEnvironmentListInTenant = async (tenant: Tenant): Promise<Environment[]> => {
   const _data: KubePaginationResponse<Environment[]> = await tenant.getEnvironmentList({
     page: 1,
-    size: 100,
+    size: 1000,
     noprocessing: true,
     preload: 'Cluster,Project',
   });
   return _data.List as Environment[];
+};
+
+export const useTenantUserList = async (tenant: Tenant): Promise<User[]> => {
+  const _data: KubePaginationResponse<User[]> = await tenant.getUserList({
+    page: 1,
+    size: 1000,
+    noprocessing: true,
+  });
+  return _data.List as User[];
 };

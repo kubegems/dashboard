@@ -51,6 +51,20 @@ if (import.meta.env.VUE_APP_SENTRY === 'true') {
       'bmi_SafeAddOnload',
       'EBCallBackMessageReceived',
       'conduitPage',
+      'Failed to fetch dynamically imported module',
     ],
+    beforeSend(event, hint) {
+      const error = hint.originalException;
+      let errorMsg = '';
+      if (error instanceof Error) {
+        errorMsg = (error as Error).message;
+      } else if (typeof error === 'string') {
+        errorMsg = errorMsg;
+      }
+      if (errorMsg.match(new RegExp('Failed to fetch dynamically imported module', 'g'))) {
+        return null;
+      }
+      return event;
+    },
   });
 }
