@@ -128,7 +128,7 @@ axios.interceptors.response.use(
           });
         }
       }
-      return response.data.Data || response.data.data || response.data;
+      return response.data.Data || response.data.data;
     } else {
       store.commit('SET_PROGRESS', false);
       store.commit('SET_CIRCULAR', false);

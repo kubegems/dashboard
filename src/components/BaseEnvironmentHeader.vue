@@ -67,7 +67,7 @@
               <v-divider class="mb-2" />
               <v-list class="pa-0" dense max-height="280" nav :style="{ overflowY: 'auto' }">
                 <v-list-item-group v-model="state.project" color="primary" @change="selectProject">
-                  <v-list-item v-for="item in projectItems" :key="item.ProjectName" dense>
+                  <v-list-item v-for="(item, index) in projectItems" :key="index" dense>
                     <v-list-item-content>
                       <v-list-item-title class="select__list__title pl-2">
                         {{ item.ProjectName }}
@@ -128,7 +128,7 @@
                 <v-divider class="mb-2" />
                 <v-list class="pa-0" dense max-height="225" nav :style="{ overflowY: 'auto' }">
                   <v-list-item-group color="primary" :value="store.state.Edge ? undefined : 0" @change="selectCluster">
-                    <v-list-item v-for="item in [environment]" :key="item.ClusterID" dense>
+                    <v-list-item v-for="(item, index) in [environment]" :key="index" dense>
                       <v-list-item-content>
                         <v-list-item-title class="select__list__title pl-2">
                           {{ item ? item.Cluster.ClusterName : '' }}
@@ -302,7 +302,7 @@
     state.loading = true;
     state.projectPagination = await useProjectListInTenant(new Tenant({ ID: store.getters.Tenant().ID }));
     state.project = state.projectPagination.findIndex((project: Project) => {
-      return project.ProjectName === route.params.project;
+      return project?.ProjectName === route.params.project;
     });
 
     state.environmentPagination = await useEnvironmentListInProject(new Project(project.value));
@@ -350,7 +350,7 @@
       if (environment.value.AllowEdgeRegistration)
         state.edgeClusterPagination = await useEdgeClusterList(new EdgeCluster(), {
           [ENVIRONMENT_KEY]: [environment.value.EnvironmentName],
-          [PROJECT_KEY]: [project.value.ProjectName],
+          [PROJECT_KEY]: [project.value?.ProjectName],
           [TENANT_KEY]: [route.params.tenant],
         });
       else state.edgeClusterPagination = [];
@@ -394,7 +394,7 @@
       params: {
         ...param,
         tenant: store.getters.Tenant().TenantName,
-        project: project.value.ProjectName,
+        project: project.value?.ProjectName,
         environment: environment.value.EnvironmentName,
       },
       query: {

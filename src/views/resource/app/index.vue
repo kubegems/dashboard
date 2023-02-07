@@ -366,7 +366,7 @@
       },
       headers() {
         let items = [];
-        if (this.tabItems[this.tab].value === 'AppList' || this.tabItems[this.tab].value === 'AppStoreList') {
+        if (this.tabItems[this.tab]?.value === 'AppList' || this.tabItems[this.tab]?.value === 'AppStoreList') {
           items = [
             { text: this.$t('table.name'), value: 'name', align: 'start' },
             { text: this.$t('table.kind'), value: 'kind', align: 'start', sortable: false },
@@ -391,7 +391,7 @@
             },
             { text: this.$t('table.publish_at'), value: 'createAt', align: 'start' },
           ];
-          if (this.tabItems[this.tab].value === 'AppList') {
+          if (this.tabItems[this.tab]?.value === 'AppList') {
             items.splice(3, 0, {
               text: this.$t('table.task_status'),
               value: 'taskStatus',
@@ -399,7 +399,7 @@
               sortable: false,
             });
           }
-          if (this.tabItems[this.tab].value === 'AppStoreList') {
+          if (this.tabItems[this.tab]?.value === 'AppStoreList') {
             items.splice(1, 0, {
               text: 'Chart',
               value: 'chart',

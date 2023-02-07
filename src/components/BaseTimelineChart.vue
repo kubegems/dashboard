@@ -270,7 +270,7 @@
       getHeight(items) {
         if (items?.length) {
           if (items.length <= 10) {
-            return 28 * items.length + 36;
+            return 40 * items.length + 36;
           } else if (items.length <= 15) {
             return 31.6 * items.length;
           } else if (items.length <= 20) {

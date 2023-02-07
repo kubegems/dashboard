@@ -5,13 +5,14 @@
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [perf: ⚡ add node monitor in pod monitor page] | [b9710b9](https://github.com/chenshunliang/dashboard/commit/b9710b95fc4aece2beb8a17ae3ddf8da3f01fb32) |
+| - | [perf: ⚡ remove cache from plugin schema api data] | [e754941](https://github.com/chenshunliang/dashboard/commit/e7549411d56067bdffce3209dd42773f89063ff1) |
 
 ### Styles
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [style: 💄 optimization few styles] | [504bdef](https://github.com/chenshunliang/dashboard/commit/504bdef6038f9794ff13c6d594d52a9e1c2c37ae) |
-| - | [style: 💄 add model repository logo] | [504bdef](https://github.com/chenshunliang/dashboard/commit/504bdef6038f9794ff13c6d594d52a9e1c2c37ae) |
+| - | [style: 💄 add model repository logo] | [89e8c75](https://github.com/chenshunliang/dashboard/commit/89e8c750c9570ec7dbce4b18e503888ea775dcdf) |
 
 # 1.23.1 (2023-2-3)
 
