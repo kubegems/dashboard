@@ -237,7 +237,7 @@
             query: NODE_NETWORK_IN_PROMQL.replaceAll('$1', this.item.metadata.name),
           }),
         );
-        if (data1?.length > 0) data1[0].metric['name'] = this.$t('tip.in_traffc');
+        if (data1?.length > 0) data1[0].metric['name'] = this.$t('tip.in_traffic');
         const data2 = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {

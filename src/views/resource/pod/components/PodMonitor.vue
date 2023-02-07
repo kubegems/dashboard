@@ -15,46 +15,85 @@
 -->
 
 <template>
-  <v-card>
-    <v-card-title class="py-1">
-      <v-flex>
-        <v-flex class="float-right">
-          <v-sheet class="text-body-2 text--darken-1">
-            <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
-          </v-sheet>
+  <div>
+    <v-card>
+      <v-card-title class="py-1">
+        <v-flex>
+          <v-flex class="float-right">
+            <v-sheet class="text-body-2 text--darken-1">
+              <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
+            </v-sheet>
+          </v-flex>
+          <div class="kubegems__clear-float" />
         </v-flex>
-        <div class="kubegems__clear-float" />
-      </v-flex>
-    </v-card-title>
-    <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
-      <v-row>
-        <v-col cols="6">
-          <BaseAreaChart
-            label="container"
-            :metrics="cpu"
-            :title="$t('table.used', [$root.$t('resource.cpu')])"
-            type="cpu"
-          />
-        </v-col>
-        <v-col cols="6">
-          <BaseAreaChart
-            label="container"
-            :metrics="memory"
-            :title="$t('table.used', [$root.$t('resource.memory')])"
-            unit="Mi"
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="6">
-          <BaseAreaChart label="pod" :metrics="networkin" :title="$t('tip.in_traffic')" type="network" />
-        </v-col>
-        <v-col cols="6">
-          <BaseAreaChart label="pod" :metrics="networkout" :title="$t('tip.out_traffic')" type="network" />
-        </v-col>
-      </v-row>
-    </v-card-text>
-  </v-card>
+      </v-card-title>
+      <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
+        <v-row>
+          <v-col cols="6">
+            <BaseAreaChart
+              label="container"
+              :metrics="cpu"
+              :title="$t('table.used', [$root.$t('resource.cpu')])"
+              type="cpu"
+            />
+          </v-col>
+          <v-col cols="6">
+            <BaseAreaChart
+              label="container"
+              :metrics="memory"
+              :title="$t('table.used', [$root.$t('resource.memory')])"
+              unit="Mi"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6">
+            <BaseAreaChart label="pod" :metrics="networkin" :title="$t('tip.in_traffic')" type="network" />
+          </v-col>
+          <v-col cols="6">
+            <BaseAreaChart label="pod" :metrics="networkout" :title="$t('tip.out_traffic')" type="network" />
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
+
+    <v-card class="mt-3">
+      <v-card-title class="py-1">
+        <span class="text-subtitle-1 kubegems__text">{{ $t('tip.node_monitor') }}</span>
+      </v-card-title>
+      <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
+        <v-row>
+          <v-col cols="6">
+            <BaseAreaChart label="name" :metrics="load" :title="$t('tip.load')" type="" />
+          </v-col>
+          <v-col cols="6">
+            <BaseAreaChart label="node" :metrics="cpuNode" :title="$t('tip.cpu_rate')" type="%" />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6">
+            <BaseAreaChart label="node" :metrics="memoryNode" :title="$t('tip.memory_rate')" type="%" />
+          </v-col>
+          <v-col cols="6">
+            <BaseAreaChart label="name" :metrics="memoryUsed" :title="$t('tip.memory_used_status')" type="memory" />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6">
+            <BaseAreaChart label="device" :metrics="disk" :title="$t('tip.remain_storage')" type="storage" />
+          </v-col>
+          <v-col cols="6">
+            <BaseAreaChart label="name" :metrics="diskiops" :title="$t('tip.disk_iops')" type="" />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6">
+            <BaseAreaChart label="name" :metrics="network" :title="$t('tip.network')" type="network" />
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
+  </div>
 </template>
 
 <script>
@@ -66,6 +105,20 @@
     CONTAINER_MEMORY_USAGE_PROMQL,
     POD_NETWORK_IN_PROMQL,
     POD_NETWORK_OUT_PROMQL,
+    NODE_CPU_USAGE_PROMQL,
+    NODE_DISK_AVAILABLE_SIZE_PROMQL,
+    NODE_DISK_READ_IOPS_PROMQL,
+    NODE_DISK_WRITE_IOPS_PROMQL,
+    NODE_LOAD15_PROMQL,
+    NODE_LOAD1_PROMQL,
+    NODE_LOAD5_PROMQL,
+    NODE_MEMORY_BUFFER_PROMQL,
+    NODE_MEMORY_CACHED_PROMQL,
+    NODE_MEMORY_TOTAL_PROMQL,
+    NODE_MEMORY_USAGE_PROMQL,
+    NODE_MEMORY_USED_PROMQL,
+    NODE_NETWORK_IN_PROMQL,
+    NODE_NETWORK_OUT_PROMQL,
   } from '@/constants/prometheus';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -88,6 +141,13 @@
         memory: [],
         networkin: [],
         networkout: [],
+        load: [],
+        cpuNode: [],
+        memoryNode: [],
+        network: [],
+        disk: [],
+        diskiops: [],
+        memoryUsed: [],
         date: [],
         params: {
           start: '',
@@ -128,6 +188,15 @@
         this.podMemoryUsage();
         this.podNetworkIn();
         this.podNetworkOut();
+        if (this.item.spec.nodeName) {
+          this.nodeLoadRange();
+          this.nodeCPUUsage();
+          this.nodeMemoryUsage();
+          this.nodeMemoryUsed();
+          this.nodeDiskSize();
+          this.nodeDiskIOPS();
+          this.nodeNetworkUsage();
+        }
       },
       async podCPUUsage() {
         const containers = [];
@@ -174,6 +243,137 @@
           const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
           if (data) this.networkout = data;
         }
+      },
+      async nodeMemoryUsed() {
+        const data1 = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: NODE_MEMORY_TOTAL_PROMQL.replaceAll('$1', this.item.spec.nodeName),
+          }),
+        );
+        if (data1?.length > 0) data1[0].metric['name'] = this.$t('tip.total_memory');
+        const data2 = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: NODE_MEMORY_USED_PROMQL.replaceAll('$1', this.item.spec.nodeName),
+          }),
+        );
+        if (data2?.length > 0) data2[0].metric['name'] = this.$t('tip.used_memory');
+        const data3 = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: NODE_MEMORY_BUFFER_PROMQL.replaceAll('$1', this.item.spec.nodeName),
+          }),
+        );
+        if (data3?.length > 0) data3[0].metric['name'] = this.$t('tip.buffer_memory');
+        const data4 = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: NODE_MEMORY_CACHED_PROMQL.replaceAll('$1', this.item.spec.nodeName),
+          }),
+        );
+        if (data4?.length > 0) data4[0].metric['name'] = this.$t('tip.cached_memory');
+        let data = [];
+        if (data1) data = data.concat(data1);
+        if (data2) data = data.concat(data2);
+        if (data3) data = data.concat(data3);
+        if (data4) data = data.concat(data4);
+        this.memoryUsed = data;
+      },
+      async nodeLoadRange() {
+        const data1 = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: NODE_LOAD1_PROMQL.replaceAll('$1', this.item.spec.nodeName),
+          }),
+        );
+        if (data1?.length > 0) data1[0].metric['name'] = this.$t('tip.load_1');
+        const data2 = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: NODE_LOAD5_PROMQL.replaceAll('$1', this.item.spec.nodeName),
+          }),
+        );
+        if (data2?.length > 0) data2[0].metric['name'] = this.$t('tip.load_5');
+        const data3 = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: NODE_LOAD15_PROMQL.replaceAll('$1', this.item.spec.nodeName),
+          }),
+        );
+        if (data3?.length > 0) data3[0].metric['name'] = this.$t('tip.load_15');
+        let data = [];
+        if (data1) data = data.concat(data1);
+        if (data2) data = data.concat(data2);
+        if (data3) data = data.concat(data3);
+        this.load = data;
+      },
+      async nodeCPUUsage() {
+        const data = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: NODE_CPU_USAGE_PROMQL.replaceAll('$1', this.item.spec.nodeName),
+          }),
+        );
+        if (data) this.cpuNode = data;
+      },
+      async nodeMemoryUsage() {
+        const data = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: NODE_MEMORY_USAGE_PROMQL.replaceAll('$1', this.item.spec.nodeName),
+          }),
+        );
+        if (data) this.memoryNode = data;
+      },
+      async nodeNetworkUsage() {
+        const data1 = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: NODE_NETWORK_IN_PROMQL.replaceAll('$1', this.item.spec.nodeName),
+          }),
+        );
+        if (data1?.length > 0) data1[0].metric['name'] = this.$t('tip.in_traffic');
+        const data2 = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: NODE_NETWORK_OUT_PROMQL.replaceAll('$1', this.item.spec.nodeName),
+          }),
+        );
+        if (data2?.length > 0) data2[0].metric['name'] = this.$t('tip.out_traffic');
+        let data = [];
+        if (data1) data = data.concat(data1);
+        if (data2) data = data.concat(data2);
+        this.network = data;
+      },
+      async nodeDiskSize() {
+        const data = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: NODE_DISK_AVAILABLE_SIZE_PROMQL.replaceAll('$1', this.item.spec.nodeName),
+          }),
+        );
+        if (data) this.disk = data;
+      },
+      async nodeDiskIOPS() {
+        const data1 = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: NODE_DISK_WRITE_IOPS_PROMQL.replaceAll('$1', this.item.spec.nodeName),
+          }),
+        );
+        if (data1?.length > 0) data1[0].metric['name'] = this.$t('tip.write_iops');
+        const data2 = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: NODE_DISK_READ_IOPS_PROMQL.replaceAll('$1', this.item.spec.nodeName),
+          }),
+        );
+        if (data2?.length > 0) data2[0].metric['name'] = this.$t('tip.read_iops');
+        let data = [];
+        if (data1) data = data.concat(data1);
+        if (data2) data = data.concat(data2);
+        this.diskiops = data;
       },
       onDatetimeChange() {
         this.params.start = this.$moment(this.date[0]).utc().format();

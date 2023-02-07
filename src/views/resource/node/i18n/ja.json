@@ -31,7 +31,7 @@
     "load_1": "1分間の負荷",
     "load_5": "5分間の負荷",
     "load_15": "15分使用率",
-    "in_traffc": "入口トラフィック",
+    "in_traffic": "入口トラフィック",
     "out_traffic": "トラフィックのエクスポート",
     "write_iops": "IOPSの書き込み",
     "read_iops": "IOPSの読み取り",
