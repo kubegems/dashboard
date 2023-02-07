@@ -104,11 +104,13 @@
         const end = this.$moment(this.item.info.timestampstr).utc().add(15, 'minutes').format();
         this.date = [start, end];
 
-        const matches = item.info.message.match(new RegExp('[a-z\\d]{32}'));
-        this.traceid = matches ? matches[0] : '';
+        const matches = this.item.info.message
+          .replaceAll(new RegExp('<b style="color: #fb8c00 \\!important;">(.*)</b>', 'g'), '$1')
+          .match(new RegExp('trace.*([a-z\\d]{32})'));
+        this.traceid = matches ? matches[1] : '';
         this.item.info.message = this.item.info.message.replace(
-          new RegExp('([a-z\\d]{32})'),
-          '<b style="color: #fb8c00 !important;">$1</b>',
+          new RegExp('([tT]race.*)([a-z\\d]{32})'),
+          '$1<b style="color: #00BCD4 !important;">$2</b>',
         );
       },
       open() {
