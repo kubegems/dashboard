@@ -11,6 +11,7 @@
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [style: 💄 optimization few styles] | [504bdef](https://github.com/chenshunliang/dashboard/commit/504bdef6038f9794ff13c6d594d52a9e1c2c37ae) |
+| - | [style: 💄 add model repository logo] | [504bdef](https://github.com/chenshunliang/dashboard/commit/504bdef6038f9794ff13c6d594d52a9e1c2c37ae) |
 
 # 1.23.1 (2023-2-3)
 
