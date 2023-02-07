@@ -1,3 +1,17 @@
+# 1.23.2 (2023-2-7)
+
+### 🌟 新功能
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [perf: ⚡ add node monitor in pod monitor page] | [b9710b9](https://github.com/chenshunliang/dashboard/commit/b9710b95fc4aece2beb8a17ae3ddf8da3f01fb32) |
+
+### Styles
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [style: 💄 optimization few styles] | [504bdef](https://github.com/chenshunliang/dashboard/commit/504bdef6038f9794ff13c6d594d52a9e1c2c37ae) |
+
 # 1.23.1 (2023-2-3)
 
 ### 🌟 新功能

@@ -127,6 +127,12 @@
               this.imgSrc = '/icon/hashicorp-logo.svg';
               this.tip = this.$t('tip.hashicorp');
               break;
+            case 'cloudminds':
+            case 'CloudMinds':
+            case 'cloudminds-modelx':
+              this.imgSrc = '/icon/cloudminds-logo.svg';
+              this.tip = this.$t('tip.cloudminds');
+              break;
             default:
               this.imgSrc = LOGO_BLUE;
               this.tip = this.$t('tip.kubegems');

@@ -69,7 +69,8 @@
     "model_select": "Please select ai model",
 
     "need_auth": "Yes",
-    "not_need_auth": "No"
+    "not_need_auth": "No",
+    "cloudminds": "Algorithmic model from CloudMinds"
   },
   "form": {
     "recomment_rule": "Format Error (0-100)"

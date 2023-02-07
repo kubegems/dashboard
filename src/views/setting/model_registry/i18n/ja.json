@@ -69,7 +69,8 @@
     "model_select": "アルゴリズムモデルにチェックを入れてください",
 
     "need_auth": "はい",
-    "not_need_auth": "番号"
+    "not_need_auth": "番号",
+    "cloudminds": "CloudMinds のアルゴリズム モデル"
   },
   "form": {
     "recomment_rule": "書式が不適切です(0-100)"
