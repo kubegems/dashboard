@@ -276,9 +276,9 @@
         });
       },
       async upgradePlugin(plugin) {
-        if (!this.plugin[plugin.name]) {
-          await this.onVersionChanged(plugin.installedVersion, plugin.name);
-        }
+        // if (!this.plugin[plugin.name]) {
+        await this.onVersionChanged(plugin.installedVersion, plugin.name);
+        // }
         if (plugin.values && JSON.stringify(plugin.values) !== '{}') {
           this.plugin[plugin.name].values = plugin.values;
         }

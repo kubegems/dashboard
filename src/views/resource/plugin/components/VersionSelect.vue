@@ -125,7 +125,7 @@
         this.version = v;
         this.menu = false;
         this.$emit('input', v);
-        this.$emit('change', v);
+        // this.$emit('change', v);
       },
     },
   };

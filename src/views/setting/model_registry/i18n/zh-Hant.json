@@ -69,7 +69,8 @@
     "model_select": "請勾選算法模型",
 
     "need_auth": "是",
-    "not_need_auth": "否"
+    "not_need_auth": "否",
+    "cloudminds": "來自達闥機器人的算法模型"
   },
   "form": {
     "recomment_rule": "格式錯誤（0-100）"

@@ -161,6 +161,14 @@
               tip: this.$t('tip.paddlepaddle'),
               address: 'https://www.paddlepaddle.org.cn/',
             };
+          case 'CloudMinds':
+          case 'cloudminds':
+          case 'cloudminds-modelx':
+            return {
+              imgSrc: '/icon/cloudminds-logo.svg',
+              tip: this.$t('tip.cloudminds'),
+              address: 'https://www.cloudminds.com/zh/',
+            };
           default:
             return {
               imgSrc: LOGO_BLUE,
