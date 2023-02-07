@@ -306,7 +306,7 @@
       },
       gatewayObj() {
         const gateway = this.gatewayItems.find((g) => {
-          return g.value === this.gateway;
+          return g && g.value === this.gateway;
         });
         if (gateway) return gateway.obj;
         return null;

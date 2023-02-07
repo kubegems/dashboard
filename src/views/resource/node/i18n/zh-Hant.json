@@ -31,7 +31,7 @@
     "load_1": "1分鐘負載",
     "load_5": "5分鐘負載",
     "load_15": "15分鐘負載",
-    "in_traffc": "入口流量",
+    "in_traffic": "入口流量",
     "out_traffic": "出口流量",
     "write_iops": "寫入IOPS",
     "read_iops": "讀取IOPS",
