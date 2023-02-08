@@ -6,6 +6,7 @@
 | --- | --- | --- |
 | - | [perf: ⚡ add node monitor in pod monitor page] | [b9710b9](https://github.com/chenshunliang/dashboard/commit/b9710b95fc4aece2beb8a17ae3ddf8da3f01fb32) |
 | - | [perf: ⚡ remove cache from plugin schema api data] | [e754941](https://github.com/chenshunliang/dashboard/commit/e7549411d56067bdffce3209dd42773f89063ff1) |
+| - | [perf: ⚡ optimization trace regexp to fit log content] | [0ac5c59](https://github.com/chenshunliang/dashboard/commit/0ac5c5917ef7d70572fa4fbe0f9ef8477bbcbbd3) |
 
 ### Styles
 
