@@ -53,6 +53,16 @@
           <v-card-text>
             <BaseSubTitle color="primary" :divider="false" height="36px" :title="item.key">
               <template #action>
+                <v-btn
+                  v-clipboard:copy="item.value"
+                  v-clipboard:success="copyed"
+                  class="float-right mr-2"
+                  color="white"
+                  icon
+                  small
+                >
+                  <v-icon small> mdi-content-copy</v-icon>
+                </v-btn>
                 <v-btn v-if="item.hide" class="float-right mr-2" color="white" small text @click="showSecret(item)">
                   <v-icon left small> mdi-eye </v-icon>
                   {{ $t('operate.show') }}
@@ -161,6 +171,12 @@
             await deleteSecret(this.ThisCluster, this.$route.query.namespace, param.item.metadata.name);
             this.$router.push({ name: 'secret-list', params: this.$route.params });
           },
+        });
+      },
+      copyed() {
+        this.$store.commit('SET_SNACKBAR', {
+          text: this.$t('tip.copyed'),
+          color: 'success',
         });
       },
     },

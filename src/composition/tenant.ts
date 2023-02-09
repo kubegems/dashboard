@@ -55,3 +55,19 @@ export const useTenantUserList = async (tenant: Tenant): Promise<User[]> => {
   });
   return _data.List as User[];
 };
+
+export const useTenantUserPagination = async (tenant: Tenant, page = 1, size = 10): Promise<Pagination<User>> => {
+  const _data: KubePaginationResponse<User[]> = await tenant.getUserList({
+    page: page,
+    size: size,
+    noprocessing: true,
+  });
+
+  return {
+    items: _data.List,
+    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
+    page: _data.CurrentPage,
+    size: _data.CurrentSize,
+    total: _data.Total,
+  } as Pagination<User>;
+};

@@ -236,12 +236,14 @@
         const data = { key: key, value: this.obj.metadata.labels[key] };
         this.$nextTick(() => {
           this.$refs.labelForm.init(data);
+          this.expand = true;
         });
       },
       updateAnnotations(key) {
         const data = { key: key, value: this.obj.metadata.annotations[key] };
         this.$nextTick(() => {
           this.$refs.annotationForm.init(data);
+          this.expand = true;
         });
       },
       addDnsConfigData(data) {

@@ -43,16 +43,22 @@
               <template v-if="item.httpGet">
                 <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
-                    <v-list-item-title> {{ $t('tip.http_check') }} </v-list-item-title>
+                    <v-list-item-title> {{ i18nLocal.t('tip.http_check') }} </v-list-item-title>
                     <v-list-item-content
                       class="text-caption kubegems__text"
-                      v-html="$t('tip.delay_msg', [item.initialDelaySeconds, item.timeoutSeconds, item.periodSeconds])"
+                      v-html="
+                        i18nLocal.t('tip.delay_msg', [
+                          item.initialDelaySeconds,
+                          item.timeoutSeconds,
+                          item.periodSeconds,
+                        ])
+                      "
                     />
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
-                    <v-list-item-title> {{ $root.$t('resource.type') }} </v-list-item-title>
+                    <v-list-item-title> {{ i18n.t('resource.type') }} </v-list-item-title>
                     <v-list-item-content class="text-caption kubegems__text">
                       {{ item.httpGet.scheme }}
                     </v-list-item-content>
@@ -60,7 +66,7 @@
                 </v-list-item>
                 <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
-                    <v-list-item-title> {{ $t('tip.path') }} </v-list-item-title>
+                    <v-list-item-title> {{ i18nLocal.t('tip.path') }} </v-list-item-title>
                     <v-list-item-content class="text-caption kubegems__text">
                       {{ item.httpGet.path }}
                     </v-list-item-content>
@@ -68,7 +74,7 @@
                 </v-list-item>
                 <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
-                    <v-list-item-title> {{ $t('tip.port') }} </v-list-item-title>
+                    <v-list-item-title> {{ i18nLocal.t('tip.port') }} </v-list-item-title>
                     <v-list-item-content class="text-caption kubegems__text">
                       {{ item.httpGet.port }}
                     </v-list-item-content>
@@ -78,16 +84,22 @@
               <template v-else-if="item.exec">
                 <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
-                    <v-list-item-title> {{ $t('tip.shell_check') }} </v-list-item-title>
+                    <v-list-item-title> {{ i18nLocal.t('tip.shell_check') }} </v-list-item-title>
                     <v-list-item-content
                       class="text-caption kubegems__text"
-                      v-html="$t('tip.delay_msg', [item.initialDelaySeconds, item.timeoutSeconds, item.periodSeconds])"
+                      v-html="
+                        i18nLocal.t('tip.delay_msg', [
+                          item.initialDelaySeconds,
+                          item.timeoutSeconds,
+                          item.periodSeconds,
+                        ])
+                      "
                     />
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
-                    <v-list-item-title> {{ $t('tip.command') }} </v-list-item-title>
+                    <v-list-item-title> {{ i18nLocal.t('tip.command') }} </v-list-item-title>
                     <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
                       <template v-for="command in item.exec.command">
                         {{ command }}
@@ -99,16 +111,22 @@
               <template v-else-if="item.tcpSocket">
                 <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
-                    <v-list-item-title> {{ $t('tip.tcp_check') }} </v-list-item-title>
+                    <v-list-item-title> {{ i18nLocal.t('tip.tcp_check') }} </v-list-item-title>
                     <v-list-item-content
                       class="text-caption kubegems__text"
-                      v-html="$t('tip.delay_msg', [item.initialDelaySeconds, item.timeoutSeconds, item.periodSeconds])"
+                      v-html="
+                        i18nLocal.t('tip.delay_msg', [
+                          item.initialDelaySeconds,
+                          item.timeoutSeconds,
+                          item.periodSeconds,
+                        ])
+                      "
                     />
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
-                    <v-list-item-title> {{ $t('tip.port') }} </v-list-item-title>
+                    <v-list-item-title> {{ i18nLocal.t('tip.port') }} </v-list-item-title>
                     <v-list-item-content class="text-caption kubegems__text">
                       {{ item.tcpSocket.port }}
                     </v-list-item-content>
@@ -123,23 +141,23 @@
   </v-flex>
 </template>
 
-<script>
-  import messages from '../i18n';
+<script lang="ts" setup>
+  import { V1Probe } from '@kubernetes/client-node/dist/gen/model/v1Probe';
 
-  export default {
-    name: 'ProbeTip',
-    i18n: {
-      messages: messages,
+  import { useI18n } from '../i18n';
+  import { useGlobalI18n } from '@/i18n';
+
+  const i18nLocal = useI18n();
+  const i18n = useGlobalI18n();
+
+  withDefaults(
+    defineProps<{
+      item?: V1Probe;
+      title?: string;
+    }>(),
+    {
+      item: undefined,
+      title: '',
     },
-    props: {
-      item: {
-        type: Object,
-        default: () => ({}),
-      },
-      title: {
-        type: String,
-        default: () => '',
-      },
-    },
-  };
+  );
 </script>

@@ -103,8 +103,6 @@
   import {
     CONTAINER_CPU_USAGE_PROMQL,
     CONTAINER_MEMORY_USAGE_PROMQL,
-    POD_NETWORK_IN_PROMQL,
-    POD_NETWORK_OUT_PROMQL,
     NODE_CPU_USAGE_PROMQL,
     NODE_DISK_AVAILABLE_SIZE_PROMQL,
     NODE_DISK_READ_IOPS_PROMQL,
@@ -119,6 +117,8 @@
     NODE_MEMORY_USED_PROMQL,
     NODE_NETWORK_IN_PROMQL,
     NODE_NETWORK_OUT_PROMQL,
+    POD_NETWORK_IN_PROMQL,
+    POD_NETWORK_OUT_PROMQL,
   } from '@/constants/prometheus';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -188,7 +188,7 @@
         this.podMemoryUsage();
         this.podNetworkIn();
         this.podNetworkOut();
-        if (this.item.spec.nodeName) {
+        if (this.item?.spec?.nodeName) {
           this.nodeLoadRange();
           this.nodeCPUUsage();
           this.nodeMemoryUsage();

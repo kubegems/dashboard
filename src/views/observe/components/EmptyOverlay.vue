@@ -22,20 +22,17 @@
   </transition>
 </template>
 
-<script>
-  export default {
-    name: 'EmptyOverlay',
-    props: {
-      text: {
-        type: String,
-        default: '',
-      },
-      visible: {
-        type: Boolean,
-        default: false,
-      },
+<script lang="ts" setup>
+  withDefaults(
+    defineProps<{
+      text?: string;
+      visible?: boolean;
+    }>(),
+    {
+      text: '',
+      visible: false,
     },
-  };
+  );
 </script>
 
 <style lang="scss" scoped>

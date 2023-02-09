@@ -15,19 +15,25 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-account-edit" :title="$t('tip.role_title')" :width="500" @reset="reset">
+  <BaseDialog
+    v-model="state.dialog"
+    icon="mdi-account-edit"
+    :title="i18nLocal.t('tip.role_title')"
+    :width="500"
+    @reset="reset"
+  >
     <template #content>
-      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.role')])" />
+      <BaseSubTitle :title="i18n.t('form.definition', [i18n.t('resource.role')])" />
       <v-card-text class="pa-2 mt-2">
-        <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
+        <v-form ref="form" v-model="state.valid" lazy-validation @submit.prevent>
           <v-sheet>
             <v-text-field
               v-model="obj.Username"
               class="my-0"
-              :label="$root.$t('resource.account')"
+              :label="i18n.t('resource.account')"
               readonly
               required
-              :rules="objRules.userIDRules"
+              :rules="objRule.userId"
             />
             <v-autocomplete
               v-model="obj.SystemRoleID"
@@ -35,10 +41,9 @@
               color="primary"
               hide-selected
               :items="systemRoleItems"
-              :label="$root.$t('resource.role')"
-              :no-data-text="$root.$t('data.no_data')"
-              :rules="objRules.systemRoleRules"
-              @focus="onSystemRoleSelectFocus"
+              :label="i18n.t('resource.role')"
+              :no-data-text="i18n.t('data.no_data')"
+              :rules="objRule.systemRole"
             >
               <template #selection="{ item }">
                 <v-chip class="mx-1" color="primary" small>
@@ -51,88 +56,85 @@
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="changeUserRole">
-        {{ $root.$t('operate.confirm') }}
+      <v-btn class="float-right" color="primary" :loading="store.state.Circular" text @click="changeUserRole">
+        {{ i18n.t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { nextTick, onMounted, reactive, ref } from 'vue';
 
-  import messages from '../i18n';
-  import { putChangeUserRole, systemRoleSelectData } from '@/api';
-  import BaseSelect from '@/mixins/select';
+  import { useI18n } from '../i18n';
+  import { useRoleList } from '@/composition/role';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+  import { Role } from '@/types/role';
+  import { User } from '@/types/user';
   import { required } from '@/utils/rules';
 
-  export default {
-    name: 'UpdateRole',
-    i18n: {
-      messages: messages,
-    },
-    mixins: [BaseSelect],
-    data() {
-      return {
-        dialog: false,
-        valid: false,
-        systemRoleItems: [],
-        obj: {
-          UserID: 0,
-          Username: '',
-          SystemRoleID: 0,
-        },
-        objRules: {
-          userIDRules: [required],
-          systemRoleRules: [required],
-        },
-      };
-    },
-    computed: {
-      ...mapState(['Circular']),
-    },
-    mounted() {
-      this.systemRoleSelectData();
-    },
-    methods: {
-      open() {
-        this.dialog = true;
-      },
-      async changeUserRole() {
-        if (this.$refs.form.validate(true)) {
-          await putChangeUserRole(this.obj.SystemRoleID, this.obj.UserID, this.obj);
-          this.reset();
-          this.$emit('refresh');
-        }
-      },
-      init(item) {
-        this.obj = {
-          Username: item.Username,
-          UserID: item.ID,
-          SystemRoleID: item.SystemRoleID,
-        };
-      },
-      reset() {
-        this.dialog = false;
-        this.$refs.form.reset();
-      },
-      onSystemRoleSelectFocus() {
-        this.systemRoleSelectData();
-      },
-      async systemRoleSelectData() {
-        const data = await systemRoleSelectData({ noprocessing: true });
-        const systemRoleSelect = [];
-        data.List.forEach((role) => {
-          systemRoleSelect.push({
-            text:
-              role.RoleCode === 'sysadmin'
-                ? this.$root.$t('role.system.administrator')
-                : this.$root.$t('role.system.normal'),
-            value: role.ID,
-          });
-        });
-        this.systemRoleItems = systemRoleSelect;
-      },
-    },
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
+
+  const state = reactive({
+    dialog: false,
+    valid: false,
+  });
+
+  const open = (): void => {
+    state.dialog = true;
   };
+
+  const init = (item: User): void => {
+    obj = Object.assign(obj, item);
+  };
+
+  defineExpose({
+    open,
+    init,
+  });
+
+  let obj = reactive({
+    ID: 0,
+    Username: '',
+    SystemRoleID: 0,
+  });
+  const objRule = {
+    userId: [required],
+    systemRole: [required],
+  };
+  const systemRoleItems = ref([]);
+
+  const form = ref(null);
+  const reset = (): void => {
+    state.dialog = false;
+    form.value.reset();
+  };
+
+  const getRoleList = async (): Promise<void> => {
+    const data: Role[] = await useRoleList(new Role());
+    systemRoleItems.value = data.map((role) => {
+      return {
+        text: role.RoleCode === 'sysadmin' ? i18n.t('role.system.administrator') : i18n.t('role.system.normal'),
+        value: role.ID,
+      };
+    });
+  };
+
+  const emit = defineEmits(['refresh']);
+  const changeUserRole = async (): Promise<void> => {
+    if (form.value.validate(true)) {
+      await new User(obj).changeRole();
+      reset();
+      emit('refresh');
+    }
+  };
+
+  onMounted(() => {
+    nextTick(() => {
+      getRoleList();
+    });
+  });
 </script>

@@ -22,9 +22,9 @@
           <div class="d-none d-sm-block">
             <div class="d-flex align-center pa-10">
               <div class="text-center">
-                <h2 class="text-h4 primary--text font-weight-medium"> {{ $t('tip.no_tenant') }} </h2>
+                <h2 class="text-h4 primary--text font-weight-medium"> {{ i18nLocal.t('tip.no_tenant') }} </h2>
                 <h6 class="text-subtitle-1 mt-4 primary--text op-5 font-weight-regular">
-                  {{ $t('tip.no_tenant_tip') }}
+                  {{ i18nLocal.t('tip.no_tenant_tip') }}
                 </h6>
               </div>
             </div>
@@ -35,15 +35,10 @@
   </v-container>
 </template>
 
-<script>
-  import messages from './i18n';
+<script lang="ts" setup>
+  import { useI18n } from './i18n';
 
-  export default {
-    name: 'WhitePage',
-    i18n: {
-      messages: messages,
-    },
-  };
+  const i18nLocal = useI18n();
 </script>
 
 <style lang="scss" scoped>

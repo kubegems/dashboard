@@ -16,117 +16,119 @@
 
 <template>
   <BaseDialog
-    v-model="dialog"
+    v-model="state.dialog"
     icon="mdi-account"
-    :title="$root.$t('operate.create_c', [$root.$t('resource.account')])"
+    :title="i18n.t('operate.create_c', [i18n.t('resource.account')])"
     :width="500"
     @reset="reset"
   >
     <template #content>
-      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.account')])" />
+      <BaseSubTitle :title="i18n.t('form.definition', [i18n.t('resource.account')])" />
       <v-card-text class="pa-2 mt-2">
-        <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
+        <v-form ref="form" v-model="state.valid" lazy-validation @submit.prevent>
           <v-sheet>
             <v-text-field
               v-model="obj.Username"
               class="my-0"
-              :label="$t('form.username')"
+              :label="i18nLocal.t('form.username')"
               required
-              :rules="objRules.usernameRules"
+              :rules="objRule.username"
             />
             <v-text-field
               v-model="obj.Password"
               class="my-0"
-              :label="$t('form.passwd')"
+              :label="i18nLocal.t('form.passwd')"
               required
-              :rules="objRules.passwordRules"
+              :rules="objRule.password"
             >
               <template #append>
                 <v-btn class="mt-n1" color="primary" small text @click.stop="randomPassword">
                   <v-icon left small> mdi-eye </v-icon>
-                  {{ $t('tip.random_passwd') }}
+                  {{ i18nLocal.t('tip.random_passwd') }}
                 </v-btn>
               </template>
             </v-text-field>
             <v-text-field
               v-model="obj.Email"
               class="my-0"
-              :label="$t('form.email')"
+              :label="i18nLocal.t('form.email')"
               required
-              :rules="objRules.emailRules"
+              :rules="objRule.email"
             />
           </v-sheet>
         </v-form>
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addUser">
-        {{ $root.$t('operate.confirm') }}
+      <v-btn class="float-right" color="primary" :loading="store.state.Circular" text @click="addUser">
+        {{ i18n.t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { reactive, ref } from 'vue';
 
-  import messages from '../i18n';
-  import { postAddUser } from '@/api';
+  import { useI18n } from '../i18n';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+  import { User } from '@/types/user';
   import { email, password, required } from '@/utils/rules';
 
-  export default {
-    name: 'AddUser',
-    i18n: {
-      messages: messages,
-    },
-    data() {
-      return {
-        dialog: false,
-        valid: false,
-        obj: {
-          Username: '',
-          Password: '',
-          Email: '',
-        },
-      };
-    },
-    computed: {
-      ...mapState(['Circular']),
-      objRules() {
-        return {
-          usernameRules: [required],
-          passwordRules: [password],
-          emailRules: [email],
-        };
-      },
-    },
-    methods: {
-      open() {
-        this.dialog = true;
-      },
-      randomPassword() {
-        let s = '';
-        const t = 'abcdefhijkmnprstwxyz';
-        for (let i = 0; i < 4; i++) s += t.charAt(Math.floor(Math.random() * t.length));
-        const n = '1234567890';
-        for (let i = 0; i < 4; i++) s += n.charAt(Math.floor(Math.random() * n.length));
-        const u = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        for (let i = 0; i < 4; i++) s += u.charAt(Math.floor(Math.random() * u.length));
-        const f = '!@#$%';
-        for (let i = 0; i < 2; i++) s += f.charAt(Math.floor(Math.random() * f.length));
-        this.obj.Password = s;
-      },
-      async addUser() {
-        if (this.$refs.form.validate(true)) {
-          await postAddUser(this.obj);
-          this.reset();
-          this.$emit('refresh');
-        }
-      },
-      reset() {
-        this.dialog = false;
-        this.$refs.form.reset();
-      },
-    },
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
+
+  const state = reactive({
+    dialog: false,
+    valid: false,
+  });
+
+  const open = (): void => {
+    state.dialog = true;
   };
+
+  const obj = reactive({
+    Username: '',
+    Password: '',
+    Email: '',
+  });
+  const objRule = {
+    username: [required],
+    password: [password],
+    email: [email],
+  };
+
+  const randomPassword = (): void => {
+    let s = '';
+    const t = 'abcdefhijkmnprstwxyz';
+    for (let i = 0; i < 4; i++) s += t.charAt(Math.floor(Math.random() * t.length));
+    const n = '1234567890';
+    for (let i = 0; i < 4; i++) s += n.charAt(Math.floor(Math.random() * n.length));
+    const u = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    for (let i = 0; i < 4; i++) s += u.charAt(Math.floor(Math.random() * u.length));
+    const f = '!@#$%';
+    for (let i = 0; i < 2; i++) s += f.charAt(Math.floor(Math.random() * f.length));
+    obj.Password = s;
+  };
+
+  const form = ref(null);
+  const emit = defineEmits(['refresh']);
+  const addUser = async (): Promise<void> => {
+    if (form.value.validate(true)) {
+      await new User(obj).addUser();
+      reset();
+      emit('refresh');
+    }
+  };
+
+  const reset = (): void => {
+    state.dialog = false;
+    form.value.reset();
+  };
+
+  defineExpose({
+    open,
+  });
 </script>

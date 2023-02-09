@@ -35,16 +35,16 @@
     <v-card flat width="100%">
       <v-flex class="text-body-2 text-center primary white--text py-2">
         <v-icon color="white" left small> mdi-clock-time-four </v-icon>
-        <span>{{ $t('tip.datetime') }}</span>
+        <span>{{ i18nLocal.t('tip.datetime') }}</span>
       </v-flex>
       <v-list class="pa-0 kubegems__tip" dense>
         <v-list-item>
           <v-list-item-content>
             <v-list-item class="float-left pa-0" two-line>
               <v-list-item-content class="py-0">
-                <v-list-item-title> {{ $t('tip.real_time') }} </v-list-item-title>
+                <v-list-item-title> {{ i18nLocal.t('tip.real_time') }} </v-list-item-title>
                 <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
-                  {{ datetime ? $moment(datetime, 'YYYY-MM-DDTHH:mm:ssZ').format('lll') : '' }}
+                  {{ datetime ? moment(datetime, 'YYYY-MM-DDTHH:mm:ssZ').format('lll') : '' }}
                 </v-list-item-content>
               </v-list-item-content>
             </v-list-item>
@@ -55,23 +55,21 @@
   </v-menu>
 </template>
 
-<script>
-  import messages from '../i18n';
+<script lang="ts" setup>
+  import moment from 'moment';
 
-  export default {
-    name: 'RealDatetimeTip',
-    i18n: {
-      messages: messages,
+  import { useI18n } from '../i18n';
+
+  const i18nLocal = useI18n();
+
+  withDefaults(
+    defineProps<{
+      datetime?: string;
+      top?: boolean;
+    }>(),
+    {
+      datetime: '',
+      top: false,
     },
-    props: {
-      datetime: {
-        type: String,
-        default: () => '',
-      },
-      top: {
-        type: Boolean,
-        default: () => false,
-      },
-    },
-  };
+  );
 </script>

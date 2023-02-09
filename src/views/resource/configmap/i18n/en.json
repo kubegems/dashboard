@@ -9,5 +9,8 @@
   },
   "form": {
     "name": "Profile name"
+  },
+  "tip": {
+    "copyed": "Copied to Clipboard"
   }
 }

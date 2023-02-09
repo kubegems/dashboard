@@ -39,9 +39,9 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
-            <v-btn color="primary" text @click="expandCard">
+            <v-btn color="primary" text @click="expand">
               <v-icon left small> mdi-tag-plus </v-icon>
-              {{ $root.$t('operate.add_c', [$t('tip.label')]) }}
+              {{ i18n.t('operate.add_c', [i18nLocal.t('tip.label')]) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -50,32 +50,32 @@
   </v-flex>
 </template>
 
-<script>
-  import messages from '../i18n';
-  import BaseResource from '@/mixins/resource';
+<script lang="ts" setup>
+  import { useI18n } from '../i18n';
+  import { useGlobalI18n } from '@/i18n';
 
-  export default {
-    name: 'LabelItem',
-    i18n: {
-      messages: messages,
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+
+  withDefaults(
+    defineProps<{
+      labels?: { [key: string]: string | number | boolean };
+    }>(),
+    {
+      labels: undefined,
     },
-    mixins: [BaseResource],
-    props: {
-      labels: {
-        type: Object,
-        default: () => ({}),
-      },
-    },
-    methods: {
-      updateLabels(key) {
-        this.$emit('updateLabels', key);
-      },
-      removeLabels(key) {
-        this.$emit('removeLabels', key);
-      },
-      expandCard() {
-        this.$emit('expandCard', 'labelForm');
-      },
-    },
+  );
+
+  const emit = defineEmits(['updateLabels', 'removeLabels', 'expandCard']);
+  const updateLabels = (key) => {
+    emit('updateLabels', key);
+  };
+
+  const removeLabels = (key) => {
+    emit('removeLabels', key);
+  };
+
+  const expand = () => {
+    emit('expandCard', 'labelForm');
   };
 </script>

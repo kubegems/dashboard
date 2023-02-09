@@ -14,7 +14,8 @@
     "compile": "コンパイル",
     "compile_platform": "ビルドプラットフォーム",
     "dashboard_version": "Dashboardバージョン",
-    "dashboard_release_time": "Dashboardバージョン日付"
+    "dashboard_release_time": "Dashboardバージョン日付",
+    "timezone": "タイムゾーン"
   },
   "status": {
     "enabled": "有効",

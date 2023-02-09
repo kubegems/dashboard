@@ -22,39 +22,29 @@
   </v-container>
 </template>
 
-<script>
-  import { mapGetters, mapState } from 'vuex';
+<script lang="ts" setup>
+  import { nextTick, onMounted, ref } from 'vue';
 
-  import IntroSteps from './components/IntroSteps';
-  import OverviewList from './components/OverviewList';
+  import IntroSteps from './components/IntroSteps/index.vue';
+  import OverviewList from './components/OverviewList/index.vue';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
 
-  export default {
-    name: 'Observe',
-    components: {
-      IntroSteps,
-      OverviewList,
-    },
-    data() {
-      return {
-        tenant: null,
-      };
-    },
-    computed: {
-      ...mapGetters(['Tenant']),
-      ...mapState(['AdminViewport']),
-    },
-    mounted() {
-      this.$nextTick(() => {
-        if (!this.Tenant().ID) {
-          this.$store.commit('SET_SNACKBAR', {
-            text: this.$root.$t('tip.select_tenant'),
-            color: 'warning',
-          });
-          return;
-        }
-        this.tenant = this.Tenant();
-      });
-    },
-    methods: {},
-  };
+  const store = useStore();
+  const i18n = useGlobalI18n();
+
+  const tenant = ref(undefined);
+
+  onMounted(() => {
+    nextTick(() => {
+      if (!store.getters.Tenant().ID) {
+        store.commit('SET_SNACKBAR', {
+          text: i18n.t('tip.select_tenant'),
+          color: 'warning',
+        });
+        return;
+      }
+      tenant.value = store.getters.Tenant();
+    });
+  });
 </script>

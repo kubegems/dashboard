@@ -19,7 +19,7 @@
     <BaseViewportHeader />
     <BaseBreadcrumb />
     <v-row class="mt-0">
-      <v-col v-for="(item, index) in items" :key="index" class="pt-0" cols="3">
+      <v-col v-for="(item, index) in storageClassItems" :key="index" class="pt-0" cols="3">
         <v-hover #default="{ hover }">
           <v-card class="mx-auto sc-pos" :elevation="hover ? 5 : 0" flat height="100%">
             <v-list-item three-line>
@@ -36,16 +36,18 @@
                 <v-list-item-title class="text-h6 mb-1">
                   <a>{{ item.metadata.name }}</a>
                 </v-list-item-title>
-                <v-list-item-subtitle> {{ $t('tip.provisioner') }} : {{ item.provisioner }} </v-list-item-subtitle>
+                <v-list-item-subtitle>
+                  {{ i18nLocal.t('tip.provisioner') }} : {{ item.provisioner }}
+                </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-card-actions>
               <v-spacer />
               <v-btn color="primary" small text @click="updateStorageClass(item)">
-                {{ $root.$t('operate.edit') }}
+                {{ i18n.t('operate.edit') }}
               </v-btn>
               <v-btn color="error" small text @click="removeStorageClass(item)">
-                {{ $root.$t('operate.delete') }}
+                {{ i18n.t('operate.delete') }}
               </v-btn>
             </v-card-actions>
             <v-flex
@@ -64,7 +66,7 @@
               "
               class="sc-watermark font-weight-medium"
             >
-              {{ $t('tip.default') }}
+              {{ i18nLocal.t('tip.default') }}
             </v-flex>
           </v-card>
         </v-hover>
@@ -76,7 +78,7 @@
               <v-list-item-content>
                 <v-btn block class="text-h6" color="primary" text @click="addStorageClass">
                   <v-icon left>mdi-plus-box</v-icon>
-                  {{ $root.$t('operate.create_c', [$root.$t('resource.storageclass')]) }}
+                  {{ i18n.t('operate.create_c', [i18n.t('resource.storageclass')]) }}
                 </v-btn>
               </v-list-item-content>
             </v-list-item>
@@ -85,99 +87,74 @@
       </v-col>
     </v-row>
 
-    <AddStorageClass ref="addStorageClass" @refresh="storageClassList" />
-    <UpdateStorageClass ref="updateStorageClass" @refresh="storageClassList" />
+    <StorageClassForm ref="storageClass" @refresh="getStorageClassList" />
   </v-container>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { onMounted, ref } from 'vue';
 
-  import AddStorageClass from './components/AddStorageClass';
-  import UpdateStorageClass from './components/UpdateStorageClass';
-  import messages from './i18n';
-  import { deleteStorageClass, getStorageClassList } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
+  import StorageClassForm from './components/StorageClassForm.vue';
+  import { useI18n } from './i18n';
+  import { useCluster } from '@/composition/cluster';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+  import { StorageClass } from '@/types/storageclass';
 
-  export default {
-    name: 'StorageClass',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      AddStorageClass,
-      UpdateStorageClass,
-    },
-    mixins: [BaseFilter, BasePermission, BaseResource],
-    data() {
-      return {
-        items: [],
-      };
-    },
-    computed: {
-      ...mapState(['JWT']),
-    },
-    mounted() {
-      this.$nextTick(() => {
-        if (this.ThisCluster === '') {
-          this.$store.commit('SET_SNACKBAR', {
-            text: this.$root.$t('tip.select_cluster'),
-            color: 'warning',
-          });
-          return;
-        }
-        this.storageClassList();
-      });
-    },
-    methods: {
-      async storageClassList() {
-        const data = await getStorageClassList(this.ThisCluster, {
-          size: 1000,
-        });
-        this.items = data.List;
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
+
+  const storageClass = ref(null);
+  const addStorageClass = (): void => {
+    storageClass.value.open();
+  };
+
+  const updateStorageClass = (item): void => {
+    storageClass.value.init(item);
+    storageClass.value.open();
+  };
+
+  const storageClassItems = ref<StorageClass[]>([]);
+  const getStorageClassList = async (): Promise<void> => {
+    const data = await new StorageClass().getStorageClassList(useCluster(), { page: 1, size: 1000 });
+    storageClassItems.value = data.List;
+  };
+
+  onMounted(() => {
+    getStorageClassList();
+  });
+
+  const removeStorageClass = async (item: StorageClass): Promise<void> => {
+    store.commit('SET_CONFIRM', {
+      title: i18n.t('operate.delete_c', [i18n.t('resource.storageclass')]),
+      content: {
+        text: `${i18n.t('operate.delete_c', [i18n.t('resource.storageclass')])} ${item.metadata.name}`,
+        type: 'delete',
+        name: item.metadata.name,
       },
-      addStorageClass() {
-        this.$refs.addStorageClass.open();
+      param: { item },
+      doFunc: async (param) => {
+        await new StorageClass(param.item).deleteStorageClass(useCluster());
+        getStorageClassList();
       },
-      updateStorageClass(item) {
-        this.$refs.updateStorageClass.init(item);
-        this.$refs.updateStorageClass.open();
-      },
-      removeStorageClass(item) {
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.storageclass')]),
-          content: {
-            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.storageclass')])} ${
-              item.metadata.name
-            }`,
-            type: 'delete',
-            name: item.metadata.name,
-          },
-          param: { item },
-          doFunc: async (param) => {
-            await deleteStorageClass(this.ThisCluster, param.item.metadata.name);
-            this.storageClassList();
-          },
-        });
-      },
-      getIconName(provisioner) {
-        if (provisioner) {
-          if (provisioner.indexOf('ceph') > -1) return 'img:ceph.svg';
-          if (provisioner.indexOf('openebs') > -1) return 'img:openebs.svg';
-          if (provisioner.indexOf('rancher') > -1) return 'logos:rancher-icon';
-          if (provisioner.indexOf('gluster') > -1) return 'img:glusterfs.svg';
-          if (provisioner.indexOf('azure') > -1) return 'logos:azure-icon';
-          if (provisioner.indexOf('aws') > -1) return 'logos:aws';
-          if (provisioner.indexOf('cinder') > -1) return 'logos:openstack-icon';
-          if (provisioner.indexOf('gce') > -1) return 'logos:google-cloud';
-          if (provisioner.indexOf('longhorn') > -1) return 'img:longhorn.svg';
-          if (provisioner.indexOf('carina') > -1) return 'img:carina.svg';
-        }
-        return 'img:storage.svg';
-      },
-    },
+    });
+  };
+
+  const getIconName = (provisioner: string): string => {
+    if (provisioner) {
+      if (provisioner.indexOf('ceph') > -1) return 'img:ceph.svg';
+      if (provisioner.indexOf('openebs') > -1) return 'img:openebs.svg';
+      if (provisioner.indexOf('rancher') > -1) return 'logos:rancher-icon';
+      if (provisioner.indexOf('gluster') > -1) return 'img:glusterfs.svg';
+      if (provisioner.indexOf('azure') > -1) return 'logos:azure-icon';
+      if (provisioner.indexOf('aws') > -1) return 'logos:aws';
+      if (provisioner.indexOf('cinder') > -1) return 'logos:openstack-icon';
+      if (provisioner.indexOf('gce') > -1) return 'logos:google-cloud';
+      if (provisioner.indexOf('longhorn') > -1) return 'img:longhorn.svg';
+      if (provisioner.indexOf('carina') > -1) return 'img:carina.svg';
+    }
+    return 'img:storage.svg';
   };
 </script>
 

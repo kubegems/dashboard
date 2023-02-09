@@ -52,7 +52,8 @@
                       <v-list-item-content class="py-0">
                         <v-list-item-title> endpoint </v-list-item-title>
                         <v-list-item-content class="text-caption kubegems__text">
-                          nacos-client.nacos:8848
+                          <div class="mb-2"> <span class="mr-2">http:</span> nacos-client.nacos:8848</div>
+                          <div> <span class="mr-2"> grpc:</span> nacos-hs.nacos:9848</div>
                         </v-list-item-content>
                       </v-list-item-content>
                     </v-list-item>

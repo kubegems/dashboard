@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="mdi-code-json" title="YAML" :width="`50%`" @dispose="dispose">
+  <BasePanel v-model="state.panel" icon="mdi-code-json" title="YAML" :width="`50%`" @dispose="dispose">
     <template #header>
       <span class="ml-3">
         {{ item ? item.metadata.name : '' }}
@@ -25,9 +25,9 @@
       <v-card-text class="ma-0 pa-0">
         <ACEEditor
           v-model="kubeyaml"
-          :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded-0`"
+          :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')} rounded-0`"
           lang="yaml"
-          :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
+          :options="aceOptions"
           :style="{ height: `${height}px !important` }"
           theme="chrome"
           @keydown.stop
@@ -37,46 +37,61 @@
   </BasePanel>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import yaml from 'js-yaml';
+  import { ComputedRef, computed, reactive, ref, watch } from 'vue';
 
-  export default {
-    name: 'ResourceYaml',
-    props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
+  import { useStore } from '@/store';
+
+  const store = useStore();
+
+  const props = withDefaults(
+    defineProps<{
+      item?: any;
+    }>(),
+    {
+      item: undefined,
     },
-    data() {
-      return {
-        panel: false,
-        kubeyaml: '',
-      };
-    },
-    computed: {
-      ...mapState(['Scale']),
-      height() {
-        return window.innerHeight - 64 * this.Scale - 1;
-      },
-    },
-    watch: {
-      item: {
-        handler: function (value) {
-          if (value) {
-            this.kubeyaml = this.$yamldump(this.item);
-          }
-        },
-        deep: true,
-      },
-    },
-    methods: {
-      open() {
-        this.panel = true;
-      },
-      dispose() {
-        return;
-      },
-    },
+  );
+
+  const aceOptions = {
+    tabSize: 2,
+    fontSize: 12,
+    printMarginColumn: 100,
+    showPrintMargin: false,
+    wrap: true,
+    readOnly: true,
   };
+  const height: ComputedRef<number> = computed(() => {
+    return window.innerHeight - 64 * store.state.Scale - 1;
+  });
+
+  const kubeyaml = ref<string>('');
+  watch(
+    () => props.item,
+    async (newValue) => {
+      if (newValue) {
+        kubeyaml.value = yaml.dump(newValue);
+      }
+    },
+    {
+      deep: true,
+    },
+  );
+
+  const state = reactive({
+    panel: false,
+  });
+
+  const open = (): void => {
+    state.panel = true;
+  };
+
+  const dispose = (): void => {
+    return;
+  };
+
+  defineExpose({
+    open,
+  });
 </script>
