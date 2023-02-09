@@ -99,11 +99,9 @@
             this.cluster
           }/namespace/observability/service/jaeger-query/port/16686/search?limit=${
             this.$route.query.limit || '20'
-          }&lookback=${this.$route.query.lookback || '1h'}&maxDuration&minDuration&service=${
-            this.$route.query.service
-          }&tags=${this.$route.query.tags || null}&maxDuration=${this.$route.query.maxDuration || ''}&minDuration=${
-            this.$route.query.minDuration || ''
-          }`;
+          }&lookback=${this.$route.query.lookback || '1h'}&service=${this.$route.query.service}&tags=${
+            this.$route.query.tags || null
+          }&maxDuration=${this.$route.query.maxDuration || ''}&minDuration=${this.$route.query.minDuration || ''}`;
           if (this.$route.query.operation) {
             url += `&operation=${this.$route.query.operation}`;
           }

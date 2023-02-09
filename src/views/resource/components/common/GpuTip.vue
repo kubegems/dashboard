@@ -34,7 +34,7 @@
       <v-card flat>
         <v-flex class="text-body-2 text-center primary white--text pa-2 font-weight-medium">
           <v-icon color="white" left small> mdi-memory </v-icon>
-          <span>{{ $t('tip.gpu_resource') }}</span>
+          <span>{{ i18nLocal.t('tip.gpu_resource') }}</span>
         </v-flex>
 
         <v-list class="pa-0 kubegems__tip" dense>
@@ -50,9 +50,9 @@
                 <v-col class="py-1">
                   <v-list-item class="float-left pa-0 gpu__item" two-line>
                     <v-list-item-content class="text-caption kubegems__text">
-                      {{ $t('tip.gpu_core') }} : {{ parseInt(item.TkeGpu || 0) / 100 }} Gpu
+                      {{ i18nLocal.t('tip.gpu_core') }} : {{ parseInt(item.TkeGpu || 0) / 100 }} Gpu
                       <div v-if="allocated">
-                        {{ $t('tip.used') }} : {{ parseInt(item.AllocatedTkeGpu || 0) / 100 }} Gpu
+                        {{ i18nLocal.t('tip.used') }} : {{ parseInt(item.AllocatedTkeGpu || 0) / 100 }} Gpu
                         <v-progress-linear
                           class="rounded font-weight-medium mt-1"
                           :color="getColor(item.TkeGpuPercentage)"
@@ -68,9 +68,9 @@
                 <v-col class="py-1">
                   <v-list-item class="float-left pa-0 gpu__item" two-line>
                     <v-list-item-content class="text-caption kubegems__text">
-                      {{ $t('tip.gpu_memory') }} : {{ parseInt(((item.TkeMemory || 0) * 256) / 1024) }} Gi
+                      {{ i18nLocal.t('tip.gpu_memory') }} : {{ (parseInt(item.TkeMemory || 0) * 256) / 1024 }} Gi
                       <div v-if="allocated">
-                        {{ $t('tip.used') }} : {{ (parseInt(item.AllocatedTkeMemory || 0) * 256) / 1024 }} Gi
+                        {{ i18nLocal.t('tip.used') }} : {{ (parseInt(item.AllocatedTkeMemory || 0) * 256) / 1024 }} Gi
                         <v-progress-linear
                           class="rounded font-weight-medium mt-1"
                           :color="getColor(item.TkeMemoryPercentage)"
@@ -95,9 +95,9 @@
                 <v-col class="py-1" cols="6">
                   <v-list-item class="float-left pa-0 gpu__item" two-line>
                     <v-list-item-content class="text-caption kubegems__text">
-                      {{ $t('tip.gpu_core') }} : {{ parseInt(item.NvidiaGpu || 0) }} Gpu
+                      {{ i18nLocal.t('tip.gpu_core') }} : {{ parseInt(item.NvidiaGpu || 0) }} Gpu
                       <div v-if="allocated">
-                        {{ $t('tip.used') }} : {{ parseInt(item.AllocatedNvidiaGpu || 0) }} Gpu
+                        {{ i18nLocal.t('tip.used') }} : {{ parseInt(item.AllocatedNvidiaGpu || 0) }} Gpu
                         <v-progress-linear
                           class="rounded font-weight-medium mt-1"
                           :color="getColor(item.NvidiaGpuPercentage)"
@@ -119,29 +119,24 @@
   </v-flex>
 </template>
 
-<script>
-  import messages from '../i18n';
+<script lang="ts" setup>
+  import { useI18n } from '../i18n';
 
-  export default {
-    name: 'GpuTip',
-    i18n: {
-      messages: messages,
+  const i18nLocal = useI18n();
+
+  withDefaults(
+    defineProps<{
+      allocated?: boolean;
+      item?: any;
+    }>(),
+    {
+      allocated: true,
+      item: undefined,
     },
-    props: {
-      allocated: {
-        type: Boolean,
-        default: () => true,
-      },
-      item: {
-        type: Object,
-        default: () => ({}),
-      },
-    },
-    methods: {
-      getColor(percentage) {
-        return percentage ? (percentage < 60 ? 'primary' : percentage < 80 ? 'warning' : 'red darken-1') : 'primary';
-      },
-    },
+  );
+
+  const getColor = (percentage: number): string => {
+    return percentage ? (percentage < 60 ? 'primary' : percentage < 80 ? 'warning' : 'red darken-1') : 'primary';
   };
 </script>
 

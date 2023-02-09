@@ -90,6 +90,7 @@
     GoVersion: i18nLocal.t('about.go_version'),
     Compiler: i18nLocal.t('about.compile'),
     Platform: i18nLocal.t('about.compile_platform'),
+    timezone: i18nLocal.t('about.timezone'),
   };
 
   const open = (): void => {
@@ -102,6 +103,7 @@
     version.value = Object.assign(data, {
       version: import.meta.env.VUE_APP_RELEASE,
       date: import.meta.env.VUE_APP_DATE ? moment(import.meta.env.VUE_APP_DATE).format('lll') : '',
+      timezone: `${Intl.DateTimeFormat().resolvedOptions().timeZone} UTC+${0 - new Date().getTimezoneOffset() / 60}`,
     });
   };
 

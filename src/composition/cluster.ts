@@ -14,10 +14,26 @@
  * limitations under the License.
  */
 import { EDGE_DEVICEID_KEY } from '@/constants/label';
+import { useStore } from '@/store';
 import { Cluster } from '@/types/cluster';
 import { EdgeCluster } from '@/types/edge_cluster';
 import { EdgeHub } from '@/types/edge_hub';
 import { stringifySelector } from '@/utils/k8s_selector';
+
+const store = useStore();
+
+export const useCluster = (): string => {
+  return (
+    store.state.Edge ||
+    (store.state.AdminViewport
+      ? store.getters.Cluster().ClusterName || ''
+      : store.getters.Environment().ClusterName || '')
+  );
+};
+
+export const useClusterID = (): number => {
+  return store.state.AdminViewport ? store.getters.Cluster().ID || '' : store.getters.Environment().ClusterID || 0;
+};
 
 export const useClusterList = async (cluster: Cluster): Promise<Cluster[]> => {
   const _data: KubePaginationResponse<Cluster[]> = await cluster.getClusterList({

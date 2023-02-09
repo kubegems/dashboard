@@ -52,7 +52,13 @@
       <v-col class="py-0" cols="10">
         <v-card v-for="(data, key) in configmap ? configmap.data : {}" :key="key" class="mb-3" flat>
           <v-card-text class="pa-4">
-            <BaseSubTitle color="primary" :divider="false" :title="key" />
+            <BaseSubTitle color="primary" :divider="false" :title="key">
+              <template #action>
+                <v-btn v-clipboard:copy="configmap.data[key]" v-clipboard:success="copyed" color="white" icon small>
+                  <v-icon small> mdi-content-copy</v-icon>
+                </v-btn>
+              </template>
+            </BaseSubTitle>
             <div :style="{ maxHeight: `${height}px`, overflowY: 'auto' }">
               <pre class="kubegems__data-pre rounded">{{ configmap.data[key] }}</pre>
             </div>
@@ -147,6 +153,12 @@
               this.$router.push({ name: 'configmap-list', params: this.$route.params });
             }
           },
+        });
+      },
+      copyed() {
+        this.$store.commit('SET_SNACKBAR', {
+          text: this.$t('tip.copyed'),
+          color: 'success',
         });
       },
     },

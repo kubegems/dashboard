@@ -20,7 +20,7 @@ import { Project } from './project';
 import { ResourceRole, UserRole } from './role';
 import { User } from './user';
 
-export class Environment implements UserRole<Environment> {
+export class Environment implements UserRole {
   constructor(environment?: { [key: string]: any }) {
     Object.assign(this, environment);
   }
@@ -63,9 +63,9 @@ export class Environment implements UserRole<Environment> {
   }
 
   // IUserRole
-  public async getUserList(params: KubePaginationRequest): Promise<Environment[]> {
+  public async getUserList(params: KubePaginationRequest): Promise<KubePaginationResponse<User[]>> {
     const data: { [key: string]: any } = await axios(`environment/${this.ID}/user`, { params: params });
-    return data as Environment[];
+    return data as KubePaginationResponse<User[]>;
   }
 
   public async addUser(user: User, role: ResourceRole): Promise<any> {

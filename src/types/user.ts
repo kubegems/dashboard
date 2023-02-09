@@ -15,11 +15,18 @@
  */
 import axios from 'axios';
 
+import { Tenant } from '@/types/tenant';
+
 interface UserOperate {
   resetPassword(): Promise<void>;
+  changeRole(): Promise<void>;
 }
 
-export class User implements UserOperate {
+interface TenantInUser {
+  getTenantList(params: KubePaginationRequest): Promise<KubePaginationResponse<Tenant[]>>;
+}
+
+export class User implements UserOperate, TenantInUser {
   constructor(user?: { [key: string]: any }) {
     Object.assign(this, user);
   }
@@ -58,5 +65,15 @@ export class User implements UserOperate {
   // IUser
   public async resetPassword(): Promise<void> {
     await axios.post(`user/${this.ID}/reset_password`, this);
+  }
+
+  public async changeRole(): Promise<void> {
+    await axios.put(`systemrole/${this.SystemRoleID}/user/${this.ID}`, this);
+  }
+
+  // TenantInUser
+  public async getTenantList(params: KubePaginationRequest): Promise<KubePaginationResponse<Tenant[]>> {
+    const data: { [key: string]: any } = await axios(`user/${this.ID}/tenant`, { params: params });
+    return data as KubePaginationResponse<Tenant[]>;
   }
 }

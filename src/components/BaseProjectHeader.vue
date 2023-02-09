@@ -18,9 +18,9 @@
   <v-card class="rounded-tr-0 rounded-tl-0 mb-3" flat height="60">
     <v-card-title class="py-3 mt-n3" :style="{ height: `60px` }">
       <v-sheet v-if="selectable" class="text-subtitle-1">
-        {{ $t('resource.project') }}
+        {{ i18n.t('resource.project') }}
         <v-menu
-          v-model="projectMenu"
+          v-model="state.menu"
           bottom
           content-class="tenant-header__bg"
           max-height="310px"
@@ -43,25 +43,22 @@
               @click.stop="getProject"
             >
               <v-icon left>mdi-view-dashboard</v-icon>
-              {{ Project().ProjectName }}
-              <v-icon v-if="projectMenu" right>mdi-chevron-up</v-icon>
+              {{ store.getters.Project().ProjectName }}
+              <v-icon v-if="state.menu" right>mdi-chevron-up</v-icon>
               <v-icon v-else right>mdi-chevron-down</v-icon>
             </v-btn>
           </template>
-          <v-data-iterator
-            hide-default-footer
-            :items="[{ text: $t('resource.project'), values: m_select_tenantProjectItems }]"
-          >
+          <v-data-iterator hide-default-footer :items="[{ text: i18n.t('resource.project'), values: projectItems }]">
             <template #no-data>
               <v-card>
-                <v-card-text> {{ $t('data.no_data') }} </v-card-text>
+                <v-card-text> {{ i18n.t('data.no_data') }} </v-card-text>
               </v-card>
             </template>
             <template #default="props">
-              <v-card v-for="item in props.items" :key="item.text" flat :loading="loadingPro">
+              <v-card v-for="item in props.items" :key="item.text" flat :loading="state.loading">
                 <v-list class="pb-3" dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
-                    <span>{{ $t('resource.project') }}</span>
+                    <span>{{ i18n.t('resource.project') }}</span>
                   </v-flex>
                   <v-divider class="mx-2" />
                   <div class="header__list px-2">
@@ -70,13 +67,15 @@
                       :key="index"
                       class="text-body-2 text-center font-weight-medium px-2"
                       link
-                      :style="{ color: project.text === Project().ProjectName ? `#1e88e5 !important` : `` }"
+                      :style="{
+                        color: project.ProjectName === store.getters.Project().ProjectName ? `#1e88e5 !important` : ``,
+                      }"
                       @click="setProject(project)"
                     >
                       <v-list-item-content class="text-body-2 font-weight-medium text-start">
                         <div class="kubegems__break-all">
                           <v-icon color="primary" left small>mdi-view-dashboard</v-icon>
-                          {{ project.text }}
+                          {{ project.ProjectName }}
                         </div>
                       </v-list-item-content>
                     </v-list-item>
@@ -88,7 +87,7 @@
         </v-menu>
       </v-sheet>
       <v-sheet v-else class="text-subtitle-1">
-        {{ $t('resource.project') }}
+        {{ i18n.t('resource.project') }}
         <v-btn
           class="primary--text text-subtitle-1 font-weight-medium mt-n1"
           color="white"
@@ -98,7 +97,7 @@
           @click.stop
         >
           <v-icon left>mdi-view-dashboard</v-icon>
-          {{ Project().ProjectName }}
+          {{ store.getters.Project().ProjectName }}
           <v-icon right @click.stop="toProject"> mdi-open-in-new </v-icon>
         </v-btn>
       </v-sheet>
@@ -107,76 +106,73 @@
 
       <v-sheet>
         <span class="text-body-2 kubegems__text">
-          {{ $t('resource.project_c', [$t('resource.role')]) }}:
-          {{
-            PROJECT_ROLE[m_permisson_projectRole] ? $t(`role.project.${m_permisson_resourceRole}`) : $t('data.unknown')
-          }}
+          {{ i18n.t('resource.project_c', [i18n.t('resource.role')]) }}:
+          {{ PROJECT_ROLE[useProjectRole()] ? i18n.t(`role.project.${useEnvironmentRole()}`) : i18n.t('data.unknown') }}
         </span>
       </v-sheet>
     </v-card-title>
   </v-card>
 </template>
 
-<script>
-  import { mapGetters, mapState } from 'vuex';
+<script lang="ts" setup>
+  import { inject, reactive, ref } from 'vue';
 
-  import { METATYPE_CN, PROJECT_ROLE, RESOURCE_ROLE } from '@/constants/platform';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
+  import { useEnvironmentRole, useProjectRole } from '@/composition/permission';
+  import { useProjectList } from '@/composition/project';
+  import { useRouter } from '@/composition/router';
+  import { PROJECT_ROLE } from '@/constants/platform';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+  import { Project } from '@/types/project';
 
-  export default {
-    name: 'BaseProjectHeader',
-    mixins: [BasePermission, BaseResource, BaseSelect],
-    inject: ['reload'],
-    props: {
-      selectable: {
-        type: Boolean,
-        default: () => true,
-      },
-    },
-    data() {
-      this.PROJECT_ROLE = PROJECT_ROLE;
-      this.RESOURCE_ROLE = RESOURCE_ROLE;
-      this.METATYPE_CN = METATYPE_CN;
+  const i18n = useGlobalI18n();
+  const store = useStore();
+  const router = useRouter();
 
-      return {
-        projectMenu: false,
-        loadingPro: false,
-      };
+  withDefaults(
+    defineProps<{
+      selectable?: boolean;
+    }>(),
+    {
+      selectable: true,
     },
-    computed: {
-      ...mapState(['AdminViewport']),
-      ...mapGetters(['Project', 'Environment', 'Tenant']),
-    },
-    methods: {
-      async setProject(item) {
-        await this.$router.replace({
-          params: {
-            tenant: this.Tenant().TenantName,
-            project: item.text,
-          },
-        });
+  );
 
-        this.reload();
+  const state = reactive({
+    menu: false,
+    loading: false,
+  });
+
+  type reloadHandler = () => void;
+  const reload: reloadHandler = inject('reload');
+  const setProject = async (item: Project): Promise<void> => {
+    await router.replace({
+      params: {
+        tenant: store.getters.Tenant().TenantName,
+        project: item.ProjectName,
       },
-      toProject() {
-        this.$store.commit('CLEAR_RESOURCEIRONMENT');
-        this.$router.push({
-          name: 'project-detail',
-          params: {
-            name: this.Project().ProjectName,
-            tenant: this.Tenant().TenantName,
-            project: this.Project().ProjectName,
-          },
-        });
+    });
+    reload();
+  };
+
+  const toProject = (): void => {
+    store.commit('CLEAR_RESOURCEIRONMENT');
+    router.push({
+      name: 'project-detail',
+      params: {
+        name: store.getters.Project().ProjectName,
+        tenant: store.getters.Tenant().TenantName,
+        project: store.getters.Project().ProjectName,
       },
-      async getProject() {
-        this.loadingPro = true;
-        await this.m_select_tenantProjectSelectData();
-        this.loadingPro = false;
-      },
-    },
+    });
+  };
+
+  const projectItems = ref<Project[]>([]);
+  const getProject = async (): Promise<void> => {
+    state.loading = true;
+    const data = await useProjectList(new Project());
+    projectItems.value = data;
+    state.loading = false;
   };
 </script>
 

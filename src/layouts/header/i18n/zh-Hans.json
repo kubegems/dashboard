@@ -14,7 +14,8 @@
     "compile": "编译",
     "compile_platform": "编译平台",
     "dashboard_version": "Dashboard版本",
-    "dashboard_release_time": "Dashboard版本日期"
+    "dashboard_release_time": "Dashboard版本日期",
+    "timezone": "时区"
   },
   "status": {
     "enabled": "启用",

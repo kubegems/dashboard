@@ -129,7 +129,7 @@ router.beforeEach(async (to, from, next): Promise<void> => {
         store.state.EnvironmentStore?.length === 0 ||
         store.state.LatestEnvironment?.environment !== to.params.environment
       ) {
-        await store.dispatch('UPDATE_ENVIRONMENT_DATA', currentProject.ID);
+        await store.dispatch('UPDATE_ENVIRONMENT_DATA', currentProject?.ID);
       }
       const environment: { [key: string]: string | number } =
         store.state.EnvironmentStore &&

@@ -19,16 +19,16 @@
     <v-flex class="pagination__height">
       <v-flex :id="pid" class="pagination">
         <v-pagination
-          v-model="p"
+          v-model="page"
           class="float-left"
           :length="pageCount"
           :total-visible="visibleNum"
-          @input="onPageInput"
+          @input="pageInput"
         />
         <div v-if="pageCount * size > 10 && showSize" class="text-body-2 float-left ml-2 pagination__count">
-          {{ $t('pagination.count') }}
+          {{ i18n.t('pagination.count') }}
           <v-menu
-            v-model="pageMenu"
+            v-model="state.menu"
             :attach="`#${pid}`"
             left
             nudge-bottom="-5px"
@@ -40,7 +40,7 @@
             <template #activator="{ on }">
               <v-btn class="primary--text mt-n1" color="white" dark depressed small v-on="on">
                 {{ size }}
-                <v-icon v-if="pageMenu" right>mdi-chevron-up</v-icon>
+                <v-icon v-if="state.menu" right>mdi-chevron-up</v-icon>
                 <v-icon v-else right>mdi-chevron-down</v-icon>
               </v-btn>
             </template>
@@ -49,7 +49,7 @@
                 <v-card v-for="item in props.items" :key="item.text" flat>
                   <v-list dense>
                     <v-flex class="text-body-2 text-center ma-2">
-                      <span>{{ $t('pagination.count') }}</span>
+                      <span>{{ i18n.t('pagination.count') }}</span>
                     </v-flex>
                     <v-divider class="mx-2" />
                     <v-list-item
@@ -76,74 +76,55 @@
   </v-flex>
 </template>
 
-<script>
-  export default {
-    name: 'BasePagination',
-    model: {
-      prop: 'page',
+<script lang="ts" setup>
+  import { reactive, ref } from 'vue';
+
+  import { useGlobalI18n } from '@/i18n';
+
+  const i18n = useGlobalI18n();
+
+  const props = withDefaults(
+    defineProps<{
+      frontPage?: boolean;
+      page?: number;
+      pageCount?: number;
+      pid?: string;
+      showSize?: boolean;
+      size?: number;
+      visibleNum?: number;
+    }>(),
+    {
+      frontPage: false,
+      page: 1,
+      pageCount: 0,
+      pid: 'pagesize',
+      showSize: true,
+      size: 10,
+      visibleNum: 6,
     },
-    props: {
-      frontPage: {
-        type: Boolean,
-        default: () => false,
-      },
-      page: {
-        type: Number,
-        default: () => 1,
-      },
-      pageCount: {
-        type: Number,
-        default: () => 0,
-      },
-      pid: {
-        type: String,
-        default: () => 'pagesize',
-      },
-      showSize: {
-        type: Boolean,
-        default: () => true,
-      },
-      size: {
-        type: Number,
-        default: () => 10,
-      },
-      visibleNum: {
-        type: Number,
-        default: () => 6,
-      },
-    },
-    data() {
-      return {
-        p: 1,
-        pageMenu: false,
-      };
-    },
-    watch: {
-      page() {
-        this.p = this.page;
-      },
-    },
-    mounted() {
-      this.p = this.page;
-    },
-    methods: {
-      onPageInput() {
-        this.$emit('changepage', this.p);
-        if (this.p === this.page) return;
-        if (!this.frontPage) {
-          this.$emit('loaddata');
-        } else {
-          if (this.p === 1) {
-            this.$emit('loaddata');
-          }
-        }
-      },
-      setSize(size) {
-        this.p = 1;
-        this.$emit('changesize', size);
-        this.$emit('loaddata');
-      },
-    },
+  );
+  const state = reactive({
+    menu: false,
+  });
+
+  const emit = defineEmits(['changepage', 'loaddata', 'changesize']);
+  const page = ref<number>(1);
+  const pageInput = () => {
+    emit('changepage', page.value);
+    if (page.value === props.page) return;
+    if (!props.frontPage) {
+      emit('loaddata');
+    } else {
+      if (page.value === 1) {
+        emit('loaddata');
+      }
+    }
+  };
+
+  const setSize = (size: number): void => {
+    page.value = 1;
+    emit('changesize', size);
+    emit('loaddata');
   };
 </script>
 

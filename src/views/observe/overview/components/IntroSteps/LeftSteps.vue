@@ -37,60 +37,64 @@
   </div>
 </template>
 
-<script>
-  import messages from '../../i18n';
+<script lang="ts" setup>
+  import { ref, watch } from 'vue';
 
-  export default {
-    name: 'LeftSteps',
-    i18n: {
-      messages: messages,
+  import { useI18n } from '../../i18n';
+
+  const i18nLocal = useI18n();
+
+  const steps = [
+    {
+      id: 'metrics',
+      name: i18nLocal.t('tip.install_metrics'),
+      desc: i18nLocal.t('tip.install_metrics_desc'),
     },
-    props: {
-      value: {
-        type: String,
-        default: undefined,
-      },
+    {
+      id: 'traces',
+      name: i18nLocal.t('tip.install_trace'),
+      desc: i18nLocal.t('tip.install_trace_desc'),
     },
-    data() {
-      return {
-        current: 1,
-      };
+    {
+      id: 'logs',
+      name: i18nLocal.t('tip.create_log'),
+      desc: i18nLocal.t('tip.create_log_desc'),
     },
-    computed: {
-      steps() {
-        return [
-          {
-            id: 'metrics',
-            name: this.$t('tip.install_metrics'),
-            desc: this.$t('tip.install_metrics_desc'),
-          },
-          {
-            id: 'traces',
-            name: this.$t('tip.install_trace'),
-            desc: this.$t('tip.install_trace_desc'),
-          },
-          {
-            id: 'logs',
-            name: this.$t('tip.create_log'),
-            desc: this.$t('tip.create_log_desc'),
-          },
-        ];
-      },
+  ];
+
+  const current = ref<number>(1);
+
+  const props = withDefaults(
+    defineProps<{
+      value?: string;
+    }>(),
+    {
+      value: 'metrics',
     },
-    watch: {
-      value: {
-        handler(newValue) {
-          this.current = this.steps.findIndex((item) => item.id === newValue) + 1 || 1;
-        },
-        immediate: true,
-      },
-      current(newValue) {
-        const id = this.steps[newValue - 1].id;
-        this.$emit('input', id);
-        this.$emit('change', id);
-      },
+  );
+
+  const emit = defineEmits(['input', 'change']);
+  watch(
+    () => current,
+    async (newValue) => {
+      const id = steps[newValue.value - 1].id;
+      emit('input', id);
+      emit('change', id);
     },
-  };
+    {
+      deep: true,
+    },
+  );
+
+  watch(
+    () => props.value,
+    async (newValue) => {
+      current.value = steps.findIndex((item) => item.id === newValue) + 1 || 1;
+    },
+    {
+      immediate: true,
+    },
+  );
 </script>
 
 <style lang="scss" scoped>

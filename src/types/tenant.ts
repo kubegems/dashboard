@@ -28,7 +28,12 @@ interface EnvironmentInTenant {
   getEnvironmentList(params: KubePaginationRequest): Promise<KubePaginationResponse<Environment[]>>;
 }
 
-export class Tenant implements UserRole<Tenant>, ProjectInTenant, EnvironmentInTenant {
+interface Operator {
+  activeTenant(): Promise<void>;
+  disableTenant(): Promise<void>;
+}
+
+export class Tenant implements UserRole, ProjectInTenant, EnvironmentInTenant, Operator {
   constructor(tenant?: { [key: string]: any }) {
     Object.assign(this, tenant);
   }
@@ -49,7 +54,7 @@ export class Tenant implements UserRole<Tenant>, ProjectInTenant, EnvironmentInT
     return data as KubePaginationResponse<Tenant[]>;
   }
 
-  public async getTenant(params: KubeRequest): Promise<Tenant> {
+  public async getTenant(params: KubeRequest = {}): Promise<Tenant> {
     const data: { [key: string]: any } = await axios(`tenant/${this.ID}`, { params: params });
     return data as Tenant;
   }
@@ -69,9 +74,9 @@ export class Tenant implements UserRole<Tenant>, ProjectInTenant, EnvironmentInT
   }
 
   // IUserRole
-  public async getUserList(params: KubePaginationRequest): Promise<Tenant[]> {
+  public async getUserList(params: KubePaginationRequest): Promise<KubePaginationResponse<User[]>> {
     const data: { [key: string]: any } = await axios(`tenant/${this.ID}/user`, { params: params });
-    return data as Tenant[];
+    return data as KubePaginationResponse<User[]>;
   }
 
   public async addUser(user: User, role: ResourceRole): Promise<any> {
@@ -108,5 +113,14 @@ export class Tenant implements UserRole<Tenant>, ProjectInTenant, EnvironmentInT
   public async getEnvironmentList(params: KubePaginationRequest): Promise<KubePaginationResponse<Environment[]>> {
     const data: { [key: string]: any } = await axios(`tenant/${this.ID}/environment`, { params: params });
     return data as KubePaginationResponse<Environment[]>;
+  }
+
+  // Operator
+  public async activeTenant(): Promise<void> {
+    await axios.put(`tenant/${this.ID}/action/enable`);
+  }
+
+  public async disableTenant(): Promise<void> {
+    await axios.put(`tenant/${this.ID}/action/disable`);
   }
 }

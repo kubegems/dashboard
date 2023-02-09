@@ -24,7 +24,7 @@ interface EnvironmnetInProject {
   getEnvironmentList(params: KubePaginationRequest): Promise<KubePaginationResponse<Environment[]>>;
 }
 
-export class Project implements UserRole<Project>, EnvironmnetInProject {
+export class Project implements UserRole, EnvironmnetInProject {
   constructor(project?: { [key: string]: any }) {
     Object.assign(this, project);
   }
@@ -68,9 +68,9 @@ export class Project implements UserRole<Project>, EnvironmnetInProject {
   }
 
   // IUserRole
-  public async getUserList(params: KubePaginationRequest): Promise<Project[]> {
+  public async getUserList(params: KubePaginationRequest): Promise<KubePaginationResponse<User[]>> {
     const data: { [key: string]: any } = await axios(`project/${this.ID}/user`, { params: params });
-    return data as Project[];
+    return data as KubePaginationResponse<User[]>;
   }
 
   public async addUser(user: User, role: ResourceRole): Promise<any> {

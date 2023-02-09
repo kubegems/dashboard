@@ -26,17 +26,6 @@
   </v-container>
 </template>
 
-<script>
-  import ChannelCard from './components/ChannelCard';
-  import messages from './i18n';
-
-  export default {
-    name: 'AlertChannel',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      ChannelCard,
-    },
-  };
+<script lang="ts" setup>
+  import ChannelCard from './components/ChannelCard.vue';
 </script>

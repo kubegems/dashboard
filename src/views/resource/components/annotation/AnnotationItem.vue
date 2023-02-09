@@ -18,7 +18,7 @@
   <v-flex>
     <v-row>
       <template v-for="(value, key) in annotations">
-        <v-col v-if="ANNOTATION_IGNORE_ARRAY.indexOf(key) === -1" :key="key" class="pa-0" cols="6">
+        <v-col v-if="ANNOTATION_IGNORE_ARRAY.indexOf(key.toString()) === -1" :key="key" class="pa-0" cols="6">
           <v-flex class="grey lighten-4 rounded mt-3 mx-3">
             <v-list-item>
               <v-list-item-content class="kubegems__label-class-padding kubegems__break-all">
@@ -41,9 +41,9 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
-            <v-btn color="primary" text @click="expandCard">
+            <v-btn color="primary" text @click="expand">
               <v-icon left small> mdi-tag-plus </v-icon>
-              {{ $root.$t('operate.add_c', [$t('tip.annotation')]) }}
+              {{ i18n.t('operate.add_c', [i18nLocal.t('tip.annotation')]) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -52,38 +52,33 @@
   </v-flex>
 </template>
 
-<script>
-  import messages from '../i18n';
+<script lang="ts" setup>
+  import { useI18n } from '../i18n';
   import { ANNOTATION_IGNORE_ARRAY } from '@/constants/resource';
-  import BaseResource from '@/mixins/resource';
+  import { useGlobalI18n } from '@/i18n';
 
-  export default {
-    name: 'AnnotationItem',
-    i18n: {
-      messages: messages,
-    },
-    mixins: [BaseResource],
-    props: {
-      annotations: {
-        type: Object,
-        default: () => ({}),
-      },
-    },
-    data() {
-      this.ANNOTATION_IGNORE_ARRAY = ANNOTATION_IGNORE_ARRAY;
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
 
-      return {};
+  withDefaults(
+    defineProps<{
+      annotations?: { [key: string]: string | number | boolean };
+    }>(),
+    {
+      annotations: undefined,
     },
-    methods: {
-      updateAnnotations(key) {
-        this.$emit('updateAnnotations', key);
-      },
-      removeAnnotations(key) {
-        this.$emit('removeAnnotations', key);
-      },
-      expandCard() {
-        this.$emit('expandCard', 'annotationForm');
-      },
-    },
+  );
+
+  const emit = defineEmits(['updateAnnotations', 'removeAnnotations', 'expandCard']);
+  const updateAnnotations = (key): void => {
+    emit('updateAnnotations', key);
+  };
+
+  const removeAnnotations = (key): void => {
+    emit('removeAnnotations', key);
+  };
+
+  const expand = (): void => {
+    emit('expandCard', 'annotationForm');
   };
 </script>

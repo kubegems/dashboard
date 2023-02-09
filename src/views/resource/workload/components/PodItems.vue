@@ -108,7 +108,7 @@
             <v-list-item class="float-left py-0 pl-0" :style="{ width: `170px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
-                  <RealDatetimeTip :datetime="pod.status.startTime.toString()">
+                  <RealDatetimeTip :datetime="pod.status.startTime ? pod.status.startTime.toString() : ''">
                     <template #trigger>
                       <span>
                         {{ pod.status.startTime ? moment(pod.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}

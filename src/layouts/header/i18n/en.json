@@ -14,7 +14,8 @@
     "compile": "Compile",
     "compile_platform": "Compile Platform",
     "dashboard_version": "Dashboard Version",
-    "dashboard_release_time": "Dashboard Release Time"
+    "dashboard_release_time": "Dashboard Release Time",
+    "timezone": "Timezone"
   },
   "status": {
     "enabled": "Enabled",

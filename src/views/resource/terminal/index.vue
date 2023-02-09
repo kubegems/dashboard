@@ -18,43 +18,37 @@
   <Terminal ref="terminal" />
 </template>
 
-<script>
-  import { getPodDetail } from '@/api';
-  import Terminal from '@/views/resource/components/common/Terminal';
+<script lang="ts" setup>
+  import { nextTick, onMounted, ref } from 'vue';
 
-  export default {
-    name: 'Console',
-    components: {
-      Terminal,
-    },
-    data() {
-      return {
-        pod: null,
-      };
-    },
-    mounted() {
-      this.$nextTick(async () => {
-        await this.podDetail();
-        const item = {
-          namespace: this.$route.query.namespace,
-          name: this.$route.params.name,
-          containers: this.pod.spec.containers,
-        };
-        let container = this.pod.spec.containers[0].name;
-        if (this.$route.query.container) container = this.$route.query.container;
-        this.$refs.terminal.init(container, item, this.$route.query.type);
-        this.$refs.terminal.open();
-      });
-    },
-    methods: {
-      async podDetail() {
-        const data = await getPodDetail(
-          this.$route.query.cluster,
-          this.$route.query.namespace,
-          this.$route.params.name,
-        );
-        this.pod = data;
-      },
-    },
+  import { useRoute } from '@/composition/router';
+  import { Pod } from '@/types/pod';
+  import Terminal from '@/views/resource/components/common/Terminal/index.vue';
+
+  const route = useRoute();
+
+  const pod = ref<Pod>(undefined);
+
+  const getPod = async (): Promise<void> => {
+    const data = await new Pod({ metadata: { name: route.params.name, namespace: route.query.namespace } }).getPod(
+      route.query.cluster as string,
+    );
+    pod.value = data;
   };
+
+  const terminal = ref(null);
+  onMounted(() => {
+    nextTick(async () => {
+      await getPod();
+      const item = {
+        namespace: route.query.namespace,
+        name: route.params.name,
+        containers: pod.value.spec.containers,
+      };
+      let container = pod.value.spec.containers[0].name;
+      if (route.query.container) container = route.query.container as string;
+      terminal.value.init(container, item, route.query.type);
+      terminal.value.open();
+    });
+  });
 </script>

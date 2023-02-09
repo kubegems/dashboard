@@ -162,7 +162,11 @@
     },
     methods: {
       async podDetail() {
-        const data = await getPodDetail(this.ThisCluster, this.$route.query.namespace, this.$route.params.name);
+        const data = await getPodDetail(
+          this.ThisCluster,
+          this.$route.query.namespace || this.ThisNamespace,
+          this.$route.params.name,
+        );
         this.pod = data;
         this.watchPod();
       },
@@ -192,7 +196,11 @@
           },
           param: { item },
           doFunc: async (param) => {
-            await deletePod(this.ThisCluster, this.$route.query.namespace, param.item.metadata.name);
+            await deletePod(
+              this.ThisCluster,
+              this.$route.query.namespace || this.ThisNamespace,
+              param.item.metadata.name,
+            );
             this.$router.push({ name: 'pod-list', params: this.$route.params });
           },
         });

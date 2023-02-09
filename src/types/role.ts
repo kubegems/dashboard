@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import axios from 'axios';
+
 import { User } from './user';
 
 export enum ResourceRole {
@@ -37,9 +39,25 @@ export class Auth {
   role: string;
 }
 
-export interface UserRole<T> {
-  getUserList(params: KubePaginationRequest): Promise<T[]>;
+export interface UserRole {
+  getUserList(params: KubePaginationRequest): Promise<KubePaginationResponse<User[]>>;
   addUser(user: User, role: ResourceRole): Promise<any>;
   updateUser(user: User, role: ResourceRole): Promise<any>;
   deleteUser(user: User): Promise<void>;
+}
+
+export class Role {
+  constructor(role?: { [key: string]: any }) {
+    Object.assign(this, role);
+  }
+
+  ID: number;
+  RoleCode: string;
+  RoleName: string;
+  [others: string]: any;
+
+  public async getRoleList(params: KubePaginationRequest): Promise<KubePaginationResponse<Role[]>> {
+    const data: { [key: string]: any } = await axios(`systemrole`, { params: params });
+    return data as KubePaginationResponse<Role[]>;
+  }
 }

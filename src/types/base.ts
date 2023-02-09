@@ -50,6 +50,7 @@ declare global {
     size: number;
     pageCount: number;
     page: number;
+    total?: number;
     [params: string]: any;
   };
 }

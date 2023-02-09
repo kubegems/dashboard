@@ -40,94 +40,90 @@
   </div>
 </template>
 
-<script>
-  import messages from '../../i18n';
+<script lang="ts" setup>
+  import { ComputedRef, computed } from 'vue';
 
-  export default {
-    name: 'StatusTag',
-    i18n: {
-      messages: messages,
+  import { useI18n } from '../../i18n';
+  import { useRoute, useRouter } from '@/composition/router';
+
+  const i18nLocal = useI18n();
+  const router = useRouter();
+  const route = useRoute();
+
+  const props = withDefaults(
+    defineProps<{
+      item?: any;
+      l?: boolean;
+      m?: boolean;
+      s?: boolean;
+    }>(),
+    {
+      item: undefined,
+      l: false,
+      m: false,
+      s: false,
     },
-    props: {
-      item: {
-        type: Object,
-        default: () => null,
+  );
+
+  const items: ComputedRef<any[]> = computed(() => {
+    return [
+      {
+        key: 'm',
+        name: 'Metrics',
+        text: i18nLocal.t('tip.enabled_monitor'),
+        notext: i18nLocal.t('tip.disabled_monitor'),
+        status: props.m,
       },
-      l: {
-        type: Boolean,
-        default: false,
+      {
+        key: 'l',
+        name: 'Log',
+        text: i18nLocal.t('tip.enabled_log'),
+        notext: i18nLocal.t('tip.disabled_log'),
+        status: props.l,
       },
-      m: {
-        type: Boolean,
-        default: false,
+      {
+        key: 's',
+        name: 'Mesh',
+        text: i18nLocal.t('tip.enabled_mesh'),
+        notext: i18nLocal.t('tip.disabled_mesh'),
+        status: props.s,
       },
-      s: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    computed: {
-      items() {
-        return [
-          {
-            key: 'm',
-            name: 'Metrics',
-            text: this.$t('tip.enabled_monitor'),
-            notext: this.$t('tip.disabled_monitor'),
-            status: this.m,
-          },
-          {
-            key: 'l',
-            name: 'Log',
-            text: this.$t('tip.enabled_log'),
-            notext: this.$t('tip.disabled_log'),
-            status: this.l,
-          },
-          {
-            key: 's',
-            name: 'Mesh',
-            text: this.$t('tip.enabled_mesh'),
-            notext: this.$t('tip.disabled_mesh'),
-            status: this.s,
-          },
-        ];
-      },
-    },
-    methods: {
-      setColor(status) {
-        return status ? 'primary' : '';
-      },
-      toPage(item) {
-        if (item.key === 'm' && item.status) {
-          this.$router.push({
-            name: 'observe-monitor-config',
-            params: this.$route.params,
-            query: {
-              proj: this.item.projectName,
-              env: this.item.environmentName,
-              projid: this.item.projectID,
-              envid: this.item.environmentID,
-              cluster: this.item.clusterName,
-              namespace: this.item.namespace,
-              refresh: 1,
-            },
-          });
-        } else if (item.key === 'l' && item.status) {
-          this.$router.push({
-            name: 'log-config',
-            params: this.$route.params,
-            query: {
-              proj: this.item.projectName,
-              env: this.item.environmentName,
-              projid: this.item.projectID,
-              envid: this.item.environmentID,
-              cluster: this.item.clusterName,
-              namespace: this.item.namespace,
-              refresh: 1,
-            },
-          });
-        }
-      },
-    },
+    ];
+  });
+
+  const setColor = (status: boolean): string => {
+    return status ? 'primary' : '';
+  };
+
+  const toPage = (item: any): void => {
+    if (item.key === 'm' && item.status) {
+      router.push({
+        name: 'observe-monitor-config',
+        params: route.params,
+        query: {
+          proj: props.item.projectName,
+          env: props.item.environmentName,
+          projid: props.item.projectID,
+          envid: props.item.environmentID,
+          cluster: props.item.clusterName,
+          namespace: props.item.namespace,
+          refresh: '1',
+        },
+      });
+    } else if (item.key === 'l' && item.status) {
+      router.push({
+        name: 'log-config',
+        params: route.params,
+        query: {
+          proj: props.item.projectName,
+          env: props.item.environmentName,
+          projid: props.item.projectID,
+          envid: props.item.environmentID,
+          cluster: props.item.clusterName,
+          namespace: props.item.namespace,
+          refresh: '1',
+        },
+      });
+    }
   };
 </script>

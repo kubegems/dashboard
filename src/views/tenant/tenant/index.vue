@@ -157,16 +157,14 @@
       />
     </v-card>
 
-    <AddTenant ref="addTenant" @refresh="tenantList" />
-    <UpdateTenant ref="updateTenant" @refresh="tenantList" />
+    <TenantForm ref="tenant" @refresh="tenantList" />
   </v-container>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import AddTenant from './components/AddTenant';
-  import UpdateTenant from './components/UpdateTenant';
+  import TenantForm from './components/TenantForm';
   import messages from './i18n';
   import { deleteTenant, getTenantList, putActiveTenant, putForbideTenant } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
@@ -181,8 +179,7 @@
       messages: messages,
     },
     components: {
-      AddTenant,
-      UpdateTenant,
+      TenantForm,
     },
     mixins: [BaseFilter, BaseResource, BaseSelect, BaseTable],
     data() {
@@ -272,11 +269,11 @@
         this.$router.replace({ query: { ...this.$route.query, ...this.params } });
       },
       addTenant() {
-        this.$refs.addTenant.open();
+        this.$refs.tenant.open();
       },
       updateTenant(item) {
-        this.$refs.updateTenant.init(item);
-        this.$refs.updateTenant.open();
+        this.$refs.tenant.init(item);
+        this.$refs.tenant.open();
       },
       tenantDetail(item) {
         this.$router.push({

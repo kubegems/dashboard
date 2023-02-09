@@ -190,12 +190,12 @@
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="primary" small text @click="updateWorkload(item.workload)">
+                    <v-btn color="primary" small text @click.stop="updateWorkload(item.workload)">
                       {{ $root.$t('operate.edit') }}
                     </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="error" small text @click="removeWorkload(item.workload)">
+                    <v-btn color="error" small text @click.stop="removeWorkload(item.workload)">
                       {{ $root.$t('operate.delete') }}
                     </v-btn>
                   </v-flex>
