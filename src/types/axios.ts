@@ -162,7 +162,7 @@ axios.interceptors.response.use(
             text:
               typeof error.response.data.ErrorData === 'string' || typeof error.response.data.errorData === 'string'
                 ? error.response.data.ErrorData || error.response.data.errorData
-                : error.response.data.Message || error.response.data.data.message,
+                : error.response.data.Message || error.response.data?.data?.message || '',
             color: 'error',
           });
           break;

@@ -27,12 +27,13 @@
     >
       <template #item.name="{ item }">
         <div class="float-left mr-2">
-          <BaseStatus
-            :bg-color="edgeStatus[item.status.phase]"
-            :flashing="edgeStatus[item.status.phase] === edgeStatus.Waiting"
-            :show-text="false"
-            :status="item.status.phase"
-          />
+          <v-icon
+            :class="{ 'kubegems__waiting-flashing-front': edgeStatus[item.status.phase] === edgeStatus.Waiting }"
+            :color="edgeStatus[item.status.phase]"
+            small
+          >
+            mdi-heart-pulse
+          </v-icon>
         </div>
         <div class="float-left">
           <span> {{ item.metadata.name }} </span>

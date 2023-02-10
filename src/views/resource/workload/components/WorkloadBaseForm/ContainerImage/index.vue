@@ -26,6 +26,7 @@
             :container="containerEdit ? containerCopy : container"
             :edit="containerEdit"
             :image-pull-secret="imagePullSecret"
+            :namespace="obj.metadata.namespace"
             :type="type"
             @updateImage="updateImage"
             @updateRegistry="updateRegistry"

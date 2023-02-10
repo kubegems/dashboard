@@ -1,3 +1,11 @@
+# 1.23.3
+
+### 🔨 reflactor
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [refactor: 🔨 reflact code to vue3] | [2df03cc](https://github.com/chenshunliang/dashboard/commit/2df03cc8eb90008b85fa84737c8e04e3a470e51f)) |
+
 # 1.23.2 (2023-2-8)
 
 ### 🌟 新功能
