@@ -219,6 +219,24 @@ html::-webkit-scrollbar {
   }
 }
 
+.kubegems__waiting-flashing-front {
+  animation-name: kubegems__animate-waiting-flash-front;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes kubegems__animate-waiting-flash-front {
+  from {
+    color: #fb8c00;
+  }
+  to {
+    color: white;
+  }
+}
+
 $i: 24;
 
 @while $i > 0 {

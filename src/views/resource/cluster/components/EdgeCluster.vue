@@ -92,12 +92,13 @@
               :top="pagination.size - index <= 5 || (pagination.items.length <= 5 && index >= 1)"
             >
               <template #trigger>
-                <BaseStatus
-                  :bg-color="edgeStatus[item.status.phase]"
-                  :flashing="edgeStatus[item.status.phase] === edgeStatus.Waiting"
-                  :show-text="false"
-                  :status="item.status.phase"
-                />
+                <v-icon
+                  :class="{ 'kubegems__waiting-flashing-front': edgeStatus[item.status.phase] === edgeStatus.Waiting }"
+                  :color="edgeStatus[item.status.phase]"
+                  small
+                >
+                  mdi-heart-pulse
+                </v-icon>
               </template>
             </EdgeStatusTip>
           </div>

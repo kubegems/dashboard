@@ -111,7 +111,7 @@
   const page = ref<number>(1);
   const pageInput = () => {
     emit('changepage', page.value);
-    if (page.value === props.page) return;
+    // if (page.value === props.page) return;
     if (!props.frontPage) {
       emit('loaddata');
     } else {

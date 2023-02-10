@@ -81,7 +81,6 @@
           :label="$t('tip.image_secret')"
           :no-data-text="$root.$t('data.no_data')"
           @change="onRegistryChange"
-          @focus="onRegistrySelectFocus"
         >
           <template #selection="{ item }">
             <v-chip class="mx-1" color="primary" small>
@@ -114,7 +113,10 @@
 </template>
 
 <script>
+  import { mapGetters, mapState } from 'vuex';
+
   import messages from '../../../i18n';
+  import { getSecretList } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
@@ -137,6 +139,10 @@
       imagePullSecret: {
         type: String,
         default: () => 'default',
+      },
+      namespace: {
+        type: String,
+        default: () => '',
       },
       type: {
         type: String,
@@ -176,6 +182,10 @@
         ];
       },
     },
+    computed: {
+      ...mapState(['Edge']),
+      ...mapGetters(['Environment']),
+    },
     watch: {
       container: {
         handler() {
@@ -186,11 +196,14 @@
       imagePullSecret() {
         this.imageRegistry = this.imagePullSecret;
       },
-    },
-    mounted() {
-      this.$nextTick(() => {
-        this.m_select_registrySelectData();
-      });
+      namespace: {
+        handler(newValue) {
+          if (newValue) {
+            this.onRegistrySelectFocus();
+          }
+        },
+        deep: true,
+      },
     },
     methods: {
       init() {
@@ -218,8 +231,22 @@
         this.containerType = 'worker';
         this.obj = deepCopy(this.$options.data().obj);
       },
-      onRegistrySelectFocus() {
-        this.m_select_registrySelectData();
+      async onRegistrySelectFocus() {
+        if (this.Edge) {
+          const data = await getSecretList(this.Edge, this.namespace || this.Environment().Namespace, {
+            size: 1000,
+          });
+          this.m_select_registryItems = data.List.map((d) => {
+            if (d.type === 'kubernetes.io/dockerconfigjson') {
+              return {
+                text: d.metadata.name,
+                value: d.metadata.name,
+              };
+            }
+          });
+        } else {
+          this.m_select_registrySelectData();
+        }
         this.updateImage();
       },
       validate() {
