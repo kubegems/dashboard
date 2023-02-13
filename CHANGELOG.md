@@ -1,4 +1,10 @@
-# 1.23.3
+# 1.23.3 (2023-2-13)
+
+### Bug Fixes
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [fix: 🐛 fix get docker registry secret from edge cluster error bug] | [e5cd3b8](https://github.com/chenshunliang/dashboard/commit/e5cd3b8a621f9d6ad6401c8393cf265acc8d29ca) |
 
 ### 🔨 reflactor
 

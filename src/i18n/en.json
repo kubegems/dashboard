@@ -555,7 +555,8 @@
     "label_file_processing_complete": "upload complete",
     "label_file_processing": "uploading",
     "label_file_processing_error": "error during upload",
-    "file_upload": "<span class=\"filepond--label-action\">Click to upload file</span>"
+    "file_upload": "<span class=\"filepond--label-action\">Click to upload file</span>",
+    "copyed": "Copied to Clipboard"
   },
   "tab": {
     "overview": "Overview",

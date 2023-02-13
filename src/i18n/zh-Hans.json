@@ -556,7 +556,8 @@
     "label_file_processing_complete": "上传完成",
     "label_file_processing": "上传中",
     "label_file_processing_error": "上传失败",
-    "file_upload": "<span class=\"filepond--label-action\">请点击上传文件</span>"
+    "file_upload": "<span class=\"filepond--label-action\">请点击上传文件</span>",
+    "copyed": "已复制到粘贴板"
   },
   "tab": {
     "overview": "概览",

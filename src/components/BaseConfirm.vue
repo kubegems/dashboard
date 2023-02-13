@@ -15,144 +15,163 @@
 -->
 
 <template>
-  <v-dialog v-model="Confirm.value" max-width="500" persistent scrollable>
+  <v-dialog v-model="store.state.Confirm.value" max-width="500" persistent scrollable>
     <v-card class="pa-0" flat>
       <v-sheet class="px-4 py-2 error--text text-h6">
-        {{ Confirm.title }}
+        {{ store.state.Confirm.title }}
       </v-sheet>
       <v-divider />
       <v-sheet
-        v-if="Confirm.content && (Confirm.content.type === 'delete' || Confirm.content.type === 'batch_delete')"
+        v-if="
+          store.state.Confirm.content &&
+          (store.state.Confirm.content.type === 'delete' || store.state.Confirm.content.type === 'batch_delete')
+        "
         class="px-4 py-4 confirm-size"
       >
         <v-alert
           border="left"
           class="rounded py-3"
-          :color="(Confirm.content && Confirm.content.level) || 'warning'"
+          :color="(store.state.Confirm.content && store.state.Confirm.content.level) || 'warning'"
           colored-border
           elevation="1"
         >
-          <template v-if="Confirm.content && Confirm.content.type === 'batch_delete'">
+          <template v-if="store.state.Confirm.content && store.state.Confirm.content.type === 'batch_delete'">
             <div class="text-subtitle-1 kubegems__text">
-              {{ $t('tip.batch_delete_c', [Confirm.content.tip || $t('operate.delete')]) }}
+              {{ i18n.t('tip.batch_delete_c', [store.state.Confirm.content.tip || i18n.t('operate.delete')]) }}
             </div>
             <div
-              v-for="(content, index) in Confirm.content ? Confirm.content.text.split(',') : []"
+              v-for="(content, index) in store.state.Confirm.content ? store.state.Confirm.content.text.split(',') : []"
               :key="index"
               class="text-subtitle-1 kubegems__text kubegems__break-all"
             >
               {{ content }}
-              <template v-if="Object.prototype.hasOwnProperty.call(Confirm.content.status, content)">
-                <v-icon v-if="Confirm.content.status[content]" color="success" right small>mdi-check</v-icon>
+              <template v-if="Object.prototype.hasOwnProperty.call(store.state.Confirm.content.status, content)">
+                <v-icon v-if="store.state.Confirm.content.status[content]" color="success" right small
+                  >mdi-check</v-icon
+                >
                 <v-icon v-else color="error" right small>mdi-close</v-icon>
               </template>
             </div>
           </template>
-          <template v-if="Confirm.content && Confirm.content.type === 'delete'">
+          <template v-if="store.state.Confirm.content && store.state.Confirm.content.type === 'delete'">
             <div
-              v-for="(content, index) in Confirm.content ? Confirm.content.text.split(',') : []"
+              v-for="(content, index) in store.state.Confirm.content ? store.state.Confirm.content.text.split(',') : []"
               :key="index"
-              class="text-subtitle-1 kubegems__text kubegems__break-all"
+              class="text-subtitle-1 kubegems__text kubegems__break-all float-left"
               v-html="content"
             />
+            <v-btn class="float-left" color="primary" icon small @click="copyMessage">
+              <v-icon small> mdi-content-copy</v-icon>
+            </v-btn>
+            <input id="copyed" type="hidden" :value="store.state.Confirm.content.name" />
+            <div class="kubegems__clear-float" />
           </template>
         </v-alert>
-        <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
+        <v-form ref="form" v-model="state.valid" lazy-validation @submit.prevent>
           <v-text-field
-            v-if="Confirm.content.type === 'delete'"
-            v-model="confirmData"
+            v-if="store.state.Confirm.content.type === 'delete'"
+            v-model="data"
             class="my-0"
-            :label="$t('confirm.tip')"
+            :label="i18n.t('confirm.tip')"
             required
-            :rules="confirmDataRule"
+            :rules="dataRule"
             @keydown.enter="confirm"
           />
           <v-text-field
-            v-else-if="Confirm.content.type === 'batch_delete'"
-            v-model="confirmData"
+            v-else-if="store.state.Confirm.content.type === 'batch_delete'"
+            v-model="data"
             class="my-0"
             :label="`${
-              Confirm.content.one
-                ? `${$t('confirm.tip')}`
-                : $t('tip.batch_confirm_c', [Confirm.content.tip || $t('tip.batch_delete')])
+              store.state.Confirm.content.one
+                ? `${i18n.t('confirm.tip')}`
+                : i18n.t('tip.batch_confirm_c', [store.state.Confirm.content.tip || i18n.t('tip.batch_delete')])
             }`"
             required
-            :rules="confirmBacthDataRule"
+            :rules="batchDataRule"
             @keydown.enter="confirm"
           />
         </v-form>
       </v-sheet>
-      <v-sheet v-else-if="Confirm.content" class="px-4 py-4 confirm-size">
-        <v-flex class="text-subtitle-1 kubegems__text kubegems__break-all" v-html="Confirm.content.text" />
+      <v-sheet v-else-if="store.state.Confirm.content" class="px-4 py-4 confirm-size">
+        <v-flex class="text-subtitle-1 kubegems__text kubegems__break-all" v-html="store.state.Confirm.content.text" />
       </v-sheet>
       <div class="pb-3 pr-4">
-        <v-btn class="float-right" color="primary" :loading="Circular" small text @click="confirm">
-          {{ $t('operate.confirm') }}
+        <v-btn class="float-right" color="primary" :loading="store.state.Circular" small text @click="confirm">
+          {{ i18n.t('operate.confirm') }}
         </v-btn>
-        <v-btn class="float-right" color="error" small text @click="closeConfirmDialog">
-          {{ $t('operate.cancel') }}
+        <v-btn class="float-right" color="error" small text @click="close">
+          {{ i18n.t('operate.cancel') }}
         </v-btn>
       </div>
     </v-card>
   </v-dialog>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { ComputedRef, computed, reactive, ref } from 'vue';
 
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
   import { required } from '@/utils/rules';
 
-  export default {
-    name: 'BaseConfirm',
-    data() {
-      return {
-        valid: false,
-        confirmData: '',
-      };
-    },
-    computed: {
-      ...mapState(['Confirm', 'Circular']),
-      confirmDataRule() {
-        return [required, (v) => !!(v === this.Confirm.content.name) || this.$t('ruler.not_match')];
-      },
-      confirmBacthDataRule() {
-        if (this.Confirm.content.one) {
-          return [required, (v) => !!(v === this.Confirm.content.one) || this.$t('ruler.not_match')];
-        } else {
-          return [
-            required,
-            (v) =>
-              !!(v === this.$t('tip.batch_rule_c', [this.Confirm.content.tip || this.$t('tip.batch_delete')])) ||
-              this.$t('ruler.not_match'),
-          ];
-        }
-      },
-    },
-    methods: {
-      async closeConfirmDialog() {
-        await this.Confirm.doClose(this.Confirm.param);
-        this.Confirm.value = false;
-        this.confirmData = '';
-        if (this.$refs.form) {
-          this.$refs.form.resetValidation();
-        }
-      },
-      async confirm() {
-        if (
-          (['delete', 'batch_delete'].indexOf(this.Confirm.content.type) > -1 && this.$refs.form.validate(true)) ||
-          ['delete', 'batch_delete'].indexOf(this.Confirm.content.type) === -1
-        ) {
-          await this.Confirm.doFunc(this.Confirm.param);
-          if (!this.Confirm.content.status || Object.values(this.Confirm.content.status).indexOf(false) === -1) {
-            this.Confirm.value = false;
-          }
-          this.confirmData = '';
-          if (this.$refs.form) {
-            this.$refs.form.resetValidation();
-          }
-        }
-      },
-    },
+  const i18n = useGlobalI18n();
+  const store = useStore();
+
+  const state = reactive({
+    valid: false,
+  });
+
+  const dataRule = [required, (v) => !!(v === store.state.Confirm.content.name) || i18n.t('ruler.not_match')];
+  const batchDataRule: ComputedRef<any[]> = computed(() => {
+    if (store.state.Confirm.content.one) {
+      return [required, (v) => !!(v === store.state.Confirm.content.one) || i18n.t('ruler.not_match')];
+    } else {
+      return [
+        required,
+        (v) =>
+          !!(v === i18n.t('tip.batch_rule_c', [store.state.Confirm.content.tip || i18n.t('tip.batch_delete')])) ||
+          i18n.t('ruler.not_match'),
+      ];
+    }
+  });
+
+  const data = ref<string>('');
+  const form = ref(null);
+  const close = async (): Promise<void> => {
+    await store.state.Confirm.doClose(store.state.Confirm.param);
+    store.state.Confirm.value = false;
+    data.value = '';
+    if (form.value) {
+      form.value.resetValidation();
+    }
+  };
+
+  const confirm = async (): Promise<void> => {
+    if (
+      (['delete', 'batch_delete'].indexOf(store.state.Confirm.content.type) > -1 && form.value.validate(true)) ||
+      ['delete', 'batch_delete'].indexOf(store.state.Confirm.content.type) === -1
+    ) {
+      await store.state.Confirm.doFunc(store.state.Confirm.param);
+      if (
+        !store.state.Confirm.content.status ||
+        Object.values(store.state.Confirm.content.status).indexOf(false) === -1
+      ) {
+        store.state.Confirm.value = false;
+      }
+      data.value = '';
+      if (form.value) {
+        form.value.resetValidation();
+      }
+    }
+  };
+
+  const copyMessage = async (): Promise<void> => {
+    let text = (document.getElementById('copyed') as HTMLInputElement).value;
+    await navigator.clipboard.writeText(text);
+    store.commit('SET_SNACKBAR', {
+      text: i18n.t('tip.copyed'),
+      color: 'success',
+    });
   };
 </script>
 

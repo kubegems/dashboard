@@ -575,7 +575,7 @@ const store: Store<{ [key: string]: any }> = new Store({
       if (!payload.clusterName) return;
       const data: { [key: string]: any } = await getRESTMapping(payload.clusterName);
       const resource: { [key: string]: string } = {};
-      data.forEach((d) => {
+      data?.forEach((d) => {
         if (!d?.groupVersion.startsWith('apps.kruise.io') && d?.groupVersion.indexOf('knative') === -1) {
           d?.resources?.forEach((r) => {
             if (!resource[r.kind.toLocaleLowerCase()]) resource[r.kind.toLocaleLowerCase()] = d.groupVersion;
