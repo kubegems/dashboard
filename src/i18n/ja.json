@@ -532,7 +532,8 @@
     "label_file_processing_complete": "アップロード完了",
     "label_file_processing": "アップロード中",
     "label_file_processing_error": "アップロードに失敗しました",
-    "file_upload": "<span class=\"filepond--label-action\">クリックしてファイルをアップロードしてください</span>"
+    "file_upload": "<span class=\"filepond--label-action\">クリックしてファイルをアップロードしてください</span>",
+    "copyed": "クリップボードにコピーしました"
   },
   "tab": {
     "overview": "概要",

@@ -159,7 +159,7 @@
     };
 
     // 回显
-    websocket.onmessage = webSocketMessage;
+    if (websocket) websocket.onmessage = webSocketMessage;
 
     if (bidirectional) {
       term.onData(terminalData);
@@ -379,7 +379,9 @@
           rows: this.rows,
           cols: this.cols,
         });
-        this.websock.send(msg);
+        if (this.websock.readyState === 1) {
+          this.websock.send(msg);
+        }
       },
       onWindowResize() {
         this.term?.fit();

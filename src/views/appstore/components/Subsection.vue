@@ -76,7 +76,9 @@
     },
     computed: {
       pathLevel() {
-        return this.param.path.split('/').length;
+        if (this.param?.path?.indexOf('/') > -1) return this.param.path.split('/').length;
+        if (this.param?.path?.indexOf('.') > -1) return this.param.path.split('.').length;
+        return 1;
       },
     },
   };

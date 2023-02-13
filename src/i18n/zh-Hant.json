@@ -532,7 +532,8 @@
     "label_file_processing_complete": "上傳完成",
     "label_file_processing": "上傳中",
     "label_file_processing_error": "上傳失敗",
-    "file_upload": "<span class=\"filepond--label-action\">請點擊上傳文件</span>"
+    "file_upload": "<span class=\"filepond--label-action\">請點擊上傳文件</span>",
+    "copyed": "已複製到粘貼板"
   },
   "tab": {
     "overview": "概覽",

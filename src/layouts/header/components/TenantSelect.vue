@@ -31,20 +31,26 @@
         </v-list-item>
       </v-flex>
 
-      <v-text-field v-model="search" class="mx-2 mt-2 pt-0" hide-details prepend-inner-icon="mdi-magnify" />
+      <v-text-field
+        v-model="search"
+        class="mx-2 mt-2 pt-0"
+        hide-details
+        prepend-inner-icon="mdi-magnify"
+        @keyup="customFilter"
+      />
 
       <v-sheet>
         <v-data-table
           class="px-2 tenant__table"
+          disable-sort
           :headers="headers"
           hide-default-footer
           item-key="ID"
-          :items="tenantItems"
+          :items="tenantItemsCpoy"
           :items-per-page="1000"
           :no-data-text="i18n.t('data.no_data')"
           :no-results-text="i18n.t('data.no_data')"
           :page="1"
-          :search.sync="search"
         >
           <template #item.tenantName="{ item }">
             {{ item.diaplayName }}
@@ -79,6 +85,7 @@
   import { useStore } from '@/store';
   import { Tenant } from '@/types/tenant';
   import { User } from '@/types/user';
+  import { deepCopy } from '@/utils/helpers';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();
@@ -108,6 +115,7 @@
   };
 
   const tenantItems = ref<Tenant[]>([]);
+  const tenantItemsCpoy = ref<Tenant[]>([]);
   const getTenantList = async (): Promise<void> => {
     const params = {
       page: 1,
@@ -128,9 +136,16 @@
           : `${item.TenantName} (${i18n.t('tip.not_allocate_resource')})`;
       item.disabled = !item.ResourceQuotas || item.ResourceQuotas?.length === 0;
     });
+    tenantItemsCpoy.value = deepCopy(tenantItems.value);
   };
 
   const search = ref<string>('');
+  const customFilter = (): void => {
+    tenantItemsCpoy.value = tenantItems.value.filter((t) => {
+      return t.diaplayName.indexOf(search.value.toLocaleLowerCase()) > -1;
+    });
+  };
+
   type reloadHandler = () => void;
   const reload: reloadHandler = inject('reload');
   const enterTenant = async (item: Tenant): Promise<void> => {
