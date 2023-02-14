@@ -177,6 +177,15 @@
                 : this.kind.toLocaleLowerCase();
             const modules = import.meta.globEager(`@/utils/schema/*.ts`);
             const schema = modules[`/src/utils/schema/${kind}.ts`]?.default;
+            if (!schema) {
+              this.yaml = true;
+              this.switchKey = randomString(6);
+              this.$store.commit('SET_SNACKBAR', {
+                text: this.$t('tip.cannot_support'),
+                color: 'warning',
+              });
+              return;
+            }
             if (!this.m_resource_validateJsonSchema(schema, data)) {
               this.yaml = true;
               this.switchKey = randomString(6);
