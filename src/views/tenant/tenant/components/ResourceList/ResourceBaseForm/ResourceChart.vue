@@ -22,7 +22,7 @@
           class="my-3"
           :extend-height="180"
           :metrics="cpuSeries"
-          :title="$root.$t('resource.cpu')"
+          :title="i18n.t('resource.cpu')"
           :total="quota ? quota.Cpu : 0"
           unit="core"
           :val="quota ? quota.UsedCpu : 0"
@@ -33,7 +33,7 @@
           class="my-3"
           :extend-height="180"
           :metrics="memorySeries"
-          :title="$root.$t('resource.memory')"
+          :title="i18n.t('resource.memory')"
           :total="quota ? quota.Memory : 0"
           unit="Gi"
           :val="quota ? quota.UsedMemory : 0"
@@ -44,7 +44,7 @@
           class="my-3"
           :extend-height="180"
           :metrics="storageSeries"
-          :title="$root.$t('resource.storage')"
+          :title="i18n.t('resource.storage')"
           :total="quota ? quota.Storage : 0"
           unit="Gi"
           :val="quota ? quota.UsedStorage : 0"
@@ -54,25 +54,25 @@
 
     <v-expand-transition>
       <v-row>
-        <v-col v-if="nvidia && showMore" class="py-0" cols="4">
+        <v-col v-if="nvidia && state.showMore" class="py-0" cols="4">
           <BaseRadialBarChart
             class="my-3"
             :extend-height="180"
             :metrics="nvidiaSeries"
-            :title="`Nvidia ${$root.$t('resource.gpu')}`"
+            :title="`Nvidia ${i18n.t('resource.gpu')}`"
             :total="quota ? quota.NvidiaGpu : 0"
             unit="gpu"
             :val="quota ? quota.UsedNvidiaGpu : 0"
           />
         </v-col>
 
-        <template v-if="tke && showMore">
+        <template v-if="tke && state.showMore">
           <v-col class="py-0" cols="4">
             <BaseRadialBarChart
               class="my-3"
               :extend-height="180"
               :metrics="tkeSeries"
-              :title="`Tke ${$root.$t('resource.gpu')}`"
+              :title="`Tke ${i18n.t('resource.gpu')}`"
               :total="quota ? quota.TkeGpu : 0"
               unit=""
               :val="quota ? quota.UsedTkeGpu : 0"
@@ -83,7 +83,7 @@
               class="my-3"
               :extend-height="180"
               :metrics="tkeMemorySeries"
-              :title="`Tke ${$root.$t('resource.video_memory')}`"
+              :title="`Tke ${i18n.t('resource.video_memory')}`"
               :total="quota ? quota.TkeMemory : 0"
               unit=""
               :val="quota ? quota.UsedTkeMemory : 0"
@@ -94,108 +94,107 @@
     </v-expand-transition>
 
     <div v-if="tke || nvidia" class="text-center mt-3">
-      <v-btn color="primary" small text @click="showMore = !showMore">
-        {{ showMore ? `${$root.$t('tip.hide')} GPU` : `${$root.$t('tip.show')} GPU` }}
+      <v-btn color="primary" small text @click="state.showMore = !state.showMore">
+        {{ state.showMore ? `${i18n.t('tip.hide')} GPU` : `${i18n.t('tip.show')} GPU` }}
       </v-btn>
     </div>
   </div>
 </template>
-<script>
-  import messages from '../../../i18n';
 
-  export default {
-    name: 'ResourceChart',
-    i18n: {
-      messages: messages,
-    },
-    props: {
-      nvidia: {
-        type: Boolean,
-        default: () => false,
-      },
-      quota: {
-        type: Object,
-        default: () => null,
-      },
-      tke: {
-        type: Boolean,
-        default: () => false,
-      },
-    },
-    data() {
-      return {
-        showMore: false,
-      };
-    },
-    computed: {
-      cpuSeries() {
-        return this.quota
-          ? this.quota.UsedCpu === 0
-            ? [[0, 100]]
-            : [[(this.quota.UsedCpu / this.quota.Cpu) * 100, 100 - (this.quota.UsedCpu / this.quota.Cpu) * 100]]
-          : [[0, 100]];
-      },
+<script lang="ts" setup>
+  import { ComputedRef, computed, reactive } from 'vue';
 
-      memorySeries() {
-        return this.quota
-          ? this.quota.UsedMemory === 0
-            ? [[0, 100]]
-            : [
-                [
-                  (this.quota.UsedMemory / this.quota.Memory) * 100,
-                  100 - (this.quota.UsedMemory / this.quota.Memory) * 100,
-                ],
-              ]
-          : [[0, 100]];
-      },
-      storageSeries() {
-        return this.quota
-          ? this.quota.UsedStorage === 0
-            ? [[0, 100]]
-            : [
-                [
-                  (this.quota.UsedStorage / this.quota.Storage) * 100,
-                  100 - (this.quota.UsedStorage / this.quota.Storage) * 100,
-                ],
-              ]
-          : [[0, 100]];
-      },
-      nvidiaSeries() {
-        return this.quota
-          ? this.quota.UsedNvidiaGpu === 0
-            ? [[0, 100]]
-            : [
-                [
-                  (this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100,
-                  100 - (this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100,
-                ],
-              ]
-          : [[0, 100]];
-      },
-      tkeSeries() {
-        return this.quota
-          ? this.quota.UsedTkeGpu === 0
-            ? [[0, 100]]
-            : [
-                [
-                  (this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100,
-                  100 - (this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100,
-                ],
-              ]
-          : [[0, 100]];
-      },
-      tkeMemorySeries() {
-        return this.quota
-          ? this.quota.UsedTkeMemory === 0
-            ? [[0, 100]]
-            : [
-                [
-                  (this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100,
-                  100 - (this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100,
-                ],
-              ]
-          : [[0, 100]];
-      },
+  import { useGlobalI18n } from '@/i18n';
+
+  const i18n = useGlobalI18n();
+
+  const props = withDefaults(
+    defineProps<{
+      nvidia?: boolean;
+      tke?: boolean;
+      quota?: any;
+    }>(),
+    {
+      nvidia: false,
+      tke: false,
+      quota: undefined,
     },
-  };
+  );
+
+  const state = reactive({
+    showMore: false,
+  });
+
+  const cpuSeries: ComputedRef<any> = computed(() => {
+    return props.quota
+      ? props.quota.UsedCpu === 0
+        ? [[0, 100]]
+        : [[(props.quota.UsedCpu / props.quota.Cpu) * 100, 100 - (props.quota.UsedCpu / props.quota.Cpu) * 100]]
+      : [[0, 100]];
+  });
+
+  const memorySeries: ComputedRef<any> = computed(() => {
+    return props.quota
+      ? props.quota.UsedMemory === 0
+        ? [[0, 100]]
+        : [
+            [
+              (props.quota.UsedMemory / props.quota.Memory) * 100,
+              100 - (props.quota.UsedMemory / props.quota.Memory) * 100,
+            ],
+          ]
+      : [[0, 100]];
+  });
+
+  const storageSeries: ComputedRef<any> = computed(() => {
+    return props.quota
+      ? props.quota.UsedStorage === 0
+        ? [[0, 100]]
+        : [
+            [
+              (props.quota.UsedStorage / props.quota.Storage) * 100,
+              100 - (props.quota.UsedStorage / props.quota.Storage) * 100,
+            ],
+          ]
+      : [[0, 100]];
+  });
+
+  const nvidiaSeries: ComputedRef<any> = computed(() => {
+    return props.quota
+      ? props.quota.UsedNvidiaGpu === 0
+        ? [[0, 100]]
+        : [
+            [
+              (props.quota.UsedNvidiaGpu / props.quota.NvidiaGpu) * 100,
+              100 - (props.quota.UsedNvidiaGpu / props.quota.NvidiaGpu) * 100,
+            ],
+          ]
+      : [[0, 100]];
+  });
+
+  const tkeSeries: ComputedRef<any> = computed(() => {
+    return props.quota
+      ? props.quota.UsedTkeGpu === 0
+        ? [[0, 100]]
+        : [
+            [
+              (props.quota.UsedTkeGpu / props.quota.TkeGpu) * 100,
+              100 - (props.quota.UsedTkeGpu / props.quota.TkeGpu) * 100,
+            ],
+          ]
+      : [[0, 100]];
+  });
+
+  const tkeMemorySeries: ComputedRef<any> = computed(() => {
+    return props.quota
+      ? props.quota.UsedTkeMemory === 0
+        ? [[0, 100]]
+        : [
+            [
+              (props.quota.UsedTkeMemory / props.quota.TkeMemory) * 100,
+              100 - (props.quota.UsedTkeMemory / props.quota.TkeMemory) * 100,
+            ],
+          ]
+      : [[0, 100]];
+  });
 </script>

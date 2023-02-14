@@ -186,3 +186,7 @@
 .v-treeview-node__root {
   margin-top: 0 !important;
 }
+
+.v-data-table__selected .v-data-table__checkbox .v-input--selection-controls__input i {
+  color: #1e88e5 !important;
+}
