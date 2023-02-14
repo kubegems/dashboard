@@ -17,6 +17,7 @@ import { Environment } from '@/types/environment';
 import { Project } from '@/types/project';
 import { Tenant } from '@/types/tenant';
 import { User } from '@/types/user';
+import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
 export const useTenantList = async (tenant: Tenant): Promise<Tenant[]> => {
   const _data: KubePaginationResponse<Tenant[]> = await tenant.getTenantList({
@@ -70,4 +71,53 @@ export const useTenantUserPagination = async (tenant: Tenant, page = 1, size = 1
     size: _data.CurrentSize,
     total: _data.Total,
   } as Pagination<User>;
+};
+
+export const useTenantPagination = async (
+  tenant: Tenant,
+  page = 1,
+  size = 10,
+  search = '',
+  request: KubeRequest = {},
+): Promise<Pagination<Tenant>> => {
+  const _data: KubePaginationResponse<Tenant[]> = await tenant.getTenantList({
+    page: page,
+    size: size,
+    search: search,
+    ...request,
+  });
+
+  _data.List.forEach((t: Tenant) => {
+    t.Cpu = 0;
+    t.Memory = 0;
+    t.Storage = 0;
+    t.ResourceQuotas.forEach((r) => {
+      if (!r.Content['limits.storage']) {
+        r.Content['limits.storage'] = r.Content['requests.storage'];
+      }
+
+      t.Cpu += sizeOfCpu(r.Content['limits.cpu']);
+      t.Memory += sizeOfStorage(r.Content['limits.memory']);
+      t.Storage += sizeOfStorage(r.Content['limits.storage']);
+    });
+
+    if (t.AllocatedResourcequota && !t.AllocatedResourcequota['limits.storage']) {
+      t.AllocatedResourcequota['limits.storage'] = t.AllocatedResourcequota['requests.storage'];
+    }
+
+    t.AllocatedCpu = t.AllocatedResourcequota ? sizeOfCpu(t.AllocatedResourcequota['requests.cpu']) : 0;
+    t.AllocatedMemory = t.AllocatedResourcequota ? sizeOfStorage(t.AllocatedResourcequota['requests.memory']) : 0;
+    t.AllocatedStorage = t.AllocatedResourcequota ? sizeOfStorage(t.AllocatedResourcequota['limits.storage']) : 0;
+
+    t.CpuPercentage = t.Cpu > 0 ? ((t.AllocatedCpu / t.Cpu) * 100).toFixed(1) : 0;
+    t.MemoryPercentage = t.Memory > 0 ? ((t.AllocatedMemory / t.Memory) * 100).toFixed(1) : 0;
+    t.StoragePercentage = t.Storage > 0 ? ((t.AllocatedStorage / t.Storage) * 100).toFixed(1) : 0;
+  });
+
+  return {
+    items: _data.List,
+    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
+    page: _data.CurrentPage,
+    size: _data.CurrentSize,
+  } as Pagination<Tenant>;
 };

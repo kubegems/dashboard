@@ -186,11 +186,20 @@
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
           const kind =
-            ['deployment', 'statefulset', 'daemonset'].indexOf(this.kind.toLocaleLowerCase()) > -1
+            ['deployment', 'statefulset', 'daemonset'].indexOf(data.kind.toLocaleLowerCase()) > -1
               ? 'workload'
-              : this.kind.toLocaleLowerCase();
+              : data.kind.toLocaleLowerCase();
           const modules = import.meta.globEager(`@/utils/schema/*.ts`);
           const schema = modules[`/src/utils/schema/${kind}.ts`]?.default;
+          if (!schema) {
+            this.yaml = true;
+            this.switchKey = randomString(6);
+            this.$store.commit('SET_SNACKBAR', {
+              text: this.$t('tip.cannot_support'),
+              color: 'warning',
+            });
+            return;
+          }
           if (!this.m_resource_validateJsonSchema(schema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);

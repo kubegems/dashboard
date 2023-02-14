@@ -19,11 +19,7 @@
     <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-4">
-        <BaseFilter
-          :default="{ items: [], text: $t('filter.tenant'), value: 'search' }"
-          :filters="filters"
-          @refresh="m_filter_list"
-        />
+        <BaseFilter1 :default="{ items: [], text: i18nLocal.t('filter.tenant'), value: 'search' }" :filters="filters" />
         <v-spacer />
         <v-menu left>
           <template #activator="{ on }">
@@ -36,7 +32,7 @@
               <v-flex>
                 <v-btn color="primary" text @click="addTenant">
                   <v-icon left>mdi-account-multiple-plus</v-icon>
-                  {{ $root.$t('operate.create_c', [$root.$t('resource.tenant')]) }}
+                  {{ i18n.t('operate.create_c', [i18n.t('resource.tenant')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -48,30 +44,30 @@
         disable-sort
         :headers="headers"
         hide-default-footer
-        :items="items"
-        :items-per-page="params.size"
-        :no-data-text="$root.$t('data.no_data')"
-        :page.sync="params.page"
+        :items="pagination.items"
+        :items-per-page="pagination.size"
+        :no-data-text="i18n.t('data.no_data')"
+        :page.sync="pagination.page"
       >
-        <template #[`item.tenantName`]="{ item }">
+        <template #item.tenantName="{ item }">
           <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="tenantDetail(item)">
             {{ item.TenantName }}
           </a>
         </template>
-        <template #[`item.isActive`]="{ item }">
+        <template #item.isActive="{ item }">
           <span v-if="item.IsActive">
             <v-icon color="primary" small> mdi-check-circle </v-icon>
-            {{ $t('status.enabled') }}
+            {{ i18nLocal.t('status.enabled') }}
           </span>
           <span v-else>
             <v-icon color="error" small> mdi-minus-circle </v-icon>
-            {{ $t('status.disabled') }}
+            {{ i18nLocal.t('status.disabled') }}
           </span>
         </template>
-        <template #[`item.cpu`]="{ item }"> {{ item.Cpu }} core </template>
-        <template #[`item.memory`]="{ item }"> {{ item.Memory }} Gi </template>
-        <template #[`item.storage`]="{ item }"> {{ item.Storage }} Gi </template>
-        <template #[`item.allocatedCpu`]="{ item }">
+        <template #item.cpu="{ item }"> {{ item.Cpu }} core </template>
+        <template #item.memory="{ item }"> {{ item.Memory }} Gi </template>
+        <template #item.storage="{ item }"> {{ item.Storage }} Gi </template>
+        <template #item.allocatedCpu="{ item }">
           {{ item.AllocatedCpu ? item.AllocatedCpu.toFixed(1) : 0 }} core
           <span class="text-subtitle-2">
             <v-progress-linear
@@ -84,7 +80,7 @@
             </v-progress-linear>
           </span>
         </template>
-        <template #[`item.allocatedMemory`]="{ item }">
+        <template #item.allocatedMemory="{ item }">
           {{ item.AllocatedMemory ? item.AllocatedMemory.toFixed(1) : 0 }} Gi
           <span class="text-subtitle-2">
             <v-progress-linear
@@ -97,7 +93,7 @@
             </v-progress-linear>
           </span>
         </template>
-        <template #[`item.allocatedStorage`]="{ item }">
+        <template #item.allocatedStorage="{ item }">
           {{ item.AllocatedStorage ? item.AllocatedStorage.toFixed(1) : 0 }} Gi
           <span class="text-subtitle-2">
             <v-progress-linear
@@ -110,16 +106,16 @@
             </v-progress-linear>
           </span>
         </template>
-        <template #[`item.createdAt`]="{ item }">
-          {{ item.CreatedAt ? $moment(item.CreatedAt).format('lll') : '' }}
+        <template #item.createdAt="{ item }">
+          {{ item.CreatedAt ? moment(item.CreatedAt).format('lll') : '' }}
         </template>
-        <template #[`item.user`]="{ item }">
+        <template #item.user="{ item }">
           {{ item.Users === null ? 0 : item.Users.length }}
         </template>
-        <template #[`item.cluster`]="{ item }">
+        <template #item.cluster="{ item }">
           {{ item.ResourceQuotas === null ? 0 : item.ResourceQuotas.length }}
         </template>
-        <template #[`item.action`]="{ item }">
+        <template #item.action="{ item }">
           <v-flex :id="`r${item.ID}`" />
           <v-menu :attach="`#r${item.ID}`" left>
             <template #activator="{ on }">
@@ -130,16 +126,20 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateTenant(item)"> {{ $root.$t('operate.edit') }} </v-btn>
+                  <v-btn color="primary" small text @click="updateTenant(item)"> {{ i18n.t('operate.edit') }} </v-btn>
                 </v-flex>
                 <v-flex v-if="item.IsActive">
-                  <v-btn color="error" small text @click="forbidTenant(item)"> {{ $t('operate.disable') }} </v-btn>
+                  <v-btn color="error" small text @click="forbidTenant(item)">
+                    {{ i18nLocal.t('operate.disable') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex v-else>
-                  <v-btn color="primary" small text @click="activeTenant(item)"> {{ $t('operate.enable') }} </v-btn>
+                  <v-btn color="primary" small text @click="activeTenant(item)">
+                    {{ i18nLocal.t('operate.enable') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeTenant(item)"> {{ $root.$t('operate.delete') }} </v-btn>
+                  <v-btn color="error" small text @click="removeTenant(item)"> {{ i18n.t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -147,196 +147,181 @@
         </template>
       </v-data-table>
       <BasePagination
-        v-if="pageCount >= 1"
-        v-model="params.page"
-        :page-count="pageCount"
-        :size="params.size"
-        @changepage="onPageIndexChange"
-        @changesize="onPageSizeChange"
-        @loaddata="tenantList"
+        v-if="pagination.pageCount >= 1"
+        v-model="pagination.page"
+        :page-count="pagination.pageCount"
+        :size="pagination.size"
+        @changepage="pageChange"
+        @changesize="sizeChange"
+        @loaddata="getTenantList"
       />
     </v-card>
 
-    <TenantForm ref="tenant" @refresh="tenantList" />
+    <TenantForm ref="tenant" @refresh="getTenantList" />
   </v-container>
 </template>
 
-<script>
-  import { mapGetters, mapState } from 'vuex';
+<script lang="ts" setup>
+  import moment from 'moment';
+  import { onMounted, reactive, ref, watch } from 'vue';
 
-  import TenantForm from './components/TenantForm';
-  import messages from './i18n';
-  import { deleteTenant, getTenantList, putActiveTenant, putForbideTenant } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
-  import BaseTable from '@/mixins/table';
-  import { convertStrToNum, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
+  import TenantForm from './components/TenantForm.vue';
+  import { useI18n } from './i18n';
+  import { useRoute, useRouter } from '@/composition/router';
+  import { useTenantPagination } from '@/composition/tenant';
+  import { useGlobalI18n } from '@/i18n';
+  import { useQuery } from '@/router';
+  import { useStore } from '@/store';
+  import { Tenant } from '@/types/tenant';
 
-  export default {
-    name: 'Tenant',
-    i18n: {
-      messages: messages,
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const router = useRouter();
+  const route = useRoute();
+  const store = useStore();
+
+  const headers = [
+    { text: i18nLocal.t('table.name'), value: 'tenantName', align: 'start' },
+    { text: i18nLocal.t('table.status'), value: 'isActive', align: 'start' },
+    { text: i18nLocal.t('table.user_count'), value: 'user', align: 'start' },
+    { text: i18nLocal.t('table.cluster_count'), value: 'cluster', align: 'start' },
+    { text: i18nLocal.t('table.all', [i18n.t('resource.cpu')]), value: 'cpu', align: 'start' },
+    { text: i18nLocal.t('table.all', [i18n.t('resource.memory')]), value: 'memory', align: 'start' },
+    { text: i18nLocal.t('table.all', [i18n.t('resource.storage')]), value: 'storage', align: 'start' },
+    { text: i18nLocal.t('table.allocated', [i18n.t('resource.cpu')]), value: 'allocatedCpu', align: 'start' },
+    {
+      text: i18nLocal.t('table.allocated', [i18n.t('resource.memory')]),
+      value: 'allocatedMemory',
+      align: 'start',
     },
-    components: {
-      TenantForm,
+    {
+      text: i18nLocal.t('table.allocated', [i18n.t('resource.storage')]),
+      value: 'allocatedStorage',
+      align: 'start',
     },
-    mixins: [BaseFilter, BaseResource, BaseSelect, BaseTable],
-    data() {
-      return {
-        items: [],
+    { text: i18nLocal.t('table.create_at'), value: 'createdAt', align: 'start' },
+    { text: '', value: 'action', align: 'center', width: 20 },
+  ];
 
-        pageCount: 0,
-        params: {
-          page: 1,
-          size: 10,
-          containAllocatedResourcequota: true,
-        },
-      };
+  let pagination: Pagination<Tenant> = reactive<Pagination<Tenant>>({
+    page: 1,
+    size: 10,
+    pageCount: 0,
+    items: [],
+    search: '',
+    request: { containAllocatedResourcequota: true, preload: 'ResourceQuotas,Users' },
+  });
+
+  const getTenantList = async (params: KubePaginationRequest = pagination): Promise<void> => {
+    const data: Pagination<Tenant> = await useTenantPagination(
+      new Tenant(),
+      params.page,
+      params.size,
+      params.search,
+      params.request,
+    );
+    pagination = Object.assign(pagination, data);
+  };
+
+  onMounted(() => {
+    getTenantList();
+  });
+
+  const filters = [{ text: i18nLocal.t('filter.tenant'), value: 'search', items: [] }];
+  const query = useQuery();
+  watch(
+    () => query,
+    async (newValue) => {
+      if (!newValue) return;
+      if (newValue.value.search) {
+        pagination.search = newValue.value.search;
+      } else {
+        pagination.search = '';
+      }
+      getTenantList();
     },
-    computed: {
-      ...mapState(['JWT']),
-      ...mapGetters(['Tenant']),
-      headers() {
-        return [
-          { text: this.$t('table.name'), value: 'tenantName', align: 'start' },
-          { text: this.$t('table.status'), value: 'isActive', align: 'start' },
-          { text: this.$t('table.user_count'), value: 'user', align: 'start' },
-          { text: this.$t('table.cluster_count'), value: 'cluster', align: 'start' },
-          { text: this.$t('table.all', [this.$root.$t('resource.cpu')]), value: 'cpu', align: 'start' },
-          { text: this.$t('table.all', [this.$root.$t('resource.memory')]), value: 'memory', align: 'start' },
-          { text: this.$t('table.all', [this.$root.$t('resource.storage')]), value: 'storage', align: 'start' },
-          { text: this.$t('table.allocated', [this.$root.$t('resource.cpu')]), value: 'allocatedCpu', align: 'start' },
-          {
-            text: this.$t('table.allocated', [this.$root.$t('resource.memory')]),
-            value: 'allocatedMemory',
-            align: 'start',
-          },
-          {
-            text: this.$t('table.allocated', [this.$root.$t('resource.storage')]),
-            value: 'allocatedStorage',
-            align: 'start',
-          },
-          { text: this.$t('table.create_at'), value: 'createdAt', align: 'start' },
-          { text: '', value: 'action', align: 'center', width: 20 },
-        ];
-      },
-      filters() {
-        return [{ text: this.$t('filter.tenant'), value: 'search', items: [] }];
-      },
+    {
+      immediate: true,
+      deep: true,
     },
-    mounted() {
-      Object.assign(this.params, convertStrToNum(this.$route.query));
-      this.tenantList();
-    },
-    methods: {
-      async tenantList() {
-        const data = await getTenantList(this.params);
-        data.List.forEach((t) => {
-          t.Cpu = 0;
-          t.Memory = 0;
-          t.Storage = 0;
-          t.ResourceQuotas.forEach((r) => {
-            if (!r.Content['limits.storage']) {
-              r.Content['limits.storage'] = r.Content['requests.storage'];
-            }
+  );
 
-            t.Cpu += sizeOfCpu(r.Content['limits.cpu']);
-            t.Memory += sizeOfStorage(r.Content['limits.memory']);
-            t.Storage += sizeOfStorage(r.Content['limits.storage']);
-          });
+  const pageChange = (page: number): void => {
+    pagination.page = page;
+  };
 
-          if (t.AllocatedResourcequota && !t.AllocatedResourcequota['limits.storage']) {
-            t.AllocatedResourcequota['limits.storage'] = t.AllocatedResourcequota['requests.storage'];
-          }
+  const sizeChange = (size: number): void => {
+    pagination.page = 1;
+    pagination.size = size;
+  };
 
-          t.AllocatedCpu = t.AllocatedResourcequota ? sizeOfCpu(t.AllocatedResourcequota['requests.cpu']) : 0;
-          t.AllocatedMemory = t.AllocatedResourcequota ? sizeOfStorage(t.AllocatedResourcequota['requests.memory']) : 0;
-          t.AllocatedStorage = t.AllocatedResourcequota ? sizeOfStorage(t.AllocatedResourcequota['limits.storage']) : 0;
+  const tenant = ref(null);
+  const addTenant = (): void => {
+    tenant.value.open();
+  };
 
-          t.CpuPercentage = t.Cpu > 0 ? ((t.AllocatedCpu / t.Cpu) * 100).toFixed(1) : 0;
-          t.MemoryPercentage = t.Memory > 0 ? ((t.AllocatedMemory / t.Memory) * 100).toFixed(1) : 0;
-          t.StoragePercentage = t.Storage > 0 ? ((t.AllocatedStorage / t.Storage) * 100).toFixed(1) : 0;
-        });
-        this.items = data.List.map((item) => {
-          return {
-            name: item.TenantName,
-            ...item,
-          };
-        });
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
-        this.$router.replace({ query: { ...this.$route.query, ...this.params } });
+  const updateTenant = (item: Tenant): void => {
+    tenant.value.init(item);
+    tenant.value.open();
+  };
+
+  const tenantDetail = (item: Tenant): void => {
+    router.push({
+      name: 'tenant-detail',
+      params: Object.assign(route.params, { name: item.TenantName }),
+      query: { id: item.ID.toString() },
+    });
+  };
+
+  const forbidTenant = (item: Tenant): void => {
+    store.commit('SET_CONFIRM', {
+      title: i18nLocal.t('operate.disable_c', [i18n.t('resource.tenant')]),
+      content: {
+        text: `${i18nLocal.t('operate.disable_c', [i18n.t('resource.tenant')])} ${item.TenantName}`,
+        type: 'confirm',
       },
-      addTenant() {
-        this.$refs.tenant.open();
+      param: { item },
+      doFunc: async (param) => {
+        await new Tenant(param.item).disableTenant();
+        getTenantList();
       },
-      updateTenant(item) {
-        this.$refs.tenant.init(item);
-        this.$refs.tenant.open();
+    });
+  };
+
+  const activeTenant = (item: Tenant): void => {
+    store.commit('SET_CONFIRM', {
+      title: i18nLocal.t('operate.enable_c', [i18n.t('resource.tenant')]),
+      content: {
+        text: `${i18nLocal.t('operate.enable_c', [i18n.t('resource.tenant')])} ${item.TenantName}`,
+        type: 'confirm',
       },
-      tenantDetail(item) {
-        this.$router.push({
-          name: 'tenant-detail',
-          params: Object.assign(this.$route.params, { name: item.TenantName }),
-          query: { id: item.ID },
-        });
+      param: { item },
+      doFunc: async (param) => {
+        await new Tenant(param.item).activeTenant();
+        getTenantList();
       },
-      forbidTenant(item) {
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$t('operate.disable_c', [this.$root.$t('resource.tenant')]),
-          content: {
-            text: `${this.$t('operate.disable_c', [this.$root.$t('resource.tenant')])} ${item.TenantName}`,
-            type: 'confirm',
-          },
-          param: { item },
-          doFunc: async (param) => {
-            await putForbideTenant(param.item.ID);
-            this.tenantList();
-          },
-        });
+    });
+  };
+
+  const removeTenant = (item: Tenant): void => {
+    store.commit('SET_CONFIRM', {
+      title: i18n.t('operate.delete_c', [i18n.t('resource.tenant')]),
+      content: {
+        text: `${i18n.t('operate.delete_c', [i18n.t('resource.tenant')])} ${item.TenantName}`,
+        type: 'delete',
+        name: item.TenantName,
       },
-      activeTenant(item) {
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$t('operate.enable_c', [this.$root.$t('resource.tenant')]),
-          content: {
-            text: `${this.$t('operate.enable_c', [this.$root.$t('resource.tenant')])} ${item.TenantName}`,
-            type: 'confirm',
-          },
-          param: { item },
-          doFunc: async (param) => {
-            await putActiveTenant(param.item.ID);
-            this.tenantList();
-          },
-        });
+      param: { item },
+      doFunc: async (param) => {
+        await new Tenant(param.item).deleteTenant();
+        store.commit('CLEAR_TENANT');
+        store.dispatch('UPDATE_TENANT_DATA');
+        getTenantList();
       },
-      removeTenant(item) {
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.tenant')]),
-          content: {
-            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.tenant')])} ${item.TenantName}`,
-            type: 'delete',
-            name: item.TenantName,
-          },
-          param: { item },
-          doFunc: async (param) => {
-            await deleteTenant(param.item.ID);
-            this.$store.commit('CLEAR_TENANT');
-            this.$store.dispatch('UPDATE_TENANT_DATA');
-            this.tenantList();
-          },
-        });
-      },
-      onPageSizeChange(size) {
-        this.params.page = 1;
-        this.params.size = size;
-      },
-      onPageIndexChange(page) {
-        this.params.page = page;
-      },
-      getColor(percentage) {
-        return percentage ? (percentage < 60 ? 'primary' : percentage < 80 ? 'warning' : 'red darken-1') : 'primary';
-      },
-    },
+    });
+  };
+
+  const getColor = (percentage: number): string => {
+    return percentage ? (percentage < 60 ? 'primary' : percentage < 80 ? 'warning' : 'red darken-1') : 'primary';
   };
 </script>

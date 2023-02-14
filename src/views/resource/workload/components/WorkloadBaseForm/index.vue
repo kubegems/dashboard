@@ -16,7 +16,7 @@
 
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <component :is="steps[step]" :ref="steps[step]" :edit="edit" :item="item" :kind="kind" />
+    <component :is="steps[step]" :ref="steps[step]" :edit="edit" :item="item" :kind="kind" :manifest="manifest" />
   </v-form>
 </template>
 
@@ -48,6 +48,10 @@
       kind: {
         type: String,
         default: () => '',
+      },
+      manifest: {
+        type: Boolean,
+        default: () => false,
       },
       step: {
         type: Number,

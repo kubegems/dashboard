@@ -373,6 +373,7 @@ const resource = {
     },
     m_resource_validateJsonSchema(schema: { [key: string]: any }, data: { [key: string]: any }): boolean {
       if (!data) return false;
+      if (!schema) return true;
       const ajv = new Ajv();
       const validate = ajv.compile(schema);
       const valid = validate(data);
