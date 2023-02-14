@@ -19,10 +19,9 @@
     <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-4">
-        <BaseFilter
-          :default="{ items: [], text: $t('filter.username_or_email'), value: 'search' }"
+        <BaseFilter1
+          :default="{ items: [], text: i18nLocal.t('filter.username_or_email'), value: 'search' }"
           :filters="filters"
-          @refresh="m_filter_list"
         />
         <v-spacer />
         <v-menu left>
@@ -36,17 +35,13 @@
               <v-flex>
                 <v-btn color="primary" text @click="addUser">
                   <v-icon left>mdi-plus-box</v-icon>
-                  {{ $root.$t('operate.create_c', [$root.$t('resource.account')]) }}
+                  {{ i18n.t('operate.create_c', [i18n.t('resource.account')]) }}
                 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn
-                  color="error"
-                  text
-                  @click="m_table_batchRemoveNotK8SResource($root.$t('resource.account'), 'User', userList)"
-                >
+                <v-btn color="error" text @click="batchDeleteUser">
                   <v-icon left>mdi-minus-box</v-icon>
-                  {{ $root.$t('operate.delete_c', [$root.$t('resource.account')]) }}
+                  {{ i18n.t('operate.delete_c', [i18n.t('resource.account')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -58,23 +53,16 @@
         disable-sort
         :headers="headers"
         hide-default-footer
-        :items="items"
-        :items-per-page="params.size"
-        :no-data-text="$root.$t('data.no_data')"
-        :page.sync="params.page"
+        item-key="ID"
+        :items="pagination.items"
+        :items-per-page="pagination.size"
+        :no-data-text="i18n.t('data.no_data')"
+        :page.sync="pagination.page"
         show-select
-        @toggle-select-all="m_table_onNotK8SResourceToggleSelect($event, 'ID')"
+        @item-selected="selected"
+        @toggle-select-all="toggleSelectAll"
       >
-        <template #[`item.data-table-select`]="{ item }">
-          <v-checkbox
-            v-model="m_table_batchResources[item.ID].checked"
-            color="primary"
-            hide-details
-            @change="m_table_onNotK8SResourceChange($event, item, 'ID')"
-            @click.stop
-          />
-        </template>
-        <template #[`item.username`]="{ item }">
+        <template #item.username="{ item }">
           {{ item.Username }}
           <v-chip class="mr-1" pill small>
             <v-avatar left>
@@ -92,38 +80,38 @@
             </span>
           </v-chip>
         </template>
-        <template #[`item.email`]="{ item }">
+        <template #item.email="{ item }">
           {{ item.Email }}
         </template>
-        <template #[`item.phone`]="{ item }">
+        <template #item.phone="{ item }">
           {{ item.Phone }}
         </template>
-        <template #[`item.isActive`]="{ item }">
+        <template #item.isActive="{ item }">
           <span v-if="item.IsActive">
             <v-icon color="primary" small> mdi-check-circle </v-icon>
-            {{ $t('status.enabled') }}
+            {{ i18nLocal.t('status.enabled') }}
           </span>
           <span v-else>
             <v-icon color="error" small> mid-minus-circle </v-icon>
-            {{ $t('status.disabled') }}
+            {{ i18nLocal.t('status.disabled') }}
           </span>
         </template>
-        <template #[`item.role`]="{ item }">
+        <template #item.role="{ item }">
           {{
             item.SystemRole === null
-              ? $root.$t('role.system.normal')
+              ? i18n.t('role.system.normal')
               : item.SystemRole.RoleCode === 'sysadmin'
-              ? $root.$t('role.system.administrator')
-              : $root.$t('role.system.normal')
+              ? i18n.t('role.system.administrator')
+              : i18n.t('role.system.normal')
           }}
         </template>
-        <template #[`item.lastLoginAt`]="{ item }">
-          {{ item.LastLoginAt === null ? '--' : $moment(item.LastLoginAt).format('lll') }}
+        <template #item.lastLoginAt="{ item }">
+          {{ item.LastLoginAt === null ? '--' : moment(item.LastLoginAt).format('lll') }}
         </template>
-        <template #[`item.createdAt`]="{ item }">
-          {{ item.CreatedAt === null ? '--' : $moment(item.CreatedAt).format('lll') }}
+        <template #item.createdAt="{ item }">
+          {{ item.CreatedAt === null ? '--' : moment(item.CreatedAt).format('lll') }}
         </template>
-        <template #[`item.action`]="{ item }">
+        <template #item.action="{ item }">
           <v-flex :id="`r${item.ID}`" />
           <v-menu :attach="`#r${item.ID}`" left>
             <template #activator="{ on }">
@@ -134,13 +122,17 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateRole(item)"> {{ $t('operate.role') }} </v-btn>
+                  <v-btn color="primary" small text @click="updateRole(item)">
+                    {{ i18nLocal.t('operate.role') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="warning" small text @click="resetPassword(item)"> {{ $t('operate.reset_pwd') }} </v-btn>
+                  <v-btn color="warning" small text @click="resetPassword(item)">
+                    {{ i18nLocal.t('operate.reset_pwd') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeUser(item)"> {{ $root.$t('operate.delete') }} </v-btn>
+                  <v-btn color="error" small text @click="removeUser(item)"> {{ i18n.t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -148,128 +140,187 @@
         </template>
       </v-data-table>
       <BasePagination
-        v-if="pageCount >= 1"
-        v-model="params.page"
-        :page-count="pageCount"
-        :size="params.size"
-        @changepage="onPageIndexChange"
-        @changesize="onPageSizeChange"
-        @loaddata="userList"
+        v-if="pagination.pageCount >= 1"
+        v-model="pagination.page"
+        :page-count="pagination.pageCount"
+        :size="pagination.size"
+        @changepage="pageChange"
+        @changesize="sizeChange"
+        @loaddata="getUserList"
       />
     </v-card>
 
-    <UpdateRole ref="updateRole" @refresh="userList" />
-    <AddUser ref="addUser" @refresh="userList" />
-    <ResetPassword ref="resetPassword" @refresh="userList" />
+    <UpdateRole ref="role" @refresh="getUserList" />
+    <AddUser ref="user" @refresh="getUserList" />
+    <ResetPassword ref="password" @refresh="getUserList" />
   </v-container>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import moment from 'moment';
+  import { onMounted, reactive, ref, watch } from 'vue';
 
-  import AddUser from './components/AddUser';
-  import ResetPassword from './components/ResetPassword';
-  import UpdateRole from './components/UpdateRole';
-  import messages from './i18n';
-  import { deleteUser, getUserList } from '@/api';
+  import AddUser from './components/AddUser.vue';
+  import ResetPassword from './components/ResetPassword.vue';
+  import UpdateRole from './components/UpdateRole.vue';
+  import { useI18n } from './i18n';
+  import { useUserPagination } from '@/composition/user';
   import { VENDOR } from '@/constants/platform';
-  import BaseFilter from '@/mixins/base_filter';
-  import BaseResource from '@/mixins/resource';
-  import BaseTable from '@/mixins/table';
-  import { convertStrToNum } from '@/utils/helpers';
+  import { useGlobalI18n } from '@/i18n';
+  import { useQuery } from '@/router';
+  import { useStore } from '@/store';
+  import { User } from '@/types/user';
+  import { deepCopy } from '@/utils/helpers';
 
-  export default {
-    name: 'User',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      AddUser,
-      ResetPassword,
-      UpdateRole,
-    },
-    mixins: [BaseFilter, BaseResource, BaseTable],
-    data() {
-      this.VENDOR = VENDOR;
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
 
-      return {
-        items: [],
-        pageCount: 0,
-        params: {
-          page: 1,
-          size: 10,
-        },
-      };
+  const headers = [
+    { text: i18nLocal.t('table.name'), value: 'username', align: 'start' },
+    { text: i18nLocal.t('table.status'), value: 'isActive', align: 'start' },
+    { text: i18nLocal.t('table.email'), value: 'email', align: 'start' },
+    { text: i18nLocal.t('table.mobile'), value: 'phone', align: 'start' },
+    { text: i18nLocal.t('table.role'), value: 'role', align: 'start' },
+    { text: i18nLocal.t('table.last_login_at'), value: 'lastLoginAt', align: 'start' },
+    { text: i18nLocal.t('table.registe_at'), value: 'createdAt', align: 'start' },
+    { text: '', value: 'action', align: 'center', width: 20 },
+  ];
+
+  let pagination: Pagination<User> = reactive<Pagination<User>>({
+    page: 1,
+    size: 10,
+    pageCount: 0,
+    items: [],
+    search: '',
+  });
+
+  const getUserList = async (params: KubePaginationRequest = pagination): Promise<void> => {
+    const data: Pagination<User> = await useUserPagination(new User(), params.page, params.size, params.search);
+    pagination = Object.assign(pagination, data);
+  };
+
+  onMounted(() => {
+    getUserList();
+  });
+
+  const filters = [{ text: i18nLocal.t('filter.username_or_email'), value: 'search', items: [] }];
+
+  const query = useQuery();
+  watch(
+    () => query,
+    async (newValue) => {
+      if (!newValue) return;
+      if (newValue.value.search) {
+        pagination.search = newValue.value.search;
+      } else {
+        pagination.search = '';
+      }
+      getUserList();
     },
-    computed: {
-      ...mapState(['JWT']),
-      headers() {
-        return [
-          { text: this.$t('table.name'), value: 'username', align: 'start' },
-          { text: this.$t('table.status'), value: 'isActive', align: 'start' },
-          { text: this.$t('table.email'), value: 'email', align: 'start' },
-          { text: this.$t('table.mobile'), value: 'phone', align: 'start' },
-          { text: this.$t('table.role'), value: 'role', align: 'start' },
-          { text: this.$t('table.last_login_at'), value: 'lastLoginAt', align: 'start' },
-          { text: this.$t('table.registe_at'), value: 'createdAt', align: 'start' },
-          { text: '', value: 'action', align: 'center', width: 20 },
-        ];
-      },
-      filters() {
-        return [{ text: this.$t('filter.username_or_email'), value: 'search', items: [] }];
-      },
+    {
+      immediate: true,
+      deep: true,
     },
-    mounted() {
-      Object.assign(this.params, convertStrToNum(this.$route.query));
-      this.userList();
-    },
-    methods: {
-      async userList() {
-        const data = await getUserList(this.params);
-        this.items = data.List.map((item) => {
-          return {
-            name: item.Username,
-            ...item,
-          };
-        });
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
-        this.$router.replace({ query: { ...this.$route.query, ...this.params } });
-        this.m_table_generateSelectResourceNoK8s('ID');
+  );
+
+  const pageChange = (page: number): void => {
+    pagination.page = page;
+  };
+
+  const sizeChange = (size: number): void => {
+    pagination.page = 1;
+    pagination.size = size;
+  };
+
+  const user = ref(null);
+  const addUser = (): void => {
+    user.value.open();
+  };
+
+  const role = ref(null);
+  const updateRole = (item: User): void => {
+    role.value.init(item);
+    role.value.open();
+  };
+
+  const password = ref(null);
+  const resetPassword = (item: User): void => {
+    password.value.init(item.ID);
+    password.value.open();
+  };
+
+  const removeUser = async (item: User): Promise<void> => {
+    store.commit('SET_CONFIRM', {
+      title: i18n.t('operate.delete_c', [i18n.t('resource.account')]),
+      content: {
+        text: `${i18n.t('operate.delete_c', [i18n.t('resource.account')])} ${item.Username}`,
+        type: 'delete',
+        name: item.Username,
       },
-      updateRole(item) {
-        this.$refs.updateRole.init(item);
-        this.$refs.updateRole.open();
+      param: { item },
+      doFunc: async (param) => {
+        await new User(param.item).deleteUser();
+        getUserList();
       },
-      removeUser(item) {
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.account')]),
-          content: {
-            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.account')])} ${item.Username}`,
-            type: 'delete',
-            name: item.Username,
-          },
-          param: { item },
-          doFunc: async (param) => {
-            await deleteUser(param.item.ID);
-            this.userList();
-          },
-        });
+    });
+  };
+
+  const selectedUserList = ref<User[]>([]);
+  const toggleSelectAll = (params: { items: User[]; value: boolean }): void => {
+    if (params.value) {
+      selectedUserList.value = deepCopy(params.items);
+    } else {
+      selectedUserList.value = [];
+    }
+  };
+  const selected = (params: { item: User; value: boolean }): void => {
+    const index = selectedUserList.value.findIndex((u) => {
+      return u.ID === params.item.ID;
+    });
+    if (params.value) {
+      if (index === -1) selectedUserList.value.push(params.item);
+    } else {
+      if (index > -1) selectedUserList.value.splice(index, 1);
+    }
+  };
+
+  const batchDeleteUser = (): void => {
+    if (selectedUserList.value.length === 0) {
+      store.commit('SET_SNACKBAR', {
+        text: i18n.t('tip.batch_select_c', [i18n.t('resource.account')]),
+        color: 'warning',
+      });
+      return;
+    }
+    const resources: string[] = selectedUserList.value.map((c: User) => c.Username);
+    store.commit('SET_CONFIRM', {
+      title: i18n.t('operate.batch_delete_c', [i18n.t('resource.account')]),
+      content: {
+        text: resources.join(','),
+        type: 'batch_delete',
+        one: resources.length === 1 ? resources[0] : undefined,
+        status: {},
       },
-      onPageSizeChange(size) {
-        this.params.page = 1;
-        this.params.size = size;
+      param: {},
+      doFunc: async (): Promise<void> => {
+        for (const index in selectedUserList.value) {
+          const user = selectedUserList.value[index];
+          try {
+            await new User(user).deleteUser();
+            store.commit('SET_CONFIRM_STATUS', {
+              key: user.Username,
+              value: true,
+            });
+          } catch {
+            store.commit('SET_CONFIRM_STATUS', {
+              key: user.Username,
+              value: false,
+            });
+          }
+        }
+        getUserList();
       },
-      onPageIndexChange(page) {
-        this.params.page = page;
-      },
-      addUser() {
-        this.$refs.addUser.open();
-      },
-      resetPassword(item) {
-        this.$refs.resetPassword.init(item.ID);
-        this.$refs.resetPassword.open();
-      },
-    },
+    });
   };
 </script>

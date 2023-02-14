@@ -215,7 +215,7 @@
         // 从最新的appValues中获取路径对应的值
         let val = getValue(this.appValues, path);
         if (val === undefined || val === null) {
-          const target = this.getParamMatchingPath(this.allParams, path);
+          const target = this.getParamMatchingPath(this.allParams, path.replaceAll('.', '/'));
           val = target?.value;
         }
         return val === (expectedValue ?? true);
@@ -235,12 +235,15 @@
       },
       // 递归获取匹配路径的参数
       getParamMatchingPath(params, path) {
-        path = path.replaceAll('.', '/');
         for (const p of params) {
           if (p.path === path) {
             return p;
           } else if (p.children && p.children?.length > 0) {
-            return this.getParamMatchingPath(p.children, path);
+            const pp = this.getParamMatchingPath(p.children, path);
+            if (pp) return pp;
+            else continue;
+          } else {
+            continue;
           }
         }
       },
