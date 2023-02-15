@@ -30,3 +30,12 @@ export const useUserPagination = async (user: User, page = 1, size = 10, search 
     size: _data.CurrentSize,
   } as Pagination<User>;
 };
+
+export const useUserList = async (user: User): Promise<User[]> => {
+  const _data: KubePaginationResponse<User[]> = await user.getUserList({
+    page: 1,
+    size: 1000,
+    noprocessing: true,
+  });
+  return _data.List as User[];
+};

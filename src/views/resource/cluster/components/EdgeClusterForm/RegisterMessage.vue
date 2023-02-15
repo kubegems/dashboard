@@ -64,7 +64,7 @@
   });
   const copyMessage = async (): Promise<void> => {
     let text = (document.getElementById('copyed') as HTMLInputElement).value;
-    await navigator.clipboard.writeText(text);
+    await navigator.clipboard?.writeText(text);
     store.commit('SET_SNACKBAR', {
       text: i18nLocal.t('tip.copyed'),
       color: 'success',

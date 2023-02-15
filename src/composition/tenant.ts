@@ -15,7 +15,7 @@
  */
 import { Environment } from '@/types/environment';
 import { Project } from '@/types/project';
-import { Tenant } from '@/types/tenant';
+import { Tenant, TenantResourceQuota } from '@/types/tenant';
 import { User } from '@/types/user';
 import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
@@ -120,4 +120,43 @@ export const useTenantPagination = async (
     page: _data.CurrentPage,
     size: _data.CurrentSize,
   } as Pagination<Tenant>;
+};
+
+export const useTenantResourceQuotaPagination = async (
+  tenant: Tenant,
+  page = 1,
+  size = 10,
+): Promise<Pagination<TenantResourceQuota>> => {
+  const _data: KubePaginationResponse<TenantResourceQuota[]> = await tenant.getResourceQuotaList({
+    page: page,
+    size: size,
+    preload: 'Cluster,Tenant,TenantResourceQuotaApply',
+  });
+
+  _data.List.forEach((item: TenantResourceQuota) => {
+    item.Cpu = item.Content['limits.cpu'] ? sizeOfCpu(item.Content['limits.cpu']) : 0;
+    item.Memory = item.Content['limits.memory'] ? sizeOfStorage(item.Content['limits.memory']) : 0;
+    if (!item.Content['limits.storage']) {
+      item.Content['limits.storage'] = item.Content['requests.storage'] || 0;
+    }
+    item.Storage = item.Content['limits.storage'] ? sizeOfStorage(item.Content['limits.storage']) : 0;
+
+    if (item.Content['limits.nvidia.com/gpu']) {
+      item.NvidiaGpu = parseFloat(item.Content['limits.nvidia.com/gpu']);
+    }
+    if (item.Content['limits.tencent.com/vcuda-core']) {
+      item.TkeGpu = parseFloat(item.Content['limits.tencent.com/vcuda-core']);
+    }
+    if (item.Content['limits.tencent.com/vcuda-memory']) {
+      item.TkeMemory = parseFloat(item.Content['limits.tencent.com/vcuda-memory']);
+    }
+  });
+
+  return {
+    items: _data.List,
+    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
+    page: _data.CurrentPage,
+    size: _data.CurrentSize,
+    total: _data.Total,
+  } as Pagination<TenantResourceQuota>;
 };

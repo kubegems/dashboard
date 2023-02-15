@@ -16,9 +16,9 @@
 
 <template>
   <BaseDialog
-    v-model="dialog"
+    v-model="state.dialog"
     icon="mdi-account-settings"
-    :title="$root.$t('resource.tenant_c', [$root.$t('resource.member')])"
+    :title="i18n.t('resource.tenant_c', [i18n.t('resource.member')])"
     :width="900"
     @reset="reset"
   >
@@ -26,13 +26,13 @@
       <v-card flat>
         <v-card-text class="pa-0">
           <BaseSubTitle
-            :title="$root.$t('resource.tenant_c', [$root.$t('resource.member_c', [$root.$t('resource.role')])])"
+            :title="i18n.t('resource.tenant_c', [i18n.t('resource.member_c', [i18n.t('resource.role')])])"
           />
-          <v-tabs v-model="tab" class="pa-2" height="60px" vertical @change="onTabChange">
+          <v-tabs v-model="state.tab" class="pa-2" height="60px" vertical @change="tabChanged">
             <v-tab v-for="item in tabItems" :key="item.value">
               {{ item.text }}
             </v-tab>
-            <v-tab-item v-for="item in tabItems" :key="item.tab" :reverse-transition="false" :transition="false">
+            <v-tab-item v-for="(item, index) in tabItems" :key="index" :reverse-transition="false" :transition="false">
               <v-card flat>
                 <v-row class="pa-0 ma-0">
                   <v-col class="py-1" cols="6">
@@ -40,19 +40,19 @@
                       <v-card-text>
                         <v-flex class="px-1 mb-2">{{ $root.$t('resource.account') }}</v-flex>
                         <v-text-field
-                          v-model="searchAllUser"
+                          v-model="searchForAll"
                           class="mx-1"
                           dense
                           hide-details
                           prepend-inner-icon="mdi-magnify"
-                          @keyup="onAllUsernameInput"
+                          @keyup="searchAllUser"
                         />
                         <v-list dense height="450px" :style="{ overflowY: 'auto' }">
                           <v-list-item
-                            v-for="(user, index) in allUsers"
+                            v-for="(user, index) in allUserItems"
                             :key="index"
                             link
-                            @click="setRole(user, index)"
+                            @click="addRole(user, index)"
                           >
                             <v-list-item-avatar class="my-1">
                               <v-avatar class="white--text font-weight-medium" color="primary" :size="32">
@@ -71,19 +71,21 @@
                     <v-card elevation="2" flat height="550px">
                       <v-card-text>
                         <v-flex class="px-1 mb-2">
-                          {{ tab === 0 ? $root.$t('role.tenant.ordinary') : $root.$t('role.tenant.admin') }}
+                          {{ state.tab === 0 ? i18n.t('role.tenant.ordinary') : i18n.t('role.tenant.admin') }}
                         </v-flex>
                         <v-text-field
-                          v-model="searchRoleUser"
+                          v-model="searchForTenant"
                           class="mx-1"
                           dense
                           hide-details
                           prepend-inner-icon="mdi-magnify"
-                          @keyup="onRoleUsernameInput"
+                          @keyup="searchTenantUser"
                         />
                         <v-list dense height="450px" :style="{ overflowY: 'auto' }">
                           <v-list-item
-                            v-for="(user, index) in tab === 0 ? ordinaryUsers : adminUsers"
+                            v-for="(user, index) in tenantUserItems.filter((t) => {
+                              return t.Role === tabRole[state.tab];
+                            })"
                             :key="index"
                             link
                             @click="removeRole(user, index)"
@@ -111,130 +113,110 @@
   </BaseDialog>
 </template>
 
-<script>
-  import { mapGetters, mapState } from 'vuex';
+<script lang="ts" setup>
+  import { onMounted, reactive, ref } from 'vue';
 
-  import { deleteTenantUser, getTenantUserList, postAddTenantUser, userSelectData } from '@/api';
-  import BaseSelect from '@/mixins/select';
+  import { useRoute } from '@/composition/router';
+  import { useTenantUserList } from '@/composition/tenant';
+  import { useUserList } from '@/composition/user';
+  import { useGlobalI18n } from '@/i18n';
+  import { ResourceRole } from '@/types/role';
+  import { Tenant } from '@/types/tenant';
+  import { User } from '@/types/user';
+  import { deepCopy } from '@/utils/helpers';
 
-  export default {
-    name: 'AddUser',
-    mixins: [BaseSelect],
-    data() {
-      return {
-        dialog: false,
-        tab: 0,
-        allUsers: [],
-        allUsersCopy: [],
-        users: [],
-        usersCopy: [],
-        ordinaryUsers: [],
-        adminUsers: [],
-        searchAllUser: '',
-        searchRoleUser: '',
-      };
-    },
-    computed: {
-      ...mapState(['JWT', 'Scale']),
-      ...mapGetters(['Tenant']),
-      tabItems() {
-        return [
-          { text: this.$root.$t('role.tenant.ordinary'), value: 'ordinary' },
-          { text: this.$root.$t('role.tenant.admin'), value: 'admin' },
-        ];
-      },
-    },
-    mounted() {
-      this.$nextTick(async () => {
-        await this.tenantUserList();
-        await this.userList();
-      });
-    },
-    methods: {
-      open() {
-        this.dialog = true;
-      },
-      async userList() {
-        const data = await userSelectData();
-        this.allUsers = data.List.filter((d) => {
-          return !this.users.find((u) => {
-            return u.Username === d.Username;
-          });
-        });
-        this.allUsersCopy = JSON.parse(JSON.stringify(this.allUsers));
-      },
-      async tenantUserList() {
-        const data = await getTenantUserList(this.$route.query.id, {
-          size: 1000,
-        });
-        this.users = data.List;
-        this.usersCopy = JSON.parse(JSON.stringify(this.users));
-        this.ordinaryUsers = data.List.filter((d) => {
-          return d.Role === 'ordinary';
-        });
-        this.adminUsers = data.List.filter((d) => {
-          return d.Role === 'admin';
-        });
-      },
-      async setRole(user, index) {
-        this.$delete(this.allUsers, index);
-        if (this.tab === 0) {
-          this.ordinaryUsers.push(user);
-        } else {
-          this.adminUsers.push(user);
-        }
-        await postAddTenantUser(parseInt(this.$route.query.id), {
-          UserID: user.ID,
-          TenantID: parseInt(this.$route.query.id),
-          Role: this.tab === 0 ? 'ordinary' : 'admin',
-        });
-        this.$emit('refresh');
-      },
-      async removeRole(user, index) {
-        if (this.tab === 0) {
-          this.$delete(this.ordinaryUsers, index);
-        } else {
-          this.$delete(this.adminUsers, index);
-        }
-        this.allUsers.push(user);
-        await deleteTenantUser(parseInt(this.$route.query.id), user.ID);
-        this.$emit('refresh');
-      },
-      async init() {
-        if (this.$route.query.id > 0) {
-          this.searchAllUser = '';
-          this.searchRoleUser = '';
-          await this.tenantUserList();
-          await this.userList();
-        }
-      },
-      async onTabChange() {
-        this.$nextTick(async () => {
-          this.searchAllUser = '';
-          this.searchRoleUser = '';
-          await this.tenantUserList();
-          await this.userList();
-        });
-      },
-      onAllUsernameInput() {
-        this.allUsers = this.allUsersCopy.filter((u) => {
-          return u.Username.indexOf(this.searchAllUser) > -1;
-        });
-      },
-      onRoleUsernameInput() {
-        if (this.tab === 0) {
-          this.ordinaryUsers = this.usersCopy.filter((u) => {
-            return u.Username.indexOf(this.searchRoleUser) > -1 && u.Role === 'ordinary';
-          });
-        } else {
-          this.adminUsers = this.usersCopy.filter((u) => {
-            return u.Username.indexOf(this.searchRoleUser) > -1 && u.Role === 'admin';
-          });
-        }
-      },
-      reset() {
-        this.dialog = false;
-      },
-    },
+  const i18n = useGlobalI18n();
+  const route = useRoute();
+
+  const state = reactive({
+    dialog: false,
+    tab: 0,
+  });
+
+  const tabRole = {
+    0: 'ordinary',
+    1: 'admin',
   };
+
+  const tabItems = [
+    { text: i18n.t('role.tenant.ordinary'), value: 'ordinary' },
+    { text: i18n.t('role.tenant.admin'), value: 'admin' },
+  ];
+
+  const open = (): void => {
+    state.dialog = true;
+  };
+
+  const reset = (): void => {
+    state.dialog = false;
+  };
+
+  const allUserItems = ref<User[]>([]);
+  const allUserItemsCopy = ref<User[]>([]);
+  const userList = async (): Promise<void> => {
+    const data = await useUserList(new User());
+    allUserItems.value = data.filter((d) => {
+      return !tenantUserItems.value.find((u) => {
+        return u.Username === d.Username;
+      });
+    });
+    allUserItemsCopy.value = deepCopy(allUserItems.value);
+  };
+
+  const tenantUserItems = ref<User[]>([]);
+  const tenantUserItemsCopy = ref<User[]>([]);
+  const tenantUserList = async (): Promise<void> => {
+    const data = await useTenantUserList(new Tenant({ ID: parseInt(route.query.id as string) }));
+    tenantUserItems.value = data;
+    tenantUserItemsCopy.value = deepCopy(tenantUserItems.value);
+  };
+
+  onMounted(async () => {
+    await tenantUserList();
+    await userList();
+  });
+
+  const tabChanged = async (): Promise<void> => {
+    searchForAll.value = '';
+    searchForTenant.value = '';
+    await tenantUserList();
+    await userList();
+  };
+
+  const searchForAll = ref<string>('');
+  const searchAllUser = (): void => {
+    allUserItems.value = allUserItemsCopy.value.filter((u) => {
+      return u.Username.indexOf(searchForAll.value) > -1;
+    });
+  };
+
+  const searchForTenant = ref<string>('');
+  const searchTenantUser = (): void => {
+    tenantUserItems.value = tenantUserItemsCopy.value.filter((u) => {
+      return u.Username.indexOf(searchForTenant.value) > -1 && u.Role === tabRole[state.tab];
+    });
+  };
+
+  const emit = defineEmits(['refresh']);
+  const addRole = async (user, index): Promise<void> => {
+    allUserItems.value.splice(index, 1);
+    user.Role = state.tab === 0 ? ResourceRole.Ordinary : ResourceRole.Admin;
+    tenantUserItems.value.push(user);
+    await new Tenant({ ID: parseInt(route.query.id as string) }).addUser(user, user.Role);
+    emit('refresh');
+  };
+
+  const removeRole = async (user, index): Promise<void> => {
+    tenantUserItems.value = tenantUserItems.value.filter((u) => {
+      return u.Role === tabRole[state.tab];
+    });
+    tenantUserItems.value.splice(index, 1);
+    allUserItems.value.push(user);
+    await new Tenant({ ID: parseInt(route.query.id as string) }).deleteUser(user);
+    emit('refresh');
+  };
+
+  defineExpose({
+    open,
+  });
 </script>

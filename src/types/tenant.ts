@@ -15,6 +15,7 @@
  */
 import axios from 'axios';
 
+import { Cluster } from './cluster';
 import { Environment } from './environment';
 import { Project } from './project';
 import { ResourceRole, UserRole } from './role';
@@ -28,12 +29,36 @@ interface EnvironmentInTenant {
   getEnvironmentList(params: KubePaginationRequest): Promise<KubePaginationResponse<Environment[]>>;
 }
 
+interface ResourceQuotaInTenant {
+  getResourceQuotaList(params: KubePaginationRequest): Promise<KubePaginationResponse<TenantResourceQuota[]>>;
+  deleteResourceQuota(quotaId: number): Promise<void>;
+  addResourceQuota(resourceQuota: TenantResourceQuota): Promise<TenantResourceQuota>;
+  updateResourceQuota(resourceQuota: TenantResourceQuota): Promise<TenantResourceQuota>;
+}
+
 interface Operator {
   activeTenant(): Promise<void>;
   disableTenant(): Promise<void>;
 }
 
-export class Tenant implements UserRole, ProjectInTenant, EnvironmentInTenant, Operator {
+export class TenantResourceQuota {
+  constructor(quota?: { [key: string]: any }) {
+    Object.assign(this, quota);
+  }
+
+  ID: number;
+  Cluster: Cluster;
+  ClusterID: number;
+  Content: any;
+  Tenant: Tenant;
+  TenantID: number;
+  TenantResourceQuotaApply: any;
+  TenantResourceQuotaApplyID: number;
+
+  [others: string]: any;
+}
+
+export class Tenant implements UserRole, ProjectInTenant, EnvironmentInTenant, Operator, ResourceQuotaInTenant {
   constructor(tenant?: { [key: string]: any }) {
     Object.assign(this, tenant);
   }
@@ -122,5 +147,30 @@ export class Tenant implements UserRole, ProjectInTenant, EnvironmentInTenant, O
 
   public async disableTenant(): Promise<void> {
     await axios.put(`tenant/${this.ID}/action/disable`);
+  }
+
+  // ResourceQuotaInTenant
+  public async getResourceQuotaList(
+    params: KubePaginationRequest,
+  ): Promise<KubePaginationResponse<TenantResourceQuota[]>> {
+    const data: { [key: string]: any } = await axios(`tenant/${this.ID}/tenantresourcequota`, { params: params });
+    return data as KubePaginationResponse<TenantResourceQuota[]>;
+  }
+
+  public async deleteResourceQuota(quotaId: number): Promise<void> {
+    await axios.delete(`tenant/${this.ID}/tenantresourcequota/${quotaId}`);
+  }
+
+  public async addResourceQuota(resourceQuota: TenantResourceQuota): Promise<TenantResourceQuota> {
+    const data: { [key: string]: any } = await axios.post(`tenant/${this.ID}/tenantresourcequota`, resourceQuota);
+    return data as TenantResourceQuota;
+  }
+
+  public async updateResourceQuota(resourceQuota: TenantResourceQuota): Promise<TenantResourceQuota> {
+    const data: { [key: string]: any } = await axios.put(
+      `tenant/${this.ID}/tenantresourcequota/${resourceQuota.ClusterID}`,
+      resourceQuota,
+    );
+    return data as TenantResourceQuota;
   }
 }

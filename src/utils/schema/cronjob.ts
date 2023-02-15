@@ -9,7 +9,7 @@ const schema: Record<string, unknown> = {
       $id: '#/properties/apiVersion',
       type: 'string',
       default: '',
-      const: 'batch/v1beta1',
+      enum: ['batch/v1beta1', 'batch/v1'],
     },
     kind: {
       $id: '#/properties/kind',
@@ -46,7 +46,7 @@ const schema: Record<string, unknown> = {
           $id: '#/properties/spec/properties/jobTemplate',
           type: 'object',
           default: {},
-          required: ['spec', 'metadata'],
+          required: ['spec'],
           properties: {
             spec: {
               $id: '#/properties/spec/properties/jobTemplate/properties/spec',

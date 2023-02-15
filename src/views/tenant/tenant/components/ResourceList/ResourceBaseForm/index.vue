@@ -15,12 +15,10 @@
 -->
 
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
+  <v-form ref="form" v-model="state.valid" lazy-validation @submit.prevent>
     <BaseSubTitle
       :title="
-        cluster
-          ? `${$root.$t('resource.cluster')} ${cluster}`
-          : $root.$t('form.definition', [$root.$t('resource.cluster')])
+        cluster ? `${i18n.t('resource.cluster')} ${cluster}` : i18n.t('form.definition', [i18n.t('resource.cluster')])
       "
     />
     <v-card-text class="pa-2">
@@ -31,16 +29,18 @@
             class="my-0"
             color="primary"
             hide-selected
-            :items="m_select_clusterItems"
-            :label="$root.$t('resource.cluster')"
-            :no-data-text="$root.$t('data.no_data')"
-            :rules="objRules.clusterIDRules"
+            item-text="ClusterName"
+            item-value="ID"
+            :items="clusterItems"
+            :label="i18n.t('resource.cluster')"
+            :no-data-text="i18n.t('data.no_data')"
+            :rules="objRule.cluster"
             @change="onClusterChange"
-            @focus="onClusterSelectFocus"
+            @focus="getClusterItems"
           >
             <template #selection="{ item }">
               <v-chip class="mx-1" color="primary" small>
-                {{ item['text'] }}
+                {{ item['ClusterName'] }}
               </v-chip>
             </template>
           </v-autocomplete>
@@ -48,13 +48,13 @@
       </v-row>
       <ResourceChart :nvidia="nvidia" :quota="quota" :tke="tke" />
 
-      <BaseSubTitle :title="$t('resource.tip.resource_limit')" />
+      <BaseSubTitle :title="i18nLocal.t('resource.tip.resource_limit')" />
       <v-card-text class="px-0 pb-2">
         <v-row class="mx-0">
           <v-col class="px-0 py-0" cols="4">
             <v-sheet class="px-2">
               <v-flex class="text-subtitle-1">
-                {{ $t('resource.form.apply', [$root.$t('resource.cpu')]) }}
+                {{ i18nLocal.t('resource.form.apply', [i18n.t('resource.cpu')]) }}
                 <span class="text-subtitle-2 primary--text">
                   {{ quota ? quota.AllocatedCpu.toFixed(1) : 0 }} core
                 </span>
@@ -64,11 +64,11 @@
                 class="my-0"
                 :label="
                   edit
-                    ? `${$t('resource.tip.scale_limit', [$root.$t('resource.cpu')])}`
-                    : `${$t('resource.tip.limit', [$root.$t('resource.cpu')])}`
+                    ? `${i18nLocal.t('resource.tip.scale_limit', [i18n.t('resource.cpu')])}`
+                    : `${i18nLocal.t('resource.tip.limit', [i18n.t('resource.cpu')])}`
                 "
                 required
-                :rules="objRules.cpuRules"
+                :rules="objRule.cpu"
                 type="number"
               >
                 <template #append>
@@ -80,7 +80,7 @@
           <v-col class="pa-0" cols="4">
             <v-sheet class="px-2">
               <v-flex class="text-subtitle-1">
-                {{ $t('resource.form.apply', [$root.$t('resource.memory')]) }}
+                {{ i18nLocal.t('resource.form.apply', [i18n.t('resource.memory')]) }}
                 <span class="text-subtitle-2 primary--text">
                   {{ quota ? quota.AllocatedMemory.toFixed(1) : 0 }} Gi
                 </span>
@@ -90,11 +90,11 @@
                 class="my-0"
                 :label="
                   edit
-                    ? `${$t('resource.tip.scale_limit', [$root.$t('resource.memory')])}`
-                    : `${$t('resource.tip.limit', [$root.$t('resource.memory')])}`
+                    ? `${i18nLocal.t('resource.tip.scale_limit', [i18n.t('resource.memory')])}`
+                    : `${i18nLocal.t('resource.tip.limit', [i18n.t('resource.memory')])}`
                 "
                 required
-                :rules="objRules.memoryRules"
+                :rules="objRule.memory"
                 type="number"
               >
                 <template #append>
@@ -106,7 +106,7 @@
           <v-col class="px-0 py-0" cols="4">
             <v-sheet class="px-2">
               <v-flex class="text-subtitle-1">
-                {{ $t('resource.form.apply', [$root.$t('resource.storage')]) }}
+                {{ i18nLocal.t('resource.form.apply', [i18n.t('resource.storage')]) }}
                 <span class="text-subtitle-2 primary--text">
                   {{ quota ? quota.AllocatedStorage.toFixed(1) : 0 }}
                   Gi
@@ -117,11 +117,11 @@
                 class="my-0"
                 :label="
                   edit
-                    ? `${$t('resource.tip.scale_limit', [$root.$t('resource.storage')])}`
-                    : `${$t('resource.tip.limit', [$root.$t('resource.storage')])}`
+                    ? `${i18nLocal.t('resource.tip.scale_limit', [i18n.t('resource.storage')])}`
+                    : `${i18nLocal.t('resource.tip.limit', [i18n.t('resource.storage')])}`
                 "
                 required
-                :rules="objRules.storageRules"
+                :rules="objRule.storage"
                 type="number"
               >
                 <template #append>
@@ -135,21 +135,21 @@
 
       <v-switch
         v-if="nvidia || tke"
-        v-model="canSetGpu"
+        v-model="state.canSetGpu"
         class="mx-2"
         dense
         hide-details
-        :label="$t('resource.tip.gpu_resource_limit')"
+        :label="i18nLocal.t('resource.tip.gpu_resource_limit')"
       />
 
-      <template v-if="canSetGpu">
-        <BaseSubTitle :title="$t('resource.tip.gpu_resource_limit')" />
+      <template v-if="state.canSetGpu">
+        <BaseSubTitle :title="i18nLocal.t('resource.tip.gpu_resource_limit')" />
         <v-card-text class="px-0 pb-2">
           <v-row class="mx-0">
             <v-col v-if="nvidia" class="px-0 py-0" cols="4">
               <v-sheet class="px-2">
                 <v-flex class="text-subtitle-1">
-                  nvidia {{ $t('resource.form.apply', [$root.$t('resource.gpu')]) }}
+                  nvidia {{ i18nLocal.t('resource.form.apply', [i18n.t('resource.gpu')]) }}
                   <div class="text-subtitle-2 primary--text">
                     {{ quota ? quota.AllocatedNvidiaGpu.toFixed(1) : 0 }} Gpu
                   </div>
@@ -159,16 +159,16 @@
                   class="my-0"
                   :label="
                     edit
-                      ? `nvidia ${$t('resource.tip.scale_limit', [$root.$t('resource.gpu')])}`
-                      : `nvidia ${$t('resource.tip.limit', [$root.$t('resource.gpu')])}`
+                      ? `nvidia ${i18nLocal.t('resource.tip.scale_limit', [i18n.t('resource.gpu')])}`
+                      : `nvidia ${i18nLocal.t('resource.tip.limit', [i18n.t('resource.gpu')])}`
                   "
                   required
-                  :rules="objRules.nvidiaRules"
+                  :rules="objRule.nvidia"
                   type="number"
                 >
                   <template #append>
                     <span class="text-body-2 kubegems__text">
-                      {{ $t('resource.tip.limit', [$root.$t('resource.gpu')]) }}
+                      {{ i18nLocal.t('resource.tip.limit', [i18n.t('resource.gpu')]) }}
                     </span>
                   </template>
                 </v-text-field>
@@ -178,10 +178,10 @@
               <v-col class="pa-0" cols="4">
                 <v-sheet class="px-2">
                   <v-flex class="text-subtitle-1">
-                    tke {{ $t('resource.form.apply', [$root.$t('resource.gpu')]) }}
+                    tke {{ i18nLocal.t('resource.form.apply', [i18n.t('resource.gpu')]) }}
                     <div class="text-subtitle-2 primary--text">
-                      {{ quota ? quota.AllocatedTkeGpu.toFixed(1) : 0 }} {{ $t('resource.form.unit') }} (1{{
-                        $t('resource.form.unit')
+                      {{ quota ? quota.AllocatedTkeGpu.toFixed(1) : 0 }} {{ i18nLocal.t('resource.form.unit') }} (1{{
+                        i18nLocal.t('resource.form.unit')
                       }}=0.01 Gpu)
                     </div>
                   </v-flex>
@@ -190,11 +190,11 @@
                     class="my-0"
                     :label="
                       edit
-                        ? `tke ${$t('resource.tip.scale_limit', [$root.$t('resource.gpu')])}`
-                        : `tke ${$t('resource.tip.limit', [$root.$t('resource.gpu')])}`
+                        ? `tke ${i18nLocal.t('resource.tip.scale_limit', [i18n.t('resource.gpu')])}`
+                        : `tke ${i18nLocal.t('resource.tip.limit', [i18n.t('resource.gpu')])}`
                     "
                     required
-                    :rules="objRules.tkeVcudaRules"
+                    :rules="objRule.tkeVcuda"
                     type="number"
                   >
                     <template #append>
@@ -208,10 +208,10 @@
               <v-col class="px-0 py-0" cols="4">
                 <v-sheet class="px-2">
                   <v-flex class="text-subtitle-1">
-                    tke {{ $t('resource.form.apply', [$root.$t('resource.video_memory')]) }}
+                    tke {{ i18nLocal.t('resource.form.apply', [i18n.t('resource.video_memory')]) }}
                     <div class="text-subtitle-2 primary--text">
-                      {{ quota ? quota.AllocatedTkeMemory.toFixed(1) : 0 }} {{ $t('resource.form.unit') }} (1{{
-                        $t('resource.form.unit')
+                      {{ quota ? quota.AllocatedTkeMemory.toFixed(1) : 0 }} {{ i18nLocal.t('resource.form.unit') }} (1{{
+                        i18nLocal.t('resource.form.unit')
                       }}=256Mi)
                     </div>
                   </v-flex>
@@ -220,11 +220,11 @@
                     class="my-0"
                     :label="
                       edit
-                        ? `tke ${$t('resource.tip.scale_limit', [$root.$t('resource.video_memory')])}`
-                        : `tke ${$t('resource.tip.limit', [$root.$t('resource.video_memory')])}`
+                        ? `tke ${i18nLocal.t('resource.tip.scale_limit', [i18n.t('resource.video_memory')])}`
+                        : `tke ${i18nLocal.t('resource.tip.limit', [i18n.t('resource.video_memory')])}`
                     "
                     required
-                    :rules="objRules.tkeVcudaMemoryRules"
+                    :rules="objRule.tkeVcudaMemory"
                     type="number"
                   >
                     <template #append>
@@ -243,154 +243,145 @@
   </v-form>
 </template>
 
-<script>
-  import messages from '../../../i18n';
-  import ResourceChart from './ResourceChart';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
+<script lang="ts" setup>
+  import { ComputedRef, computed, reactive, ref } from 'vue';
+
+  import { useI18n } from '../../../i18n';
+  import ResourceChart from './ResourceChart.vue';
+  import { useClusterList } from '@/composition/cluster';
+  import { useGlobalI18n } from '@/i18n';
+  import { Cluster } from '@/types/cluster';
   import { deepCopy } from '@/utils/helpers';
   import { integer, required } from '@/utils/rules';
 
-  export default {
-    name: 'ResourceBaseForm',
-    i18n: {
-      messages: messages,
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+
+  const props = withDefaults(
+    defineProps<{
+      edit?: boolean;
+      cluster?: string;
+      quota?: any;
+    }>(),
+    {
+      edit: false,
+      cluster: '',
+      quota: undefined,
     },
-    components: {
-      ResourceChart,
+  );
+
+  const state = reactive({
+    valid: false,
+    canSetGpu: false,
+  });
+
+  const obj = ref({
+    ClusterID: null,
+    TenantID: null,
+    Content: {
+      'limits.cpu': '',
+      'limits.memory': '',
+      'limits.storage': '',
     },
-    mixins: [BaseResource, BaseSelect],
-    props: {
-      cluster: {
-        type: String,
-        default: () => '',
-      },
-      edit: {
-        type: Boolean,
-        default: () => false,
-      },
-      quota: {
-        type: Object,
-        default: () => null,
-      },
-    },
-    data() {
-      return {
-        valid: false,
-        canSetGpu: false,
-        obj: {
-          ClusterID: null,
-          TenantID: null,
-          Content: {
-            'limits.cpu': '',
-            'limits.memory': '',
-            'limits.storage': '',
-          },
-        },
-      };
-    },
-    computed: {
-      nvidia() {
-        if (this.quota) {
-          return Object.prototype.hasOwnProperty.call(this.quota, 'NvidiaGpu');
-        }
-        return false;
-      },
-      tke() {
-        if (this.quota) {
-          return (
-            Object.prototype.hasOwnProperty.call(this.quota, 'TkeGpu') ||
-            Object.prototype.hasOwnProperty.call(this.quota, 'TkeMemory')
-          );
-        }
-        return false;
-      },
-      objRules() {
-        return {
-          clusterIDRules: [required],
-          cpuRules: [
-            required,
-            integer,
-            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedCpu : 0) || this.$t('resource.form.limit_rule'),
-          ],
-          memoryRules: [
-            required,
-            integer,
-            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedMemory : 0) || this.$t('resource.form.limit_rule'),
-          ],
-          storageRules: [
-            required,
-            integer,
-            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedStorage : 0) || this.$t('resource.form.limit_rule'),
-          ],
-          nvidiaRules: [
-            required,
-            integer,
-            (v) =>
-              parseInt(v) <= (this.quota ? this.quota.AllocatedNvidiaGpu : 0) || this.$t('resource.form.limit_rule'),
-          ],
-          tkeVcudaRules: [
-            required,
-            integer,
-            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedTkeGpu : 0) || this.$t('resource.form.limit_rule'),
-          ],
-          tkeVcudaMemoryRules: [
-            required,
-            integer,
-            (v) =>
-              parseInt(v) <= (this.quota ? this.quota.AllocatedTkeMemory : 0) || this.$t('resource.form.limit_rule'),
-          ],
-        };
-      },
-    },
-    watch: {
-      nvidia: {
-        handler(newValue) {
-          if (newValue && !this.edit) {
-            this.obj.Content['limits.nvidia.com/gpu'] = '';
-          }
-        },
-        deep: true,
-      },
-      tke: {
-        handler(newValue) {
-          if (newValue && !this.edit) {
-            this.obj.Content['limits.tencent.com/vcuda-core'] = '';
-            this.obj.Content['limits.tencent.com/vcuda-memory'] = '';
-          }
-        },
-        deep: true,
-      },
-    },
-    methods: {
-      validate() {
-        return this.$refs.form.validate(true);
-      },
-      getData() {
-        const data = deepCopy(this.obj);
-        if (!this.canSetGpu) {
-          if (this.nvidia) {
-            delete data.Content['limits.nvidia.com/gpu'];
-          }
-          if (this.tke) {
-            delete data.Content['limits.tencent.com/vcuda-core'];
-            delete data.Content['limits.tencent.com/vcuda-memory'];
-          }
-        }
-        return data;
-      },
-      setContent(data) {
-        this.obj.Content = deepCopy(data);
-      },
-      reset() {
-        this.$refs.form.reset();
-      },
-      onClusterSelectFocus() {
-        this.m_select_clusterSelectData(null, false);
-      },
-      onClusterChange() {
-        this.$emit('clusterChange', this.obj.ClusterID);
-      },
-    },
+  });
+  const objRule: ComputedRef<any> = computed(() => {
+    return {
+      cluster: [required],
+      cpu: [
+        required,
+        integer,
+        (v) => parseInt(v) <= (props.quota ? props.quota.AllocatedCpu : 0) || i18nLocal.t('resource.form.limit_rule'),
+      ],
+      memory: [
+        required,
+        integer,
+        (v) =>
+          parseInt(v) <= (props.quota ? props.quota.AllocatedMemory : 0) || i18nLocal.t('resource.form.limit_rule'),
+      ],
+      storage: [
+        required,
+        integer,
+        (v) =>
+          parseInt(v) <= (props.quota ? props.quota.AllocatedStorage : 0) || i18nLocal.t('resource.form.limit_rule'),
+      ],
+      nvidia: [
+        required,
+        integer,
+        (v) =>
+          parseInt(v) <= (props.quota ? props.quota.AllocatedNvidiaGpu : 0) || i18nLocal.t('resource.form.limit_rule'),
+      ],
+      tkeVcuda: [
+        required,
+        integer,
+        (v) =>
+          parseInt(v) <= (props.quota ? props.quota.AllocatedTkeGpu : 0) || i18nLocal.t('resource.form.limit_rule'),
+      ],
+      tkeVcudaMemory: [
+        required,
+        integer,
+        (v) =>
+          parseInt(v) <= (props.quota ? props.quota.AllocatedTkeMemory : 0) || i18nLocal.t('resource.form.limit_rule'),
+      ],
+    };
+  });
+
+  const nvidia: ComputedRef<boolean> = computed(() => {
+    if (props.quota) {
+      return Object.prototype.hasOwnProperty.call(props.quota, 'NvidiaGpu');
+    }
+    return false;
+  });
+  const tke: ComputedRef<boolean> = computed(() => {
+    if (props.quota) {
+      return (
+        Object.prototype.hasOwnProperty.call(props.quota, 'TkeGpu') ||
+        Object.prototype.hasOwnProperty.call(props.quota, 'TkeMemory')
+      );
+    }
+    return false;
+  });
+
+  const form = ref(null);
+  const validate = (): void => {
+    return form.value.validate(true);
   };
+
+  const getData = (): any => {
+    const data = deepCopy(obj.value);
+    if (!state.canSetGpu) {
+      if (nvidia) {
+        delete data.Content['limits.nvidia.com/gpu'];
+      }
+      if (tke) {
+        delete data.Content['limits.tencent.com/vcuda-core'];
+        delete data.Content['limits.tencent.com/vcuda-memory'];
+      }
+    }
+    return data;
+  };
+
+  const setContent = (data: any): void => {
+    obj.value.Content = deepCopy(data);
+  };
+
+  const reset = (): void => {
+    form.value.reset();
+  };
+
+  const clusterItems = ref<Cluster[]>([]);
+  const getClusterItems = async (): Promise<void> => {
+    clusterItems.value = await useClusterList(new Cluster());
+  };
+
+  const emit = defineEmits(['clusterChanged']);
+  const onClusterChange = () => {
+    emit('clusterChanged', obj.value.ClusterID);
+  };
+
+  defineExpose({
+    validate,
+    getData,
+    setContent,
+    reset,
+  });
 </script>

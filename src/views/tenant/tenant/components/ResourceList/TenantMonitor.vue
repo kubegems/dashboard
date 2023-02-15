@@ -16,37 +16,32 @@
 
 <template>
   <BasePanel
-    v-model="panel"
+    v-model="state.panel"
     icon="mdi-chart-areaspline-variant"
-    :title="$t('resource.tip.resource_monitor')"
+    :title="i18nLocal.t('resource.tip.resource_monitor')"
     :width="`50%`"
     @dispose="dispose"
   >
     <template #header>
       <span class="ml-3 text-subtitle-2 primary--text">
-        {{ item ? item.TenantName : '' }}
+        {{ tenant ? tenant.TenantName : '' }}
       </span>
     </template>
     <template #action>
       <v-flex>
         <v-sheet class="text-body-1 text--darken-1 primary white--text">
-          <BaseDatetimePicker
-            v-model="date"
-            color="primary"
-            :default-value="30"
-            @change="onDatetimeChange(undefined)"
-          />
+          <BaseDatetimePicker v-model="date" color="primary" :default-value="30" @change="datetimeChanged" />
         </v-sheet>
       </v-flex>
     </template>
     <template #content>
-      <v-card :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} mt-4`" flat>
+      <v-card :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')} mt-4`" flat>
         <v-card-text class="py-0">
           <BaseAreaChart
             :extend-height="280"
             label="tenant"
             :metrics="cpu"
-            :title="$t('resource.tip.cpu_used')"
+            :title="i18nLocal.t('resource.tip.cpu_used')"
             type="cpu"
           />
 
@@ -54,7 +49,7 @@
             :extend-height="280"
             label="tenant"
             :metrics="memory"
-            :title="$t('resource.tip.memory_used')"
+            :title="i18nLocal.t('resource.tip.memory_used')"
             type="memory"
           />
         </v-card-text>
@@ -63,95 +58,97 @@
   </BasePanel>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import moment from 'moment';
+  import { onUnmounted, reactive, ref } from 'vue';
 
-  import messages from '../../i18n';
+  import { useI18n } from '../../i18n';
   import { TENANT_CPU_USAGE_PROMQL, TENANT_MEMORY_USAGE_PROMQL } from '@/constants/prometheus';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
+  import { useStore } from '@/store';
+  import { Cluster } from '@/types/cluster';
+  import { Matrix } from '@/types/prometheus';
+  import { Tenant } from '@/types/tenant';
   import { deepCopy } from '@/utils/helpers';
 
-  export default {
-    name: 'TenantMonitor',
-    i18n: {
-      messages: messages,
-    },
-    mixins: [BasePermission, BaseResource],
-    data() {
-      return {
-        panel: false,
-        cpu: [],
-        memory: [],
-        date: [],
-        params: {
-          start: '',
-          end: '',
-        },
-        item: null,
-        timeinterval: null,
-      };
-    },
-    computed: {
-      ...mapState(['Scale']),
-    },
-    watch: {
-      item() {
-        this.loadMetrics();
-      },
-    },
-    destroyed() {
-      if (this.timeinterval) clearInterval(this.timeinterval);
-    },
-    mounted() {
-      this.$nextTick(() => {
-        this.onDatetimeChange();
-      });
-    },
-    methods: {
-      open() {
-        this.panel = true;
-      },
-      async loadMetrics() {
-        if (this.timeinterval) clearInterval(this.timeinterval);
-        this.loadData();
-        this.timeinterval = setInterval(() => {
-          this.params.start = this.$moment(this.params.start).utc().add(30, 'seconds').format();
-          this.params.end = this.$moment(this.params.end).utc().add(30, 'seconds').format();
-          this.loadData();
-        }, 1000 * 30);
-      },
-      async loadData() {
-        this.tenantCPUUsage();
-        this.tenantMemoryUsage();
-      },
-      async tenantCPUUsage() {
-        const query = TENANT_CPU_USAGE_PROMQL.replaceAll('$1', this.item.Tenant.TenantName);
-        const data = await this.m_permission_matrix(
-          this.item.Cluster.ClusterName,
-          Object.assign(this.params, { query: query }),
-        );
-        if (data) this.cpu = data;
-      },
-      async tenantMemoryUsage() {
-        const query = TENANT_MEMORY_USAGE_PROMQL.replaceAll('$1', this.item.Tenant.TenantName);
-        const data = await this.m_permission_matrix(
-          this.item.Cluster.ClusterName,
-          Object.assign(this.params, { query: query }),
-        );
-        if (data) this.memory = data;
-      },
-      onDatetimeChange() {
-        this.params.start = this.$moment(this.date[0]).utc().format();
-        this.params.end = this.$moment(this.date[1]).utc().format();
-        if (this.item) this.loadMetrics();
-      },
-      init(item) {
-        this.item = deepCopy(item);
-      },
-      dispose() {
-        if (this.timeinterval) clearInterval(this.timeinterval);
-      },
-    },
+  const i18nLocal = useI18n();
+  const store = useStore();
+
+  const state = reactive({
+    panel: false,
+  });
+
+  const params = ref({
+    start: '',
+    end: '',
+  });
+
+  const tenant = ref<Tenant>(undefined);
+  const cluster = ref<Cluster>(undefined);
+
+  const cpu = ref([]);
+  const tenantCPUUsage = async () => {
+    const query = TENANT_CPU_USAGE_PROMQL.replaceAll('$1', tenant?.value?.TenantName);
+    const data = await new Matrix().getMatrix(cluster?.value?.ClusterName, {
+      query: query,
+      start: params.value.start,
+      end: params.value.end,
+    });
+    if (data) cpu.value = data;
   };
+
+  const memory = ref([]);
+  const tenantMemoryUsage = async () => {
+    const query = TENANT_MEMORY_USAGE_PROMQL.replaceAll('$1', tenant?.value?.TenantName);
+    const data = await new Matrix().getMatrix(cluster?.value?.ClusterName, {
+      query: query,
+      start: params.value.start,
+      end: params.value.end,
+    });
+    if (data) memory.value = data;
+  };
+
+  let interval: NodeJS.Timeout = undefined;
+  const loadMetrics = () => {
+    if (interval) clearInterval(interval);
+    tenantCPUUsage();
+    tenantMemoryUsage();
+    interval = setInterval(() => {
+      params.value.start = moment(params.value.start).utc().add(30, 'seconds').format();
+      params.value.end = moment(params.value.end).utc().add(30, 'seconds').format();
+      tenantCPUUsage();
+      tenantMemoryUsage();
+    }, 30 * 1000);
+  };
+
+  onUnmounted(() => {
+    clearInterval(interval);
+  });
+
+  const date = ref([]);
+  const datetimeChanged = (): void => {
+    params.value.start = moment(date.value[0]).utc().format();
+    params.value.end = moment(date.value[1]).utc().format();
+    loadMetrics();
+  };
+
+  const dispose = (): void => {
+    clearInterval(interval);
+  };
+
+  const init = (item: any): void => {
+    tenant.value = deepCopy(item.Tenant) as Tenant;
+    cluster.value = deepCopy(item.Cluster) as Cluster;
+    params.value.start = moment(date.value[0]).utc().format();
+    params.value.end = moment(date.value[1]).utc().format();
+    loadMetrics();
+  };
+
+  const open = (): void => {
+    state.panel = true;
+  };
+
+  defineExpose({
+    init,
+    open,
+  });
 </script>
