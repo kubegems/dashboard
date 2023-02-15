@@ -1,4 +1,4 @@
-# 1.23.4 (2023-2-14)
+# 1.23.4 (2023-2-15)
 
 ### 🌟 新功能
 
@@ -12,6 +12,12 @@
 | --- | --- | --- |
 | - | [fix: 🐛 fix json schema render bug] | [f74267b](https://github.com/chenshunliang/dashboard/commit/f74267bd0b3fdbb3404c66a80fddea424823c7b7) |
 | - | [🐞 fix(promql): node memory usage] | [6023695](https://github.com/chenshunliang/dashboard/commit/6023695c505b905ad140dcfe00e675e43d953948) |
+
+### 🔨 reflactor
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [refactor: 🔨 reflact code to vue3] | [b80a520](https://github.com/chenshunliang/dashboard/commit/b80a5208353a63cbac5e118c73930ee3e2114777)) |
 
 # 1.23.3 (2023-2-13)
 

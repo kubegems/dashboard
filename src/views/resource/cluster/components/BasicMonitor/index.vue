@@ -31,7 +31,14 @@
               <div class="ml-4 mt-2" :style="{ flexGrow: 2 }">
                 <h3 class="card-text-h4 white--text text-h5 font-weight-regular">
                   <div class="cluster-title white--text">
-                    <v-menu :close-delay="200" nudge-right="25px" nudge-top="-5px" open-on-hover top>
+                    <v-menu
+                      :close-delay="200"
+                      content-class="auto-width"
+                      nudge-right="25px"
+                      nudge-top="-5px"
+                      open-on-hover
+                      top
+                    >
                       <template #activator="{ on }">
                         <span v-on="on">
                           {{ cluster && cluster.ClusterName ? cluster.ClusterName : '' }}
@@ -318,5 +325,9 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow-x: hidden;
+  }
+
+  .auto-width {
+    min-width: auto !important;
   }
 </style>

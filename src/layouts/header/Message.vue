@@ -214,11 +214,13 @@
                 this.$store.commit('CLEAR_RESOURCE');
                 if (message.Content.ResourceType === 'tenant') {
                   if (this.Tenant().ID === message.Content.ResourceID) {
+                    this.$store.commit('SET_EDGE', '');
                     this.$store.commit('CLEAR_TENANT');
                     this.$router.push({ name: 'tenant-page' });
                   }
                 } else if (message.Content.ResourceType === 'project') {
                   if (this.Project().ID === message.Content.ResourceID) {
+                    this.$store.commit('SET_EDGE', '');
                     this.$router.push({
                       name: 'resource-dashboard',
                       params: { tenant: this.Tenant().TenantName },
@@ -226,6 +228,7 @@
                   }
                 } else if (message.Content.ResourceType === 'environment') {
                   if (this.Environment().ID === message.Content.ResourceID) {
+                    this.$store.commit('SET_EDGE', '');
                     this.$router.push({
                       name: 'resource-dashboard',
                       params: { tenant: this.Tenant().TenantName },
@@ -233,12 +236,14 @@
                   }
                 } else if (message.Content.ResourceType === 'cluster') {
                   this.$store.commit('CLEAR_CLUSTER');
+                  this.$store.commit('SET_EDGE', '');
                   this.$router.push({
                     name: 'resource-dashboard',
                     params: { tenant: this.Tenant().TenantName },
                   });
                 } else if (message.Content.ResourceType === 'application') {
                   if (this.$route.path.indexOf('apps') > -1) {
+                    this.$store.commit('SET_EDGE', '');
                     this.$router.push({
                       name: 'app-list',
                       params: this.$route.params,
@@ -248,6 +253,7 @@
                 }
               } else if (message.EventKind === 'update') {
                 if (['tenant', 'project', 'environment'].indexOf(message.Content.ResourceType) > -1) {
+                  this.$store.commit('SET_EDGE', '');
                   this.$router.push({
                     name: 'resource-dashboard',
                     params: { tenant: this.Tenant().TenantName },
@@ -331,6 +337,7 @@
         if (message.MessageType === 'alert') {
           const admin = message.Content.EnvironmentID === 0;
           this.$store.commit('SET_ADMIN_VIEWPORT', admin);
+          this.$store.commit('SET_EDGE', '');
           const params = admin
             ? {
                 name: message.Content.AlertName,
