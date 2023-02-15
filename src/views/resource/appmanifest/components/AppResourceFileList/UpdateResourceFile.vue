@@ -168,7 +168,7 @@
             this.$refs[this.formComponent].setYaml(this.$yamldump(data));
           });
         } else {
-          const yaml = this.$refs[this.formComponent].kubeyaml;
+          const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
           if (this.kind) {
             const kind =

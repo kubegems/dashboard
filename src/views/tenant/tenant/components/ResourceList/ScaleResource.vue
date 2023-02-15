@@ -15,110 +15,120 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-scale" :title="$t('resource.tip.resource_scale')" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="state.dialog"
+    icon="mdi-scale"
+    :title="i18nLocal.t('resource.tip.resource_scale')"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
-      <ResourceBaseForm ref="resource" :cluster="cluster" edit :quota="quota" />
+      <ResourceBaseForm
+        ref="resource"
+        :cluster="tenantResourceQuota ? tenantResourceQuota.Cluster.ClusterName : ''"
+        edit
+        :quota="quota"
+      />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateTenantResourceQuota">
-        {{ $root.$t('operate.confirm') }}
+      <v-btn
+        class="float-right"
+        color="primary"
+        :loading="store.state.Circular"
+        text
+        @click="updateTenantResourceQuota"
+      >
+        {{ i18n.t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { reactive, ref } from 'vue';
 
-  import messages from '../../i18n';
-  import ResourceBaseForm from './ResourceBaseForm';
-  import { putUpdateTenantResourceQuota } from '@/api';
-  import BaseResource from '@/mixins/resource';
+  import { useI18n } from '../../i18n';
+  import ResourceBaseForm from './ResourceBaseForm/index.vue';
+  import { useClusterQuota } from '@/composition/cluster';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+  import { Cluster } from '@/types/cluster';
+  import { Tenant, TenantResourceQuota } from '@/types/tenant';
   import { deepCopy } from '@/utils/helpers';
 
-  export default {
-    name: 'ScaleResource',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      ResourceBaseForm,
-    },
-    mixins: [BaseResource],
-    data() {
-      return {
-        dialog: false,
-        item: null,
-        quota: null,
-        cluster: '',
-      };
-    },
-    computed: {
-      ...mapState(['Circular']),
-    },
-    watch: {
-      item: {
-        handler(newValue) {
-          if (newValue) {
-            this.cluster = newValue?.Cluster?.ClusterName;
-          }
-        },
-        deep: true,
-      },
-    },
-    methods: {
-      open() {
-        this.dialog = true;
-      },
-      async updateTenantResourceQuota() {
-        if (this.$refs.resource.validate()) {
-          const data = deepCopy(this.$refs.resource.getData());
-          data.Content['limits.memory'] = `${data.Content['limits.memory']}Gi`;
-          data.Content[`limits.storage`] = `${data.Content[`limits.storage`]}Gi`;
-          data.ClusterID = this.item.ClusterID;
-          data.TenantID = this.item.TenantID;
-          await putUpdateTenantResourceQuota(this.item.TenantID, this.item.ClusterID, data);
-          this.reset();
-          this.$emit('refresh');
-        }
-      },
-      async init(item) {
-        this.item = deepCopy(item);
-        this.item.NowCpu = item.Cpu;
-        this.item.NowMemory = item.Memory;
-        this.item.NowStorage = item.Storage;
-        if (item.NvidiaGpu) {
-          this.item.NowNvidiaGpu = item.NvidiaGpu;
-        }
-        if (item.TkeGpu) {
-          this.item.NowTkeGpu = item.TkeGpu;
-        }
-        if (item.TkeMemory) {
-          this.item.NowTkeMemory = item.TkeMemory;
-        }
-        this.quota = await this.m_resource_clusterQuota(this.item.ClusterID, this.item);
-        const content = {
-          'limits.cpu': item.Cpu,
-          'limits.memory': item.Memory,
-          'limits.storage': item.Storage,
-        };
-        if (item.NvidiaGpu) {
-          content['limits.nvidia.com/gpu'] = item.NvidiaGpu;
-        }
-        if (item.TkeGpu) {
-          content['limits.tencent.com/vcuda-core'] = item.TkeGpu;
-        }
-        if (item.TkeMemory) {
-          content['limits.tencent.com/vcuda-memory'] = item.TkeMemory;
-        }
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
 
-        this.$refs.resource.setContent(content);
-      },
-      reset() {
-        this.dialog = false;
-        this.$refs.resource.reset();
-        this.quota = null;
-      },
-    },
+  const state = reactive({
+    dialog: false,
+  });
+
+  const open = (): void => {
+    state.dialog = true;
   };
+
+  const tenantResourceQuota = ref<TenantResourceQuota>(undefined);
+  const quota = ref(undefined);
+  const init = async (item: TenantResourceQuota): Promise<void> => {
+    tenantResourceQuota.value = deepCopy(item);
+    tenantResourceQuota.value.NowCpu = item.Cpu;
+    tenantResourceQuota.value.NowMemory = item.Memory;
+    tenantResourceQuota.value.NowStorage = item.Storage;
+    if (item.NvidiaGpu) {
+      tenantResourceQuota.value.NowNvidiaGpu = item.NvidiaGpu;
+    }
+    if (item.TkeGpu) {
+      tenantResourceQuota.value.NowTkeGpu = item.TkeGpu;
+    }
+    if (item.TkeMemory) {
+      tenantResourceQuota.value.NowTkeMemory = item.TkeMemory;
+    }
+    quota.value = await useClusterQuota(
+      new Cluster({ ID: tenantResourceQuota.value.ClusterID }),
+      tenantResourceQuota.value,
+    );
+    const content = {
+      'limits.cpu': item.Cpu,
+      'limits.memory': item.Memory,
+      'limits.storage': item.Storage,
+    };
+    if (item.NvidiaGpu) {
+      content['limits.nvidia.com/gpu'] = item.NvidiaGpu;
+    }
+    if (item.TkeGpu) {
+      content['limits.tencent.com/vcuda-core'] = item.TkeGpu;
+    }
+    if (item.TkeMemory) {
+      content['limits.tencent.com/vcuda-memory'] = item.TkeMemory;
+    }
+
+    resource.value.setContent(content);
+  };
+
+  const resource = ref(null);
+  const emit = defineEmits(['refresh']);
+  const updateTenantResourceQuota = async (): Promise<void> => {
+    if (resource.value.validate()) {
+      const data = deepCopy(resource.value.getData());
+      data.Content['limits.memory'] = `${data.Content['limits.memory']}Gi`;
+      data.Content[`limits.storage`] = `${data.Content[`limits.storage`]}Gi`;
+      data.ClusterID = tenantResourceQuota.value.ClusterID;
+      data.TenantID = tenantResourceQuota.value.TenantID;
+      await new Tenant(tenantResourceQuota.value.Tenant).updateResourceQuota(data as TenantResourceQuota);
+      reset();
+      emit('refresh');
+    }
+  };
+
+  const reset = (): void => {
+    state.dialog = false;
+    resource.value.reset();
+    quota.value = undefined;
+  };
+
+  defineExpose({
+    open,
+    init,
+  });
 </script>

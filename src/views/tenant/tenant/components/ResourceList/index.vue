@@ -17,30 +17,30 @@
 <template>
   <v-card>
     <v-card-text>
-      <BaseSubTitle :divider="false" :pl="0" :title="$t('resource.tip.resource_allocate')">
+      <BaseSubTitle :divider="false" :pl="0" :title="i18nLocal.t('resource.tip.resource_allocate')">
         <template #header>
           <span>
             <span class="ma-2 text-caption grey--text">
-              {{ $root.$t('resource.cpu') }}:
-              <span class="text-subtitle-2">{{ allCpu }}</span>
+              {{ i18n.t('resource.cpu') }}:
+              <span class="text-subtitle-2">{{ totalCpu }}</span>
               core
             </span>
             <span class="ma-2 text-caption grey--text">
-              {{ $root.$t('resource.memory') }}:
-              <span class="text-subtitle-2">{{ allMem }}</span>
+              {{ i18n.t('resource.memory') }}:
+              <span class="text-subtitle-2">{{ totalMemory }}</span>
               Gi
             </span>
             <span class="ma-2 text-caption grey--text">
-              {{ $root.$t('resource.storage') }}:
-              <span class="text-subtitle-2">{{ allStorage }}</span>
+              {{ i18n.t('resource.storage') }}:
+              <span class="text-subtitle-2">{{ totalStorage }}</span>
               Gi
             </span>
           </span>
         </template>
         <template #action>
-          <v-btn class="float-right mr-2" color="primary" small text @click="addResource">
+          <v-btn class="float-right" color="primary" small text @click="addResource">
             <v-icon left small> mdi-server-plus </v-icon>
-            {{ $root.$t('operate.add_c', [$root.$t('resource.cluster')]) }}
+            {{ i18n.t('operate.add_c', [i18n.t('resource.cluster')]) }}
           </v-btn>
         </template>
       </BaseSubTitle>
@@ -48,12 +48,12 @@
         disable-sort
         :headers="headers"
         hide-default-footer
-        :items="items"
-        :items-per-page="params.size"
-        :no-data-text="$root.$t('data.no_data')"
-        :page.sync="params.page"
+        :items="pagination.items"
+        :items-per-page="pagination.size"
+        :no-data-text="i18n.t('data.no_data')"
+        :page.sync="pagination.page"
       >
-        <template #[`item.clusterName`]="{ item }">
+        <template #item.clusterName="{ item }">
           <v-flex class="float-left resource__tr">
             {{ item.Cluster.ClusterName }}
           </v-flex>
@@ -61,10 +61,10 @@
             <GpuTip :allocated="false" :item="item" />
           </v-flex>
         </template>
-        <template #[`item.cpu`]="{ item }"> {{ item.Cpu }} core </template>
-        <template #[`item.memory`]="{ item }"> {{ item.Memory }} Gi </template>
-        <template #[`item.storage`]="{ item }"> {{ item.Storage }} Gi </template>
-        <template #[`item.action`]="{ item }">
+        <template #item.cpu="{ item }"> {{ item.Cpu }} core </template>
+        <template #item.memory="{ item }"> {{ item.Memory }} Gi </template>
+        <template #item.storage="{ item }"> {{ item.Storage }} Gi </template>
+        <template #item.action="{ item }">
           <v-flex :id="`l${item.ID}`" />
           <v-menu :attach="`#l${item.ID}`" left>
             <template #activator="{ on }">
@@ -76,17 +76,17 @@
               <v-card-text class="pa-2">
                 <v-flex>
                   <v-btn color="primary" small text @click="scaleResource(item)">
-                    {{ $t('resource.operate.resource_scale') }}
+                    {{ i18nLocal.t('resource.operate.resource_scale') }}
                   </v-btn>
                 </v-flex>
                 <v-flex>
                   <v-btn color="primary" small text @click="tenantMonitor(item)">
-                    {{ $t('resource.operate.resource_monitor') }}
+                    {{ i18nLocal.t('resource.operate.resource_monitor') }}
                   </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="recycleTenantResourceQuota(item)">
-                    {{ $t('resource.operate.recycle_cluster') }}
+                  <v-btn color="error" small text @click="recycleCluster(item)">
+                    {{ i18nLocal.t('resource.operate.recycle_cluster') }}
                   </v-btn>
                 </v-flex>
               </v-card-text>
@@ -95,151 +95,149 @@
         </template>
       </v-data-table>
       <BasePagination
-        v-if="pageCount > 1"
-        v-model="params.page"
-        :page-count="pageCount"
-        :size="params.size"
-        @changepage="onClusterPageIndexChange"
-        @changesize="onClusterPageSizeChange"
-        @loaddata="tenantResourceQuotaList"
+        v-if="pagination.pageCount > 1"
+        v-model="pagination.page"
+        :page-count="pagination.pageCount"
+        :size="pagination.size"
+        @changepage="pageChange"
+        @changesize="sizeChange"
+        @loaddata="getResourceQuotaList"
       />
     </v-card-text>
 
-    <AddResource ref="addResource" :clusters="items" @refresh="tenantResourceQuotaList" />
-    <TenantMonitor ref="tenantMonitor" />
-    <ScaleResource ref="scaleResource" @refresh="tenantResourceQuotaList" />
+    <AddResource ref="add" :tenant-resource-quota-items="pagination.items" @refresh="getResourceQuotaList" />
+    <TenantMonitor ref="monitor" />
+    <ScaleResource ref="scale" @refresh="getResourceQuotaList" />
   </v-card>
 </template>
 
-<script>
-  import messages from '../../i18n';
-  import AddResource from './AddResource';
-  import ScaleResource from './ScaleResource';
-  import TenantMonitor from './TenantMonitor';
-  import { deleteTenantResourceQuota, getTenantResourceQuotaList } from '@/api';
-  import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
-  import GpuTip from '@/views/resource/components/common/GpuTip';
+<script lang="ts" setup>
+  import _ from 'lodash';
+  import { ComputedRef, computed, reactive, ref, watch } from 'vue';
 
-  export default {
-    name: 'ResourceList',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      AddResource,
-      GpuTip,
-      ScaleResource,
-      TenantMonitor,
-    },
-    props: {
-      tenant: {
-        type: Object,
-        default: () => null,
-      },
-    },
-    data() {
-      return {
-        items: [],
-        pageCount: 0,
-        params: {
-          page: 1,
-          size: 50,
-        },
-        allCpu: 0,
-        allMem: 0,
-        allStorage: 0,
-      };
-    },
-    computed: {
-      headers() {
-        return [
-          { text: this.$t('resource.table.cluster'), value: 'clusterName', align: 'start' },
-          { text: this.$root.$t('resource.cpu'), value: 'cpu', align: 'start' },
-          { text: this.$root.$t('resource.memory'), value: 'memory', align: 'start' },
-          { text: this.$root.$t('resource.storage'), value: 'storage', align: 'start' },
-          { text: '', value: 'action', align: 'center', width: 20 },
-        ];
-      },
-    },
-    watch: {
-      tenant: {
-        handler(newValue) {
-          if (newValue) {
-            this.tenantResourceQuotaList();
-          }
-        },
-        deep: true,
-      },
-    },
-    methods: {
-      async tenantResourceQuotaList() {
-        this.allCpu = 0;
-        this.allMem = 0;
-        this.allStorage = 0;
-        const data = await getTenantResourceQuotaList(this.tenant.ID, {
-          noprocessing: true,
-        });
-        data.List.forEach((item) => {
-          item.Cpu = item.Content['limits.cpu'] ? sizeOfCpu(item.Content['limits.cpu']) : 0;
-          item.Memory = item.Content['limits.memory'] ? sizeOfStorage(item.Content['limits.memory']) : 0;
-          if (!item.Content['limits.storage']) {
-            item.Content['limits.storage'] = item.Content['requests.storage'] || 0;
-          }
-          item.Storage = item.Content['limits.storage'] ? sizeOfStorage(item.Content['limits.storage']) : 0;
+  import { useI18n } from '../../i18n';
+  import AddResource from './AddResource.vue';
+  import ScaleResource from './ScaleResource.vue';
+  import TenantMonitor from './TenantMonitor.vue';
+  import { useTenantResourceQuotaPagination } from '@/composition/tenant';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+  import { Tenant, TenantResourceQuota } from '@/types/tenant';
+  import GpuTip from '@/views/resource/components/common/GpuTip.vue';
 
-          if (item.Content['limits.nvidia.com/gpu']) {
-            item.NvidiaGpu = parseFloat(item.Content['limits.nvidia.com/gpu']);
-          }
-          if (item.Content['limits.tencent.com/vcuda-core']) {
-            item.TkeGpu = parseFloat(item.Content['limits.tencent.com/vcuda-core']);
-          }
-          if (item.Content['limits.tencent.com/vcuda-memory']) {
-            item.TkeMemory = parseFloat(item.Content['limits.tencent.com/vcuda-memory']);
-          }
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
 
-          this.allCpu += item.Cpu;
-          this.allMem += item.Memory;
-          this.allStorage += item.Storage;
-        });
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
-      },
-      addResource() {
-        this.$refs.addResource.init(this.tenant);
-        this.$refs.addResource.open();
-      },
-      tenantMonitor(item) {
-        this.$refs.tenantMonitor.init(item);
-        this.$refs.tenantMonitor.open();
-      },
-      scaleResource(item) {
-        this.$refs.scaleResource.init(item);
-        this.$refs.scaleResource.open();
-      },
-      recycleTenantResourceQuota(item) {
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$t('resource.operate.recycle_cluster'),
-          content: {
-            text: `${this.$t('resource.operate.recycle_cluster')} ${item.Cluster.ClusterName}`,
-            type: 'delete',
-            name: item.Cluster.ClusterName,
-          },
-          param: { item },
-          doFunc: async (param) => {
-            await deleteTenantResourceQuota(param.item.TenantID, param.item.ClusterID);
-            this.tenantResourceQuotaList();
-          },
-        });
-      },
-      onClusterPageSizeChange(size) {
-        this.params.page = 1;
-        this.params.size = size;
-      },
-      onClusterPageIndexChange(page) {
-        this.params.page = page;
-      },
+  const props = withDefaults(
+    defineProps<{
+      tenant?: Tenant;
+    }>(),
+    {
+      tenant: undefined,
     },
+  );
+
+  const headers = [
+    { text: i18nLocal.t('resource.table.cluster'), value: 'clusterName', align: 'start' },
+    { text: i18n.t('resource.cpu'), value: 'cpu', align: 'start' },
+    { text: i18n.t('resource.memory'), value: 'memory', align: 'start' },
+    { text: i18n.t('resource.storage'), value: 'storage', align: 'start' },
+    { text: '', value: 'action', align: 'center', width: 20 },
+  ];
+
+  let pagination: Pagination<TenantResourceQuota> = reactive<Pagination<TenantResourceQuota>>({
+    page: 1,
+    size: 20,
+    pageCount: 0,
+    items: [],
+    total: 0,
+  });
+
+  const totalCpu: ComputedRef<number> = computed(() => {
+    return _.sum(
+      pagination.items.map((item) => {
+        return item.Cpu;
+      }),
+    );
+  });
+  const totalMemory: ComputedRef<number> = computed(() => {
+    return _.sum(
+      pagination.items.map((item) => {
+        return item.Memory;
+      }),
+    );
+  });
+  const totalStorage: ComputedRef<number> = computed(() => {
+    return _.sum(
+      pagination.items.map((item) => {
+        return item.Storage;
+      }),
+    );
+  });
+
+  const getResourceQuotaList = async (params: KubePaginationRequest = pagination): Promise<void> => {
+    const data: Pagination<TenantResourceQuota> = await useTenantResourceQuotaPagination(
+      new Tenant(props.tenant),
+      params.page,
+      params.size,
+    );
+    pagination = Object.assign(pagination, data);
+  };
+
+  const pageChange = (page: number): void => {
+    pagination.page = page;
+  };
+
+  const sizeChange = (size: number): void => {
+    pagination.page = 1;
+    pagination.size = size;
+  };
+
+  watch(
+    () => props.tenant,
+    async (newValue) => {
+      if (newValue) {
+        getResourceQuotaList();
+      }
+    },
+    {
+      deep: true,
+    },
+  );
+
+  const add = ref(null);
+  const addResource = (): void => {
+    add.value.init(props.tenant);
+    add.value.open();
+  };
+
+  const monitor = ref(null);
+  const tenantMonitor = (item: TenantResourceQuota): void => {
+    monitor.value.init(item);
+    monitor.value.open();
+  };
+
+  const scale = ref(null);
+  const scaleResource = (item: TenantResourceQuota): void => {
+    scale.value.init(item);
+    scale.value.open();
+  };
+
+  const recycleCluster = (item: TenantResourceQuota) => {
+    store.commit('SET_CONFIRM', {
+      title: i18nLocal.t('resource.operate.recycle_cluster'),
+      content: {
+        text: `${i18nLocal.t('resource.operate.recycle_cluster')} ${item.Cluster.ClusterName}`,
+        type: 'delete',
+        name: item.Cluster.ClusterName,
+      },
+      param: { item },
+      doFunc: async (param) => {
+        await new Tenant(param.item.Tenant).deleteResourceQuota(param.item.ID);
+        getResourceQuotaList();
+      },
+    });
   };
 </script>
 
@@ -250,7 +248,7 @@
     }
 
     &__icon {
-      margin-top: 10px;
+      margin-top: 13px;
     }
   }
 </style>

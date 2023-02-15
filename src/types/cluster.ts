@@ -15,7 +15,23 @@
  */
 import axios from 'axios';
 
-export class Cluster {
+export class ClusterResoureQuota {
+  constructor(quota?: { [key: string]: any }) {
+    Object.assign(this, quota);
+  }
+
+  oversoldConfig: any;
+  resources: any;
+  version: string;
+  workloads: { [key: string]: number };
+  [others: string]: any;
+}
+
+interface ResourceQuotaInTenant {
+  getResourceQuota(params: KubeRequest): Promise<ClusterResoureQuota>;
+}
+
+export class Cluster implements ResourceQuotaInTenant {
   constructor(cluster?: { [key: string]: any }) {
     Object.assign(this, cluster);
   }
@@ -60,5 +76,10 @@ export class Cluster {
 
   public async deleteCluster(): Promise<void> {
     await axios.delete(`cluster/${this.ID}`);
+  }
+
+  public async getResourceQuota(params: KubeRequest = {}): Promise<ClusterResoureQuota> {
+    const data: { [key: string]: any } = await axios(`cluster/${this.ID}/quota`, { params: params });
+    return data as ClusterResoureQuota;
   }
 }

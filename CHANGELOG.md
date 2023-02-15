@@ -1,10 +1,17 @@
 # 1.23.4 (2023-2-14)
 
+### 🌟 新功能
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [fix: ⚡ support custom kind for appmanifest] | [85b4cfa](https://github.com/chenshunliang/dashboard/commit/85b4cfafd51458b30fca0b07ec1900df51a9ecfc) |
+
 ### Bug Fixes
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [fix: 🐛 fix json schema render bug] | [f74267b](https://github.com/chenshunliang/dashboard/commit/f74267bd0b3fdbb3404c66a80fddea424823c7b7) |
+| - | [🐞 fix(promql): node memory usage] | [6023695](https://github.com/chenshunliang/dashboard/commit/6023695c505b905ad140dcfe00e675e43d953948) |
 
 # 1.23.3 (2023-2-13)
 

@@ -198,6 +198,16 @@
                 </v-flex>
                 <v-flex
                   v-if="
+                    (item.status.phase === 'Running' || item.status.phase === 'Succeeded') &&
+                    !item.metadata.deletionTimestamp
+                  "
+                >
+                  <v-btn color="error" small text @click.stop="removePod(item)">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
+                </v-flex>
+                <v-flex
+                  v-if="
                     (item.status.phase !== 'Running' && item.status.phase !== 'Succeeded') ||
                     item.metadata.deletionTimestamp
                   "
@@ -244,7 +254,7 @@
   import ContainerLog from './ContainerLog';
   import EventTip from './EventTip';
   import Terminal from './Terminal';
-  import { getPodList } from '@/api';
+  import { deletePod, getPodList } from '@/api';
   import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@/constants/prometheus';
   import { POD_STATUS_COLOR } from '@/constants/resource';
   import BasePermission from '@/mixins/permission';
@@ -569,6 +579,27 @@
       },
       onRowClick(item, { expand, isExpanded }) {
         expand(!isExpanded);
+      },
+      removePod(item) {
+        this.$store.commit('SET_CONFIRM', {
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.pod')]),
+          content: {
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.pod')])} ${item.metadata.name}`,
+            type: 'delete',
+            name: item.metadata.name,
+          },
+          param: { item },
+          doFunc: async (param) => {
+            if (param.item.metadata.name.length > 0) {
+              await deletePod(
+                this.$route.query.cluster || this.ThisCluster,
+                param.item.metadata.namespace,
+                param.item.metadata.name,
+              );
+              this.podList();
+            }
+          },
+        });
       },
     },
   };

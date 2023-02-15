@@ -15,9 +15,10 @@
  */
 import { EDGE_DEVICEID_KEY } from '@/constants/label';
 import { useStore } from '@/store';
-import { Cluster } from '@/types/cluster';
+import { Cluster, ClusterResoureQuota } from '@/types/cluster';
 import { EdgeCluster } from '@/types/edge_cluster';
 import { EdgeHub } from '@/types/edge_hub';
+import { sizeOfCpu, sizeOfStorage, sizeOfTke } from '@/utils/helpers';
 import { stringifySelector } from '@/utils/k8s_selector';
 
 const store = useStore();
@@ -128,4 +129,57 @@ export const useEdgeClusterConvertToCluster = async (cluster: string): Promise<C
       storage: 1,
     },
   });
+};
+
+export const useClusterQuota = async (
+  cluster: Cluster,
+  item: { [key: string]: any },
+): Promise<{ [key: string]: any }> => {
+  const data: ClusterResoureQuota = await cluster.getResourceQuota();
+  const quota: { [key: string]: any } = {};
+  if (data.resources) {
+    quota.CpuRatio = data.oversoldConfig ? data.oversoldConfig.cpu : 1;
+    quota.MemoryRatio = data.oversoldConfig ? data.oversoldConfig.memory : 1;
+    quota.StorageRatio = data.oversoldConfig ? data.oversoldConfig.storage : 1;
+    quota.Cpu = parseFloat(sizeOfCpu(data.resources.capacity['limits.cpu']).toString()) * quota.CpuRatio;
+    quota.UsedCpu = parseFloat(sizeOfCpu(data.resources.tenantAllocated['limits.cpu']).toString());
+    quota.AllocatedCpu = quota.Cpu - quota.UsedCpu + item.NowCpu;
+    quota.Memory = parseFloat(sizeOfStorage(data.resources.capacity['limits.memory']).toString()) * quota.MemoryRatio;
+    quota.UsedMemory = parseFloat(sizeOfStorage(data.resources.tenantAllocated['limits.memory']).toString());
+    quota.AllocatedMemory = quota.Memory - quota.UsedMemory + item.NowMemory;
+    quota.Storage =
+      parseFloat(sizeOfStorage(data.resources.capacity['limits.ephemeral-storage']).toString()) * quota.StorageRatio;
+    quota.UsedStorage = parseFloat(sizeOfStorage(data.resources.tenantAllocated['limits.storage']).toString());
+    quota.AllocatedStorage = quota.Storage - quota.UsedStorage + item.NowStorage;
+
+    if (
+      data.resources.capacity['limits.nvidia.com/gpu'] &&
+      parseInt(data.resources.capacity[`limits.nvidia.com/gpu`]) > 0
+    ) {
+      quota.NvidiaGpu = parseFloat(data.resources.capacity['limits.nvidia.com/gpu']);
+      quota.UsedNvidiaGpu = parseFloat(data.resources.tenantAllocated['limits.nvidia.com/gpu'] || 0);
+      quota.AllocatedNvidiaGpu = quota.NvidiaGpu - quota.UsedNvidiaGpu + (item.NowNvidiaGpu || 0);
+    }
+
+    if (
+      (data.resources.capacity['limits.tencent.com/vcuda-core'] &&
+        parseInt(data.resources.capacity[`limits.tencent.com/vcuda-core`]) > 0) ||
+      (data.resources.capacity['limits.tencent.com/vcuda-memory'] &&
+        parseInt(data.resources.capacity[`limits.tencent.com/vcuda-memory`]) > 0)
+    ) {
+      quota.TkeGpu = parseFloat(sizeOfTke(data.resources.capacity['limits.tencent.com/vcuda-core']).toString());
+      quota.UsedTkeGpu = parseFloat(
+        sizeOfTke(data.resources.tenantAllocated['limits.tencent.com/vcuda-core'] || 0).toString(),
+      );
+      quota.AllocatedTkeGpu = quota.TkeGpu - quota.UsedTkeGpu + (item.NowTkeGpu || 0);
+
+      quota.TkeMemory = parseFloat(sizeOfTke(data.resources.capacity['limits.tencent.com/vcuda-memory']).toString());
+      quota.UsedTkeMemory = parseFloat(
+        sizeOfTke(data.resources.tenantAllocated['limits.tencent.com/vcuda-memory'] || 0).toString(),
+      );
+      quota.AllocatedTkeMemory = quota.TkeMemory - quota.UsedTkeMemory + (item.NowTkeMemory || 0);
+    }
+    return quota;
+  }
+  return null;
 };

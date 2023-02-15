@@ -22,7 +22,7 @@
           <span class="text-caption grey--text"> {{ i18nLocal.t('user.tip.user_count', [pagination.total]) }} </span>
         </template>
         <template #action>
-          <v-btn class="float-right mr-2" color="primary" small text @click="addUser">
+          <v-btn class="float-right" color="primary" small text @click="addUser">
             <v-icon left small> mdi-account-plus </v-icon>
             {{ i18n.t('operate.add_c', [i18n.t('resource.member')]) }}
           </v-btn>
