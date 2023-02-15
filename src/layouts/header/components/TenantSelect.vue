@@ -152,6 +152,7 @@
     store.commit('CLEAR_RESOURCE');
     store.commit('SET_ADMIN_VIEWPORT', false);
     store.commit('SET_DIALOG', false);
+    store.commit('SET_EDGE', '');
     await router.push({
       name: 'resource-dashboard',
       params: { tenant: item.TenantName },
