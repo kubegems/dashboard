@@ -12,6 +12,7 @@
 | --- | --- | --- |
 | - | [fix: 🐛 fix json schema render bug] | [f74267b](https://github.com/chenshunliang/dashboard/commit/f74267bd0b3fdbb3404c66a80fddea424823c7b7) |
 | - | [🐞 fix(promql): node memory usage] | [6023695](https://github.com/chenshunliang/dashboard/commit/6023695c505b905ad140dcfe00e675e43d953948) |
+| - | [fix: 🐛 fix edge cluster not clear when user enter new tenant space bug] | [f3deaf8](https://github.com/chenshunliang/dashboard/commit/f3deaf8a8d23e0b40df56ca0fa62d5f69254ff4f) |
 
 ### 🔨 reflactor
 

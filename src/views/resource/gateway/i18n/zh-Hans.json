@@ -17,7 +17,11 @@
     "protocol": "协议",
     "replicas": "副本数",
     "image": "镜像",
-    "config_item": "配置项"
+    "config_item": "配置项",
+    "used": "{0}使用量",
+    "in_traffic": "网络入口流量",
+    "out_traffic": "网络出口流量",
+    "workload_monitor": "网关工作负载监控"
   },
   "tab": {
     "config": "配置",

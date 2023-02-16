@@ -31,7 +31,7 @@
               <v-flex>
                 <v-btn color="primary" text @click="addBroadcast">
                   <v-icon left>mdi-plus-box</v-icon>
-                  {{ $root.$t('operate.create_c', [$t('resource.broadcast')]) }}
+                  {{ i18n.t('operate.create_c', [i18nLocal.t('resource.broadcast')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -43,21 +43,21 @@
         disable-sort
         :headers="headers"
         hide-default-footer
-        :items="items"
-        :items-per-page="params.size"
-        :no-data-text="$root.$t('data.no_data')"
-        :page.sync="params.page"
+        :items="pagination.items"
+        :items-per-page="pagination.size"
+        :no-data-text="i18n.t('data.no_data')"
+        :page.sync="pagination.page"
       >
-        <template #[`item.startAt`]="{ item }">
-          {{ item.startAt ? $moment(item.startAt).format('lll') : '' }}
+        <template #item.startAt="{ item }">
+          {{ item.startAt ? moment(item.startAt).format('lll') : '' }}
         </template>
-        <template #[`item.endAt`]="{ item }">
-          {{ item.endAt ? $moment(item.endAt).format('lll') : '' }}
+        <template #item.endAt="{ item }">
+          {{ item.endAt ? moment(item.endAt).format('lll') : '' }}
         </template>
-        <template #[`item.expried`]="{ item }">
-          {{ new Date($moment(item.endAt)) < new Date($moment()) ? $t('status.expried') : $t('status.active') }}
+        <template #item.expried="{ item }">
+          {{ moment(item.endAt) < moment() ? i18nLocal.t('status.expried') : i18nLocal.t('status.active') }}
         </template>
-        <template #[`item.action`]="{ item }">
+        <template #item.action="{ item }">
           <v-flex :id="`r${item.id}`" />
           <v-menu :attach="`#r${item.id}`" left>
             <template #activator="{ on }">
@@ -69,12 +69,12 @@
               <v-card-text class="pa-2">
                 <v-flex>
                   <v-btn color="primary" small text @click="updateBroadcast(item)">
-                    {{ $root.$t('operate.edit') }}
+                    {{ i18n.t('operate.edit') }}
                   </v-btn>
                 </v-flex>
                 <v-flex>
                   <v-btn color="error" small text @click="removeBroadcast(item)">
-                    {{ $root.$t('operate.delete') }}
+                    {{ i18n.t('operate.delete') }}
                   </v-btn>
                 </v-flex>
               </v-card-text>
@@ -83,104 +83,91 @@
         </template>
       </v-data-table>
       <BasePagination
-        v-if="pageCount >= 1"
-        v-model="params.page"
-        :page-count="pageCount"
-        :size="params.size"
-        @changepage="onPageIndexChange"
-        @changesize="onPageSizeChange"
-        @loaddata="broadcastList"
+        v-if="pagination.pageCount >= 1"
+        v-model="pagination.page"
+        :page-count="pagination.pageCount"
+        :size="pagination.size"
+        @changepage="pageChange"
+        @changesize="sizeChange"
+        @loaddata="getBroadcastList"
       />
     </v-card>
 
-    <AddBroadcast ref="addBroadcast" @refresh="broadcastList" />
-    <UpdateBroadcast ref="updateBroadcast" @refresh="broadcastList" />
+    <BroadcastForm ref="broadcast" @refresh="getBroadcastList" />
   </v-container>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import moment from 'moment';
+  import { onMounted, reactive, ref } from 'vue';
 
-  import AddBroadcast from './components/AddBroadcast';
-  import UpdateBroadcast from './components/UpdateBroadcast';
-  import messages from './i18n';
-  import { deleteBroadcast, getBroadcastlist } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import { convertStrToNum } from '@/utils/helpers';
+  import BroadcastForm from './components/BroadcastForm.vue';
+  import { useI18n } from './i18n';
+  import { useBroadcastPagination } from '@/composition/broadcast';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+  import { Broadcast } from '@/types/broadcast';
 
-  export default {
-    name: 'Broadcast',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      AddBroadcast,
-      UpdateBroadcast,
-    },
-    mixins: [BaseFilter],
-    data() {
-      return {
-        items: [],
-        pageCount: 0,
-        params: {
-          page: 1,
-          size: 10,
-        },
-      };
-    },
-    computed: {
-      ...mapState(['JWT']),
-      headers() {
-        return [
-          { text: this.$t('table.message'), value: 'message', align: 'start' },
-          { text: this.$t('table.type'), value: 'type', align: 'start' },
-          { text: this.$t('table.start_at'), value: 'startAt', align: 'start' },
-          { text: this.$t('table.end_at'), value: 'endAt', align: 'start' },
-          { text: this.$t('table.expried'), value: 'expried', align: 'start' },
-          { text: '', value: 'action', align: 'center', width: 20 },
-        ];
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
+
+  const headers = [
+    { text: i18nLocal.t('table.message'), value: 'message', align: 'start' },
+    { text: i18nLocal.t('table.type'), value: 'type', align: 'start' },
+    { text: i18nLocal.t('table.start_at'), value: 'startAt', align: 'start' },
+    { text: i18nLocal.t('table.end_at'), value: 'endAt', align: 'start' },
+    { text: i18nLocal.t('table.expried'), value: 'expried', align: 'start' },
+    { text: '', value: 'action', align: 'center', width: 20 },
+  ];
+
+  let pagination: Pagination<Broadcast> = reactive<Pagination<Broadcast>>({
+    page: 1,
+    size: 10,
+    pageCount: 0,
+    items: [],
+  });
+
+  const getBroadcastList = async (params: KubePaginationRequest = pagination): Promise<void> => {
+    const data: Pagination<Broadcast> = await useBroadcastPagination(new Broadcast(), params.page, params.size);
+    pagination = Object.assign(pagination, data);
+  };
+
+  const pageChange = (page: number): void => {
+    pagination.page = page;
+  };
+
+  const sizeChange = (size: number): void => {
+    pagination.page = 1;
+    pagination.size = size;
+  };
+
+  onMounted(() => {
+    getBroadcastList();
+  });
+
+  const removeBroadcast = (item: Broadcast): void => {
+    store.commit('SET_CONFIRM', {
+      title: i18n.t('operate.delete_c', [i18nLocal.t('resource.broadcast')]),
+      content: {
+        text: `${i18n.t('operate.delete_c', [i18nLocal.t('resource.broadcast')])}`,
+        type: 'confirm',
       },
-    },
-    mounted() {
-      Object.assign(this.params, convertStrToNum(this.$route.query));
-      this.broadcastList();
-    },
-    methods: {
-      async broadcastList() {
-        const data = await getBroadcastlist(this.params);
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
-        this.$router.replace({ query: { ...this.$route.query, ...this.params } });
+      param: { item },
+      doFunc: async (param) => {
+        await new Broadcast(param.item).deleteBroadcast();
+        getBroadcastList();
       },
-      removeBroadcast(item) {
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.delete_c', [this.$t('resource.broadcast')]),
-          content: {
-            text: `${this.$root.$t('operate.delete_c', [this.$t('resource.broadcast')])}`,
-            type: 'confirm',
-          },
-          param: { item },
-          doFunc: async (param) => {
-            await deleteBroadcast(param.item.id);
-            this.broadcastList();
-          },
-        });
-      },
-      onPageSizeChange(size) {
-        this.params.page = 1;
-        this.params.size = size;
-      },
-      onPageIndexChange(page) {
-        this.params.page = page;
-      },
-      addBroadcast() {
-        this.$refs.addBroadcast.open();
-      },
-      updateBroadcast(item) {
-        this.$refs.updateBroadcast.init(item);
-        this.$refs.updateBroadcast.open();
-      },
-    },
+    });
+  };
+
+  const broadcast = ref(null);
+  const addBroadcast = (): void => {
+    broadcast.value.open();
+  };
+
+  const updateBroadcast = (item: Broadcast): void => {
+    broadcast.value.init(item);
+    broadcast.value.open();
   };
 </script>

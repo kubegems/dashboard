@@ -29,6 +29,10 @@ interface EnvironmentInTenant {
   getEnvironmentList(params: KubePaginationRequest): Promise<KubePaginationResponse<Environment[]>>;
 }
 
+interface ClusterInTenant {
+  getClusterList(params: KubePaginationRequest): Promise<KubePaginationResponse<Cluster[]>>;
+}
+
 interface ResourceQuotaInTenant {
   getResourceQuotaList(params: KubePaginationRequest): Promise<KubePaginationResponse<TenantResourceQuota[]>>;
   deleteResourceQuota(quotaId: number): Promise<void>;
@@ -58,7 +62,9 @@ export class TenantResourceQuota {
   [others: string]: any;
 }
 
-export class Tenant implements UserRole, ProjectInTenant, EnvironmentInTenant, Operator, ResourceQuotaInTenant {
+export class Tenant
+  implements UserRole, ProjectInTenant, EnvironmentInTenant, Operator, ResourceQuotaInTenant, ClusterInTenant
+{
   constructor(tenant?: { [key: string]: any }) {
     Object.assign(this, tenant);
   }
@@ -172,5 +178,11 @@ export class Tenant implements UserRole, ProjectInTenant, EnvironmentInTenant, O
       resourceQuota,
     );
     return data as TenantResourceQuota;
+  }
+
+  // EnvironmentInTenant
+  public async getClusterList(params: KubePaginationRequest): Promise<KubePaginationResponse<Cluster[]>> {
+    const data: { [key: string]: any } = await axios(`tenant/${this.ID}/cluster`, { params: params });
+    return data as KubePaginationResponse<Cluster[]>;
   }
 }

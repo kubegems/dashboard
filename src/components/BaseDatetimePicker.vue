@@ -479,8 +479,8 @@
       refresh(emitChange) {
         if (this.type === 'relative') {
           this.setDatetimeByShortcut();
-          this.emit(emitChange);
         }
+        this.emit(emitChange);
       },
       // 设置快捷值
       setShortcut(value) {

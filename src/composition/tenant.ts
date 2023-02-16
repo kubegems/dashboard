@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Cluster } from '@/types/cluster';
 import { Environment } from '@/types/environment';
 import { Project } from '@/types/project';
 import { Tenant, TenantResourceQuota } from '@/types/tenant';
@@ -46,6 +47,16 @@ export const useEnvironmentListInTenant = async (tenant: Tenant): Promise<Enviro
     preload: 'Cluster,Project',
   });
   return _data.List as Environment[];
+};
+
+export const useClusterListInTenant = async (tenant: Tenant): Promise<Cluster[]> => {
+  const _data: KubePaginationResponse<Cluster[]> = await tenant.getClusterList({
+    page: 1,
+    size: 1000,
+    noprocessing: true,
+    preload: 'Cluster',
+  });
+  return _data.List as Cluster[];
 };
 
 export const useTenantUserList = async (tenant: Tenant): Promise<User[]> => {

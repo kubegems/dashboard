@@ -158,7 +158,7 @@
 
 <script lang="ts" setup>
   import moment from 'moment';
-  import { onMounted, reactive, ref, watch } from 'vue';
+  import { reactive, ref, watch } from 'vue';
 
   import AddUser from './components/AddUser.vue';
   import ResetPassword from './components/ResetPassword.vue';
@@ -199,10 +199,6 @@
     const data: Pagination<User> = await useUserPagination(new User(), params.page, params.size, params.search);
     pagination = Object.assign(pagination, data);
   };
-
-  onMounted(() => {
-    getUserList();
-  });
 
   const filters = [{ text: i18nLocal.t('filter.username_or_email'), value: 'search', items: [] }];
 

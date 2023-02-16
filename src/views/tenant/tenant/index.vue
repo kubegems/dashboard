@@ -163,7 +163,7 @@
 
 <script lang="ts" setup>
   import moment from 'moment';
-  import { onMounted, reactive, ref, watch } from 'vue';
+  import { reactive, ref, watch } from 'vue';
 
   import TenantForm from './components/TenantForm.vue';
   import { useI18n } from './i18n';
@@ -222,10 +222,6 @@
     );
     pagination = Object.assign(pagination, data);
   };
-
-  onMounted(() => {
-    getTenantList();
-  });
 
   const filters = [{ text: i18nLocal.t('filter.tenant'), value: 'search', items: [] }];
   const query = useQuery();

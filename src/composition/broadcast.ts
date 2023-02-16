@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-import { Audit } from '@/types/audit';
+import { Broadcast } from '@/types/broadcast';
 
-export const useAuditPagination = async (
-  audit: Audit,
+export const useBroadcastPagination = async (
+  broadcast: Broadcast,
   page = 1,
   size = 10,
-  request: KubeRequest = {},
-): Promise<Pagination<Audit>> => {
-  const _data: KubePaginationResponse<Audit[]> = await audit.getAuditList({
+): Promise<Pagination<Broadcast>> => {
+  const _data: KubePaginationResponse<Broadcast[]> = await broadcast.getBroadcastList({
     page: page,
     size: size,
-    preload: 'Tenant',
-    ...request,
   });
 
   return {
@@ -34,5 +31,5 @@ export const useAuditPagination = async (
     pageCount: Math.ceil(_data.Total / _data.CurrentSize),
     page: _data.CurrentPage,
     size: _data.CurrentSize,
-  } as Pagination<Audit>;
+  } as Pagination<Broadcast>;
 };
