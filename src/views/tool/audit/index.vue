@@ -29,11 +29,11 @@
               query-start-time-key="CreatedAt_gte"
               value-change-to-query
               value-format="yyyy-MM-ddThh:mm:ss"
-              @change="onDatetimeChange(undefined)"
+              @change="datetimeChanged"
             />
             <v-btn class="primary--text" small text @click="refresh">
               <v-icon left small> mdi-refresh </v-icon>
-              {{ $root.$t('operate.refresh') }}
+              {{ i18n.t('operate.refresh') }}
             </v-btn>
           </v-sheet>
         </v-flex>
@@ -41,11 +41,7 @@
     </BaseBreadcrumb>
     <v-card>
       <v-card-title class="py-4">
-        <BaseFilter
-          :default="{ items: [], text: $t('filter.search'), value: 'search' }"
-          :filters="filters"
-          @refresh="filterList"
-        />
+        <BaseFilter1 :default="{ items: [], text: i18nLocal.t('filter.search'), value: 'search' }" :filters="filters" />
       </v-card-title>
       <v-data-table
         class="mx-4 kubegems__table-row-pointer"
@@ -53,46 +49,46 @@
         :headers="headers"
         hide-default-footer
         item-key="ID"
-        :items="items"
-        :items-per-page="params.size"
-        :no-data-text="$root.$t('data.no_data')"
-        :page.sync="params.page"
+        :items="pagination.items"
+        :items-per-page="pagination.size"
+        :no-data-text="i18n.t('data.no_data')"
+        :page.sync="pagination.page"
         show-expand
         single-expand
-        @click:row="onRowClick"
-        @item-expanded="toYaml"
+        @click:row="rowClick"
+        @item-expanded="convertYaml"
       >
-        <template #[`item.createdAt`]="{ item }">
-          {{ item.CreatedAt ? $moment(item.CreatedAt).format('lll') : '' }}
+        <template #item.createdAt="{ item }">
+          {{ item.CreatedAt ? moment(item.CreatedAt).format('lll') : '' }}
         </template>
-        <template #[`item.clientIP`]="{ item }">
+        <template #item.clientIP="{ item }">
           {{ item.ClientIP }}
         </template>
-        <template #[`item.tenant`]="{ item }">
+        <template #item.tenant="{ item }">
           {{ item.Tenant }}
         </template>
-        <template #[`item.username`]="{ item }">
+        <template #item.username="{ item }">
           {{ item.Username }}
         </template>
-        <template #[`item.action`]="{ item }">
+        <template #item.action="{ item }">
           {{ item.Action }}
         </template>
-        <template #[`item.module`]="{ item }">
+        <template #item.module="{ item }">
           {{ item.Module }}
         </template>
-        <template #[`item.name`]="{ item }">
+        <template #item.name="{ item }">
           {{ item.Name }}
         </template>
-        <template #[`item.success`]="{ item }">
+        <template #item.success="{ item }">
           <v-icon v-if="item.Success" color="success" small> mdi-check-circle </v-icon>
           <v-icon v-else color="error" small> mdi-close-circle </v-icon>
         </template>
         <template #expanded-item="{ headers }">
           <td :colspan="headers.length">
-            <pre class="kubegems__word-all-break px-2">{{ yaml }}</pre>
+            <pre class="kubegems__word-all-break px-2">{{ yamlStr }}</pre>
           </td>
         </template>
-        <template #[`item.labels`]="{ item }">
+        <template #item.labels="{ item }">
           <v-chip
             v-for="(value, key) in item ? item.Labels : {}"
             :key="key"
@@ -107,195 +103,226 @@
         </template>
       </v-data-table>
       <BasePagination
-        v-if="pageCount >= 1"
-        v-model="params.page"
-        :page-count="pageCount"
-        :size="params.size"
-        @changepage="onPageIndexChange"
-        @changesize="onPageSizeChange"
-        @loaddata="auditList"
+        v-if="pagination.pageCount >= 1"
+        v-model="pagination.page"
+        :page-count="pagination.pageCount"
+        :size="pagination.size"
+        @changepage="pageChange"
+        @changesize="sizeChange"
+        @loaddata="getAuditList"
       />
     </v-card>
   </v-container>
 </template>
 
-<script>
-  import { mapGetters, mapState } from 'vuex';
+<script lang="ts" setup>
+  import yaml from 'js-yaml';
+  import moment from 'moment';
+  import { ComputedRef, computed, onMounted, reactive, ref, watch } from 'vue';
 
-  import messages from './i18n';
-  import { getAuditList } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BaseSelect from '@/mixins/select';
-  import { convertStrToNum } from '@/utils/helpers';
+  import { useI18n } from './i18n';
+  import { useAuditPagination } from '@/composition/audit';
+  import { useTenantUserList } from '@/composition/tenant';
+  import { useUserList } from '@/composition/user';
+  import { useGlobalI18n } from '@/i18n';
+  import { useQuery } from '@/router';
+  import store from '@/store';
+  import { Audit } from '@/types/audit';
+  import { Tenant } from '@/types/tenant';
+  import { User } from '@/types/user';
 
-  export default {
-    name: 'Audit',
-    i18n: {
-      messages: messages,
-    },
-    mixins: [BaseFilter, BaseSelect],
-    data() {
-      return {
-        items: [],
-        pageCount: 0,
-        date: [],
-        params: {
-          page: 1,
-          size: 20,
-          // todo
-          CreatedAt_gte: null,
-          CreatedAt_lte: null,
-          order: '-CreatedAt',
-        },
-        yaml: '',
-        userItems: [],
-      };
-    },
-    computed: {
-      ...mapState(['JWT', 'Admin', 'AdminViewport']),
-      ...mapGetters(['Tenant']),
-      headers() {
-        return [
-          { text: this.$t('table.trigger_time'), value: 'createdAt', align: 'start', width: 220 },
-          { text: this.$t('table.tenant'), value: 'tenant', align: 'start', width: 100 },
-          { text: this.$t('table.account'), value: 'username', align: 'start', width: 100 },
-          { text: this.$t('table.operate'), value: 'action', align: 'start', width: 100 },
-          { text: 'Kind', value: 'module', align: 'start', width: 250 },
-          { text: this.$t('table.object'), value: 'name', align: 'start', width: 300 },
-          { text: this.$t('table.label'), value: 'labels', align: 'start' },
-          { text: 'ClientIP', value: 'clientIP', align: 'start', width: 150 },
-          { text: this.$t('table.status'), value: 'success', align: 'start', width: 100 },
-          { text: '', value: 'data-table-expand' },
-        ];
-      },
-      filters() {
-        const userItems = [];
-        this.userItems.forEach((user) => {
-          userItems.push({
-            text: user.text,
-            value: user.text,
-            parent: 'Username',
-          });
-        });
-        return [
-          { text: this.$t('filter.search'), value: 'search', items: [] },
-          {
-            text: this.$t('filter.account'),
-            value: 'Username',
-            items: userItems,
-          },
-          {
-            text: this.$t('filter.status'),
-            value: 'Success',
-            items: [
-              { text: this.$root.$t('status.success'), value: 'true', parent: 'Success' },
-              { text: this.$root.$t('status.failure'), value: 'false', parent: 'Success' },
-            ],
-          },
-          {
-            text: this.$t('filter.action'),
-            value: 'Action',
-            items: [
-              { text: this.$root.$t('operate.create'), value: this.$root.$t('operate.create'), parent: 'Action' },
-              { text: this.$root.$t('operate.delete'), value: this.$root.$t('operate.delete'), parent: 'Action' },
-              { text: this.$root.$t('operate.update'), value: this.$root.$t('operate.update'), parent: 'Action' },
-              { text: this.$root.$t('operate.shell'), value: this.$root.$t('operate.shell'), parent: 'Action' },
-              { text: this.$root.$t('operate.login'), value: this.$root.$t('operate.login'), parent: 'Action' },
-              { text: this.$root.$t('operate.enable'), value: this.$root.$t('operate.enable'), parent: 'Action' },
-              { text: this.$root.$t('operate.disable'), value: this.$root.$t('operate.disable'), parent: 'Action' },
-            ],
-          },
-        ];
-      },
-    },
-    mounted() {
-      this.$nextTick(() => {
-        this.generateSelectData();
-        this.onDatetimeChange();
-      });
-    },
-    methods: {
-      async auditList() {
-        // 点击更多
-        this.$set(this.params, 'Tenant', this.Tenant().TenantName);
-        if (this.AdminViewport) {
-          this.$delete(this.params, 'Tenant');
-        }
-        const data = await getAuditList(this.params);
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
-        this.$router.replace({ query: { ...this.$route.query, ...this.params } });
-      },
-      async generateSelectData() {
-        if (this.AdminViewport) {
-          await this.m_select_userSelectData();
-          this.userItems = this.m_select_userItems;
-        } else {
-          await this.m_select_tenantUserSelectData();
-          this.userItems = this.m_select_tenantUserItems;
-        }
-      },
-      async onDatetimeChange() {
-        Object.assign(this.params, convertStrToNum(this.$route.query));
-        this.params.CreatedAt_gte = this.$moment(this.date[0]).format();
-        this.params.CreatedAt_lte = this.$moment(this.date[1]).format();
-        this.$router.replace({ query: { ...this.$route.query, ...this.params } });
-        this.params.page = 1;
-        this.auditList();
-      },
-      filterList(params) {
-        const defaultparams = {
-          page: 1,
-          size: 20,
-          CreatedAt_gte: null,
-          CreatedAt_lte: null,
-          order: '-CreatedAt',
-        };
-        for (const key in defaultparams) {
-          if (this.params[key]) {
-            defaultparams[key] = this.params[key];
-          }
-        }
-        Object.assign(defaultparams, params);
-        this.params = defaultparams;
-        this.$router.replace({ query: { ...this.$route.query, ...this.params } });
-        this.params.page = 1;
-        this.auditList();
-      },
-      refresh() {
-        this.$refs.datetimePicker.refresh();
-        this.onDatetimeChange();
-      },
-      toYaml({ item, value }) {
-        if (value) {
-          if (item.RawData.request) {
-            try {
-              item.RawData.request = JSON.parse(item.RawData.request);
-            } catch {
-              //
-            }
-          }
-          if (item.RawData.response) {
-            try {
-              item.RawData.response = JSON.parse(item.RawData.response);
-            } catch {
-              //
-            }
-          }
-          this.yaml = this.$yamldump(item.RawData);
-        }
-      },
-      onPageSizeChange(size) {
-        this.params.page = 1;
-        this.params.size = size;
-      },
-      onPageIndexChange(page) {
-        this.params.page = page;
-      },
-      onRowClick(item, { expand, isExpanded }) {
-        expand(!isExpanded);
-      },
-    },
+  const i18nLocal = useI18n();
+  const i18n = useGlobalI18n();
+
+  const date = ref([]);
+  const datetimeChanged = (): void => {
+    pagination.request.CreatedAt_gte = moment(date.value[0]).format();
+    pagination.request.CreatedAt_lte = moment(date.value[1]).format();
+    pagination.page = 1;
+    getAuditList();
   };
+
+  const datetimePicker = ref(null);
+  const refresh = () => {
+    datetimePicker.value.refresh(true);
+  };
+
+  const headers = [
+    { text: i18nLocal.t('table.trigger_time'), value: 'createdAt', align: 'start', width: 220 },
+    { text: i18nLocal.t('table.tenant'), value: 'tenant', align: 'start', width: 100 },
+    { text: i18nLocal.t('table.account'), value: 'username', align: 'start', width: 100 },
+    { text: i18nLocal.t('table.operate'), value: 'action', align: 'start', width: 100 },
+    { text: 'Kind', value: 'module', align: 'start', width: 250 },
+    { text: i18nLocal.t('table.object'), value: 'name', align: 'start', width: 300 },
+    { text: i18nLocal.t('table.label'), value: 'labels', align: 'start' },
+    { text: 'ClientIP', value: 'clientIP', align: 'start', width: 150 },
+    { text: i18nLocal.t('table.status'), value: 'success', align: 'start', width: 100 },
+    { text: '', value: 'data-table-expand' },
+  ];
+
+  let pagination: Pagination<Audit> = reactive<Pagination<Audit>>({
+    page: 1,
+    size: 10,
+    pageCount: 0,
+    items: [],
+    request: {
+      Tenant: null,
+      Username: null,
+      Action: null,
+      Success: null,
+      CreatedAt_gte: null,
+      CreatedAt_lte: null,
+      search: '',
+    },
+  });
+
+  const getAuditList = async (params: KubePaginationRequest = pagination): Promise<void> => {
+    params.request = Object.assign(params.request, useQuery().value);
+    params.request.Tenant = store.getters.Tenant().TenantName;
+    if (store.state.AdminViewport) {
+      params.request.Tenant = null;
+    }
+    const data: Pagination<Audit> = await useAuditPagination(new Audit(), params.page, params.size, params.request);
+    pagination = Object.assign(pagination, data);
+  };
+
+  const pageChange = (page: number): void => {
+    pagination.page = page;
+  };
+
+  const sizeChange = (size: number): void => {
+    pagination.page = 1;
+    pagination.size = size;
+  };
+
+  const rowClick = (item, { expand, isExpanded }): void => {
+    expand(!isExpanded);
+  };
+
+  const yamlStr = ref<string>('');
+  const convertYaml = ({ item, value }): void => {
+    if (value) {
+      if (item.RawData.request) {
+        try {
+          item.RawData.request = JSON.parse(item.RawData.request);
+        } catch {
+          //
+        }
+      }
+      if (item.RawData.response) {
+        try {
+          item.RawData.response = JSON.parse(item.RawData.response);
+        } catch {
+          //
+        }
+      }
+      yamlStr.value = yaml.dump(item.RawData);
+    }
+  };
+
+  const userItems = ref([]);
+  const filters: ComputedRef<any[]> = computed(() => {
+    return [
+      { text: i18nLocal.t('filter.search'), value: 'search', items: [] },
+      {
+        text: i18nLocal.t('filter.account'),
+        value: 'Username',
+        items: userItems.value,
+      },
+      {
+        text: i18nLocal.t('filter.status'),
+        value: 'Success',
+        items: [
+          { text: i18n.t('status.success'), value: 'true', parent: 'Success' },
+          { text: i18n.t('status.failure'), value: 'false', parent: 'Success' },
+        ],
+      },
+      {
+        text: i18nLocal.t('filter.action'),
+        value: 'Action',
+        items: [
+          { text: i18n.t('operate.create'), value: i18n.t('operate.create'), parent: 'Action' },
+          { text: i18n.t('operate.delete'), value: i18n.t('operate.delete'), parent: 'Action' },
+          { text: i18n.t('operate.update'), value: i18n.t('operate.update'), parent: 'Action' },
+          { text: i18n.t('operate.shell'), value: i18n.t('operate.shell'), parent: 'Action' },
+          { text: i18n.t('operate.login'), value: i18n.t('operate.login'), parent: 'Action' },
+          { text: i18n.t('operate.enable'), value: i18n.t('operate.enable'), parent: 'Action' },
+          { text: i18n.t('operate.disable'), value: i18n.t('operate.disable'), parent: 'Action' },
+        ],
+      },
+    ];
+  });
+  const generateFilter = async (): Promise<void> => {
+    let data: User[];
+    if (store.state.AdminViewport) {
+      data = await useUserList(new User());
+    } else {
+      data = await useTenantUserList(new Tenant({ ID: store.getters.Tenant().ID }));
+    }
+    userItems.value = data.map((u) => {
+      return { text: u.Username, value: u.Username, parent: 'Username' };
+    });
+  };
+  const query = useQuery();
+  watch(
+    () => query.value.search,
+    async (newValue, oldValue) => {
+      if (newValue !== oldValue) {
+        pagination.request.search = newValue;
+        getAuditList();
+      } else {
+        pagination.request.search = '';
+      }
+    },
+    {
+      deep: true,
+    },
+  );
+  watch(
+    () => query.value.Username,
+    async (newValue, oldValue) => {
+      if (newValue !== oldValue) {
+        pagination.request.Username = newValue;
+        getAuditList();
+      } else {
+        pagination.request.Username = '';
+      }
+    },
+    {
+      deep: true,
+    },
+  );
+  watch(
+    () => query.value.Success,
+    async (newValue, oldValue) => {
+      if (newValue !== oldValue) {
+        pagination.request.Success = newValue;
+        getAuditList();
+      } else {
+        pagination.request.Success = '';
+      }
+    },
+    {
+      deep: true,
+    },
+  );
+  watch(
+    () => query.value.Action,
+    async (newValue, oldValue) => {
+      if (newValue !== oldValue) {
+        pagination.request.Action = newValue;
+        getAuditList();
+      } else {
+        pagination.request.Action = '';
+      }
+    },
+    {
+      deep: true,
+    },
+  );
+
+  onMounted(() => {
+    generateFilter();
+    datetimeChanged();
+  });
 </script>

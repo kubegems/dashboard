@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-import { Audit } from '@/types/audit';
+import axios from 'axios';
 
-export const useAuditPagination = async (
-  audit: Audit,
-  page = 1,
-  size = 10,
-  request: KubeRequest = {},
-): Promise<Pagination<Audit>> => {
-  const _data: KubePaginationResponse<Audit[]> = await audit.getAuditList({
-    page: page,
-    size: size,
-    preload: 'Tenant',
-    ...request,
-  });
+interface EventInLog {
+  getEventList(cluster: string, params: KubeRequest): Promise<Log[]>;
+}
 
-  return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
-  } as Pagination<Audit>;
-};
+export class Log implements EventInLog {
+  constructor(log?: { [key: string]: any }) {
+    Object.assign(this, log);
+  }
+
+  stream: { [key: string]: string };
+  values: string[][];
+
+  // EventInLog
+  public async getEventList(cluster: string, params: KubeRequest = {}): Promise<Log[]> {
+    const data: { [key: string]: any } = await axios(`event/${cluster}`, { params: params });
+    return data as Log[];
+  }
+}

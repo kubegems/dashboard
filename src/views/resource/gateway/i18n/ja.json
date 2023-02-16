@@ -17,7 +17,11 @@
     "protocol": "プロトコル",
     "replicas": "レプリカ数",
     "image": "ミラー",
-    "config_item": "設定項目"
+    "config_item": "設定項目",
+    "used": "{0}使用量",
+    "in_traffic": "通信速度",
+    "out_traffic": "ネットワークトラフィック",
+    "workload_monitor": "ゲートウェイ ワークロードの監視"
   },
   "tab": {
     "config": "設定",

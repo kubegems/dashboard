@@ -16,22 +16,22 @@
 
 <template>
   <v-container class="pa-0" fluid>
-    <BaseSplitContainer side-width="250px" :title="$root.$t('resource.resource')" :tooltip="!!resource">
-      <ScopeResourceTree slot="side" v-model="resource" @change="onResourceChange" />
+    <BaseSplitContainer side-width="250px" :title="i18n.t('resource.resource')" :tooltip="!!resource">
+      <ScopeResourceTree slot="side" v-model="resource" @change="resourceChanged" />
 
       <div v-if="!!resource" slot="tooltip" class="text-caption" :style="{ maxWidth: '200px' }">
         <v-flex class="text-body-2 text-center primary white--text py-2">
           <v-icon color="white" left small> mdi-cloud </v-icon>
-          <span>{{ $t('tip.group_and_resource') }}</span>
+          <span>{{ i18nLocal.t('tip.group_and_resource') }}</span>
         </v-flex>
         <v-list class="pa-0 kubegems__tip" dense>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title>{{ $t('tip.group') }}</v-list-item-title>
+              <v-list-item-title>{{ i18nLocal.t('tip.group') }}</v-list-item-title>
               <v-list-item-content class="text-caption kubegems__text">
                 {{ resource.scopeName }}
               </v-list-item-content>
-              <v-list-item-title>{{ $root.$t('resource.resource') }}</v-list-item-title>
+              <v-list-item-title>{{ i18n.t('resource.resource') }}</v-list-item-title>
               <v-list-item-content class="text-caption kubegems__text">
                 {{ resource.name }}
               </v-list-item-content>
@@ -45,37 +45,30 @@
   </v-container>
 </template>
 
-<script>
-  import messages from '../i18n';
-  import ScopeResourceTree from './ScopeResourceTree';
-  import BasePermission from '@/mixins/permission';
+<script lang="ts" setup>
+  import { ref } from 'vue';
 
-  export default {
-    name: 'ScopeResourceLayout',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      ScopeResourceTree,
-    },
-    mixins: [BasePermission],
-    data() {
-      return {
-        resource: undefined,
-      };
-    },
-    methods: {
-      async onResourceChange(resource) {
-        if (resource) {
-          this.$router.replace({
-            query: {
-              ...this.$route.query,
-              scopeId: resource?.scopeId,
-              resourceId: resource?.id,
-            },
-          });
-        }
-      },
-    },
+  import { useI18n } from '../i18n';
+  import ScopeResourceTree from './ScopeResourceTree.vue';
+  import { useRoute, useRouter } from '@/composition/router';
+  import { useGlobalI18n } from '@/i18n';
+
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const router = useRouter();
+  const route = useRoute();
+
+  const resource = ref(undefined);
+
+  const resourceChanged = (resource) => {
+    if (resource) {
+      router.replace({
+        query: {
+          ...route.query,
+          scopeId: resource?.scopeId,
+          resourceId: resource?.id,
+        },
+      });
+    }
   };
 </script>
