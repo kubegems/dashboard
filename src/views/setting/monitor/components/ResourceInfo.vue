@@ -18,19 +18,19 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail :mt="0" :title="$t('tip.start')">
+        <BaseListItemForDetail :mt="0" :title="i18nLocal.t('tip.start')">
           <template #content>
             {{ template ? template.start : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail :title="$t('tip.end')">
+        <BaseListItemForDetail :title="i18nLocal.t('tip.end')">
           <template #content>
             {{ template ? template.end : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail :title="$t('tip.step')">
+        <BaseListItemForDetail :title="i18nLocal.t('tip.step')">
           <template #content>
             {{ template ? template.step : '' }}
           </template>
@@ -39,14 +39,14 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.rule')" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="i18nLocal.t('tip.rule')" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
             <tr>
-              <th class="text-left">{{ $t('table.name') }}</th>
-              <th class="text-left">{{ $t('table.generator') }}</th>
-              <th class="text-left">{{ $t('table.unit') }}</th>
+              <th class="text-left">{{ i18nLocal.t('table.name') }}</th>
+              <th class="text-left">{{ i18nLocal.t('table.generator') }}</th>
+              <th class="text-left">{{ i18nLocal.t('table.unit') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -73,33 +73,18 @@
   </div>
 </template>
 
-<script>
-  import messages from '../i18n';
-  import { deepCopy } from '@/utils/helpers';
+<script lang="ts" setup>
+  import { useI18n } from '../i18n';
+  import { MonitorTemplate } from '@/types/monitor_template';
 
-  export default {
-    name: 'ResourceInfo',
-    i18n: {
-      messages: messages,
+  const i18nLocal = useI18n();
+
+  withDefaults(
+    defineProps<{
+      template?: MonitorTemplate;
+    }>(),
+    {
+      template: undefined,
     },
-    props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
-    },
-    data() {
-      return {
-        template: null,
-      };
-    },
-    watch: {
-      item() {
-        this.template = deepCopy(this.item);
-      },
-    },
-    mounted() {
-      if (this.item) this.template = deepCopy(this.item);
-    },
-  };
+  );
 </script>

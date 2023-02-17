@@ -166,11 +166,12 @@
     }
 
     // 关闭的时候处理
-    websocket.addEventListener('close', function () {
-      websocket.removeEventListener('message', webSocketMessage);
-      delete term.socket;
-      clearInterval(heartBeatTimer);
-    });
+    if (websocket)
+      websocket.addEventListener('close', function () {
+        websocket.removeEventListener('message', webSocketMessage);
+        delete term.socket;
+        clearInterval(heartBeatTimer);
+      });
   };
 
   export default {

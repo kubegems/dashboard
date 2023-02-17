@@ -1,4 +1,4 @@
-# 1.23.4 (2023-2-15)
+# 1.23.4 (2023-2-16)
 
 ### 🌟 新功能
 
@@ -19,6 +19,7 @@
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [refactor: 🔨 reflact code to vue3] | [b80a520](https://github.com/chenshunliang/dashboard/commit/b80a5208353a63cbac5e118c73930ee3e2114777)) |
+| - | [refactor: 🔨 code upgrade to vue3 for tools] | [bf1764e](https://github.com/chenshunliang/dashboard/commit/bf1764eaaf70bd7d4b37e41d9946a488f60ce64e)) |
 
 # 1.23.3 (2023-2-13)
 

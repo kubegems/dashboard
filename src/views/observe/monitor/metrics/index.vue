@@ -574,7 +574,7 @@
           // 重置labelpairs
           reset && this.setLabelObject(query);
           const params = this.getParams(query);
-          if (!params.cluster || !params.namespace) {
+          if (!params?.cluster || !params?.namespace) {
             this.$store.commit('SET_SNACKBAR', {
               text: this.$root.$t('tip.select_environment'),
               color: 'warning',

@@ -202,7 +202,8 @@
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
-  import { getValueSchema, setValue, setYamlValue } from '@/utils/yaml';
+  import { retrieveFromSchema } from '@/utils/schema';
+  import { setValue, setYamlValue } from '@/utils/yaml';
 
   import 'vue-form-wizard/dist/vue-form-wizard.min.css';
 
@@ -347,46 +348,7 @@
           return;
         }
         // 获取所有需要渲染的参数列表
-        this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
-      },
-      retrieveBasicFormParams(defaultValues, schema, parentPath = '') {
-        let params = [];
-        if (schema && schema.properties) {
-          const properties = schema.properties;
-          Object.keys(properties).forEach((propertyKey) => {
-            const itemPath = `${parentPath || ''}${propertyKey}`;
-            const { type, form } = properties[propertyKey];
-            if (form) {
-              // Use the default value either from the JSON schema or the default values
-              // 使用schema中的默认值
-              // const value = properties[propertyKey].default
-              // 使用values.yaml的默认值
-              const value = getValueSchema(defaultValues, itemPath, properties[propertyKey].default);
-              const param = {
-                ...properties[propertyKey],
-                path: itemPath,
-                name: propertyKey,
-                type,
-                value,
-                enum: properties[propertyKey].enum?.map((item) => item?.toString() ?? ''),
-                children:
-                  properties[propertyKey].type === 'object'
-                    ? this.retrieveBasicFormParams(defaultValues, properties[propertyKey], `${itemPath}/`)
-                    : undefined,
-              };
-              params = params.concat(param);
-            } else {
-              // form为假不渲染
-              // If the property is an object, iterate recursively 递归遍历
-              if (schema.properties[propertyKey].type !== 'object') {
-                params = params.concat(
-                  this.retrieveBasicFormParams(defaultValues, properties[propertyKey], `${itemPath}/`),
-                );
-              }
-            }
-          });
-        }
-        return params;
+        this.params = retrieveFromSchema(this.appValues, this.schemaJson);
       },
       changeBasicFormParam(param, value) {
         // Change raw values 修改原始值, 返回的是字符串
@@ -395,7 +357,7 @@
       },
       reRender() {
         this.params = [];
-        this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
+        this.params = retrieveFromSchema(this.appValues, this.schemaJson);
       },
       async deployAppStore() {
         if (this.yamlMode || !this.showForm) {
@@ -516,7 +478,7 @@
 
         // 数据驱动组件重新渲染
         this.params = [];
-        this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
+        this.params = retrieveFromSchema(this.appValues, this.schemaJson);
       },
       reset() {
         this.$refs.deploy.reset();

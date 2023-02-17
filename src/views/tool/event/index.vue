@@ -197,7 +197,6 @@
   });
 
   const getEventList = async (params: KubePaginationRequest = pagination): Promise<void> => {
-    if (!params.request.clustername) return;
     params.request = Object.assign(params.request, useQuery().value);
     if (store.state.AdminViewport) {
       params.request.tenant = null;
@@ -223,6 +222,7 @@
     if (!store.state.Admin && !params.request.tenant) {
       return;
     }
+    if (!params.request.clustername) return;
     const data: Log[] = await new Log().getEventList(params.request.clustername, {
       query: query,
       ...params.request,

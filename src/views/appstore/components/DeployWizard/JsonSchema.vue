@@ -17,7 +17,7 @@
 <template>
   <v-form ref="form" v-model="valid" class="pa-0 ma-0" lazy-validation @submit.prevent>
     <v-flex v-if="isRender" class="pa-0 ma-0">
-      <Param
+      <BaseParam
         v-for="(param, index) in params"
         :id="`p${index}`"
         :key="`p${index}`"
@@ -36,7 +36,6 @@
 <script>
   import { mapState } from 'vuex';
 
-  import Param from './Param';
   import { getAppStoreDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -44,9 +43,6 @@
 
   export default {
     name: 'JsonSchema',
-    components: {
-      Param,
-    },
     mixins: [BaseResource, BaseSelect],
     props: {
       appValues: {
