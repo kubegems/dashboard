@@ -170,7 +170,7 @@
         });
       },
       retrieveServiceSelector() {
-        if (this.obj.metadata.labels['svc']) {
+        if (this.obj.metadata?.labels?.['svc']) {
           this.serviceSelector = this.obj.metadata.labels['svc'];
         }
       },

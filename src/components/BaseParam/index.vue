@@ -30,6 +30,19 @@
       v-bind="$attrs"
       v-on="$listeners"
     />
+    <Subsection
+      v-else-if="type === 'list'"
+      :id="id"
+      :all-params="allParams"
+      :app-values="appValues"
+      :cluster-name="clusterName"
+      item-add
+      :label="param.title || param.path"
+      :param="param"
+      :path-level="pathLevel"
+      v-bind="$attrs"
+      v-on="$listeners"
+    />
     <!-- 布尔组件 -->
     <BooleanParam
       v-else-if="type === 'boolean'"
@@ -115,13 +128,13 @@
   import { getValue } from '@/utils/yaml';
 
   export default {
-    name: 'Param',
+    name: 'BaseParam',
     components: {
       BooleanParam,
       MinMaxParam,
       MultiSelectParam,
       SingleSelectParam,
-      Subsection: () => import('@/views/appstore/components/Subsection'),
+      Subsection: () => import('./Subsection'),
       TextAreaParam,
       TextFieldParam,
     },

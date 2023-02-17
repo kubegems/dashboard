@@ -48,7 +48,10 @@
           </span>
           <template
             v-if="
-              workload && workload.metadata.annotations && !workload.metadata.annotations[`application.kubegems.io/ref`]
+              workload &&
+              workload.metadata &&
+              workload.metadata.annotations &&
+              !workload.metadata.annotations[`application.kubegems.io/ref`]
             "
           >
             <v-btn
@@ -122,7 +125,7 @@
           :item="workload"
           :selector="{
             topkind: $route.query.type,
-            topname: workload ? workload.metadata.name : '',
+            topname: workload?.metadata?.name || '',
           }"
           :type="$route.query.type"
         />
@@ -226,7 +229,7 @@
           if (!updatingWorkload) return;
           const workload = JSON.parse(updatingWorkload);
           if (workload.MessageType !== 'objectChanged') return;
-          if (workload.Content && this.workload && workload.Content.metadata.name === this.workload.metadata.name) {
+          if (workload.Content && this.workload && workload.Content.metadata.name === this.workload?.metadata?.name) {
             if (workload.EventKind === 'delete') {
               this.$router.push({ name: 'workload-list', params: this.$route.params });
             } else {
@@ -278,7 +281,7 @@
           content: {},
         };
         const watchWorkloadList = [];
-        watchWorkloadList.push(`${this.workload.metadata.namespace}/${this.workload.metadata.name}`);
+        watchWorkloadList.push(`${this.workload?.metadata?.namespace}/${this.workload?.metadata?.name}`);
         sub.content[this.ThisCluster] = {};
         sub.content[this.ThisCluster][this.$route.query.type] = watchWorkloadList;
         if (this.MessageStreamWS && this.MessageStreamWS.readyState === 1) {
@@ -287,9 +290,9 @@
       },
       async cpuUsed(trend = true) {
         const data = await this.m_permission_vector(this.ThisCluster, {
-          query: WORKLOAD_CPU_USAGE_PROMQL.replaceAll('$1', `${this.workload.metadata.namespace}`).replaceAll(
+          query: WORKLOAD_CPU_USAGE_PROMQL.replaceAll('$1', `${this.workload?.metadata?.namespace}`).replaceAll(
             '$2',
-            `${this.$route.query.type}:${this.workload.metadata.name}`,
+            `${this.$route.query.type}:${this.workload?.metadata?.name}`,
           ),
           noprocessing: true,
         });
@@ -310,9 +313,9 @@
       },
       async memoryUsed(trend = true) {
         const data = await this.m_permission_vector(this.ThisCluster, {
-          query: WORKLOAD_MEMORY_USAGE_PROMQL.replaceAll('$1', `${this.workload.metadata.namespace}`).replaceAll(
+          query: WORKLOAD_MEMORY_USAGE_PROMQL.replaceAll('$1', `${this.workload?.metadata?.namespace}`).replaceAll(
             '$2',
-            `${this.$route.query.type}:${this.workload.metadata.name}`,
+            `${this.$route.query.type}:${this.workload?.metadata?.name}`,
           ),
           noprocessing: true,
         });

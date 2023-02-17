@@ -23,9 +23,40 @@
       :freeze="pathLevel !== 1"
       :pl="pathLevel === 1 ? 2 : 0"
       :title="label"
-    />
-    <v-flex class="my-0 mt-0" :v-if="param.children && param.children.length > 0">
-      <Param
+    >
+      <template v-if="itemAdd" #action>
+        <v-btn class="mt-n1" color="primary" icon small @click="addItem">
+          <v-icon small>mdi-plus-box</v-icon>
+        </v-btn>
+      </template>
+    </BaseSubTitle>
+    <v-flex v-if="itemAdd" class="my-0 mt-0" :v-if="param.value">
+      <div
+        v-for="(itemParam, ii) in param.value"
+        :id="`${id}-${ii}`"
+        :key="`${id}-${ii}`"
+        class="grey lighten-5 rounded ma-3 pa-2"
+      >
+        <v-btn class="float-right" color="error" icon small>
+          <v-icon small>mdi-close-box</v-icon>
+        </v-btn>
+        <div class="kubegems__clear-float" />
+        <BaseParam
+          v-for="(childrenParam, index) in param.children"
+          :id="`${id}-${index}`"
+          :key="`${id}-${index}`"
+          :all-params="allParams"
+          :app-values="appValues"
+          class="my-0 mt-0"
+          :cluster-name="clusterName"
+          :param="childrenParam"
+          v-bind="$attrs"
+          v-on="$listeners"
+        />
+      </div>
+    </v-flex>
+    <v-flex v-else class="my-0 mt-0" :v-if="param.children && param.children.length > 0">
+      <BaseParam
         v-for="(childrenParam, index) in param.children"
         :id="`${id}-${index}`"
         :key="`${id}-${index}`"
@@ -44,10 +75,6 @@
 <script>
   export default {
     name: 'Subsection',
-    // 异步加载, 解决与Param组件循环引用的问题
-    components: {
-      Param: () => import('./DeployWizard/Param'),
-    },
     props: {
       allParams: {
         type: Array,
@@ -73,12 +100,21 @@
         type: Object,
         default: () => ({}),
       },
+      itemAdd: {
+        type: Boolean,
+        default: () => false,
+      },
     },
     computed: {
       pathLevel() {
         if (this.param?.path?.indexOf('/') > -1) return this.param.path.split('/').length;
         if (this.param?.path?.indexOf('.') > -1) return this.param.path.split('.').length;
         return 1;
+      },
+    },
+    methods: {
+      addItem() {
+        return;
       },
     },
   };

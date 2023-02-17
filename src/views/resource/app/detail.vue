@@ -236,7 +236,7 @@
               if (app.EventKind === 'delete') {
                 this.$router.push({ name: 'app-list', params: this.$route.params });
               } else {
-                if (this.app.runtime) this.app.runtime.raw = app.Content;
+                if (this.app?.runtime) this.app.runtime.raw = app.Content;
               }
             }
           }

@@ -35,3 +35,13 @@ export class MonitorTarget {
   unit = '';
   [others: string]: any;
 }
+
+export class TemplateGraph {
+  constructor(graph?: { [key: string]: any }) {
+    Object.assign(this, graph);
+  }
+
+  name: string;
+  targets: MonitorTarget[];
+  unit: string;
+}

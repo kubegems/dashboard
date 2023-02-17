@@ -117,14 +117,23 @@
       </template>
       <template v-else>
         <ProjectEnvSelect v-model="env" class="px-2 mt-0" t="metrics" />
-        <JsonSchema
-          ref="jsonSchema"
-          :app-values="appValues"
-          class="px-2"
-          :cluster-name="env ? env.clusterName : ''"
-          :params="params"
-          @changeBasicFormParam="changeBasicFormParam"
-        />
+        <v-form ref="schemaForm" v-model="valid" class="px-2 ma-0" lazy-validation @submit.prevent>
+          <v-flex class="pa-0 ma-0">
+            <BaseParam
+              v-for="(param, index) in params"
+              :id="`p${index}`"
+              :key="`p${index}`"
+              :all-params="params"
+              :app-values="appValues"
+              class="mt-0"
+              :cluster-name="env ? env.clusterName : ''"
+              :param="param"
+              v-bind="$attrs"
+              v-on="$listeners"
+              @changeBasicFormParam="changeBasicFormParam"
+            />
+          </v-flex>
+        </v-form>
       </template>
     </v-form>
   </div>
@@ -144,8 +153,8 @@
     postImportPrometheusRule,
   } from '@/api';
   import { randomString } from '@/utils/helpers';
-  import { getValueSchema, setValue } from '@/utils/yaml';
-  import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
+  import { retrieveFromSchema } from '@/utils/schema';
+  import { setValue } from '@/utils/yaml';
 
   export default {
     name: 'MiddlewareMetrics',
@@ -153,7 +162,6 @@
       messages: messages,
     },
     components: {
-      JsonSchema,
       ProjectEnvSelect,
     },
     props: {
@@ -218,11 +226,11 @@
         if (this.chart['values.yaml']) {
           this.appValues = this.$yamlload(Base64.decode(this.chart['values.yaml'])) || {};
         }
-        this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
+        this.params = retrieveFromSchema(this.appValues, this.schemaJson);
       },
 
       async deployMiddlewareMetricsServiceMonitor() {
-        if (this.$refs.form.validate(true) && this.$refs.jsonSchema.validate()) {
+        if (this.$refs.form.validate(true) && this.$refs.schemaForm.validate()) {
           if (this.env?.projectid && this.env?.value) {
             const appName = `${this.appName}-metrics-obs-${this.randomStr}`;
             if (Object.prototype.hasOwnProperty.call(this.appValues, 'nameOverride')) {
@@ -280,45 +288,6 @@
       async addData() {
         await this.deployMiddlewareMetricsServiceMonitor();
       },
-      retrieveBasicFormParams(defaultValues, schema, parentPath = '') {
-        let params = [];
-        if (schema && schema.properties) {
-          const properties = schema.properties;
-          Object.keys(properties).forEach((propertyKey) => {
-            const itemPath = `${parentPath || ''}${propertyKey}`;
-            const { type, form } = properties[propertyKey];
-            if (form) {
-              // Use the default value either from the JSON schema or the default values
-              // 使用schema中的默认值
-              // const value = properties[propertyKey].default
-              // 使用values.yaml的默认值
-              const value = getValueSchema(defaultValues, itemPath, properties[propertyKey].default);
-              const param = {
-                ...properties[propertyKey],
-                path: itemPath,
-                name: propertyKey,
-                type,
-                value,
-                enum: properties[propertyKey].enum?.map((item) => item?.toString() ?? ''),
-                children:
-                  properties[propertyKey].type === 'object'
-                    ? this.retrieveBasicFormParams(defaultValues, properties[propertyKey], `${itemPath}/`)
-                    : undefined,
-              };
-              params = params.concat(param);
-            } else {
-              // form为假不渲染
-              // If the property is an object, iterate recursively 递归遍历
-              if (schema.properties[propertyKey].type !== 'object') {
-                params = params.concat(
-                  this.retrieveBasicFormParams(defaultValues, properties[propertyKey], `${itemPath}/`),
-                );
-              }
-            }
-          });
-        }
-        return params;
-      },
       changeBasicFormParam(param, value) {
         // Change raw values 修改原始值, 返回的是字符串
         this.appValues = setValue(this.appValues, param.path, value);
@@ -326,7 +295,7 @@
       },
       reRender() {
         this.params = [];
-        this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
+        this.params = retrieveFromSchema(this.appValues, this.schemaJson);
       },
       async getAppStatus() {
         const data = await getAppStoreRunningDetail(

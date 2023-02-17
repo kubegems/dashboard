@@ -29,12 +29,12 @@
               <v-card-text class="pa-2">
                 <v-flex>
                   <v-btn color="primary" small text @click="updateMonitorDashboardTemplate">
-                    {{ $root.$t('operate.edit') }}
+                    {{ i18n.t('operate.edit') }}
                   </v-btn>
                 </v-flex>
                 <v-flex>
                   <v-btn color="error" small text @click="removeMonitorTemplate">
-                    {{ $root.$t('operate.delete') }}
+                    {{ i18n.t('operate.delete') }}
                   </v-btn>
                 </v-flex>
               </v-card-text>
@@ -47,29 +47,29 @@
       <v-col class="pt-0" cols="2">
         <v-card>
           <v-card-title class="text-h6 primary--text">
-            {{ monitorTemplate ? monitorTemplate.name : '' }}
+            {{ template ? template.name : '' }}
           </v-card-title>
           <v-list-item two-line>
             <v-list-item-content class="kubegems__text">
-              <v-list-item-title class="text-subtitle-2"> {{ $t('table.description') }} </v-list-item-title>
+              <v-list-item-title class="text-subtitle-2"> {{ i18nLocal.t('table.description') }} </v-list-item-title>
               <v-list-item-subtitle class="text-body-2">
-                {{ monitorTemplate ? monitorTemplate.description : '' }}
+                {{ template ? template.description : '' }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
           <v-list-item two-line>
             <v-list-item-content class="kubegems__text">
-              <v-list-item-title class="text-subtitle-2"> {{ $t('table.refresh') }} </v-list-item-title>
+              <v-list-item-title class="text-subtitle-2"> {{ i18nLocal.t('table.refresh') }} </v-list-item-title>
               <v-list-item-subtitle class="text-body-2">
-                {{ monitorTemplate ? monitorTemplate.refresh : '' }}
+                {{ template ? template.refresh : '' }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
           <v-list-item two-line>
             <v-list-item-content class="kubegems__text">
-              <v-list-item-title class="text-subtitle-2"> {{ $t('table.graph_count') }} </v-list-item-title>
+              <v-list-item-title class="text-subtitle-2"> {{ i18nLocal.t('table.graph_count') }} </v-list-item-title>
               <v-list-item-subtitle class="text-body-2">
-                {{ monitorTemplate ? monitorTemplate.graphs.length : '' }}
+                {{ template && template.graphs ? template.graphs.length : '' }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -86,74 +86,62 @@
           </v-card-text>
         </v-card>
 
-        <component :is="tabItems[tab].value" :ref="tabItems[tab].value" class="mt-3" :item="monitorTemplate" />
+        <component :is="tabItems[tab].value" :ref="tabItems[tab].value" class="mt-3" :template="template" />
       </v-col>
     </v-row>
 
-    <UpdateMonitorTemplate ref="updateMonitorTemplate" @refresh="monitorTemplateDetail" />
+    <MonitorTemplateForm ref="monitorTemplate" @refresh="getMonitorTemplate" />
   </v-container>
 </template>
 
-<script>
-  import { mapGetters, mapState } from 'vuex';
+<script lang="ts" setup>
+  import { onMounted, ref } from 'vue';
 
-  import ResourceInfo from './components/ResourceInfo';
-  import UpdateMonitorTemplate from './components/UpdateMonitorTemplate';
-  import messages from './i18n';
-  import { deleteMonitorDashboardTemplate, getMonitorDashboardTemplateDetail } from '@/api';
+  import MonitorTemplateForm from './components/MonitorTemplateForm.vue';
+  import ResourceInfo from './components/ResourceInfo.vue';
+  import { useI18n } from './i18n';
+  import { useRoute, useRouter } from '@/composition/router';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+  import { MonitorTemplate } from '@/types/monitor_template';
 
-  export default {
-    name: 'MonitorTemplateDetail',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      ResourceInfo,
-      UpdateMonitorTemplate,
-    },
-    data() {
-      return {
-        monitorTemplate: null,
-        tab: 0,
-      };
-    },
-    computed: {
-      ...mapState(['JWT']),
-      ...mapGetters(['Tenant']),
-      tabItems() {
-        return [{ text: this.$t('tab.template_info'), value: 'ResourceInfo' }];
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
+  const router = useRouter();
+  const route = useRoute();
+
+  const tab = ref<number>(0);
+  const tabItems = [{ text: i18nLocal.t('tab.template_info'), value: ResourceInfo }];
+
+  const template = ref<MonitorTemplate>(undefined);
+  const getMonitorTemplate = async (): Promise<void> => {
+    const data = await new MonitorTemplate({ name: route.params.name }).getMonitorTemplate();
+    template.value = data;
+  };
+
+  onMounted(() => {
+    getMonitorTemplate();
+  });
+
+  const removeMonitorTemplate = (): void => {
+    store.commit('SET_CONFIRM', {
+      title: i18n.t('operate.delete_c', [i18n.t('resource.monitor_template')]),
+      content: {
+        text: `${i18n.t('operate.delete_c', [i18n.t('resource.monitor_template')])} ${template.value.name}`,
+        type: 'delete',
+        name: template.value.name,
       },
-    },
-    mounted() {
-      this.$nextTick(() => {
-        this.monitorTemplateDetail();
-      });
-    },
-    methods: {
-      async monitorTemplateDetail() {
-        const data = await getMonitorDashboardTemplateDetail(this.$route.params.name);
-        this.monitorTemplate = data;
+      doFunc: async () => {
+        await new MonitorTemplate(template.value).deleteMonitorTemplate();
+        router.push({ name: 'monitor-template-list', params: route.params });
       },
-      removeMonitorTemplate() {
-        const item = this.gateway;
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.monitor_template')]),
-          content: {
-            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.monitor_template')])} ${item.name}`,
-            type: 'delete',
-            name: item.name,
-          },
-          param: { item },
-          doFunc: async (param) => {
-            await deleteMonitorDashboardTemplate(param.item.name);
-            this.$router.push({ name: 'monitor-template-list', params: this.$route.params });
-          },
-        });
-      },
-      updateMonitorDashboardTemplate() {
-        this.$refs.updateMonitorTemplate.init(this.monitorTemplate);
-        this.$refs.updateMonitorTemplate.open();
-      },
-    },
+    });
+  };
+
+  const monitorTemplate = ref(null);
+  const updateMonitorDashboardTemplate = (): void => {
+    monitorTemplate.value.init(template.value);
+    monitorTemplate.value.open();
   };
 </script>

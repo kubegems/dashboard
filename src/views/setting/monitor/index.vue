@@ -19,10 +19,9 @@
     <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-4">
-        <BaseFilter
-          :default="{ items: [], text: $t('filter.template_name'), value: 'search' }"
+        <BaseFilter1
+          :default="{ items: [], text: i18nLocal.t('filter.template_name'), value: 'search' }"
           :filters="filters"
-          @refresh="m_filter_list"
         />
         <v-spacer />
         <v-menu left>
@@ -36,7 +35,7 @@
               <v-flex>
                 <v-btn color="primary" text @click="addMonitorDashboardTemplate">
                   <v-icon left>mdi-plus-box</v-icon>
-                  {{ $root.$t('operate.create_c', [$root.$t('resource.monitor_template')]) }}
+                  {{ i18n.t('operate.create_c', [i18n.t('resource.monitor_template')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -48,20 +47,20 @@
         disable-sort
         :headers="headers"
         hide-default-footer
-        :items="items"
-        :items-per-page="params.size"
-        :no-data-text="$root.$t('data.no_data')"
-        :page.sync="params.page"
+        :items="pagination.items"
+        :items-per-page="pagination.size"
+        :no-data-text="i18n.t('data.no_data')"
+        :page.sync="pagination.page"
       >
-        <template #[`item.name`]="{ item }">
-          <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="monitorTemplateDetail(item)">
+        <template #item.name="{ item }">
+          <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="toMonitorTemplateDetail(item)">
             {{ item.name }}
           </a>
         </template>
-        <template #[`item.graphCount`]="{ item }">
+        <template #item.graphCount="{ item }">
           {{ item.graphs.length }}
         </template>
-        <template #[`item.action`]="{ item }">
+        <template #item.action="{ item }">
           <v-flex :id="`r${item.ID}`" />
           <v-menu :attach="`#r${item.ID}`" left>
             <template #activator="{ on }">
@@ -73,12 +72,12 @@
               <v-card-text class="pa-2">
                 <v-flex>
                   <v-btn color="primary" small text @click="updateMonitorDashboardTemplate(item)">
-                    {{ $root.$t('operate.edit') }}
+                    {{ i18n.t('operate.edit') }}
                   </v-btn>
                 </v-flex>
                 <v-flex>
                   <v-btn color="error" small text @click="removeMonitorDashboardTemplate(item)">
-                    {{ $root.$t('operate.delete') }}
+                    {{ i18n.t('operate.delete') }}
                   </v-btn>
                 </v-flex>
               </v-card-text>
@@ -87,115 +86,123 @@
         </template>
       </v-data-table>
       <BasePagination
-        v-if="pageCount >= 1"
-        v-model="params.page"
-        :page-count="pageCount"
-        :size="params.size"
-        @changepage="onPageIndexChange"
-        @changesize="onPageSizeChange"
-        @loaddata="monitorTemplateList"
+        v-if="pagination.pageCount >= 1"
+        v-model="pagination.page"
+        :page-count="pagination.pageCount"
+        :size="pagination.size"
+        @changepage="pageChange"
+        @changesize="sizeChange"
+        @loaddata="getMonitorTemplateList"
       />
     </v-card>
 
-    <AddMonitorTemplate ref="addMonitorTemplate" @refresh="monitorTemplateList" />
-    <UpdateMonitorTemplate ref="updateMonitorTemplate" @refresh="monitorTemplateList" />
+    <MonitorTemplateForm ref="monitorTemplate" @refresh="getMonitorTemplateList" />
   </v-container>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { reactive, ref, watch } from 'vue';
 
-  import AddMonitorTemplate from './components/AddMonitorTemplate';
-  import UpdateMonitorTemplate from './components/UpdateMonitorTemplate';
-  import messages from './i18n';
-  import { deleteMonitorDashboardTemplate, getMonitorDashboardTemplate } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import { convertStrToNum } from '@/utils/helpers';
+  import MonitorTemplateForm from './components/MonitorTemplateForm.vue';
+  import { useI18n } from './i18n';
+  import { useMonitorTemplatePagination } from '@/composition/monitor_template';
+  import { useRouter } from '@/composition/router';
+  import { useGlobalI18n } from '@/i18n';
+  import { useQuery } from '@/router';
+  import { useStore } from '@/store';
+  import { MonitorTemplate } from '@/types/monitor_template';
 
-  export default {
-    name: 'MonitorTemplate',
-    i18n: {
-      messages: messages,
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
+  const router = useRouter();
+
+  const headers = [
+    { text: i18nLocal.t('table.name'), value: 'name', align: 'start' },
+    { text: i18nLocal.t('table.description'), value: 'description', align: 'start' },
+    { text: i18nLocal.t('table.refresh'), value: 'refresh', align: 'start' },
+    { text: i18nLocal.t('table.graph_count'), value: 'graphCount', align: 'start' },
+    { text: '', value: 'action', align: 'center', width: 20 },
+  ];
+
+  let pagination: Pagination<MonitorTemplate> = reactive<Pagination<MonitorTemplate>>({
+    page: 1,
+    size: 10,
+    pageCount: 0,
+    items: [],
+    search: '',
+  });
+
+  const getMonitorTemplateList = async (params: KubePaginationRequest = pagination): Promise<void> => {
+    const data: Pagination<MonitorTemplate> = await useMonitorTemplatePagination(
+      new MonitorTemplate(),
+      params.page,
+      params.size,
+      params.search,
+    );
+    pagination = Object.assign(pagination, data);
+  };
+
+  const pageChange = (page: number): void => {
+    pagination.page = page;
+  };
+
+  const sizeChange = (size: number): void => {
+    pagination.page = 1;
+    pagination.size = size;
+  };
+
+  const filters = [{ text: i18nLocal.t('filter.template_name'), value: 'search', items: [] }];
+  const query = useQuery();
+  watch(
+    () => query,
+    async (newValue) => {
+      if (!newValue) return;
+      if (newValue.value.search) {
+        pagination.search = newValue.value.search;
+      } else {
+        pagination.search = '';
+      }
+      getMonitorTemplateList();
     },
-    components: {
-      AddMonitorTemplate,
-      UpdateMonitorTemplate,
+    {
+      immediate: true,
+      deep: true,
     },
-    mixins: [BaseFilter],
-    data() {
-      return {
-        items: [],
-        pageCount: 0,
-        params: {
-          page: 1,
-          size: 10,
-        },
-      };
-    },
-    computed: {
-      ...mapState(['JWT']),
-      headers() {
-        return [
-          { text: this.$t('table.name'), value: 'name', align: 'start' },
-          { text: this.$t('table.description'), value: 'description', align: 'start' },
-          { text: this.$t('table.refresh'), value: 'refresh', align: 'start' },
-          { text: this.$t('table.graph_count'), value: 'graphCount', align: 'start' },
-          { text: '', value: 'action', align: 'center', width: 20 },
-        ];
+  );
+
+  const removeMonitorDashboardTemplate = (item: MonitorTemplate): void => {
+    store.commit('SET_CONFIRM', {
+      title: i18n.t('operate.delete_c', [i18n.t('resource.monitor_template')]),
+      content: {
+        text: `${i18n.t('operate.delete_c', [i18n.t('resource.monitor_template')])} ${item.name}`,
+        type: 'delete',
+        name: item.name,
       },
-      filters() {
-        return [{ text: this.$t('filter.template_name'), value: 'search', items: [] }];
+      param: { item },
+      doFunc: async (param) => {
+        await new MonitorTemplate(param.item).deleteMonitorTemplate();
+        getMonitorTemplateList();
       },
-    },
-    mounted() {
-      Object.assign(this.params, convertStrToNum(this.$route.query));
-      this.monitorTemplateList();
-    },
-    methods: {
-      async monitorTemplateList() {
-        const data = await getMonitorDashboardTemplate(this.params);
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
-        this.$router.replace({ query: { ...this.$route.query, ...this.params } });
+    });
+  };
+
+  const toMonitorTemplateDetail = (item: MonitorTemplate): void => {
+    router.push({
+      name: 'monitor-template-detail',
+      params: {
+        name: item.name,
       },
-      removeMonitorDashboardTemplate(item) {
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.monitor_template')]),
-          content: {
-            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.monitor_template')])} ${item.name}`,
-            type: 'delete',
-            name: item.name,
-          },
-          param: { item },
-          doFunc: async (param) => {
-            await deleteMonitorDashboardTemplate(param.item.ID);
-            this.monitorTemplateList();
-          },
-        });
-      },
-      onPageSizeChange(size) {
-        this.params.page = 1;
-        this.params.size = size;
-      },
-      onPageIndexChange(page) {
-        this.params.page = page;
-      },
-      monitorTemplateDetail(item) {
-        this.$router.push({
-          name: 'monitor-template-detail',
-          params: {
-            name: item.name,
-          },
-        });
-      },
-      addMonitorDashboardTemplate() {
-        this.$refs.addMonitorTemplate.open();
-      },
-      updateMonitorDashboardTemplate(item) {
-        this.$refs.updateMonitorTemplate.init(item);
-        this.$refs.updateMonitorTemplate.open();
-      },
-    },
+    });
+  };
+
+  const monitorTemplate = ref(null);
+  const addMonitorDashboardTemplate = (): void => {
+    monitorTemplate.value.open();
+  };
+
+  const updateMonitorDashboardTemplate = (item: MonitorTemplate): void => {
+    monitorTemplate.value.init(item);
+    monitorTemplate.value.open();
   };
 </script>

@@ -16,14 +16,23 @@
 
 <template>
   <div :style="{ height: `${height}px`, overflowY: 'auto' }">
-    <JsonSchema
-      ref="jsonSchema"
-      :app-values="appValues"
-      class="px-2 pt-3"
-      :cluster-name="Cluster().ClusterName"
-      :params="params"
-      @changeBasicFormParam="changeBasicFormParam"
-    />
+    <v-form ref="schemaForm" v-model="valid" class="px-2 ma-0" lazy-validation @submit.prevent>
+      <v-flex class="pa-0 ma-0">
+        <BaseParam
+          v-for="(param, index) in params"
+          :id="`p${index}`"
+          :key="`p${index}`"
+          :all-params="params"
+          :app-values="appValues"
+          class="mt-0"
+          :cluster-name="Cluster().ClusterName"
+          :param="param"
+          v-bind="$attrs"
+          v-on="$listeners"
+          @changeBasicFormParam="changeBasicFormParam"
+        />
+      </v-flex>
+    </v-form>
     <v-card v-if="!params || params.length === 0" flat :style="{ marginTop: '250px' }">
       <v-card-text class="pa-5 text-center">
         <Icon class="ml-0 warning--text" height="70px" icon="mdi:alert-circle" width="70px" />
@@ -38,16 +47,13 @@
 
   import messages from '../../../i18n';
   import { deepCopy } from '@/utils/helpers';
-  import { getValueSchema, setValue } from '@/utils/yaml';
-  import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
+  import { retrieveFromSchema } from '@/utils/schema';
+  import { setValue } from '@/utils/yaml';
 
   export default {
     name: 'SchemaForm',
     i18n: {
       messages: messages,
-    },
-    components: {
-      JsonSchema,
     },
     props: {
       item: {
@@ -87,7 +93,7 @@
     },
     methods: {
       validate() {
-        return this.$refs.jsonSchema.validate();
+        return this.$refs.schemaForm.validate();
       },
       getData() {
         this.obj.values = deepCopy(this.appValues);
@@ -111,7 +117,7 @@
           }
         }
 
-        this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
+        this.params = retrieveFromSchema(this.appValues, this.schemaJson);
       },
       changeBasicFormParam(param, value) {
         // Change raw values 修改原始值, 返回的是字符串
@@ -120,46 +126,7 @@
       },
       reRender() {
         this.params = [];
-        this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
-      },
-      retrieveBasicFormParams(defaultValues, schema, parentPath = '') {
-        let params = [];
-        if (schema && schema.properties) {
-          const properties = schema.properties;
-          Object.keys(properties).forEach((propertyKey) => {
-            const itemPath = `${parentPath || ''}${propertyKey}`;
-            const { type, form } = properties[propertyKey];
-            if (form) {
-              // Use the default value either from the JSON schema or the default values
-              // 使用schema中的默认值
-              // const value = properties[propertyKey].default
-              // 使用values.yaml的默认值
-              const value = getValueSchema(defaultValues, itemPath, properties[propertyKey].default);
-              const param = {
-                ...properties[propertyKey],
-                path: itemPath,
-                name: propertyKey,
-                type,
-                value,
-                enum: properties[propertyKey].enum?.map((item) => item?.toString() ?? ''),
-                children:
-                  properties[propertyKey].type === 'object'
-                    ? this.retrieveBasicFormParams(defaultValues, properties[propertyKey], `${itemPath}/`)
-                    : undefined,
-              };
-              params = params.concat(param);
-            } else {
-              // form为假不渲染
-              // If the property is an object, iterate recursively 递归遍历
-              if (schema.properties[propertyKey].type !== 'object') {
-                params = params.concat(
-                  this.retrieveBasicFormParams(defaultValues, properties[propertyKey], `${itemPath}/`),
-                );
-              }
-            }
-          });
-        }
-        return params;
+        this.params = retrieveFromSchema(this.appValues, this.schemaJson);
       },
       reset() {
         this.appValues = {};
