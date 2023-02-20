@@ -32,6 +32,15 @@ export const setValue = (
   return yaml.load(doc) || {};
 };
 
+export const deleteValue = (values: { [key: string]: any }, path: string): { [key: string]: any } => {
+  const doc = YAML.parseDocument(JSON.stringify(values));
+  const { splittedPath } = parsePathAndValue(doc, path, '');
+
+  doc.deleteIn(splittedPath);
+  // yaml转object
+  return yaml.load(doc) || {};
+};
+
 export const setYamlValue = (values: string, path: string, newValue: string = null): string => {
   const doc = YAML.parseDocument(values);
   const { splittedPath, value } = parsePathAndValue(doc, path, newValue);

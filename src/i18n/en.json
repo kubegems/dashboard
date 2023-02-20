@@ -63,7 +63,9 @@
     "lt_min": "Error (less than {0} character)",
     "gt_max": "Error (more than {0} character)",
     "gt_num_max": "Error (more than {0})",
-    "lt_num_max": "Error (less than {0})"
+    "lt_num_max": "Error (less than {0})",
+    "lt_min_value": "Less then minimum",
+    "gt_max_value": "More then maximum"
   },
 
   "role": {

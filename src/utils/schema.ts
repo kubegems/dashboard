@@ -37,20 +37,20 @@ export const retrieveFromSchema = (
         if (properties[propertyKey].type === 'object') {
           children = retrieveFromSchema(defaultValues, properties[propertyKey], `${itemPath}/`);
         }
-        // else if (
-        //   properties[propertyKey].type === 'array' &&
-        //   properties[propertyKey].items &&
-        //   !Array.isArray(properties[propertyKey].items)
-        // ) {
-        //   type = 'list';
-        // }
+        let enumItems = undefined;
+        enumItems = properties[propertyKey].enum?.map((item) => item?.toString() ?? '');
+        if (properties[propertyKey].type === 'array' && Array.isArray(properties[propertyKey].items)) {
+          enumItems = properties[propertyKey].items?.map(
+            (item) => item?.toString() ?? item.value ?? item.default ?? '',
+          );
+        }
         const param = {
           ...properties[propertyKey],
           path: itemPath,
           name: propertyKey,
           type,
           value,
-          enum: properties[propertyKey].enum?.map((item) => item?.toString() ?? ''),
+          enum: enumItems,
           children: children,
         };
         params = params.concat(param);

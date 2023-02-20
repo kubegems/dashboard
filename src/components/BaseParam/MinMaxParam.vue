@@ -60,6 +60,10 @@
         type: Object,
         default: () => ({}),
       },
+      level: {
+        type: Number,
+        default: () => 1,
+      },
     },
     data() {
       return {
@@ -68,13 +72,15 @@
     },
     computed: {
       pathLevel() {
-        return this.param.path.split('/').length;
+        if (this.param?.path?.indexOf('/') > -1) return this.param.path.split('/').length;
+        if (this.param?.path?.indexOf('.') > -1) return this.param.path.split('.').length;
+        return this.level;
       },
       rules() {
         return [
           required,
-          (v) => v >= this.param.sliderMin || '小于最小值',
-          (v) => v <= this.param.sliderMax || '大于最大值',
+          (v) => v >= this.param.sliderMin || this.$t('ruler.lt_min_value'),
+          (v) => v <= this.param.sliderMax || this.$t('ruler.gt_max_value'),
         ];
       },
     },

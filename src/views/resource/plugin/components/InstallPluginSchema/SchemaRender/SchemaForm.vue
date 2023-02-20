@@ -48,7 +48,7 @@
   import messages from '../../../i18n';
   import { deepCopy } from '@/utils/helpers';
   import { retrieveFromSchema } from '@/utils/schema';
-  import { setValue } from '@/utils/yaml';
+  import { deleteValue, setValue } from '@/utils/yaml';
 
   export default {
     name: 'SchemaForm',
@@ -119,9 +119,18 @@
 
         this.params = retrieveFromSchema(this.appValues, this.schemaJson);
       },
-      changeBasicFormParam(param, value) {
+      changeBasicFormParam(param, value, operate = 'changed', path = '') {
         // Change raw values 修改原始值, 返回的是字符串
-        this.appValues = setValue(this.appValues, param.path, value);
+        if (operate === 'changed') {
+          const parentPath = param.path.substr(0, param.path.lastIndexOf('/'));
+          const typeFlag = param.path.substr(param.path.lastIndexOf('/') + 1);
+          if (parseInt(typeFlag) === 0) {
+            this.appValues = setValue(this.appValues, parentPath, []);
+          }
+          this.appValues = setValue(this.appValues, param.path, value);
+        } else if (operate === 'deleted') {
+          this.appValues = deleteValue(this.appValues, path);
+        }
         this.reRender();
       },
       reRender() {
