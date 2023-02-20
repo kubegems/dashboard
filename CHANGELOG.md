@@ -1,10 +1,11 @@
-# 1.23.4 (2023-2-17)
+# 1.23.4 (2023-2-20)
 
 ### 🌟 新功能
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [fix: ⚡ support custom kind for appmanifest] | [85b4cfa](https://github.com/chenshunliang/dashboard/commit/85b4cfafd51458b30fca0b07ec1900df51a9ecfc) |
+| - | [perf: ⚡ supported list items to json schema render] | [74528f2](https://github.com/chenshunliang/dashboard/commit/74528f2357302a433a6b1c2426f5c4408624e3dc) |
 
 ### Bug Fixes
 
