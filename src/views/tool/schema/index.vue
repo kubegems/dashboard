@@ -29,7 +29,10 @@
         />
       </v-col>
       <v-col cols="1" :style="{ position: 'relative' }">
-        <v-btn class="kubegems__full-center" color="primary" small @click="renderSchema">>></v-btn>
+        <div class="kubegems__full-center">
+          <v-btn color="primary" small @click="renderSchema">>></v-btn>
+          <v-btn class="mt-2" color="primary" small @click="getData">Get</v-btn>
+        </div>
       </v-col>
       <v-col cols="5">
         <v-card
@@ -37,7 +40,7 @@
           :height="height - 120"
           :style="{ overflowY: 'auto' }"
         >
-          <v-form ref="form" v-model="valid" class="pa-0 ma-3" lazy-validation @submit.prevent>
+          <v-form v-model="valid" class="pa-0 ma-3" lazy-validation @submit.prevent>
             <v-flex class="pa-0 ma-0">
               <BaseParam
                 v-for="(param, index) in params"
@@ -63,9 +66,8 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { deepCopy } from '@/utils/helpers';
   import { retrieveFromSchema } from '@/utils/schema';
-  import { setValue } from '@/utils/yaml';
+  import { deleteValue, setValue } from '@/utils/yaml';
 
   export default {
     name: 'SchemaForm',
@@ -83,31 +85,31 @@
       },
     },
     methods: {
-      validate() {
-        return this.$refs.form.validate();
-      },
       getData() {
-        this.obj.values = deepCopy(this.appValues);
-        return this.obj;
+        console.log(this.appValues);
       },
       async renderSchema() {
         this.appValues = {};
         this.schemaJson = JSON.parse(this.jsonSchema);
         this.params = retrieveFromSchema(this.appValues, this.schemaJson);
       },
-      changeBasicFormParam(param, value) {
+      changeBasicFormParam(param, value, operate = 'changed', path = '') {
         // Change raw values 修改原始值, 返回的是字符串
-        this.appValues = setValue(this.appValues, param.path, value);
+        if (operate === 'changed') {
+          const parentPath = param.path.substr(0, param.path.lastIndexOf('/'));
+          const typeFlag = param.path.substr(param.path.lastIndexOf('/') + 1);
+          if (parseInt(typeFlag) === 0) {
+            this.appValues = setValue(this.appValues, parentPath, []);
+          }
+          this.appValues = setValue(this.appValues, param.path, value);
+        } else if (operate === 'deleted') {
+          this.appValues = deleteValue(this.appValues, path);
+        }
         this.reRender();
       },
       reRender() {
         this.params = [];
         this.params = retrieveFromSchema(this.appValues, this.schemaJson);
-      },
-      reset() {
-        this.appValues = {};
-        this.params = [];
-        this.obj = {};
       },
     },
   };

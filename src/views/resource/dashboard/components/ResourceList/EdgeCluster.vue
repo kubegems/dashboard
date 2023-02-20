@@ -36,7 +36,7 @@
           </v-icon>
         </div>
         <div class="float-left">
-          <span> {{ item.metadata.name }} </span>
+          <span> {{ item.metadata.labels[EDGE_DEVICEID_KEY] || item.metadata.name }} </span>
         </div>
         <div class="kubegems__clear-float" />
       </template>
@@ -75,7 +75,7 @@
   import Pagination from '../Pagination.vue';
   import { useEdgeClusterPagination } from '@/composition/cluster';
   import { useRoute } from '@/composition/router';
-  import { PROJECT_KEY, TENANT_KEY } from '@/constants/label';
+  import { EDGE_DEVICEID_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
   import { useGlobalI18n } from '@/i18n';
   import { EdgeCluster } from '@/types/edge_cluster';
 

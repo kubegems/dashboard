@@ -58,10 +58,16 @@
         type: Object,
         default: () => ({}),
       },
+      level: {
+        type: Number,
+        default: () => 1,
+      },
     },
     computed: {
       pathLevel() {
-        return this.param.path.split('/').length;
+        if (this.param?.path?.indexOf('/') > -1) return this.param.path.split('/').length;
+        if (this.param?.path?.indexOf('.') > -1) return this.param.path.split('.').length;
+        return this.level;
       },
       textRule() {
         if (this.param.type?.indexOf('null') > -1 && !this.param.value) {

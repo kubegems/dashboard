@@ -47,6 +47,10 @@
         type: Object,
         default: () => ({}),
       },
+      level: {
+        type: Number,
+        default: () => 1,
+      },
     },
     data() {
       return {
@@ -55,7 +59,9 @@
     },
     computed: {
       pathLevel() {
-        return this.param.path.split('/').length;
+        if (this.param?.path?.indexOf('/') > -1) return this.param.path.split('/').length;
+        if (this.param?.path?.indexOf('.') > -1) return this.param.path.split('.').length;
+        return this.level;
       },
     },
     methods: {

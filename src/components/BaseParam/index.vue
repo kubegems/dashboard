@@ -25,19 +25,7 @@
       :app-values="appValues"
       :cluster-name="clusterName"
       :label="param.title || param.path"
-      :param="param"
-      :path-level="pathLevel"
-      v-bind="$attrs"
-      v-on="$listeners"
-    />
-    <Subsection
-      v-else-if="type === 'list'"
-      :id="id"
-      :all-params="allParams"
-      :app-values="appValues"
-      :cluster-name="clusterName"
-      item-add
-      :label="param.title || param.path"
+      :level="level"
       :param="param"
       :path-level="pathLevel"
       v-bind="$attrs"
@@ -48,6 +36,7 @@
       v-else-if="type === 'boolean'"
       :id="id"
       :label="param.title || param.path"
+      :level="level"
       :param="param"
       v-bind="$attrs"
       v-on="$listeners"
@@ -68,6 +57,7 @@
       :id="id"
       :input-type="getInputType"
       :label="param.title || param.path"
+      :level="level"
       :param="param"
       v-bind="$attrs"
       v-on="$listeners"
@@ -83,6 +73,7 @@
       :cluster-name="clusterName"
       :input-type="getInputType"
       :label="param.title || param.path"
+      :level="level"
       :param="param"
       v-on="$listeners"
     />
@@ -91,9 +82,11 @@
       v-else-if="type === 'array'"
       :id="id"
       v-bind="$attrs"
+      :app-values="appValues"
       :cluster-name="clusterName"
       :input-type="getInputType"
       :label="param.title || param.path"
+      :level="level"
       :param="param"
       v-on="$listeners"
     />
@@ -102,6 +95,7 @@
       v-else-if="type === 'string' && param.render && param.render === 'slider'"
       :id="id"
       :label="param.title || param.path"
+      :level="level"
       :param="param"
       v-bind="$attrs"
       v-on="$listeners"
@@ -111,6 +105,7 @@
       v-else-if="type === 'string' && param.render && param.render === 'textArea'"
       :id="id"
       :label="param.title || param.path"
+      :level="level"
       :param="param"
       v-bind="$attrs"
       v-on="$listeners"
@@ -159,6 +154,10 @@
         type: Object,
         default: () => ({}),
       },
+      level: {
+        type: Number,
+        default: () => 1,
+      },
     },
     computed: {
       isHiddle() {
@@ -204,7 +203,7 @@
         return Array.isArray(this.param.type) ? this.param.type[0] : this.param.type;
       },
       getInputType() {
-        const label = this.param.title || this.param.path;
+        const label = this.param.title || this.param.path || '';
         let inputType = 'string';
         if (this.type === 'integer' || this.type === 'number') {
           inputType = 'number';
@@ -218,9 +217,9 @@
         return inputType;
       },
       pathLevel() {
-        if (this.param.path.indexOf('/') > -1) return this.param.path.split('/').length;
-        if (this.param.path.indexOf('.') > -1) return this.param.path.split('.').length;
-        return 1;
+        if (this.param?.path?.indexOf('/') > -1) return this.param.path.split('/').length;
+        if (this.param?.path?.indexOf('.') > -1) return this.param.path.split('.').length;
+        return this.level;
       },
     },
     methods: {
