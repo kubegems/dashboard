@@ -85,7 +85,7 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
-            if (!this.checkDataWithNS(data, this.item.metadata.namespace)) return;
+            if (!this.m_resource_checkDataWithNS(data, this.item.metadata.namespace)) return;
             if (!this.m_resource_validateJsonSchema(ServiceMonitorSchema, data)) {
               return;
             }
