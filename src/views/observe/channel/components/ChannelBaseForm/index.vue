@@ -31,12 +31,7 @@
             />
           </v-col>
           <v-col cols="6">
-            <v-switch
-              v-model="obj.channelConfig.sendResolved"
-              class="mt-5"
-              hide-details
-              :label="$t('tip.send_resolved')"
-            />
+            <v-switch v-model="sendResolved" class="mt-5" hide-details :label="$t('tip.send_resolved')" />
           </v-col>
           <v-col cols="6">
             <v-autocomplete
@@ -112,6 +107,7 @@
     data() {
       return {
         valid: false,
+        sendResolved: false,
         obj: {
           name: '',
           channelConfig: {
@@ -146,6 +142,7 @@
         handler(newValue) {
           if (newValue) {
             this.obj = deepCopy(newValue);
+            this.sendResolved = newValue.channelConfig?.sendResolved;
             this.channelType = `${this.obj.channelConfig.channelType[0].toLocaleUpperCase()}${this.obj.channelConfig.channelType.substr(
               1,
             )}`;
@@ -212,7 +209,9 @@
       },
       getData() {
         if (this.$refs[this.channelType]) {
-          return this.$refs[this.channelType].getData();
+          const data = this.$refs[this.channelType].getData();
+          data.channelConfig.sendResolved = this.sendResolved;
+          return data;
         }
         return null;
       },
@@ -230,6 +229,7 @@
         );
       },
       setData(data) {
+        this.sendResolved = data.channelConfig?.sendResolved;
         this.obj = data;
       },
     },

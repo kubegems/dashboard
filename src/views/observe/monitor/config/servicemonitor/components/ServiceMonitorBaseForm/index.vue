@@ -150,7 +150,7 @@
     methods: {
       async loadData() {
         this.$nextTick(() => {
-          const { cluster, namespace } = this.$route.query;
+          const { namespace } = this.$route.query;
           if (this.AdminViewport) {
             if (this.item && Object.keys(this.item).length > 0) {
               this.obj = this.item;
@@ -160,7 +160,6 @@
               this.obj = this.item;
             } else {
               this.obj.metadata.namespace = namespace;
-              this.$set(this.obj.spec.namespaceSelector.matchNames, 0, cluster);
             }
           }
           this.retrieveServiceSelector();
@@ -252,6 +251,8 @@
         this.obj = data;
       },
       getData() {
+        if (this.obj.spec?.namespaceSelector?.matchNames)
+          this.$set(this.obj.spec.namespaceSelector.matchNames, 0, this.$route.query.namespace);
         return this.obj;
       },
       validate() {
