@@ -32,3 +32,8 @@ export function useCopy(): copyHandler {
   const { proxy } = getCurrentInstance();
   return proxy.$copyText;
 }
+
+export function useForceUpdate(): () => void {
+  const { proxy } = getCurrentInstance();
+  return proxy.$forceUpdate;
+}

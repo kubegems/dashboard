@@ -33,6 +33,10 @@
       </v-card-text>
       <v-divider class="mt-4" />
       <v-card-title class="text-body-2 kubegems__text px-4">
+        <div class="title__pointer mr-1" :style="{ fontWeight: 500 }" @click.stop="toOpenProtocol">
+          <a class="float-left title__div"> {{ i18nLocal.t('tip.openresource') }} </a>
+        </div>
+
         <div class="title__pointer" @click.stop="toProject">
           <v-btn class="float-left" icon small>
             <v-icon>mdi-github</v-icon>
@@ -115,6 +119,9 @@
   };
   const toStar = (): void => {
     window.open('https://github.com/kubegems/kubegems');
+  };
+  const toOpenProtocol = (): void => {
+    window.open('https://www.apache.org/licenses/LICENSE-2.0');
   };
 
   defineExpose({
