@@ -187,7 +187,7 @@
 
   import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
-  import { deepCopy } from '@/utils/helpers';
+  import { deepCopy, sleep } from '@/utils/helpers';
 
   export default {
     name: 'ContainerLog',
@@ -296,7 +296,8 @@
           this.initWebSocket();
         }
       },
-      initWebSocket() {
+      async initWebSocket() {
+        await sleep(100);
         const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
         const host = window.location.host;
         let wsuri = `${protocol}://${host}/api/v1/proxy/cluster/${this.ThisCluster}/custom/core/v1/namespaces/${this.item.namespace}/pods/${this.item.name}/actions/logs?stream=true&container=${this.container}&token=${this.JWT}&tail=${this.count}&follow=${this.stream}`;
