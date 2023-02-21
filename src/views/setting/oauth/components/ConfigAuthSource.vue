@@ -15,118 +15,111 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-star" :title="$t('tip.config_title')" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="state.dialog"
+    icon="mdi-star"
+    :title="i18nLocal.t('tip.config_title')"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
-      <BaseSubTitle :title="$root.$t('form.definition', [obj.vendor])" />
-      <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
+      <BaseSubTitle :title="i18n.t('form.definition', [obj.vendor])" />
+      <v-form ref="form" v-model="state.valid" lazy-validation @submit.prevent>
         <v-card-text class="pa-2">
           <v-row>
             <v-col cols="6">
               <v-text-field
                 v-model="obj.name"
                 class="my-0"
-                :label="$t('form.name')"
+                :label="i18nLocal.t('form.name')"
                 readonly
                 required
-                :rules="objRules.nameRule"
+                :rules="objRules.name"
               />
             </v-col>
           </v-row>
         </v-card-text>
-        <component :is="formComponent" :ref="formComponent" :edit="edit" :item="item" :vendor="obj.vendor" />
+        <component :is="components[obj.vendor]" ref="typeForm" :edit="state.edit" :item="obj" :vendor="obj.vendor" />
       </v-form>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateAuthSource">
-        {{ $root.$t('operate.confirm') }}
+      <v-btn class="float-right" color="primary" :loading="store.state.Circular" text @click="updateAuthSource">
+        {{ i18n.t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { reactive, ref } from 'vue';
 
-  import messages from '../i18n';
-  import OauthBaseForm from './auth_source/OauthBaseForm';
-  import OpenLdapBaseForm from './auth_source/OpenLdapBaseForm';
-  import { postAuthSourceConfig, putAuthSourceConfig } from '@/api';
-  import BaseResource from '@/mixins/resource';
+  import { useI18n } from '../i18n';
+  import OauthForm from './auth_source/OauthForm.vue';
+  import OpenLdapForm from './auth_source/OpenLdapForm.vue';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+  import { OAuth } from '@/types/oauth';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
-  export default {
-    name: 'ConfigAuthSource',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      OauthBaseForm,
-      OpenLdapBaseForm,
-    },
-    mixins: [BaseResource],
-    data() {
-      return {
-        dialog: false,
-        valid: false,
-        item: null,
-        edit: false,
-        formComponent: 'OauthBaseForm',
-        formComponents: {
-          oauth: 'OauthBaseForm',
-          ldap: 'OpenLdapBaseForm',
-          gitlab: 'OauthBaseForm',
-          github: 'OauthBaseForm',
-        },
-        obj: {
-          name: '',
-          kind: 'OAUTH',
-          vendor: '',
-        },
-      };
-    },
-    computed: {
-      ...mapState(['Circular']),
-      objRules() {
-        return {
-          vendorRule: [required],
-          nameRule: [required],
-        };
-      },
-    },
-    methods: {
-      open() {
-        this.dialog = true;
-      },
-      init(item, edit) {
-        this.edit = edit;
-        this.obj = deepCopy(item);
-        this.formComponent = this.formComponents[this.obj.vendor];
-        if (this.edit) {
-          this.$nextTick(() => {
-            this.item = deepCopy(item);
-          });
-        }
-      },
-      async updateAuthSource() {
-        if (this.$refs.form.validate(true) && this.$refs[this.formComponent].validate()) {
-          if (this.formComponent === 'OauthBaseForm' || this.formComponent === 'OpenLdapBaseForm') {
-            const data = Object.assign(this.obj, this.$refs[this.formComponent].getData());
-            if (this.edit) {
-              await putAuthSourceConfig(this.obj.id, data);
-            } else {
-              await postAuthSourceConfig(data);
-            }
-          }
-          this.reset();
-          this.$emit('refresh');
-        }
-      },
-      reset() {
-        this.dialog = false;
-        this.$refs[this.formComponent].reset();
-        this.formComponent = '';
-      },
-    },
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
+
+  const state = reactive({
+    dialog: false,
+    valid: false,
+    edit: false,
+  });
+
+  const components = {
+    oauth: OauthForm,
+    ldap: OpenLdapForm,
+    gitlab: OauthForm,
+    github: OauthForm,
+  };
+
+  let obj = reactive({
+    name: '',
+    kind: 'OAUTH',
+    vendor: '',
+  });
+  const objRules = {
+    name: [required],
+  };
+
+  const open = (): void => {
+    state.dialog = true;
+  };
+
+  const init = (item: OAuth, edit: boolean): void => {
+    state.edit = edit;
+    obj = Object.assign(obj, deepCopy(item));
+  };
+
+  defineExpose({
+    open,
+    init,
+  });
+
+  const form = ref(null);
+  const typeForm = ref(null);
+  const emit = defineEmits(['refresh']);
+  const updateAuthSource = async (): Promise<void> => {
+    if (form.value.validate(true) && typeForm.value?.validate()) {
+      const data = Object.assign(obj, typeForm.value.getData());
+      if (state.edit) {
+        await new OAuth(data).updateOAuth();
+      } else {
+        await new OAuth(data).addOAuth();
+      }
+      reset();
+      emit('refresh');
+    }
+  };
+
+  const reset = () => {
+    state.dialog = false;
+    typeForm.value.reset();
   };
 </script>

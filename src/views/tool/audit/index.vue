@@ -136,8 +136,6 @@
 
   const date = ref([]);
   const datetimeChanged = (): void => {
-    pagination.request.CreatedAt_gte = moment(date.value[0]).format();
-    pagination.request.CreatedAt_lte = moment(date.value[1]).format();
     pagination.page = 1;
     getAuditList();
   };
@@ -178,6 +176,8 @@
 
   const getAuditList = async (params: KubePaginationRequest = pagination): Promise<void> => {
     params.request = Object.assign(params.request, useQuery().value);
+    params.request.CreatedAt_gte = moment(params.request.CreatedAt_gte).utc().format();
+    params.request.CreatedAt_lte = moment(params.request.CreatedAt_lte).utc().format();
     params.request.Tenant = store.getters.Tenant().TenantName;
     if (store.state.AdminViewport) {
       params.request.Tenant = null;

@@ -154,8 +154,6 @@
 
   const date = ref([]);
   const datetimeChanged = (): void => {
-    pagination.request.start = `${Date.parse(moment(date.value[0]).utc().format())}000000`;
-    pagination.request.end = `${Date.parse(moment(date.value[1]).utc().format())}000000`;
     pagination.page = 1;
     getEventList();
   };
@@ -198,6 +196,8 @@
 
   const getEventList = async (params: KubePaginationRequest = pagination): Promise<void> => {
     params.request = Object.assign(params.request, useQuery().value);
+    params.request.start = `${Date.parse(moment(date.value[0]).utc().format())}000000`;
+    params.request.end = `${Date.parse(moment(date.value[1]).utc().format())}000000`;
     if (store.state.AdminViewport) {
       params.request.tenant = null;
     }
@@ -207,6 +207,7 @@
         return t.TenantName === params.request.tenant;
       });
       const data = await useEnvironmentListInTenant(new Tenant({ TenantName: params.request.tenant, ID: tenant?.ID }));
+      if (data?.length === 0) return;
       query += `|line_format "{{.metadata_namespace}}"|~"${data
         .map((d) => {
           return d.Namespace;
@@ -388,7 +389,6 @@
 
   onMounted(async () => {
     await generateFilter();
-    datetimeChanged();
   });
 </script>
 

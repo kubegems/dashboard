@@ -19,7 +19,7 @@
     <BaseBreadcrumb />
 
     <v-row class="mt-0">
-      <v-col v-for="(item, index) in items" :key="index" class="pt-0 pb-3" cols="12">
+      <v-col v-for="(item, index) in oauthItems" :key="index" class="pt-0 pb-3" cols="12">
         <v-hover #default="{ hover }">
           <v-card class="mx-auto oauth__pos" :elevation="hover ? 5 : 0" flat height="100%">
             <v-list-item three-line>
@@ -33,14 +33,16 @@
                   </a>
                 </v-list-item-title>
                 <v-list-item-subtitle>
-                  {{ $t(`tip.${item.name.toLowerCase()}`) }}
+                  {{ i18nLocal.t(`tip.${item.name.toLowerCase()}`) }}
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
 
             <v-card-actions v-if="!item.forbid" class="oauth__position">
               <v-spacer />
-              <v-btn color="primary" depressed text @click="configAuthSource(item)"> {{ $t('operate.config') }} </v-btn>
+              <v-btn color="primary" depressed text @click="configAuthSource(item)">
+                {{ i18nLocal.t('operate.config') }}
+              </v-btn>
               <v-btn
                 v-if="Object.prototype.hasOwnProperty.call(item, 'enabled')"
                 :color="item.enabled ? `error` : `primary`"
@@ -48,115 +50,111 @@
                 text
                 @click="operateAuthSource(item)"
               >
-                {{ item.enabled ? $t('operate.disable') : $t('operate.enable') }}
+                {{ item.enabled ? i18nLocal.t('operate.disable') : i18nLocal.t('operate.enable') }}
               </v-btn>
             </v-card-actions>
 
             <v-flex v-if="item.enabled" class="oauth__watermark-bg" />
             <v-flex v-if="item.enabled" class="oauth__watermark font-weight-medium">
-              {{ $t('status.enabled') }}
+              {{ i18nLocal.t('status.enabled') }}
             </v-flex>
           </v-card>
         </v-hover>
       </v-col>
     </v-row>
 
-    <ConfigAuthSource ref="configAuthSource" @refresh="oauthSourceConfigList" />
+    <ConfigAuthSource ref="authSource" @refresh="getOAuthList" />
   </v-container>
 </template>
 
-<script>
-  import ConfigAuthSource from './components/ConfigAuthSource';
-  import messages from './i18n';
-  import { getAuthSourceConfigList, putAuthSourceConfig } from '@/api';
+<script lang="ts" setup>
+  import { onMounted, ref } from 'vue';
+
+  import ConfigAuthSource from './components/ConfigAuthSource.vue';
+  import { useI18n } from './i18n';
   import { VENDOR } from '@/constants/platform';
-  import { deepCopy } from '@/utils/helpers';
+  import { useStore } from '@/store';
+  import { OAuth } from '@/types/oauth';
 
-  export default {
-    name: 'OAuthSetting',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      ConfigAuthSource,
-    },
-    data() {
-      this.VENDOR = VENDOR;
+  const i18nLocal = useI18n();
+  const store = useStore();
 
-      return {
-        items: [
-          {
-            name: 'Kubegems',
-            kind: 'kubegems',
-            enabled: true,
-            forbid: true,
-            vendor: 'kubegems',
-          },
-          {
-            name: 'Oauth',
-            kind: 'OAUTH',
-            vendor: 'oauth',
-          },
-          {
-            name: 'OpenLdap',
-            kind: 'LDAP',
-            vendor: 'ldap',
-          },
-          {
-            name: 'GitLab',
-            kind: 'OAUTH',
-            vendor: 'gitlab',
-          },
-          {
-            name: 'GitHub',
-            kind: 'OAUTH',
-            vendor: 'github',
-          },
-        ],
-      };
+  const items = [
+    {
+      name: 'Kubegems',
+      kind: 'kubegems',
+      enabled: true,
+      forbid: true,
+      vendor: 'kubegems',
     },
-    mounted() {
-      this.$nextTick(() => {
-        this.oauthSourceConfigList();
+    {
+      name: 'Oauth',
+      kind: 'OAUTH',
+      vendor: 'oauth',
+    },
+    {
+      name: 'OpenLdap',
+      kind: 'LDAP',
+      vendor: 'ldap',
+    },
+    {
+      name: 'GitLab',
+      kind: 'OAUTH',
+      vendor: 'gitlab',
+    },
+    {
+      name: 'GitHub',
+      kind: 'OAUTH',
+      vendor: 'github',
+    },
+  ];
+
+  const oauthItems = ref<OAuth[]>([]);
+  const getOAuthList = async () => {
+    const data = await new OAuth().getOAuthList({ page: 1, size: 1000 });
+    oauthItems.value = items as OAuth[];
+    data.List.forEach((item) => {
+      const index = items.findIndex((i) => {
+        return i.vendor === item.vendor;
       });
-    },
-    methods: {
-      async oauthSourceConfigList() {
-        const data = await getAuthSourceConfigList({ size: 1000 });
-        data.List.forEach((item) => {
-          const index = this.items.findIndex((i) => {
-            return i.vendor === item.vendor;
-          });
-          let data = this.items[index];
-          data = Object.assign(data, item);
-          this.$set(this.items, index, data);
-        });
+      oauthItems.value[index] = Object.assign(oauthItems.value[index], item);
+    });
+  };
+
+  onMounted(() => {
+    getOAuthList();
+  });
+
+  const authSource = ref(null);
+  const configAuthSource = (item: OAuth) => {
+    if (item.id > 0) {
+      authSource.value.init(item, true);
+    } else {
+      authSource.value.init(item, false);
+    }
+    authSource.value.open();
+  };
+
+  const operateAuthSource = (item: OAuth): void => {
+    store.commit('SET_CONFIRM', {
+      title: item.enabled
+        ? i18nLocal.t('operate.disable_c', [item.kind])
+        : i18nLocal.t('operate.enable_c', [item.kind]),
+      content: {
+        text: item.enabled
+          ? i18nLocal.t('operate.disable_c', [item.kind])
+          : i18nLocal.t('operate.enable_c', [item.kind]),
+        type: 'confirm',
+        name: item.name,
       },
-      configAuthSource(item) {
-        if (item.id > 0) {
-          this.$refs.configAuthSource.init(item, true);
-        } else {
-          this.$refs.configAuthSource.init(item, false);
-        }
-        this.$refs.configAuthSource.open();
+      param: { item },
+      doFunc: async (param) => {
+        param.item.enabled = !param.item.enabled;
+        await new OAuth(param.item).updateOAuth();
+        oauthItems.value = [];
+        getOAuthList();
       },
-      async operateAuthSource(item) {
-        this.$store.commit('SET_CONFIRM', {
-          title: item.enabled ? this.$t('operate.disable_c', [item.kind]) : this.$t('operate.enable_c', [item.kind]),
-          content: {
-            text: item.enabled ? this.$t('operate.disable_c', [item.kind]) : this.$t('operate.enable_c', [item.kind]),
-            type: 'confirm',
-            name: item.name,
-          },
-          param: { item },
-          doFunc: async (param) => {
-            const data = deepCopy(param.item);
-            await putAuthSourceConfig(param.item.id, Object.assign(data, { enabled: !param.item.enabled }));
-            this.oauthSourceConfigList();
-          },
-        });
-      },
-    },
+    });
   };
 </script>
 
