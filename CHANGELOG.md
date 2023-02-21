@@ -15,6 +15,7 @@
 | - | [🐞 fix(promql): node memory usage] | [6023695](https://github.com/chenshunliang/dashboard/commit/6023695c505b905ad140dcfe00e675e43d953948) |
 | - | [fix: 🐛 fix edge cluster not clear when user enter new tenant space bug] | [f3deaf8](https://github.com/chenshunliang/dashboard/commit/f3deaf8a8d23e0b40df56ca0fa62d5f69254ff4f) |
 | - | [fix: 🐛 fix alert channge form data clear when change resolved field bug] | [d08eb5e](https://github.com/chenshunliang/dashboard/commit/d08eb5ef1921daa1af0abe680449d750ee28479f) |
+| - | [fix: 🐛 fix update service monitor `updateServiceMonitor is not a function` bug] | [e39e898](https://github.com/chenshunliang/dashboard/commit/e39e8981634b446b3bc51f97bb9c4367b169c659) |
 
 ### 🔨 reflactor
 

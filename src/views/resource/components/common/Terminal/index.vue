@@ -380,7 +380,7 @@
           rows: this.rows,
           cols: this.cols,
         });
-        if (this.websock.readyState === 1) {
+        if (this.websock && this.websock.readyState === 1) {
           this.websock.send(msg);
         }
       },

@@ -21,6 +21,7 @@ export const useUserPagination = async (user: User, page = 1, size = 10, search 
     page: page,
     size: size,
     search: search,
+    preload: 'SystemRole',
   });
 
   return {
