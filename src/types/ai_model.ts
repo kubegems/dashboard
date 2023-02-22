@@ -25,7 +25,12 @@ interface RegistryUser {
   deleteUser(user: User): Promise<void>;
 }
 
-export class AIModelRegistry implements RegistryUser {
+interface Operator {
+  addSyncTask(): Promise<void>;
+  deleteSyncTask(): Promise<void>;
+}
+
+export class AIModelRegistry implements RegistryUser, Operator {
   constructor(registry?: { [key: string]: any }) {
     Object.assign(this, registry);
   }
@@ -51,6 +56,11 @@ export class AIModelRegistry implements RegistryUser {
   ): Promise<{ finishedAt: Date; progress: string; startedAt: Date; status: string }> {
     const data: { [key: string]: any } = await axios(`admin/sources/${this.name}/sync`, { params: params });
     return data as { finishedAt: Date; progress: string; startedAt: Date; status: string };
+  }
+
+  public async getRegistryListByAdmin(params: KubeRequest = {}): Promise<AIModelRegistry[]> {
+    const data: { [key: string]: any } = await axios(`admin/sources`, { params: params });
+    return data as AIModelRegistry[];
   }
 
   public async getRegistryByAdmin(params: KubeRequest = {}): Promise<AIModelRegistry> {
@@ -84,6 +94,15 @@ export class AIModelRegistry implements RegistryUser {
 
   public async deleteUser(user: User): Promise<void> {
     await axios.delete(`sources/${this.name}/admins/${user.Username}`);
+  }
+
+  // Operator
+  public async addSyncTask(): Promise<void> {
+    await axios.post(`admin/sources/${this.name}/sync`);
+  }
+
+  public async deleteSyncTask(): Promise<void> {
+    await axios.delete(`admin/sources/${this.name}/sync`);
   }
 }
 

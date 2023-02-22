@@ -168,6 +168,8 @@
       };
     },
     computed: {
+      ...mapState(['Edge']),
+      ...mapGetters(['Environment']),
       containerTypes() {
         return [
           { text: this.$t('tip.worker_container'), value: 'worker' },
@@ -181,10 +183,6 @@
           { text: this.$t('tip.image_never'), value: 'Never' },
         ];
       },
-    },
-    computed: {
-      ...mapState(['Edge']),
-      ...mapGetters(['Environment']),
     },
     watch: {
       container: {
