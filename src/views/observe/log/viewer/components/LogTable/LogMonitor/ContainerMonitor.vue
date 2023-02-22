@@ -23,6 +23,7 @@
             :global-plugins-check="false"
             label="container"
             :metrics="cpu"
+            mode="x"
             :title="$t('tip.used', [$root.$t('resource.cpu')])"
             type="cpu"
           />
@@ -32,6 +33,7 @@
             :global-plugins-check="false"
             label="container"
             :metrics="memory"
+            mode="x"
             :title="$t('tip.used', [$root.$t('resource.memory')])"
             unit="Mi"
           />

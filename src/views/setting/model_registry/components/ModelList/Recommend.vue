@@ -14,18 +14,24 @@
  * limitations under the License. 
 -->
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-comment" :title="$t('tip.recomment')" :width="500" @reset="reset">
+  <BaseDialog
+    v-model="state.dialog"
+    icon="mdi-comment"
+    :title="i18nLocal.t('tip.recomment')"
+    :width="500"
+    @reset="reset"
+  >
     <template #content>
       <v-flex>
-        <BaseSubTitle :title="$root.$t('form.definition', [$t('tip.recomment')])" />
+        <BaseSubTitle :title="i18n.t('form.definition', [i18nLocal.t('tip.recomment')])" />
         <v-card-text class="pa-2">
-          <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
+          <v-form ref="form" v-model="state.valid" lazy-validation @submit.prevent>
             <v-row>
               <v-col cols="12">
                 <v-text-field
                   v-model.number="obj.recomment"
-                  :label="$t('tip.recomment')"
-                  :rules="objRules.recommentRules"
+                  :label="i18nLocal.t('tip.recomment')"
+                  :rules="objRules.recomment"
                   type="number"
                 />
               </v-col>
@@ -35,62 +41,65 @@
       </v-flex>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateRecomment">
-        {{ $root.$t('operate.confirm') }}
+      <v-btn class="float-right" color="primary" :loading="store.state.Circular" text @click="updateRecomment">
+        {{ i18n.t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>
 </template>
 
-<script>
-  import { Base64 } from 'js-base64';
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { reactive, ref } from 'vue';
 
-  import messages from '../../i18n';
-  import { putAdminUpdateModel } from '@/api';
+  import { useI18n } from '../../i18n';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+  import { AIModel } from '@/types/ai_model';
   import { deepCopy } from '@/utils/helpers';
   import { positiveInteger, required } from '@/utils/rules';
 
-  export default {
-    name: 'Recommend',
-    i18n: {
-      messages: messages,
-    },
-    data() {
-      return {
-        dialog: false,
-        valid: false,
-        obj: {
-          recomment: 0,
-        },
-        objRules: {
-          recommentRules: [required, positiveInteger, (v) => v <= 100 || this.$t('form.recomment_rule')],
-        },
-      };
-    },
-    computed: {
-      ...mapState(['Circular']),
-    },
-    methods: {
-      open() {
-        this.dialog = true;
-      },
-      async updateRecomment() {
-        if (this.$refs.form.validate(true)) {
-          const data = this.obj;
-          await putAdminUpdateModel(this.$route.params.name, Base64.encode(data.name), data);
-          this.reset();
-          this.$emit('refresh');
-        }
-      },
-      init(item) {
-        this.obj = deepCopy(item);
-      },
-      reset() {
-        this.dialog = false;
-        this.$refs.form.resetValidation();
-        this.obj = this.$options.data().obj;
-      },
-    },
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
+
+  const state = reactive({
+    dialog: false,
+    valid: false,
+  });
+
+  const obj = ref({
+    recomment: 0,
+  });
+  const objRules = {
+    recomment: [required, positiveInteger, (v) => v <= 100 || i18nLocal.t('form.recomment_rule')],
+  };
+
+  const open = (): void => {
+    state.dialog = true;
+  };
+
+  const init = (item: AIModel): void => {
+    obj.value = deepCopy(item);
+  };
+
+  defineExpose({
+    open,
+    init,
+  });
+
+  const form = ref(null);
+  const reset = (): void => {
+    state.dialog = false;
+    form.value.resetValidation();
+    obj.value = { recomment: 0 };
+  };
+
+  const emit = defineEmits(['refresh']);
+  const updateRecomment = async (): Promise<void> => {
+    if (form.value.validate(true)) {
+      await new AIModel(obj.value).updateModelByAdmin();
+      reset();
+      emit('refresh');
+    }
   };
 </script>

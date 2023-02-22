@@ -18,7 +18,7 @@
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <v-menu v-if="m_permisson_resourceAllow()" left>
+          <v-menu v-if="useEnvironmentAllow()" left>
             <template #activator="{ on }">
               <v-btn icon>
                 <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
@@ -28,12 +28,12 @@
               <v-card-text class="pa-2">
                 <v-flex>
                   <v-btn color="primary" small text @click="updateModelRegistry">
-                    {{ $root.$t('operate.edit') }}
+                    {{ i18n.t('operate.edit') }}
                   </v-btn>
                 </v-flex>
                 <v-flex>
                   <v-btn color="error" small text @click="removeModelRegistry">
-                    {{ $root.$t('operate.delete') }}
+                    {{ i18n.t('operate.delete') }}
                   </v-btn>
                 </v-flex>
               </v-card-text>
@@ -44,7 +44,7 @@
     </BaseBreadcrumb>
     <v-row class="mt-0">
       <v-col class="pt-0" cols="2">
-        <BaseResourceInfo :item="item" />
+        <BaseResourceInfo :item="registry" />
       </v-col>
       <v-col class="pt-0" cols="10">
         <v-card flat>
@@ -57,77 +57,62 @@
           </v-card-text>
         </v-card>
 
-        <component :is="tabItems[tab].value" :ref="tabItems[tab].value" class="mt-3" :item="item" />
+        <component :is="tabItems[tab].value" :ref="tabItems[tab].value" class="mt-3" :item="registry" />
       </v-col>
     </v-row>
 
-    <UpdateModelRegistry ref="updateModelRegistry" @refresh="modelRegistryDetail" />
+    <ModelRegistryForm ref="modelRegistry" @refresh="getModelRegistryDetail" />
   </v-container>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { onMounted, ref } from 'vue';
 
-  import BaseResourceInfo from './components/BaseResourceInfo';
-  import ModelList from './components/ModelList';
-  import UpdateModelRegistry from './components/UpdateModelRegistry';
-  import messages from './i18n';
-  import { deleteAdminModelSource, getAdminModelSourceDetail } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
+  import BaseResourceInfo from './components/BaseResourceInfo.vue';
+  import ModelList from './components/ModelList/index.vue';
+  import ModelRegistryForm from './components/ModelRegistryForm.vue';
+  import { useEnvironmentAllow } from '@/composition/permission';
+  import { useRoute, useRouter } from '@/composition/router';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+  import { AIModelRegistry } from '@/types/ai_model';
 
-  export default {
-    name: 'ModelRegistryDetail',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      BaseResourceInfo,
-      ModelList,
-      UpdateModelRegistry,
-    },
-    mixins: [BasePermission, BaseResource],
-    data() {
-      return {
-        item: null,
-        tab: 0,
-      };
-    },
-    computed: {
-      ...mapState(['JWT']),
-      tabItems() {
-        return [{ text: this.$root.$t('header.model_store'), value: 'ModelList' }];
+  const i18n = useGlobalI18n();
+  const store = useStore();
+  const router = useRouter();
+  const route = useRoute();
+
+  const tab = ref(0);
+  const tabItems = [{ text: i18n.t('header.model_store'), value: ModelList }];
+
+  const registry = ref<AIModelRegistry>(undefined);
+  const getModelRegistryDetail = async (): Promise<void> => {
+    registry.value = await new AIModelRegistry({ name: route.params.name }).getRegistryByAdmin();
+  };
+
+  onMounted(() => {
+    getModelRegistryDetail();
+  });
+
+  const modelRegistry = ref(null);
+  const updateModelRegistry = (): void => {
+    modelRegistry.value.init(registry.value);
+    modelRegistry.value.open();
+  };
+
+  const removeModelRegistry = (): void => {
+    store.commit('SET_CONFIRM', {
+      title: i18n.t('operate.delete_c', [i18n.t('header.model_store')]),
+      content: {
+        text: `${i18n.t('operate.delete_c', [i18n.t('header.model_store')])} ${registry.value.name}`,
+        type: 'delete',
+        name: registry.value.name,
       },
-    },
-    mounted() {
-      this.$nextTick(() => {
-        this.modelRegistryDetail();
-      });
-    },
-    methods: {
-      async modelRegistryDetail() {
-        const data = await getAdminModelSourceDetail(this.$route.params.name);
-        this.item = data;
+      param: {},
+      doFunc: async () => {
+        await new AIModelRegistry({ name: registry.value.name }).deleteRegistry();
+        router.push({ name: 'model-repository-list' });
       },
-      updateModelRegistry() {
-        this.$refs.updateModelRegistry.init(this.item);
-        this.$refs.updateModelRegistry.open();
-      },
-      removeModelRegistry() {
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.delete_c', [this.$root.$t('header.model_store')]),
-          content: {
-            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('header.model_store')])} ${this.item.name}`,
-            type: 'delete',
-            name: this.item.name,
-          },
-          param: {},
-          doFunc: async () => {
-            await deleteAdminModelSource(this.item.name);
-            this.$router.push({ name: 'model-repository-list' });
-          },
-        });
-      },
-    },
+    });
   };
 </script>

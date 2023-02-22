@@ -86,6 +86,10 @@
         type: Array,
         default: () => [],
       },
+      mode: {
+        type: String,
+        default: () => 'index',
+      },
       precision: {
         type: Number,
         default: () => 2,
@@ -255,7 +259,7 @@
                     },
                   },
                   external: this.singleTooptip ? this.externalTooltipHandler : null,
-                  mode: this.singleTooptip ? 'nearest' : 'index',
+                  mode: this.singleTooptip ? 'nearest' : this.mode,
                 },
               },
               radius: 0,

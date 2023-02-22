@@ -22,7 +22,7 @@
     </v-card-title>
     <v-list-item two-line>
       <v-list-item-content class="kubegems__text">
-        <v-list-item-title class="text-subtitle-2"> {{ $t('table.name') }} </v-list-item-title>
+        <v-list-item-title class="text-subtitle-2"> {{ i18nLocal.t('table.name') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
           {{ item ? item.name : '' }}
         </v-list-item-subtitle>
@@ -30,7 +30,7 @@
     </v-list-item>
     <v-list-item two-line>
       <v-list-item-content class="kubegems__text">
-        <v-list-item-title class="text-subtitle-2"> {{ $t('tip.address') }} </v-list-item-title>
+        <v-list-item-title class="text-subtitle-2"> {{ i18nLocal.t('tip.address') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
           {{ item ? getRegistryMeta(item).address : '' }}
         </v-list-item-subtitle>
@@ -38,39 +38,39 @@
     </v-list-item>
     <v-list-item two-line>
       <v-list-item-content class="kubegems__text">
-        <v-list-item-title class="text-subtitle-2"> {{ $t('tip.model_count') }} </v-list-item-title>
+        <v-list-item-title class="text-subtitle-2"> {{ i18nLocal.t('tip.model_count') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
-          {{ $route.query.modelCount || 0 }}
+          {{ route.query.modelCount || 0 }}
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
     <v-list-item two-line>
       <v-list-item-content class="kubegems__text">
-        <v-list-item-title class="text-subtitle-2"> {{ $t('tip.update_at') }} </v-list-item-title>
+        <v-list-item-title class="text-subtitle-2"> {{ i18nLocal.t('tip.update_at') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
-          {{ item ? $moment(item.updationTime).format('lll') : '' }}
+          {{ item ? moment(item.updationTime).format('lll') : '' }}
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
     <v-list-item two-line>
       <v-list-item-content class="kubegems__text">
-        <v-list-item-title class="text-subtitle-2"> {{ $t('tip.status') }} </v-list-item-title>
+        <v-list-item-title class="text-subtitle-2"> {{ i18nLocal.t('tip.status') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
-          <template v-if="syncStatus.status === 'SUCCESS'">
+          <template v-if="syncStatus && syncStatus.status === 'SUCCESS'">
             <v-icon color="success" small>mdi-check-circle</v-icon>
-            {{ $t('status.success') }}
+            {{ i18nLocal.t('status.success') }}
           </template>
-          <template v-else-if="syncStatus.status === 'FAILURE'">
+          <template v-else-if="syncStatus && syncStatus.status === 'FAILURE'">
             <v-icon color="error" small>mdi-close-circle</v-icon>
-            {{ $t('status.failure') }}
+            {{ i18nLocal.t('status.failure') }}
           </template>
-          <template v-else-if="syncStatus.status === 'STOP'">
+          <template v-else-if="syncStatus && syncStatus.status === 'STOP'">
             <v-icon color="grey" small>mdi-alert-circle</v-icon>
-            {{ $t('status.no_sync') }}
+            {{ i18nLocal.t('status.no_sync') }}
           </template>
-          <template v-else-if="['INITIALIZE', 'PROGRESS', 'STARTED'].indexOf(syncStatus.status) > -1">
+          <template v-else-if="['INITIALIZE', 'PROGRESS', 'STARTED'].indexOf(syncStatus ? syncStatus.status : '') > -1">
             <v-icon class="kubegems__waiting-circle-flashing" color="warning"> mdi-autorenew </v-icon>
-            {{ $t('status.running') }} : {{ syncStatus.progress }}
+            {{ i18nLocal.t('status.running') }} : {{ syncStatus ? syncStatus.progress : '' }}
           </template>
         </v-list-item-subtitle>
       </v-list-item-content>
@@ -78,105 +78,105 @@
   </v-card>
 </template>
 
-<script>
-  import messages from '../i18n';
-  import { getAdminModelStoreSync } from '@/api';
+<script lang="ts" setup>
+  import moment from 'moment';
+  import { onUnmounted, ref, watch } from 'vue';
+  import VueI18n from 'vue-i18n';
+
+  import { useI18n } from '../i18n';
+  import { useRoute } from '@/composition/router';
   import { LOGO_BLUE } from '@/constants/platform';
+  import { AIModelRegistry } from '@/types/ai_model';
 
-  export default {
-    name: 'BasicResourceInfo',
-    i18n: {
-      messages: messages,
+  const props = withDefaults(
+    defineProps<{
+      item?: AIModelRegistry;
+    }>(),
+    {
+      item: undefined,
     },
-    props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
-    },
-    data() {
-      return {
-        syncStatus: {},
-        timeinterval: null,
-      };
-    },
-    watch: {
-      item: {
-        handler(newValue) {
-          if (newValue) {
-            this.loadSyncStatus();
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    destroyed() {
-      this.clearInterval();
-    },
-    methods: {
-      async loadSyncStatus() {
-        this.clearInterval();
+  );
 
-        const statusData = await getAdminModelStoreSync(this.item.name, { noprocessing: true });
-        this.syncStatus = statusData;
+  const i18nLocal = useI18n();
+  const route = useRoute();
 
-        this.timeinterval = setInterval(async () => {
-          const statusData = await getAdminModelStoreSync(this.item.name, { noprocessing: true });
-          this.syncStatus = statusData;
-        }, 1000 * 10);
-      },
-      clearInterval() {
-        if (this.timeinterval) clearInterval(this.timeinterval);
-      },
-      getRegistryMeta(item) {
-        switch (item.name) {
-          case 'huggingface':
-            return {
-              imgSrc: '/icon/hugging-face.svg',
-              tip: this.$t('tip.huggingface'),
-              address: 'https://huggingface.co/',
-            };
-          case 'openmmlab':
-            return {
-              imgSrc: '/icon/openmmlab.svg',
-              tip: this.$t('tip.openmmlab'),
-              address: 'https://openmmlab.com/',
-            };
-          case 'tensorflow':
-            return {
-              imgSrc: '/icon/tensorflow.svg',
-              tip: this.$t('tip.tensorflow'),
-              address: 'https://www.tensorflow.org/',
-            };
-          case 'pytorch':
-            return {
-              imgSrc: '/icon/pytorch.svg',
-              tip: this.$t('tip.pytorch'),
-              address: 'https://pytorch.org/',
-            };
-          case 'paddlepaddle':
-            return {
-              imgSrc: '/icon/paddlepaddle.svg',
-              tip: this.$t('tip.paddlepaddle'),
-              address: 'https://www.paddlepaddle.org.cn/',
-            };
-          case 'CloudMinds':
-          case 'cloudminds':
-          case 'cloudminds-modelx':
-            return {
-              imgSrc: '/icon/cloudminds-logo.svg',
-              tip: this.$t('tip.cloudminds'),
-              address: 'https://www.cloudminds.com/zh/',
-            };
-          default:
-            return {
-              imgSrc: LOGO_BLUE,
-              tip: this.$t('tip.kubegems'),
-              address: '',
-            };
-        }
-      },
-    },
+  const getRegistryMeta = (item): { imgSrc: string; tip: VueI18n.TranslateResult; address: string } => {
+    switch (item.name) {
+      case 'huggingface':
+        return {
+          imgSrc: '/icon/hugging-face.svg',
+          tip: i18nLocal.t('tip.huggingface'),
+          address: 'https://huggingface.co/',
+        };
+      case 'openmmlab':
+        return {
+          imgSrc: '/icon/openmmlab.svg',
+          tip: i18nLocal.t('tip.openmmlab'),
+          address: 'https://openmmlab.com/',
+        };
+      case 'tensorflow':
+        return {
+          imgSrc: '/icon/tensorflow.svg',
+          tip: i18nLocal.t('tip.tensorflow'),
+          address: 'https://www.tensorflow.org/',
+        };
+      case 'pytorch':
+        return {
+          imgSrc: '/icon/pytorch.svg',
+          tip: i18nLocal.t('tip.pytorch'),
+          address: 'https://pytorch.org/',
+        };
+      case 'paddlepaddle':
+        return {
+          imgSrc: '/icon/paddlepaddle.svg',
+          tip: i18nLocal.t('tip.paddlepaddle'),
+          address: 'https://www.paddlepaddle.org.cn/',
+        };
+      case 'CloudMinds':
+      case 'cloudminds':
+      case 'cloudminds-modelx':
+        return {
+          imgSrc: '/icon/cloudminds-logo.svg',
+          tip: i18nLocal.t('tip.cloudminds'),
+          address: 'https://www.cloudminds.com/zh/',
+        };
+      default:
+        return {
+          imgSrc: LOGO_BLUE,
+          tip: i18nLocal.t('tip.kubegems'),
+          address: '',
+        };
+    }
   };
+
+  let interval: NodeJS.Timeout;
+  onUnmounted(() => {
+    clearInterval(interval);
+  });
+  const syncStatus = ref<{ finishedAt: Date; progress: string; startedAt: Date; status: string }>(undefined);
+  const loadSyncStatus = async (): Promise<void> => {
+    clearInterval(interval);
+    const statusData = await new AIModelRegistry({ name: props.item.name }).getRegistryStatusByAdmin({
+      noprocessing: true,
+    });
+    syncStatus.value = statusData;
+    interval = setInterval(async () => {
+      const statusData = await new AIModelRegistry({ name: props.item.name }).getRegistryStatusByAdmin({
+        noprocessing: true,
+      });
+      syncStatus.value = statusData;
+    }, 1000 * 10);
+  };
+
+  watch(
+    () => props.item,
+    async (newValue) => {
+      if (!newValue) return;
+      loadSyncStatus();
+    },
+    {
+      deep: true,
+      immediate: true,
+    },
+  );
 </script>

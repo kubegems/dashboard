@@ -115,16 +115,14 @@
       </v-col>
     </v-row>
 
-    <AddModelRegistry ref="addModelRegitry" @refresh="modelRegistryList" />
-    <UpdateModelRegistry ref="updateModelRegistry" @refresh="modelRegistryList" />
+    <ModelRegistryForm ref="modelRegitry" @refresh="modelRegistryList" />
   </v-container>
 </template>
 
 <script>
   import { mapState } from 'vuex';
 
-  import AddModelRegistry from './components/AddModelRegistry';
-  import UpdateModelRegistry from './components/UpdateModelRegistry';
+  import ModelRegistryForm from './components/ModelRegistryForm';
   import messages from './i18n';
   import {
     deleteAdminModelSource,
@@ -143,8 +141,7 @@
       messages: messages,
     },
     components: {
-      AddModelRegistry,
-      UpdateModelRegistry,
+      ModelRegistryForm,
     },
     data() {
       return {
@@ -197,7 +194,7 @@
         if (this.timeinterval) clearInterval(this.timeinterval);
       },
       addModelRegitry() {
-        this.$refs.addModelRegitry.open();
+        this.$refs.modelRegitry.open();
       },
       syncRegistry(item) {
         this.$store.commit('SET_CONFIRM', {
@@ -244,8 +241,8 @@
         });
       },
       updateRegistry(item) {
-        this.$refs.updateModelRegistry.init(item);
-        this.$refs.updateModelRegistry.open();
+        this.$refs.modelRegitry.init(item);
+        this.$refs.modelRegitry.open();
       },
       removeRegistry(item) {
         this.$store.commit('SET_CONFIRM', {
