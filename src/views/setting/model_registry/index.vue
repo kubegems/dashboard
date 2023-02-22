@@ -18,7 +18,7 @@
     <BaseBreadcrumb />
 
     <v-row class="mt-0">
-      <v-col v-for="(item, index) in items" :key="index" class="pt-0 pb-3" cols="12">
+      <v-col v-for="(item, index) in registryItems" :key="index" class="pt-0 pb-3" cols="12">
         <v-hover #default="{ hover }">
           <v-card class="mx-auto registry__pos" :elevation="hover ? 5 : 0" flat height="100%">
             <v-card-text>
@@ -30,21 +30,21 @@
                 <div class="mr-4 float-left">
                   <template v-if="item.status === 'SUCCESS'">
                     <v-icon color="success" small>mdi-check-circle</v-icon>
-                    {{ $t('status.success') }}
+                    {{ i18nLocal.t('status.success') }}
                   </template>
                   <template v-else-if="item.status === 'FAILURE'">
                     <v-icon color="error" small>mdi-close-circle</v-icon>
-                    {{ $t('status.failure') }}
+                    {{ i18nLocal.t('status.failure') }}
                   </template>
                   <template v-else-if="item.status === 'STOP'">
                     <v-icon color="grey" small>mdi-alert-circle</v-icon>
-                    {{ $t('status.no_sync') }}
+                    {{ i18nLocal.t('status.no_sync') }}
                   </template>
                   <template v-else-if="['INITIALIZE', 'PROGRESS', 'STARTED'].indexOf(item.status) > -1">
                     <v-icon class="kubegems__waiting-circle-flashing" color="warning"> mdi-autorenew </v-icon>
-                    {{ $t('status.running') }} : {{ item.progress }}
+                    {{ i18nLocal.t('status.running') }} : {{ item.progress }}
                   </template>
-                  {{ item.finishedAt ? $moment(item.finishedAt).format('lll') : '' }}
+                  {{ item.finishedAt ? moment(item.finishedAt).format('lll') : '' }}
                 </div>
                 <div class="kubegems__clear-float" />
               </div>
@@ -54,10 +54,12 @@
                   {{ item.tip }}
                 </div>
                 <div class="mr-4 float-left registry__stat text-subtitle-2">
-                  {{ $t('tip.model_count') }} : {{ item ? item.modelsCount : 0 }}
+                  {{ i18nLocal.t('tip.model_count') }} : {{ item ? item.modelsCount : 0 }}
                 </div>
                 <div class="mr-4 float-right">
-                  <v-btn color="primary" text @click="modelRegistryDetail(item)">{{ $t('operate.manage') }}</v-btn>
+                  <v-btn color="primary" text @click="toModelRegistryDetail(item)">{{
+                    i18nLocal.t('operate.manage')
+                  }}</v-btn>
                   <v-btn
                     :color="['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1 ? `error` : 'primary'"
                     text
@@ -65,16 +67,16 @@
                   >
                     {{
                       ['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1
-                        ? $t('operate.stop_sync')
-                        : $root.$t('operate.sync')
+                        ? i18nLocal.t('operate.stop_sync')
+                        : i18n.t('operate.sync')
                     }}
                   </v-btn>
-                  <v-btn color="primary" text @click="updateRegistry(item)">{{ $root.$t('operate.edit') }}</v-btn>
+                  <v-btn color="primary" text @click="updateRegistry(item)">{{ i18n.t('operate.edit') }}</v-btn>
                   <v-btn :color="item.enabled ? 'error' : 'primary'" text @click="toggleActiveRegistry(item)">
-                    {{ item.enabled ? $t('operate.forbid') : $t('operate.active') }}
+                    {{ item.enabled ? i18nLocal.t('operate.forbid') : i18nLocal.t('operate.active') }}
                   </v-btn>
                   <v-btn v-if="!item.builtIn" color="error" text @click="removeRegistry(item)">
-                    {{ $root.$t('operate.delete') }}
+                    {{ i18n.t('operate.delete') }}
                   </v-btn>
                 </div>
                 <div class="kubegems__clear-float" />
@@ -84,9 +86,11 @@
             <template v-if="item.builtIn">
               <v-flex class="registry__watermarkbg" />
               <v-flex
-                :class="`${Locale === 'en' ? 'registry__watermark-en' : 'registry__watermark'} font-weight-medium`"
+                :class="`${
+                  store.state.Locale === 'en' ? 'registry__watermark-en' : 'registry__watermark'
+                } font-weight-medium`"
               >
-                {{ $t('tip.inner') }}
+                {{ i18nLocal.t('tip.inner') }}
               </v-flex>
             </template>
           </v-card>
@@ -106,7 +110,7 @@
                   @click="addModelRegitry"
                 >
                   <v-icon left>mdi-plus-box</v-icon>
-                  {{ $root.$t('operate.add_c', [$root.$t('header.model_store')]) }}
+                  {{ i18n.t('operate.add_c', [i18n.t('header.model_store')]) }}
                 </v-btn>
               </v-list-item-content>
             </v-list-item>
@@ -115,206 +119,205 @@
       </v-col>
     </v-row>
 
-    <ModelRegistryForm ref="modelRegitry" @refresh="modelRegistryList" />
+    <ModelRegistryForm ref="modelRegitry" @refresh="getModelRegistryList" />
   </v-container>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import moment from 'moment';
+  import { onMounted, onUnmounted, ref } from 'vue';
+  import VueI18n from 'vue-i18n';
 
-  import ModelRegistryForm from './components/ModelRegistryForm';
-  import messages from './i18n';
-  import {
-    deleteAdminModelSource,
-    deleteAdminModelStoreSync,
-    getAdminModelSourceList,
-    getAdminModelStoreSync,
-    postAdminModelStoreSync,
-    putAdminModelSource,
-  } from '@/api';
+  import ModelRegistryForm from './components/ModelRegistryForm.vue';
+  import { useI18n } from './i18n';
+  import { useRouter } from '@/composition/router';
   import { LOGO_BLUE } from '@/constants/platform';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+  import { AIModelRegistry } from '@/types/ai_model';
   import { deepCopy } from '@/utils/helpers';
 
-  export default {
-    name: 'ModelRegistrySetting',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      ModelRegistryForm,
-    },
-    data() {
-      return {
-        items: [],
-        timeinterval: null,
-      };
-    },
-    computed: {
-      ...mapState(['Locale']),
-    },
-    mounted() {
-      this.$nextTick(() => {
-        this.modelRegistryList();
-      });
-    },
-    destroyed() {
-      this.clearInterval();
-    },
-    methods: {
-      async modelRegistryList() {
-        const data = await getAdminModelSourceList({ count: true });
-        this.items = data.map((d) => {
-          return {
-            ...d,
-            ...this.getRegistryMeta(d),
-          };
-        });
-        this.items.sort((a, b) => {
-          return b.builtIn - a.builtIn;
-        });
-        this.items.sort((a, b) => {
-          return a.creationTime - b.creationTime;
-        });
-        this.loadSyncStatus();
-      },
-      loadSyncStatus() {
-        this.clearInterval();
-        this.items.forEach(async (item, index) => {
-          const statusData = await getAdminModelStoreSync(item.name, { noprocessing: true });
-          this.$set(this.items, index, { ...item, ...statusData });
-        });
-        this.timeinterval = setInterval(() => {
-          this.items.forEach(async (item, index) => {
-            const statusData = await getAdminModelStoreSync(item.name, { noprocessing: true });
-            this.$set(this.items, index, { ...item, ...statusData });
-          });
-        }, 1000 * 10);
-      },
-      clearInterval() {
-        if (this.timeinterval) clearInterval(this.timeinterval);
-      },
-      addModelRegitry() {
-        this.$refs.modelRegitry.open();
-      },
-      syncRegistry(item) {
-        this.$store.commit('SET_CONFIRM', {
-          title:
-            ['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1
-              ? this.$t('operate.stop_sync_c', [this.$root.$t('header.model_store')])
-              : this.$root.$t('operate.sync_c', [this.$root.$t('header.model_store')]),
-          content: {
-            text:
-              ['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1
-                ? `${this.$t('operate.stop_sync_c', [this.$root.$t('header.model_store')])} ${item.name}`
-                : `${this.$root.$t('operate.sync_c', [this.$root.$t('header.model_store')])} ${item.name}`,
-            type: 'confirm',
-          },
-          param: { item },
-          doFunc: async (param) => {
-            if (param.item.status === 'running') {
-              await deleteAdminModelStoreSync(param.item.name);
-            } else {
-              await postAdminModelStoreSync(param.item.name);
-            }
-            this.modelRegistryList();
-          },
-        });
-      },
-      toggleActiveRegistry(item) {
-        this.$store.commit('SET_CONFIRM', {
-          title: item.enabled
-            ? this.$t('operate.forbid_c', [this.$root.$t('header.model_store')])
-            : this.$t('operate.active_c', [this.$root.$t('header.model_store')]),
-          content: {
-            text: item.enabled
-              ? `${this.$t('operate.forbid_c', [this.$root.$t('header.model_store')])} ${item.name}`
-              : `${this.$t('operate.active_c', [this.$root.$t('header.model_store')])} ${item.name}`,
-            type: 'confirm',
-          },
-          param: { item },
-          doFunc: async (param) => {
-            const data = deepCopy(param.item);
-            data.enabled = !data.enabled;
-            await putAdminModelSource(data.name, data);
-            this.modelRegistryList();
-          },
-        });
-      },
-      updateRegistry(item) {
-        this.$refs.modelRegitry.init(item);
-        this.$refs.modelRegitry.open();
-      },
-      removeRegistry(item) {
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.delete_c', [this.$root.$t('header.model_store')]),
-          content: {
-            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('header.model_store')])} ${item.name}`,
-            type: 'delete',
-            name: item.name,
-          },
-          param: { item },
-          doFunc: async (param) => {
-            await deleteAdminModelSource(param.item.name);
-            this.modelRegistryList();
-          },
-        });
-      },
-      getRegistryMeta(item) {
-        switch (item.name) {
-          case 'huggingface':
-            return {
-              imgSrc: '/icon/hugging-face.svg',
-              tip: this.$t('tip.huggingface'),
-              address: 'https://huggingface.co/',
-            };
-          case 'openmmlab':
-            return {
-              imgSrc: '/icon/openmmlab.svg',
-              tip: this.$t('tip.openmmlab'),
-              address: 'https://openmmlab.com/',
-            };
-          case 'tensorflow':
-            return {
-              imgSrc: '/icon/tensorflow.svg',
-              tip: this.$t('tip.tensorflow'),
-              address: 'https://www.tensorflow.org/',
-            };
-          case 'pytorch':
-            return {
-              imgSrc: '/icon/pytorch.svg',
-              tip: this.$t('tip.pytorch'),
-              address: 'https://pytorch.org/',
-            };
-          case 'paddlepaddle':
-            return {
-              imgSrc: '/icon/paddlepaddle.svg',
-              tip: this.$t('tip.paddlepaddle'),
-              address: 'https://www.paddlepaddle.org.cn/',
-            };
-          case 'CloudMinds':
-          case 'cloudminds':
-          case 'cloudminds-modelx':
-            return {
-              imgSrc: '/icon/cloudminds-logo.svg',
-              tip: this.$t('tip.cloudminds'),
-              address: 'https://www.cloudminds.com/zh/',
-            };
-          default:
-            return {
-              imgSrc: LOGO_BLUE,
-              tip: this.$t('tip.kubegems'),
-            };
-        }
-      },
-      modelRegistryDetail(item) {
-        this.$router.push({
-          name: 'model-repository-detail',
-          params: { name: item.name },
-          query: { modelCount: item?.modelsCount },
-        });
-      },
-    },
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
+  const router = useRouter();
+
+  const getRegistryMeta = (
+    item: AIModelRegistry,
+  ): { imgSrc: string; tip: VueI18n.TranslateResult; address: string } => {
+    switch (item.name) {
+      case 'huggingface':
+        return {
+          imgSrc: '/icon/hugging-face.svg',
+          tip: i18nLocal.t('tip.huggingface'),
+          address: 'https://huggingface.co/',
+        };
+      case 'openmmlab':
+        return {
+          imgSrc: '/icon/openmmlab.svg',
+          tip: i18nLocal.t('tip.openmmlab'),
+          address: 'https://openmmlab.com/',
+        };
+      case 'tensorflow':
+        return {
+          imgSrc: '/icon/tensorflow.svg',
+          tip: i18nLocal.t('tip.tensorflow'),
+          address: 'https://www.tensorflow.org/',
+        };
+      case 'pytorch':
+        return {
+          imgSrc: '/icon/pytorch.svg',
+          tip: i18nLocal.t('tip.pytorch'),
+          address: 'https://pytorch.org/',
+        };
+      case 'paddlepaddle':
+        return {
+          imgSrc: '/icon/paddlepaddle.svg',
+          tip: i18nLocal.t('tip.paddlepaddle'),
+          address: 'https://www.paddlepaddle.org.cn/',
+        };
+      case 'CloudMinds':
+      case 'cloudminds':
+      case 'cloudminds-modelx':
+        return {
+          imgSrc: '/icon/cloudminds-logo.svg',
+          tip: i18nLocal.t('tip.cloudminds'),
+          address: 'https://www.cloudminds.com/zh/',
+        };
+      default:
+        return {
+          imgSrc: LOGO_BLUE,
+          tip: i18nLocal.t('tip.kubegems'),
+          address: '',
+        };
+    }
   };
+
+  const registryItems = ref<AIModelRegistry[]>([]);
+  const getModelRegistryList = async (): Promise<void> => {
+    let data = await new AIModelRegistry().getRegistryListByAdmin({ count: true });
+    data = data.map((d) => {
+      return new AIModelRegistry({
+        ...d,
+        ...getRegistryMeta(d),
+      });
+    });
+    data.sort((a, b) => {
+      return Number(b.builtIn) - Number(a.builtIn);
+    });
+    data.sort((a, b) => {
+      return Date.parse(a.creationTime.toString()) - Date.parse(b.creationTime.toString());
+    });
+    registryItems.value = data;
+    loadSyncStatus();
+  };
+
+  const modelRegitry = ref(null);
+  const addModelRegitry = (): void => {
+    modelRegitry.value.open();
+  };
+
+  const updateRegistry = (item: AIModelRegistry): void => {
+    modelRegitry.value.init(item);
+    modelRegitry.value.open();
+  };
+
+  const toModelRegistryDetail = (item: AIModelRegistry): void => {
+    router.push({
+      name: 'model-repository-detail',
+      params: { name: item.name },
+      query: { modelCount: item?.modelsCount?.toString() },
+    });
+  };
+
+  const removeRegistry = (item: AIModelRegistry): void => {
+    store.commit('SET_CONFIRM', {
+      title: i18n.t('operate.delete_c', [i18n.t('header.model_store')]),
+      content: {
+        text: `${i18n.t('operate.delete_c', [i18n.t('header.model_store')])} ${item.name}`,
+        type: 'delete',
+        name: item.name,
+      },
+      param: { item },
+      doFunc: async (param) => {
+        await new AIModelRegistry(param.item).deleteRegistry();
+        getModelRegistryList();
+      },
+    });
+  };
+
+  const toggleActiveRegistry = (item: AIModelRegistry): void => {
+    store.commit('SET_CONFIRM', {
+      title: item.enabled
+        ? i18nLocal.t('operate.forbid_c', [i18n.t('header.model_store')])
+        : i18nLocal.t('operate.active_c', [i18n.t('header.model_store')]),
+      content: {
+        text: item.enabled
+          ? `${i18nLocal.t('operate.forbid_c', [i18n.t('header.model_store')])} ${item.name}`
+          : `${i18nLocal.t('operate.active_c', [i18n.t('header.model_store')])} ${item.name}`,
+        type: 'confirm',
+      },
+      param: { item },
+      doFunc: async (param) => {
+        const data = deepCopy(param.item);
+        data.enabled = !data.enabled;
+        await new AIModelRegistry(data).updateRegistryByAdmin();
+        getModelRegistryList();
+      },
+    });
+  };
+
+  const syncRegistry = (item: AIModelRegistry): void => {
+    store.commit('SET_CONFIRM', {
+      title:
+        ['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1
+          ? i18nLocal.t('operate.stop_sync_c', [i18n.t('header.model_store')])
+          : i18n.t('operate.sync_c', [i18n.t('header.model_store')]),
+      content: {
+        text:
+          ['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1
+            ? `${i18nLocal.t('operate.stop_sync_c', [i18n.t('header.model_store')])} ${item.name}`
+            : `${i18n.t('operate.sync_c', [i18n.t('header.model_store')])} ${item.name}`,
+        type: 'confirm',
+      },
+      param: { item },
+      doFunc: async (param) => {
+        if (param.item.status === 'running') {
+          await new AIModelRegistry(param.item).deleteSyncTask();
+        } else {
+          await new AIModelRegistry(param.item).addSyncTask();
+        }
+        getModelRegistryList();
+      },
+    });
+  };
+
+  let interval: NodeJS.Timeout = undefined;
+  const loadSyncStatus = (): void => {
+    clearInterval(interval);
+    registryItems.value.forEach(async (item, index) => {
+      const statusData = await new AIModelRegistry({ name: item.name }).getRegistryStatusByAdmin({
+        noprocessing: true,
+      });
+      registryItems.value[index] = { ...registryItems.value[index], ...statusData };
+    });
+    interval = setInterval(() => {
+      registryItems.value.forEach(async (item, index) => {
+        const statusData = await new AIModelRegistry({ name: item.name }).getRegistryStatusByAdmin({
+          noprocessing: true,
+        });
+        registryItems.value[index] = { ...registryItems.value[index], ...statusData };
+      });
+    }, 1000 * 10);
+  };
+
+  onMounted(() => {
+    getModelRegistryList();
+  });
+
+  onUnmounted(() => {
+    clearInterval(interval);
+  });
 </script>
 
 <style lang="scss" scoped>

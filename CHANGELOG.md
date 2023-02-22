@@ -1,4 +1,4 @@
-# 1.23.4 (2023-2-21)
+# 1.23.4 (2023-2-22)
 
 ### 🌟 新功能
 
@@ -18,6 +18,7 @@
 | - | [fix: 🐛 fix update service monitor `updateServiceMonitor is not a function` bug] | [e39e898](https://github.com/chenshunliang/dashboard/commit/e39e8981634b446b3bc51f97bb9c4367b169c659) |
 | - | [fix: 🐛 fix can not change user role to admin bug] | [59edb7d](https://github.com/chenshunliang/dashboard/commit/59edb7d83ad9658e29c4c60b8c554d072afd5b48) |
 | - | [fix: 🐛 fix audit and event request time not utc time bug] | [62f8bbd](https://github.com/chenshunliang/dashboard/commit/62f8bbdbee93ab323f813c959dcdbfaf5c74f914) |
+| - | [fix: 🐛 fix chart.js render interaction mode set not correct bug] | [9b00fa4](https://github.com/chenshunliang/dashboard/commit/9b00fa4dc13d460d90f3d71137d3397a76f05800) |
 
 ### 🔨 reflactor
 
