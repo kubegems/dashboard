@@ -14,12 +14,12 @@
  * limitations under the License. 
 -->
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-label" :title="$t('tip.label')" :width="500" @reset="reset">
+  <BaseDialog v-model="state.dialog" icon="mdi-label" :title="i18nLocal.t('tip.label')" :width="500" @reset="reset">
     <template #content>
       <v-flex>
-        <BaseSubTitle :title="$root.$t('form.definition', [$t('tip.label')])" />
+        <BaseSubTitle :title="i18n.t('form.definition', [i18nLocal.t('tip.label')])" />
         <v-card-text class="pa-2">
-          <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
+          <v-form ref="form" v-model="state.valid" lazy-validation @submit.prevent>
             <v-row>
               <v-col cols="12">
                 <v-autocomplete
@@ -27,12 +27,12 @@
                   class="my-0"
                   color="primary"
                   hide-selected
-                  :items="tagItems"
-                  :label="$t('tip.label')"
+                  :items="tag.tagItems"
+                  :label="i18nLocal.t('tip.label')"
                   multiple
-                  :no-data-text="$root.$t('data.no_data')"
-                  :rules="objRules.tagsRules"
-                  :search-input.sync="tagText"
+                  :no-data-text="i18n.t('data.no_data')"
+                  :rules="objRules.tags"
+                  :search-input.sync="tag.tagText"
                   @keyup.enter="createTag"
                 >
                   <template #selection="{ item }">
@@ -49,90 +49,99 @@
       </v-flex>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateTag">
-        {{ $root.$t('operate.confirm') }}
+      <v-btn class="float-right" color="primary" :loading="store.state.Circular" text @click="updateTag">
+        {{ i18n.t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>
 </template>
 
-<script>
-  import { Base64 } from 'js-base64';
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { reactive, ref } from 'vue';
 
-  import messages from '../../i18n';
-  import { putAdminUpdateModel } from '@/api';
+  import { useI18n } from '../../i18n';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+  import { AIModel } from '@/types/ai_model';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
-  export default {
-    name: 'TagModel',
-    i18n: {
-      messages: messages,
-    },
-    data() {
-      return {
-        dialog: false,
-        valid: false,
-        tagItems: [],
-        tagText: '',
-        obj: {
-          tags: [],
-        },
-        objRules: {
-          tagsRules: [required],
-        },
-      };
-    },
-    computed: {
-      ...mapState(['Circular']),
-    },
-    methods: {
-      open() {
-        this.dialog = true;
-      },
-      async updateTag() {
-        if (this.$refs.form.validate(true)) {
-          const data = this.obj;
-          await putAdminUpdateModel(this.$route.params.name, Base64.encode(data.name), data);
-          this.reset();
-          this.$emit('refresh');
-        }
-      },
-      init(item) {
-        this.obj = deepCopy(item);
-        this.tagItems = item.tags
-          ? item.tags.map((t) => {
-              return { text: t, value: t };
-            })
-          : [];
-      },
-      reset() {
-        this.dialog = false;
-        this.obj = this.$options.data().obj;
-        this.$refs.form.resetValidation();
-      },
-      createTag() {
-        if (
-          this.tagText &&
-          !this.tagItems.some((i) => {
-            return i.value === this.tagText;
-          })
-        ) {
-          this.tagItems.push({ text: this.tagText, value: this.tagText });
-          if (!this.obj.tags) this.obj.tags = [];
-          this.obj.tags.push(this.tagText);
-        }
-        this.tagText = '';
-      },
-      removeTag(tag) {
-        const index = this.obj.tags.findIndex((i) => {
-          return i === tag;
-        });
-        if (index > -1) {
-          this.obj.tags.splice(index, 1);
-        }
-      },
-    },
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
+
+  const state = reactive({
+    dialog: false,
+    valid: false,
+  });
+
+  const obj = ref({
+    tags: [],
+  });
+  const objRules = {
+    tags: [required],
+  };
+
+  const open = (): void => {
+    state.dialog = true;
+  };
+
+  const init = (item: AIModel): void => {
+    obj.value = deepCopy(item);
+    tag.tagItems = item.tags
+      ? item.tags.map((t) => {
+          return { text: t, value: t };
+        })
+      : [];
+  };
+
+  defineExpose({
+    open,
+    init,
+  });
+
+  const form = ref(null);
+  const reset = (): void => {
+    state.dialog = false;
+    obj.value = {
+      tags: [],
+    };
+    form.value.resetValidation();
+  };
+
+  const tag = reactive({
+    tagText: '',
+    tagItems: [],
+  });
+  const createTag = (): void => {
+    if (
+      tag.tagText &&
+      !tag.tagItems.some((i) => {
+        return i.value === tag.tagText;
+      })
+    ) {
+      tag.tagItems.push({ text: tag.tagText, value: tag.tagText });
+      if (!obj.value.tags) obj.value.tags = [];
+      obj.value.tags.push(tag.tagText);
+    }
+    tag.tagText = '';
+  };
+
+  const removeTag = (tag: any): void => {
+    const index = obj.value.tags.findIndex((i) => {
+      return i === tag;
+    });
+    if (index > -1) {
+      obj.value.tags.splice(index, 1);
+    }
+  };
+
+  const emit = defineEmits(['refresh']);
+  const updateTag = async (): Promise<void> => {
+    if (form.value.validate(true)) {
+      await new AIModel(obj.value).updateModelByAdmin();
+      reset();
+      emit('refresh');
+    }
   };
 </script>

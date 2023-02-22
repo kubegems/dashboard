@@ -33,6 +33,7 @@
             <BaseAreaChart
               label="container"
               :metrics="cpu"
+              mode="x"
               :title="$t('table.used', [$root.$t('resource.cpu')])"
               type="cpu"
             />
@@ -41,6 +42,7 @@
             <BaseAreaChart
               label="container"
               :metrics="memory"
+              mode="x"
               :title="$t('table.used', [$root.$t('resource.memory')])"
               unit="Mi"
             />
