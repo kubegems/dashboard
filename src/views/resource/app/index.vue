@@ -87,14 +87,14 @@
             <div class="float-left">
               <BaseLogo
                 class="mr-1"
-                :icon-name="item.runtime.annotations['application.kubegems.io/repo'] || 'helm'"
+                :icon-name="getRepo(item, 'helm')"
                 :ml="0"
                 :style="{ marginTop: '0px' }"
                 :width="18"
               />
             </div>
             <div class="float-left">
-              {{ item.runtime.annotations['application.kubegems.io/repo'] || '--' }}
+              {{ getRepo(item, '--') }}
             </div>
           </template>
           <template #[`item.images`]="{ item }">
@@ -529,7 +529,7 @@
       async appRunningList(noprocess = false) {
         let kind = 'app';
         let data = {};
-        if (this.tabItems[this.tab].value === 'AppList') {
+        if (this.tabItems[this.tab]?.value === 'AppList') {
           kind = 'app';
           data = await getAppRunningList(
             this.Tenant().ID,
@@ -541,7 +541,7 @@
               sort: this.m_table_generateResourceSortParamValue(),
             }),
           );
-        } else if (this.tabItems[this.tab].value === 'AppStoreList') {
+        } else if (this.tabItems[this.tab]?.value === 'AppStoreList') {
           kind = 'appstore';
           data = await getAppStoreRunningList(
             this.Tenant().ID,
@@ -553,7 +553,7 @@
               sort: this.m_table_generateResourceSortParamValue(),
             }),
           );
-        } else if (this.tabItems[this.tab].value === 'ModelStoreList') {
+        } else if (this.tabItems[this.tab]?.value === 'ModelStoreList') {
           kind = 'modelstore';
           data = await getModelRuntimePodList(
             this.Tenant().TenantName,
@@ -570,9 +570,9 @@
         this.pageCount = Math.ceil((data.Total || data.total) / this.params.size);
         this.params.page = data.CurrentPage || data.page;
         this.$router.replace({
-          query: { ...this.$route.query, ...this.params, ...{ tab: this.tabItems[this.tab].tab } },
+          query: { ...this.$route.query, ...this.params, ...{ tab: this.tabItems[this.tab]?.tab || 0 } },
         });
-        if (this.tabItems[this.tab].value === 'AppList') {
+        if (this.tabItems[this.tab]?.value === 'AppList') {
           this.watchAppList();
           this.appTaskList();
         }
@@ -602,7 +602,7 @@
         this.items.forEach((app) => {
           watchAppList.push(`${this.Environment().Namespace}/${app.name}`);
         });
-        if (this.tabItems[this.tab].value === 'AppList') {
+        if (this.tabItems[this.tab]?.value === 'AppList') {
           sub.content[this.ThisCluster] = {
             Application: watchAppList,
             Task: watchAppList,
@@ -618,11 +618,11 @@
       },
       appDetail(item) {
         let kind = 'app';
-        if (this.tabItems[this.tab].value === 'AppList') {
+        if (this.tabItems[this.tab]?.value === 'AppList') {
           kind = 'app';
-        } else if (this.tabItems[this.tab].value === 'AppStoreList') {
+        } else if (this.tabItems[this.tab]?.value === 'AppStoreList') {
           kind = 'appstore';
-        } else if (this.tabItems[this.tab].value === 'ModelStoreList') {
+        } else if (this.tabItems[this.tab]?.value === 'ModelStoreList') {
           kind = 'modelstore';
         }
         this.$router.push({
@@ -640,12 +640,12 @@
       removeApp(item) {
         this.$store.commit('SET_CONFIRM', {
           title:
-            this.tabItems[this.tab].value === 'AppList'
+            this.tabItems[this.tab]?.value === 'AppList'
               ? this.$root.$t('operate.delete_c', [this.$t('tip.platform_app')])
               : this.$root.$t('operate.delete_c', [this.$t('tip.app_store_app')]),
           content: {
             text:
-              this.tabItems[this.tab].value === 'AppList'
+              this.tabItems[this.tab]?.value === 'AppList'
                 ? `${this.$root.$t('operate.delete_c', [this.$t('tip.platform_app')])} ${item.name}`
                 : `${this.$root.$t('operate.delete_c', [this.$t('tip.app_store_app')])} ${item.name}`,
             type: 'delete',
@@ -653,7 +653,7 @@
           },
           param: { item },
           doFunc: async (param) => {
-            if (this.tabItems[this.tab].value === 'AppList') {
+            if (this.tabItems[this.tab]?.value === 'AppList') {
               await deleteApp(this.Tenant().ID, this.Project().ID, this.Environment().ID, param.item.name);
             } else {
               await deleteAppStoreApp(this.Tenant().ID, this.Project().ID, this.Environment().ID, param.item.name);
@@ -726,6 +726,9 @@
           text: this.$t('tip.copyed'),
           color: 'success',
         });
+      },
+      getRepo(item, defaultValue = '') {
+        return item?.runtime?.annotations?.['application.kubegems.io/repo'] || defaultValue;
       },
     },
   };

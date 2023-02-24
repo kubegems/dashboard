@@ -16,46 +16,52 @@
 
 <template>
   <v-flex>
-    <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-      <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.template')])" />
+    <v-form ref="form" v-model="state.valid" lazy-validation @submit.prevent>
+      <v-flex :class="state.expand ? 'kubegems__overlay' : ''" />
+      <BaseSubTitle :title="i18n.t('form.definition', [i18n.t('resource.template')])" />
       <v-card-text class="pa-2">
         <v-row>
           <v-col cols="6">
             <v-text-field
               v-model="obj.name"
               class="my-0"
-              :label="$t('form.name')"
+              :label="i18nLocal.t('form.name')"
               :readonly="edit"
               required
-              :rules="objRules.nameRule"
+              :rules="objRules.name"
             />
           </v-col>
           <v-col cols="6">
             <v-text-field
               v-model="obj.showName"
               class="my-0"
-              :label="$t('form.show_name')"
+              :label="i18nLocal.t('form.show_name')"
               required
-              :rules="objRules.showNameRule"
+              :rules="objRules.showName"
             />
           </v-col>
           <v-col cols="12">
-            <v-textarea v-model="obj.description" auto-grow class="my-0" :label="$t('form.description')" required />
+            <v-textarea
+              v-model="obj.description"
+              auto-grow
+              class="my-0"
+              :label="i18nLocal.t('form.description')"
+              required
+            />
           </v-col>
           <v-col cols="12">
-            <v-textarea v-model="obj.expr" auto-grow class="my-0" label="Expr" required :rules="objRules.exprRule" />
+            <v-textarea v-model="obj.expr" auto-grow class="my-0" label="Expr" required :rules="objRules.expr" />
           </v-col>
           <v-col cols="12">
             <v-combobox
-              v-model="labels"
+              v-model="label.labels"
               height="32"
               hide-no-data
               :items="[]"
-              :label="$t('form.label')"
+              :label="i18nLocal.t('form.label')"
               multiple
-              :search-input.sync="labelText"
-              @change="onLabelChange"
+              :search-input.sync="label.labelText"
+              @change="labelChanged"
               @keydown.enter="createLabel"
             >
               <template #selection="{ item }">
@@ -73,9 +79,9 @@
               class="my-0"
               color="primary"
               hide-selected
-              :items="unitItems"
-              :label="$t('form.unit')"
-              :no-data-text="$root.$t('data.no_data')"
+              :items="getUnitItems()"
+              :label="i18nLocal.t('form.unit')"
+              :no-data-text="i18n.t('data.no_data')"
             >
               <template #selection="{ item }">
                 <v-chip class="mx-1" color="primary" small>
@@ -92,115 +98,125 @@
   </v-flex>
 </template>
 
-<script>
-  import messages from '../i18n';
+<script lang="ts" setup>
+  import { reactive, ref, watch } from 'vue';
+
+  import { useI18n } from '../i18n';
   import { getUnitItems } from '@/composition/metrics';
+  import { useGlobalI18n } from '@/i18n';
+  import { PrometheusTemplate } from '@/types/prometheus_template';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
-  export default {
-    name: 'TemplateBaseForm',
-    i18n: {
-      messages: messages,
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+
+  const props = withDefaults(
+    defineProps<{
+      item?: PrometheusTemplate;
+      edit?: boolean;
+    }>(),
+    {
+      item: undefined,
+      edit: false,
     },
-    props: {
-      edit: {
-        type: Boolean,
-        default: () => false,
-      },
-      item: {
-        type: Object,
-        default: () => null,
-      },
-    },
-    data() {
-      return {
-        valid: false,
-        expand: false,
-        labels: [],
-        labelText: '',
-        obj: {
-          name: '',
-          showName: '',
-          expr: '',
-          labels: [],
-          unit: '',
-          description: '',
-          resourceID: 0,
-        },
-      };
-    },
-    computed: {
-      objRules() {
-        return {
-          nameRule: [required],
-          showNameRule: [required],
-          exprRule: [required],
-          descriptionRule: [required],
-        };
-      },
-      unitItems() {
-        return getUnitItems();
-      },
-    },
-    watch: {
-      item: {
-        handler() {
-          if (this.item) {
-            this.obj = deepCopy(this.item);
-            this.labels = this.obj.labels
-              ? this.obj.labels.map((l, index) => {
-                  return { text: l, value: index };
-                })
-              : [];
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    methods: {
-      onLabelChange() {
-        const labels = this.labels.filter((label) => {
-          return label !== '' && typeof label === 'object';
-        });
-        this.labels = labels;
-      },
-      createLabel() {
-        if (!this.labelText) return;
-        const index = this.labels.length;
-        this.labels.push({
-          text: this.labelText,
-          value: index,
-        });
-        this.labelText = '';
-      },
-      removeLabel(item) {
-        const labels = this.labels.filter((label) => {
-          return label.value !== item.value;
-        });
-        this.labels = labels;
-      },
-      reset() {
-        this.$refs.form.reset();
-      },
-      init(data) {
-        this.$nextTick(() => {
-          this.obj = deepCopy(data);
-        });
-      },
-      setData(data) {
-        this.obj = data;
-      },
-      getData() {
-        this.obj.labels = this.labels.map((l) => {
-          return l.text;
-        });
-        return this.obj;
-      },
-      validate() {
-        return this.$refs.form.validate(true);
-      },
-    },
+  );
+
+  const state = reactive({
+    valid: false,
+    expand: false,
+  });
+
+  const obj = ref({
+    name: '',
+    showName: '',
+    expr: '',
+    labels: [],
+    unit: '',
+    description: '',
+    resourceID: 0,
+  });
+  const objRules = {
+    name: [required],
+    showName: [required],
+    expr: [required],
+    description: [required],
   };
+
+  const label = reactive({
+    labels: [],
+    labelText: '',
+  });
+  const labelChanged = (): void => {
+    const labels = label.labels.filter((label) => {
+      return label !== '' && typeof label === 'object';
+    });
+    label.labels = labels;
+  };
+
+  const createLabel = (): void => {
+    if (!label.labelText) return;
+    const index = label.labels.length;
+    label.labels.push({
+      text: label.labelText,
+      value: index,
+    });
+    label.labelText = '';
+  };
+
+  const removeLabel = (item): void => {
+    const labels = label.labels.filter((label) => {
+      return label.value !== item.value;
+    });
+    label.labels = labels;
+  };
+
+  watch(
+    () => props.item,
+    async (newValue) => {
+      if (!newValue) return;
+      obj.value = deepCopy(newValue);
+      label.labels = obj.value.labels
+        ? obj.value.labels.map((l, index) => {
+            return { text: l, value: index };
+          })
+        : [];
+    },
+    {
+      immediate: true,
+      deep: true,
+    },
+  );
+
+  const form = ref(null);
+  const reset = (): void => {
+    form.value.reset();
+  };
+
+  const init = (data: PrometheusTemplate) => {
+    obj.value = deepCopy(data);
+  };
+
+  const setData = (data: PrometheusTemplate): void => {
+    obj.value = data;
+  };
+
+  const getData = (): PrometheusTemplate => {
+    obj.value.labels = label.labels.map((l) => {
+      return l.text;
+    });
+    return obj.value as PrometheusTemplate;
+  };
+
+  const validate = (): boolean => {
+    return form.value.validate(true);
+  };
+
+  defineExpose({
+    reset,
+    init,
+    setData,
+    getData,
+    validate,
+  });
 </script>

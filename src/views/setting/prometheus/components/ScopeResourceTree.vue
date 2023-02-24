@@ -23,19 +23,19 @@
       dense
       flat
       hide-details
-      :label="$t('filter.search')"
+      :label="i18nLocal.t('filter.search')"
       prepend-inner-icon="mdi-magnify"
       solo
     />
     <v-treeview
       activatable
-      :active.sync="active"
+      :active.sync="state.active"
       color="primary"
       dense
       item-key="treeId"
-      :items="items"
-      :load-children="resourceList"
-      :open.sync="open"
+      :items="scopeItems"
+      :load-children="getRuleResourceList"
+      :open.sync="state.open"
       open-on-click
       return-object
       rounded
@@ -54,95 +54,93 @@
   </div>
 </template>
 
-<script>
-  import { mapGetters, mapState } from 'vuex';
+<script lang="ts" setup>
+  import { onMounted, reactive, ref, watch } from 'vue';
 
-  import messages from '../i18n';
-  import { getRuleResourceList, getRuleScopeList } from '@/api';
-  import BaseSelect from '@/mixins/select';
+  import { useI18n } from '../i18n';
+  import { useRuleResourceList, useRuleScopeList } from '@/composition/prometheus';
+  import { useQuery } from '@/router';
+  import { useStore } from '@/store';
+  import { RuleResource, RuleScope } from '@/types/prometheus_template';
 
-  export default {
-    name: 'ScopeResourceTree',
-    i18n: {
-      messages: messages,
-    },
-    mixins: [BaseSelect],
-    data() {
-      return {
-        items: [],
-        active: [],
-        open: [],
-        search: '',
-      };
-    },
-    computed: {
-      ...mapGetters(['Tenant']),
-      ...mapState(['AdminViewport']),
-    },
-    watch: {
-      active: {
-        handler(newValue) {
-          if (newValue && newValue.length > 0) {
-            this.onActiveChange(newValue);
-          }
-        },
-        deep: true,
-      },
-    },
-    mounted() {
-      this.ruleScopeList();
-    },
-    methods: {
-      async ruleScopeList() {
-        const data = await getRuleScopeList(this.Tenant().ID, { size: 1000 });
+  const i18nLocal = useI18n();
+  const store = useStore();
 
-        this.items = data.List.map((item) => ({
-          type: 'scope',
-          treeId: `s${item.id}`,
-          id: item.id,
-          name: item.showName,
-          children: [],
-        }));
-        this.defaultActiveByQuery();
-      },
-      async resourceList(scope) {
-        const data = await getRuleResourceList(this.Tenant().ID, scope.id, { size: 1000 });
+  const search = ref<string>('');
+  const state = reactive({
+    active: [],
+    open: [],
+  });
 
-        const children = data.List.map((item) => ({
-          type: 'resource',
-          treeId: `r${item.id}`,
-          id: item.id,
-          scopeId: scope.id,
-          name: item.showName,
-          scopeName: scope.name,
-        }));
-        this.$set(scope, 'children', children);
-      },
-      onActiveChange(value) {
-        const v = value[0];
-        this.$emit('input', v);
-        this.$emit('change', v);
-      },
-      async defaultActiveByQuery() {
-        const { scopeId, resourceId } = this.$route.query;
-        let scopeItem = void 0;
-        if (scopeId) {
-          scopeItem = this.items.find((item) => item.id === parseInt(scopeId));
-          scopeItem && (await this.resourceList({ id: scopeId }));
-        }
-        this.open = scopeItem ? [scopeItem] : [];
-        this.active = resourceId
-          ? [
-              {
-                type: 'resource',
-                treeId: `r${resourceId}`,
-                id: parseInt(resourceId),
-                scopeId: parseInt(scopeId),
-              },
-            ]
-          : [];
-      },
+  const scopeItems = ref<any[]>([]);
+  const getRuleScopeList = async (): Promise<void> => {
+    const data = await useRuleScopeList(store.getters.Tenant().ID, new RuleScope());
+    const scopes = data.map((item) => ({
+      type: 'scope',
+      treeId: `s${item.id}`,
+      id: item.id,
+      name: item.showName,
+      children: [],
+    }));
+    scopeItems.value = scopes;
+    defaultActiveByQuery();
+  };
+
+  onMounted(() => {
+    getRuleScopeList();
+  });
+
+  const getRuleResourceList = async (scope: any): Promise<void> => {
+    const data = await useRuleResourceList(store.getters.Tenant().ID, new RuleResource({ scopeID: scope.id }));
+    const children = data.map((item) => ({
+      type: 'resource',
+      treeId: `r${item.id}`,
+      id: item.id,
+      scopeId: scope.id,
+      name: item.showName,
+      scopeName: scope.name,
+    }));
+    scope.children = children;
+  };
+
+  const emit = defineEmits(['input', 'change']);
+  const activeChanged = (value) => {
+    const v = value[0];
+    emit('input', v);
+    emit('change', v);
+  };
+
+  watch(
+    () => state.active,
+    async (newValue) => {
+      if (newValue) {
+        activeChanged(newValue);
+      }
     },
+    {
+      deep: true,
+    },
+  );
+
+  const query = useQuery();
+  const defaultActiveByQuery = async (): Promise<void> => {
+    const { scopeId, resourceId } = query.value;
+    let scopeItem = void 0;
+    if (scopeId) {
+      scopeItem = scopeItems.value.find((item) => item.id === parseInt(scopeId));
+      scopeItem && (await getRuleResourceList({ id: scopeId }));
+    }
+    state.open = scopeItem ? [scopeItem] : [];
+    state.active = resourceId
+      ? [
+          {
+            type: 'resource',
+            treeId: `r${resourceId}`,
+            id: parseInt(resourceId),
+            scopeId: parseInt(scopeId),
+          },
+        ]
+      : [];
   };
 </script>
 

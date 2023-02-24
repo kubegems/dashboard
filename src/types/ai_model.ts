@@ -104,6 +104,14 @@ export class AIModelRegistry implements RegistryUser, Operator {
   public async deleteSyncTask(): Promise<void> {
     await axios.delete(`admin/sources/${this.name}/sync`);
   }
+
+  // extend info
+  public async getSelector(
+    params: KubeRequest = {},
+  ): Promise<{ frameworks: string[]; licenses: string[]; tags: string[]; tasks: string[] }> {
+    const data: { [key: string]: any } = await axios(`admin/sources/${this.name}/selector`, { params: params });
+    return data as { frameworks: string[]; licenses: string[]; tags: string[]; tasks: string[] };
+  }
 }
 
 export class AIModel {
@@ -132,11 +140,20 @@ export class AIModel {
   versions: { [key: string]: string };
   [others: string]: any;
 
+  public async getModelList(source: string, params: KubePaginationRequest): Promise<KubePaginationResponse<AIModel[]>> {
+    const data: { [key: string]: any } = await axios(`admin/sources/${source}/models`, { params: params });
+    return data as KubePaginationResponse<AIModel[]>;
+  }
+
   public async updateModelByAdmin(): Promise<AIModel> {
     const data: { [key: string]: any } = await axios.put(
       `admin/sources/${this.source}/models/${Base64.encode(this.name)}`,
       this,
     );
     return data as AIModel;
+  }
+
+  public async deleteModelByAdmin(): Promise<void> {
+    await axios.delete(`admin/sources/${this.source}/models/${Base64.encode(this.name)}`);
   }
 }
