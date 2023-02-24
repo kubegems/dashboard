@@ -226,7 +226,7 @@
     router.push({
       name: 'model-repository-detail',
       params: { name: item.name },
-      query: { modelCount: item?.modelsCount?.toString() },
+      query: { modelCount: item?.modelsCount?.toString(), framework: '', task: '', search: '', license: '' },
     });
   };
 

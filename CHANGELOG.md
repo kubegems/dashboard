@@ -1,4 +1,4 @@
-# 1.23.4 (2023-2-22)
+# 1.23.4 (2023-2-24)
 
 ### 🌟 新功能
 
@@ -19,6 +19,7 @@
 | - | [fix: 🐛 fix can not change user role to admin bug] | [59edb7d](https://github.com/chenshunliang/dashboard/commit/59edb7d83ad9658e29c4c60b8c554d072afd5b48) |
 | - | [fix: 🐛 fix audit and event request time not utc time bug] | [62f8bbd](https://github.com/chenshunliang/dashboard/commit/62f8bbdbee93ab323f813c959dcdbfaf5c74f914) |
 | - | [fix: 🐛 fix chart.js render interaction mode set not correct bug] | [9b00fa4](https://github.com/chenshunliang/dashboard/commit/9b00fa4dc13d460d90f3d71137d3397a76f05800) |
+| - | [fix: 🐛 fix workload can not list container type bug] | [dcba215](https://github.com/chenshunliang/dashboard/commit/dcba21564373734ba8e3c8c3e3b4b1515a11e76a) |
 
 ### 🔨 reflactor
 

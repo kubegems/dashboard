@@ -16,6 +16,7 @@
 import { useStore } from '@/store';
 import { Matrix, Vector } from '@/types/prometheus';
 import { PrometheusProbe } from '@/types/prometheus_probe';
+import { PrometheusTemplate, RuleResource, RuleScope } from '@/types/prometheus_template';
 
 const store = useStore();
 
@@ -52,4 +53,40 @@ export const useVectorWhitPermission = async (cluster: string, query: KubeReques
     return data;
   }
   return [];
+};
+
+export const usePrometheusTemplatePagination = async (
+  tenantId: string | number,
+  template: PrometheusTemplate,
+  pagination: KubePaginationRequest,
+): Promise<Pagination<PrometheusTemplate>> => {
+  const _data: KubePaginationResponse<PrometheusTemplate[]> = await template.getPrometheusTemplateList(tenantId, {
+    page: pagination.page,
+    size: pagination.size,
+  });
+
+  return {
+    items: _data.List,
+    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
+    page: _data.CurrentPage,
+    size: _data.CurrentSize,
+  } as Pagination<PrometheusTemplate>;
+};
+
+export const useRuleScopeList = async (tenantId: number, scope: RuleScope): Promise<RuleScope[]> => {
+  const _data: KubePaginationResponse<RuleScope[]> = await scope.getRuleScopeList(tenantId, {
+    page: 1,
+    size: 1000,
+    noprocessing: true,
+  });
+  return _data.List as RuleScope[];
+};
+
+export const useRuleResourceList = async (tenantId: number, resource: RuleResource): Promise<RuleResource[]> => {
+  const _data: KubePaginationResponse<RuleResource[]> = await resource.getRuleResourceList(tenantId, {
+    page: 1,
+    size: 1000,
+    noprocessing: true,
+  });
+  return _data.List as RuleResource[];
 };

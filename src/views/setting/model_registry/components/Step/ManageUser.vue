@@ -100,7 +100,7 @@
   import { deepCopy } from '@/utils/helpers';
 
   export default {
-    name: 'ManageUserForm',
+    name: 'ManageUser',
     i18n: {
       messages: messages,
     },

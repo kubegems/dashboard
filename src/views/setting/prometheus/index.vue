@@ -22,7 +22,7 @@
           <v-flex class="kubegems__full-right">
             <v-btn class="primary--text" small text @click="addTemplate">
               <v-icon left small> mdi-plus-box </v-icon>
-              {{ $root.$t('operate.create_c', [$root.$t('resource.template')]) }}
+              {{ i18n.t('operate.create_c', [i18n.t('resource.template')]) }}
             </v-btn>
           </v-flex>
         </template>
@@ -33,21 +33,21 @@
         disable-sort
         :headers="headers"
         hide-default-footer
-        :items="items"
-        :items-per-page="params.size"
-        :no-data-text="$root.$t('data.no_data')"
-        :page.sync="params.page"
+        :items="pagination.items"
+        :items-per-page="pagination.size"
+        :no-data-text="i18n.t('data.no_data')"
+        :page.sync="pagination.page"
       >
-        <template #[`item.rule`]="{ item }">
+        <template #item.rule="{ item }">
           {{ item.showName }}
         </template>
-        <template #[`item.unit`]="{ item }">
+        <template #item.unit="{ item }">
           {{ item.unit }}
         </template>
-        <template #[`item.label`]="{ item, index }">
+        <template #item.label="{ item, index }">
           <BaseCollapseChips :id="`p_label_${index}`" :chips="item.labels || []" icon="mdi-label" single-line />
         </template>
-        <template #[`item.action`]="{ item, index }">
+        <template #item.action="{ item, index }">
           <v-flex :id="`r${index}`" />
           <v-menu :attach="`#r${index}`" left>
             <template #activator="{ on }">
@@ -59,12 +59,12 @@
               <v-card-text class="pa-2">
                 <v-flex>
                   <v-btn color="primary" small text @click="updateTemplate(item)">
-                    {{ $root.$t('operate.edit') }}
+                    {{ i18n.t('operate.edit') }}
                   </v-btn>
                 </v-flex>
                 <v-flex>
                   <v-btn color="error" small text @click="removeTemplate(item)">
-                    {{ $root.$t('operate.delete') }}
+                    {{ i18n.t('operate.delete') }}
                   </v-btn>
                 </v-flex>
               </v-card-text>
@@ -73,118 +73,118 @@
         </template>
       </v-data-table>
       <BasePagination
-        v-if="pageCount >= 1"
-        v-model="params.page"
-        :page-count="pageCount"
-        :size="params.size"
-        @changepage="onPageIndexChange"
-        @changesize="onPageSizeChange"
-        @loaddata="ruleList"
+        v-if="pagination.pageCount >= 1"
+        v-model="pagination.page"
+        :page-count="pagination.pageCount"
+        :size="pagination.size"
+        @changepage="pageChange"
+        @changesize="sizeChange"
+        @loaddata="getTemplateList"
       />
     </ScopeResourceLayout>
 
-    <AddTemplate ref="addTemplate" @refresh="ruleList" />
-    <UpdateTemplate ref="updateTemplate" @refresh="ruleList" />
+    <TemplateForm ref="template" @refresh="getTemplateList" />
   </v-container>
 </template>
 
-<script>
-  import { mapGetters } from 'vuex';
+<script lang="ts" setup>
+  import { reactive, ref, watch } from 'vue';
 
-  import AddTemplate from './components/AddTemplate';
-  import ScopeResourceLayout from './components/ScopeResourceLayout';
-  import UpdateTemplate from './components/UpdateTemplate';
-  import messages from './i18n';
-  import { deleteAddRule, getRuleList } from '@/api';
+  import ScopeResourceLayout from './components/ScopeResourceLayout.vue';
+  import TemplateForm from './components/TemplateForm.vue';
+  import { useI18n } from './i18n';
+  import { usePrometheusTemplatePagination } from '@/composition/prometheus';
+  import { useRoute } from '@/composition/router';
+  import { useGlobalI18n } from '@/i18n';
+  import { useQuery } from '@/router';
+  import { useStore } from '@/store';
+  import { PrometheusTemplate } from '@/types/prometheus_template';
 
-  export default {
-    name: 'PrometheusTemplate',
-    i18n: {
-      messages: messages,
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
+  const route = useRoute();
+
+  const headers = [
+    { text: i18nLocal.t('table.name'), value: 'name', align: 'start' },
+    { text: i18nLocal.t('table.rule'), value: 'rule', align: 'start' },
+    { text: 'Expr', value: 'expr', align: 'start' },
+    { text: i18nLocal.t('table.unit'), value: 'unit', align: 'start' },
+    { text: i18nLocal.t('table.label'), value: 'label', align: 'start' },
+    { text: '', value: 'action', align: 'center', width: 20 },
+  ];
+
+  let pagination: Pagination<PrometheusTemplate> = reactive<Pagination<PrometheusTemplate>>({
+    page: 1,
+    size: 10,
+    pageCount: 0,
+    items: [],
+  });
+
+  const getTemplateList = async (): Promise<void> => {
+    const data: Pagination<PrometheusTemplate> = await usePrometheusTemplatePagination(
+      '_all',
+      new PrometheusTemplate({ resourceID: query.value.resourceId }),
+      pagination,
+    );
+    pagination = Object.assign(pagination, data);
+  };
+
+  const query = useQuery();
+  watch(
+    () => query,
+    async (newValue) => {
+      if (!newValue) return;
+      if (newValue.value.resourceId) {
+        pagination.page = 1;
+        getTemplateList();
+      }
     },
-    components: {
-      AddTemplate,
-      ScopeResourceLayout,
-      UpdateTemplate,
+    {
+      immediate: true,
+      deep: true,
     },
-    data() {
-      return {
-        items: [],
-        pageCount: 0,
-        params: {
-          page: 1,
-          size: 10,
-        },
-      };
-    },
-    computed: {
-      ...mapGetters(['Tenant']),
-      headers() {
-        return [
-          { text: this.$t('table.name'), value: 'name', align: 'start' },
-          { text: this.$t('table.rule'), value: 'rule', align: 'start' },
-          { text: 'Expr', value: 'expr', align: 'start' },
-          { text: this.$t('table.unit'), value: 'unit', align: 'start' },
-          { text: this.$t('table.label'), value: 'label', align: 'start' },
-          { text: '', value: 'action', align: 'center', width: 20 },
-        ];
+  );
+
+  const pageChange = (page: number): void => {
+    pagination.page = page;
+  };
+
+  const sizeChange = (size: number): void => {
+    pagination.page = 1;
+    pagination.size = size;
+  };
+
+  const template = ref(null);
+  const addTemplate = (): void => {
+    if (!route.query.resourceId) {
+      store.commit('SET_SNACKBAR', {
+        text: i18nLocal.t('tip.select_resource'),
+        color: 'warning',
+      });
+      return;
+    }
+    template.value.open();
+  };
+
+  const updateTemplate = (item: PrometheusTemplate): void => {
+    template.value.init(item);
+    template.value.open();
+  };
+
+  const removeTemplate = (item) => {
+    store.commit('SET_CONFIRM', {
+      title: i18n.t('operate.delete_c', [i18n.t('resource.template')]),
+      content: {
+        text: `${i18n.t('operate.delete_c', [i18n.t('resource.template')])} ${item.name}`,
+        type: 'delete',
+        name: item.name,
       },
-    },
-    watch: {
-      '$route.query': {
-        handler(newValue) {
-          if (newValue?.resourceId) {
-            this.params.page = 1;
-            this.ruleList();
-          }
-        },
-        deep: true,
-        immediate: true,
+      param: { item },
+      doFunc: async (param) => {
+        await new PrometheusTemplate(param.item).deletePrometheusTemplate('_all');
+        getTemplateList();
       },
-    },
-    methods: {
-      async ruleList() {
-        const data = await getRuleList('_all', this.$route.query.resourceId, { ...this.params });
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
-      },
-      onPageSizeChange(size) {
-        this.params.page = 1;
-        this.params.size = size;
-      },
-      onPageIndexChange(page) {
-        this.params.page = page;
-      },
-      addTemplate() {
-        if (!this.$route.query.resourceId) {
-          this.$store.commit('SET_SNACKBAR', {
-            text: this.$t('tip.select_resource'),
-            color: 'warning',
-          });
-          return;
-        }
-        this.$refs.addTemplate.open();
-      },
-      updateTemplate(item) {
-        this.$refs.updateTemplate.init(item);
-        this.$refs.updateTemplate.open();
-      },
-      removeTemplate(item) {
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.template')]),
-          content: {
-            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.template')])} ${item.name}`,
-            type: 'delete',
-            name: item.name,
-          },
-          param: { item },
-          doFunc: async (param) => {
-            await deleteAddRule('_all', param.item.id);
-            this.ruleList();
-          },
-        });
-      },
-    },
+    });
   };
 </script>

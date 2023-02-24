@@ -23,7 +23,7 @@
       <v-list-item-content class="kubegems__text">
         <v-list-item-title class="text-subtitle-2"> {{ i18n.t('resource.cluster') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
-          {{ item ? cluster : '' }}
+          {{ cluster }}
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -31,7 +31,7 @@
       <v-list-item-content class="kubegems__text">
         <v-list-item-title class="text-subtitle-2"> {{ i18n.t('resource.project') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
-          {{ item ? (item.metadata.labels ? item.metadata.labels[PROJECT_KEY] : '') : '' }}
+          {{ project }}
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -39,7 +39,7 @@
       <v-list-item-content class="kubegems__text">
         <v-list-item-title class="text-subtitle-2"> {{ i18n.t('resource.environment') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
-          {{ item ? (item.metadata.labels ? item.metadata.labels[ENVIRONMENT_KEY] : '') : '' }}
+          {{ environment }}
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -58,14 +58,16 @@
   import moment from 'moment';
   import { ComputedRef, computed } from 'vue';
 
+  import { useRoute } from '@/composition/router';
   import { ENVIRONMENT_KEY, PROJECT_KEY } from '@/constants/label';
   import { useGlobalI18n } from '@/i18n';
   import { useStore } from '@/store';
 
   const i18n = useGlobalI18n();
   const store = useStore();
+  const route = useRoute();
 
-  withDefaults(
+  const props = withDefaults(
     defineProps<{
       environment?: boolean;
       item?: any;
@@ -85,5 +87,13 @@
         ? store.getters.Cluster().ClusterName || ''
         : store.getters.Environment().ClusterName || '')
     );
+  });
+
+  const project: ComputedRef<string> = computed(() => {
+    return props.item?.metadata?.labels?.[PROJECT_KEY] || route.params.project || '';
+  });
+
+  const environment: ComputedRef<string> = computed(() => {
+    return props.item?.metadata?.labels?.[ENVIRONMENT_KEY] || route.params.environment || '';
   });
 </script>

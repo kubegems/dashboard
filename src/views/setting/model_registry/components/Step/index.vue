@@ -27,13 +27,13 @@
 </template>
 
 <script>
-  import ManageUserForm from './ManageUserForm';
+  import ManageUser from './ManageUser';
   import ModelBaseInfo from './ModelBaseInfo';
 
   export default {
     name: 'ModelRegistryBaseForm',
     components: {
-      ManageUserForm,
+      ManageUser,
       ModelBaseInfo,
     },
     props: {
@@ -53,7 +53,7 @@
     data() {
       return {
         valid: false,
-        steps: ['ModelBaseInfo', 'ManageUserForm'],
+        steps: ['ModelBaseInfo', 'ManageUser'],
       };
     },
     computed: {

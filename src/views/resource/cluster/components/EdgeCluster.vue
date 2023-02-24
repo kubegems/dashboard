@@ -106,7 +106,7 @@
             <a v-if="item.status.phase === 'Online'" class="text-subtitle-2" @click.stop="edgeDetail(item)">
               {{ item.metadata.labels[EDGE_DEVICEID_KEY] || item.metadata.name }}
             </a>
-            <span v-else> {{ item.metadata.name }} </span>
+            <span v-else> {{ item.metadata.labels[EDGE_DEVICEID_KEY] || item.metadata.name }} </span>
           </div>
           <div class="kubegems__clear-float" />
           <div>
