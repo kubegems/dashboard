@@ -18,7 +18,7 @@
   <BasePanel v-model="state.panel" icon="mdi-code-json" title="YAML" :width="`50%`" @dispose="dispose">
     <template #header>
       <span class="ml-3">
-        {{ item ? item.metadata.name : '' }}
+        {{ item && item.metadata ? item.metadata.name : '' }}
       </span>
     </template>
     <template #content>

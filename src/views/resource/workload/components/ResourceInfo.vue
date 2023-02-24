@@ -52,7 +52,7 @@
 
         <BaseListItemForDetail title="Generation">
           <template #content>
-            {{ workload ? workload.metadata.generation : '' }}
+            {{ workload && workload.metadata ? workload.metadata.generation : '' }}
           </template>
         </BaseListItemForDetail>
 
@@ -88,7 +88,7 @@
       <BaseSubTitle class="pt-2" :divider="false" :title="$root.$t('resource.container')" />
       <DetailContainer
         :containers="
-          workload
+          workload && workload.spec && workload.spec.template && workload.spec.template.spec.containers
             ? workload.spec.template.spec.containers.concat(
                 workload.spec.template.spec.initContainers
                   ? workload.spec.template.spec.initContainers.map((i) => {
@@ -103,12 +103,24 @@
 
     <v-card class="mt-3" flat>
       <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.volume')" />
-      <DetailVolume :volumes="workload ? workload.spec.template.spec.volumes : []" />
+      <DetailVolume
+        :volumes="
+          workload && workload.spec && workload.spec.template && workload.spec.template.spec
+            ? workload.spec.template.spec.volumes
+            : []
+        "
+      />
     </v-card>
 
     <v-card class="mt-3" flat>
       <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.env')" />
-      <DetailEnv :containers="workload ? workload.spec.template.spec.containers : []" />
+      <DetailEnv
+        :containers="
+          workload && workload.spec && workload.spec.template && workload.spec.template.spec
+            ? workload.spec.template.spec.containers
+            : []
+        "
+      />
     </v-card>
 
     <v-card class="mt-3" flat>
@@ -125,7 +137,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in workload ? workload.status.conditions : []" :key="index">
+            <tr
+              v-for="(item, index) in workload && workload.status && workload.status.conditions
+                ? workload.status.conditions
+                : []"
+              :key="index"
+            >
               <td>{{ item.reason }}</td>
               <td>
                 <span v-if="item.status === 'True'">

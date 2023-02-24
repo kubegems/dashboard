@@ -22,7 +22,7 @@
         <v-row>
           <v-col cols="6">
             <v-text-field
-              v-model="obj.name"
+              v-model="name"
               class="my-0"
               :label="$t('table.name')"
               :readonly="edit"
@@ -107,6 +107,7 @@
     data() {
       return {
         valid: false,
+        name: '',
         sendResolved: false,
         obj: {
           name: '',
@@ -142,7 +143,8 @@
         handler(newValue) {
           if (newValue) {
             this.obj = deepCopy(newValue);
-            this.sendResolved = newValue.channelConfig?.sendResolved;
+            this.name = newValue?.name;
+            this.sendResolved = newValue?.channelConfig?.sendResolved;
             this.channelType = `${this.obj.channelConfig.channelType[0].toLocaleUpperCase()}${this.obj.channelConfig.channelType.substr(
               1,
             )}`;
@@ -211,6 +213,7 @@
         if (this.$refs[this.channelType]) {
           const data = this.$refs[this.channelType].getData();
           data.channelConfig.sendResolved = this.sendResolved;
+          data.name = this.name;
           return data;
         }
         return null;
@@ -229,7 +232,8 @@
         );
       },
       setData(data) {
-        this.sendResolved = data.channelConfig?.sendResolved;
+        this.sendResolved = data?.channelConfig?.sendResolved;
+        this.name = data?.sendResolved;
         this.obj = data;
       },
     },

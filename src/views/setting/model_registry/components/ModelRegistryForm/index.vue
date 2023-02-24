@@ -26,7 +26,8 @@
     @reset="reset"
   >
     <template #content>
-      <Step
+      <component
+        :is="components[state.step]"
         ref="form"
         :edit="state.edit"
         :item="registry"
@@ -71,7 +72,8 @@
 <script lang="ts" setup>
   import { reactive, ref } from 'vue';
 
-  import Step from './Step/index.vue';
+  import ManageUser from './ManageUser.vue';
+  import ModelBaseInfo from './ModelBaseInfo/index.vue';
   import { useGlobalI18n } from '@/i18n';
   import { useStore } from '@/store';
   import { AIModelRegistry } from '@/types/ai_model';
@@ -84,9 +86,11 @@
   const state = reactive({
     dialog: false,
     step: 0,
-    totalStep: 2,
+    totalStep: 1,
     edit: false,
   });
+
+  let components = ref([ModelBaseInfo, ManageUser]);
 
   const registry = ref<AIModelRegistry>(
     new AIModelRegistry({ auth: { username: '', token: '', password: '' }, kind: 'huggingface' }),

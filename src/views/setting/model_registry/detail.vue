@@ -70,7 +70,7 @@
 
   import BaseResourceInfo from './components/BaseResourceInfo.vue';
   import ModelList from './components/ModelList/index.vue';
-  import ModelRegistryForm from './components/ModelRegistryForm.vue';
+  import ModelRegistryForm from './components/ModelRegistryForm/index.vue';
   import { useEnvironmentAllow } from '@/composition/permission';
   import { useRoute, useRouter } from '@/composition/router';
   import { useGlobalI18n } from '@/i18n';

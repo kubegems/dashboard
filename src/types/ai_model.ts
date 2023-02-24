@@ -20,7 +20,7 @@ import { Base64 } from 'js-base64';
 import { User } from './user';
 
 interface RegistryUser {
-  getUserList(params: KubePaginationRequest): Promise<KubePaginationResponse<User[]>>;
+  getUserList(params: KubeRequest): Promise<string[]>;
   addUser(user: User): Promise<void>;
   deleteUser(user: User): Promise<void>;
 }
@@ -28,6 +28,7 @@ interface RegistryUser {
 interface Operator {
   addSyncTask(): Promise<void>;
   deleteSyncTask(): Promise<void>;
+  check(): Promise<void>;
 }
 
 export class AIModelRegistry implements RegistryUser, Operator {
@@ -35,19 +36,19 @@ export class AIModelRegistry implements RegistryUser, Operator {
     Object.assign(this, registry);
   }
 
-  address: string;
-  annotations: { [key: string]: string };
-  auth: { username: string; password: string; token: string };
-  builtIn: boolean;
+  address = '';
+  annotations: { [key: string]: string } = {};
+  auth: { username: string; password: string; token: string } = { username: '', password: '', token: '' };
+  builtIn = false;
   creationTime: Date;
-  enabled: boolean;
+  enabled = true;
   id: string;
-  images: string[];
-  initImage: string;
-  kind: string;
-  modelsCount: number;
-  name: string;
-  online: boolean;
+  images: string[] = [];
+  initImage = '';
+  kind = '';
+  modelsCount = 0;
+  name = '';
+  online = true;
   updationTime: Date;
   [others: string]: any;
 
@@ -83,9 +84,9 @@ export class AIModelRegistry implements RegistryUser, Operator {
   }
 
   // RegistryUser
-  public async getUserList(params: KubePaginationRequest): Promise<KubePaginationResponse<User[]>> {
+  public async getUserList(params: KubeRequest = {}): Promise<string[]> {
     const data: { [key: string]: any } = await axios(`sources/${this.name}/admins`, { params: params });
-    return data as KubePaginationResponse<User[]>;
+    return data as string[];
   }
 
   public async addUser(user: User): Promise<void> {
@@ -103,6 +104,10 @@ export class AIModelRegistry implements RegistryUser, Operator {
 
   public async deleteSyncTask(): Promise<void> {
     await axios.delete(`admin/sources/${this.name}/sync`);
+  }
+
+  public async check(): Promise<void> {
+    await axios.post(`admin/sourcescheck`, this);
   }
 
   // extend info

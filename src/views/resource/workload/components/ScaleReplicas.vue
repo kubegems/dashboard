@@ -30,7 +30,7 @@
             <v-flex class="text-subtitle-1 mb-2">
               {{ $t('tip.now_replicas') }}
               <span class="text-subtitle-2 primary--text">
-                {{ item ? item.spec.replicas : 0 }}
+                {{ item && item.spec ? item.spec.replicas : 0 }}
               </span>
             </v-flex>
             <v-text-field
@@ -90,7 +90,7 @@
     watch: {
       item: {
         handler() {
-          this.obj.Replicas = this.item.spec.replicas;
+          this.obj.Replicas = this.item?.spec?.replicas || 0;
         },
         deep: true,
       },
@@ -116,7 +116,7 @@
       },
       reset() {
         this.dialog = false;
-        this.obj.Replicas = this.item.spec.replicas;
+        this.obj.Replicas = this.item?.spec?.replicas || 0;
       },
     },
   };

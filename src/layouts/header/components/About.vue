@@ -34,7 +34,10 @@
       <v-divider class="mt-4" />
       <v-card-title class="text-body-2 kubegems__text px-4">
         <div class="title__pointer mr-1" :style="{ fontWeight: 500 }" @click.stop="toOpenProtocol">
-          <a class="float-left title__div"> {{ i18nLocal.t('tip.openresource') }} </a>
+          <a class="float-left title__div">
+            <BaseLogo icon-name="apache" :width="18" />
+            {{ i18nLocal.t('tip.openresource') }}
+          </a>
         </div>
 
         <div class="title__pointer" @click.stop="toProject">
@@ -74,12 +77,14 @@
   import { reactive, ref } from 'vue';
 
   import { useI18n } from '../i18n';
+  import { useRouter } from '@/composition/router';
   import { LOGO_BLUE } from '@/constants/platform';
   import { useGlobalI18n } from '@/i18n';
   import { Version } from '@/types/version';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();
+  const router = useRouter();
 
   const state = reactive({
     dialog: false,
@@ -121,7 +126,7 @@
     window.open('https://github.com/kubegems/kubegems');
   };
   const toOpenProtocol = (): void => {
-    window.open('https://www.apache.org/licenses/LICENSE-2.0');
+    window.open(router.resolve({ name: 'clincense' }).href);
   };
 
   defineExpose({

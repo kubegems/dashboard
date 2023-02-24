@@ -128,7 +128,7 @@
   import { onMounted, onUnmounted, ref } from 'vue';
   import VueI18n from 'vue-i18n';
 
-  import ModelRegistryForm from './components/ModelRegistryForm.vue';
+  import ModelRegistryForm from './components/ModelRegistryForm/index.vue';
   import { useI18n } from './i18n';
   import { useRouter } from '@/composition/router';
   import { LOGO_BLUE } from '@/constants/platform';

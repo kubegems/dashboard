@@ -29,10 +29,13 @@
       <v-col cols="6">
         <v-text-field
           v-model="obj.channelConfig.accessKeySecret"
+          :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
           class="my-0"
           label="AccessKeySecret"
           required
           :rules="objRules.accessKeySecretRule"
+          :type="show ? 'text' : 'password'"
+          @click:append="show = !show"
         />
       </v-col>
       <v-col cols="6">
@@ -101,6 +104,7 @@
     data() {
       return {
         valid: false,
+        show: false,
         obj: {},
         objRules: {
           accessKeyIdRule: [required],
@@ -189,15 +193,15 @@
         this.phoneText = '';
       },
       removePhone(item) {
-        const index = this.phoneTo.findIndex((phone) => {
+        const index = this.phoneTo?.findIndex((phone) => {
           return phone === item.text;
         });
         if (index > -1) {
-          this.phoneTo.splice(index, 1);
+          this.phoneTo?.splice(index, 1);
         }
       },
       phoneListToString() {
-        if (this.phoneTo.length > 0) {
+        if (this.phoneTo?.length > 0) {
           this.obj.channelConfig.callNumber = this.phoneTo;
         } else {
           this.obj.channelConfig.callNumber = '';

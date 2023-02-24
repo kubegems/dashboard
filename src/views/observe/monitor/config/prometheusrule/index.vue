@@ -144,7 +144,7 @@
                 <BaseLogo :icon-name="channel.alertChannel.channelConfig.channelType" :ml="0" :mt="0" :width="18" />
               </div>
               <div class="float-left">
-                {{ channel.alertChannel.name }}
+                {{ channel.alertChannel ? channel.alertChannel.name : '' }}
               </div>
               <div class="kubegems__clear-float" />
             </div>
@@ -420,7 +420,7 @@
           this.selectedItems.push(item);
         } else {
           const index = this.selectedItems.findIndex((s) => {
-            return s.name === item.name;
+            return s?.name === item?.name;
           });
           if (index > -1) {
             this.selectedItems.splice(index, 1);

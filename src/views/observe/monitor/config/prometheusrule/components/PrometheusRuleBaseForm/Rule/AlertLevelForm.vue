@@ -40,32 +40,34 @@
                 </template>
               </v-autocomplete>
             </v-flex>
-            <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-autocomplete
-                v-model="alertLevel.compareOp"
-                color="primary"
-                hide-selected
-                :items="comepareSelect"
-                :label="$t('tip.trigger_condition')"
-                :no-data-text="$root.$t('data.no_data')"
-                :rules="alertLevelRules.compareRule"
-              >
-                <template #selection="{ item }">
-                  <v-chip class="mx-1" color="primary" small>
-                    {{ item['text'] }}
-                  </v-chip>
-                </template>
-              </v-autocomplete>
-            </v-flex>
-            <v-flex class="float-left text-subtitle-2 pt-4 primary--text kubegems__min-width" />
-            <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field
-                v-model="alertLevel.compareValue"
-                :label="$t('tip.trigger_val')"
-                required
-                :rules="alertLevelRules.compareValueRule"
-              />
-            </v-flex>
+            <template v-if="mod === 'template'">
+              <v-flex class="float-left ml-2 kubegems__form-width">
+                <v-autocomplete
+                  v-model="alertLevel.compareOp"
+                  color="primary"
+                  hide-selected
+                  :items="comepareSelect"
+                  :label="$t('tip.trigger_condition')"
+                  :no-data-text="$root.$t('data.no_data')"
+                  :rules="alertLevelRules.compareRule"
+                >
+                  <template #selection="{ item }">
+                    <v-chip class="mx-1" color="primary" small>
+                      {{ item['text'] }}
+                    </v-chip>
+                  </template>
+                </v-autocomplete>
+              </v-flex>
+              <v-flex class="float-left text-subtitle-2 pt-4 primary--text kubegems__min-width" />
+              <v-flex class="float-left ml-2 kubegems__form-width">
+                <v-text-field
+                  v-model="alertLevel.compareValue"
+                  :label="$t('tip.trigger_val')"
+                  required
+                  :rules="alertLevelRules.compareValueRule"
+                />
+              </v-flex>
+            </template>
             <div class="kubegems__clear-float" />
           </v-sheet>
         </v-card-text>
@@ -93,6 +95,10 @@
       data: {
         type: Array,
         default: () => null,
+      },
+      mod: {
+        type: String,
+        default: () => 'template',
       },
     },
     data() {

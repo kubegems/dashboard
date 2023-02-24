@@ -178,6 +178,7 @@
         ref="alertLevelForm"
         class="kubegems__forminform"
         :data="obj.alertLevels"
+        :mod="mod"
         :namespace="obj.namespace"
         @addData="addData"
         @closeOverlay="closeExpand"
@@ -186,6 +187,7 @@
       <v-card-text class="pa-2">
         <AlertLevelItem
           :alertlevels="obj.alertLevels"
+          :mod="mod"
           @expandCard="expandCard"
           @removeAlertLevel="removeAlertLevel"
           @updateAlertLevel="updateAlertLevel"
@@ -207,7 +209,7 @@
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
-  import { required, timeInterval } from '@/utils/rules';
+  import { k8sName, required, timeInterval } from '@/utils/rules';
   // import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
   import ResourceSelectCascade from '@/views/observe/monitor/metrics/components/ResourceSelectCascade';
 
@@ -299,7 +301,7 @@
       },
       objRules() {
         return {
-          nameRule: [required],
+          nameRule: [required, k8sName],
           namespaceRule: [required],
           resourceRule: [required],
           ruleRule: [required],

@@ -30,26 +30,28 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" :style="{ width: `270px` }" two-line>
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1 primary--text">
-                  {{ $t('tip.trigger_condition') }}
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  {{ compareMap(item.compareOp) }}
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" :style="{ width: `270px` }" two-line>
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1 primary--text">
-                  {{ $t('tip.trigger_val') }}
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  {{ item.compareValue }}
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
+            <template v-if="mod === 'template'">
+              <v-list-item class="float-left py-0 pl-0" :style="{ width: `270px` }" two-line>
+                <v-list-item-content class="py-0">
+                  <v-list-item-title class="text-subtitle-2 py-1 primary--text">
+                    {{ $t('tip.trigger_condition') }}
+                  </v-list-item-title>
+                  <v-list-item-subtitle class="text-body-2 py-1">
+                    {{ compareMap(item.compareOp) }}
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item class="float-left py-0 pl-0" :style="{ width: `270px` }" two-line>
+                <v-list-item-content class="py-0">
+                  <v-list-item-title class="text-subtitle-2 py-1 primary--text">
+                    {{ $t('tip.trigger_val') }}
+                  </v-list-item-title>
+                  <v-list-item-subtitle class="text-body-2 py-1">
+                    {{ item.compareValue }}
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
           </v-list-item-subtitle>
           <div class="kubegems__clear-float" />
         </v-list-item-content>
@@ -61,7 +63,7 @@
         </v-btn>
       </v-list-item>
     </v-sheet>
-    <v-flex class="grey lighten-4 rounded">
+    <v-flex v-if="mod === 'template' || alertlevels.length === 0" class="grey lighten-4 rounded">
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
@@ -88,6 +90,10 @@
       alertlevels: {
         type: Array,
         default: () => [],
+      },
+      mod: {
+        type: String,
+        default: () => 'template',
       },
     },
     methods: {
