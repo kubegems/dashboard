@@ -169,7 +169,7 @@
 
       async updateWorkloadResource() {
         // 用滑块值替换item默认建议值
-        this.workload.spec.template.spec.containers.forEach((c) => {
+        this.workload?.spec?.template?.spec?.containers?.forEach((c) => {
           if (this.sliderItems[c.name]) {
             c.resources.requests.cpu = this.sliderItems[c.name].cpu.mapValue[this.sliderItems[c.name].cpu.value[0]];
             c.resources.limits.cpu = this.sliderItems[c.name].cpu.mapValue[this.sliderItems[c.name].cpu.value[1]];

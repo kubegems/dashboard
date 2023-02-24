@@ -23,10 +23,13 @@
       <v-col cols="12">
         <v-text-field
           v-model="obj.channelConfig.signSecret"
+          :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
           class="my-0"
           label="SignSecret"
           required
           :rules="objRules.signSecretRule"
+          :type="show ? 'text' : 'password'"
+          @click:append="show = !show"
         />
       </v-col>
       <v-col cols="12">
@@ -87,6 +90,7 @@
     data() {
       return {
         valid: false,
+        show: false,
         obj: {},
         objRules: {
           urlRule: [required],
@@ -169,21 +173,21 @@
             text: this.phoneText.trim(),
             value: this.phoneText.trim(),
           });
-          this.phoneTo.push(this.phoneText.trim());
+          this.phoneTo?.push(this.phoneText.trim());
         }
         this.phoneText = '';
       },
       removePhone(item) {
-        const index = this.phoneTo.findIndex((phone) => {
+        const index = this.phoneTo?.findIndex((phone) => {
           return phone === item.text;
         });
         if (index > -1) {
-          this.phoneTo.splice(index, 1);
+          this.phoneTo?.splice(index, 1);
         }
       },
       phoneListToString() {
-        if (this.phoneTo.length > 0) {
-          this.obj.channelConfig.atMobiles = this.phoneTo.join(',');
+        if (this.phoneTo?.length > 0) {
+          this.obj.channelConfig.atMobiles = this.phoneTo?.join(',');
         } else {
           this.obj.channelConfig.atMobiles = '';
         }

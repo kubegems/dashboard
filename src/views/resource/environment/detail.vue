@@ -71,7 +71,7 @@
       </v-col>
     </v-row>
 
-    <ScaleResource ref="scaleResource" @refresh="environmentQuota" />
+    <ScaleResource ref="scaleResource" @refresh="environmentDetail" />
     <ManageUser ref="manageUser" />
     <UpdateEnvironment ref="updateEnvironment" @refresh="environmentDetail" />
     <ResourceUseList ref="resourceUseList" :title="$t('tip.resource_used_list')" type="env" />

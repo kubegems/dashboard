@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { AIModel } from '@/types/ai_model';
+import { AIModel, AIModelRegistry } from '@/types/ai_model';
 
 export const useAiModelPagination = async (
   model: AIModel,
@@ -36,4 +36,11 @@ export const useAiModelPagination = async (
     page: _data.page,
     size: _data.size,
   } as Pagination<AIModel>;
+};
+
+export const useRegistryUserList = async (registry: AIModelRegistry): Promise<string[]> => {
+  const _data: string[] = await registry.getUserList({
+    noprocessing: true,
+  });
+  return _data;
 };

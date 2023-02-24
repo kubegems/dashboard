@@ -1,4 +1,18 @@
-# 1.23.4 (2023-2-24)
+# 1.23.5 (2023-2-24)
+
+### 🌟 新功能
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [fix: ⚡ support custom kind for appmanifest] | [85b4cfa](https://github.com/chenshunliang/dashboard/commit/85b4cfafd51458b30fca0b07ec1900df51a9ecfc) |
+
+### Bug Fixes
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [fix: 🐛 fix few display bugs] | [f5a2b21](https://github.com/chenshunliang/dashboard/commit/f5a2b219aa8b46d797a28708e8e50fe8be80ee58) |
+
+# 1.23.4 (2023-2-22)
 
 ### 🌟 新功能
 

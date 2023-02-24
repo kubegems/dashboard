@@ -18,27 +18,30 @@
   <div />
 </template>
 
-<script>
-  import messages from './i18n';
-  import { getOauthCallback } from '@/api';
+<script lang="ts" setup>
+  import { onMounted } from 'vue';
 
-  export default {
-    name: 'Callback',
-    i18n: {
-      messages: messages,
-    },
-    async mounted() {
-      const code = this.$route.query.code;
-      const state = this.$route.query.state;
-      if (code && state) {
-        const data = await getOauthCallback({ code: code, state: state });
-        this.$router.push({ name: 'login', query: { token: data.token } });
-      } else {
-        this.$store.commit('SET_SNACKBAR', {
-          text: this.$t('status.failed'),
-          color: 'warning',
-        });
-      }
-    },
-  };
+  import { useI18n } from './i18n';
+  import { useRouter } from '@/composition/router';
+  import { useQuery } from '@/router';
+  import { useStore } from '@/store';
+  import { Auth } from '@/types/auth';
+
+  const i18nLocal = useI18n();
+  const query = useQuery();
+  const store = useStore();
+  const router = useRouter();
+
+  onMounted(async () => {
+    const { code, state } = query.value;
+    if (code && state) {
+      const data = await new Auth().getCallbackToken({ code: code, state: state });
+      router.push({ name: 'login', query: { token: data.token } });
+    } else {
+      store.commit('SET_SNACKBAR', {
+        text: i18nLocal.t('status.failed'),
+        color: 'warning',
+      });
+    }
+  });
 </script>

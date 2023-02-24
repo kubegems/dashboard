@@ -24,6 +24,23 @@ export const global: RouteConfig[] = [
     meta: { requireAuth: false },
   },
   {
+    path: '/license',
+    name: 'license',
+    component: () => import('@/layouts/LayoutWithoutNavi.vue'),
+    redirect: { name: 'clincense' },
+    children: [
+      {
+        path: 'introduction',
+        name: 'clincense',
+        component: () => import('@/layouts/License.vue'),
+        meta: {
+          requireAuth: false,
+          title: 'License',
+        },
+      },
+    ],
+  },
+  {
     path: '/403',
     name: '403',
     component: () => import('@/layouts/LayoutWithoutNavi.vue'),
