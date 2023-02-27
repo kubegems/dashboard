@@ -36,7 +36,7 @@
           </v-icon>
         </div>
         <div class="float-left">
-          <span> {{ item.metadata.labels[EDGE_DEVICEID_KEY] || item.metadata.name }} </span>
+          <span> {{ getDisplayName(item) }} </span>
         </div>
         <div class="kubegems__clear-float" />
       </template>
@@ -122,5 +122,9 @@
 
   const pageChange = (page: number): void => {
     pagination.page = page;
+  };
+
+  const getDisplayName = (item: EdgeCluster) => {
+    return item?.metadata?.labels?.[EDGE_DEVICEID_KEY] || item?.metadata?.name || '';
   };
 </script>

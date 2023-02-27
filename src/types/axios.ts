@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import * as Sentry from '@sentry/browser';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import qs from 'qs';
 
+import { TRACK_API } from '@/constants/resource';
 import { useGlobalI18n } from '@/i18n';
 import { useRouter } from '@/router';
 import { useStore } from '@/store';
@@ -141,8 +144,6 @@ axios.interceptors.response.use(
   (error: any): Promise<unknown> => {
     store.commit('SET_PROGRESS', false);
     store.commit('SET_CIRCULAR', false);
-    // 方便排查
-    console.log(error);
     if (!(error && error.response)) {
       if (error.toString().indexOf('timeout') > -1) {
         store.commit('SET_SNACKBAR', {
@@ -167,6 +168,14 @@ axios.interceptors.response.use(
           });
           break;
         case 401:
+          if (
+            import.meta.env.VUE_APP_SENTRY === 'true' &&
+            TRACK_API.some((api) => {
+              return new RegExp(api, 'g').test(error?.config?.url || '');
+            })
+          ) {
+            Sentry.captureMessage('log browser cache data for 401', 'info');
+          }
           store.commit('SET_SNACKBAR', {
             text: i18n.t('tip.401'),
             color: 'warning',

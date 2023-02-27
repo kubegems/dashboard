@@ -11,6 +11,7 @@
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [fix: 🐛 fix few display bugs] | [f5a2b21](https://github.com/chenshunliang/dashboard/commit/f5a2b219aa8b46d797a28708e8e50fe8be80ee58) |
+| - | [fix: 🐛 fix ace mode properties import bug] | [ed9a6b8](https://github.com/chenshunliang/dashboard/commit/ed9a6b869bb23c36931f5a669daeccad8d4ad279) |
 
 # 1.23.4 (2023-2-22)
 
