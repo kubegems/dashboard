@@ -1,10 +1,10 @@
-# 1.23.5 (2023-2-24)
+# 1.23.5 (2023-2-27)
 
 ### 🌟 新功能
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
-| - | [fix: ⚡ support custom kind for appmanifest] | [85b4cfa](https://github.com/chenshunliang/dashboard/commit/85b4cfafd51458b30fca0b07ec1900df51a9ecfc) |
+| - | [perf: ⚡ add license page for kubegems, optimization alert rule form] | [b7945de](https://github.com/chenshunliang/dashboard/commit/b7945de55578da85f3acfa3e5142f2d14a12347d) |
 
 ### Bug Fixes
 

@@ -35,7 +35,7 @@
       <v-card-title class="text-body-2 kubegems__text px-4">
         <div class="title__pointer mr-1" :style="{ fontWeight: 500 }" @click.stop="toOpenProtocol">
           <a class="float-left title__div">
-            <BaseLogo icon-name="apache" :width="18" />
+            <BaseLogo icon-name="apache" :ml="0" :width="18" />
             {{ i18nLocal.t('tip.openresource') }}
           </a>
         </div>

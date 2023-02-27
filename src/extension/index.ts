@@ -36,6 +36,7 @@ import 'brace/mode/c_cpp';
 import 'brace/mode/csharp';
 import 'brace/mode/css';
 import 'brace/mode/javascript';
+import 'brace/mode/properties';
 import 'brace/mode/plain_text';
 import 'brace/mode/sass';
 import 'brace/mode/scss';
