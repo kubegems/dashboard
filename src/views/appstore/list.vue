@@ -19,7 +19,7 @@
     <BaseBreadcrumb />
 
     <v-row class="mt-0">
-      <v-col v-for="(item, index) in items" :key="index" class="pt-0 pb-3" cols="12">
+      <v-col v-for="(item, index) in repositoryItems" :key="index" class="pt-0 pb-3" cols="12">
         <v-hover #default="{ hover }">
           <v-card class="mx-auto" :elevation="hover ? 5 : 0" flat height="100%">
             <v-card-text>
@@ -36,11 +36,11 @@
                     </template>
                   </StatusTip>
                   {{
-                    $root.$t('operate.sync_c', [
-                      item.SyncStatus === 'success' ? $root.$t('status.success') : $root.$t('status.failure'),
+                    i18n.t('operate.sync_c', [
+                      item.SyncStatus === 'success' ? i18n.t('status.success') : i18n.t('status.failure'),
                     ])
                   }}
-                  :{{ $moment(item.LastSync).format('lll') }}
+                  :{{ moment(item.LastSync).format('lll') }}
                 </div>
                 <div class="kubegems__clear-float" />
               </div>
@@ -50,9 +50,9 @@
                   {{ item.tip }}
                 </div>
                 <div class="mr-4 float-right">
-                  <v-btn color="primary" text @click="syncRepository(item)">{{ $root.$t('operate.sync') }}</v-btn>
-                  <v-btn color="primary" text @click="updateRepository(item)">{{ $root.$t('operate.edit') }}</v-btn>
-                  <v-btn color="error" text @click="removeRepository(item)">{{ $root.$t('operate.delete') }}</v-btn>
+                  <v-btn color="primary" text @click="syncRepository(item)">{{ i18n.t('operate.sync') }}</v-btn>
+                  <v-btn color="primary" text @click="updateRepository(item)">{{ i18n.t('operate.edit') }}</v-btn>
+                  <v-btn color="error" text @click="removeRepository(item)">{{ i18n.t('operate.delete') }}</v-btn>
                 </div>
                 <div class="kubegems__clear-float" />
               </div>
@@ -74,7 +74,7 @@
                   @click="addRepository"
                 >
                   <v-icon left>mdi-plus-box</v-icon>
-                  {{ $root.$t('operate.add_c', [$root.$t('header.app_store')]) }}
+                  {{ i18n.t('operate.add_c', [i18n.t('header.app_store')]) }}
                 </v-btn>
               </v-list-item-content>
             </v-list-item>
@@ -83,146 +83,141 @@
       </v-col>
     </v-row>
 
-    <RepositoryInfo ref="repositoryInfo" @refresh="repositoryList" />
+    <RepositoryInfo ref="respository" @refresh="getRepositoryList" />
   </v-container>
 </template>
 
-<script>
-  import { mapGetters, mapState } from 'vuex';
+<script lang="ts" setup>
+  import moment from 'moment';
+  import { onMounted, ref } from 'vue';
+  import VueI18n from 'vue-i18n';
 
-  import RepositoryInfo from './components/RepositoryInfo';
-  import StatusTip from './components/StatusTip';
-  import messages from './i18n';
-  import { deleteRepository, getRepositoryList, postSyncRepository } from '@/api';
+  import RepositoryInfo from './components/RepositoryInfo.vue';
+  import StatusTip from './components/StatusTip.vue';
+  import { useI18n } from './i18n';
   import { LOGO_BLUE } from '@/constants/platform';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+  import { HelmRepository } from '@/types/helm';
 
-  export default {
-    name: 'RepositoryList',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      RepositoryInfo,
-      StatusTip,
-    },
-    data() {
-      return {
-        items: [],
-      };
-    },
-    computed: {
-      ...mapState(['JWT']),
-      ...mapGetters(['Tenant']),
-    },
-    mounted() {
-      this.repositoryList();
-    },
-    methods: {
-      async repositoryList() {
-        const data = await getRepositoryList(this.params);
-        this.items = data.map((item) => {
-          return {
-            name: item.ChartRepoName,
-            ...item,
-            ...this.getRepositoryMeta(item),
-          };
-        });
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
+
+  const repositoryItems = ref<HelmRepository[]>([]);
+  const getRepositoryList = async (): Promise<void> => {
+    const data = await new HelmRepository().getRepositoryList();
+    repositoryItems.value = data.map((item) => {
+      return new HelmRepository({
+        name: item.ChartRepoName,
+        ...item,
+        ...getRepositoryMeta(item),
+      });
+    });
+  };
+
+  onMounted(() => {
+    getRepositoryList();
+  });
+
+  const respository = ref(null);
+  const addRepository = (): void => {
+    respository.value.setTitle(i18n.t('operate.add_c', [i18n.t('header.app_store')]));
+    respository.value.open();
+  };
+
+  const updateRepository = (item: HelmRepository): void => {
+    respository.value.setTitle(i18n.t('operate.update_c', [i18n.t('header.app_store')]));
+    respository.value.init(item);
+    respository.value.open();
+  };
+
+  const removeRepository = (item: HelmRepository): void => {
+    store.commit('SET_CONFIRM', {
+      title: i18n.t('operate.delete_c', [i18nLocal.t('tip.registry')]),
+      content: {
+        text: `${i18n.t('operate.delete_c', [i18nLocal.t('tip.registry')])} ${item.ChartRepoName}`,
+        type: 'delete',
+        name: item.ChartRepoName,
       },
-      addRepository() {
-        this.$refs.repositoryInfo.setTitle(this.$root.$t('operate.add_c', [this.$root.$t('header.app_store')]));
-        this.$refs.repositoryInfo.open();
+      param: { item },
+      doFunc: async (param) => {
+        await new HelmRepository(param.item).deleteRepository();
+        getRepositoryList();
       },
-      updateRepository(item) {
-        this.$refs.repositoryInfo.setTitle(this.$root.$t('operate.update_c', [this.$root.$t('header.app_store')]));
-        this.$refs.repositoryInfo.init(item);
-        this.$refs.repositoryInfo.open();
+    });
+  };
+
+  const syncRepository = (item: HelmRepository): void => {
+    store.commit('SET_CONFIRM', {
+      title: i18n.t('operate.sync_c', [i18nLocal.t('tip.registry')]),
+      content: {
+        text: `${i18n.t('operate.sync_c', [i18nLocal.t('tip.registry')])} ${item.ChartRepoName}`,
+        type: 'confirm',
       },
-      removeRepository(item) {
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.delete_c', [this.$t('tip.registry')]),
-          content: {
-            text: `${this.$root.$t('operate.delete_c', [this.$t('tip.registry')])} ${item.ChartRepoName}`,
-            type: 'delete',
-            name: item.ChartRepoName,
-          },
-          param: { item },
-          doFunc: async (param) => {
-            await deleteRepository(param.item.ChartRepoName);
-            this.repositoryList();
-          },
-        });
+      param: { item },
+      doFunc: async (param) => {
+        await new HelmRepository(param.item).syncRepository();
+        getRepositoryList();
       },
-      syncRepository(item) {
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.sync_c', [this.$t('tip.registry')]),
-          content: {
-            text: `${this.$root.$t('operate.sync_c', [this.$t('tip.registry')])} ${item.ChartRepoName}`,
-            type: 'confirm',
-          },
-          param: { item },
-          doFunc: async (param) => {
-            await postSyncRepository(param.item.ChartRepoName);
-            this.repositoryList();
-          },
-        });
-      },
-      getRepositoryMeta(item) {
-        switch (item.ChartRepoName) {
-          case 'bitnami':
-            return {
-              imgSrc: '/icon/bitnami.svg',
-              tip: this.$t('tip.bitnami'),
-            };
-          case 'chartmuseum':
-            return {
-              imgSrc: '/icon/chartmuseum.svg',
-              tip: this.$t('tip.chartmuseum'),
-            };
-          case 'banzaicloud':
-            return {
-              imgSrc: '/icon/banzaicloud-logo.svg',
-              tip: this.$t('tip.banzaicloud'),
-            };
-          case 'hashicorp':
-            return {
-              imgSrc: '/icon/hashicorp-logo.svg',
-              tip: this.$t('tip.hashicorp'),
-            };
-          case 'grafana':
-            return {
-              imgSrc: '/icon/grafana.svg',
-              tip: this.$t('tip.grafana'),
-            };
-          case 'elastic':
-            return {
-              imgSrc: '/icon/elastic.svg',
-              tip: this.$t('tip.kubegems'),
-            };
-          case 'opentelemetry-helm':
-          case 'opentelemetry':
-            return {
-              imgSrc: '/icon/opentelemetry.svg',
-              tip: this.$t('tip.opentelemetry'),
-            };
-          case 'kubecost':
-            return {
-              imgSrc: '/icon/kubecost.svg',
-              tip: this.$t('tip.kubecost'),
-            };
-          case 'scylla':
-          case 'scylladb':
-            return {
-              imgSrc: '/icon/scylla.svg',
-              tip: this.$t('tip.scylla'),
-            };
-          default:
-            return {
-              imgSrc: LOGO_BLUE,
-              tip: this.$t('tip.kubegems'),
-            };
-        }
-      },
-    },
+    });
+  };
+
+  const getRepositoryMeta = (item: HelmRepository): { imgSrc: string; tip: VueI18n.TranslateResult } => {
+    switch (item.ChartRepoName) {
+      case 'bitnami':
+        return {
+          imgSrc: '/icon/bitnami.svg',
+          tip: i18nLocal.t('tip.bitnami'),
+        };
+      case 'chartmuseum':
+        return {
+          imgSrc: '/icon/chartmuseum.svg',
+          tip: i18nLocal.t('tip.chartmuseum'),
+        };
+      case 'banzaicloud':
+        return {
+          imgSrc: '/icon/banzaicloud-logo.svg',
+          tip: i18nLocal.t('tip.banzaicloud'),
+        };
+      case 'hashicorp':
+        return {
+          imgSrc: '/icon/hashicorp-logo.svg',
+          tip: i18nLocal.t('tip.hashicorp'),
+        };
+      case 'grafana':
+        return {
+          imgSrc: '/icon/grafana.svg',
+          tip: i18nLocal.t('tip.grafana'),
+        };
+      case 'elastic':
+        return {
+          imgSrc: '/icon/elastic.svg',
+          tip: i18nLocal.t('tip.kubegems'),
+        };
+      case 'opentelemetry-helm':
+      case 'opentelemetry':
+        return {
+          imgSrc: '/icon/opentelemetry.svg',
+          tip: i18nLocal.t('tip.opentelemetry'),
+        };
+      case 'kubecost':
+        return {
+          imgSrc: '/icon/kubecost.svg',
+          tip: i18nLocal.t('tip.kubecost'),
+        };
+      case 'scylla':
+      case 'scylladb':
+        return {
+          imgSrc: '/icon/scylla.svg',
+          tip: i18nLocal.t('tip.scylla'),
+        };
+      default:
+        return {
+          imgSrc: LOGO_BLUE,
+          tip: i18nLocal.t('tip.kubegems'),
+        };
+    }
   };
 </script>
 

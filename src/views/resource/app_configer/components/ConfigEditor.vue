@@ -58,7 +58,7 @@
                 <v-text-field v-model="editItem.application" :label="$t('table.app')" />
               </v-col>
               <v-col class="py-0" cols="2">
-                <v-switch v-model="more" class="mt-5" :label="$t('tip.more')" />
+                <v-switch v-model="more" class="mt-6" :label="$t('tip.more')" />
               </v-col>
             </v-row>
           </v-form>
