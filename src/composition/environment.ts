@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 import { useGlobalI18n } from '@/i18n';
+import { useQuery } from '@/router';
 import { useStore } from '@/store';
 import { Environment } from '@/types/environment';
 
 const store = useStore();
 const i18n = useGlobalI18n();
+const query = useQuery();
 
 export const useNamespace = (): string => {
   if (store.state.Edge) {
@@ -142,4 +144,52 @@ export const useCheckDataWithOutNS = (data: { [key: string]: any }): boolean => 
     return false;
   }
   return true;
+};
+
+export const useCheckDataWithNS = (data: { [key: string]: any }, ns: string): boolean => {
+  if (!(data && data.metadata)) {
+    store.commit('SET_SNACKBAR', {
+      text: i18n.t('tip.missing_metadata'),
+      color: 'warning',
+    });
+    return false;
+  }
+  if (!data.metadata.name) {
+    store.commit('SET_SNACKBAR', {
+      text: i18n.t('tip.missing_name'),
+      color: 'warning',
+    });
+    return false;
+  }
+  if (!data?.metadata?.namespace) {
+    data.metadata.namespace = ns || query.value.namespace;
+  }
+  if (!data.metadata.namespace) {
+    store.commit('SET_SNACKBAR', {
+      text: i18n.t('tip.missing_namespace'),
+      color: 'warning',
+    });
+    return false;
+  }
+  return true;
+};
+
+export const useCheckManifestCompleteness = (djson: { [key: string]: any }): boolean => {
+  if (djson.kind === 'PersistentVolumeClaim') {
+    if (!djson.spec.storageClassName || (djson.spec.storageClassName && djson.spec.storageClassName === '')) {
+      return false;
+    }
+  } else if (djson.kind === 'Ingress') {
+    if (!djson.spec.ingressClassName || (djson.spec.ingressClassName && djson.spec.ingressClassName === '')) {
+      return false;
+    }
+  }
+  return true;
+};
+
+export const useAddNsToData = (data: { [key: string]: any }, ns: string): void => {
+  if (!data) return;
+  if (!data?.metadata?.namespace) {
+    data.metadata.namespace = ns || query.value.namespace;
+  }
 };

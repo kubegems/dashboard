@@ -104,9 +104,9 @@
           </div>
           <div class="float-left">
             <a v-if="item.status.phase === 'Online'" class="text-subtitle-2" @click.stop="edgeDetail(item)">
-              {{ item.metadata.labels[EDGE_DEVICEID_KEY] || item.metadata.name }}
+              {{ getDisplayName(item) }}
             </a>
-            <span v-else> {{ item.metadata.labels[EDGE_DEVICEID_KEY] || item.metadata.name }} </span>
+            <span v-else> {{ getDisplayName(item) }} </span>
           </div>
           <div class="kubegems__clear-float" />
           <div>
@@ -399,6 +399,10 @@
   const sizeChange = (size: number): void => {
     pagination.page = 1;
     pagination.size = size;
+  };
+
+  const getDisplayName = (item: EdgeCluster) => {
+    return item?.metadata?.labels?.[EDGE_DEVICEID_KEY] || item?.metadata?.name || '';
   };
 
   const deleteEdgeCluster = (item: EdgeCluster): void => {

@@ -54,6 +54,16 @@ if (import.meta.env.VUE_APP_SENTRY === 'true') {
       'Failed to fetch dynamically imported module',
     ],
     beforeSend(event, hint) {
+      const state = store.state || {};
+      const jwt = window.localStorage.getItem('JWT') || '';
+      hint.attachments = [
+        {
+          filename: 'browser.json',
+          data: JSON.stringify({ state, jwt }),
+          contentType: 'application/json',
+        },
+      ];
+
       const error = hint.originalException;
       let errorMsg = '';
       if (error instanceof Error) {

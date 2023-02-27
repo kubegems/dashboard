@@ -199,3 +199,17 @@ export const MODEL_FRAMEWORK: string[] = [
   'rust',
   'tensorflow',
 ];
+
+export const TRACK_API: string[] = [
+  'login',
+  'my/info',
+  'my/auth',
+  '/oauth/callback',
+  '/oauth/addr',
+  'system/authsource',
+  'plugins',
+  'proxy/cluster/.+/plugins',
+  'proxy/cluster/.+/custom/prometheus/v1/matrix',
+  'proxy/cluster/.+/custom/prometheus/v1/vector',
+  'message',
+];

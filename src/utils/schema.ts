@@ -14,7 +14,14 @@
  * limitations under the License.
  */
 
+import Ajv from 'ajv';
+
+import { useGlobalI18n } from '@/i18n';
+import { useStore } from '@/store';
 import { getValueSchema } from '@/utils/yaml';
+
+const store = useStore();
+const i18n = useGlobalI18n();
 
 export const retrieveFromSchema = (
   defaultValues: { [key: string]: any },
@@ -64,4 +71,24 @@ export const retrieveFromSchema = (
     });
   }
   return params;
+};
+
+export const validateJsonSchema = (schema: { [key: string]: any }, data: { [key: string]: any }): boolean => {
+  if (!data) return false;
+  if (!schema) return true;
+  const ajv = new Ajv();
+  const validate = ajv.compile(schema);
+  const valid = validate(data);
+  if (!valid) {
+    store.commit('SET_SNACKBAR', {
+      text: `${i18n.t('tip.not_correct_yaml')} ${validate.errors
+        .map((err) => {
+          return `${i18n.t('tip.path')}${err.instancePath} ${err.message}`;
+        })
+        .join(',')}`,
+      color: 'warning',
+    });
+    return false;
+  }
+  return true;
 };
