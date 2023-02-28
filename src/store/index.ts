@@ -483,8 +483,10 @@ const store: Store<{ [key: string]: any }> = new Store({
       if (state.AdminViewport && state.LatestCluster.cluster !== getters.Cluster().ClusterName) {
         refresh = true;
       } else if (
-        (!state.AdminViewport && state.LatestEnvironment.cluster !== getters.Environment().ClusterName) ||
-        state.Edge
+        (!state.AdminViewport &&
+          state.LatestEnvironment.cluster !== getters.Environment().ClusterName &&
+          !state.Edge) ||
+        (state.Edge && state.LatestEnvironment.cluster !== state.Edge)
       ) {
         refresh = true;
       }
@@ -573,7 +575,7 @@ const store: Store<{ [key: string]: any }> = new Store({
       payload: { [key: string]: string },
     ): Promise<void> {
       if (!payload.clusterName) return;
-      const data: { [key: string]: any } = await getRESTMapping(payload.clusterName);
+      const data: { [key: string]: any } = await getRESTMapping(payload.clusterName, { noprocessing: true });
       const resource: { [key: string]: string } = {};
       data?.forEach((d) => {
         if (!d?.groupVersion.startsWith('apps.kruise.io') && d?.groupVersion.indexOf('knative') === -1) {

@@ -29,7 +29,7 @@
                     border: '1px solid black',
                     padding: '2em',
                     boxShadow: '4px 8px #888888',
-                    fontSize: '1.2rem',
+                    fontSize: '1.1rem',
                   }"
                 >
                   <p style="text-align: center">
@@ -46,7 +46,7 @@
                       distribution as defined by Sections 1 through 9 of this document.
                     </p>
                     <p>
-                      " <strong>Licensor</strong>" shall mean the copyright owner or entity authorized by the copyright
+                      "<strong>Licensor</strong>" shall mean the copyright owner or entity authorized by the copyright
                       owner that is granting the License.
                     </p>
                     <p>
