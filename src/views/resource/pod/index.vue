@@ -428,14 +428,14 @@
             sort: this.m_table_generateResourceSortParamValue(),
           }),
         );
-        this.items = data.List.map((d) => {
+        this.items = data.list.map((d) => {
           return {
             ...d,
             ...this.getGpuLimit(d),
           };
         });
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        this.pageCount = Math.ceil(data.total / this.params.size);
+        this.params.page = data.page;
         this.$router.replace({ query: { ...this.$route.query, ...this.params } });
         this.podCPUUsage(true);
         this.podMemoryUsage(true);

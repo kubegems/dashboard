@@ -240,10 +240,10 @@
             status: 'resolved',
           }),
         );
-        if (data.List) {
-          this.pageCount = Math.ceil(data.Total / this.params.size);
-          this.params.page = data.CurrentPage;
-          this.items = data.List.map((item, index) => {
+        if (data.list) {
+          this.pageCount = Math.ceil(data.total / this.params.size);
+          this.params.page = data.page;
+          this.items = data.list.map((item, index) => {
             return { index: index, ...item };
           });
         }

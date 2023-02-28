@@ -79,7 +79,7 @@
           size: 1000,
         });
         const apps = [];
-        data.List.forEach((app) => {
+        data.list.forEach((app) => {
           if (
             this.linkedAppItems.some((l) => {
               return l.name === app.name;
@@ -103,7 +103,7 @@
             size: 1000,
           }),
         );
-        this.linkedAppItems = data.List;
+        this.linkedAppItems = data.list;
       },
       reset() {
         this.$refs.form.reset();

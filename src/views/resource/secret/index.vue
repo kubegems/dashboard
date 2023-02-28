@@ -260,9 +260,9 @@
             sort: this.m_table_generateResourceSortParamValue(),
           }),
         );
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        this.items = data.list;
+        this.pageCount = Math.ceil(data.total / this.params.size);
+        this.params.page = data.page;
         this.$router.replace({ query: { ...this.$route.query, ...this.params } });
         this.items = this.items.map((secret) => {
           return {

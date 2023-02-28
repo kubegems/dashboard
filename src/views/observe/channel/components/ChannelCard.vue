@@ -196,12 +196,12 @@
         }
         const data = await getChannelList(this.Tenant().ID, queryParams);
         if (append) {
-          this.items = this.items.concat(data.List);
+          this.items = this.items.concat(data.list);
         } else {
-          this.items = data.List;
+          this.items = data.list;
         }
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        this.pageCount = Math.ceil(data.total / this.params.size);
+        this.params.page = data.page;
         this.$router.replace({ query: { ...this.$route.query } });
       },
       async onScroll(e) {

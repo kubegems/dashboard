@@ -115,7 +115,7 @@
           size: 1000,
           noprocessing: true,
         });
-        this.pods = data.List.map((d) => {
+        this.pods = data.list.map((d) => {
           return d.metadata.name;
         });
       },

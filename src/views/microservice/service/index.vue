@@ -319,16 +319,16 @@
             noprocessing: noprocess,
           },
         );
-        data.pagedata.List = data.pagedata.List.map((s) => {
+        data.pagedata.list = data.pagedata.list.map((s) => {
           return {
             ...s,
             showConfig: false,
           };
         });
-        this.items = data.pagedata.List;
+        this.items = data.pagedata.list;
         this.valids = data.validations ? data.validations.service : {};
-        this.pageCount = Math.ceil(data.pagedata.Total / this.params.size);
-        this.params.page = data.pagedata.CurrentPage;
+        this.pageCount = Math.ceil(data.pagedata.total / this.params.size);
+        this.params.page = data.pagedata.page;
       },
       showAllConfig(index) {
         const item = this.items[index];

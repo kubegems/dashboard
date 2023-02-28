@@ -154,7 +154,7 @@
       },
       async userList() {
         const data = await userSelectData();
-        this.allUsers = data.List.filter((d) => {
+        this.allUsers = data.list.filter((d) => {
           return !this.users.find((u) => {
             return u.Username === d.Username;
           });
@@ -165,12 +165,12 @@
         const data = await getTenantUserList(this.Tenant().ID, {
           size: 1000,
         });
-        this.users = data.List;
+        this.users = data.list;
         this.usersCopy = JSON.parse(JSON.stringify(this.users));
-        this.ordinaryUsers = data.List.filter((d) => {
+        this.ordinaryUsers = data.list.filter((d) => {
           return d.Role === 'ordinary';
         });
-        this.adminUsers = data.List.filter((d) => {
+        this.adminUsers = data.list.filter((d) => {
           return d.Role === 'admin';
         });
       },

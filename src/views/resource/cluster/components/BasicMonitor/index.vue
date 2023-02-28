@@ -248,7 +248,7 @@
         const componentStatuses = await getClusterComponentStatus(this.$route.params.name, {
           noprocessing: true,
         });
-        for (const v of componentStatuses.List) {
+        for (const v of componentStatuses.list) {
           if (v.metadata.name === 'scheduler') {
             this.scheduler = v;
           } else if (v.metadata.name === 'controller-manager') {

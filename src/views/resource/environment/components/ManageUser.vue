@@ -147,7 +147,7 @@
         const data = await getProjectUserList(this.Project().ID, {
           size: 1000,
         });
-        this.allUsers = data.List.filter((d) => {
+        this.allUsers = data.list.filter((d) => {
           return !this.users.find((u) => {
             return u.Username === d.Username;
           });
@@ -158,12 +158,12 @@
         const data = await getEnvironmentUserList(this.Environment().ID, {
           size: 1000,
         });
-        this.users = data.List;
+        this.users = data.list;
         this.usersCopy = JSON.parse(JSON.stringify(this.users));
-        this.readerUsers = data.List.filter((d) => {
+        this.readerUsers = data.list.filter((d) => {
           return d.Role === 'reader';
         });
-        this.operatorUsers = data.List.filter((d) => {
+        this.operatorUsers = data.list.filter((d) => {
           return d.Role === 'operator';
         });
       },

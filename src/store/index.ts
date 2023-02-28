@@ -517,7 +517,7 @@ const store: Store<{ [key: string]: any }> = new Store({
           noprocessing: true,
           active: true,
         });
-        const items = data.List;
+        const items = data.list;
         if (items) commit('SET_BROADCAST', items);
       };
       await doFunc();

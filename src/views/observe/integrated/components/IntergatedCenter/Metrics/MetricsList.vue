@@ -117,7 +117,7 @@
       async metricsList() {
         const data = await getRuleList(this.Tenant().ID, '_all', { size: 1000 });
 
-        this.items = data.List;
+        this.items = data.list;
         this.pageCount = Math.ceil(this.items.length / this.params.size);
       },
       onPageIndexChange(page) {

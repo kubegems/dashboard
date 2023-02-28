@@ -155,9 +155,9 @@
       async getBlackList() {
         const params = deleteEmpty({ ...this.params });
         const data = await getPrometheusBlackList(params);
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
-        this.items = data.List || [];
+        this.pageCount = Math.ceil(data.total / this.params.size);
+        this.params.page = data.page;
+        this.items = data.list || [];
       },
       onPageSizeChange(size) {
         this.params.page = 1;

@@ -26,7 +26,7 @@ export const useTenantList = async (tenant: Tenant): Promise<Tenant[]> => {
     size: 1000,
     noprocessing: true,
   });
-  return _data.List as Tenant[];
+  return _data.list as Tenant[];
 };
 
 export const useProjectListInTenant = async (tenant: Tenant): Promise<Project[]> => {
@@ -36,7 +36,7 @@ export const useProjectListInTenant = async (tenant: Tenant): Promise<Project[]>
     noprocessing: true,
     preload: 'Cluster',
   });
-  return _data.List as Project[];
+  return _data.list as Project[];
 };
 
 export const useEnvironmentListInTenant = async (tenant: Tenant): Promise<Environment[]> => {
@@ -46,7 +46,7 @@ export const useEnvironmentListInTenant = async (tenant: Tenant): Promise<Enviro
     noprocessing: true,
     preload: 'Cluster,Project',
   });
-  return _data.List as Environment[];
+  return _data.list as Environment[];
 };
 
 export const useClusterListInTenant = async (tenant: Tenant): Promise<Cluster[]> => {
@@ -56,7 +56,7 @@ export const useClusterListInTenant = async (tenant: Tenant): Promise<Cluster[]>
     noprocessing: true,
     preload: 'Cluster',
   });
-  return _data.List as Cluster[];
+  return _data.list as Cluster[];
 };
 
 export const useTenantUserList = async (tenant: Tenant): Promise<User[]> => {
@@ -65,7 +65,7 @@ export const useTenantUserList = async (tenant: Tenant): Promise<User[]> => {
     size: 1000,
     noprocessing: true,
   });
-  return _data.List as User[];
+  return _data.list as User[];
 };
 
 export const useTenantUserPagination = async (tenant: Tenant, page = 1, size = 10): Promise<Pagination<User>> => {
@@ -76,11 +76,11 @@ export const useTenantUserPagination = async (tenant: Tenant, page = 1, size = 1
   });
 
   return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
-    total: _data.Total,
+    items: _data.list,
+    pageCount: Math.ceil(_data.total / _data.size),
+    page: _data.page,
+    size: _data.size,
+    total: _data.total,
   } as Pagination<User>;
 };
 
@@ -98,7 +98,7 @@ export const useTenantPagination = async (
     ...request,
   });
 
-  _data.List.forEach((t: Tenant) => {
+  _data.list.forEach((t: Tenant) => {
     t.Cpu = 0;
     t.Memory = 0;
     t.Storage = 0;
@@ -126,10 +126,10 @@ export const useTenantPagination = async (
   });
 
   return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
+    items: _data.list,
+    pageCount: Math.ceil(_data.total / _data.size),
+    page: _data.page,
+    size: _data.size,
   } as Pagination<Tenant>;
 };
 
@@ -144,7 +144,7 @@ export const useTenantResourceQuotaPagination = async (
     preload: 'Cluster,Tenant,TenantResourceQuotaApply',
   });
 
-  _data.List.forEach((item: TenantResourceQuota) => {
+  _data.list.forEach((item: TenantResourceQuota) => {
     item.Cpu = item.Content['limits.cpu'] ? sizeOfCpu(item.Content['limits.cpu']) : 0;
     item.Memory = item.Content['limits.memory'] ? sizeOfStorage(item.Content['limits.memory']) : 0;
     if (!item.Content['limits.storage']) {
@@ -164,10 +164,10 @@ export const useTenantResourceQuotaPagination = async (
   });
 
   return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
-    total: _data.Total,
+    items: _data.list,
+    pageCount: Math.ceil(_data.total / _data.size),
+    page: _data.page,
+    size: _data.size,
+    total: _data.total,
   } as Pagination<TenantResourceQuota>;
 };

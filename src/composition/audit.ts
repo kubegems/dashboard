@@ -30,9 +30,9 @@ export const useAuditPagination = async (
   });
 
   return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
+    items: _data.list,
+    pageCount: Math.ceil(_data.total / _data.size),
+    page: _data.page,
+    size: _data.size,
   } as Pagination<Audit>;
 };

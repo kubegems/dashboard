@@ -42,7 +42,7 @@ export const useClusterList = async (cluster: Cluster): Promise<Cluster[]> => {
     size: 1000,
     noprocessing: true,
   });
-  return _data.List as Cluster[];
+  return _data.list as Cluster[];
 };
 
 export const useEdgeHubList = async (edgeHub: EdgeHub): Promise<EdgeHub[]> => {
@@ -72,7 +72,7 @@ export const useEdgeClusterList = async (
     noprocessing: true,
     labels: labelSelector,
   });
-  const clusterList = _data.List.map((edge: EdgeCluster, index: number) => {
+  const clusterList = _data.list.map((edge: EdgeCluster, index: number) => {
     return {
       ID: index,
       ClusterName: edge.metadata.name,
@@ -111,10 +111,10 @@ export const useEdgeClusterPagination = async (
   });
 
   return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
+    items: _data.list,
+    pageCount: Math.ceil(_data.total / _data.size),
+    page: _data.page,
+    size: _data.size,
   } as Pagination<EdgeCluster>;
 };
 

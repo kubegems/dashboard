@@ -255,7 +255,7 @@
         const data = await getOutputsData(this.$route.query.cluster, this.$route.query.namespace, {
           size: 1000,
         });
-        this.localOutputRefsItems = data.List.map((d) => {
+        this.localOutputRefsItems = data.list.map((d) => {
           return { text: d.metadata.name, value: d.metadata.name };
         });
       },
@@ -263,7 +263,7 @@
         const data = await getClusterOutputsData(this.$route.query.cluster, this.$route.query.namespace, {
           size: 1000,
         });
-        this.globalOutputRefsItems = data.List.map((d) => {
+        this.globalOutputRefsItems = data.list.map((d) => {
           return { text: d.metadata.name, value: d.metadata.name };
         });
       },

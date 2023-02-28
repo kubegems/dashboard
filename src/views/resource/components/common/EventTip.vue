@@ -122,8 +122,8 @@
             size: 1,
             noprocessing: true,
           });
-          if (data && data.List && data.List.length > 0) {
-            this.event = data.List[0];
+          if (data && data.list && data.list.length > 0) {
+            this.event = data.list[0];
           }
           this.eventLoad = false;
           clearTimeout(this.timeout);

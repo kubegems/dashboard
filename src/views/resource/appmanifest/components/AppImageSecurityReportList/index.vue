@@ -274,11 +274,11 @@
             image: image,
           }),
         );
-        this.items = data.List.map((d, index) => {
+        this.items = data.list.map((d, index) => {
           return { ID: index, ...d };
         });
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        this.pageCount = Math.ceil(data.total / this.params.size);
+        this.params.page = data.page;
       },
       reportDetail(item) {
         this.$refs.appImageSecurityReportDetail.init(this.app, item);

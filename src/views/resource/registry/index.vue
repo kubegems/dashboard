@@ -204,15 +204,15 @@
         } else {
           data = await getRegistryList(this.Project().ID, this.params);
         }
-        this.items = data.List.map((item) => {
+        this.items = data.list.map((item) => {
           return {
             name: item.TenantName,
             ...item,
           };
         });
         this.m_table_generateSelectResourceNoK8s('ProjectName', 'ID');
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        this.pageCount = Math.ceil(data.total / this.params.size);
+        this.params.page = data.page;
         this.$router.replace({ query: { ...this.$route.query, ...this.params } });
       },
       addRegistry() {

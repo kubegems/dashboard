@@ -330,7 +330,7 @@
           data = await getSecretList(this.ThisCluster, this.namespace, {
             size: 1000,
           });
-          this.items = data.List;
+          this.items = data.list;
         }
         this.items.forEach((v) => {
           v.text = v.secret.metadata.name;
@@ -360,7 +360,7 @@
           data = await getConfigMapList(this.ThisCluster, this.namespace, {
             size: 1000,
           });
-          this.items = data.List;
+          this.items = data.list;
         }
         this.items.forEach((v) => {
           v.text = v.metadata.name;

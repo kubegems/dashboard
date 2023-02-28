@@ -164,7 +164,7 @@ func main() {
 	http.Handle("/hello-instrumented", wrappedHandler)
 
 	// And start the HTTP serve.
-	log.Fatal(http.ListenAndServe(":3030", nil))
+	log.Fatal(http.listenAndServe(":3030", nil))
 }
 ```
 

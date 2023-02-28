@@ -109,7 +109,7 @@
         // } else {
         const data = await getProjectList(this.Tenant().ID, { size: 999 });
         // }
-        this.items = data.List.map((item) => ({
+        this.items = data.list.map((item) => ({
           type: 'project',
           treeId: `proj-${item.ProjectName}`,
           id: item.ID,
@@ -131,8 +131,8 @@
         let data = {};
         if (proj.id === 0) {
           await this.m_select_clusterSelectData();
-          data.List = [];
-          data.List = this.m_select_clusterItems.map((c) => {
+          data.list = [];
+          data.list = this.m_select_clusterItems.map((c) => {
             return {
               ID: 0,
               EnvironmentName: c.text,
@@ -150,7 +150,7 @@
         } else {
           data = await getProjectEnvironmentList(proj.id, { size: 999, noprocessing: true });
         }
-        const children = data.List.map((item) => ({
+        const children = data.list.map((item) => ({
           type: 'environment',
           treeId: `env-${item.EnvironmentName}`,
           id: item.ID,

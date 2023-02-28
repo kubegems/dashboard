@@ -107,7 +107,7 @@
           order: '-CreatedAt',
           noprocessing: true,
         });
-        this.auditItems = data.List;
+        this.auditItems = data.list;
       },
       toAudit() {
         this.$router.push({

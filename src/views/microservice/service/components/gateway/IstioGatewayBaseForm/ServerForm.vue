@@ -235,7 +235,7 @@
         const data = await getSecretList(this.EnvironmentFilter.cluster, SERVICE_GATEWAY_NS, {
           size: 1000,
         });
-        this.secretItems = data.List.filter((s) => {
+        this.secretItems = data.list.filter((s) => {
           return s.secret.type === 'kubernetes.io/tls';
         });
         this.secretItems.forEach((v) => {

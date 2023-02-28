@@ -327,7 +327,7 @@
 
         // 将index添加到id属性上
         this.items = [];
-        this.items = data.List.map((item, index) => {
+        this.items = data.list.map((item, index) => {
           return {
             index: index,
             metadata: {
@@ -339,8 +339,8 @@
             ...item,
           };
         });
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        this.pageCount = Math.ceil(data.total / this.params.size);
+        this.params.page = data.page;
         this.logAlertRuleStatus();
       },
       onAlertStateChange() {

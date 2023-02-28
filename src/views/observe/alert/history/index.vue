@@ -288,9 +288,9 @@
         }
 
         const data = await getPrometheusAlertSearch(this.tenant.ID, params);
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
-        this.items = data.List || [];
+        this.pageCount = Math.ceil(data.total / this.params.size);
+        this.params.page = data.page;
+        this.items = data.list || [];
       },
       onSearch() {
         this.params.page = 1;

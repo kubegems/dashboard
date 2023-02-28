@@ -153,7 +153,7 @@
     methods: {
       async virtualSpaceEnvironmentUser() {
         const data = await getVirtualSpaceEnvironmentUser(this.EnvironmentID, {});
-        this.allUsers = data.List.filter((d) => {
+        this.allUsers = data.list.filter((d) => {
           return !this.users.find((u) => {
             return u.Username === d.Username;
           });
@@ -164,12 +164,12 @@
         const data = await getVirtualSpaceUserList(this.obj.ID, {
           size: 1000,
         });
-        this.users = data.List;
+        this.users = data.list;
         this.usersCopy = JSON.parse(JSON.stringify(this.users));
-        this.normalUsers = data.List.filter((d) => {
+        this.normalUsers = data.list.filter((d) => {
           return d.Role === 'normal';
         });
-        this.adminUsers = data.List.filter((d) => {
+        this.adminUsers = data.list.filter((d) => {
           return d.Role === 'admin';
         });
       },

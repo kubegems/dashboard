@@ -69,7 +69,7 @@
     methods: {
       async getTenantProjectList() {
         const data = await getProjectList(this.tenant.ID, { size: 1000, noprocessing: true });
-        this.projectItems = data.List.map((item) => {
+        this.projectItems = data.list.map((item) => {
           return {
             text: item.ProjectName,
             value: item.ID,

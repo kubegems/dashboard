@@ -244,7 +244,7 @@
           size: 1000,
         });
         this.ingressItems = [];
-        data.List.forEach((ing) => {
+        data.list.forEach((ing) => {
           this.ingressItems.push({
             text: ing.metadata.name,
             value: ing.metadata.name,

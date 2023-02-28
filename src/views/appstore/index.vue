@@ -208,9 +208,9 @@
           this.params.reponame = this.selectRepo;
         }
         const data = await getAppStoreList(this.params);
-        this.chartsNum = data.Total;
-        this.items = data.List;
-        this.all = data.List;
+        this.chartsNum = data.total;
+        this.items = data.list;
+        this.all = data.list;
         this.generatTypes();
       },
       setRepo(repo) {

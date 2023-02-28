@@ -457,7 +457,7 @@
       async getMonitorConfig() {
         const data = await getRuleScopeList(this.Tenant().ID, { size: 1000, noprocessing: true });
         this.resourceNamespaced = {};
-        data.List.forEach((d) => {
+        data.list.forEach((d) => {
           this.resourceNamespaced[d.name] = d.namespaced;
         });
       },

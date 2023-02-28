@@ -182,7 +182,7 @@
             noprocessing: true,
           }),
         );
-        this.podItems = data.List;
+        this.podItems = data.list;
       },
     },
   };

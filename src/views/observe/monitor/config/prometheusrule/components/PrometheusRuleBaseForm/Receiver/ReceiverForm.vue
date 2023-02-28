@@ -130,7 +130,7 @@
         const data = await getChannelList(this.Tenant().ID, {
           size: 100,
         });
-        this.receiverItems = data.List.map((item) => {
+        this.receiverItems = data.list.map((item) => {
           return {
             text: `${item.name}(${item.channelConfig.channelType})`,
             value: item.id,

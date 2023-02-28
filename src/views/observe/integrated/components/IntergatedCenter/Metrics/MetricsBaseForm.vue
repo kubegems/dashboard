@@ -159,7 +159,7 @@
       },
       async serviceList() {
         const data = await getServiceList(this.env.clusterName, this.env.namespace, { size: 1000 });
-        this.serviceItems = data.List.map((s) => {
+        this.serviceItems = data.list.map((s) => {
           return {
             text: s.metadata.name,
             value: s.metadata.name,

@@ -300,12 +300,12 @@
           is_read: false,
         });
         if (append) {
-          this.messages = this.messages.concat(data.List);
+          this.messages = this.messages.concat(data.list);
         } else {
-          this.messages = data.List;
+          this.messages = data.list;
         }
-        this.messagesTotal = data.Total;
-        this.messagesPage = data.CurrentPage;
+        this.messagesTotal = data.total;
+        this.messagesPage = data.page;
         this.messages.forEach(() => {
           this.messageClass.push('');
         });

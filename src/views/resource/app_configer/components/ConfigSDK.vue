@@ -152,7 +152,7 @@ func main() {
   fmt.Println("Get config：" + content)
 
   // 监听配置
-  configClient.ListenConfig(vo.ConfigParam{
+  configClient.listenConfig(vo.ConfigParam{
     DataId: dataId,
     Group:  group,
     OnChange: func(namespace, group, dataId, data string) {
@@ -190,7 +190,7 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 import com.alibaba.nacos.api.NacosFactory;
 import com.alibaba.nacos.api.config.ConfigService;
-import com.alibaba.nacos.api.config.listener.Listener;
+import com.alibaba.nacos.api.config.listener.listener;
 import com.alibaba.nacos.api.exception.NacosException;
 
 /**

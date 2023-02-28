@@ -139,17 +139,19 @@
         });
         this.phoneToItems = this.phoneToItems
           .concat(
-            data.List.filter((user) => {
-              return user.Phone && user.Phone && user.Phone.length > 0;
-            }).map((user) => {
-              if (
-                !this.phoneToItems.some((e) => {
-                  return e && e.text === user.Phone;
-                })
-              ) {
-                return { text: user.Phone, value: user.Phone };
-              }
-            }),
+            data.list
+              .filter((user) => {
+                return user.Phone && user.Phone && user.Phone.length > 0;
+              })
+              .map((user) => {
+                if (
+                  !this.phoneToItems.some((e) => {
+                    return e && e.text === user.Phone;
+                  })
+                ) {
+                  return { text: user.Phone, value: user.Phone };
+                }
+              }),
           )
           .filter((e) => {
             return Boolean(e);

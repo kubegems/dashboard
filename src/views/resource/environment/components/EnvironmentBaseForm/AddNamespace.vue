@@ -115,7 +115,7 @@
         }
         const data = await namespaceSelectDataFilter(this.clusterName);
         const namespaceSelect = [];
-        data.List.forEach((ns) => {
+        data.list.forEach((ns) => {
           namespaceSelect.push({
             text: ns.metadata.name,
             value: ns.metadata.name,

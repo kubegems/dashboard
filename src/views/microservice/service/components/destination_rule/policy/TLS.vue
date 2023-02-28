@@ -174,7 +174,7 @@
         const data = await getSecretList(this.EnvironmentFilter.cluster, this.EnvironmentFilter.namespace, {
           size: 1000,
         });
-        this.items = data.List.filter((s) => {
+        this.items = data.list.filter((s) => {
           return s.secret.type === 'kubernetes.io/tls';
         });
         this.items.forEach((v) => {

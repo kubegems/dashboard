@@ -566,9 +566,9 @@
             }),
           );
         }
-        this.items = data.List || data.list;
-        this.pageCount = Math.ceil((data.Total || data.total) / this.params.size);
-        this.params.page = data.CurrentPage || data.page;
+        this.items = data.list || data.list;
+        this.pageCount = Math.ceil((data.total || data.total) / this.params.size);
+        this.params.page = data.page || data.page;
         this.$router.replace({
           query: { ...this.$route.query, ...this.params, ...{ tab: this.tabItems[this.tab]?.tab || 0 } },
         });

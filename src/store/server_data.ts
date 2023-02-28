@@ -25,7 +25,7 @@ import {
 export async function useVirtualSpace(): Promise<{ [key: string]: string | number }[]> {
   const data: { [key: string]: any } = await virtualSpaceSelectData({ noprocessing: true });
   const virtualSpaceSelect: { [key: string]: string | number }[] = [];
-  data.List.forEach((r: any): void => {
+  data.list.forEach((r: any): void => {
     virtualSpaceSelect.push({
       VirtualSpaceName: r.VirtualSpaceName,
       ID: r.ID,
@@ -37,7 +37,7 @@ export async function useVirtualSpace(): Promise<{ [key: string]: string | numbe
 export async function useCluster(): Promise<{ [key: string]: string | number }[]> {
   const data: { [key: string]: any } = await clusterSelectData({ noprocessing: true });
   const clusterSelect: { [key: string]: string | number }[] = [];
-  data.List.forEach((c: any): void => {
+  data.list.forEach((c: any): void => {
     clusterSelect.push({
       ClusterName: c.ClusterName,
       Version: c.Version,
@@ -57,7 +57,7 @@ export async function useTenant(admin: boolean, userid: number): Promise<{ [key:
     });
   }
   const tenantSelect: { [key: string]: string | number }[] = [];
-  data.List.forEach((tenant: any): void => {
+  data.list.forEach((tenant: any): void => {
     if (tenant.IsActive && ((tenant.Clusters && tenant.Clusters.length > 0) || tenant.ResourceQuotas)) {
       tenantSelect.push({
         TenantName: tenant.TenantName,
@@ -73,7 +73,7 @@ export async function useProject(tenantid: number): Promise<{ [key: string]: str
     noprocessing: true,
   });
   const tenantProjectSelect: { [key: string]: string | number }[] = [];
-  data.List.forEach((p: any): void => {
+  data.list.forEach((p: any): void => {
     tenantProjectSelect.push({
       ProjectName: p.ProjectName,
       ID: p.ID,
@@ -87,7 +87,7 @@ export async function useEnvironment(projectid: number): Promise<{ [key: string]
     noprocessing: true,
   });
   const projectEnvironmentSelect: { [key: string]: string | number }[] = [];
-  data.List.forEach((ns: any): void => {
+  data.list.forEach((ns: any): void => {
     projectEnvironmentSelect.push({
       EnvironmentName: ns.EnvironmentName,
       ID: ns.ID,

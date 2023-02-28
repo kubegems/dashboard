@@ -273,9 +273,9 @@
         if (scope) {
           const data = await getRuleResourceList(this.Tenant().ID, scope.id, { size: 1000, noprocessing: true });
           let items = [];
-          this.resourceItems = data.List;
+          this.resourceItems = data.list;
           if (this.tagMap.scope) {
-            items = data.List.map((resource) => ({
+            items = data.list.map((resource) => ({
               text: resource.showName,
               value: resource.name,
             }));
@@ -295,7 +295,7 @@
           const data = await getRuleList(this.Tenant().ID, resource.id, { size: 1000, noprocessing: true });
           let items = [];
           if (this.tagMap.resource) {
-            items = data.List.map((rule) => ({
+            items = data.list.map((rule) => ({
               text: rule.showName,
               value: rule.name,
             }));
@@ -319,8 +319,8 @@
       },
       async getScopeItems() {
         const data = await getRuleScopeList(this.Tenant().ID, { size: 1000, noprocessing: true });
-        const config = data.List;
-        this.scopeItems = data.List;
+        const config = data.list;
+        this.scopeItems = data.list;
         this.$set(
           this.labels.scope,
           'items',

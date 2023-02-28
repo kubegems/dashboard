@@ -170,8 +170,8 @@
       },
       async logQuerySnapshotList() {
         const data = await getLogQuerySnapshotList(this.clusterid, this.params);
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / data.CurrentSize);
+        this.items = data.list;
+        this.pageCount = Math.ceil(data.total / data.size);
       },
       removeLogQuerySnapshot(item) {
         this.$store.commit('SET_CONFIRM', {

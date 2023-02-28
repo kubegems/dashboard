@@ -175,9 +175,9 @@
           this.$route.query.namespace || '_all',
           Object.assign(this.selector, this.params),
         );
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        this.items = data.list;
+        this.pageCount = Math.ceil(data.total / this.params.size);
+        this.params.page = data.page;
       },
       onPageSizeChange(size) {
         this.params.page = 1;

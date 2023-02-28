@@ -193,7 +193,7 @@
       topname: props.workload.metadata.name,
       noprocessing: true,
     });
-    podList.value = data.List;
+    podList.value = data.list;
   });
 
   const getRestart = (containerStatuses: V1ContainerStatus[]): number => {

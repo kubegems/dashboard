@@ -95,7 +95,7 @@ const select: { [key: string]: any } = {
     async m_select_userSelectData(): Promise<void> {
       const data: { [key: string]: any } = await userSelectData({ noprocessing: true });
       const userSelect: { [key: string]: number | string }[] = [];
-      data.List.forEach((user) => {
+      data.list.forEach((user) => {
         userSelect.push({ text: user.Username, value: user.ID });
       });
       this.m_select_userItems = userSelect;
@@ -110,7 +110,7 @@ const select: { [key: string]: any } = {
         });
       }
       const tenantSelect: { [key: string]: number | string | boolean }[] = [];
-      data.List.forEach((tenant) => {
+      data.list.forEach((tenant) => {
         if (this.Admin) {
           tenantSelect.push({
             text:
@@ -139,7 +139,7 @@ const select: { [key: string]: any } = {
         noprocessing: true,
       });
       const tenantClusterSelect: { [key: string]: number | string }[] = [];
-      data.List.forEach((tenant) => {
+      data.list.forEach((tenant) => {
         tenantClusterSelect.push({
           text: tenant.Cluster.ClusterName,
           value: tenant.Cluster.ID,
@@ -152,7 +152,7 @@ const select: { [key: string]: any } = {
         noprocessing: true,
       });
       const tenantUserSelect: { [key: string]: number | string }[] = [];
-      data.List.forEach((user) => {
+      data.list.forEach((user) => {
         tenantUserSelect.push({ text: user.Username, value: user.ID });
       });
       this.m_select_tenantUserItems = tenantUserSelect;
@@ -162,7 +162,7 @@ const select: { [key: string]: any } = {
         noprocessing: true,
       });
       const tenantProjectSelect: { [key: string]: number | string }[] = [];
-      data.List.forEach((p) => {
+      data.list.forEach((p) => {
         tenantProjectSelect.push({
           text: p.ProjectName,
           value: p.ID,
@@ -187,7 +187,7 @@ const select: { [key: string]: any } = {
         noprocessing: noprocessing,
       });
       const projectEnvironmentSelect: { [key: string]: number | string | boolean }[] = [];
-      data.List.forEach((ns) => {
+      data.list.forEach((ns) => {
         projectEnvironmentSelect.push({
           text:
             ns.VirtualSpaceID > 0 && virtualspace
@@ -221,14 +221,14 @@ const select: { [key: string]: any } = {
             noprocessing: noprocessing,
           });
         }
-        data.List.forEach((n) => {
+        data.list.forEach((n) => {
           n.ClusterName = n.Cluster.ClusterName;
           n.Version = n.Cluster.Version;
           n.ID = n.ClusterID;
         });
       }
       const clusterSelect: { [key: string]: number | string }[] = [];
-      data.List.forEach((ns) => {
+      data.list.forEach((ns) => {
         clusterSelect.push({
           text: ns.ClusterName,
           value: ns.ID,
@@ -258,7 +258,7 @@ const select: { [key: string]: any } = {
         ),
       );
       const namespaceSelect: { [key: string]: string }[] = [];
-      data.List.forEach((ns) => {
+      data.list.forEach((ns) => {
         namespaceSelect.push({
           text: ns.metadata.name,
           value: ns.metadata.name,
@@ -283,7 +283,7 @@ const select: { [key: string]: any } = {
       }
       this.m_select_environmentItems = [];
       if (data) {
-        data.List.forEach((e) => {
+        data.list.forEach((e) => {
           this.m_select_environmentItems.push({
             text: e.EnvironmentName,
             value: e.Namespace,
@@ -306,7 +306,7 @@ const select: { [key: string]: any } = {
       }
       const data: { [key: string]: any } = await storageClassSelectData(Cluster, params);
       const storageClassSelect: { [key: string]: string }[] = [];
-      data.List.forEach((sc) => {
+      data.list.forEach((sc) => {
         storageClassSelect.push({
           text: sc.metadata.name,
           value: sc.metadata.name,
@@ -333,7 +333,7 @@ const select: { [key: string]: any } = {
       const sts = await getStatefulSetList(Cluster, Namespace, {
         size: 1000,
       });
-      data = data.concat(ds.List).concat(deploy.List).concat(sts.List);
+      data = data.concat(ds.list).concat(deploy.list).concat(sts.list);
       const workloadSelect: { [key: string]: any }[] = [];
       data.forEach((workload, index) => {
         let selector = {};
@@ -369,11 +369,11 @@ const select: { [key: string]: any } = {
       const data: { [key: string]: any } = await secretSelectData(Cluster, Namespace);
       const secretSelect: { [key: string]: string }[] = [];
       if (type) {
-        data.List = data.List.filter((d) => {
+        data.list = data.list.filter((d) => {
           return d.type === type;
         });
       }
-      data.List.forEach((s) => {
+      data.list.forEach((s) => {
         secretSelect.push({
           text: s.metadata.name,
           value: s.metadata.name,
@@ -398,7 +398,7 @@ const select: { [key: string]: any } = {
       }
       const data: { [key: string]: any } = await serviceSelectData(Cluster, Namespace);
       const serviceSelect: { [key: string]: any }[] = [];
-      data.List.forEach((s) => {
+      data.list.forEach((s) => {
         const ports = [];
         const portNames = [];
         if (s.spec.ports) {
@@ -440,7 +440,7 @@ const select: { [key: string]: any } = {
         noprocessing: true,
       });
       const issuerSelect: { [key: string]: any }[] = [];
-      data.List.forEach((i) => {
+      data.list.forEach((i) => {
         issuerSelect.push({
           text: i.metadata.name,
           value: i.metadata.name,
@@ -481,7 +481,7 @@ const select: { [key: string]: any } = {
         });
       }
       const projectSelect: { [key: string]: number | string }[] = [];
-      data.List.forEach((p) => {
+      data.list.forEach((p) => {
         projectSelect.push({
           text: this.Admin ? `租户${p.Tenant.TenantName} - 项目${p.ProjectName}` : p.ProjectName,
           value: p.ID,
@@ -500,7 +500,7 @@ const select: { [key: string]: any } = {
         data = await projectRegistrySelectData(this.Project().ID);
       }
       const registrySelect: { [key: string]: string }[] = [];
-      data.List.forEach((r) => {
+      data.list.forEach((r) => {
         registrySelect.push({
           text: r.RegistryAddress,
           value: r.RegistryName,
@@ -511,7 +511,7 @@ const select: { [key: string]: any } = {
     async m_select_virtualSpaceSelectData(): Promise<void> {
       const data: { [key: string]: any } = await virtualSpaceSelectData({ noprocessing: true });
       const virtualSpaceSelect: { [key: string]: number | string }[] = [];
-      data.List.forEach((r) => {
+      data.list.forEach((r) => {
         virtualSpaceSelect.push({
           text: r.VirtualSpaceName,
           value: r.ID,
@@ -524,7 +524,7 @@ const select: { [key: string]: any } = {
         noprocessing: true,
       });
       const virtualSpaceEnvironmentSelect: { [key: string]: number | string }[] = [];
-      data.List.forEach((r) => {
+      data.list.forEach((r) => {
         virtualSpaceEnvironmentSelect.push({
           text: r.EnvironmentName,
           value: r.ID,
@@ -544,7 +544,7 @@ const select: { [key: string]: any } = {
       }
       const data: { [key: string]: any } = await appSelectData(tenantid, projectid, environmentid);
       const appSelect: { [key: string]: string }[] = [];
-      data.List.forEach((r) => {
+      data.list.forEach((r) => {
         appSelect.push({
           text: r.name,
           value: r.name,

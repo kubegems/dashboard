@@ -240,7 +240,7 @@
           size: 1000,
           noprocessing: true,
         });
-        this.gateways = data.List;
+        this.gateways = data.list;
         this.gateways.forEach((v) => {
           v.text = v.metadata.name;
           v.value = v.metadata.name;

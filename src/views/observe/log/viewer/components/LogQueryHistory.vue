@@ -68,7 +68,7 @@
             {{ item.CreateAt ? $moment(item.CreateAt).format('lll') : '' }}
           </template>
           <template #[`item.logQL`]="{ item }">{{ item.LogQL }}</template>
-          <template #[`item.total`]="{ item }">{{ item.Total }}</template>
+          <template #[`item.total`]="{ item }">{{ item.total }}</template>
           <template #[`item.action`]="{ item }">
             <v-flex class="float-right">
               <v-btn class="my-1" color="primary" small text @click="handleQuery(item)">

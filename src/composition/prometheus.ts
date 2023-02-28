@@ -32,10 +32,10 @@ export const usePrometheusProbePagination = async (
   });
 
   return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
+    items: _data.list,
+    pageCount: Math.ceil(_data.total / _data.size),
+    page: _data.page,
+    size: _data.size,
   } as Pagination<PrometheusProbe>;
 };
 
@@ -66,10 +66,10 @@ export const usePrometheusTemplatePagination = async (
   });
 
   return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
+    items: _data.list,
+    pageCount: Math.ceil(_data.total / _data.size),
+    page: _data.page,
+    size: _data.size,
   } as Pagination<PrometheusTemplate>;
 };
 
@@ -79,7 +79,7 @@ export const useRuleScopeList = async (tenantId: number, scope: RuleScope): Prom
     size: 1000,
     noprocessing: true,
   });
-  return _data.List as RuleScope[];
+  return _data.list as RuleScope[];
 };
 
 export const useRuleResourceList = async (tenantId: number, resource: RuleResource): Promise<RuleResource[]> => {
@@ -88,5 +88,5 @@ export const useRuleResourceList = async (tenantId: number, resource: RuleResour
     size: 1000,
     noprocessing: true,
   });
-  return _data.List as RuleResource[];
+  return _data.list as RuleResource[];
 };

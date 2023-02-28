@@ -128,7 +128,7 @@
     } else {
       data = await new User(store.state.User).getTenantList(params);
     }
-    tenantItems.value = data.List;
+    tenantItems.value = data.list;
     tenantItems.value.forEach((item) => {
       item.diaplayName =
         item.ResourceQuotas?.length > 0

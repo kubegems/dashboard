@@ -489,7 +489,7 @@
           size: 1000,
           noprocessing: true,
         });
-        this.allUsers = data.List.filter((d) => {
+        this.allUsers = data.list.filter((d) => {
           return !this.users.find((u) => {
             return u.Username === d.Username;
           });
@@ -501,12 +501,12 @@
           size: 1000,
           noprocessing: true,
         });
-        this.users = data.List;
+        this.users = data.list;
         this.usersCopy = JSON.parse(JSON.stringify(this.users));
-        this.readerUsers = data.List.filter((d) => {
+        this.readerUsers = data.list.filter((d) => {
           return d.Role === 'reader';
         });
-        this.operatorUsers = data.List.filter((d) => {
+        this.operatorUsers = data.list.filter((d) => {
           return d.Role === 'operator';
         });
       },

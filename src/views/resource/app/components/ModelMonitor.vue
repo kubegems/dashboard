@@ -87,9 +87,11 @@
           size: 1000,
           noprocessing: true,
         });
-        this.pods = data.List.map((d) => {
-          return d.metadata.name;
-        }).join('|');
+        this.pods = data.list
+          .map((d) => {
+            return d.metadata.name;
+          })
+          .join('|');
       },
       async loadMetrics() {
         if (this.timeinterval) clearInterval(this.timeinterval);

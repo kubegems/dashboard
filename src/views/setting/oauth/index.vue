@@ -113,7 +113,7 @@
   const getOAuthList = async () => {
     const data = await new OAuth().getOAuthList({ page: 1, size: 1000 });
     oauthItems.value = items as OAuth[];
-    data.List.forEach((item) => {
+    data.list.forEach((item) => {
       const index = items.findIndex((i) => {
         return i.vendor === item.vendor;
       });

@@ -268,7 +268,7 @@
             sort: this.m_table_generateResourceSortParamValue(),
           }),
         );
-        data.List = data.List.map((d) => {
+        data.list = data.list.map((d) => {
           const services = [];
           if (d.spec?.ports) {
             d.spec.ports.forEach((s) => {
@@ -281,9 +281,9 @@
           }
           return { ...d, services: services };
         });
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        this.items = data.list;
+        this.pageCount = Math.ceil(data.total / this.params.size);
+        this.params.page = data.page;
         this.$router.replace({ query: { ...this.$route.query, ...this.params } });
         this.m_table_generateSelectResource();
       },

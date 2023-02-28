@@ -21,5 +21,5 @@ export const useRoleList = async (role: Role): Promise<Role[]> => {
     size: 1000,
     noprocessing: true,
   });
-  return _data.List as Role[];
+  return _data.list as Role[];
 };

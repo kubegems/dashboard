@@ -173,17 +173,19 @@
         });
         this.emailToItems = this.emailToItems
           .concat(
-            data.List.filter((user) => {
-              return user.Email && user.Email && user.Email.length > 0;
-            }).map((user) => {
-              if (
-                !this.emailToItems.some((e) => {
-                  return e && e.text === user.Email;
-                })
-              ) {
-                return { text: user.Email, value: user.Email };
-              }
-            }),
+            data.list
+              .filter((user) => {
+                return user.Email && user.Email && user.Email.length > 0;
+              })
+              .map((user) => {
+                if (
+                  !this.emailToItems.some((e) => {
+                    return e && e.text === user.Email;
+                  })
+                ) {
+                  return { text: user.Email, value: user.Email };
+                }
+              }),
           )
           .filter((e) => {
             return Boolean(e);

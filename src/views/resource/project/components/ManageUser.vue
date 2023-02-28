@@ -165,7 +165,7 @@
         const data = await getTenantUserList(this.Tenant().ID, {
           size: 1000,
         });
-        this.allUsers = data.List.filter((d) => {
+        this.allUsers = data.list.filter((d) => {
           return !this.users.find((u) => {
             return u.Username === d.Username;
           });
@@ -176,18 +176,18 @@
         const data = await getProjectUserList(this.Project().ID, {
           size: 1000,
         });
-        this.users = data.List;
+        this.users = data.list;
         this.usersCopy = JSON.parse(JSON.stringify(this.users));
-        this.testUsers = data.List.filter((d) => {
+        this.testUsers = data.list.filter((d) => {
           return d.Role === 'test';
         });
-        this.devUsers = data.List.filter((d) => {
+        this.devUsers = data.list.filter((d) => {
           return d.Role === 'dev';
         });
-        this.opsUsers = data.List.filter((d) => {
+        this.opsUsers = data.list.filter((d) => {
           return d.Role === 'ops';
         });
-        this.adminUsers = data.List.filter((d) => {
+        this.adminUsers = data.list.filter((d) => {
           return d.Role === 'admin';
         });
       },

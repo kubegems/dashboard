@@ -221,7 +221,7 @@
           topkind: this.$route.query.type,
           topname: this.$route.params.name,
         });
-        this.pods = data.List;
+        this.pods = data.list;
       },
       async getContainerSelectData(pod) {
         if (!pod) {

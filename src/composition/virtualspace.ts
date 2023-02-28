@@ -23,5 +23,5 @@ export const useVirtualSpaceList = async (virtualSpace: VirtualSpace): Promise<V
     noprocessing: true,
     preload: 'Tenant',
   });
-  return _data.List as VirtualSpace[];
+  return _data.list as VirtualSpace[];
 };

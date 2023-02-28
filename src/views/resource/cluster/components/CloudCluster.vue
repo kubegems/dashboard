@@ -155,7 +155,7 @@
     methods: {
       async clusterList(del = false) {
         const data = await getClusterList({ noprocessing: true });
-        this.items = data.List;
+        this.items = data.list;
         this.hasControllerCluster = this.items.some((c) => {
           return c.Primary;
         });

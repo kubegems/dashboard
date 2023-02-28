@@ -52,7 +52,7 @@ export const useEnvironmentList = async (environment: Environment): Promise<Envi
     noprocessing: true,
     preload: 'Tenant,Project',
   });
-  return _data.List;
+  return _data.list;
 };
 
 export const useBeautifyData = (data: { [key: string]: any }): { [key: string]: any } => {

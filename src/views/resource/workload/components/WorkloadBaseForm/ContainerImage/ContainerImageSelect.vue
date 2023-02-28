@@ -234,7 +234,7 @@
           const data = await getSecretList(this.Edge, this.namespace || this.Environment().Namespace, {
             size: 1000,
           });
-          this.m_select_registryItems = data.List.map((d) => {
+          this.m_select_registryItems = data.list.map((d) => {
             if (d.type === 'kubernetes.io/dockerconfigjson') {
               return {
                 text: d.metadata.name,

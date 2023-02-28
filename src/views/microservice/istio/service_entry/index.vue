@@ -264,7 +264,7 @@
             sort: this.m_table_generateResourceSortParamValue(),
           }),
         );
-        this.items = data.List.map((s) => {
+        this.items = data.list.map((s) => {
           return {
             ...s,
             ports: s.spec.ports
@@ -274,8 +274,8 @@
               : [],
           };
         });
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        this.pageCount = Math.ceil(data.total / this.params.size);
+        this.params.page = data.page;
         this.m_table_generateSelectResource();
       },
       addServiceEntry() {

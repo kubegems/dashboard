@@ -211,7 +211,7 @@
           data = await getConfigMapList(this.ThisCluster, this.namespace || this.$route.query.namespace, {
             size: 1000,
           });
-          this.items = data.List;
+          this.items = data.list;
         }
         this.items.forEach((v) => {
           v.text = v.metadata.name;

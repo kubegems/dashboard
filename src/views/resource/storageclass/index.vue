@@ -118,7 +118,7 @@
   const storageClassItems = ref<StorageClass[]>([]);
   const getStorageClassList = async (): Promise<void> => {
     const data = await new StorageClass().getStorageClassList(useCluster(), { page: 1, size: 1000 });
-    storageClassItems.value = data.List;
+    storageClassItems.value = data.list;
   };
 
   onMounted(() => {

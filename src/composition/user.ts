@@ -25,10 +25,10 @@ export const useUserPagination = async (user: User, page = 1, size = 10, search 
   });
 
   return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
+    items: _data.list,
+    pageCount: Math.ceil(_data.total / _data.size),
+    page: _data.page,
+    size: _data.size,
   } as Pagination<User>;
 };
 
@@ -38,5 +38,5 @@ export const useUserList = async (user: User): Promise<User[]> => {
     size: 1000,
     noprocessing: true,
   });
-  return _data.List as User[];
+  return _data.list as User[];
 };

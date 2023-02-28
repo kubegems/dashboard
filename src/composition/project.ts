@@ -23,7 +23,7 @@ export const useProjectList = async (project: Project): Promise<Project[]> => {
     noprocessing: true,
     preload: 'Tenant',
   });
-  return _data.List as Project[];
+  return _data.list as Project[];
 };
 
 export const useEnvironmentListInProject = async (project: Project): Promise<Environment[]> => {
@@ -33,5 +33,5 @@ export const useEnvironmentListInProject = async (project: Project): Promise<Env
     noprocessing: true,
     preload: 'Cluster,Project',
   });
-  return _data.List as Environment[];
+  return _data.list as Environment[];
 };

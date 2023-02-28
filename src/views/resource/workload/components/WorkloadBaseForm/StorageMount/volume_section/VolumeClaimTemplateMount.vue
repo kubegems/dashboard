@@ -211,7 +211,7 @@
         const data = await getStorageClassList(this.ThisCluster, {
           size: 1000,
         });
-        this.storageClasses = data.List;
+        this.storageClasses = data.list;
         this.storageClasses.forEach((v) => {
           v.text = v.metadata.name;
           v.value = v.metadata.name;

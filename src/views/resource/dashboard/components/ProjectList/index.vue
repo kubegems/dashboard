@@ -283,9 +283,9 @@
     methods: {
       async projectList() {
         const data = await getProjectList(this.Tenant().ID, Object.assign(this.pageParams, {}));
-        this.projectItems = data.List;
-        this.pageCount = Math.ceil(data.Total / this.pageParams.size);
-        this.pageParams.page = data.CurrentPage;
+        this.projectItems = data.list;
+        this.pageCount = Math.ceil(data.total / this.pageParams.size);
+        this.pageParams.page = data.page;
         if (this.projectItems.length > 0) {
           this.expand = 0;
           this.projectEnvironmentList(this.projectItems[0]);
@@ -297,7 +297,7 @@
       async projectEnvironmentList(item) {
         this.environmentItems = [];
         const data = await getProjectEnvironmentList(item.ID, { noprocessing: true });
-        data.List.sort(function (a, b) {
+        data.list.sort(function (a, b) {
           if (a.EnvironmentName < b.EnvironmentName) {
             return -1;
           }
@@ -306,7 +306,7 @@
           }
           return 0;
         });
-        this.environmentItems = data.List;
+        this.environmentItems = data.list;
         await this.projectEnvironmentQuotaList(item);
         const envdict = {};
         this.environmentItems.forEach((e) => {

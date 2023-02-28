@@ -195,12 +195,12 @@
         this.obj.source = '';
         if (this.obj.kind === 'PVC') {
           const data = await getPersistentVolumeClaimList(this.base.cluster, this.base.namespace, { size: 1000 });
-          this.persistentVolumeClaimItems = data.List.map((p) => {
+          this.persistentVolumeClaimItems = data.list.map((p) => {
             return { text: p.metadata.name, value: p.metadata.name };
           });
         } else if (this.obj.kind === 'ConfigMap') {
           const data = await getConfigMapList(this.base.cluster, this.base.namespace, { size: 1000 });
-          this.configMapItems = data.List.map((p) => {
+          this.configMapItems = data.list.map((p) => {
             return { text: p.metadata.name, value: p.metadata.name };
           });
         }

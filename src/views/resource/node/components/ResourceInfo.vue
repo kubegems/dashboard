@@ -416,8 +416,8 @@
         const data = await getNodeResourceAllocated(this.ThisCluster, this.$route.params.name, {
           noprocessing: true,
         });
-        this.totalLimits = data.TotalLimits;
-        this.totalRequests = data.TotalRequests;
+        this.totalLimits = data.totalLimits;
+        this.totalRequests = data.totalRequests;
       },
       async nodePodCountOne() {
         const data = await this.m_permission_vector(this.ThisCluster, {

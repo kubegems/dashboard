@@ -195,12 +195,12 @@
             noprocessing: noprocessing,
           }),
         );
-        data.List.forEach((item, index) => {
+        data.list.forEach((item, index) => {
           this.tenantResourceQuota(item, index);
         });
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        this.items = data.list;
+        this.pageCount = Math.ceil(data.total / this.params.size);
+        this.params.page = data.page;
       },
       onPageIndexChange(page) {
         this.params.page = page;

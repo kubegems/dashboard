@@ -200,7 +200,7 @@
             noprocessing: true,
           },
         );
-        if (data.List) {
+        if (data.list) {
           const severitys = ['error', 'critical'];
           severitys.forEach((severity) => {
             this.metrics.push({
@@ -210,7 +210,7 @@
               }),
             });
           });
-          data.List.forEach((d) => {
+          data.list.forEach((d) => {
             const time = Date.parse(this.$moment(d.CreatedAt));
             const index = this.timeArray.findIndex((t) => {
               return t >= time;

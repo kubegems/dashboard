@@ -447,15 +447,15 @@
           );
         }
         const workloads = [];
-        data.List.forEach((item) => {
+        data.list.forEach((item) => {
           workloads.push({
             workload: item,
             ...this.getGpuLimit(item),
           });
         });
         this.items = workloads;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        this.pageCount = Math.ceil(data.total / this.params.size);
+        this.params.page = data.page;
         this.$router.replace({
           query: { ...this.$route.query, ...this.params, tab: this.tabItems[this.tab].tab },
         });
