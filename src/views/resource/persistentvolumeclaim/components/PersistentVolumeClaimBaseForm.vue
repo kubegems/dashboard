@@ -319,7 +319,7 @@
           }
 
           if (!this.manifest) {
-            if (this.AdminViewport) {
+            if (this.AdminViewport || this.Edge) {
               this.m_select_storageClassSelectData(this.ThisCluster);
               this.m_select_namespaceSelectData(this.ThisCluster);
             } else {

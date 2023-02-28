@@ -86,6 +86,7 @@
     },
     mounted() {
       this.$nextTick(() => {
+        this.$store.commit('SET_EDGE', '');
         this.$store.commit('SET_ADMIN_VIEWPORT', false);
         if (this.Tenant().ID > 0) {
           this.tenantStatistics();

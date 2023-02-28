@@ -190,7 +190,7 @@
       async loadData() {
         this.$nextTick(() => {
           if (!this.manifest) {
-            if (this.AdminViewport) {
+            if (this.AdminViewport || this.Edge) {
               this.m_select_namespaceSelectData(this.ThisCluster);
             } else {
               this.obj.metadata.namespace = this.ThisNamespace;

@@ -161,9 +161,11 @@ axios.interceptors.response.use(
         case 400:
           store.commit('SET_SNACKBAR', {
             text:
-              typeof error.response.data.ErrorData === 'string' || typeof error.response.data.errorData === 'string'
-                ? error.response.data.ErrorData || error.response.data.errorData
-                : error.response.data.Message || error.response.data?.data?.message || '',
+              error?.response?.data?.ErrorData ||
+              error?.response?.data?.errorData ||
+              error?.response?.data?.Message ||
+              error?.response?.data?.data?.message ||
+              'unknown',
             color: 'error',
           });
           break;

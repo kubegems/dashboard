@@ -140,13 +140,16 @@ router.beforeEach(async (to, from, next): Promise<void> => {
         next({ name: '403' });
         return;
       }
-      if (environment.ClusterName !== store.state.LatestEnvironment.cluster) {
+      if (
+        (!store.state.Edge && environment.ClusterName !== store.state.LatestEnvironment.cluster) ||
+        (store.state.Edge && store.state.Edge !== store.state.LatestEnvironment.cluster)
+      ) {
         await store.dispatch('LOAD_RESTMAPPING_RESOURCES', { clusterName: environment?.ClusterName });
       }
-      await store.dispatch('INIT_PLUGINS', environment?.ClusterName);
+      await store.dispatch('INIT_PLUGINS', store.state.Edge || environment?.ClusterName);
       store.commit('SET_LATEST_ENVIRONMENT', {
-        environment: store.state.Edge ? '' : environment.EnvironmentName,
-        cluster: store.state.Edge ? '' : environment.ClusterName,
+        environment: environment.EnvironmentName,
+        cluster: store.state.Edge || environment.ClusterName,
       });
     }
     store.dispatch('INIT_GLOBAL_PLUGINS');
