@@ -191,7 +191,7 @@
       },
       async prometheusRuleChart() {
         this.metrics = this.$options.data().metrics;
-        if (this.prometheusRule === null || this.prometheusRule.origin.rules?.length < 1) {
+        if (this.prometheusRule === null || this.prometheusRule?.origin?.rules?.length < 1) {
           await this.prometheusRuleDetail();
         }
 

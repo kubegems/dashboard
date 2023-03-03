@@ -15,6 +15,7 @@
  */
 
 import { AccessToken, Auth } from '@/types/auth';
+import { convertResponse2Pagination } from '@/types/base';
 
 export const useAccessTokenPagination = async (auth: Auth, page = 1, size = 10): Promise<Pagination<AccessToken>> => {
   const _data: KubePaginationResponse<AccessToken[]> = await auth.getAccessTokenList({
@@ -22,10 +23,5 @@ export const useAccessTokenPagination = async (auth: Auth, page = 1, size = 10):
     size: size,
   });
 
-  return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
-  } as Pagination<AccessToken>;
+  return convertResponse2Pagination<AccessToken>(_data);
 };

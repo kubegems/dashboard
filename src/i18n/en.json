@@ -65,7 +65,9 @@
     "gt_num_max": "Error (more than {0})",
     "lt_num_max": "Error (less than {0})",
     "lt_min_value": "Less then minimum",
-    "gt_max_value": "More then maximum"
+    "gt_max_value": "More then maximum",
+    "gt_max_item": "More then max items {0}",
+    "lt_min_item": "Less then min items {0}"
   },
 
   "role": {

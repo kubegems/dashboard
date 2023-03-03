@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { convertResponse2Pagination } from '@/types/base';
 import { Message } from '@/types/message';
 
 export const useMessagePagination = async (message: Message, page = 1, size = 10): Promise<Pagination<Message>> => {
@@ -22,10 +23,5 @@ export const useMessagePagination = async (message: Message, page = 1, size = 10
     size: size,
   });
 
-  return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
-  } as Pagination<Message>;
+  return convertResponse2Pagination<Message>(_data);
 };

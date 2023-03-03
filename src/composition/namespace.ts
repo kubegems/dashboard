@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { convertResponse2Pagination } from '@/types/base';
 import { Namespace } from '@/types/namespace';
 
 export const useNamespacePagination = async (
@@ -27,10 +28,5 @@ export const useNamespacePagination = async (
     noprocessing: true,
   });
 
-  return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
-  } as Pagination<Namespace>;
+  return convertResponse2Pagination<Namespace>(_data);
 };

@@ -50,8 +50,14 @@
       </div>
     </template>
     <template v-else-if="param.items && Array.isArray(param.items)">
-      <BaseSubTitle class="mb-4" color="grey lighten-3" :divider="false" :title="param.title || param.path" />
-      <template v-for="(childrenParam, iii) in param.items">
+      <BaseSubTitle class="mb-4" color="grey lighten-3" :divider="false" :title="param.title || param.path">
+        <template v-if="param.items && param.additionalItems" #action>
+          <v-btn class="mt-n1" color="primary" icon small @click="addAdditionalItems">
+            <v-icon small>mdi-plus-box</v-icon>
+          </v-btn>
+        </template>
+      </BaseSubTitle>
+      <template v-for="(childrenParam, iii) in param.items.concat(additionalItems)">
         <BaseParam
           v-for="(p, index) in retrieveFromSchema(
             appValues,
@@ -69,6 +75,7 @@
           :id="`${id}-${index}`"
           :key="`${id}-${index}`"
           :all-params="allParams"
+          :allow-delete="iii > 0"
           :app-values="appValues"
           class="my-0 mt-0"
           :cluster-name="clusterName"
@@ -76,6 +83,7 @@
           :param="p"
           v-bind="$attrs"
           v-on="$listeners"
+          @removeItem="removeAdditionalItem"
         />
       </template>
     </template>
@@ -161,6 +169,7 @@
         selectedItems: [],
         search: null,
         list: [],
+        additionalItems: [],
       };
     },
     computed: {
@@ -208,6 +217,38 @@
           return item;
         });
         this.list.splice(index, 1);
+      },
+      async addAdditionalItems() {
+        const len = this.param?.items?.concat(this.additionalItems)?.length;
+        if (len <= this.param?.minItems) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: this.$t('ruler.lt_min_item', [this.param.minItems]),
+            color: 'warning',
+          });
+          return;
+        }
+        if (len >= this.param?.maxItems) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: this.$t('ruler.gt_max_item', [this.param.maxItems]),
+            color: 'warning',
+          });
+          return;
+        }
+        this.$emit('changeBasicFormParam', this.param, '', 'set', `${this.param.path}/${len}`);
+        await sleep(100);
+        this.additionalItems.push({ type: 'string' });
+      },
+      async removeAdditionalItem(path) {
+        const index = path.substr(path.lastIndexOf('/') + 1);
+        this.$emit('changeBasicFormParam', this.param, '', 'deleted', path);
+        await sleep(100);
+        this.additionalItems = this.additionalItems.map((item, i) => {
+          if (i > index) {
+            item -= 1;
+          }
+          return item;
+        });
+        this.additionalItems.splice(index, 1);
       },
     },
   };

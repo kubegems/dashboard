@@ -94,7 +94,6 @@
   import TemplateForm from './components/TemplateForm.vue';
   import { useI18n } from './i18n';
   import { usePrometheusTemplatePagination } from '@/composition/prometheus';
-  import { useRoute } from '@/composition/router';
   import { useGlobalI18n } from '@/i18n';
   import { useQuery } from '@/router';
   import { useStore } from '@/store';
@@ -103,7 +102,6 @@
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();
   const store = useStore();
-  const route = useRoute();
 
   const headers = [
     { text: i18nLocal.t('table.name'), value: 'name', align: 'start' },
@@ -157,7 +155,7 @@
 
   const template = ref(null);
   const addTemplate = (): void => {
-    if (!route.query.resourceId) {
+    if (!query.value.resourceId) {
       store.commit('SET_SNACKBAR', {
         text: i18nLocal.t('tip.select_resource'),
         color: 'warning',

@@ -15,6 +15,7 @@
  */
 
 import { Audit } from '@/types/audit';
+import { convertResponse2Pagination } from '@/types/base';
 
 export const useAuditPagination = async (
   audit: Audit,
@@ -29,10 +30,5 @@ export const useAuditPagination = async (
     ...request,
   });
 
-  return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
-  } as Pagination<Audit>;
+  return convertResponse2Pagination<Audit>(_data);
 };

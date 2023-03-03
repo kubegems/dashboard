@@ -15,6 +15,7 @@
  */
 
 import { AIModel, AIModelRegistry } from '@/types/ai_model';
+import { convertResponse2Pagination } from '@/types/base';
 
 export const useAiModelPagination = async (
   model: AIModel,
@@ -30,12 +31,7 @@ export const useAiModelPagination = async (
     ...request,
   });
 
-  return {
-    items: _data.list,
-    pageCount: Math.ceil(_data.total / _data.size),
-    page: _data.page,
-    size: _data.size,
-  } as Pagination<AIModel>;
+  return convertResponse2Pagination<AIModel>(_data);
 };
 
 export const useRegistryUserList = async (registry: AIModelRegistry): Promise<string[]> => {

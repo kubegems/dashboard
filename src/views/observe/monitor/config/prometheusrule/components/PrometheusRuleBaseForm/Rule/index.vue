@@ -508,6 +508,7 @@
         this.$refs.alertLevelForm.closeCard();
         this.$refs.form.resetValidation();
         this.obj = deepCopy(this.$options.data().obj);
+        this.mod = 'template';
       },
       onModChange() {
         this.load();

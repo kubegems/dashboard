@@ -187,9 +187,9 @@
       generateBaseData() {
         this.publishImages = [];
         this.runningImages = [];
-        if (this.runtime.images) {
-          Object.keys(this.runtime.images).forEach((img) => {
-            const image = this.runtime.images[img];
+        if (this.runtime?.images) {
+          Object.keys(this.runtime?.images).forEach((img) => {
+            const image = this.runtime?.images[img];
             const tag = this.splitImage(image.publish, 'tag');
             if (image.running && image.running.length > 0) {
               this.runningImages.push(image.running);

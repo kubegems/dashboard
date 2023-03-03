@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { convertResponse2Pagination } from '@/types/base';
 import { Telemetry } from '@/types/opentelemetry';
 
 export const useServicePagination = async (
@@ -29,12 +30,7 @@ export const useServicePagination = async (
     sortby: pagination.sortby,
   });
 
-  return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
-  } as Pagination<Telemetry>;
+  return convertResponse2Pagination<Telemetry>(_data);
 };
 
 export const useOperationPagination = async (
@@ -51,12 +47,7 @@ export const useOperationPagination = async (
     end: pagination.end,
   });
 
-  return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
-  } as Pagination<Telemetry>;
+  return convertResponse2Pagination<Telemetry>(_data);
 };
 
 export const useTracePagination = async (
@@ -76,10 +67,5 @@ export const useTracePagination = async (
     limit: pagination.limit,
   });
 
-  return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
-  } as Pagination<Telemetry>;
+  return convertResponse2Pagination<Telemetry>(_data);
 };

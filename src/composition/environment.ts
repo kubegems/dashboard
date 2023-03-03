@@ -16,6 +16,7 @@
 import { useGlobalI18n } from '@/i18n';
 import { useQuery } from '@/router';
 import { useStore } from '@/store';
+import { convertResponse2List } from '@/types/base';
 import { Environment } from '@/types/environment';
 
 const store = useStore();
@@ -52,7 +53,7 @@ export const useEnvironmentList = async (environment: Environment): Promise<Envi
     noprocessing: true,
     preload: 'Tenant,Project',
   });
-  return _data.List;
+  return convertResponse2List<Environment>(_data);
 };
 
 export const useBeautifyData = (data: { [key: string]: any }): { [key: string]: any } => {

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { convertResponse2Pagination } from '@/types/base';
 import { MonitorTemplate } from '@/types/monitor_template';
 
 export const useMonitorTemplatePagination = async (
@@ -28,10 +29,5 @@ export const useMonitorTemplatePagination = async (
     search: search,
   });
 
-  return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
-  } as Pagination<MonitorTemplate>;
+  return convertResponse2Pagination<MonitorTemplate>(_data);
 };

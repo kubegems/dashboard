@@ -299,6 +299,8 @@
           this.appValues = setValue(this.appValues, param.path, value);
         } else if (operate === 'deleted') {
           this.appValues = deleteValue(this.appValues, path);
+        } else if (operate === 'set') {
+          this.appValues = setValue(this.appValues, path, value);
         }
         this.reRender();
       },

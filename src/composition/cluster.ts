@@ -15,6 +15,7 @@
  */
 import { EDGE_DEVICEID_KEY } from '@/constants/label';
 import { useStore } from '@/store';
+import { convertResponse2List, convertResponse2Pagination } from '@/types/base';
 import { Cluster, ClusterResoureQuota } from '@/types/cluster';
 import { EdgeCluster } from '@/types/edge_cluster';
 import { EdgeHub } from '@/types/edge_hub';
@@ -42,7 +43,7 @@ export const useClusterList = async (cluster: Cluster): Promise<Cluster[]> => {
     size: 1000,
     noprocessing: true,
   });
-  return _data.List as Cluster[];
+  return convertResponse2List<Cluster>(_data);
 };
 
 export const useEdgeHubList = async (edgeHub: EdgeHub): Promise<EdgeHub[]> => {
@@ -72,7 +73,7 @@ export const useEdgeClusterList = async (
     noprocessing: true,
     labels: labelSelector,
   });
-  const clusterList = _data.List.map((edge: EdgeCluster, index: number) => {
+  const clusterList = convertResponse2List<EdgeCluster>(_data).map((edge: EdgeCluster, index: number) => {
     return {
       ID: index,
       ClusterName: edge.metadata.name,
@@ -110,12 +111,7 @@ export const useEdgeClusterPagination = async (
     search: search,
   });
 
-  return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
-  } as Pagination<EdgeCluster>;
+  return convertResponse2Pagination<EdgeCluster>(_data);
 };
 
 export const useEdgeClusterConvertToCluster = async (cluster: string): Promise<Cluster> => {

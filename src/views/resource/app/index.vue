@@ -98,7 +98,7 @@
             </div>
           </template>
           <template #[`item.images`]="{ item }">
-            <v-flex v-for="(value, index) in item.runtime.images" :key="index">
+            <v-flex v-for="(value, index) in item.runtime ? item.runtime.images : []" :key="index">
               {{ value }}
             </v-flex>
           </template>
@@ -209,17 +209,34 @@
             </span>
           </template>
           <template #[`item.url`]="{ item }">
-            {{ item.status.url }}
-            <v-btn
-              v-if="item.status.url"
-              v-clipboard:copy="item.status.url"
-              v-clipboard:success="onCopy"
-              color="primary"
-              icon
-              small
-            >
-              <v-icon color="primary" small> mdi-content-copy </v-icon>
-            </v-btn>
+            <div class="py-1">
+              <v-icon color="primary">mdi-alpha-h</v-icon>
+              HTTP: {{ item.status.url }}
+              <v-btn
+                v-if="item.status.url"
+                v-clipboard:copy="item.status.url"
+                v-clipboard:success="onCopy"
+                color="primary"
+                icon
+                small
+              >
+                <v-icon color="primary" small> mdi-content-copy </v-icon>
+              </v-btn>
+            </div>
+            <div class="py-1">
+              <v-icon color="primary">mdi-alpha-g</v-icon>
+              GRPC: {{ item.status.grpcAddress }}
+              <v-btn
+                v-if="item.status.grpcAddress"
+                v-clipboard:copy="item.status.grpcAddress"
+                v-clipboard:success="onCopy"
+                color="primary"
+                icon
+                small
+              >
+                <v-icon color="primary" small> mdi-content-copy </v-icon>
+              </v-btn>
+            </div>
           </template>
           <template #[`item.replicas`]="{ item }">
             {{ item.spec.replicas }}
@@ -431,7 +448,7 @@
             { text: this.$t('table.source'), value: 'source', align: 'start', sortable: false, width: 150 },
             { text: this.$t('table.task'), value: 'task', align: 'start', sortable: false, width: 230 },
             { text: this.$t('table.status'), value: 'phase', align: 'start', sortable: false, width: 120 },
-            { text: 'Api', value: 'url', align: 'start', sortable: false },
+            { text: 'Api(http/grpc)', value: 'url', align: 'start', sortable: false },
             { text: this.$root.$t('resource.create_at'), value: 'creationTimestamp', align: 'start', width: 120 },
             { text: '', value: 'preview', align: 'center', sortable: false },
             { text: '', value: 'modelAction', align: 'center', width: 20, sortable: false },

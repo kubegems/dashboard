@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { useStore } from '@/store';
+import { convertResponse2List, convertResponse2Pagination } from '@/types/base';
 import { Matrix, Vector } from '@/types/prometheus';
 import { PrometheusProbe } from '@/types/prometheus_probe';
 import { PrometheusTemplate, RuleResource, RuleScope } from '@/types/prometheus_template';
@@ -31,12 +32,7 @@ export const usePrometheusProbePagination = async (
     search: pagination.search,
   });
 
-  return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
-  } as Pagination<PrometheusProbe>;
+  return convertResponse2Pagination<PrometheusProbe>(_data);
 };
 
 export const useMatrixWhitPermission = async (cluster: string, query: KubeRequest = {}): Promise<any> => {
@@ -65,12 +61,7 @@ export const usePrometheusTemplatePagination = async (
     size: pagination.size,
   });
 
-  return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
-  } as Pagination<PrometheusTemplate>;
+  return convertResponse2Pagination<PrometheusTemplate>(_data);
 };
 
 export const useRuleScopeList = async (tenantId: number, scope: RuleScope): Promise<RuleScope[]> => {
@@ -79,7 +70,7 @@ export const useRuleScopeList = async (tenantId: number, scope: RuleScope): Prom
     size: 1000,
     noprocessing: true,
   });
-  return _data.List as RuleScope[];
+  return convertResponse2List<RuleScope>(_data);
 };
 
 export const useRuleResourceList = async (tenantId: number, resource: RuleResource): Promise<RuleResource[]> => {
@@ -88,5 +79,5 @@ export const useRuleResourceList = async (tenantId: number, resource: RuleResour
     size: 1000,
     noprocessing: true,
   });
-  return _data.List as RuleResource[];
+  return convertResponse2List<RuleResource>(_data);
 };
