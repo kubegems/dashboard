@@ -62,7 +62,7 @@
   import PrometheusRuleBaseForm from './PrometheusRuleBaseForm';
   import { putUpdateLogAlertRule, putUpdatePrometheusRule } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import { deepCopy } from '@/utils/helpers';
+  import { deepCopy, sizeOfByte } from '@/utils/helpers';
 
   export default {
     name: 'UpdatePrometheusRule',
@@ -108,6 +108,15 @@
               }
             }
             delete obj.logqlGenerator;
+
+            const unit = obj?.promqlGenerator?.unit;
+            if (unit) {
+              obj?.alertLevels?.forEach((alert) => {
+                if (unit.substr(0, unit.indexOf('-')) === 'bytes')
+                  alert.compareValue = sizeOfByte(alert.compareValue, 'B').toString();
+              });
+            }
+
             await putUpdatePrometheusRule(this.$route.query.cluster, this.$route.query.namespace, obj.name, obj);
           } else if (this.mode === 'logging') {
             delete obj.promqlGenerator;
@@ -157,11 +166,11 @@
         }
       },
       reset() {
-        this.$refs[this.formComponent].reset();
+        this.dialog = false;
         this.step = 0;
         this.formComponent = 'PrometheusRuleBaseForm';
+        this.$refs[this.formComponent]?.reset();
         this.item = {};
-        this.dialog = false;
       },
     },
   };

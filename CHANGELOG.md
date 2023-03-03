@@ -1,3 +1,10 @@
+# 1.23.6 (2023-3-3)
+
+### Bug Fixes
+
+| 范围 | 描述 | commitId |
+| ---- | ---- | -------- |
+
 # 1.23.5 (2023-2-28)
 
 ### 🌟 新功能
@@ -5,7 +12,7 @@
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [perf: ⚡ add license page for kubegems, optimization alert rule form] | [b7945de](https://github.com/chenshunliang/dashboard/commit/b7945de55578da85f3acfa3e5142f2d14a12347d) |
-| - | [perf: ⚡ add license page for kubegems, optimization alert rule form] | [b7945de](https://github.com/chenshunliang/dashboard/commit/b7945de55578da85f3acfa3e5142f2d14a12347d) |
+| - | [perf: ⚡ optimization edge cluster switch api request cache] | [51e2950](https://github.com/chenshunliang/dashboard/commit/51e295096107390aa8971699d8c37a6b248992bc) |
 
 ### Bug Fixes
 
@@ -14,7 +21,7 @@
 | - | [fix: 🐛 fix few display bugs] | [f5a2b21](https://github.com/chenshunliang/dashboard/commit/f5a2b219aa8b46d797a28708e8e50fe8be80ee58) |
 | - | [fix: 🐛 fix ace mode properties import bug] | [ed9a6b8](https://github.com/chenshunliang/dashboard/commit/ed9a6b869bb23c36931f5a669daeccad8d4ad279) |
 
-### 🏠 构建系统
+### 🏠 chore
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |

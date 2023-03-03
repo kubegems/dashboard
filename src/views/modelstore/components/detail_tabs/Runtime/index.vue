@@ -46,10 +46,27 @@
           </span>
         </template>
         <template #[`item.url`]="{ item }">
-          {{ item.url }}
-          <v-btn v-clipboard:copy="item.url" v-clipboard:success="onCopy" color="primary" icon small>
-            <v-icon color="primary" small> mdi-content-copy </v-icon>
-          </v-btn>
+          <div class="py-1">
+            <v-icon color="primary">mdi-alpha-h</v-icon>
+            HTTP: {{ item.url }}
+            <v-btn v-if="item.url" v-clipboard:copy="item.url" v-clipboard:success="onCopy" color="primary" icon small>
+              <v-icon color="primary" small> mdi-content-copy </v-icon>
+            </v-btn>
+          </div>
+          <div class="py-1">
+            <v-icon color="primary">mdi-alpha-g</v-icon>
+            GRPC: {{ item.grpcURL }}
+            <v-btn
+              v-if="item.grpcURL"
+              v-clipboard:copy="item.grpcURL"
+              v-clipboard:success="onCopy"
+              color="primary"
+              icon
+              small
+            >
+              <v-icon color="primary" small> mdi-content-copy </v-icon>
+            </v-btn>
+          </div>
         </template>
         <template #[`item.preview`]="{ item }">
           <v-btn
@@ -128,7 +145,7 @@
           { text: this.$root.$t('resource.cluster'), value: 'cluster', align: 'start' },
           { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
           { text: this.$t('table.creator'), value: 'creator', align: 'start' },
-          { text: 'Api', value: 'url', align: 'start' },
+          { text: 'Api(http/grpc)', value: 'url', align: 'start' },
           { text: '', value: 'preview', align: 'start', width: 50 },
         ];
       },
@@ -158,7 +175,11 @@
         this.params.page = page;
       },
       toEnvironmentModelList(item) {
-        if (this.m_permisson_resourceAllow()) {
+        if (
+          this.m_permisson_resourceAllow(item.environment) ||
+          this.m_permisson_projectAllow(item.project) ||
+          this.m_permisson_tenantAllow(item.tenant)
+        ) {
           this.$router.push({
             name: 'app-list',
             params: {

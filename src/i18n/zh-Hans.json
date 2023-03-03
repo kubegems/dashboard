@@ -65,7 +65,9 @@
     "gt_num_max": "格式错误(大于{0})",
     "lt_num_max": "格式错误(少于{0})",
     "lt_min_value": "小于最小值",
-    "gt_max_value": "大于最大值"
+    "gt_max_value": "大于最大值",
+    "gt_max_item": "超过最大条目数 {0}",
+    "lt_min_item": "低于最小条目数 {0}"
   },
 
   "role": {

@@ -55,13 +55,13 @@ declare global {
   };
 }
 
-export function initDefaultValueFromKModel(
+export const initDefaultValueFromKModel = (
   attributeTypeMap: Array<{
     name: string;
     baseName: string;
     type: string;
   }>,
-): { [key: string]: any } {
+): { [key: string]: any } => {
   const data = {};
   attributeTypeMap.forEach((attribute) => {
     if (attribute.type === 'string') data[attribute.name] = '';
@@ -73,6 +73,30 @@ export function initDefaultValueFromKModel(
     else data[attribute.name] = {};
   });
   return data;
-}
+};
+
+export const convertResponse2Pagination = <T>(resData: KubePaginationResponse<T[]>): Pagination<T> => {
+  let _data: { [key: string]: any };
+  if (resData.List)
+    _data = {
+      items: resData.List,
+      pageCount: Math.ceil(resData.Total / resData.CurrentSize),
+      page: resData.CurrentPage,
+      size: resData.CurrentSize,
+    };
+  else
+    _data = {
+      items: resData.list,
+      pageCount: Math.ceil(resData.total / resData.size),
+      page: resData.page,
+      size: resData.size,
+    };
+  return _data as Pagination<T>;
+};
+
+export const convertResponse2List = <T>(resData: KubePaginationResponse<T[]>): T[] => {
+  if (resData.List) return resData.List as T[];
+  else return resData.list as T[];
+};
 
 export {};

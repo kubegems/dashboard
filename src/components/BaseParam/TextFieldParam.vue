@@ -32,7 +32,13 @@
       :type="inputType ? inputType : 'text'"
       :value="param.value"
       @change="onChange($event)"
-    />
+    >
+      <template v-if="allowDelete" #append-outer>
+        <v-btn color="error" icon small @click="removeItem">
+          <v-icon small>mdi-close-box</v-icon>
+        </v-btn>
+      </template>
+    </v-text-field>
   </v-flex>
 </template>
 
@@ -49,6 +55,10 @@
       inputType: {
         type: String,
         default: () => '',
+      },
+      allowDelete: {
+        type: Boolean,
+        default: () => false,
       },
       label: {
         type: String,
@@ -122,6 +132,9 @@
         } else {
           this.$emit('changeBasicFormParam', this.param, null);
         }
+      },
+      async removeItem() {
+        this.$emit('removeItem', this.param.path);
       },
     },
   };

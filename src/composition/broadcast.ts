@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { convertResponse2Pagination } from '@/types/base';
 import { Broadcast } from '@/types/broadcast';
 
 export const useBroadcastPagination = async (
@@ -26,10 +27,5 @@ export const useBroadcastPagination = async (
     size: size,
   });
 
-  return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
-  } as Pagination<Broadcast>;
+  return convertResponse2Pagination<Broadcast>(_data);
 };

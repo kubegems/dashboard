@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { convertResponse2List, convertResponse2Pagination } from '@/types/base';
 import { User } from '@/types/user';
 
 export const useUserPagination = async (user: User, page = 1, size = 10, search = ''): Promise<Pagination<User>> => {
@@ -24,12 +25,7 @@ export const useUserPagination = async (user: User, page = 1, size = 10, search 
     preload: 'SystemRole',
   });
 
-  return {
-    items: _data.List,
-    pageCount: Math.ceil(_data.Total / _data.CurrentSize),
-    page: _data.CurrentPage,
-    size: _data.CurrentSize,
-  } as Pagination<User>;
+  return convertResponse2Pagination<User>(_data);
 };
 
 export const useUserList = async (user: User): Promise<User[]> => {
@@ -38,5 +34,5 @@ export const useUserList = async (user: User): Promise<User[]> => {
     size: 1000,
     noprocessing: true,
   });
-  return _data.List as User[];
+  return convertResponse2List<User>(_data);
 };

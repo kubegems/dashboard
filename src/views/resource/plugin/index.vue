@@ -282,8 +282,8 @@
         if (plugin.values && JSON.stringify(plugin.values) !== '{}') {
           this.plugin[plugin.name].values = plugin.values;
         }
-        this.$refs.installPluginSchema.init(this.plugin[plugin.name]);
-        this.$refs.installPluginSchema.open();
+        this.$refs?.installPluginSchema?.init(this.plugin[plugin.name]);
+        this.$refs?.installPluginSchema?.open();
       },
       disablePlugin(plugin) {
         if (plugin.enabled && !plugin.healthy) {

@@ -31,6 +31,7 @@
         :id="`${id}-${index}`"
         :key="`${id}-${index}`"
         :all-params="allParams"
+        :allow-delete="allowDelete"
         :app-values="appValues"
         class="my-0 mt-0"
         :cluster-name="clusterName"
@@ -53,6 +54,10 @@
       appValues: {
         type: Object,
         default: () => ({}),
+      },
+      allowDelete: {
+        type: Boolean,
+        default: () => false,
       },
       clusterName: {
         type: String,

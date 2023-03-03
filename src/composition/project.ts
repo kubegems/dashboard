@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { convertResponse2List } from '@/types/base';
 import { Environment } from '@/types/environment';
 import { Project } from '@/types/project';
 
@@ -23,7 +24,7 @@ export const useProjectList = async (project: Project): Promise<Project[]> => {
     noprocessing: true,
     preload: 'Tenant',
   });
-  return _data.List as Project[];
+  return convertResponse2List<Project>(_data);
 };
 
 export const useEnvironmentListInProject = async (project: Project): Promise<Environment[]> => {
@@ -33,5 +34,5 @@ export const useEnvironmentListInProject = async (project: Project): Promise<Env
     noprocessing: true,
     preload: 'Cluster,Project',
   });
-  return _data.List as Environment[];
+  return convertResponse2List<Environment>(_data);
 };

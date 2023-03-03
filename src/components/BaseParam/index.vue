@@ -55,6 +55,7 @@
         type === 'number'
       "
       :id="id"
+      :allow-delete="allowDelete"
       :input-type="getInputType"
       :label="param.title || param.path"
       :level="level"
@@ -145,6 +146,10 @@
       clusterName: {
         type: String,
         default: () => '',
+      },
+      allowDelete: {
+        type: Boolean,
+        default: () => false,
       },
       id: {
         type: String,

@@ -63,6 +63,35 @@ export function sizeOfTke(num: number | string, suffix = 's'): number {
   return 0;
 }
 
+export function sizeOfByte(num: number | string, suffix = 'GB'): number {
+  if (num === undefined) return 0;
+  if (num === null) return 0;
+  num = num.toString().toLocaleLowerCase();
+  if (num === '0') return 0;
+  const units: string[] = ['', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB'];
+  const pos: number = units.indexOf(suffix);
+  if (new RegExp('^\\d+$').test(num)) return parseFloat(num);
+  for (const i in units) {
+    const index: number = parseInt(i);
+    if (num.indexOf(units[index].toLocaleLowerCase()) > -1) {
+      if (index < pos) {
+        let n: number = parseFloat(num.replace(units[index].toLocaleLowerCase(), ''));
+        for (let i = 0; i < pos - index; i++) {
+          n = n / 1024.0;
+        }
+        return n;
+      } else {
+        let n: number = parseFloat(num.replace(units[index].toLocaleLowerCase(), ''));
+        for (let i = 0; i < index - pos; i++) {
+          n = n * 1024.0;
+        }
+        return n;
+      }
+    }
+  }
+  return 0;
+}
+
 export function sizeOfStorage(num: number | string, suffix = 'Gi'): number {
   if (num === undefined) return 0;
   if (num === null) return 0;

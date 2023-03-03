@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { convertResponse2List } from '@/types/base';
 import { Role } from '@/types/role';
 
 export const useRoleList = async (role: Role): Promise<Role[]> => {
@@ -21,5 +22,5 @@ export const useRoleList = async (role: Role): Promise<Role[]> => {
     size: 1000,
     noprocessing: true,
   });
-  return _data.List as Role[];
+  return convertResponse2List<Role>(_data);
 };

@@ -61,7 +61,7 @@
   import PrometheusRuleBaseForm from './PrometheusRuleBaseForm';
   import { postAddLogAlertRule, postAddPrometheusRule } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import { deepCopy } from '@/utils/helpers';
+  import { deepCopy, sizeOfByte } from '@/utils/helpers';
 
   export default {
     name: 'PrometheusRule',
@@ -114,6 +114,14 @@
         if (this.$refs[this.formComponent].validate()) {
           const obj = deepCopy(this.$refs[this.formComponent].getData());
 
+          const unit = obj?.promqlGenerator?.unit;
+          if (unit) {
+            obj?.alertLevels?.forEach((alert) => {
+              if (unit.substr(0, unit.indexOf('-')) === 'bytes')
+                alert.compareValue = sizeOfByte(alert.compareValue, 'B').toString();
+            });
+          }
+
           if (this.mode === 'monitor') {
             obj.source = 'kubegems-default-monitor-alert-rule';
             // 移除labelpairs中的空值
@@ -161,9 +169,9 @@
       },
       reset() {
         this.dialog = false;
-        this.$refs[this.formComponent].reset();
         this.step = 0;
         this.formComponent = 'PrometheusRuleBaseForm';
+        this.$refs[this.formComponent]?.reset();
       },
     },
   };

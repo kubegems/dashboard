@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { convertResponse2List } from '@/types/base';
 import { VirtualSpace } from '@/types/virtualspace';
 
 export const useVirtualSpaceList = async (virtualSpace: VirtualSpace): Promise<VirtualSpace[]> => {
@@ -23,5 +24,5 @@ export const useVirtualSpaceList = async (virtualSpace: VirtualSpace): Promise<V
     noprocessing: true,
     preload: 'Tenant',
   });
-  return _data.List as VirtualSpace[];
+  return convertResponse2List<VirtualSpace>(_data);
 };

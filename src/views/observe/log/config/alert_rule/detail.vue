@@ -185,7 +185,7 @@
       },
       async alertRuleChart() {
         this.metrics = this.$options.data().metrics;
-        if (this.alertRule === null || this.alertRule.origin.rules.length < 1) {
+        if (this.alertRule === null || this.alertRule.origin?.rules?.length < 1) {
           await this.alertRuleDetail();
         }
 

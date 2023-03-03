@@ -37,7 +37,7 @@ axios.defaults.paramsSerializer = (params: any): string => {
 axios.interceptors.request.use(
   (config: AxiosRequestConfig<KubeRequest>): AxiosRequestConfig<KubeRequest> | Promise<any> => {
     if (
-      !validateJWT(window.localStorage.getItem('JWT')) &&
+      !validateJWT(window.localStorage.getItem('JWT') || store.state.JWT) &&
       ['/login', '/403', '/404', '/white/page', '/white/tenant', '/whitecluster/cluster', '/oauth/callback'].indexOf(
         window.location.pathname,
       ) === -1
@@ -87,8 +87,8 @@ axios.interceptors.request.use(
     if (store.state.Csrftoken) {
       config.headers['X-CSRFToken'] = store.state.Csrftoken;
     }
-    if (window.localStorage.getItem('JWT')) {
-      config.headers.Authorization = `Bearer ${window.localStorage.getItem('JWT')}`;
+    if (window.localStorage.getItem('JWT') || store.state.JWT) {
+      config.headers.Authorization = `Bearer ${window.localStorage.getItem('JWT') || store.state.JWT}`;
     }
     if (['post', 'patch', 'put', 'delete'].indexOf(config.method.toLocaleLowerCase()) > -1) {
       config.headers['Content-type'] = 'application/json;charset=utf-8';
