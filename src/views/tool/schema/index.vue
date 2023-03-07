@@ -73,6 +73,7 @@
     name: 'SchemaForm',
     data() {
       return {
+        valid: false,
         appValues: {},
         params: [],
         jsonSchema: '',

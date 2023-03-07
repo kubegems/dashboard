@@ -1,9 +1,10 @@
-# 1.23.6 (2023-3-3)
+# 1.23.6 (2023-3-7)
 
 ### Bug Fixes
 
 | 范围 | 描述 | commitId |
-| ---- | ---- | -------- |
+| --- | --- | --- |
+| - | [perf: ⚡ support additionalItem field for json schema array type and fix few bugs] | [72b8dc3](https://github.com/chenshunliang/dashboard/commit/72b8dc3834006a83ce4f1ef24ab56bddb801aed6) |
 
 # 1.23.5 (2023-2-28)
 

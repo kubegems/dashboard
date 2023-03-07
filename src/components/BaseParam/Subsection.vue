@@ -43,50 +43,35 @@
   </v-flex>
 </template>
 
-<script>
-  export default {
-    name: 'Subsection',
-    props: {
-      allParams: {
-        type: Array,
-        default: () => [],
-      },
-      appValues: {
-        type: Object,
-        default: () => ({}),
-      },
-      allowDelete: {
-        type: Boolean,
-        default: () => false,
-      },
-      clusterName: {
-        type: String,
-        default: () => '',
-      },
-      id: {
-        type: String,
-        default: () => '',
-      },
-      label: {
-        type: String,
-        default: () => '',
-      },
-      param: {
-        type: Object,
-        default: () => ({}),
-      },
-      level: {
-        type: Number,
-        default: () => 1,
-      },
-    },
+<script lang="ts" setup>
+  import { ComputedRef, computed } from 'vue';
 
-    computed: {
-      pathLevel() {
-        if (this.param?.path?.indexOf('/') > -1) return this.param.path.split('/').length;
-        if (this.param?.path?.indexOf('.') > -1) return this.param.path.split('.').length;
-        return this.level;
-      },
+  const props = withDefaults(
+    defineProps<{
+      id?: string;
+      label?: string;
+      param?: any;
+      level?: number;
+      clusterName?: string;
+      allParams?: any[];
+      appValues?: any;
+      allowDelete?: boolean;
+    }>(),
+    {
+      id: undefined,
+      label: '',
+      param: {},
+      level: 1,
+      clusterName: '',
+      allParams: undefined,
+      appValues: {},
+      allowDelete: false,
     },
-  };
+  );
+
+  const pathLevel: ComputedRef<number> = computed(() => {
+    if (props.param?.path?.indexOf('/') > -1) return props.param.path.split('/').length;
+    if (props.param?.path?.indexOf('.') > -1) return props.param.path.split('.').length;
+    return props.level;
+  });
 </script>

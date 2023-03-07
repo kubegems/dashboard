@@ -73,7 +73,7 @@
             `${param.path}/`,
           )"
           :id="`${id}-${index}`"
-          :key="`${id}-${index}`"
+          :key="`${id}-${index}-${iii}`"
           :all-params="allParams"
           :allow-delete="iii > 0"
           :app-values="appValues"
@@ -89,11 +89,11 @@
     </template>
     <template v-else>
       <v-combobox
-        v-model="selectedItems"
+        v-model="state.selectedItems"
         :attach="`#${id}`"
         class="my-2"
         hide-selected
-        :items="items"
+        :items="state.items"
         :label="pathLevel === 1 ? '' : label"
         :menu-props="{
           bottom: true,
@@ -101,14 +101,14 @@
           origin: `top center`,
         }"
         multiple
-        :search-input.sync="search"
-        @change="onChange($event)"
+        :search-input.sync="state.search"
+        @change="changed($event)"
       >
         <template #no-data>
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>
-                {{ search }}
+                {{ state.search }}
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -132,124 +132,118 @@
   </v-flex>
 </template>
 
-<script>
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
+<script lang="ts" setup>
+  import { ComputedRef, computed, onMounted, reactive, ref } from 'vue';
+
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
   import { sleep } from '@/utils/helpers';
   import { retrieveFromSchema } from '@/utils/schema';
 
-  export default {
-    name: 'MultiSelectParamParam',
-    mixins: [BaseResource, BaseSelect],
-    props: {
-      appValues: {
-        type: Object,
-        default: () => ({}),
-      },
-      id: {
-        type: String,
-        default: () => '',
-      },
-      label: {
-        type: String,
-        default: () => '',
-      },
-      param: {
-        type: Object,
-        default: () => ({}),
-      },
-      level: {
-        type: Number,
-        default: () => 1,
-      },
+  const props = withDefaults(
+    defineProps<{
+      id?: string;
+      label?: string;
+      param?: any;
+      level?: number;
+      appValues?: any;
+      clusterName?: string;
+      allParams?: any[];
+    }>(),
+    {
+      id: undefined,
+      label: '',
+      param: {},
+      level: 1,
+      appValues: {},
+      clusterName: '',
+      allParams: undefined,
     },
-    data() {
-      return {
-        items: [],
-        selectedItems: [],
-        search: null,
-        list: [],
-        additionalItems: [],
-      };
-    },
-    computed: {
-      pathLevel() {
-        if (this.param?.path?.indexOf('/') > -1) return this.param.path.split('/').length;
-        if (this.param?.path?.indexOf('.') > -1) return this.param.path.split('.').length;
-        return this.level;
-      },
-    },
-    mounted() {
-      // yaml seq 序列转json的array
-      if (this.param.items && this.param.items.enum && this.param.items.enum.length > 0) {
-        const enums = this.param.items.enum;
-        // 去重
-        this.items = [...new Set(enums)];
-      }
-      if (this.param.default && this.param.default.length > 0) {
-        this.selectedItems = this.param.default;
-      }
-      if (this.param.items && Array.isArray(this.param.items)) return;
-      this.onChange(this.selectedItems);
-    },
-    methods: {
-      retrieveFromSchema: retrieveFromSchema,
-      onChange(event) {
-        this.$emit('changeBasicFormParam', this.param, event);
-      },
-      removeCommand(item) {
-        const tmp = this.selectedItems.filter((selectItem) => {
-          return selectItem !== item;
-        });
-        this.selectedItems = tmp;
-        this.$emit('changeBasicFormParam', this.param, this.selectedItems);
-      },
-      addItem() {
-        this.list.push(this.list.length);
-      },
-      async removeItem(index, path) {
-        this.$emit('changeBasicFormParam', this.param, '', 'deleted', path);
-        await sleep(100);
-        this.list = this.list.map((item, i) => {
-          if (i > index) {
-            item -= 1;
-          }
-          return item;
-        });
-        this.list.splice(index, 1);
-      },
-      async addAdditionalItems() {
-        const len = this.param?.items?.concat(this.additionalItems)?.length;
-        if (len <= this.param?.minItems) {
-          this.$store.commit('SET_SNACKBAR', {
-            text: this.$t('ruler.lt_min_item', [this.param.minItems]),
-            color: 'warning',
-          });
-          return;
-        }
-        if (len >= this.param?.maxItems) {
-          this.$store.commit('SET_SNACKBAR', {
-            text: this.$t('ruler.gt_max_item', [this.param.maxItems]),
-            color: 'warning',
-          });
-          return;
-        }
-        this.$emit('changeBasicFormParam', this.param, '', 'set', `${this.param.path}/${len}`);
-        await sleep(100);
-        this.additionalItems.push({ type: 'string' });
-      },
-      async removeAdditionalItem(path) {
-        const index = path.substr(path.lastIndexOf('/') + 1);
-        this.$emit('changeBasicFormParam', this.param, '', 'deleted', path);
-        await sleep(100);
-        this.additionalItems = this.additionalItems.map((item, i) => {
-          if (i > index) {
-            item -= 1;
-          }
-          return item;
-        });
-        this.additionalItems.splice(index, 1);
-      },
-    },
+  );
+
+  const store = useStore();
+  const i18n = useGlobalI18n();
+
+  const pathLevel: ComputedRef<number> = computed(() => {
+    if (props.param?.path?.indexOf('/') > -1) return props.param.path.split('/').length;
+    if (props.param?.path?.indexOf('.') > -1) return props.param.path.split('.').length;
+    return props.level;
+  });
+
+  const emit = defineEmits(['changeBasicFormParam']);
+  const changed = (event: string[]): void => {
+    emit('changeBasicFormParam', props.param, event);
   };
+
+  const state = reactive({
+    search: '',
+    items: [],
+    selectedItems: [],
+  });
+  const removeCommand = (item: { text: string; value: string }): void => {
+    const tmp = state.selectedItems.filter((selectItem) => {
+      return selectItem !== item;
+    });
+    state.selectedItems = tmp;
+    emit('changeBasicFormParam', props.param, state.selectedItems);
+  };
+
+  const list = ref<number[]>([]);
+  const addItem = (): void => {
+    list.value.push(list.value.length);
+  };
+
+  const removeItem = async (index: number, path: string): Promise<void> => {
+    emit('changeBasicFormParam', props.param, '', 'deleted', path);
+    await sleep(100);
+    list.value = list.value.map((item, i) => {
+      if (i > index) {
+        item -= 1;
+      }
+      return item;
+    });
+    list.value.splice(index, 1);
+  };
+
+  const additionalItems = ref<any>([]);
+  const addAdditionalItems = async (): Promise<void> => {
+    const len = props.param?.items?.concat(additionalItems.value)?.length;
+    if (len < props.param?.minItems) {
+      store.commit('SET_SNACKBAR', {
+        text: i18n.t('ruler.lt_min_item', [props.param.minItems]),
+        color: 'warning',
+      });
+      return;
+    }
+    if (len >= props.param?.maxItems) {
+      store.commit('SET_SNACKBAR', {
+        text: i18n.t('ruler.gt_max_item', [props.param.maxItems]),
+        color: 'warning',
+      });
+      return;
+    }
+    emit('changeBasicFormParam', props.param, '', 'set', `${props.param.path}/${len}`);
+    await sleep(100);
+    additionalItems.value.push({ type: 'string' });
+  };
+
+  const removeAdditionalItem = async (path: string): Promise<void> => {
+    const index = parseInt(path.substr(path.lastIndexOf('/') + 1));
+    emit('changeBasicFormParam', props.param, '', 'deleted', path);
+    await sleep(100);
+    additionalItems.value.splice(index - 1, 1);
+  };
+
+  onMounted(() => {
+    if (props.param.items && props.param.items.enum && props.param.items.enum.length > 0) {
+      const enums = props.param.items.enum;
+      // 去重
+      state.items = [...new Set(enums)];
+    }
+    if (props.param.default && props.param.default.length > 0) {
+      state.selectedItems = props.param.default;
+    }
+    if (props.param.items && Array.isArray(props.param.items)) return;
+    changed(state.selectedItems);
+  });
 </script>

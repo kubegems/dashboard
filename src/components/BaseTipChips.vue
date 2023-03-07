@@ -58,100 +58,79 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'BaseTipChips',
-    props: {
-      chips: {
-        type: [Array, Object, String],
-        default: () => [],
-      },
-      color: {
-        type: String,
-        default: 'success',
-      },
-      delimiter: {
-        type: String,
-        default: ',',
-      },
-      emptyText: {
-        type: String,
-        default: '',
-      },
-      icon: {
-        type: String,
-        default: undefined,
-      },
-      itemText: {
-        type: String,
-        default: 'text',
-      },
-      itemValue: {
-        type: String,
-        default: 'value',
-      },
-      linked: {
-        type: Boolean,
-        default: () => false,
-      },
-      maxWidth: {
-        type: String,
-        default: undefined,
-      },
-      singleLine: Boolean,
+<script lang="ts" setup>
+  import { ref, watch } from 'vue';
+
+  const props = withDefaults(
+    defineProps<{
+      chips?: any;
+      color?: string;
+      delimiter?: string;
+      emptyText?: string;
+      icon?: string;
+      itemText?: string;
+      itemValue?: string;
+      linked?: boolean;
+      maxWidth?: string;
+      singleLine?: boolean;
+    }>(),
+    {
+      chips: [],
+      color: 'success',
+      delimiter: '',
+      emptyText: '',
+      icon: undefined,
+      itemText: 'text',
+      itemValue: 'value',
+      linked: false,
+      maxWidth: undefined,
+      singleLine: false,
     },
-    data() {
-      return {
-        items: [],
-        visibleItems: [],
-        dataType: null,
-      };
-    },
-    watch: {
-      chips: {
-        handler() {
-          this.handleSetItems();
-        },
-        immediate: true,
-      },
-    },
-    methods: {
-      handleSetItems() {
-        if (Array.isArray(this.chips)) {
-          this.items = this.chips.map((item) => {
-            if (typeof item === 'object') {
-              return { ...item };
-            } else {
-              return {
-                [this.itemText]: item,
-                [this.itemValue]: item,
-              };
-            }
-          });
-          this.dataType = 'array';
-        } else if (typeof this.chips === 'string') {
-          const arr = Array.from(new Set(this.chips.split(this.delimiter)));
-          this.items = arr.map((v) => {
-            return {
-              [this.itemText]: v,
-              [this.itemValue]: v,
-            };
-          });
-          this.dataType = 'string';
+  );
+
+  const items = ref<{ [key: string]: any }[]>([]);
+  const visibleItems = ref<{ [key: string]: any }[]>([]);
+  const dataType = ref<string>(undefined);
+  const handleSetItems = (): void => {
+    if (Array.isArray(props.chips)) {
+      items.value = props.chips.map((item) => {
+        if (typeof item === 'object') {
+          return { ...item };
         } else {
-          this.items = Object.keys(this.chips || {}).map((key) => {
-            return {
-              [this.itemText]: this.chips[key],
-              [this.itemValue]: key,
-            };
-          });
-          this.dataType = 'object';
+          return {
+            [props.itemText]: item,
+            [props.itemValue]: item,
+          };
         }
-        this.visibleItems = this.items;
-      },
-      // linkToPage() {
-      //   this.$emit('linkToPage');
-      // },
-    },
+      });
+      dataType.value = 'array';
+    } else if (typeof props.chips === 'string') {
+      const arr = Array.from(new Set(props.chips.split(props.delimiter)));
+      items.value = arr.map((v) => {
+        return {
+          [props.itemText]: v,
+          [props.itemValue]: v,
+        };
+      });
+      dataType.value = 'string';
+    } else {
+      items.value = Object.keys(props.chips || {}).map((key) => {
+        return {
+          [props.itemText]: props.chips[key],
+          [props.itemValue]: key,
+        };
+      });
+      dataType.value = 'object';
+    }
+    visibleItems.value = items.value;
   };
+
+  watch(
+    () => props.chips,
+    async (newValue) => {
+      if (!newValue) return;
+      handleSetItems();
+    },
+    { immediate: true },
+  );
 </script>

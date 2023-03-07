@@ -16,7 +16,7 @@
 
 <template>
   <v-menu
-    v-model="menu"
+    v-model="state.menu"
     bottom
     :close-on-content-click="false"
     left
@@ -28,57 +28,52 @@
     <template #activator="{ on }">
       <v-btn class="white--text" color="primary" depressed :text="text" v-on="on">
         {{ currentDate }}
-        <v-icon v-if="menu" right>mdi-chevron-up</v-icon>
+        <v-icon v-if="state.menu" right>mdi-chevron-up</v-icon>
         <v-icon v-else right>mdi-chevron-down</v-icon>
       </v-btn>
     </template>
     <v-card flat width="300px">
       <v-row>
         <v-col>
-          <v-date-picker v-model="currentDate" flat locale="zh-cn" no-title @change="onDateChange" />
+          <v-date-picker v-model="currentDate" flat locale="zh-cn" no-title @change="dateChanged" />
         </v-col>
       </v-row>
     </v-card>
   </v-menu>
 </template>
 
-<script>
+<script lang="ts" setup>
   import moment from 'moment';
+  import { onMounted, reactive, ref } from 'vue';
 
-  export default {
-    name: 'BaseDatePicker',
-    props: {
-      text: {
-        type: Boolean,
-        default: false,
-      },
-      yesterday: {
-        type: Boolean,
-        default: true,
-      },
+  const props = withDefaults(
+    defineProps<{
+      text?: boolean;
+      yesterday?: boolean;
+    }>(),
+    {
+      text: false,
+      yesterday: true,
     },
-    data() {
-      return {
-        currentDate: '',
-        menu: false,
-      };
-    },
-    mounted() {
-      const today = new Date();
-      const yesterday = new Date();
-      yesterday.setDate(today.getDate() - 1);
-      this.currentDate = this.yesterday ? moment(yesterday).format('YYYY-MM-DD') : moment(today).format('YYYY-MM-DD');
-    },
-    methods: {
-      onDateChange() {
-        this.menu = false;
-        this.$emit('date', this.currentDate);
-      },
-      setDate(date) {
-        this.currentDate = moment(date).format('YYYY-MM-DD');
-      },
-    },
+  );
+
+  const state = reactive({
+    menu: false,
+  });
+
+  const currentDate = ref<string>('');
+  const emit = defineEmits(['date']);
+  const dateChanged = (): void => {
+    state.menu = false;
+    emit('date', currentDate.value);
   };
+
+  onMounted(() => {
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+    currentDate.value = props.yesterday ? moment(yesterday).format('YYYY-MM-DD') : moment(today).format('YYYY-MM-DD');
+  });
 </script>
 
 <style lang="scss" scoped>

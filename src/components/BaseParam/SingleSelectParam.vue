@@ -34,10 +34,10 @@
         left: true,
         origin: `top center`,
       }"
-      :rules="titleRule"
+      :rules="rules"
       :value="param.value"
-      @change="onChange($event)"
-      @focus="onStorageClassSelectFocus"
+      @change="changed($event)"
+      @focus="getStorageClassList"
     >
       <template #selection="{ item }">
         <v-chip class="mx-1" color="primary" small>
@@ -48,76 +48,73 @@
   </v-flex>
 </template>
 
-<script>
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
+<script lang="ts" setup>
+  import { ComputedRef, computed, onMounted, ref, watch } from 'vue';
+
+  import { convertResponse2List } from '@/types/base';
+  import { StorageClass } from '@/types/storageclass';
   import { required } from '@/utils/rules';
 
-  export default {
-    name: 'SingleSelectParam',
-    mixins: [BaseResource, BaseSelect],
-    props: {
-      clusterName: {
-        type: String,
-        default: () => '',
-      },
-      id: {
-        type: String,
-        default: () => '',
-      },
-      label: {
-        type: String,
-        default: () => '',
-      },
-      param: {
-        type: Object,
-        default: () => ({}),
-      },
-      level: {
-        type: Number,
-        default: () => 1,
-      },
+  const props = withDefaults(
+    defineProps<{
+      id?: string;
+      label?: string;
+      param?: any;
+      level?: number;
+      clusterName?: string;
+    }>(),
+    {
+      id: undefined,
+      label: '',
+      param: {},
+      level: 1,
+      clusterName: '',
     },
-    data() {
-      return {
-        items: [],
-        titleRule: [required],
-      };
-    },
-    computed: {
-      pathLevel() {
-        if (this.param?.path?.indexOf('/') > -1) return this.param.path.split('/').length;
-        if (this.param?.path?.indexOf('.') > -1) return this.param.path.split('.').length;
-        return this.level;
-      },
-    },
-    watch: {
-      // 如果选择了环境,得到集群名后,自动加载存储类选择列表
-      clusterName() {
-        if ((this.param.name === 'storageClassName' || this.param.name === 'storageClass') && this.clusterName !== '') {
-          this.m_select_storageClassSelectData(this.clusterName, { noprocessing: true });
-          this.items = this.m_select_storageClassItems;
-        }
-      },
-    },
-    mounted() {
-      if (this.param.enum && this.param.enum.length > 0) {
-        this.items = this.param.enum.map((enumValue) => {
-          return { text: enumValue, values: enumValue };
-        });
-      }
-      this.onStorageClassSelectFocus();
-    },
-    methods: {
-      onChange(event) {
-        this.$emit('changeBasicFormParam', this.param, event);
-      },
-      async onStorageClassSelectFocus() {
-        if ((this.param.name === 'storageClassName' || this.param.name === 'storageClass') && this.clusterName !== '') {
-          await this.m_select_storageClassSelectData(this.clusterName, { noprocessing: true });
-          this.items = this.m_select_storageClassItems;
-        }
-      },
-    },
+  );
+
+  const pathLevel: ComputedRef<number> = computed(() => {
+    if (props.param?.path?.indexOf('/') > -1) return props.param.path.split('/').length;
+    if (props.param?.path?.indexOf('.') > -1) return props.param.path.split('.').length;
+    return props.level;
+  });
+
+  const rules = [required];
+
+  const emit = defineEmits(['changeBasicFormParam']);
+  const changed = (event: string): void => {
+    emit('changeBasicFormParam', props.param, event);
   };
+
+  const items = ref<{ text: string; value: string }[]>([]);
+  const getStorageClassList = async (): Promise<void> => {
+    if ((props.param.name === 'storageClassName' || props.param.name === 'storageClass') && props.clusterName !== '') {
+      const data = await new StorageClass().getStorageClassList(props.clusterName, { page: 1, size: 1000 });
+      items.value = convertResponse2List<StorageClass>(data).map((d) => {
+        return { text: d.metadata.name, value: d.metadata.name };
+      });
+    }
+  };
+
+  watch(
+    () => props.clusterName,
+    async (newValue) => {
+      if (!newValue) return;
+      if (
+        (props.param.name === 'storageClassName' || props.param.name === 'storageClass') &&
+        props.clusterName !== ''
+      ) {
+        getStorageClassList();
+      }
+    },
+    { immediate: true },
+  );
+
+  onMounted(() => {
+    if (props.param.enum && props.param.enum.length > 0) {
+      items.value = props.param.enum.map((enumValue) => {
+        return { text: enumValue, value: enumValue };
+      });
+    }
+    getStorageClassList();
+  });
 </script>
