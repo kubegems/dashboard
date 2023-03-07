@@ -16,7 +16,7 @@
 
 <template>
   <v-menu
-    v-model="menu"
+    v-model="state.menu"
     bottom
     close-on-click
     :close-on-content-click="false"
@@ -33,7 +33,7 @@
       <div class="float-left">
         <v-btn class="mr-2 mt-1 font-weight-medium primary--text" color="white" dark depressed small v-on="on">
           {{ variable }} {{ showText() }}
-          <v-icon v-if="menu" right> mdi-chevron-up </v-icon>
+          <v-icon v-if="state.menu" right> mdi-chevron-up </v-icon>
           <v-icon v-else right> mdi-chevron-down </v-icon>
         </v-btn>
         <div class="kubegems__clear-float" />
@@ -43,23 +43,23 @@
       <div class="text-subtitle-2 mx-2 kubegems__text select__title">
         <div class="float-left"> {{ variable }} </div>
         <div class="float-right">
-          <v-btn class="mx-1" color="primary" small @click="reset">{{ $root.$t('operate.reset') }}</v-btn>
+          <v-btn class="mx-1" color="primary" small @click="reset">{{ i18n.t('operate.reset') }}</v-btn>
           <v-btn class="ml-1" color="primary" small @click="confirm">
-            {{ $root.$t('operate.confirm') }}
+            {{ i18n.t('operate.confirm') }}
           </v-btn>
         </div>
         <div class="kubegems__clear-float" />
       </div>
       <div class="select__div" :style="{ width: '100%' }">
         <v-text-field
-          v-model="search"
+          v-model="searchText"
           class="mt-2"
           dense
           flat
           hide-details
           prepend-inner-icon="mdi-magnify"
           solo
-          @keyup="onSearch"
+          @keyup="search"
         />
         <div class="text-caption pa-1 mt-2">{{ variable }}</div>
         <v-divider class="mb-2" />
@@ -83,109 +83,108 @@
   </v-menu>
 </template>
 
-<script>
+<script lang="ts" setup>
+  import { ComputedRef, computed, reactive, ref, watch } from 'vue';
+
+  import { useGlobalI18n } from '@/i18n';
   import { deepCopy } from '@/utils/helpers';
 
-  export default {
-    name: 'BaseDropSelect',
-    props: {
-      variable: {
-        type: String,
-        default: () => '',
-      },
-      variableValues: {
-        type: Array,
-        default: () => [],
-      },
+  const props = withDefaults(
+    defineProps<{
+      variable?: string;
+      variableValues?: any[];
+    }>(),
+    {
+      variable: '',
+      variableValues: undefined,
     },
-    data() {
-      return {
-        menu: false,
-        variableItems: [],
-        variableItemsCopy: [],
-        search: '',
-      };
-    },
-    computed: {
-      selectedItems() {
-        return this.variableItems.filter((v) => {
-          return v.active;
-        });
-      },
-    },
-    watch: {
-      variableValues: {
-        handler(newValue) {
-          if (newValue?.length > 0) {
-            const items = this.variableValues.map((d) => {
-              return {
-                text: d,
-                value: d,
-                active: true,
-              };
-            });
-            this.variableItems = deepCopy(items);
-            this.variableItemsCopy = deepCopy(items);
-          } else {
-            this.variableItems = [];
-            this.variableItemsCopy = [];
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    methods: {
-      onSearch() {
-        if (this.search) {
-          this.variableItemsCopy = this.variableItems.filter((v) => {
-            return v.value.indexOf(this.search) > -1;
-          });
-        } else {
-          this.variableItemsCopy = deepCopy(this.variableItems);
-        }
-      },
-      confirm() {
-        this.variableItems = deepCopy(this.variableItemsCopy);
-        const val = this.selectedItems.map((s) => {
-          return s.value;
-        });
-        this.$emit('input', val);
-        this.$emit('change', val);
+  );
 
-        this.menu = false;
-      },
-      reset() {
-        this.variableItems.forEach((v, index) => {
-          v.active = false;
-          this.$set(this.variableItems, index, v);
-        });
-        this.variableItemsCopy = deepCopy(this.variableItems);
-      },
-      showText() {
-        if (this.selectedItems.length > 1) {
-          return `${this.selectedItems[0].value} (+${this.selectedItems.length - 1})`;
-        } else if (this.selectedItems.length > 0) {
-          return `${this.selectedItems[0].value}`;
-        }
-        return this.$root.$t('tip.select_one_match');
-      },
-      selectAll() {
-        this.variableItemsCopy.forEach((v, index) => {
-          v.active = !v.active;
-          this.$set(this.variableItems, index, v);
-        });
-      },
-      selectItem(item, index) {
-        this.variableItemsCopy.forEach((item, index) => {
-          item.active = false;
-          this.$set(this.variableItemsCopy, index, item);
-        });
-        item.active = true;
-        this.$set(this.variableItemsCopy, index, item);
-      },
-    },
+  const i18n = useGlobalI18n();
+
+  const state = reactive({
+    menu: false,
+  });
+
+  const variableItems = ref([]);
+  const variableItemsCopy = ref([]);
+
+  const selectedItems: ComputedRef = computed(() => {
+    return variableItems.value.filter((v) => {
+      return v.active;
+    });
+  });
+
+  const searchText = ref<string>('');
+  const search = (): void => {
+    if (searchText.value) {
+      variableItemsCopy.value = variableItems.value.filter((v) => {
+        return v.value.indexOf(searchText.value) > -1;
+      });
+    } else {
+      variableItemsCopy.value = deepCopy(variableItems.value);
+    }
   };
+
+  const emit = defineEmits(['input', 'change']);
+  const confirm = (): void => {
+    variableItems.value = deepCopy(variableItemsCopy.value);
+    const val = selectedItems.value.map((s) => {
+      return s.value;
+    });
+    emit('input', val);
+    emit('change', val);
+
+    state.menu = false;
+  };
+
+  const reset = (): void => {
+    variableItems.value.forEach((v, index) => {
+      v.active = false;
+      variableItems.value[index] = v;
+    });
+    variableItemsCopy.value = deepCopy(variableItems.value);
+  };
+
+  const showText = (): string => {
+    if (selectedItems.value.length > 1) {
+      return `${selectedItems.value[0].value} (+${selectedItems.value.length - 1})`;
+    } else if (selectedItems.value.length > 0) {
+      return `${selectedItems.value[0].value}`;
+    }
+    return i18n.t('tip.select_one_match').toString();
+  };
+
+  const selectItem = (item, index): void => {
+    variableItemsCopy.value.forEach((item, index) => {
+      item.active = false;
+      variableItemsCopy.value[index] = item;
+    });
+    item.active = true;
+    variableItemsCopy.value[index] = item;
+  };
+
+  watch(
+    () => props.variableValues,
+    async (newValue) => {
+      if (!newValue) return;
+      if (newValue?.length > 0) {
+        const items = newValue.map((d) => {
+          return {
+            text: d,
+            value: d,
+            active: true,
+          };
+        });
+        variableItems.value = deepCopy(items);
+        variableItemsCopy.value = deepCopy(items);
+      } else {
+        variableItems.value = [];
+        variableItemsCopy.value = [];
+      }
+    },
+    { immediate: true, deep: true },
+  );
 </script>
 
 <style lang="scss" scoped>

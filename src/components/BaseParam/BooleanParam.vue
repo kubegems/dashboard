@@ -24,54 +24,44 @@
       hide-details
       :input-value="param.value === true ? true : false"
       :label="pathLevel === 1 ? label : label"
-      @change="onChange($event)"
+      @change="changed($event)"
       @click="click"
     />
     <div class="kubegems__clear-float" />
   </v-flex>
 </template>
 
-<script>
-  export default {
-    name: 'BooleanParam',
-    props: {
-      id: {
-        type: String,
-        default: () => '',
-      },
-      label: {
-        type: String,
-        default: () => '',
-      },
-      param: {
-        type: Object,
-        default: () => ({}),
-      },
-      level: {
-        type: Number,
-        default: () => 1,
-      },
+<script lang="ts" setup>
+  import { ComputedRef, computed, ref } from 'vue';
+
+  const props = withDefaults(
+    defineProps<{
+      id?: string;
+      label?: string;
+      param?: any;
+      level?: number;
+    }>(),
+    {
+      id: undefined,
+      label: '',
+      param: {},
+      level: 1,
     },
-    data() {
-      return {
-        myValue: false,
-      };
-    },
-    computed: {
-      pathLevel() {
-        if (this.param?.path?.indexOf('/') > -1) return this.param.path.split('/').length;
-        if (this.param?.path?.indexOf('.') > -1) return this.param.path.split('.').length;
-        return this.level;
-      },
-    },
-    methods: {
-      click() {
-        // 先监听change事件,设置布尔值状态值, 同时监听到点击事件,向上级发送数据, 注意input-value是v-model绑定的初始值
-        this.$emit('changeBasicFormParam', this.param, this.myValue);
-      },
-      onChange(event) {
-        this.myValue = event === true;
-      },
-    },
+  );
+
+  const pathLevel: ComputedRef<number> = computed(() => {
+    if (props.param?.path?.indexOf('/') > -1) return props.param.path.split('/').length;
+    if (props.param?.path?.indexOf('.') > -1) return props.param.path.split('.').length;
+    return props.level;
+  });
+
+  const v = ref<boolean>(false);
+  const emit = defineEmits(['changeBasicFormParam']);
+  const click = (): void => {
+    // 先监听change事件,设置布尔值状态值, 同时监听到点击事件,向上级发送数据, 注意input-value是v-model绑定的初始值
+    emit('changeBasicFormParam', props.param, v.value);
+  };
+  const changed = (event: boolean): void => {
+    v.value = event === true;
   };
 </script>

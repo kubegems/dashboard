@@ -29,8 +29,8 @@
       :label="pathLevel === 1 ? '' : label"
       :rules="rules"
       type="number"
-      :value="sliderVal"
-      @change="onSliderChange($event)"
+      :value="v"
+      @change="sliderChanged($event)"
     >
       <template #append>
         <span class="text-body-2 kubegems__text">
@@ -42,61 +42,53 @@
   </v-flex>
 </template>
 
-<script>
+<script lang="ts" setup>
+  import { ComputedRef, computed, onMounted, ref } from 'vue';
+
+  import { useGlobalI18n } from '@/i18n';
   import { required } from '@/utils/rules';
 
-  export default {
-    name: 'MinMaxParam',
-    props: {
-      id: {
-        type: String,
-        default: () => '',
-      },
-      label: {
-        type: String,
-        default: () => '',
-      },
-      param: {
-        type: Object,
-        default: () => ({}),
-      },
-      level: {
-        type: Number,
-        default: () => 1,
-      },
+  const props = withDefaults(
+    defineProps<{
+      id?: string;
+      label?: string;
+      param?: any;
+      level?: number;
+    }>(),
+    {
+      id: undefined,
+      label: '',
+      param: {},
+      level: 1,
     },
-    data() {
-      return {
-        sliderVal: 0,
-      };
-    },
-    computed: {
-      pathLevel() {
-        if (this.param?.path?.indexOf('/') > -1) return this.param.path.split('/').length;
-        if (this.param?.path?.indexOf('.') > -1) return this.param.path.split('.').length;
-        return this.level;
-      },
-      rules() {
-        return [
-          required,
-          (v) => v >= this.param.sliderMin || this.$t('ruler.lt_min_value'),
-          (v) => v <= this.param.sliderMax || this.$t('ruler.gt_max_value'),
-        ];
-      },
-    },
+  );
 
-    mounted() {
-      this.sliderVal = parseInt(this.param.value.match(/\d/g).join(''));
-      this.onSliderChange(this.sliderVal);
-    },
-    methods: {
-      change(event) {
-        this.$emit('changeBasicFormParam', this.param, event);
-      },
-      onSliderChange(val) {
-        const value = val + this.param.sliderUnit;
-        this.change(value);
-      },
-    },
+  const i18n = useGlobalI18n();
+
+  const pathLevel: ComputedRef<number> = computed(() => {
+    if (props.param?.path?.indexOf('/') > -1) return props.param.path.split('/').length;
+    if (props.param?.path?.indexOf('.') > -1) return props.param.path.split('.').length;
+    return props.level;
+  });
+
+  const v = ref<number>(0);
+  const rules = [
+    required,
+    (v) => v >= props.param.sliderMin || i18n.t('ruler.lt_min_value'),
+    (v) => v <= props.param.sliderMax || i18n.t('ruler.gt_max_value'),
+  ];
+
+  const emit = defineEmits(['changeBasicFormParam']);
+  const changed = (event: string): void => {
+    emit('changeBasicFormParam', props.param, event);
   };
+  const sliderChanged = (val: number): void => {
+    const value = val + props.param.sliderUnit;
+    changed(value);
+  };
+
+  onMounted(() => {
+    v.value = parseInt(props.param.value.match(/\d/g).join(''));
+    sliderChanged(v.value);
+  });
 </script>

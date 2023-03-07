@@ -46,7 +46,7 @@
                       : workload.status.currentReplicas)
                   : 0,
               ])
-            }},
+            }}
           </template>
         </BaseListItemForDetail>
 

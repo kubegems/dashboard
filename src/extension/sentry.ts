@@ -20,7 +20,7 @@ import Vue from 'vue';
 import router from '@/router';
 import store from '@/store';
 
-if (import.meta.env.VUE_APP_SENTRY === 'true') {
+const integratedSentry = () => {
   Sentry.init({
     Vue,
     dsn: import.meta.env.VUE_APP_DSN,
@@ -32,7 +32,7 @@ if (import.meta.env.VUE_APP_SENTRY === 'true') {
       }),
     ],
     initialScope: {
-      tags: { username: store.state.User.Username },
+      tags: { username: store.state?.User?.Username },
     },
     tracesSampleRate: 1.0,
     environment: import.meta.env.VUE_APP_ENVIRONMENT,
@@ -77,4 +77,8 @@ if (import.meta.env.VUE_APP_SENTRY === 'true') {
       return event;
     },
   });
+};
+
+if (import.meta.env.VUE_APP_SENTRY === 'true') {
+  integratedSentry();
 }

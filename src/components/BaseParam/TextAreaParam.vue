@@ -29,55 +29,47 @@
       class="my-2"
       :label="pathLevel === 1 ? '' : label"
       :placeholder="param.placeholder || ''"
-      :rules="textareaRule"
+      :rules="rules"
       :value="param.value"
-      @change="onChange($event)"
+      @change="changed($event)"
     />
   </v-flex>
 </template>
 
-<script>
+<script lang="ts" setup>
+  import { ComputedRef, computed, onMounted } from 'vue';
+
   import { required } from '@/utils/rules';
 
-  export default {
-    name: 'TextFieldParam',
-    props: {
-      id: {
-        type: String,
-        default: () => '',
-      },
-      label: {
-        type: String,
-        default: () => '',
-      },
-      param: {
-        type: Object,
-        default: () => ({}),
-      },
-      level: {
-        type: Number,
-        default: () => 1,
-      },
+  const props = withDefaults(
+    defineProps<{
+      id?: string;
+      label?: string;
+      param?: any;
+      level?: number;
+    }>(),
+    {
+      id: undefined,
+      label: '',
+      param: {},
+      level: 1,
     },
-    data() {
-      return {
-        textareaRule: [required],
-      };
-    },
-    computed: {
-      pathLevel() {
-        if (this.param?.path?.indexOf('/') > -1) return this.param.path.split('/').length;
-        if (this.param?.path?.indexOf('.') > -1) return this.param.path.split('.').length;
-        return this.level;
-      },
-    },
-    mounted() {
-      this.onChange(this.param.value);
-    },
-    methods: {
-      onChange(event) {
-        this.$emit('changeBasicFormParam', this.param, event);
-      },
-    },
+  );
+
+  const pathLevel: ComputedRef<number> = computed(() => {
+    if (props.param?.path?.indexOf('/') > -1) return props.param.path.split('/').length;
+    if (props.param?.path?.indexOf('.') > -1) return props.param.path.split('.').length;
+    return props.level;
+  });
+
+  const rules = [required];
+
+  const emit = defineEmits(['changeBasicFormParam']);
+  const changed = (event: string): void => {
+    emit('changeBasicFormParam', props.param, event);
   };
+
+  onMounted(() => {
+    changed(props.param.value);
+  });
 </script>

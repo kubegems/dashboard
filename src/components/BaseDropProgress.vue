@@ -17,7 +17,7 @@
 <template>
   <div class="text-center primary--text progress__loading" :style="{ fontFamily: 'kubegems-sample' }">
     <span
-      v-for="(char, index) in processName"
+      v-for="(char, index) in PLATFORM"
       :key="index"
       class="progress__loading__span"
       :style="{ animationDelay: `${index * 70}ms`, left: `${charWidth[index]}px` }"
@@ -27,18 +27,10 @@
   </div>
 </template>
 
-<script>
+<script lang="ts" setup>
   import { PLATFORM } from '@/constants/platform';
 
-  export default {
-    name: 'BaseDropProgress',
-    data() {
-      return {
-        processName: PLATFORM,
-        charWidth: [0, 13, 24, 36, 46, 60, 70, 86, 98, 110, 122, 134, 146],
-      };
-    },
-  };
+  const charWidth: number[] = [0, 13, 24, 36, 46, 60, 70, 86, 98, 110, 122, 134, 146];
 </script>
 
 <style lang="scss" scoped>

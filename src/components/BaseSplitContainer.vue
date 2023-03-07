@@ -15,13 +15,13 @@
 -->
 
 <template>
-  <v-card class="split-container" :class="{ 'split-container--hidden': !expand }" flat>
+  <v-card class="split-container" :class="{ 'split-container--hidden': !state.expand }" flat>
     <div class="split-container__side" :style="sideStyle">
       <div class="split-container__side-header">
         <div class="split-container__side-title">
           <slot name="title">{{ title }}</slot>
         </div>
-        <v-btn v-if="expand" color="primary" :disabled="disabled" icon type="text" x-small @click="onToggle">
+        <v-btn v-if="state.expand" color="primary" :disabled="disabled" icon type="text" x-small @click="toggled">
           <v-icon>mdi-menu</v-icon>
         </v-btn>
       </div>
@@ -36,7 +36,7 @@
 
     <!-- 收起时标签 -->
     <transition name="slide-x-transition">
-      <div v-if="!expand" class="split-container__fiexd">
+      <div v-if="!state.expand" class="split-container__fiexd">
         <!-- label -->
         <span class="split-container__fiexd-label">
           <slot name="label">{{ title }}</slot>
@@ -62,7 +62,7 @@
         </v-menu>
 
         <!-- 展开按钮 -->
-        <v-btn color="white" :disabled="disabled" icon x-small @click="onToggle">
+        <v-btn color="white" :disabled="disabled" icon x-small @click="toggled">
           <v-icon>mdi-menu</v-icon>
         </v-btn>
       </div>
@@ -71,84 +71,63 @@
   </v-card>
 </template>
 
-<script>
-  /**
-   * 插槽：
-   * default  默认插槽（main）
-   * side     侧边内容
-   * title    标题插槽
-   * label    收起时侧边标签插槽
-   * tooltip  v-menu内容插槽
-   */
-  export default {
-    name: 'BaseSplitContainer',
-    props: {
-      // 是否允许展开收起
-      disabled: {
-        type: Boolean,
-        default: false,
-      },
-      // 展开与收缩是否触发window.resize
-      dispatchResize: {
-        type: Boolean,
-        default: false,
-      },
-      // 侧边栏宽度
-      sideWidth: {
-        type: String,
-        default: '300px',
-      },
-      // 侧边栏标题
-      title: {
-        type: String,
-        default: undefined,
-      },
-      // 收骑时使用tooltip展示更多信息
-      tooltip: {
-        type: Boolean,
-        default: false,
-      },
+<script lang="ts" setup>
+  import { ComputedRef, computed, reactive, watch } from 'vue';
+
+  const props = withDefaults(
+    defineProps<{
+      disabled?: boolean;
+      sideWidth?: string;
+      title?: string;
+      tooltip?: boolean;
+    }>(),
+    {
+      disabled: false,
+      sideWidth: '300px',
+      title: undefined,
+      tooltip: false,
     },
-    data() {
-      return {
-        expand: true, // 展开
-      };
-    },
-    computed: {
-      sideStyle() {
-        return {
-          width: this.sideWidth || '300px',
-        };
-      },
-      mainStyle() {
-        return {
-          width: this.expand ? `calc(100% - 33px - ${this.sideWidth})` : 'calc(100% - 33px)',
-        };
-      },
-    },
-    watch: {
-      expand() {
-        if (this.dispatchResize) {
-          this.manualResize();
-        }
-      },
-    },
-    methods: {
-      onToggle() {
-        this.setExpand(!this.expand);
-      },
-      manualResize() {
-        const event = new Event('resize', {
-          bubbles: true,
-          cancelable: true,
-        });
-        document.dispatchEvent(event);
-      },
-      setExpand(value) {
-        this.expand = value;
-      },
-    },
+  );
+
+  const state = reactive({
+    expand: true,
+  });
+
+  const toggled = (): void => {
+    setExpand(!state.expand);
   };
+
+  const manualResize = () => {
+    const event = new Event('resize', {
+      bubbles: true,
+      cancelable: true,
+    });
+    document.dispatchEvent(event);
+  };
+
+  const setExpand = (value: boolean) => {
+    state.expand = value;
+  };
+
+  const sideStyle: ComputedRef<{ [key: string]: any }> = computed(() => {
+    return {
+      width: props.sideWidth || '300px',
+    };
+  });
+  const mainStyle: ComputedRef<{ [key: string]: any }> = computed(() => {
+    return {
+      width: state.expand ? `calc(100% - 33px - ${props.sideWidth})` : 'calc(100% - 33px)',
+    };
+  });
+
+  watch(
+    () => state.expand,
+    async (newValue) => {
+      if (!newValue) return;
+      manualResize();
+    },
+    { deep: true },
+  );
 </script>
 
 <style lang="scss" scoped>

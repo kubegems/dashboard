@@ -56,7 +56,7 @@
       "
       :id="id"
       :allow-delete="allowDelete"
-      :input-type="getInputType"
+      :input-type="inputType"
       :label="param.title || param.path"
       :level="level"
       :param="param"
@@ -72,7 +72,7 @@
       :id="id"
       v-bind="$attrs"
       :cluster-name="clusterName"
-      :input-type="getInputType"
+      :input-type="inputType"
       :label="param.title || param.path"
       :level="level"
       :param="param"
@@ -85,7 +85,7 @@
       v-bind="$attrs"
       :app-values="appValues"
       :cluster-name="clusterName"
-      :input-type="getInputType"
+      :input-type="inputType"
       :label="param.title || param.path"
       :level="level"
       :param="param"
@@ -114,156 +114,140 @@
   </v-flex>
 </template>
 
-<script>
-  import BooleanParam from './BooleanParam';
-  import MinMaxParam from './MinMaxParam';
-  import MultiSelectParam from './MultiSelectParam';
-  import SingleSelectParam from './SingleSelectParam';
-  import TextAreaParam from './TextAreaParam';
-  import TextFieldParam from './TextFieldParam';
+<script lang="ts" setup>
+  import { ComputedRef, computed } from 'vue';
+
+  import BooleanParam from './BooleanParam.vue';
+  import MinMaxParam from './MinMaxParam.vue';
+  import MultiSelectParam from './MultiSelectParam.vue';
+  import SingleSelectParam from './SingleSelectParam.vue';
+  import Subsection from './Subsection.vue';
+  import TextAreaParam from './TextAreaParam.vue';
+  import TextFieldParam from './TextFieldParam.vue';
   import { getValue } from '@/utils/yaml';
 
-  export default {
-    name: 'BaseParam',
-    components: {
-      BooleanParam,
-      MinMaxParam,
-      MultiSelectParam,
-      SingleSelectParam,
-      Subsection: () => import('./Subsection'),
-      TextAreaParam,
-      TextFieldParam,
+  const props = withDefaults(
+    defineProps<{
+      id?: string;
+      param?: any;
+      level?: number;
+      clusterName?: string;
+      allParams?: any[];
+      appValues?: any;
+      allowDelete?: boolean;
+    }>(),
+    {
+      id: undefined,
+      param: {},
+      level: 1,
+      clusterName: '',
+      allParams: undefined,
+      appValues: {},
+      allowDelete: false,
     },
-    props: {
-      allParams: {
-        type: Array,
-        default: () => [],
-      },
-      appValues: {
-        type: Object,
-        default: () => ({}),
-      },
-      clusterName: {
-        type: String,
-        default: () => '',
-      },
-      allowDelete: {
-        type: Boolean,
-        default: () => false,
-      },
-      id: {
-        type: String,
-        default: () => '',
-      },
-      param: {
-        type: Object,
-        default: () => ({}),
-      },
-      level: {
-        type: Number,
-        default: () => 1,
-      },
-    },
-    computed: {
-      isHiddle() {
-        const hidden = this.param.hidden;
-        switch (typeof hidden) {
-          case 'string':
-            return this.evalCondition(hidden);
-          case 'object':
-            // Two type of supported objects
-            // A single condition: {value: string, path: any}
-            // An array of conditions: {conditions: Array<{value: string, path: any}, operator: string}
-            if (hidden.conditions?.length > 0) {
-              switch (hidden.operator) {
-                case 'and':
-                  // Every value matches the referenced
-                  // value (via jsonpath) in all the conditions 每个条件返回值为真时隐藏
-                  return hidden.conditions.every((c) => this.evalCondition(c.path, c.value));
-                case 'or':
-                  // It is enough if the value matches the referenced
-                  // value (via jsonpath) in any of the conditions 只要有一个条件返回值为真时隐藏
-                  return hidden.conditions.some((c) => this.evalCondition(c.path, c.value));
-                case 'nor':
-                  // Every value mismatches the referenced
-                  // value (via jsonpath) in any of the conditions 或非, 与and相反, 所有条件返回值为假时隐藏
-                  return hidden.conditions.every((c) => !this.evalCondition(c.path, c.value));
-                case 'not':
-                  // 非, 与对应的枚举类型关联
-                  return hidden.conditions.every((c) => this.evalConditionNot(c.path, c.value));
-                default:
-                  // we consider 'and' as the default operator  默认,每个条件返回值为真时隐藏
-                  return hidden.conditions.every((c) => this.evalCondition(c.path, c.value));
-              }
-            } else {
-              return this.evalCondition(hidden.path, hidden.value);
-            }
-          case 'undefined':
-            return false;
-          default:
-            return false;
-        }
-      },
-      type() {
-        return Array.isArray(this.param.type) ? this.param.type[0] : this.param.type;
-      },
-      getInputType() {
-        const label = this.param.title || this.param.path || '';
-        let inputType = 'string';
-        if (this.type === 'integer' || this.type === 'number') {
-          inputType = 'number';
-        }
-        if (
-          this.type === 'string' &&
-          (this.param.render === 'password' || label.toLocaleLowerCase().includes('password'))
-        ) {
-          inputType = 'password';
-        }
-        return inputType;
-      },
-      pathLevel() {
-        if (this.param?.path?.indexOf('/') > -1) return this.param.path.split('/').length;
-        if (this.param?.path?.indexOf('.') > -1) return this.param.path.split('.').length;
-        return this.level;
-      },
-    },
-    methods: {
-      evalCondition(path, expectedValue = null) {
-        // 从最新的appValues中获取路径对应的值
-        let val = getValue(this.appValues, path);
-        if (val === undefined || val === null) {
-          const target = this.getParamMatchingPath(this.allParams, path.replaceAll('.', '/'));
-          val = target?.value;
-        }
-        return val === (expectedValue ?? true);
-      },
-      evalConditionNot(path, expectedValue = null) {
-        let val = getValue(this.appValues, path);
-        if (val === undefined) {
-          const target = this.getParamMatchingPath(this.allParams, path);
-          val = target?.value;
-          if (val === undefined) {
-            const target = this.getParamMatchingPath(this.allParams, path);
-            val = target?.value;
+  );
+
+  const isHiddle: ComputedRef<boolean> = computed(() => {
+    const hidden = props.param.hidden;
+    switch (typeof hidden) {
+      case 'string':
+        return evalCondition(hidden);
+      case 'object':
+        // Two type of supported objects
+        // A single condition: {value: string, path: any}
+        // An array of conditions: {conditions: Array<{value: string, path: any}, operator: string}
+        if (hidden.conditions?.length > 0) {
+          switch (hidden.operator) {
+            case 'and':
+              // Every value matches the referenced
+              // value (via jsonpath) in all the conditions 每个条件返回值为真时隐藏
+              return hidden.conditions.every((c) => evalCondition(c.path, c.value));
+            case 'or':
+              // It is enough if the value matches the referenced
+              // value (via jsonpath) in any of the conditions 只要有一个条件返回值为真时隐藏
+              return hidden.conditions.some((c) => evalCondition(c.path, c.value));
+            case 'nor':
+              // Every value mismatches the referenced
+              // value (via jsonpath) in any of the conditions 或非, 与and相反, 所有条件返回值为假时隐藏
+              return hidden.conditions.every((c) => !evalCondition(c.path, c.value));
+            case 'not':
+              // 非, 与对应的枚举类型关联
+              return hidden.conditions.every((c) => evalConditionNot(c.path, c.value));
+            default:
+              // we consider 'and' as the default operator  默认,每个条件返回值为真时隐藏
+              return hidden.conditions.every((c) => evalCondition(c.path, c.value));
           }
+        } else {
+          return evalCondition(hidden.path, hidden.value);
         }
-        // 不相等则返回真,表示隐藏该属性
-        return val !== expectedValue;
-      },
-      // 递归获取匹配路径的参数
-      getParamMatchingPath(params, path) {
-        for (const p of params) {
-          if (p.path === path) {
-            return p;
-          } else if (p.children && p.children?.length > 0) {
-            const pp = this.getParamMatchingPath(p.children, path);
-            if (pp) return pp;
-            else continue;
-          } else {
-            continue;
-          }
-        }
-      },
-    },
+      case 'undefined':
+        return false;
+      default:
+        return false;
+    }
+  });
+
+  const type: ComputedRef<string> = computed(() => {
+    return Array.isArray(props.param.type) ? props.param.type[0] : props.param.type;
+  });
+
+  const inputType: ComputedRef<string> = computed(() => {
+    const label = props.param.title || props.param.path || '';
+    let inputType = 'string';
+    if (type.value === 'integer' || type.value === 'number') {
+      inputType = 'number';
+    }
+    if (
+      type.value === 'string' &&
+      (props.param.render === 'password' || label.toLocaleLowerCase().includes('password'))
+    ) {
+      inputType = 'password';
+    }
+    return inputType;
+  });
+
+  const pathLevel: ComputedRef<number> = computed(() => {
+    if (props.param?.path?.indexOf('/') > -1) return props.param.path.split('/').length;
+    if (props.param?.path?.indexOf('.') > -1) return props.param.path.split('.').length;
+    return props.level;
+  });
+
+  const evalCondition = (path: string, expectedValue: any = null): boolean => {
+    // 从最新的appValues中获取路径对应的值
+    let val = getValue(props.appValues, path);
+    if (val === undefined || val === null) {
+      const target = getParamMatchingPath(props.allParams, path.replaceAll('.', '/'));
+      val = target?.value;
+    }
+    return val === (expectedValue ?? true);
+  };
+
+  const evalConditionNot = (path: string, expectedValue: any = null): boolean => {
+    let val = getValue(props.appValues, path);
+    if (val === undefined) {
+      const target = getParamMatchingPath(props.allParams, path);
+      val = target?.value;
+      if (val === undefined) {
+        const target = getParamMatchingPath(props.allParams, path);
+        val = target?.value;
+      }
+    }
+    // 不相等则返回真,表示隐藏该属性
+    return val !== expectedValue;
+  };
+
+  // 递归获取匹配路径的参数
+  const getParamMatchingPath = (params: { [key: string]: any }[], path: string) => {
+    for (const p of params) {
+      if (p.path === path) {
+        return p;
+      } else if (p.children && p.children?.length > 0) {
+        const pp = getParamMatchingPath(p.children, path);
+        if (pp) return pp;
+        else continue;
+      } else {
+        continue;
+      }
+    }
   };
 </script>

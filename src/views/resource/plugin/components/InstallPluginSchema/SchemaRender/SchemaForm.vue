@@ -63,6 +63,7 @@
     },
     data() {
       return {
+        valid: false,
         appValues: {},
         params: [],
         obj: {},
