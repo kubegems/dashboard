@@ -38,12 +38,12 @@
         <slot name="header" />
       </v-flex>
       <div class="float-right">
-        <v-btn class="mt-n1 ml-2" color="white" :panel="panel" text v-on="clickListeners">
-          {{ $t('operate.close') }}
+        <v-btn class="mt-n1 ml-2" color="white" text @click="close">
+          {{ i18n.t('operate.close') }}
         </v-btn>
       </div>
       <div class="float-right">
-        <div v-if="Progress" :style="{ float: 'left' }">
+        <div v-if="store.state.Progress" :style="{ float: 'left' }">
           <v-progress-circular color="white" indeterminate size="20" width="3" />
         </div>
         <slot name="action" />
@@ -57,82 +57,79 @@
   </v-navigation-drawer>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { watch, ref, onMounted, onUnmounted, nextTick } from 'vue';
 
-  export default {
-    name: 'BasePanel',
-    model: {
-      prop: 'panel',
-      event: 'click',
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+
+  const props = withDefaults(
+    defineProps<{
+      icon?: string;
+      title?: string;
+      width?: string;
+      value: boolean;
+    }>(),
+    {
+      icon: '',
+      title: '',
+      width: '50%',
+      value: false,
     },
-    props: {
-      icon: {
-        type: String,
-        default: () => '',
-      },
-      panel: {
-        type: Boolean,
-        default: () => false,
-      },
-      title: {
-        type: String,
-        default: () => '',
-      },
-      width: {
-        type: String,
-        default: () => '50%',
-      },
-    },
-    computed: {
-      ...mapState(['Progress']),
-      clickListeners: function () {
-        var vm = this;
-        return Object.assign({}, this.$listeners, {
-          click: function () {
-            vm.$emit('click', false);
-            vm.$emit('dispose');
-            vm.$store.commit('SET_PANEL', false);
-          },
-        });
-      },
-    },
-    watch: {
-      panel: {
-        handler(newValue) {
-          if (newValue) this.$store.commit('SET_PANEL', newValue);
-          if (this.panel === true) {
-            this.$nextTick(() => {
-              const timeout = setTimeout(() => {
-                document.getElementById('panel').style.display = 'flex';
-                clearTimeout(timeout);
-              }, 300);
-            });
-          } else {
-            const timeout = setTimeout(() => {
-              document.getElementById('panel').style.display = 'block';
-              clearTimeout(timeout);
-            }, 300);
-          }
-        },
-      },
-    },
-    destroyed() {
-      window.removeEventListener('keydown', this.escOccur);
-    },
-    mounted() {
-      window.addEventListener('keydown', this.escOccur);
-    },
-    methods: {
-      escOccur(e) {
-        if (e.key === 'Escape') {
-          this.$emit('click', false);
-          this.$emit('dispose');
-          this.$store.commit('SET_PANEL', false);
-        }
-      },
-    },
+  );
+
+  const store = useStore();
+  const i18n = useGlobalI18n();
+
+  const panel = ref<boolean>(false);
+  const emit = defineEmits(['dispose', 'input']);
+  const close = (): void => {
+    emit('dispose');
+    store.commit('SET_DIALOG', false);
+    panel.value = false;
+    emit('input', false);
   };
+
+  watch(
+    () => props.value,
+    async (newValue) => {
+      if (newValue !== undefined) {
+        store.commit('SET_PANEL', newValue);
+        panel.value = newValue;
+      }
+      if (panel.value === true) {
+        nextTick(() => {
+          const timeout = setTimeout(() => {
+            document.getElementById('panel').style.display = 'flex';
+            clearTimeout(timeout);
+          }, 300);
+        });
+      } else {
+        const timeout = setTimeout(() => {
+          document.getElementById('panel').style.display = 'block';
+          clearTimeout(timeout);
+        }, 300);
+      }
+    },
+    { deep: true },
+  );
+
+  const escOccur = (e) => {
+    if (e.key === 'Escape') {
+      emit('dispose');
+      store.commit('SET_PANEL', false);
+      panel.value = false;
+      emit('input', false);
+    }
+  };
+
+  onMounted(() => {
+    window.addEventListener('keydown', escOccur);
+  });
+
+  onUnmounted(() => {
+    window.removeEventListener('keydown', escOccur);
+  });
 </script>
 
 <style lang="scss" scoped>

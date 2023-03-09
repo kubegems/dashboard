@@ -287,7 +287,7 @@
           delete params['environment'];
         }
 
-        const data = await getPrometheusAlertSearch(this.tenant.ID, params);
+        const data = await getPrometheusAlertSearch(this.isSystem ? '_all' : this.tenant.ID, params);
         this.pageCount = Math.ceil(data.Total / this.params.size);
         this.params.page = data.CurrentPage;
         this.items = data.List || [];

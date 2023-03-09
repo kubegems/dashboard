@@ -20,12 +20,7 @@ import { registerInstrumentations } from '@opentelemetry/instrumentation';
 import { UserInteractionInstrumentation } from '@opentelemetry/instrumentation-user-interaction';
 import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
 import { Resource } from '@opentelemetry/resources';
-import {
-  BatchSpanProcessor,
-  ConsoleSpanExporter,
-  SimpleSpanProcessor,
-  WebTracerProvider,
-} from '@opentelemetry/sdk-trace-web';
+import { BatchSpanProcessor, WebTracerProvider } from '@opentelemetry/sdk-trace-web';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 
 import store from '@/store';
@@ -54,7 +49,6 @@ const integratedOpenTelemetry = () => {
 
   const processor = new BatchSpanProcessor(exporter);
   provider.addSpanProcessor(processor);
-  provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
 
   provider.register({
     contextManager: new ZoneContextManager(),

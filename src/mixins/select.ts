@@ -488,6 +488,7 @@ const select: { [key: string]: any } = {
           projectName: p.ProjectName,
           tenantName: p.Tenant.TenantName,
           tenantID: p.Tenant.ID,
+          remark: p.Remark,
         });
       });
       this.m_select_projectItems = projectSelect;

@@ -20,269 +20,248 @@
   </div>
 </template>
 
-<script>
-  import Chart from 'chart.js/auto';
+<script lang="ts" setup>
+  import Chart, { ScatterDataPoint } from 'chart.js/auto';
   import ChartDataLabels from 'chartjs-plugin-datalabels';
   import moment from 'moment';
+  import { nextTick, onMounted, ref, watch } from 'vue';
 
   import { LINE_THEME_COLORS, LINE_THEME_FUL_COLORS } from '@/constants/chart';
   import { randomString } from '@/utils/helpers';
 
-  export default {
-    name: 'BaseTimelineChart',
-    props: {
-      id: {
-        type: String,
-        default: () => '',
-      },
-      autoGrow: {
-        type: Boolean,
-        default: () => true,
-      },
-      color: {
-        type: Array,
-        default: () => [],
-      },
-      colorful: {
-        type: Boolean,
-        default: () => false,
-      },
-      duration: {
-        type: Number,
-        default: () => 0,
-      },
-      extendHeight: {
-        type: Number,
-        default: () => 280,
-      },
-      labels: {
-        type: Array,
-        default: () => [],
-      },
-      labelShow: {
-        type: Boolean,
-        default: () => true,
-      },
-      metrics: {
-        type: Array,
-        default: () => [],
-      },
-      title: {
-        type: String,
-        default: () => '',
-      },
-      xDisplay: {
-        type: Boolean,
-        default: () => true,
-      },
-      yDisplay: {
-        type: Boolean,
-        default: () => true,
-      },
+  const props = withDefaults(
+    defineProps<{
+      id?: string;
+      color?: string[];
+      colorful?: boolean;
+      extendHeight?: number;
+      labels?: string[];
+      labelShow?: boolean;
+      metrics?: any[];
+      title?: string;
+      autoGrow?: string;
+      duration?: number;
+      xDisplay?: boolean;
+      yDisplay?: boolean;
+    }>(),
+    {
+      id: '',
+      color: undefined,
+      colorful: false,
+      extendHeight: 280,
+      labels: undefined,
+      labelShow: true,
+      metrics: undefined,
+      title: '',
+      autoGrow: '',
+      duration: 0,
+      xDisplay: true,
+      yDisplay: true,
     },
-    data() {
-      return {
-        chart: null,
-        chartId: '',
-        height: 100,
-      };
-    },
-    watch: {
-      metrics: {
-        handler(newValue) {
-          if (newValue && newValue?.length >= 0 && document.getElementById(this.chartId)) {
-            this.height = this.getHeight(newValue[0].data);
-            this.loadChart();
-          }
-        },
-        deep: true,
-      },
-    },
-    mounted() {
-      this.$nextTick(() => {
-        if (this.id) {
-          this.chartId = this.id;
-        } else {
-          this.chartId = randomString(6);
-        }
-        const interval = setInterval(() => {
-          if (document.getElementById(this.chartId)) {
-            clearInterval(interval);
-            this.height = this.getHeight(this.metrics?.length ? this.metrics[0].data : null);
-            this.loadChart();
-          }
-        }, 300);
-      });
-    },
-    methods: {
-      loadChart() {
-        if (!this.chart) {
-          const ctx = document.getElementById(this.chartId).getContext('2d');
-          this.chart = new Chart(ctx, {
-            type: 'bar',
-            plugins: [ChartDataLabels],
-            data: {
-              labels: this.labels,
-              datasets: this.loadDatasets(),
-            },
-            options: {
-              indexAxis: 'y',
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                title: {
-                  align: 'start',
-                  display: true,
-                  text: this.title,
-                },
-                legend: {
-                  display: this.labelShow,
-                  position: 'bottom',
-                  labels: {
-                    usePointStyle: true,
-                    pointStyleWidth: 10,
-                    boxHeight: 7,
-                  },
-                },
-                tooltip: {
-                  usePointStyle: true,
-                  boxWidth: 8,
-                  boxHeight: 8,
-                  boxPadding: 4,
-                  mode: 'index',
-                  callbacks: {
-                    label: (tooltipItem) => {
-                      return `${moment(tooltipItem.dataset.data[tooltipItem.dataIndex].x[0]).format(
-                        'HH:mm:ss.SSS',
-                      )} duration: ${(
-                        tooltipItem.dataset.data[tooltipItem.dataIndex].x[1] -
-                        tooltipItem.dataset.data[tooltipItem.dataIndex].x[0]
-                      ).toFixed(3)} ms`;
-                    },
-                  },
-                },
-                datalabels: {
-                  color: '#424242',
-                  anchor: 'start',
-                  align: (context) => {
-                    return (context.dataset.data[context.dataIndex].x[0] - context.dataset.data[0].x[0]) /
-                      this.duration <
-                      0.2
-                      ? 'right'
-                      : 'left';
-                  },
-                  display: (context) => {
-                    return context.dataset.data[context.dataIndex] !== null ? 'auto' : false;
-                  },
-                  formatter: (value) => {
-                    return value.operation;
-                  },
-                },
-              },
-              radius: 0,
-              borderWidth: 1,
-              scales: {
-                xAxis: {
-                  display: this.xDisplay,
-                  min: this.metrics?.length > 0 ? this.metrics[0]?.data[0]?.x[0] : 0,
-                  grid: {
-                    display: false,
-                  },
-                  ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 10,
-                    source: 'data',
-                  },
-                  beginAtZero: false,
-                  type: 'time',
-                  time: {
-                    displayFormats: {
-                      millisecond: 'mm:ss.SSS',
-                    },
-                    unit: 'millisecond',
-                    stepSize: this.getStepSize(),
-                  },
-                },
-                yAxis: {
-                  display: this.yDisplay,
-                  ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 100,
-                  },
-                },
-              },
-            },
-          });
-        } else {
-          this.chart.data = { datasets: this.loadDatasets() };
-          this.chart.update('none');
-        }
-      },
-      loadDatasets() {
-        const datasets = this.metrics.map((m, index) => {
-          return {
-            label: m.label || '',
-            data: m.data,
-            borderColor:
-              this.color.length > 0
-                ? this.color[index % this.color.length]
-                : this.colorful
-                ? LINE_THEME_FUL_COLORS[index % 10]
-                : LINE_THEME_COLORS[index % 12],
-            backgroundColor:
-              this.color.length > 0
-                ? this.color[index % this.color.length]
-                : this.colorful
-                ? LINE_THEME_FUL_COLORS[index % 10]
-                : LINE_THEME_COLORS[index % 12],
-          };
-        });
+  );
 
-        return datasets;
-      },
-      getStepSize() {
-        const range = this.duration;
-        if (range < 100) {
-          return 1;
-        }
-        if (range < 200) {
-          return 2;
-        }
-        if (range < 300) {
-          return 3;
-        }
-        if (range < 500) {
-          return 5;
-        }
-        if (range < 1000) {
-          return 10;
-        }
-        if (range < 5000) {
-          return 50;
-        }
-        if (range < 10000) {
-          return 100;
-        }
-        if (range < 100000) {
-          return 1000;
-        }
-      },
-      getHeight(items) {
-        if (items?.length) {
-          if (items.length <= 10) {
-            return 40 * items.length + 36;
-          } else if (items.length <= 15) {
-            return 31.6 * items.length;
-          } else if (items.length <= 20) {
-            return 31.1 * items.length;
-          } else if (items.length < 30) {
-            return 30.5 * items.length;
-          } else {
-            return 29.8 * items.length;
-          }
-        }
-        return 0;
-      },
-    },
+  const chart = ref<any>(undefined);
+  const chartId = ref<string>('');
+  const height = ref<number>(100);
+
+  const loadChart = (): void => {
+    if (!chart.value) {
+      const ctx = (document.getElementById(chartId.value) as HTMLCanvasElement).getContext('2d');
+      chart.value = new Chart(ctx, {
+        type: 'bar',
+        plugins: [ChartDataLabels],
+        data: {
+          labels: props.labels,
+          datasets: loadDatasets(),
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: {
+              align: 'start',
+              display: true,
+              text: props.title,
+            },
+            legend: {
+              display: props.labelShow,
+              position: 'bottom',
+              labels: {
+                usePointStyle: true,
+                pointStyleWidth: 10,
+                boxHeight: 7,
+              },
+            },
+            tooltip: {
+              usePointStyle: true,
+              boxWidth: 8,
+              boxHeight: 8,
+              boxPadding: 4,
+              mode: 'index',
+              callbacks: {
+                label: (tooltipItem) => {
+                  return `${moment((tooltipItem.dataset.data[tooltipItem.dataIndex] as ScatterDataPoint).x[0]).format(
+                    'HH:mm:ss.SSS',
+                  )} duration: ${(
+                    (tooltipItem.dataset.data[tooltipItem.dataIndex] as ScatterDataPoint).x[1] -
+                    (tooltipItem.dataset.data[tooltipItem.dataIndex] as ScatterDataPoint).x[0]
+                  ).toFixed(3)} ms`;
+                },
+              },
+            },
+            datalabels: {
+              color: '#424242',
+              anchor: 'start',
+              align: (context) => {
+                return ((context.dataset.data[context.dataIndex] as ScatterDataPoint).x[0] -
+                  (context.dataset.data[0] as ScatterDataPoint).x[0]) /
+                  props.duration <
+                  0.2
+                  ? 'right'
+                  : 'left';
+              },
+              display: (context) => {
+                return context.dataset.data[context.dataIndex] !== null ? 'auto' : false;
+              },
+              formatter: (value) => {
+                return value.operation;
+              },
+            },
+          },
+          radius: 0,
+          borderWidth: 1,
+          scales: {
+            xAxis: {
+              display: props.xDisplay,
+              min: props.metrics?.length > 0 ? props.metrics[0]?.data[0]?.x[0] : 0,
+              grid: {
+                display: false,
+              },
+              ticks: {
+                autoSkip: true,
+                maxTicksLimit: 10,
+                source: 'data',
+              },
+              beginAtZero: false,
+              type: 'time',
+              time: {
+                displayFormats: {
+                  millisecond: 'mm:ss.SSS',
+                },
+                unit: 'millisecond',
+                stepSize: getStepSize(),
+              },
+            },
+            yAxis: {
+              display: props.yDisplay,
+              ticks: {
+                autoSkip: true,
+                maxTicksLimit: 100,
+              },
+            },
+          },
+        },
+      } as any);
+    } else {
+      chart.value.data = { datasets: loadDatasets() };
+      chart.value.update('none');
+    }
   };
+
+  const loadDatasets = (): any[] => {
+    const datasets = props.metrics?.map((m, index) => {
+      return {
+        label: m.label || '',
+        data: m.data,
+        borderColor:
+          props.color?.length > 0
+            ? props.color[index % props.color.length]
+            : props.colorful
+            ? LINE_THEME_FUL_COLORS[index % 10]
+            : LINE_THEME_COLORS[index % 12],
+        backgroundColor:
+          props.color?.length > 0
+            ? props.color[index % props.color.length]
+            : props.colorful
+            ? LINE_THEME_FUL_COLORS[index % 10]
+            : LINE_THEME_COLORS[index % 12],
+      };
+    });
+
+    return datasets;
+  };
+
+  const getStepSize = (): number => {
+    const range = props.duration;
+    if (range < 100) {
+      return 1;
+    }
+    if (range < 200) {
+      return 2;
+    }
+    if (range < 300) {
+      return 3;
+    }
+    if (range < 500) {
+      return 5;
+    }
+    if (range < 1000) {
+      return 10;
+    }
+    if (range < 5000) {
+      return 50;
+    }
+    if (range < 10000) {
+      return 100;
+    }
+    if (range < 100000) {
+      return 1000;
+    }
+  };
+
+  const getHeight = (items: any): number => {
+    if (items?.length) {
+      if (items.length <= 10) {
+        return 40 * items.length + 36;
+      } else if (items.length <= 15) {
+        return 31.6 * items.length;
+      } else if (items.length <= 20) {
+        return 31.1 * items.length;
+      } else if (items.length < 30) {
+        return 30.5 * items.length;
+      } else {
+        return 29.8 * items.length;
+      }
+    }
+    return 0;
+  };
+
+  onMounted(() => {
+    nextTick(() => {
+      if (props.id) {
+        chartId.value = props.id;
+      } else {
+        chartId.value = randomString(6);
+      }
+      const interval = setInterval(() => {
+        if (document.getElementById(chartId.value)) {
+          clearInterval(interval);
+          height.value = getHeight(props.metrics?.length ? props.metrics[0].data : null);
+          loadChart();
+        }
+      }, 300);
+    });
+  });
+
+  watch(
+    () => props.metrics,
+    async (newValue) => {
+      if (newValue && newValue?.length >= 0 && document.getElementById(chartId.value)) {
+        height.value = getHeight(newValue[0].data);
+        loadChart();
+      }
+    },
+    { deep: true },
+  );
 </script>

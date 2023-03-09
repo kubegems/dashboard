@@ -157,7 +157,7 @@
           :label-matchers="mode === 'monitor' ? obj.promqlGenerator.labelMatchers : obj.logqlGenerator.labelMatchers"
           :labels="mode === 'monitor' ? obj.promqlGenerator.labelpairs : { container: '', pod: '', app: '' }"
           :mode="mode"
-          :namespace="obj.namespace"
+          :namespace="$route.query.namespace"
           :promql-generator="edit ? generator : obj.promqlGenerator"
           @addData="addMatcherData"
           @closeOverlay="closeExpand"
@@ -179,7 +179,7 @@
         class="kubegems__forminform"
         :data="obj.alertLevels"
         :mod="mod"
-        :namespace="obj.namespace"
+        :namespace="$route.query.namespace"
         @addData="addData"
         @closeOverlay="closeExpand"
       />
@@ -347,6 +347,7 @@
     },
     methods: {
       load() {
+        this.obj.namespace = this.$route?.query.namespace;
         if (this.mod === 'template' && this.mode === 'monitor') {
           if (!this.obj.promqlGenerator) {
             this.obj.promqlGenerator = {

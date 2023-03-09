@@ -29,7 +29,7 @@
       <v-flex class="px-4 py-3 primary white--text full-screen__position">
         <div v-if="kubegemsLogo" class="justify-center float-left text-h6 py-1">
           <span class="hidden-sm-and-down float-left">
-            <v-img class="kubegems__absolute-middle" contain :src="logo" width="140" />
+            <v-img class="kubegems__absolute-middle" contain :src="LOGO_WHITE" width="140" />
           </span>
           <span
             class="pl-2 text-h6"
@@ -51,15 +51,15 @@
           <slot name="header" />
         </div>
         <v-flex class="float-right">
-          <v-flex class="float-left" :style="{ marginTop: `${this.actionTop}px` }">
-            <div v-if="Progress" :style="{ float: 'left' }">
+          <v-flex class="float-left" :style="{ marginTop: `${actionTop}px` }">
+            <div v-if="store.state.Progress" :style="{ float: 'left' }">
               <v-progress-circular color="white" indeterminate size="20" width="3" />
             </div>
             <slot name="action" />
           </v-flex>
           <v-flex class="float-left">
-            <v-btn class="mx-2" color="white" :dialog="dialog" text v-on="clickListeners">
-              {{ $t('operate.close') }}
+            <v-btn class="mx-2" color="white" text @click="close">
+              {{ i18n.t('operate.close') }}
             </v-btn>
           </v-flex>
           <div class="kubegems__clear-float" />
@@ -74,72 +74,59 @@
   </v-dialog>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
-  import { LOGO_WHITE } from '@/constants/platform';
+<script lang="ts" setup>
+  import { watch, ref } from 'vue';
 
-  export default {
-    name: 'BaseFullScreenDialog',
-    model: {
-      prop: 'dialog',
-      event: 'click',
+  import { LOGO_WHITE } from '@/constants/platform';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+
+  const props = withDefaults(
+    defineProps<{
+      icon?: string;
+      actionTop?: number;
+      title?: string;
+      kubegemsLogo?: boolean;
+      value: boolean;
+    }>(),
+    {
+      icon: '',
+      actionTop: 2,
+      title: '',
+      kubegemsLogo: false,
+      value: false,
     },
-    props: {
-      actionTop: {
-        type: Number,
-        default: () => 2,
-      },
-      dialog: {
-        type: Boolean,
-        default: () => false,
-      },
-      icon: {
-        type: String,
-        default: () => '',
-      },
-      kubegemsLogo: {
-        type: Boolean,
-        default: () => false,
-      },
-      title: {
-        type: String,
-        default: () => '',
-      },
-    },
-    data() {
-      return {
-        logo: LOGO_WHITE,
-      };
-    },
-    computed: {
-      ...mapState(['Progress']),
-      clickListeners: function () {
-        var vm = this;
-        return Object.assign({}, this.$listeners, {
-          click: function () {
-            vm.$emit('click', false);
-            vm.$emit('dispose');
-            vm.$store.commit('SET_FULL_DIALOG', false);
-          },
-        });
-      },
-    },
-    watch: {
-      dialog: {
-        handler(newValue) {
-          if (newValue) this.$store.commit('SET_FULL_DIALOG', newValue);
-        },
-        deep: true,
-      },
-    },
-    methods: {
-      escOccur() {
-        this.$emit('click', false);
-        this.$emit('dispose');
-        this.$store.commit('SET_FULL_DIALOG', false);
-      },
-    },
+  );
+
+  const store = useStore();
+  const i18n = useGlobalI18n();
+
+  const dialog = ref<boolean>(false);
+  const emit = defineEmits(['dispose', 'input']);
+  const close = (): void => {
+    emit('dispose');
+    store.commit('SET_DIALOG', false);
+    dialog.value = false;
+    emit('input', false);
   };
+
+  const escOccur = () => {
+    emit('dispose');
+    store.commit('SET_FULL_DIALOG', false);
+    dialog.value = false;
+    emit('input', false);
+  };
+
+  watch(
+    () => props.value,
+    async (newValue) => {
+      if (newValue !== undefined) {
+        store.commit('SET_DIALOG', newValue);
+        dialog.value = newValue;
+      }
+    },
+    { deep: true },
+  );
 </script>
 
 <style lang="scss" scoped>

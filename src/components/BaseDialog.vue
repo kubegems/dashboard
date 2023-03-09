@@ -22,7 +22,7 @@
           <v-icon class="mt-n1 white--text" left>{{ icon }}</v-icon>
           {{ title }}
           <div
-            v-if="Progress"
+            v-if="store.state.Progress"
             :style="{
               position: 'absolute',
               right: '15px',
@@ -44,8 +44,8 @@
       </v-card-text>
       <div class="px-4 py-2">
         <slot name="action" />
-        <v-btn class="float-right mx-2" color="error" :dialog="dialog" text v-on="clickListeners">
-          {{ $slots.action ? $t('operate.cancel') : $t('operate.close') }}
+        <v-btn class="float-right mx-2" color="error" text @click="close">
+          {{ $slots.action ? i18n.t('operate.cancel') : i18n.t('operate.close') }}
         </v-btn>
         <div class="kubegems__clear-float" />
       </div>
@@ -53,57 +53,49 @@
   </v-dialog>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { watch, ref } from 'vue';
 
-  export default {
-    name: 'BaseDialog',
-    model: {
-      prop: 'dialog',
-      event: 'click',
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+
+  const props = withDefaults(
+    defineProps<{
+      icon?: string;
+      minHeight?: string;
+      title?: string;
+      width?: number;
+      value: boolean;
+    }>(),
+    {
+      icon: '',
+      minHeight: '',
+      title: '',
+      width: 800,
+      value: false,
     },
-    props: {
-      dialog: {
-        type: Boolean,
-        default: () => false,
-      },
-      icon: {
-        type: String,
-        default: () => '',
-      },
-      minHeight: {
-        type: String,
-        default: () => '',
-      },
-      title: {
-        type: String,
-        default: () => '',
-      },
-      width: {
-        type: Number,
-        default: () => 800,
-      },
-    },
-    computed: {
-      ...mapState(['Progress']),
-      clickListeners: function () {
-        var vm = this;
-        return Object.assign({}, this.$listeners, {
-          click: function () {
-            vm.$emit('click', false);
-            vm.$emit('reset');
-            vm.$store.commit('SET_DIALOG', false);
-          },
-        });
-      },
-    },
-    watch: {
-      dialog: {
-        handler(newValue) {
-          if (newValue !== undefined) this.$store.commit('SET_DIALOG', newValue);
-        },
-        deep: true,
-      },
-    },
+  );
+
+  const store = useStore();
+  const i18n = useGlobalI18n();
+
+  const dialog = ref<boolean>(false);
+  const emit = defineEmits(['reset', 'input']);
+  const close = (): void => {
+    emit('reset');
+    store.commit('SET_DIALOG', false);
+    dialog.value = false;
+    emit('input', false);
   };
+
+  watch(
+    () => props.value,
+    async (newValue) => {
+      if (newValue !== undefined) {
+        store.commit('SET_DIALOG', newValue);
+        dialog.value = newValue;
+      }
+    },
+    { deep: true },
+  );
 </script>

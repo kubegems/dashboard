@@ -35,7 +35,7 @@
               <v-text-field
                 v-model="ruler.host"
                 class="my-0"
-                label="域名"
+                :label="$t('tip.domain')"
                 :readonly="edit"
                 :rules="rulerRules.hostRule"
               >
