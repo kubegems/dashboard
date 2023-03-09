@@ -21,42 +21,18 @@
       <v-row class="pa-3">
         <v-col class="py-0" cols="12">
           <label>min</label>
-          <v-text-field
-            v-model="pagination.minDuration"
-            dense
-            flat
-            hide-details
-            :label="i18nLocal.t('form.name')"
-            required
-            solo
-          />
+          <v-text-field v-model="pagination.minDuration" dense flat hide-details required solo />
         </v-col>
         <v-col class="py-0" cols="12">
           <label>max</label>
-          <v-text-field
-            v-model="pagination.maxDuration"
-            dense
-            flat
-            hide-details
-            :label="i18nLocal.t('form.name')"
-            required
-            solo
-          />
+          <v-text-field v-model="pagination.maxDuration" dense flat hide-details required solo />
         </v-col>
       </v-row>
       <label>{{ i18nLocal.t('tip.limit') }}</label>
       <v-row class="pa-3">
         <v-col class="py-0" cols="12">
           <label>limit</label>
-          <v-text-field
-            v-model.number="pagination.limit"
-            dense
-            flat
-            hide-details
-            :label="i18nLocal.t('form.name')"
-            required
-            solo
-          />
+          <v-text-field v-model.number="pagination.limit" dense flat hide-details required solo />
         </v-col>
       </v-row>
       <v-btn class="mt-2 float-right mr-4" color="primary" small @click="query">{{ i18nLocal.t('tip.query') }}</v-btn>

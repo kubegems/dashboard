@@ -164,6 +164,7 @@ axios.interceptors.response.use(
               error?.response?.data?.ErrorData ||
               error?.response?.data?.errorData ||
               error?.response?.data?.Message ||
+              error?.response?.data?.message ||
               error?.response?.data?.data?.message ||
               'unknown',
             color: 'error',

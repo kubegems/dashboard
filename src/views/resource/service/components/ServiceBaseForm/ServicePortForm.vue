@@ -124,7 +124,7 @@
           portRule: [required],
           targetPortRule: [required],
           sessionRule: [positiveInteger, (v) => !!parseInt(v) > 86400 || this.$t('form.limit_max_rule')],
-          protocolRule: { required },
+          protocolRule: [required],
         },
       };
     },

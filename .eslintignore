@@ -2,8 +2,5 @@
 dist/*
 build/*.js
 node_modules/*
-src/components/BaseDialog.vue
-src/components/BaseFullScreenDialog.vue
-src/components/BasePanel.vue
 src/components/BasePluginPass.vue
 components.d.ts

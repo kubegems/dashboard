@@ -54,7 +54,7 @@
             </v-btn>
           </template>
           <v-card class="pa-2" flat height="380px">
-            <div class="select__left" :style="{ width: '180px' }">
+            <div class="select__left" :style="{ width: '250px' }">
               <div class="text-subtitle-2 kubegems__text select__title">
                 <div class="float-left"> {{ i18n.t('tip.select_one_env') }} </div>
                 <div v-if="state.loading" class="float-right">
@@ -71,6 +71,7 @@
                     <v-list-item-content>
                       <v-list-item-title class="select__list__title pl-2">
                         {{ item.ProjectName }}
+                        <div class="text-caption"> {{ item.Remark }} </div>
                       </v-list-item-title>
                     </v-list-item-content>
                     <v-list-item-icon>
@@ -266,7 +267,7 @@
   const state = reactive({
     menu: false,
     search: undefined,
-    width: 180,
+    width: 250,
     project: undefined,
     projectPagination: undefined,
     environment: undefined,
@@ -337,7 +338,7 @@
       state.environmentPagination = await useEnvironmentListInProject(new Project(project.value));
       state.loading = false;
     } else {
-      state.width = 180;
+      state.width = 250;
     }
   };
 

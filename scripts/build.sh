@@ -15,8 +15,13 @@ else
   export VUE_APP_RELEASE=main
 fi
 
+if [ $VUE_APP_RELEASE == main ]; then
+  export VUE_APP_OTEL_COLLECTOR=http://172.16.31.68:31454/v1/traces
+fi
+
 echo $VUE_APP_DATE
 echo $VUE_APP_RELEASE
+echo $VUE_APP_OTEL_COLLECTOR
 
 export NODE_OPTIONS=--max-old-space-size=32768
 

@@ -94,6 +94,7 @@
               <v-list-item-content>
                 <v-list-item-title class="select__list__title pl-2">
                   {{ item.projectName }}
+                  <div class="text-caption"> {{ item.remark }} </div>
                 </v-list-item-title>
               </v-list-item-content>
               <v-list-item-icon>
@@ -127,6 +128,8 @@
                   >
                     {{ $root.$t(`metadata.environment_type.${item.metaType}`) }}
                   </v-chip>
+                  <div class="kubegems__clear-float" />
+                  <div class="text-caption">{{ $root.$t('resource.cluster') }} : {{ item.clusterName }} </div>
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>

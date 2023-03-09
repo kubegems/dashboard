@@ -1,4 +1,10 @@
-# 1.23.6 (2023-3-7)
+# 1.23.6 (2023-3-9)
+
+### 🌟 新功能
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [feat: ⚡ supported otel trace for dashboard, optimization schema json render for vue3] | [4f9007a](https://github.com/chenshunliang/dashboard/commit/4f9007aa205f94f56d88892de7e3efee1254cd18) |
 
 ### Bug Fixes
 

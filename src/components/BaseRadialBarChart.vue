@@ -20,203 +20,183 @@
   </div>
 </template>
 
-<script>
+<script lang="ts" setup>
   import Chart from 'chart.js/auto';
   import DoughnutLabel from 'chartjs-plugin-doughnutlabel-v3';
+  import { nextTick, onMounted, ref, watch } from 'vue';
 
   import { randomString } from '@/utils/helpers';
 
-  export default {
-    name: 'BaseRadialBarChart',
-    props: {
-      id: {
-        type: String,
-        default: () => '',
-      },
-      cutout: {
-        type: Number,
-        default: () => 80,
-      },
-      defaultVal: {
-        type: Number,
-        default: () => 0,
-      },
-      extendHeight: {
-        type: Number,
-        default: () => 150,
-      },
-      labels: {
-        type: Array,
-        default: () => [],
-      },
-      metrics: {
-        type: Array,
-        default: () => [],
-      },
-      title: {
-        type: String,
-        default: () => '',
-      },
-      tooltipExternal: {
-        type: Boolean,
-        default: () => false,
-      },
-      total: {
-        type: Number,
-        default: () => 0,
-      },
-      unit: {
-        type: String,
-        default: () => '',
-      },
-      val: {
-        type: Number,
-        default: () => 0,
-      },
+  const props = withDefaults(
+    defineProps<{
+      id?: string;
+      extendHeight?: number;
+      labels?: string[];
+      metrics?: any[];
+      title?: string;
+      cutout?: number;
+      defaultVal?: number;
+      tooltipExternal?: boolean;
+      total?: number;
+      unit?: string;
+      val?: number;
+    }>(),
+    {
+      id: '',
+      extendHeight: 150,
+      labels: undefined,
+      metrics: undefined,
+      title: '',
+      cutout: 80,
+      defaultVal: 0,
+      tooltipExternal: false,
+      total: 0,
+      unit: '',
+      val: 0,
     },
-    data() {
-      return {
-        chart: null,
-        chartId: '',
-        colorful: ['#00BCD4', '#1e88e5', '#fb8c00'],
-        triggerVal: 0,
-      };
-    },
-    watch: {
-      metrics: {
-        handler(newValue) {
-          if (newValue && newValue?.length >= 0 && document.getElementById(this.chartId)) {
-            this.loadChart();
-          }
+  );
+
+  const chart = ref<any>(undefined);
+  const chartId = ref<string>('');
+  const colorful = ['#00BCD4', '#1e88e5', '#fb8c00'];
+  const triggerVal = ref<number>(0);
+
+  const loadChart = (): void => {
+    if (!chart.value) {
+      const ctx = (document.getElementById(chartId.value) as HTMLCanvasElement).getContext('2d');
+      chart.value = new Chart(ctx, {
+        plugins: [DoughnutLabel],
+        type: 'doughnut',
+        data: {
+          labels: props.labels,
+          datasets: loadDatasets(),
         },
-        deep: true,
-      },
-    },
-    mounted() {
-      this.$nextTick(() => {
-        if (this.id) {
-          this.chartId = this.id;
-        } else {
-          this.chartId = randomString(6);
-        }
-        const interval = setInterval(() => {
-          if (document.getElementById(this.chartId)) {
-            clearInterval(interval);
-            this.loadChart();
-          }
-        }, 300);
-      });
-    },
-    methods: {
-      loadChart() {
-        if (!this.chart) {
-          const ctx = document.getElementById(this.chartId).getContext('2d');
-          this.chart = new Chart(ctx, {
-            plugins: [DoughnutLabel],
-            type: 'doughnut',
-            data: {
-              labels: this.labels,
-              datasets: this.loadDatasets(),
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                doughnutLabel: {
-                  labels: [
-                    {
-                      text: this.title,
-                      color: '#00BCD4',
-                      font: {
-                        size: 16,
-                        weight: 'bold',
-                      },
-                    },
-                    {
-                      text: this.formatter,
-                      color: 'black',
-                      font: {
-                        size: 13,
-                        lineHeight: 1.5,
-                      },
-                    },
-                  ],
-                },
-                legend: {
-                  display: false,
-                  position: 'bottom',
-                  labels: {
-                    usePointStyle: true,
-                    pointStyleWidth: 10,
-                    boxHeight: 7,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            doughnutLabel: {
+              labels: [
+                {
+                  text: props.title,
+                  color: '#00BCD4',
+                  font: {
+                    size: 16,
+                    weight: 'bold',
                   },
                 },
-                tooltip: {
-                  enabled: false,
-                  usePointStyle: true,
-                  boxWidth: 8,
-                  boxHeight: 8,
-                  boxPadding: 4,
-                  external: this.tooltipExternal
-                    ? (context) => {
-                        const { tooltip } = context;
-                        if (tooltip.dataPoints?.length > 0) {
-                          if (tooltip.dataPoints[0].dataset.data?.length > 0) {
-                            this.triggerVal = (tooltip.dataPoints[0].dataset.data[0] / 100) * this.total;
-                          }
-                        }
-                      }
-                    : null,
+                {
+                  text: formatter,
+                  color: 'black',
+                  font: {
+                    size: 13,
+                    lineHeight: 1.5,
+                  },
                 },
+              ],
+            },
+            legend: {
+              display: false,
+              position: 'bottom',
+              labels: {
+                usePointStyle: true,
+                pointStyleWidth: 10,
+                boxHeight: 7,
               },
             },
-          });
-        } else {
-          this.chart.data = { datasets: this.loadDatasets() };
-          this.chart.update('none');
-        }
-      },
-      loadDatasets() {
-        const datasets = this.metrics.map((m, index) => {
-          return {
-            data: m,
-            backgroundColor: [this.colorful[index % 3], '#f4f4f4'],
-            cutout: `${this.cutout}%`,
-          };
-        });
-
-        return datasets;
-      },
-      formatter() {
-        if (this.defaultVal && this.triggerVal === 0) {
-          return `${this.defaultVal.toFixed(1)} ${this.unit}`;
-        }
-
-        let tl = parseFloat(this.total).toFixed(1);
-        if (parseInt(tl) === parseFloat(tl)) {
-          tl = parseInt(tl);
-        }
-
-        if (this.val) {
-          if (this.val === 0) {
-            return `0 / ${tl} ${this.unit}`;
-          }
-        } else {
-          if (this.triggerVal === 0) {
-            return `0 / ${tl} ${this.unit}`;
-          }
-        }
-
-        let used = this.val ? parseFloat(this.val).toFixed(2) : this.triggerVal.toFixed(2);
-        if (parseInt(used) === parseFloat(used)) {
-          used = parseInt(used);
-        }
-
-        return `${used} / ${tl} ${this.unit}`;
-      },
-      clear() {
-        this.triggerVal = 0;
-      },
-    },
+            tooltip: {
+              enabled: false,
+              usePointStyle: true,
+              boxWidth: 8,
+              boxHeight: 8,
+              boxPadding: 4,
+              external: props.tooltipExternal
+                ? (context) => {
+                    const { tooltip } = context;
+                    if (tooltip.dataPoints?.length > 0) {
+                      if (tooltip.dataPoints[0].dataset.data?.length > 0) {
+                        triggerVal.value = ((tooltip.dataPoints[0].dataset.data[0] as number) / 100) * props.total;
+                      }
+                    }
+                  }
+                : null,
+            },
+          },
+        },
+      } as any);
+    } else {
+      chart.value.data = { datasets: loadDatasets() };
+      chart.value.update('none');
+    }
   };
+
+  const loadDatasets = (): any[] => {
+    const datasets = props?.metrics.map((m, index) => {
+      return {
+        data: m,
+        backgroundColor: [colorful[index % 3], '#f4f4f4'],
+        cutout: `${props.cutout}%`,
+      };
+    });
+
+    return datasets;
+  };
+
+  const formatter = (): string => {
+    if (props.defaultVal && triggerVal.value === 0) {
+      return `${props.defaultVal.toFixed(1)} ${props.unit}`;
+    }
+
+    let tl: number | string = parseFloat(props.total.toString()).toFixed(1);
+    if (parseInt(tl) === parseFloat(tl)) {
+      tl = parseInt(tl);
+    }
+
+    if (props.val) {
+      if (props.val === 0) {
+        return `0 / ${tl} ${props.unit}`;
+      }
+    } else {
+      if (triggerVal.value === 0) {
+        return `0 / ${tl} ${props.unit}`;
+      }
+    }
+
+    let used: number | string = props.val ? parseFloat(props.val.toString()).toFixed(2) : triggerVal.value.toFixed(2);
+    if (parseInt(used) === parseFloat(used)) {
+      used = parseInt(used);
+    }
+
+    return `${used} / ${tl} ${props.unit}`;
+  };
+
+  const clear = (): void => {
+    triggerVal.value = 0;
+  };
+
+  onMounted(() => {
+    nextTick(() => {
+      if (props.id) {
+        chartId.value = props.id;
+      } else {
+        chartId.value = randomString(6);
+      }
+      const interval = setInterval(() => {
+        if (document.getElementById(chartId.value)) {
+          clearInterval(interval);
+          loadChart();
+        }
+      }, 300);
+    });
+  });
+
+  watch(
+    () => props.metrics,
+    async (newValue) => {
+      if (newValue && newValue?.length >= 0 && document.getElementById(chartId.value)) {
+        loadChart();
+      }
+    },
+    { deep: true },
+  );
 </script>

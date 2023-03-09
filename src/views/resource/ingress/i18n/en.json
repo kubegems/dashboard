@@ -19,7 +19,8 @@
     "port": "Port",
     "no_random_domain": "No random domains generated",
     "leave_1_rule": "Keep at least one route rule",
-    "auto_domain": "Auto-generate domain"
+    "auto_domain": "Auto-generate domain",
+    "domain": "Domain"
   },
   "operate": {
     "add_path": "Add Path",

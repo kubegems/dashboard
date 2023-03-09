@@ -20,138 +20,121 @@
   </div>
 </template>
 
-<script>
+<script lang="ts" setup>
   import Chart from 'chart.js/auto';
+  import { nextTick, onMounted, ref, watch } from 'vue';
 
   import { LINE_THEME_COLORS, LINE_THEME_FUL_COLORS } from '@/constants/chart';
   import { randomString } from '@/utils/helpers';
 
-  export default {
-    name: 'BasePieChart',
-    props: {
-      id: {
-        type: String,
-        default: () => '',
-      },
-      color: {
-        type: Array,
-        default: () => [],
-      },
-      colorful: {
-        type: Boolean,
-        default: () => false,
-      },
-      extendHeight: {
-        type: Number,
-        default: () => 280,
-      },
-      labels: {
-        type: Array,
-        default: () => [],
-      },
-      labelShow: {
-        type: Boolean,
-        default: () => true,
-      },
-      metrics: {
-        type: Array,
-        default: () => [],
-      },
-      title: {
-        type: String,
-        default: () => '',
-      },
+  const props = withDefaults(
+    defineProps<{
+      id?: string;
+      color?: string[];
+      colorful?: boolean;
+      extendHeight?: number;
+      labels?: string[];
+      labelShow?: boolean;
+      metrics?: any[];
+      title?: string;
+    }>(),
+    {
+      id: '',
+      color: undefined,
+      colorful: false,
+      extendHeight: 280,
+      labels: undefined,
+      labelShow: true,
+      metrics: undefined,
+      title: '',
     },
-    data() {
-      return {
-        chart: null,
-        chartId: '',
-      };
-    },
-    watch: {
-      metrics: {
-        handler(newValue) {
-          if (newValue && newValue?.length >= 0 && document.getElementById(this.chartId)) {
-            this.loadChart();
-          }
-        },
-        deep: true,
-      },
-    },
-    mounted() {
-      this.$nextTick(() => {
-        if (this.id) {
-          this.chartId = this.id;
-        } else {
-          this.chartId = randomString(6);
-        }
-        const interval = setInterval(() => {
-          if (document.getElementById(this.chartId)) {
-            clearInterval(interval);
-            this.loadChart();
-          }
-        }, 300);
-      });
-    },
-    methods: {
-      loadChart() {
-        if (!this.chart) {
-          const ctx = document.getElementById(this.chartId).getContext('2d');
-          this.chart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-              labels: this.labels,
-              datasets: this.loadDatasets(),
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                title: {
-                  align: 'start',
-                  display: true,
-                  text: this.title,
-                },
-                legend: {
-                  display: this.labelShow,
-                  position: 'bottom',
-                  labels: {
-                    usePointStyle: true,
-                    pointStyleWidth: 10,
-                    boxHeight: 7,
-                  },
-                },
-                tooltip: {
-                  usePointStyle: true,
-                  boxWidth: 8,
-                  boxHeight: 8,
-                  boxPadding: 4,
-                  mode: 'index',
-                },
-              },
-              interaction: {
-                intersect: false,
-                mode: 'index',
-              },
-            },
-          });
-        } else {
-          this.chart.data = { datasets: this.loadDatasets() };
-          this.chart.update('none');
-        }
-      },
-      loadDatasets() {
-        const datasets = [
-          {
-            data: this.metrics,
-            backgroundColor:
-              this.color.length > 0 ? this.color : this.colorful ? LINE_THEME_FUL_COLORS : LINE_THEME_COLORS,
-            hoverOffset: 4,
-          },
-        ];
+  );
 
-        return datasets;
-      },
-    },
+  const chart = ref<any>(undefined);
+  const chartId = ref<string>('');
+
+  const loadChart = (): void => {
+    if (!chart.value) {
+      const ctx = (document.getElementById(chartId.value) as HTMLCanvasElement).getContext('2d');
+      chart.value = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: props.labels,
+          datasets: loadDatasets(),
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: {
+              align: 'start',
+              display: true,
+              text: props.title,
+            },
+            legend: {
+              display: props.labelShow,
+              position: 'bottom',
+              labels: {
+                usePointStyle: true,
+                pointStyleWidth: 10,
+                boxHeight: 7,
+              },
+            },
+            tooltip: {
+              usePointStyle: true,
+              boxWidth: 8,
+              boxHeight: 8,
+              boxPadding: 4,
+              mode: 'index',
+            },
+          },
+          interaction: {
+            intersect: false,
+            mode: 'index',
+          },
+        },
+      } as any);
+    } else {
+      chart.value.data = { datasets: loadDatasets() };
+      chart.value.update('none');
+    }
   };
+
+  const loadDatasets = (): any[] => {
+    const datasets = [
+      {
+        data: props.metrics,
+        backgroundColor:
+          props.color?.length > 0 ? props.color : props.colorful ? LINE_THEME_FUL_COLORS : LINE_THEME_COLORS,
+        hoverOffset: 4,
+      },
+    ];
+    return datasets;
+  };
+
+  onMounted(() => {
+    nextTick(() => {
+      if (props.id) {
+        chartId.value = props.id;
+      } else {
+        chartId.value = randomString(6);
+      }
+      const interval = setInterval(() => {
+        if (document.getElementById(chartId.value)) {
+          clearInterval(interval);
+          loadChart();
+        }
+      }, 300);
+    });
+  });
+
+  watch(
+    () => props.metrics,
+    async (newValue) => {
+      if (newValue && newValue?.length >= 0 && document.getElementById(chartId.value)) {
+        loadChart();
+      }
+    },
+    { deep: true },
+  );
 </script>

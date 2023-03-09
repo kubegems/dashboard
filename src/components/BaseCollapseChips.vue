@@ -64,107 +64,85 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'BaseCollapseChips',
-    props: {
-      chips: {
-        type: [Array, Object, String],
-        default: () => [],
-      },
-      color: {
-        type: String,
-        default: 'success',
-      },
-      count: {
-        type: Number,
-        default: 1,
-      },
-      delimiter: {
-        type: String,
-        default: ',',
-      },
-      emptyText: {
-        type: String,
-        default: '-',
-      },
-      id: {
-        type: String,
-        default: '',
-      },
-      itemText: {
-        type: String,
-        default: 'text',
-      },
-      icon: {
-        type: String,
-        default: undefined,
-      },
-      itemValue: {
-        type: String,
-        default: 'value',
-      },
-      maxWidth: {
-        type: String,
-        default: undefined,
-      },
-      minWidth: {
-        type: String,
-        default: undefined,
-      },
-      singleLine: Boolean,
+<script lang="ts" setup>
+  import { ref, watch } from 'vue';
+
+  const props = withDefaults(
+    defineProps<{
+      chips?: any;
+      color?: string;
+      count?: number;
+      delimiter?: string;
+      emptyText?: string;
+      id?: string;
+      itemText?: string;
+      itemValue?: string;
+      icon?: string;
+      maxWidth?: string;
+      minWidth?: string;
+      singleLine?: boolean;
+    }>(),
+    {
+      chips: [],
+      color: 'success',
+      count: 1,
+      delimiter: '',
+      emptyText: '-',
+      id: '',
+      itemText: 'text',
+      itemValue: 'value',
+      icon: undefined,
+      maxWidth: undefined,
+      minWidth: undefined,
+      singleLine: false,
     },
-    data() {
-      return {
-        items: [],
-        visibleItems: [],
-        dataType: null,
-      };
-    },
-    watch: {
-      chips: {
-        handler() {
-          this.handleSetItems();
-        },
-        immediate: true,
-      },
-    },
-    methods: {
-      handleSetItems() {
-        if (Array.isArray(this.chips)) {
-          this.items = this.chips.map((item) => {
-            if (typeof item === 'object') {
-              return { ...item };
-            } else {
-              return {
-                [this.itemText]: item,
-                [this.itemValue]: item,
-              };
-            }
-          });
-          this.dataType = 'array';
-        } else if (typeof this.chips === 'string') {
-          const arr = Array.from(new Set(this.chips.split(this.delimiter)));
-          this.items = arr.map((v) => {
-            return {
-              [this.itemText]: v,
-              [this.itemValue]: v,
-            };
-          });
-          this.dataType = 'string';
+  );
+
+  const dataType = ref<string>('');
+  const items = ref([]);
+  const visibleItems = ref([]);
+  const handleSetItems = (): void => {
+    if (Array.isArray(props.chips)) {
+      items.value = props.chips.map((item) => {
+        if (typeof item === 'object') {
+          return { ...item };
         } else {
-          this.items = Object.keys(this.chips || {}).map((key) => {
-            return {
-              [this.itemText]: this.chips[key],
-              [this.itemValue]: key,
-            };
-          });
-          this.dataType = 'object';
+          return {
+            [props.itemText]: item,
+            [props.itemValue]: item,
+          };
         }
-        this.visibleItems = this.items.slice(0, this.count);
-      },
-    },
+      });
+      dataType.value = 'array';
+    } else if (typeof props.chips === 'string') {
+      const arr = Array.from(new Set(props.chips.split(props.delimiter)));
+      items.value = arr.map((v) => {
+        return {
+          [props.itemText]: v,
+          [props.itemValue]: v,
+        };
+      });
+      dataType.value = 'string';
+    } else {
+      items.value = Object.keys(props.chips || {}).map((key) => {
+        return {
+          [props.itemText]: props.chips[key],
+          [props.itemValue]: key,
+        };
+      });
+      dataType.value = 'object';
+    }
+    visibleItems.value = items.value.slice(0, props.count);
   };
+
+  watch(
+    () => props.chips,
+    async (newValue) => {
+      if (!newValue) return;
+      handleSetItems();
+    },
+    { immediate: true },
+  );
 </script>
 
 <style lang="scss" scoped>

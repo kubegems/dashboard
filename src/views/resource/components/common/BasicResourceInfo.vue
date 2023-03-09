@@ -31,7 +31,7 @@
       <v-list-item-content class="kubegems__text">
         <v-list-item-title class="text-subtitle-2"> {{ i18n.t('resource.project') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
-          {{ project }}
+          {{ projectName }}
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -39,7 +39,7 @@
       <v-list-item-content class="kubegems__text">
         <v-list-item-title class="text-subtitle-2"> {{ i18n.t('resource.environment') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
-          {{ environment }}
+          {{ environmentName }}
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -71,7 +71,7 @@
     defineProps<{
       environment?: boolean;
       item?: any;
-      project: boolean;
+      project?: boolean;
     }>(),
     {
       environment: true,
@@ -89,11 +89,11 @@
     );
   });
 
-  const project: ComputedRef<string> = computed(() => {
-    return props.item?.metadata?.labels?.[PROJECT_KEY] || route.params.project || '';
+  const projectName: ComputedRef<string> = computed(() => {
+    return props.item?.metadata?.labels?.[PROJECT_KEY] || route.params?.project || '';
   });
 
-  const environment: ComputedRef<string> = computed(() => {
-    return props.item?.metadata?.labels?.[ENVIRONMENT_KEY] || route.params.environment || '';
+  const environmentName: ComputedRef<string> = computed(() => {
+    return props.item?.metadata?.labels?.[ENVIRONMENT_KEY] || route.params?.environment || '';
   });
 </script>

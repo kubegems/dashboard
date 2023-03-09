@@ -29,68 +29,63 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'BaseMarquee',
-    props: {
-      content: {
-        type: String,
-        default: '',
-      },
-      delay: {
-        type: Number,
-        default: 0.5,
-      },
-      speed: {
-        type: Number,
-        default: 100,
-      },
+<script lang="ts" setup>
+  import { ComputedRef, computed, nextTick, ref, watch } from 'vue';
+
+  const props = withDefaults(
+    defineProps<{
+      content?: string;
+      delay?: number;
+      speed?: number;
+    }>(),
+    {
+      content: '',
+      delay: 0.5,
+      speed: 100,
     },
-    data() {
-      return {
-        wrapWidth: 0,
-        firstRound: true,
-        duration: 0,
-        offsetWidth: 0,
-        animationClass: '',
-      };
-    },
-    computed: {
-      contentStyle() {
-        return {
-          paddingLeft: (this.firstRound ? 0 : this.wrapWidth) + 'px',
-          animationDelay: (this.firstRound ? this.delay : 0) + 's',
-          animationDuration: this.duration + 's',
-        };
-      },
-    },
-    watch: {
-      content: {
-        immediate: true,
-        handler() {
-          this.$nextTick(() => {
-            const { wrap, content } = this.$refs;
-            const wrapWidth = wrap.getBoundingClientRect().width;
-            const offsetWidth = content.getBoundingClientRect().width;
-            this.wrapWidth = wrapWidth;
-            this.offsetWidth = offsetWidth;
-            if (this.wrapWidth < this.offsetWidth) {
-              this.duration = offsetWidth / this.speed;
-              const percentage = (1 - wrapWidth / offsetWidth) * 100;
-              content.animate([{ transform: `translate3d(-${percentage}%, 0, 0)` }], {
-                duration: this.duration * 500,
-                delay: 500,
-                fill: 'forwards',
-                easing: 'linear',
-                iterations: Infinity,
-                direction: 'alternate',
-              });
-            }
+  );
+
+  const wrapWidth = ref<number>(0);
+  const firstRound = ref<boolean>(true);
+  const duration = ref<number>(0);
+  const offsetWidth = ref<number>(0);
+  const animationClass = ref<string>('');
+
+  const contentStyle: ComputedRef<any> = computed(() => {
+    return {
+      paddingLeft: (firstRound.value ? 0 : wrapWidth.value) + 'px',
+      animationDelay: (firstRound.value ? props.delay : 0) + 's',
+      animationDuration: duration.value + 's',
+    };
+  });
+
+  const wrap = ref(null);
+  const content = ref(null);
+  watch(
+    () => props.content,
+    async (newValue) => {
+      if (!newValue) return;
+      nextTick(() => {
+        const wrapW = wrap.value.getBoundingClientRect().width;
+        const offsetW = content.value.getBoundingClientRect().width;
+        wrapWidth.value = wrapW;
+        offsetWidth.value = offsetW;
+        if (wrapWidth.value < offsetWidth.value) {
+          duration.value = offsetWidth.value / props.speed;
+          const percentage = (1 - wrapW / offsetW) * 100;
+          content.value.animate([{ transform: `translate3d(-${percentage}%, 0, 0)` }], {
+            duration: duration.value * 500,
+            delay: 500,
+            fill: 'forwards',
+            easing: 'linear',
+            iterations: Infinity,
+            direction: 'alternate',
           });
-        },
-      },
+        }
+      });
     },
-  };
+    { immediate: true },
+  );
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

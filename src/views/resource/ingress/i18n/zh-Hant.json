@@ -19,7 +19,8 @@
     "port": "端口",
     "no_random_domain": "暫無可生成的隨機功能變數名稱",
     "leave_1_rule": "至少保留一項路由規則",
-    "auto_domain": "自動生成功能變數名稱"
+    "auto_domain": "自動生成功能變數名稱",
+    "domain": "域名"
   },
   "operate": {
     "add_path": "添加Path",

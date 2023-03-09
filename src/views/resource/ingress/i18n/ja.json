@@ -19,7 +19,8 @@
     "port": "ポート",
     "no_random_domain": "生成された乱用ドメインがありません。",
     "leave_1_rule": "最低一つroute (ルート) ルールを保持します",
-    "auto_domain": "ドメインを自動生成する"
+    "auto_domain": "ドメインを自動生成する",
+    "domain": "ドメイン名"
   },
   "operate": {
     "add_path": "Path を追加",
