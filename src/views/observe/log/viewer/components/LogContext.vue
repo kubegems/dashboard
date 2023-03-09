@@ -82,14 +82,14 @@
         this.handleLoadPreview();
         this.handleLoadNext();
       },
-      async getLogContext(startTime, endTime, direction) {
+      async getLogContext(startTime, endTime, direction, limit = 10) {
         const params = {
           ClusterID: this.params.ClusterID,
           ClusterName: this.params.ClusterName,
           query: this.params.query,
           start: startTime,
           end: endTime,
-          limit: 11,
+          limit: limit,
           noprocessing: true,
           direction: direction,
         };
@@ -104,9 +104,18 @@
         ).toString();
         const start = new Date(parseInt(timestamp.substr(0, 13)) - 1000 * 60 * 60 * 3).getTime() + '000000';
         const end = parseInt(timestamp).toString();
-        const data = await this.getLogContext(start, end, 'backward');
-        data.shift();
-        this.items.preview = [...data, ...this.items.preview];
+        const data = await this.getLogContext(start, end, 'backward', 11);
+        if (!this.items.preview.length) data.pop();
+        const uniqueArray = Array.from(
+          new Set(
+            [...data, ...this.items.preview].map((d) => {
+              return JSON.stringify(d);
+            }),
+          ),
+        );
+        this.items.preview = uniqueArray.map((d) => {
+          return JSON.parse(d);
+        });
         this.loading.preview = false;
       },
       async handleLoadNext() {
@@ -116,9 +125,17 @@
         ).toString();
         const start = parseInt(timestamp).toString();
         const end = new Date(parseInt(timestamp.substr(0, 13)) + 1000 * 60 * 60 * 3).getTime() + '000000';
-        const data = await this.getLogContext(start, end, 'forward');
-        data.shift();
-        this.items.next = [...this.items.next, ...data];
+        const data = await this.getLogContext(start, end, 'forward', 11);
+        const uniqueArray = Array.from(
+          new Set(
+            [...this.items.next, ...data].map((d) => {
+              return JSON.stringify(d);
+            }),
+          ),
+        );
+        this.items.next = uniqueArray.map((d) => {
+          return JSON.parse(d);
+        });
         this.loading.next = false;
       },
       handleDispose() {
