@@ -142,6 +142,9 @@
               </template>
               <v-card>
                 <v-card-text class="pa-2">
+                  <v-flex v-if="tabItems[tab].value === 'AppStoreList'">
+                    <v-btn color="primary" small text @click="updateApp(item)"> {{ $root.$t('operate.edit') }}</v-btn>
+                  </v-flex>
                   <v-flex>
                     <v-btn color="error" small text @click="removeApp(item)"> {{ $root.$t('operate.delete') }}</v-btn>
                   </v-flex>
@@ -301,6 +304,7 @@
     <DeployApp ref="deployApp" @refresh="appRunningList" />
     <UpdateModelRuntime ref="updateModelRuntime" @refresh="appRunningList" />
     <ModelExperience ref="modelExperience" :item="item" />
+    <UpdateAppFromStore ref="updateAppFromStore" @refresh="appRunningList" />
   </v-container>
 </template>
 
@@ -310,6 +314,7 @@
 
   import AppStatusTip from './components/AppStatusTip';
   import TaskStatusTip from './components/TaskStatusTip';
+  import UpdateAppFromStore from './components/UpdateAppFromStore';
   import UpdateModelRuntime from './components/UpdateModelRuntime';
   import messages from './i18n';
   import {
@@ -345,6 +350,7 @@
       NamespaceFilter,
       TaskStatusTip,
       UpdateModelRuntime,
+      UpdateAppFromStore,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data() {
@@ -746,6 +752,10 @@
       },
       getRepo(item, defaultValue = '') {
         return item?.runtime?.annotations?.['application.kubegems.io/repo'] || defaultValue;
+      },
+      updateApp(item) {
+        this.$refs.updateAppFromStore.init(item);
+        this.$refs.updateAppFromStore.open();
       },
     },
   };

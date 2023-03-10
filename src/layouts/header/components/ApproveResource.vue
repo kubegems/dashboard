@@ -15,146 +15,152 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-scale" :title="$t('tip.resource_scale')" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="state.dialog"
+    icon="mdi-scale"
+    :title="i18nLocal.t('tip.resource_scale')"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <ResourceBaseForm ref="resource" :cluster="cluster" edit :quota="quota" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="passLoading" text @click="approvePass">
-        {{ $t('operate.approve') }}
+      <v-btn class="float-right" color="primary" :loading="state.passLoading" text @click="approvePass">
+        {{ i18nLocal.t('operate.approve') }}
       </v-btn>
-      <v-btn class="float-right" color="error" :loading="cancelLoading" text @click="approveReject">
-        {{ $t('operate.reject') }}
+      <v-btn class="float-right" color="error" :loading="state.cancelLoading" text @click="approveReject">
+        {{ i18nLocal.t('operate.reject') }}
       </v-btn>
     </template>
   </BaseDialog>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { reactive, ref, watch } from 'vue';
 
-  import messages from '../i18n';
-  import { getTenantResourceQuota, postApprovePass, postApproveReject } from '@/api';
-  import BaseResource from '@/mixins/resource';
+  import { useI18n } from '../i18n';
+  import { useClusterQuota } from '@/composition/cluster';
+  import { Cluster } from '@/types/cluster';
+  import { Approve } from '@/types/message';
+  import { Tenant } from '@/types/tenant';
   import { deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
-  import ResourceBaseForm from '@/views/tenant/tenant/components/ResourceList/ResourceBaseForm';
+  import ResourceBaseForm from '@/views/tenant/tenant/components/ResourceList/ResourceBaseForm/index.vue';
 
-  export default {
-    name: 'ApproveResource',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      ResourceBaseForm,
-    },
-    mixins: [BaseResource],
-    data() {
-      return {
-        dialog: false,
-        item: null,
-        quota: null,
-        cluster: '',
-        passLoading: false,
-        cancelLoading: false,
-      };
-    },
-    computed: {
-      ...mapState(['Circular', 'Locale']),
-    },
-    watch: {
-      item: {
-        handler(newValue) {
-          if (newValue) {
-            this.cluster = newValue?.Cluster?.ClusterName;
-          }
-        },
-        deep: true,
-      },
-    },
-    methods: {
-      open() {
-        this.dialog = true;
-      },
-      async approvePass() {
-        if (this.$refs.resource.validate()) {
-          this.passLoading = true;
-          const data = {
-            Content: {},
-          };
-          const obj = this.$refs.resource.getData();
-          data.Content['limits.cpu'] = `${obj.Content['limits.cpu']}`;
-          data.Content['limits.memory'] = `${obj.Content['limits.memory']}Gi`;
-          data.Content[`limits.storage`] = `${obj.Content[`limits.storage`]}Gi`;
+  const i18nLocal = useI18n();
 
-          if (obj.Content['limits.nvidia.com/gpu']) {
-            data.Content['limits.nvidia.com/gpu'] = obj.Content[`limits.nvidia.com/gpu`];
-          }
-          if (obj.Content['limits.tencent.com/vcuda-core']) {
-            data.Content['limits.tencent.com/vcuda-core'] = obj.Content[`limits.tencent.com/vcuda-core`];
-          }
-          if (obj.Content['limits.tencent.com/vcuda-memory']) {
-            data.Content['limits.tencent.com/vcuda-memory'] = obj.Content[`limits.tencent.com/vcuda-memory`];
-          }
+  const state = reactive({
+    dialog: false,
+    passLoading: false,
+    cancelLoading: false,
+  });
 
-          await postApprovePass(this.item.ID, data);
-          this.passLoading = false;
-          this.reset();
-          this.$emit('refresh');
-        }
-      },
-      async approveReject() {
-        this.cancelLoading = true;
-        await postApproveReject(this.item.ID);
-        this.cancelLoading = false;
-        this.reset();
-        this.$emit('refresh');
-      },
-      async init(item) {
-        this.item = deepCopy(item);
-        const data = await getTenantResourceQuota(this.item.ClusterName, this.item.TenantName, {
-          noprocessing: true,
-        });
-        this.item.NowCpu = parseFloat(sizeOfCpu(data.spec.hard['limits.cpu']));
-        this.item.NowMemory = parseFloat(sizeOfStorage(data.spec.hard['limits.memory']));
-        if (!data.spec.hard[`limits.storage`]) {
-          data.spec.hard[`limits.storage`] = data.spec.hard[`requests.storage`] || 0;
-        }
-        this.item.NowStorage = parseFloat(sizeOfStorage(data.spec.hard[`limits.storage`]));
-        if (item.Content[`limits.nvidia.com/gpu`]) {
-          this.item.NowNvidiaGpu = parseFloat(data.spec.hard['limits.nvidia.com/gpu']);
-        }
-        if (item.Content[`limits.tencent.com/vcuda-core`]) {
-          this.item.NowTkeGpu = parseFloat(data.spec.hard['limits.tencent.com/vcuda-core']);
-        }
-        if (item.Content[`limits.tencent.com/vcuda-memory`]) {
-          this.item.NowTkeMemory = parseFloat(data.spec.hard['limits.tencent.com/vcuda-memory']);
-        }
-        this.quota = await this.m_resource_clusterQuota(this.item.ClusterID, this.item);
-        if (!this.item.Content[`limits.storage`]) {
-          this.item.Content[`limits.storage`] = this.item.Content[`requests.storage`] || '0';
-        }
-        const content = {
-          'limits.cpu': this.item.Content[`limits.cpu`],
-          'limits.memory': this.item.Content[`limits.memory`].replaceAll('Gi', ''),
-          'limits.storage': this.item.Content[`limits.storage`].replaceAll('Gi', ''),
-        };
-
-        if (this.item.NowNvidiaGpu) {
-          content['limits.nvidia.com/gpu'] = this.item.Content[`limits.nvidia.com/gpu`];
-        }
-        if (this.item.NowTkeGpu) {
-          content['limits.tencent.com/vcuda-core'] = this.item.Content[`limits.tencent.com/vcuda-core`];
-        }
-        if (this.item.NowTkeMemory) {
-          content['limits.tencent.com/vcuda-memory'] = this.item.Content[`limits.tencent.com/vcuda-memory`];
-        }
-        this.$refs.resource.setContent(content);
-      },
-      reset() {
-        this.dialog = false;
-        this.$refs.resource.reset();
-        this.quota = null;
-      },
-    },
+  const open = (): void => {
+    state.dialog = true;
   };
+
+  const cluster = ref<string>(undefined);
+  const approve = ref<Approve>(undefined);
+  const quota = ref(undefined);
+  const init = async (item: Approve): Promise<void> => {
+    approve.value = deepCopy(item);
+    const data = await new Tenant({ TenantName: approve.value.TenantName }).getResourceQuota(
+      approve.value.ClusterName,
+      { noprocessing: true },
+    );
+    approve.value.NowCpu = parseFloat(sizeOfCpu(data.spec.hard['limits.cpu']).toString());
+    approve.value.NowMemory = parseFloat(sizeOfStorage(data.spec.hard['limits.memory']).toString());
+    if (!data.spec.hard[`limits.storage`]) {
+      data.spec.hard[`limits.storage`] = data.spec.hard[`requests.storage`] || 0;
+    }
+    approve.value.NowStorage = parseFloat(sizeOfStorage(data.spec.hard[`limits.storage`]).toString());
+    if (item.Content[`limits.nvidia.com/gpu`]) {
+      approve.value.NowNvidiaGpu = parseFloat(data.spec.hard['limits.nvidia.com/gpu']);
+    }
+    if (item.Content[`limits.tencent.com/vcuda-core`]) {
+      approve.value.NowTkeGpu = parseFloat(data.spec.hard['limits.tencent.com/vcuda-core']);
+    }
+    if (item.Content[`limits.tencent.com/vcuda-memory`]) {
+      approve.value.NowTkeMemory = parseFloat(data.spec.hard['limits.tencent.com/vcuda-memory']);
+    }
+
+    quota.value = await useClusterQuota(new Cluster({ ID: approve.value.ClusterID }), approve.value);
+    if (!approve.value.Content[`limits.storage`]) {
+      approve.value.Content[`limits.storage`] = approve.value.Content[`requests.storage`] || '0';
+    }
+    const content = {
+      'limits.cpu': approve.value.Content[`limits.cpu`],
+      'limits.memory': (approve.value.Content[`limits.memory`] as string).replaceAll('Gi', ''),
+      'limits.storage': (approve.value.Content[`limits.storage`] as string).replaceAll('Gi', ''),
+    };
+
+    if (approve.value.NowNvidiaGpu) {
+      content['limits.nvidia.com/gpu'] = approve.value.Content[`limits.nvidia.com/gpu`];
+    }
+    if (approve.value.NowTkeGpu) {
+      content['limits.tencent.com/vcuda-core'] = approve.value.Content[`limits.tencent.com/vcuda-core`];
+    }
+    if (approve.value.NowTkeMemory) {
+      content['limits.tencent.com/vcuda-memory'] = approve.value.Content[`limits.tencent.com/vcuda-memory`];
+    }
+    resource.value.setContent(content);
+  };
+
+  defineExpose({
+    open,
+    init,
+  });
+
+  const emit = defineEmits(['refresh']);
+
+  const resource = ref(null);
+  const approvePass = async (): Promise<void> => {
+    if (resource.value.validate()) {
+      state.passLoading = true;
+      const data = {
+        Content: {},
+      };
+      const obj = resource.value.getData();
+      data.Content['limits.cpu'] = `${obj.Content['limits.cpu']}`;
+      data.Content['limits.memory'] = `${obj.Content['limits.memory']}Gi`;
+      data.Content[`limits.storage`] = `${obj.Content[`limits.storage`]}Gi`;
+
+      if (obj.Content['limits.nvidia.com/gpu']) {
+        data.Content['limits.nvidia.com/gpu'] = obj.Content[`limits.nvidia.com/gpu`];
+      }
+      if (obj.Content['limits.tencent.com/vcuda-core']) {
+        data.Content['limits.tencent.com/vcuda-core'] = obj.Content[`limits.tencent.com/vcuda-core`];
+      }
+      if (obj.Content['limits.tencent.com/vcuda-memory']) {
+        data.Content['limits.tencent.com/vcuda-memory'] = obj.Content[`limits.tencent.com/vcuda-memory`];
+      }
+      await new Approve({ ID: approve.value.ID }).passApprove();
+      state.passLoading = false;
+      reset();
+      emit('refresh');
+    }
+  };
+
+  const approveReject = async (): Promise<void> => {
+    state.cancelLoading = true;
+    await new Approve({ ID: approve.value.ID }).rejectApprove();
+    state.cancelLoading = false;
+    reset();
+    emit('refresh');
+  };
+
+  const reset = (): void => {
+    state.dialog = false;
+    resource.value.reset();
+    quota.value = undefined;
+  };
+
+  watch(
+    () => approve,
+    async (newValue) => {
+      if (!newValue) return;
+      cluster.value = newValue.value.ClusterName;
+    },
+    { deep: true },
+  );
 </script>

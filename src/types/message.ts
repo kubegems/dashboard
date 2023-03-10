@@ -15,13 +15,17 @@
  */
 import axios from 'axios';
 
-export class Message {
-  constructor(auth?: { [key: string]: any }) {
-    Object.assign(this, auth);
+interface MessageOperator {
+  readMessage(params: KubeRequest): Promise<Message>;
+}
+
+export class Message implements MessageOperator {
+  constructor(message?: { [key: string]: any }) {
+    Object.assign(this, message);
   }
 
-  ID: number;
-  Content: string;
+  ID: number | string;
+  Content: any;
   CreatedAt: Date;
   IsRead: boolean;
   MessageType: string;
@@ -31,5 +35,46 @@ export class Message {
   public async getMessageList(params: KubePaginationRequest): Promise<KubePaginationResponse<Message[]>> {
     const data: { [key: string]: any } = await axios(`message`, { params: params });
     return data as KubePaginationResponse<Message[]>;
+  }
+
+  public async readMessage(params: KubeRequest = {}): Promise<Message> {
+    const data: { [key: string]: any } = await axios.put(`message/${this.ID}`, {}, { params: params });
+    return data as Message;
+  }
+}
+
+interface ApproveOperator {
+  passApprove(): Promise<void>;
+  rejectApprove(): Promise<void>;
+}
+
+export class Approve implements ApproveOperator {
+  constructor(approve?: { [key: string]: any }) {
+    Object.assign(this, approve);
+  }
+
+  ClusterID: number;
+  ClusterName: string;
+  Content: any;
+  CreatedAt: Date;
+  ID: number;
+  ResourceType: string;
+  Status: string;
+  TenantID: string;
+  TenantName: string;
+  Title: string;
+  [others: string]: any;
+
+  public async getApproveList(params: KubeRequest): Promise<Approve[]> {
+    const data: { [key: string]: any } = await axios(`approve`, { params: params });
+    return data as Approve[];
+  }
+
+  public async passApprove(): Promise<void> {
+    await axios.post(`approve/${this.ID}/pass`);
+  }
+
+  public async rejectApprove(): Promise<void> {
+    await axios.post(`approve/${this.ID}/reject`);
   }
 }

@@ -18,12 +18,12 @@
   <v-app-bar app class="header" clipped-left clipped-right color="primary" dark>
     <v-app-bar-nav-icon
       v-if="showAppBarNavIcon"
-      @click="$vuetify.breakpoint.smAndDown ? setSidebarDrawer(!SidebarDrawer) : $emit('input', !value)"
+      @click="vuetify.breakpoint.smAndDown ? setSidebarDrawer(!store.state.SidebarDrawer) : emit('input', !value)"
     />
 
     <div>
       <div class="hidden-sm-and-down float-left">
-        <v-img class="kubegems__absolute-middle" contain :src="logo" width="140" />
+        <v-img class="kubegems__absolute-middle" contain :src="LOGO_WHITE" width="140" />
       </div>
       <div
         class="pl-2 text-h6 float-left header__line-height"
@@ -34,7 +34,7 @@
           marginLeft: `140px`,
         }"
       >
-        {{ $root.$t(smallTitle) }}
+        {{ i18n.t(smallTitle) }}
       </div>
 
       <div class="kubegems__clear-float" />
@@ -42,19 +42,19 @@
 
     <v-spacer />
 
-    <v-btn v-if="!GlobalPlugins['kubegems-models']" color="primary" dark depressed @click="toAppStore">
+    <v-btn v-if="!store.state.GlobalPlugins['kubegems-models']" color="primary" dark depressed @click="toAppStore">
       <v-icon class="header__icon-line-height" left> mdi-shopping </v-icon>
       <span
         class="header__span-line-height"
         :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`, fontWeight: `bold` }"
       >
-        {{ $root.$t('header.app_store') }}
+        {{ i18n.t('header.app_store') }}
       </span>
     </v-btn>
 
     <v-menu
       v-else
-      v-model="storeMenu"
+      v-model="state.menu"
       bottom
       content-class="header__bg"
       left
@@ -65,15 +65,15 @@
     >
       <template #activator="{ on }">
         <v-btn color="primary" dark depressed v-on="on">
-          <v-icon v-if="StoreMode === 'app'" class="header__icon-line-height" left> mdi-shopping </v-icon>
+          <v-icon v-if="store.state.StoreMode === 'app'" class="header__icon-line-height" left> mdi-shopping </v-icon>
           <v-icon v-else class="header__icon-line-height" left> mdi-cube </v-icon>
           <span
             class="header__span-line-height"
             :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important;`, fontWeight: `bold` }"
           >
-            {{ StoreMode === 'app' ? $root.$t('header.app_store') : $root.$t('header.model_store') }}
+            {{ store.state.StoreMode === 'app' ? i18n.t('header.app_store') : i18n.t('header.model_store') }}
           </span>
-          <v-icon v-if="storeMenu" right>mdi-chevron-up</v-icon>
+          <v-icon v-if="state.menu" right>mdi-chevron-up</v-icon>
           <v-icon v-else right>mdi-chevron-down</v-icon>
         </v-btn>
       </template>
@@ -82,29 +82,29 @@
           <v-card v-for="item in props.items" :key="item.text" flat>
             <v-list dense>
               <v-list-item
-                v-for="(store, index) in item.values"
+                v-for="(sto, index) in item.values"
                 :key="index"
                 class="text-body-2 text-start font-weight-medium pl-2 mx-2"
                 link
                 :style="{
-                  color: store.value === StoreMode ? '#1e88e5 !important' : 'rgba(0, 0, 0, 0.7) !important',
+                  color: sto.value === store.state.StoreMode ? '#1e88e5 !important' : 'rgba(0, 0, 0, 0.7) !important',
                 }"
-                @click="goStore(store)"
+                @click="goStore(sto)"
               >
                 <v-list-item-content class="text-body-2 font-weight-medium">
                   <span>
                     <v-icon
-                      v-if="store.value === 'app'"
-                      :class="{ header__highlight: store.value === StoreMode }"
+                      v-if="sto.value === 'app'"
+                      :class="{ header__highlight: sto.value === store.state.StoreMode }"
                       left
                       small
                     >
                       mdi-shopping
                     </v-icon>
-                    <v-icon v-else :class="{ header__highlight: store.value === StoreMode }" left small>
+                    <v-icon v-else :class="{ header__highlight: sto.value === store.state.StoreMode }" left small>
                       mdi-cube
                     </v-icon>
-                    {{ store.text }}
+                    {{ sto.text }}
                   </span>
                 </v-list-item-content>
               </v-list-item>
@@ -120,7 +120,7 @@
         class="header__span-line-height"
         :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`, fontWeight: `bold` }"
       >
-        {{ $root.$t('header.workspace') }}
+        {{ i18n.t('header.workspace') }}
       </span>
     </v-btn>
 
@@ -129,106 +129,103 @@
   </v-app-bar>
 </template>
 
-<script>
-  import { mapGetters, mapMutations, mapState } from 'vuex';
+<script lang="ts" setup>
+  import { nextTick, onMounted, reactive } from 'vue';
 
-  import Message from './Message';
-  import User from './User';
+  import Message from './Message.vue';
+  import User from './User.vue';
+  import { useVuetify } from '@/composition/proxy';
+  import { useRoute, useRouter } from '@/composition/router';
   import { LOGO_WHITE } from '@/constants/platform';
-  import BasePermission from '@/mixins/permission';
-  import BaseSelect from '@/mixins/select';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
 
-  export default {
-    name: 'Header',
-    components: {
-      Message,
-      User,
+  withDefaults(
+    defineProps<{
+      showAppBarNavIcon?: boolean;
+      smallTitle?: string;
+      value?: boolean;
+    }>(),
+    {
+      showAppBarNavIcon: true,
+      smallTitle: '',
+      value: false,
     },
-    mixins: [BasePermission, BaseSelect],
-    inject: ['reload'],
-    props: {
-      showAppBarNavIcon: {
-        type: Boolean,
-        default: true,
-      },
-      smallTitle: {
-        type: String,
-        default: '',
-      },
-      value: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    data() {
-      return {
-        storeMenu: false,
-        stores: [
-          { text: this.$root.$t('header.app_store'), value: 'app' },
-          { text: this.$root.$t('header.model_store'), value: 'model' },
-        ],
-        logo: LOGO_WHITE,
-      };
-    },
-    computed: {
-      ...mapState(['SidebarDrawer', 'Admin', 'User', 'JWT', 'StoreMode', 'GlobalPlugins']),
-      ...mapGetters(['Tenant', 'Project']),
-    },
-    mounted() {
-      this.$nextTick(() => {
-        if (['app-store', 'model-store'].indexOf(this.$route.meta.rootName) > -1) {
-          this.$store.commit('SET_STORE', this.$route.meta.rootName === 'app-store' ? 'app' : 'model');
-        }
-      });
-    },
-    methods: {
-      ...mapMutations({
-        setSidebarDrawer: 'SET_SIDEBAR_DRAWER',
-      }),
-      toAppStore() {
-        this.$store.commit('CLEAR_VIRTUAL_SPACE');
-        if (this.Tenant().ID > 0 || this.Admin) {
-          this.$store.commit('SET_EDGE', '');
-          this.$router.push({ name: 'appstore-center' });
-        } else {
-          this.$router.push({ name: 'whitepage' });
-        }
-      },
-      toModelStore() {
-        this.$store.commit('CLEAR_VIRTUAL_SPACE');
-        if (this.Tenant().ID > 0 || this.Admin) {
-          this.$store.commit('SET_EDGE', '');
-          this.$router.push({ name: 'modelstore-center' });
-        } else {
-          this.$router.push({ name: 'whitepage' });
-        }
-      },
-      goStore(store) {
-        if (store) {
-          this.$store.commit('SET_STORE', store.value);
-          if (this.StoreMode === 'app') this.toAppStore();
-          else this.toModelStore();
-        }
-      },
-      async toWorkspace() {
-        this.$store.commit('CLEAR_VIRTUAL_SPACE');
-        if (this.Tenant().ID === 0) {
-          await this.$store.dispatch('UPDATE_TENANT_DATA');
-        }
-        if (this.Tenant().ID > 0 || this.Admin) {
-          this.$store.commit('SET_ADMIN_VIEWPORT', false);
-          this.$store.commit('SET_EDGE', '');
-          this.$store.commit('CLEAR_RESOURCE');
-          this.$router.push({
-            name: 'resource-dashboard',
-            params: { tenant: this.Tenant().TenantName },
-          });
-        } else {
-          this.$router.push({ name: 'whitepage' });
-        }
-      },
-    },
+  );
+
+  const i18n = useGlobalI18n();
+  const store = useStore();
+  const router = useRouter();
+  const route = useRoute();
+  const vuetify = useVuetify();
+
+  const state = reactive({
+    menu: false,
+  });
+  const stores = [
+    { text: i18n.t('header.app_store'), value: 'app' },
+    { text: i18n.t('header.model_store'), value: 'model' },
+  ];
+
+  const toAppStore = (): void => {
+    store.commit('CLEAR_VIRTUAL_SPACE');
+    if (store.getters.Tenant().ID > 0 || store.state.Admin) {
+      store.commit('SET_EDGE', '');
+      router.push({ name: 'appstore-center' });
+    } else {
+      router.push({ name: 'whitepage' });
+    }
   };
+
+  const toModelStore = (): void => {
+    store.commit('CLEAR_VIRTUAL_SPACE');
+    if (store.getters.Tenant().ID > 0 || store.state.Admin) {
+      store.commit('SET_EDGE', '');
+      router.push({ name: 'modelstore-center' });
+    } else {
+      router.push({ name: 'whitepage' });
+    }
+  };
+
+  const goStore = (sto: { text: string; value: string }): void => {
+    if (sto) {
+      store.commit('SET_STORE', sto.value);
+      if (store.state.StoreMode === 'app') toAppStore();
+      else toModelStore();
+    }
+  };
+
+  const toWorkspace = async (): Promise<void> => {
+    store.commit('CLEAR_VIRTUAL_SPACE');
+    if (store.getters.Tenant().ID === 0) {
+      await store.dispatch('UPDATE_TENANT_DATA');
+    }
+    if (store.getters.Tenant().ID > 0 || store.state.Admin) {
+      store.commit('SET_ADMIN_VIEWPORT', false);
+      store.commit('SET_EDGE', '');
+      store.commit('CLEAR_RESOURCE');
+      router.push({
+        name: 'resource-dashboard',
+        params: { tenant: store.getters.Tenant().TenantName },
+      });
+    } else {
+      router.push({ name: 'whitepage' });
+    }
+  };
+
+  const setSidebarDrawer = (sidebar: any): void => {
+    store.commit('SET_SIDEBAR_DRAWER', sidebar);
+  };
+
+  const emit = defineEmits(['input']);
+
+  onMounted(() => {
+    nextTick(() => {
+      if (['app-store', 'model-store'].indexOf(route.meta.rootName) > -1) {
+        store.commit('SET_STORE', route.meta.rootName === 'app-store' ? 'app' : 'model');
+      }
+    });
+  });
 </script>
 
 <style lang="scss" scoped>

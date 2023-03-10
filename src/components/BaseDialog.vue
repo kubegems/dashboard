@@ -54,7 +54,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { watch, ref } from 'vue';
+  import { ref, watch } from 'vue';
 
   import { useGlobalI18n } from '@/i18n';
   import { useStore } from '@/store';
