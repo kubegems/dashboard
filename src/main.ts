@@ -31,7 +31,6 @@ import store from '@/store';
 
 import '@/assets/styles/index.scss';
 import '@/types/axios';
-import '@/extension/sentry';
 
 Vue.config.productionTip = false;
 

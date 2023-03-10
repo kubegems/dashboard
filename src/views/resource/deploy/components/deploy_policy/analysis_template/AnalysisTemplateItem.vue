@@ -31,7 +31,7 @@
             <v-list-item class="float-left pa-0 kubegems__two-width" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
-                  {{ obj.args ? obj.args.length : 0 }} 个arg
+                  {{ obj.args ? obj.args.length : 0 }} args
                 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1"> args </v-list-item-subtitle>
               </v-list-item-content>

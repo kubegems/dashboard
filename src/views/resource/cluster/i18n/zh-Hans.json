@@ -45,7 +45,8 @@
     "create_at": "创建时间",
     "select_environment": "请选择分配环境",
     "heartbeat_time": "上次心跳时间",
-    "manufacture": "设备信息"
+    "manufacture": "设备信息",
+    "expired_soon": "即将到期"
   },
   "form": {
     "format_rule": "格式错误(示例:最多1位小数)",

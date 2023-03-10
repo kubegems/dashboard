@@ -1,10 +1,11 @@
-# 1.23.6 (2023-3-9)
+# 1.23.6 (2023-3-10)
 
 ### 🌟 新功能
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [feat: ⚡ supported otel trace for dashboard, optimization schema json render for vue3] | [4f9007a](https://github.com/chenshunliang/dashboard/commit/4f9007aa205f94f56d88892de7e3efee1254cd18) |
+| - | [perf: ⚡ support edit application from app store] | [8042573](https://github.com/chenshunliang/dashboard/commit/80425738d249df19fd0680f50cb0155c78f9cfa3) |
 
 ### Bug Fixes
 
@@ -18,6 +19,7 @@
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [refactor: 🔨 reflactor base components code for vue3] | [4e703fc](https://github.com/chenshunliang/dashboard/commit/4e703fc08e4eb78cd1c98d86a8797937f1488439) |
+| - | [refactor: :reflact: reflact layout code for vue3] | [5b5b247](https://github.com/chenshunliang/dashboard/commit/5b5b247a971fd456640b94f5ea7bd8ab80608610) |
 
 # 1.23.5 (2023-2-28)
 

@@ -106,7 +106,8 @@
     "tls_version": "TLS版本",
     "http_cert_expired": "證書過期時間",
     "disabled": "未啟用",
-    "enabled": "啟用"
+    "enabled": "啟用",
+    "create_dashboard": "請先創建監控大盤"
   },
   "tab": {
     "generate_from_template": "由模版生成",

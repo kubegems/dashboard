@@ -74,7 +74,8 @@
     "used_memory": "Used",
     "buffer_memory": "Buffers",
     "cached_memory": "Cached",
-    "memory_used_status": "Memory Used Status"
+    "memory_used_status": "Memory Used Status",
+    "log_context": "Log context"
   },
   "operate": {
     "download_log": "Download Log",

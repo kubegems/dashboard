@@ -107,7 +107,8 @@
     "tls_version": "TLS バージョン",
     "http_cert_expired": "証明書の有効期限",
     "disabled": "有効になっていません",
-    "enabled": "有効"
+    "enabled": "有効",
+    "create_dashboard": "最初に監視パネルを作成してください"
   },
   "tab": {
     "generate_from_template": "テンプレート生成",

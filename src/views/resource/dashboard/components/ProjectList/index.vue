@@ -497,7 +497,7 @@
           this.$refs.addProject.init();
         } else {
           this.$store.commit('SET_SNACKBAR', {
-            text: `请创建或加入租户`,
+            text: this.$root.$t('tip.select_tenant'),
             color: 'warning',
           });
         }

@@ -77,7 +77,7 @@
               <v-list-item-content>
                 <v-list-item-title class="select__list__title pl-2">
                   {{ item.showName }}
-                  <div class="float-right text-caption mt-n1">{{ item.resources.length }} 资源</div>
+                  <div class="float-right text-caption mt-n1">{{ item.resources.length }} {{ $t('tip.resource') }}</div>
                 </v-list-item-title>
               </v-list-item-content>
               <v-list-item-icon>
@@ -100,7 +100,9 @@
               <v-list-item-content>
                 <v-list-item-title class="select__list__title pl-2">
                   {{ item.showName }}
-                  <div class="float-right text-caption mt-n1">{{ item.rules ? item.rules.length : 0 }} 规则</div>
+                  <div class="float-right text-caption mt-n1">
+                    {{ item.rules ? item.rules.length : 0 }} {{ $t('tip.rule') }}
+                  </div>
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>

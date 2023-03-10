@@ -74,7 +74,8 @@
     "used_memory": "メモリを使用する",
     "buffer_memory": "Buffers",
     "cached_memory": "Cached",
-    "memory_used_status": "メモリ使用状況"
+    "memory_used_status": "メモリ使用状況",
+    "log_context": "ログコンテキスト"
   },
   "operate": {
     "download_log": "ログをダウンロード",

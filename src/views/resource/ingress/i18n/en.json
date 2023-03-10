@@ -20,7 +20,8 @@
     "no_random_domain": "No random domains generated",
     "leave_1_rule": "Keep at least one route rule",
     "auto_domain": "Auto-generate domain",
-    "domain": "Domain"
+    "domain": "Domain",
+    "request": "Request"
   },
   "operate": {
     "add_path": "Add Path",

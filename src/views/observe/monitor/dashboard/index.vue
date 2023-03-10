@@ -147,7 +147,7 @@
     </template>
 
     <div v-else class="text-center dash__tip primary--text white rounded">
-      <span class="kubegems__full-center">请先创建监控大盘</span>
+      <span class="kubegems__full-center">{{ $t('tip.create_dashboard') }}</span>
     </div>
 
     <AddDashboard ref="addDashboard" :environment="environment" @refresh="dashboardList" />
