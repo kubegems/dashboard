@@ -63,7 +63,9 @@
     "sync_alert": "同步應用 {0}，該操作會導致服務重啟",
     "refresh_tip": "刷新應用 {0} 的資源檔",
     "rollback_tip": "回滾版本至 {0}",
-    "change_content": "變更內容"
+    "change_content": "變更內容",
+    "cannot_publish": "標記 {0} 不可發布",
+    "can_publish": "標記 {0} 允許發布"
   },
   "operate": {
     "link_c": "關聯{0}",

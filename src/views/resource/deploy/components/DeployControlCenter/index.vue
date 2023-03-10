@@ -56,7 +56,7 @@
                       </v-card>
                     </v-menu>
                   </template>
-                  <template v-else>未知</template>
+                  <template v-else>{{ $root.$t('data.unknown') }}</template>
                 </span>
                 <v-btn class="mt-n1" color="primary" small text @click="viewDeployStep">
                   {{ $t('operate.detail') }}

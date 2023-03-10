@@ -24,7 +24,13 @@
               <span>{{ $root.$t('form.definition', [$t('tip.port')]) }}</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field v-model="port.name" class="my-0" label="名称" required :rules="portRules.nameRule" />
+              <v-text-field
+                v-model="port.name"
+                class="my-0"
+                :label="$root.$t('form.name')"
+                required
+                :rules="portRules.nameRule"
+              />
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete

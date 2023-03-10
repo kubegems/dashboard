@@ -149,7 +149,9 @@
       </template>
       <template v-else>
         <div class="text-body-2" :style="{ position: 'relative', height: '300px' }">
-          <span class="kubegems__full-center kubegems__text"> 插件{{ pluginPass.join(',') }}未启用 </span>
+          <span class="kubegems__full-center kubegems__text">
+            {{ $root.$t('plugin.missing', [pluginPass.join(',')]) }}
+          </span>
         </div>
       </template>
     </v-card-text>

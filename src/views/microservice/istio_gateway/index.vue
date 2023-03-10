@@ -65,7 +65,7 @@
                       </span>
                     </v-list-item-subtitle>
                     <v-list-item-subtitle>
-                      <span class="text-body-2"> 端口： </span>
+                      <span class="text-body-2"> {{ $t('table.port') }} : </span>
                       <span v-for="(port, index) in item ? item && item.ports : []" :key="index">
                         <span v-if="port.name === 'http2'">
                           http:

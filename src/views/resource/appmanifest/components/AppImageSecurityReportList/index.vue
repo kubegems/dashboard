@@ -287,7 +287,7 @@
       labelNoPublish(item) {
         this.$store.commit('SET_CONFIRM', {
           title: this.$t('operate.cannot_publish'),
-          content: { text: `标记 ${item.image} 不可发布`, type: 'confirm' },
+          content: { text: this.$t('tip.cannot_publish', [item.image]), type: 'confirm' },
           param: { item },
           doFunc: async (param) => {
             await putSetPublishAppImage(this.app.TenantID, this.app.ProjectID, {
@@ -301,7 +301,7 @@
       labelPublish(item) {
         this.$store.commit('SET_CONFIRM', {
           title: this.$t('operate.allow_publish'),
-          content: { text: `标记 ${item.image} 允许发布`, type: 'confirm' },
+          content: { text: this.$t('tip.can_publish', [item.image]), type: 'confirm' },
           param: { item },
           doFunc: async (param) => {
             await putSetPublishAppImage(this.app.TenantID, this.app.ProjectID, {

@@ -63,7 +63,9 @@
     "sync_alert": "Sync app {0}, which will cause service reboot",
     "refresh_tip": "Refresh resource file for application {0}",
     "rollback_tip": "Rollback version to {0}",
-    "change_content": "Change content"
+    "change_content": "Change content",
+    "cannot_publish": "Mark {0} is not publishable",
+    "can_publish": "Mark {0} to allow publish"
   },
   "operate": {
     "link_c": "Associate {0}",

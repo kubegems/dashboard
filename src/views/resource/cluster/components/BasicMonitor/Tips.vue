@@ -40,7 +40,7 @@
             <v-list-item-content>
               <v-list-item v-for="(msg, index) in item" :key="index" class="float-left pa-0" two-line>
                 <v-list-item-content class="py-0">
-                  <v-list-item-title> 事件 {{ index + 1 }} </v-list-item-title>
+                  <v-list-item-title> {{ $root.$t('resource.event') }} {{ index + 1 }} </v-list-item-title>
                   <v-list-item-content class="text-caption kubegems__text">
                     {{ msg }}
                   </v-list-item-content>

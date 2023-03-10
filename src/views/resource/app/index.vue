@@ -133,8 +133,8 @@
             </AppStatusTip>
           </template>
           <template #[`item.action`]="{ item }">
-            <v-flex :id="`r${item.name}`" />
-            <v-menu :attach="`#r${item.name}`" left>
+            <v-flex :id="`r${item.name.replaceAll('.', '_')}`" />
+            <v-menu :attach="`#r${item.name.replaceAll('.', '_')}`" left>
               <template #activator="{ on }">
                 <v-btn icon>
                   <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
@@ -407,7 +407,7 @@
               sortable: false,
             },
             {
-              text: this.$t('table.publisher'),
+              text: this.$t('table.creator'),
               value: 'creator',
               align: 'start',
               sortable: false,

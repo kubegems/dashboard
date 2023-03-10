@@ -75,7 +75,8 @@
     "used_memory": "使用内存",
     "buffer_memory": "Buffers",
     "cached_memory": "Cached",
-    "memory_used_status": "內存使用狀態"
+    "memory_used_status": "內存使用狀態",
+    "log_context": "日誌上下文"
   },
   "operate": {
     "download_log": "下載日誌",

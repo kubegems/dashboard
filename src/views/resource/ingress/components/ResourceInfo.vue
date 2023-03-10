@@ -64,7 +64,9 @@
         </template>
         <template #[`item.opp`]="{ item }">
           <v-flex v-for="(path, i) in item.http.paths" :key="i">
-            <v-btn color="primary" text x-small @click.stop="toAddress(item, ingress, path.path)"> 访问 </v-btn>
+            <v-btn color="primary" text x-small @click.stop="toAddress(item, ingress, path.path)">
+              {{ $t('tip.request') }}
+            </v-btn>
           </v-flex>
         </template>
         <template #expanded-item="{ headers, item }">
@@ -77,7 +79,7 @@
               small
               text-color="white"
             >
-              {{ path.backend.service.name }}｜{{ path.backend.service.port.name || path.backend.service.port.number }}
+              {{ path.backend.service.name }}|{{ path.backend.service.port.name || path.backend.service.port.number }}
             </v-chip>
           </td>
         </template>
@@ -117,7 +119,9 @@
         </template>
         <template #[`item.opp`]="{ item }">
           <v-flex v-for="(path, i) in item.http.paths" :key="i">
-            <v-btn color="primary" text x-small @click.stop="toAddress(item, ingress, path.path)"> 访问 </v-btn>
+            <v-btn color="primary" text x-small @click.stop="toAddress(item, ingress, path.path)">
+              {{ $t('tip.request') }}
+            </v-btn>
           </v-flex>
         </template>
         <template #expanded-item="{ headers, item }">

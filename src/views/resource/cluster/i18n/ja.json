@@ -45,7 +45,8 @@
     "create_at": "作成時間",
     "select_environment": "配布環境を選択してください",
     "heartbeat_time": "前回の心拍時間",
-    "manufacture": "デバイス情報"
+    "manufacture": "デバイス情報",
+    "expired_soon": "期限切れ"
   },
   "form": {
     "format_rule": "整形エラー(例:最大1桁)",

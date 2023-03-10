@@ -63,7 +63,9 @@
     "sync_alert": "{0}を同期しますこの操作はサービスを再起動します",
     "refresh_tip": "{0} のリソースファイルを更新します。",
     "rollback_tip": "{0}にロールバック",
-    "change_content": "変更"
+    "change_content": "変更",
+    "cannot_publish": "タグ {0} は公開できません",
+    "can_publish": "投稿を許可するには {0} をマークしてください"
   },
   "operate": {
     "link_c": "{0} に接続",

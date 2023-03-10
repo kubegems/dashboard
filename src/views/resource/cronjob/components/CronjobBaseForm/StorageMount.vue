@@ -64,7 +64,7 @@
       </v-card>
     </v-expand-transition>
 
-    <BaseSubTitle title="存储卷" />
+    <BaseSubTitle :title="$root.$t('resource.persistentvolumeclaim')" />
     <v-card-text class="pa-2">
       <StorageMountItem
         :containers="obj.spec.jobTemplate.spec.template.spec.containers"

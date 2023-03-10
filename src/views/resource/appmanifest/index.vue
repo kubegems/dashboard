@@ -71,7 +71,7 @@
             </v-flex>
           </template>
           <template #[`item.kind`]="{ item }">
-            {{ item.kind === '' ? '未知' : item.kind }}
+            {{ item.kind === '' ? $root.$t('data.unknown') : item.kind }}
           </template>
           <template #[`item.labels`]="{ item }">
             <v-chip
@@ -90,8 +90,8 @@
             {{ item.creator }}
           </template>
           <template #[`item.action`]="{ item }">
-            <v-flex :id="`r${item.name}`" />
-            <v-menu :attach="`#r${item.name}`" left>
+            <v-flex :id="`r${item.name.replaceAll('.', '_')}`" />
+            <v-menu :attach="`#r${item.name.replaceAll('.', '_')}`" left>
               <template #activator="{ on }">
                 <v-btn icon>
                   <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>

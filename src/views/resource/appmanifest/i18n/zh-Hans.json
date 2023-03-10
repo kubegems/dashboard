@@ -63,7 +63,9 @@
     "sync_alert": "同步应用 {0}，该操作会导致服务重启",
     "refresh_tip": "刷新应用 {0} 的资源文件",
     "rollback_tip": "回滚版本至 {0}",
-    "change_content": "变更内容"
+    "change_content": "变更内容",
+    "cannot_publish": "标记 {0} 不可发布",
+    "can_publish": "标记 {0} 允许发布"
   },
   "operate": {
     "link_c": "关联{0}",

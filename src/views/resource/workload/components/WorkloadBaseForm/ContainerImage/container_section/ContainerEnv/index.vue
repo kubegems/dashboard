@@ -50,11 +50,23 @@
                 <span />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="obj.name" class="my-0" label="名称" required :rules="objRules.nameRule" />
+                <v-text-field
+                  v-model="obj.name"
+                  class="my-0"
+                  :label="$root.$t('form.name')"
+                  required
+                  :rules="objRules.nameRule"
+                />
               </v-flex>
               <v-flex v-if="env === 'kv'">
                 <v-flex class="float-left ml-2 kubegems__form-width">
-                  <v-text-field v-model="obj.value" class="my-0" label="值" required :rules="objRules.valueRule" />
+                  <v-text-field
+                    v-model="obj.value"
+                    class="my-0"
+                    :label="$root.$t('form.value')"
+                    required
+                    :rules="objRules.valueRule"
+                  />
                 </v-flex>
               </v-flex>
               <v-flex v-else-if="env === 'secret' || env === 'configmap'">
