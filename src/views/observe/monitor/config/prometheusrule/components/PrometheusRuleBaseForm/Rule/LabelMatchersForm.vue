@@ -157,7 +157,7 @@
   const objRule = reactive({ typeRules: [required], nameRules: [required], valueRules: [required] });
 
   const form = ref(null);
-  const emits = defineEmits(['closeOverlay', 'addData']);
+  const emit = defineEmits(['closeOverlay', 'addData']);
 
   const init = async (data: Matcher): Promise<void> => {
     obj = Object.assign(obj, data);
@@ -186,7 +186,7 @@
       const labelMatchers = deepCopy(props.labelMatchers);
       const newObj = {
         name: obj.name,
-        value: obj.value,
+        value: labelValues.value.join('|'),
         type: obj.type,
       };
       if (obj.index === -1) {
@@ -194,7 +194,7 @@
       } else {
         labelMatchers[obj.index] = newObj;
       }
-      emits('addData', labelMatchers);
+      emit('addData', labelMatchers);
       closeCard();
     }
   };
@@ -203,7 +203,7 @@
     state.expand = false;
     form.value.reset();
     obj.index = -1;
-    emits('closeOverlay');
+    emit('closeOverlay');
   };
 
   const expandCard = (): void => {

@@ -233,8 +233,8 @@
       setLocation() {
         this.timer = setInterval(() => {
           if (this.$refs.iframe) {
-            const href = this.$refs.iframe.contentWindow.location.pathname;
-            this.location = href.search('/trace/') === -1 ? 'search' : 'trace';
+            const href = this.$refs.iframe.contentWindow?.location?.pathname;
+            if (href) this.location = href.search('/trace/') === -1 ? 'search' : 'trace';
           }
         }, 200);
       },

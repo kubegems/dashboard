@@ -20,6 +20,7 @@ import { Environment } from './environment';
 import { Project } from './project';
 import { ResourceRole, UserRole } from './role';
 import { User } from './user';
+import { TENANT_RESOURCE_QUOTA_GROUP } from '@/constants/gvk';
 
 interface ProjectInTenant {
   getProjectList(params: KubePaginationRequest): Promise<KubePaginationResponse<Project[]>>;
@@ -38,6 +39,7 @@ interface ResourceQuotaInTenant {
   deleteResourceQuota(quotaId: number): Promise<void>;
   addResourceQuota(resourceQuota: TenantResourceQuota): Promise<TenantResourceQuota>;
   updateResourceQuota(resourceQuota: TenantResourceQuota): Promise<TenantResourceQuota>;
+  getResourceQuota(clusterName: string, params: KubeRequest): Promise<any>;
 }
 
 interface Operator {
@@ -161,6 +163,14 @@ export class Tenant
   ): Promise<KubePaginationResponse<TenantResourceQuota[]>> {
     const data: { [key: string]: any } = await axios(`tenant/${this.ID}/tenantresourcequota`, { params: params });
     return data as KubePaginationResponse<TenantResourceQuota[]>;
+  }
+
+  public async getResourceQuota(clusterName: string, params: KubeRequest = {}): Promise<any> {
+    const data: { [key: string]: any } = await axios(
+      `proxy/cluster/${clusterName}/${TENANT_RESOURCE_QUOTA_GROUP}/v1beta1/tenantresourcequotas/${this.TenantName}`,
+      { params: params },
+    );
+    return data;
   }
 
   public async deleteResourceQuota(quotaId: number): Promise<void> {

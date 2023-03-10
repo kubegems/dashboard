@@ -10,7 +10,14 @@
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
-| - | [perf: ⚡ support additionalItem field for json schema array type and fix few bugs] | [72b8dc3](https://github.com/chenshunliang/dashboard/commit/72b8dc3834006a83ce4f1ef24ab56bddb801aed6) |
+| - | [fix: ⚡ support additionalItem field for json schema array type and fix few bugs] | [72b8dc3](https://github.com/chenshunliang/dashboard/commit/72b8dc3834006a83ce4f1ef24ab56bddb801aed6) |
+| - | [fix: 🐛 fix log query context missing log items bug] | [352c440](https://github.com/chenshunliang/dashboard/commit/352c440ddcacac30f9d2d00f1f07a959e843cc60) |
+
+### 🔨 reflactor
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [refactor: 🔨 reflactor base components code for vue3] | [4e703fc](https://github.com/chenshunliang/dashboard/commit/4e703fc08e4eb78cd1c98d86a8797937f1488439) |
 
 # 1.23.5 (2023-2-28)
 
@@ -61,9 +68,9 @@
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
-| - | [refactor: 🔨 reflact code to vue3] | [b80a520](https://github.com/chenshunliang/dashboard/commit/b80a5208353a63cbac5e118c73930ee3e2114777)) |
-| - | [refactor: 🔨 code upgrade to vue3 for tools] | [bf1764e](https://github.com/chenshunliang/dashboard/commit/bf1764eaaf70bd7d4b37e41d9946a488f60ce64e)) |
-| - | [refactor: 🔨 reflact json schema code] | [64d4b61](https://github.com/chenshunliang/dashboard/commit/64d4b619eabda2d7d726af5d98dd553512a3bf73)) |
+| - | [refactor: 🔨 reflact code to vue3] | [b80a520](https://github.com/chenshunliang/dashboard/commit/b80a5208353a63cbac5e118c73930ee3e2114777) |
+| - | [refactor: 🔨 code upgrade to vue3 for tools] | [bf1764e](https://github.com/chenshunliang/dashboard/commit/bf1764eaaf70bd7d4b37e41d9946a488f60ce64e) |
+| - | [refactor: 🔨 reflact json schema code] | [64d4b61](https://github.com/chenshunliang/dashboard/commit/64d4b619eabda2d7d726af5d98dd553512a3bf73) |
 
 # 1.23.3 (2023-2-13)
 
@@ -78,7 +85,7 @@
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
-| - | [refactor: 🔨 reflact code to vue3] | [2df03cc](https://github.com/chenshunliang/dashboard/commit/2df03cc8eb90008b85fa84737c8e04e3a470e51f)) |
+| - | [refactor: 🔨 reflact code to vue3] | [2df03cc](https://github.com/chenshunliang/dashboard/commit/2df03cc8eb90008b85fa84737c8e04e3a470e51f) |
 
 # 1.23.2 (2023-2-8)
 
@@ -187,21 +194,21 @@
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
-| - | [fix: 🐛 fix intergated center page mixed bug] | [0321113](https://github.com/chenshunliang/dashboard/commit/032111386eccbf2ec00fff119aad71722d73262c)) |
-| - | [fix: 🐛 fix plugins params value not reconstruct when edited ] | [c7ac5e54](https://github.com/chenshunliang/dashboard/commit/c7ac5e547f56778237c4af4930050f95adadbfd9)) |
-| - | [fix: 🐛 fix log viewer query sometimes missing progress bar bug ] | [ccba56cc](https://github.com/chenshunliang/dashboard/commit/ccba56cc3e4814f862ac6e85d5066d2d2f6c8e75)) |
-| - | [fix: 🐛 fix monitor template detail page list graphs error bug ] | [9781b1f](https://github.com/chenshunliang/dashboard/commit/9781b1fb57460ae896971257c5f2def9869b920c)) |
-| - | [fix: 🐛 fix update monitor rule label matchers not effect bug ] | [35cf874](https://github.com/chenshunliang/dashboard/commit/35cf874dd8d67bece8d1f9f4b5cb7f2e3d16a5be)) |
-| - | [fix: 🐛 remove required validate for container command and args ] | [d345930](https://github.com/chenshunliang/dashboard/commit/d34593041357964d761d56cab45e74dc52604130)) |
-| - | [fix: 🐛 fix jsonschema render hidden condition default value not correct bug ] | [d345930](https://github.com/chenshunliang/dashboard/commit/d34593041357964d761d56cab45e74dc52604130)) |
+| - | [fix: 🐛 fix intergated center page mixed bug] | [0321113](https://github.com/chenshunliang/dashboard/commit/032111386eccbf2ec00fff119aad71722d73262c) |
+| - | [fix: 🐛 fix plugins params value not reconstruct when edited ] | [c7ac5e54](https://github.com/chenshunliang/dashboard/commit/c7ac5e547f56778237c4af4930050f95adadbfd9) |
+| - | [fix: 🐛 fix log viewer query sometimes missing progress bar bug ] | [ccba56cc](https://github.com/chenshunliang/dashboard/commit/ccba56cc3e4814f862ac6e85d5066d2d2f6c8e75) |
+| - | [fix: 🐛 fix monitor template detail page list graphs error bug ] | [9781b1f](https://github.com/chenshunliang/dashboard/commit/9781b1fb57460ae896971257c5f2def9869b920c) |
+| - | [fix: 🐛 fix update monitor rule label matchers not effect bug ] | [35cf874](https://github.com/chenshunliang/dashboard/commit/35cf874dd8d67bece8d1f9f4b5cb7f2e3d16a5be) |
+| - | [fix: 🐛 remove required validate for container command and args ] | [d345930](https://github.com/chenshunliang/dashboard/commit/d34593041357964d761d56cab45e74dc52604130) |
+| - | [fix: 🐛 fix jsonschema render hidden condition default value not correct bug ] | [d345930](https://github.com/chenshunliang/dashboard/commit/d34593041357964d761d56cab45e74dc52604130) |
 
 ### 🔨 reflactor
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
-| - | [build: :chrone: add sentry from .env file, optimization trace overview] | [0f93576](https://github.com/chenshunliang/dashboard/commit/0f93576fb0b2daa6155552817371386b5f6ec137)) |
-| - | [perf: ⚡ optimization resource ts files] | [ca56d68](https://github.com/chenshunliang/dashboard/commit/ca56d686d011d1c899cc2c96aad427f4ef21feea)) |
-| - | [refactor: ➕ upgrade xterm 4.19.0 => 5.1.0] | [f091403](https://github.com/chenshunliang/dashboard/commit/f091403eab9a7904a344e03dff07b96574aa0353)) |
+| - | [build: :chrone: add sentry from .env file, optimization trace overview] | [0f93576](https://github.com/chenshunliang/dashboard/commit/0f93576fb0b2daa6155552817371386b5f6ec137) |
+| - | [perf: ⚡ optimization resource ts files] | [ca56d68](https://github.com/chenshunliang/dashboard/commit/ca56d686d011d1c899cc2c96aad427f4ef21feea) |
+| - | [refactor: ➕ upgrade xterm 4.19.0 => 5.1.0] | [f091403](https://github.com/chenshunliang/dashboard/commit/f091403eab9a7904a344e03dff07b96574aa0353) |
 
 # 1.23.0-alpha.2 (2022-12-19)
 

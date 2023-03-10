@@ -35,6 +35,11 @@ export class Auth implements AccessTokenOperator {
     return data as User;
   }
 
+  public async getLoginAuth(): Promise<Auth> {
+    const data: { [key: string]: any } = await axios(`my/auth`);
+    return data as Auth;
+  }
+
   public async resetPasswd(body: KubeRequest): Promise<void> {
     await axios.post(`my/reset_password`, body);
   }

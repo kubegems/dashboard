@@ -17,7 +17,7 @@
 <template>
   <div>
     <v-menu
-      v-model="menu"
+      v-model="state.menu"
       bottom
       :close-on-content-click="false"
       left
@@ -31,7 +31,7 @@
     >
       <template #activator="{ on }">
         <v-btn dark icon v-on="on">
-          <template v-if="messagesTotal > 0 || approves.length > 0">
+          <template v-if="state.messagesTotal > 0 || approveItems.length > 0">
             <v-badge color="red" dot>
               <v-icon>mdi-bell</v-icon>
             </v-badge>
@@ -44,13 +44,13 @@
 
       <v-card>
         <v-card-text class="pa-2">
-          <v-tabs v-model="tab" class="v-tabs--default" fixed-tabs height="45">
+          <v-tabs v-model="state.tab" class="v-tabs--default" fixed-tabs height="45">
             <v-tab v-for="(item, index) in tabItems" :key="item.value">
               <v-badge
                 class="mt-2"
                 color="success"
-                :content="index === 0 ? messagesTotal : approves.length"
-                :value="index === 0 ? messagesTotal > 0 : approves.length > 0"
+                :content="index === 0 ? state.messagesTotal : approveItems.length"
+                :value="index === 0 ? state.messagesTotal > 0 : approveItems.length > 0"
               >
                 {{ item.text }}
               </v-badge>
@@ -59,27 +59,31 @@
 
           <v-flex v-scroll.self="scrollMessage" class="message__tab-item-height">
             <v-flex
-              v-if="tabItems[tab].value === 'message' ? messagesTotal === 0 : approves.length === 0"
+              v-if="tabItems[state.tab].value === 'message' ? state.messagesTotal === 0 : approveItems.length === 0"
               class="text-body-2 pa-2 text-center mt-2"
             >
-              {{ tabItems[tab].value === 'message' ? $t('message.no_message') : $t('message.no_approval') }}
+              {{
+                tabItems[state.tab].value === 'message'
+                  ? i18nLocal.t('message.no_message')
+                  : i18nLocal.t('message.no_approval')
+              }}
             </v-flex>
             <v-flex v-else class="px-4 mt-2 message__operator-title">
               <span class="text-body-2">
                 {{
-                  tabItems[tab].value === 'message'
-                    ? `${$t('message.unread_c', [$t('message.message')])}`
-                    : `${$t('message.unread_c', [$t('message.message')])}`
+                  tabItems[state.tab].value === 'message'
+                    ? `${i18nLocal.t('message.unread_c', [i18nLocal.t('message.message')])}`
+                    : `${i18nLocal.t('message.unread_c', [i18nLocal.t('message.message')])}`
                 }}
               </span>
-              <v-flex v-if="tabItems[tab].value === 'message'" class="float-right">
-                <v-btn color="warning" small text @click="readAllMessage"> {{ $t('message.clear') }} </v-btn>
+              <v-flex v-if="tabItems[state.tab].value === 'message'" class="float-right">
+                <v-btn color="warning" small text @click="readAllMessage"> {{ i18nLocal.t('message.clear') }} </v-btn>
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-flex>
             <v-list>
               <v-list-item
-                v-for="(data, index) in tabItems[tab].value === 'message' ? messages : approves"
+                v-for="(data, index) in tabItems[state.tab].value === 'message' ? messageItems : approveItems"
                 :key="index"
                 link
                 @click="setRead(data)"
@@ -90,7 +94,7 @@
                       <v-avatar color="success" size="45">
                         <span class="white--text text-h6">
                           {{
-                            tabItems[tab].value === 'message'
+                            tabItems[state.tab].value === 'message'
                               ? data.MessageType === 'message'
                                 ? data.Content.From[0].toLocaleUpperCase()
                                 : data.MessageType[0].toLocaleUpperCase()
@@ -102,7 +106,7 @@
                     <div>
                       <h4 class="font-weight-medium kubegems__text mb-2" :style="getStatusColor(data)">
                         {{
-                          tabItems[tab].value === 'message'
+                          tabItems[state.tab].value === 'message'
                             ? data.MessageType === 'message'
                               ? data.Content.From
                               : data.MessageType
@@ -110,21 +114,21 @@
                         }}
                       </h4>
                       <span
-                        :class="`text--secondary text-body-2 descpart d-block text-truncate ${messageClass[index]}`"
+                        :class="`text--secondary text-body-2 descpart d-block text-truncate ${messageClassItems[index]}`"
                         :style="getStatusColor(data)"
-                        @mouseout="$set(messageClass, index, '')"
-                        @mouseover="$set(messageClass, index, 'message__content-overflow')"
+                        @mouseout="$set(messageClassItems, index, '')"
+                        @mouseover="$set(messageClassItems, index, 'message__content-overflow')"
                       >
                         {{ data.Title }}
-                        <span v-if="tabItems[tab].value === 'approve'">
-                          {{ $root.$t('resource.cpu') }} : {{ data.Content['limits.cpu'] }},
-                          {{ $root.$t('resource.memory') }} : {{ data.Content['limits.memory'] }},
-                          {{ $root.$t('resource.storage') }} :
+                        <span v-if="tabItems[state.tab].value === 'approve'">
+                          {{ i18n.t('resource.cpu') }} : {{ data.Content['limits.cpu'] }},
+                          {{ i18n.t('resource.memory') }} : {{ data.Content['limits.memory'] }},
+                          {{ i18n.t('resource.storage') }} :
                           {{ data.Content['limits.storage'] }}
                         </span>
                       </span>
                       <small class="text--secondary" :style="getStatusColor(data)">
-                        {{ $moment(data.CreatedAt, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() }}
+                        {{ moment(data.CreatedAt, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() }}
                       </small>
                     </div>
                   </div>
@@ -136,269 +140,270 @@
       </v-card>
     </v-menu>
 
-    <ApproveResource ref="approveResource" @refresh="approveList" />
+    <ApproveResource ref="approve" @refresh="getApproveList" />
   </div>
 </template>
 
-<script>
-  import { mapGetters, mapState } from 'vuex';
+<script lang="ts" setup>
+  import moment from 'moment';
+  import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 
-  import ApproveResource from './components/ApproveResource';
-  import messages from './i18n';
-  import { getApproveList, getLoginUserAuth, getMessageList, putReadMessage } from '@/api';
-  import BaseSelect from '@/mixins/select';
+  import ApproveResource from './components/ApproveResource.vue';
+  import { useI18n } from './i18n';
+  import { useRoute, useRouter } from '@/composition/router';
+  import { useGlobalI18n } from '@/i18n';
+  import { useParams, useQuery } from '@/router';
+  import { useStore } from '@/store';
+  import { Auth } from '@/types/auth';
+  import { convertResponse2List } from '@/types/base';
+  import { Approve, Message } from '@/types/message';
 
-  export default {
-    name: 'Message',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      ApproveResource,
-    },
-    mixins: [BaseSelect],
-    inject: ['reload'],
-    data() {
-      return {
-        menu: false,
-        messages: [],
-        messagesTotal: 0,
-        messagesPage: 1,
-        approves: [],
-        tab: 0,
-        messageClass: [],
-        alertTimeout: null,
-        messageTimeout: null,
-      };
-    },
-    computed: {
-      ...mapState(['JWT', 'MessageStreamWS', 'User', 'Admin', 'Auth', 'Locale']),
-      ...mapGetters(['Project', 'Environment', 'Tenant']),
-      tabItems() {
-        return [
-          { text: this.$t('message.message'), value: 'message' },
-          { text: this.$t('message.approval'), value: 'approve' },
-        ];
-      },
-    },
-    watch: {
-      '$store.state.MessageStream': {
-        handler: async function (updatingMessage) {
-          if (!updatingMessage) return;
-          const message = JSON.parse(updatingMessage);
-          if (
-            message.MessageType !== 'message' &&
-            message.MessageType !== 'approve' &&
-            message.MessageType !== 'alert'
-          ) {
-            return;
-          }
-          if (message.MessageType === 'message') {
-            this.messageList();
-            this.refreshUserAuth();
-            this.$store.dispatch('UPDATE_TENANT_DATA');
-            if (this.Tenant().ID > 0) {
-              this.$store.dispatch('UPDATE_PROJECT_DATA', this.Tenant().ID);
-            }
-            if (this.Project().ID > 0) {
-              this.$store.dispatch('UPDATE_ENVIRONMENT_DATA', this.Project().ID);
-            }
-            if (message.Content.AffectedUsers && message.Content.AffectedUsers.indexOf(this.User.ID) > -1) {
-              this.$store.commit('SET_SNACKBAR', {
-                text: `${message.Content.Detail}`,
-                color: 'success',
-              });
-              if (this.Admin) return;
-              if (message.EventKind === 'delete') {
-                this.$store.commit('SET_ADMIN_VIEWPORT', false);
-                this.$store.commit('CLEAR_RESOURCE');
-                if (message.Content.ResourceType === 'tenant') {
-                  if (this.Tenant().ID === message.Content.ResourceID) {
-                    this.$store.commit('SET_EDGE', '');
-                    this.$store.commit('CLEAR_TENANT');
-                    this.$router.push({ name: 'tenant-page' });
-                  }
-                } else if (message.Content.ResourceType === 'project') {
-                  if (this.Project().ID === message.Content.ResourceID) {
-                    this.$store.commit('SET_EDGE', '');
-                    this.$router.push({
-                      name: 'resource-dashboard',
-                      params: { tenant: this.Tenant().TenantName },
-                    });
-                  }
-                } else if (message.Content.ResourceType === 'environment') {
-                  if (this.Environment().ID === message.Content.ResourceID) {
-                    this.$store.commit('SET_EDGE', '');
-                    this.$router.push({
-                      name: 'resource-dashboard',
-                      params: { tenant: this.Tenant().TenantName },
-                    });
-                  }
-                } else if (message.Content.ResourceType === 'cluster') {
-                  this.$store.commit('CLEAR_CLUSTER');
-                  this.$store.commit('SET_EDGE', '');
-                  this.$router.push({
-                    name: 'resource-dashboard',
-                    params: { tenant: this.Tenant().TenantName },
-                  });
-                } else if (message.Content.ResourceType === 'application') {
-                  if (this.$route.path.indexOf('apps') > -1) {
-                    this.$store.commit('SET_EDGE', '');
-                    this.$router.push({
-                      name: 'app-list',
-                      params: this.$route.params,
-                      query: this.$route.query,
-                    });
-                  }
-                }
-              } else if (message.EventKind === 'update') {
-                if (['tenant', 'project', 'environment'].indexOf(message.Content.ResourceType) > -1) {
-                  this.$store.commit('SET_EDGE', '');
-                  this.$router.push({
-                    name: 'resource-dashboard',
-                    params: { tenant: this.Tenant().TenantName },
-                  });
-                }
-              }
-            }
-          } else if (message.MessageType === 'approve') {
-            this.$store.commit('SET_SNACKBAR', {
-              text: `${message.Content.Detail}`,
-              color: 'success',
-            });
-            this.approveList();
-          } else if (message.MessageType === 'alert') {
-            this.$store.commit('SET_SNACKBAR', {
-              text: `${message.Content.Detail}`,
-              color: 'warning',
-            });
-            if (!this.alertTimeout) {
-              this.messageList();
-              this.alertTimeout = setTimeout(() => {
-                clearTimeout(this.alertTimeout);
-                this.alertTimeout = null;
-              }, 1000);
-            }
-          }
-        },
-        deep: true,
-      },
-    },
-    destroyed() {
-      if (this.alertTimeout) clearTimeout(this.alertTimeout);
-      if (this.messageTimeout) clearTimeout(this.messageTimeout);
-    },
-    mounted() {
-      this.messageList();
-      this.approveList();
-    },
-    methods: {
-      async messageList(append = false) {
-        const data = await getMessageList({
-          noprocessing: true,
-          page: append ? (this.messagesPage += 1) : 1,
-          is_read: false,
-        });
-        if (append) {
-          this.messages = this.messages.concat(data.List);
-        } else {
-          this.messages = data.List;
-        }
-        this.messagesTotal = data.Total;
-        this.messagesPage = data.CurrentPage;
-        this.messages.forEach(() => {
-          this.messageClass.push('');
-        });
-      },
-      async approveList() {
-        const data = await getApproveList({ noprocessing: true });
-        this.approves = data;
-      },
-      async refreshUserAuth() {
-        const data = await getLoginUserAuth();
-        this.$store.commit('SET_USER_AUTH', data);
-        this.$store.commit('SET_ADMIN', data.systemRole === 'sysadmin');
-      },
-      async setRead(data) {
-        if (this.tabItems[this.tab].value === 'message') {
-          await this.setMessageRead(data);
-        } else {
-          if (data.Status === 'pending') {
-            await this.toScaleResource(data);
-          }
-        }
-      },
-      async setMessageRead(message) {
-        // message详情覆盖旧的message值
-        message = await putReadMessage(message.ID, {
-          message_type: message.MessageType,
-        });
-        this.messageList();
-        if (message.MessageType === 'alert') {
-          const admin = message.Content.EnvironmentID === 0;
-          this.$store.commit('SET_ADMIN_VIEWPORT', admin);
-          this.$store.commit('SET_EDGE', '');
-          const params = admin
-            ? {
-                name: message.Content.AlertName,
-              }
-            : {
-                name: message.Content.AlertName,
-                tenant: message.Content.TenantName,
-                project: message.Content.ProjectName,
-                environment: message.Content.EnvironmentName,
-              };
-          this.$router.push({
-            name:
-              message?.Content?.From === 'monitor'
-                ? `${admin ? 'admin-' : ''}prometheusrule-detail`
-                : `${admin ? 'admin-' : ''}log-alert-detail`,
-            params: params,
-            query: {
-              namespace: message.Content.Namespace,
-              createAt: message.CreatedAt,
-              cluster: message.Content.ClusterName,
-            },
-          });
-          this.menu = false;
-        }
-      },
-      async toScaleResource(approve) {
-        this.$refs.approveResource.init(approve);
-        this.$refs.approveResource.open();
-      },
-      async readAllMessage() {
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$t('message.clear'),
-          content: { text: this.$t('message.clear'), type: 'confirm' },
-          param: {},
-          doFunc: async () => {
-            await putReadMessage('_all', { message_type: '' });
-            this.messageList();
-          },
-        });
-      },
-      getStatusColor(data) {
-        return this.tabItems[this.tab].value === 'approve'
-          ? data.Status === 'pending'
-            ? 'color: #1e88e5 !important;'
-            : ''
-          : !data.IsRead
-          ? 'color: #1e88e5 !important;'
-          : '';
-      },
-      async scrollMessage(e) {
-        if (this.tab === 1 || this.messageTimeout) return;
-        if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight) {
-          this.messageTimeout = setTimeout(async () => {
-            await this.messageList(true);
-            clearTimeout(this.messageTimeout);
-            this.messageTimeout = null;
-          }, 100);
-        }
-      },
-    },
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
+  const router = useRouter();
+  const route = useRoute();
+  const params = useParams();
+  const query = useQuery();
+
+  const tabItems = [
+    { text: i18nLocal.t('message.message'), value: 'message' },
+    { text: i18nLocal.t('message.approval'), value: 'approve' },
+  ];
+
+  const state = reactive({
+    menu: false,
+    messagesTotal: 0,
+    messagesPage: 1,
+    tab: 0,
+    alertTimeout: null,
+    messageTimeout: null,
+  });
+
+  const messageItems = ref<Message[]>([]);
+  const messageClassItems = ref<string[]>([]);
+  const getMessageList = async (append = false): Promise<void> => {
+    const data = await new Message().getMessageList({
+      noprocessing: true,
+      page: append ? (state.messagesPage += 1) : 1,
+      is_read: false,
+      size: 10,
+    });
+    if (append) {
+      messageItems.value = messageItems.value.concat(convertResponse2List<Message>(data));
+    } else {
+      messageItems.value = convertResponse2List<Message>(data);
+    }
+    state.messagesTotal = data.Total;
+    state.messagesPage = data.CurrentPage;
+    messageItems.value.forEach(() => {
+      messageClassItems.value.push('');
+    });
   };
+
+  const approveItems = ref<Approve[]>([]);
+  const getApproveList = async (): Promise<void> => {
+    const data = await new Approve().getApproveList({ noprocessing: true });
+    approveItems.value = data;
+  };
+
+  const refreshUserAuth = async (): Promise<void> => {
+    const data = await new Auth().getLoginAuth();
+    store.commit('SET_USER_AUTH', data);
+    store.commit('SET_ADMIN', data.systemRole === 'sysadmin');
+  };
+
+  const setRead = async (data): Promise<void> => {
+    if (tabItems[state.tab].value === 'message') {
+      await setMessageRead(data);
+    } else {
+      if (data.Status === 'pending') {
+        await toScaleResource(data);
+      }
+    }
+  };
+
+  const setMessageRead = async (message: Message): Promise<void> => {
+    // message详情覆盖旧的message值
+    message = await new Message({ ID: message.ID }).readMessage({ message_type: message.MessageType });
+    getMessageList();
+    if (message.MessageType === 'alert') {
+      const admin = message.Content.EnvironmentID === 0;
+      store.commit('SET_ADMIN_VIEWPORT', admin);
+      store.commit('SET_EDGE', '');
+      const params = admin
+        ? {
+            name: message.Content.AlertName,
+          }
+        : {
+            name: message.Content.AlertName,
+            tenant: message.Content.TenantName,
+            project: message.Content.ProjectName,
+            environment: message.Content.EnvironmentName,
+          };
+      router.push({
+        name:
+          message?.Content?.From === 'monitor'
+            ? `${admin ? 'admin-' : ''}prometheusrule-detail`
+            : `${admin ? 'admin-' : ''}log-alert-detail`,
+        params: params,
+        query: {
+          namespace: message.Content.Namespace,
+          createAt: message.CreatedAt.toString(),
+          cluster: message.Content.ClusterName,
+        },
+      });
+      state.menu = false;
+    }
+  };
+
+  const approve = ref(null);
+  const toScaleResource = (approve: Approve): void => {
+    approve.value.init(approve);
+    approve.value.open();
+  };
+
+  const readAllMessage = (): void => {
+    store.commit('SET_CONFIRM', {
+      title: i18nLocal.t('message.clear'),
+      content: { text: i18nLocal.t('message.clear'), type: 'confirm' },
+      param: {},
+      doFunc: async () => {
+        await new Message({ ID: '_all' }).readMessage({ message_type: '' });
+        getMessageList();
+      },
+    });
+  };
+
+  const getStatusColor = (data: Approve | Message): string => {
+    return tabItems[state.tab].value === 'approve'
+      ? data.Status === 'pending'
+        ? 'color: #1e88e5 !important;'
+        : ''
+      : !data.IsRead
+      ? 'color: #1e88e5 !important;'
+      : '';
+  };
+
+  const scrollMessage = (e) => {
+    if (state.tab === 1 || state.messageTimeout) return;
+    if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight) {
+      state.messageTimeout = setTimeout(async () => {
+        await getMessageList(true);
+        clearTimeout(state.messageTimeout);
+        state.messageTimeout = null;
+      }, 100);
+    }
+  };
+
+  onUnmounted(() => {
+    if (state.alertTimeout) clearTimeout(state.alertTimeout);
+    if (state.messageTimeout) clearTimeout(state.messageTimeout);
+  });
+
+  onMounted(() => {
+    getMessageList();
+    getApproveList();
+  });
+
+  watch(
+    () => store.state.MessageStream,
+    async (updatingMessage) => {
+      if (!updatingMessage) return;
+      const message = JSON.parse(updatingMessage);
+      if (message.MessageType !== 'message' && message.MessageType !== 'approve' && message.MessageType !== 'alert') {
+        return;
+      }
+      if (message.MessageType === 'message') {
+        getMessageList();
+        refreshUserAuth();
+        store.dispatch('UPDATE_TENANT_DATA');
+        if (store.getters.Tenant().ID > 0) {
+          store.dispatch('UPDATE_PROJECT_DATA', store.getters.Tenant().ID);
+        }
+        if (store.getters.Project().ID > 0) {
+          store.dispatch('UPDATE_ENVIRONMENT_DATA', store.getters.Project().ID);
+        }
+        if (message.Content.AffectedUsers && message.Content.AffectedUsers.indexOf(store.state.User.ID) > -1) {
+          store.commit('SET_SNACKBAR', {
+            text: `${message.Content.Detail}`,
+            color: 'success',
+          });
+          if (store.state.Admin) return;
+          if (message.EventKind === 'delete') {
+            store.commit('SET_ADMIN_VIEWPORT', false);
+            store.commit('CLEAR_RESOURCE');
+            if (message.Content.ResourceType === 'tenant') {
+              if (store.getters.Tenant().ID === message.Content.ResourceID) {
+                store.commit('SET_EDGE', '');
+                store.commit('CLEAR_TENANT');
+                router.push({ name: 'tenant-page' });
+              }
+            } else if (message.Content.ResourceType === 'project') {
+              if (store.getters.Project().ID === message.Content.ResourceID) {
+                store.commit('SET_EDGE', '');
+                router.push({
+                  name: 'resource-dashboard',
+                  params: { tenant: store.getters.Tenant().TenantName },
+                });
+              }
+            } else if (message.Content.ResourceType === 'environment') {
+              if (store.getters.Environment().ID === message.Content.ResourceID) {
+                store.commit('SET_EDGE', '');
+                router.push({
+                  name: 'resource-dashboard',
+                  params: { tenant: store.getters.Tenant().TenantName },
+                });
+              }
+            } else if (message.Content.ResourceType === 'cluster') {
+              store.commit('CLEAR_CLUSTER');
+              store.commit('SET_EDGE', '');
+              router.push({
+                name: 'resource-dashboard',
+                params: { tenant: store.getters.Tenant().TenantName },
+              });
+            } else if (message.Content.ResourceType === 'application') {
+              if (route.path.indexOf('apps') > -1) {
+                store.commit('SET_EDGE', '');
+                router.push({
+                  name: 'app-list',
+                  params: params.value,
+                  query: query.value,
+                });
+              }
+            }
+          } else if (message.EventKind === 'update') {
+            if (['tenant', 'project', 'environment'].indexOf(message.Content.ResourceType) > -1) {
+              store.commit('SET_EDGE', '');
+              router.push({
+                name: 'resource-dashboard',
+                params: { tenant: store.getters.Tenant().TenantName },
+              });
+            }
+          }
+        }
+      } else if (message.MessageType === 'approve') {
+        store.commit('SET_SNACKBAR', {
+          text: `${message.Content.Detail}`,
+          color: 'success',
+        });
+        getApproveList();
+      } else if (message.MessageType === 'alert') {
+        store.commit('SET_SNACKBAR', {
+          text: `${message.Content.Detail}`,
+          color: 'warning',
+        });
+        if (!state.alertTimeout) {
+          getMessageList();
+          state.alertTimeout = setTimeout(() => {
+            clearTimeout(state.alertTimeout);
+            state.alertTimeout = null;
+          }, 1000);
+        }
+      }
+    },
+    { deep: true },
+  );
 </script>
 
 <style lang="scss" scoped>
