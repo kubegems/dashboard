@@ -332,6 +332,7 @@
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
+  import { convertResponse2Pagination } from '@/types/base';
   import ModelExperience from '@/views/modelstore/components/detail_tabs/Runtime/components/ModelExperience';
   import DeployApp from '@/views/resource/appmanifest/components/DeployApp';
   import LinkApp from '@/views/resource/appmanifest/components/LinkApp';
@@ -589,9 +590,10 @@
             }),
           );
         }
-        this.items = data.List || data.list;
-        this.pageCount = Math.ceil((data.Total || data.total) / this.params.size);
-        this.params.page = data.CurrentPage || data.page;
+        const pagination = convertResponse2Pagination(data);
+        this.items = pagination.items;
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
         this.$router.replace({
           query: { ...this.$route.query, ...this.params, ...{ tab: this.tabItems[this.tab]?.tab || 0 } },
         });

@@ -50,6 +50,7 @@
   import messages from '../../i18n';
   import { getAppRunningList, getManifestList } from '@/api';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2List } from '@/types/base';
   import { required } from '@/utils/rules';
 
   export default {
@@ -79,7 +80,7 @@
           size: 1000,
         });
         const apps = [];
-        data.List.forEach((app) => {
+        convertResponse2List(data).forEach((app) => {
           if (
             this.linkedAppItems.some((l) => {
               return l.name === app.name;
@@ -103,7 +104,7 @@
             size: 1000,
           }),
         );
-        this.linkedAppItems = data.List;
+        this.linkedAppItems = convertResponse2List(data);
       },
       reset() {
         this.$refs.form.reset();

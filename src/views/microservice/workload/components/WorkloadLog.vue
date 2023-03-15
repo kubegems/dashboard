@@ -164,6 +164,7 @@
   import messages from '../i18n';
   import { getPodList } from '@/api';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2List } from '@/types/base';
 
   export default {
     name: 'WorkloadLog',
@@ -221,7 +222,7 @@
           topkind: this.$route.query.type,
           topname: this.$route.params.name,
         });
-        this.pods = data.List;
+        this.pods = convertResponse2List(data);
       },
       async getContainerSelectData(pod) {
         if (!pod) {

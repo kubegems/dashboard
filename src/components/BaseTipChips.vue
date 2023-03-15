@@ -29,7 +29,7 @@
     >
       <template #activator="{ on }">
         <v-flex v-on="on">
-          <v-icon v-if="icon" :color="color" left> {{ icon }} </v-icon>
+          <v-icon v-if="icon" :color="color" left :small="small"> {{ icon }} </v-icon>
         </v-flex>
       </template>
 
@@ -73,6 +73,7 @@
       linked?: boolean;
       maxWidth?: string;
       singleLine?: boolean;
+      small?: boolean;
     }>(),
     {
       chips: [],
@@ -85,6 +86,7 @@
       linked: false,
       maxWidth: undefined,
       singleLine: false,
+      small: false,
     },
   );
 

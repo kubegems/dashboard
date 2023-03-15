@@ -101,6 +101,7 @@
   import VolumeMount from './VolumeMount';
   import { getStorageClassList } from '@/api';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2List } from '@/types/base';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
@@ -211,7 +212,7 @@
         const data = await getStorageClassList(this.ThisCluster, {
           size: 1000,
         });
-        this.storageClasses = data.List;
+        this.storageClasses = convertResponse2List(data);
         this.storageClasses.forEach((v) => {
           v.text = v.metadata.name;
           v.value = v.metadata.name;

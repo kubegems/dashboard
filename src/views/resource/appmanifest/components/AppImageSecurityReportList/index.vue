@@ -184,6 +184,7 @@
   import { getAppImageSecurityReportList, putSetPublishAppImage } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2Pagination } from '@/types/base';
 
   export default {
     name: 'AppImageSecurityReportList',
@@ -274,11 +275,12 @@
             image: image,
           }),
         );
-        this.items = data.List.map((d, index) => {
+        const pagination = convertResponse2Pagination(data);
+        this.items = pagination.items.map((d, index) => {
           return { ID: index, ...d };
         });
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
       },
       reportDetail(item) {
         this.$refs.appImageSecurityReportDetail.init(this.app, item);

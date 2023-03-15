@@ -111,6 +111,7 @@
 
   import { deleteEnvironmentUser, getEnvironmentUserList, getProjectUserList, postAddEnvironmentUser } from '@/api';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2List } from '@/types/base';
 
   export default {
     name: 'ManageUser',
@@ -147,7 +148,7 @@
         const data = await getProjectUserList(this.Project().ID, {
           size: 1000,
         });
-        this.allUsers = data.List.filter((d) => {
+        this.allUsers = convertResponse2List(data).filter((d) => {
           return !this.users.find((u) => {
             return u.Username === d.Username;
           });
@@ -158,12 +159,12 @@
         const data = await getEnvironmentUserList(this.Environment().ID, {
           size: 1000,
         });
-        this.users = data.List;
+        this.users = convertResponse2List(data);
         this.usersCopy = JSON.parse(JSON.stringify(this.users));
-        this.readerUsers = data.List.filter((d) => {
+        this.readerUsers = convertResponse2List(data).filter((d) => {
           return d.Role === 'reader';
         });
-        this.operatorUsers = data.List.filter((d) => {
+        this.operatorUsers = convertResponse2List(data).filter((d) => {
           return d.Role === 'operator';
         });
       },

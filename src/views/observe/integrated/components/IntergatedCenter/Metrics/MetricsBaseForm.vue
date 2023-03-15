@@ -89,6 +89,7 @@
   import ProjectEnvSelect from '../ProjectEnvSelect';
   import MetricsList from './MetricsList';
   import { getServiceList, postServiceMonitor } from '@/api';
+  import { convertResponse2List } from '@/types/base';
   import { required } from '@/utils/rules';
 
   export default {
@@ -159,7 +160,7 @@
       },
       async serviceList() {
         const data = await getServiceList(this.env.clusterName, this.env.namespace, { size: 1000 });
-        this.serviceItems = data.List.map((s) => {
+        this.serviceItems = convertResponse2List(data).map((s) => {
           return {
             text: s.metadata.name,
             value: s.metadata.name,

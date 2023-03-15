@@ -121,6 +121,7 @@
   import { deleteCluster, getClusterList, getClusterStatus } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2List } from '@/types/base';
   import Terminal from '@/views/resource/components/common/Terminal';
 
   export default {
@@ -157,7 +158,7 @@
     methods: {
       async clusterList(del = false) {
         const data = await getClusterList({ noprocessing: true });
-        this.items = data.List;
+        this.items = convertResponse2List(data);
         this.hasControllerCluster = this.items?.some((c) => {
           return c.Primary;
         });

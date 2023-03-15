@@ -243,6 +243,7 @@
   } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
+  import { convertResponse2Pagination } from '@/types/base';
   import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
   import PluginPass from '@/views/microservice/components/PluginPass';
 
@@ -319,16 +320,17 @@
             noprocessing: noprocess,
           },
         );
-        data.pagedata.List = data.pagedata.List.map((s) => {
+        const pagination = convertResponse2Pagination(data.pagedata);
+        pagination.items = pagination.items.map((s) => {
           return {
             ...s,
             showConfig: false,
           };
         });
-        this.items = data.pagedata.List;
+        this.items = pagination.items;
         this.valids = data.validations ? data.validations.service : {};
-        this.pageCount = Math.ceil(data.pagedata.Total / this.params.size);
-        this.params.page = data.pagedata.CurrentPage;
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
       },
       showAllConfig(index) {
         const item = this.items[index];

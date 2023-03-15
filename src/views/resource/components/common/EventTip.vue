@@ -78,6 +78,7 @@
   import messages from '../i18n';
   import { getEventList } from '@/api';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2List } from '@/types/base';
 
   export default {
     name: 'EventTip',
@@ -122,8 +123,9 @@
             size: 1,
             noprocessing: true,
           });
-          if (data && data.List && data.List.length > 0) {
-            this.event = data.List[0];
+          const d = convertResponse2List(data);
+          if (d.length > 0) {
+            this.event = d[0];
           }
           this.eventLoad = false;
           clearTimeout(this.timeout);

@@ -117,6 +117,7 @@
   import messages from '../i18n';
   import { deleteTenantUser, getTenantUserList, postAddTenantUser, userSelectData } from '@/api';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2List } from '@/types/base';
 
   export default {
     name: 'ManageUser',
@@ -154,7 +155,7 @@
       },
       async userList() {
         const data = await userSelectData();
-        this.allUsers = data.List.filter((d) => {
+        this.allUsers = convertResponse2List(data).filter((d) => {
           return !this.users.find((u) => {
             return u.Username === d.Username;
           });
@@ -165,12 +166,12 @@
         const data = await getTenantUserList(this.Tenant().ID, {
           size: 1000,
         });
-        this.users = data.List;
+        this.users = convertResponse2List(data);
         this.usersCopy = JSON.parse(JSON.stringify(this.users));
-        this.ordinaryUsers = data.List.filter((d) => {
+        this.ordinaryUsers = convertResponse2List(data).filter((d) => {
           return d.Role === 'ordinary';
         });
-        this.adminUsers = data.List.filter((d) => {
+        this.adminUsers = convertResponse2List(data).filter((d) => {
           return d.Role === 'admin';
         });
       },

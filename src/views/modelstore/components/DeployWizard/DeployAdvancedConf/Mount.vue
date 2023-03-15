@@ -117,6 +117,7 @@
 <script>
   import messages from '../../../i18n';
   import { getConfigMapList, getPersistentVolumeClaimList } from '@/api';
+  import { convertResponse2List } from '@/types/base';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
@@ -195,12 +196,12 @@
         this.obj.source = '';
         if (this.obj.kind === 'PVC') {
           const data = await getPersistentVolumeClaimList(this.base.cluster, this.base.namespace, { size: 1000 });
-          this.persistentVolumeClaimItems = data.List.map((p) => {
+          this.persistentVolumeClaimItems = convertResponse2List(data).map((p) => {
             return { text: p.metadata.name, value: p.metadata.name };
           });
         } else if (this.obj.kind === 'ConfigMap') {
           const data = await getConfigMapList(this.base.cluster, this.base.namespace, { size: 1000 });
-          this.configMapItems = data.List.map((p) => {
+          this.configMapItems = convertResponse2List(data).map((p) => {
             return { text: p.metadata.name, value: p.metadata.name };
           });
         }

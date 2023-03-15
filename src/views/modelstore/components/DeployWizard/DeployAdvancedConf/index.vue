@@ -206,6 +206,7 @@
   import Port from './Port';
   import ResourceConf from './ResourceConf';
   import { getGatewayOriginList, getModelSourceDetail } from '@/api';
+  import { convertResponse2List } from '@/types/base';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
@@ -372,7 +373,7 @@
       },
       async gatewayList() {
         const data = await getGatewayOriginList(this.base.cluster, { size: 1000 });
-        this.gatewayItems = data.List.map((d) => {
+        this.gatewayItems = convertResponse2List(data).map((d) => {
           if (d.spec.tenant === this.Tenant().TenantName || d.spec.tenant === 'notenant') {
             return { text: d.metadata.name, value: d.metadata.name, obj: d };
           }

@@ -71,6 +71,7 @@
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2List } from '@/types/base';
   import { deepCopy } from '@/utils/helpers';
   import { required, timeInterval } from '@/utils/rules';
 
@@ -130,7 +131,7 @@
         const data = await getChannelList(this.Tenant().ID, {
           size: 100,
         });
-        this.receiverItems = data.List.map((item) => {
+        this.receiverItems = convertResponse2List(data).map((item) => {
           return {
             text: `${item.name}(${item.channelConfig.channelType})`,
             value: item.id,

@@ -161,6 +161,7 @@
 
   import { getSecretList } from '@/api';
   import { SERVICE_GATEWAY_NS } from '@/constants/namespace';
+  import { convertResponse2List } from '@/types/base';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
@@ -235,7 +236,7 @@
         const data = await getSecretList(this.EnvironmentFilter.cluster, SERVICE_GATEWAY_NS, {
           size: 1000,
         });
-        this.secretItems = data.List.filter((s) => {
+        this.secretItems = convertResponse2List(data).filter((s) => {
           return s.secret.type === 'kubernetes.io/tls';
         });
         this.secretItems.forEach((v) => {

@@ -250,6 +250,7 @@
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
+  import { convertResponse2Pagination } from '@/types/base';
   import { beautifyCpuUnit, beautifyStorageUnit } from '@/utils/helpers';
   import { stringifySelector } from '@/utils/k8s_selector';
   import EventTip from '@/views/resource/components/common/EventTip';
@@ -428,14 +429,15 @@
             sort: this.m_table_generateResourceSortParamValue(),
           }),
         );
-        this.items = data.List.map((d) => {
+        const pagination = convertResponse2Pagination(data);
+        this.items = pagination.items.map((d) => {
           return {
             ...d,
             ...this.getGpuLimit(d),
           };
         });
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
         this.$router.replace({ query: { ...this.$route.query, ...this.params } });
         this.podCPUUsage(true);
         this.podMemoryUsage(true);

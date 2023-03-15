@@ -83,6 +83,7 @@
   import AppDeployImageTrace from './AppDeployImageTrace';
   import { getDeployEnvironmentAppsStatus } from '@/api';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2Pagination } from '@/types/base';
 
   export default {
     name: 'AppDeployList',
@@ -143,9 +144,10 @@
           this.app.name,
           this.params,
         );
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        const pagination = convertResponse2Pagination(data);
+        this.items = pagination.items;
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
       },
       appDeployImageTrace(item) {
         this.$refs.appDeployImageTrace.init(this.app, item);

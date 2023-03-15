@@ -77,6 +77,7 @@
 
   import messages from '../i18n';
   import { getAuditList } from '@/api';
+  import { convertResponse2List } from '@/types/base';
 
   export default {
     name: 'AuditList',
@@ -107,7 +108,7 @@
           order: '-CreatedAt',
           noprocessing: true,
         });
-        this.auditItems = data.List;
+        this.auditItems = convertResponse2List(data);
       },
       toAudit() {
         this.$router.push({

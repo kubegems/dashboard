@@ -127,6 +127,7 @@
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
+  import { convertResponse2Pagination } from '@/types/base';
   import { convertStrToNum } from '@/utils/helpers';
 
   export default {
@@ -207,9 +208,10 @@
             sort: this.m_table_generateResourceSortParamValue(),
           }),
         );
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        const pagination = convertResponse2Pagination(data);
+        this.items = pagination.items;
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
         this.$router.replace({ query: { ...this.$route.query, ...this.params } });
         this.m_table_generateSelectResource();
       },

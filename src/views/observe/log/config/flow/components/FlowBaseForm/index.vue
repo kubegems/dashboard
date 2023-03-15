@@ -139,6 +139,7 @@
   import messages from '../../../../i18n';
   import { getClusterOutputsData, getOutputsData } from '@/api';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2List } from '@/types/base';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
@@ -255,7 +256,7 @@
         const data = await getOutputsData(this.$route.query.cluster, this.$route.query.namespace, {
           size: 1000,
         });
-        this.localOutputRefsItems = data.List.map((d) => {
+        this.localOutputRefsItems = convertResponse2List(data).map((d) => {
           return { text: d.metadata.name, value: d.metadata.name };
         });
       },
@@ -263,7 +264,7 @@
         const data = await getClusterOutputsData(this.$route.query.cluster, this.$route.query.namespace, {
           size: 1000,
         });
-        this.globalOutputRefsItems = data.List.map((d) => {
+        this.globalOutputRefsItems = convertResponse2List(data).map((d) => {
           return { text: d.metadata.name, value: d.metadata.name };
         });
       },

@@ -187,6 +187,7 @@
     putUpdateMonitorDashboard,
   } from '@/api';
   import BasePermission from '@/mixins/permission';
+  import { convertResponse2List } from '@/types/base';
   import { randomString } from '@/utils/helpers';
   import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 
@@ -457,7 +458,7 @@
       async getMonitorConfig() {
         const data = await getRuleScopeList(this.Tenant().ID, { size: 1000, noprocessing: true });
         this.resourceNamespaced = {};
-        data.List.forEach((d) => {
+        convertResponse2List(data).forEach((d) => {
           this.resourceNamespaced[d.name] = d.namespaced;
         });
       },

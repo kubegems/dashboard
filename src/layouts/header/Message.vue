@@ -155,7 +155,7 @@
   import { useParams, useQuery } from '@/router';
   import { useStore } from '@/store';
   import { Auth } from '@/types/auth';
-  import { convertResponse2List } from '@/types/base';
+  import { convertResponse2Pagination } from '@/types/base';
   import { Approve, Message } from '@/types/message';
 
   const i18n = useGlobalI18n();
@@ -189,13 +189,14 @@
       is_read: false,
       size: 10,
     });
+    const pagination = convertResponse2Pagination<Message>(data);
     if (append) {
-      messageItems.value = messageItems.value.concat(convertResponse2List<Message>(data));
+      messageItems.value = messageItems.value.concat(pagination.items);
     } else {
-      messageItems.value = convertResponse2List<Message>(data);
+      messageItems.value = pagination.items;
     }
-    state.messagesTotal = data.Total;
-    state.messagesPage = data.CurrentPage;
+    state.messagesTotal = pagination.total;
+    state.messagesPage = pagination.page;
     messageItems.value.forEach(() => {
       messageClassItems.value.push('');
     });

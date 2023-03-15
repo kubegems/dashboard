@@ -154,6 +154,7 @@
   import { POD_STATUS_COLOR } from '@/constants/resource';
   import { useGlobalI18n } from '@/i18n';
   import { useStore } from '@/store';
+  import { convertResponse2List } from '@/types/base';
   import { DaemonSet } from '@/types/daemonset';
   import { Deployment } from '@/types/deployment';
   import { Pod } from '@/types/pod';
@@ -193,7 +194,7 @@
       topname: props.workload.metadata.name,
       noprocessing: true,
     });
-    podList.value = data.List;
+    podList.value = convertResponse2List(data);
   });
 
   const getRestart = (containerStatuses: V1ContainerStatus[]): number => {

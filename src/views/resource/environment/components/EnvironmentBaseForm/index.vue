@@ -260,6 +260,7 @@
   } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2List } from '@/types/base';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
   import LimitRange from '@/views/resource/environment/components/base/LimitRange';
@@ -489,7 +490,7 @@
           size: 1000,
           noprocessing: true,
         });
-        this.allUsers = data.List.filter((d) => {
+        this.allUsers = convertResponse2List(data).filter((d) => {
           return !this.users.find((u) => {
             return u.Username === d.Username;
           });
@@ -501,12 +502,12 @@
           size: 1000,
           noprocessing: true,
         });
-        this.users = data.List;
+        this.users = convertResponse2List(data);
         this.usersCopy = JSON.parse(JSON.stringify(this.users));
-        this.readerUsers = data.List.filter((d) => {
+        this.readerUsers = convertResponse2List(data).filter((d) => {
           return d.Role === 'reader';
         });
-        this.operatorUsers = data.List.filter((d) => {
+        this.operatorUsers = convertResponse2List(data).filter((d) => {
           return d.Role === 'operator';
         });
       },

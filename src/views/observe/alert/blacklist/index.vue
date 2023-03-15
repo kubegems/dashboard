@@ -92,6 +92,7 @@
   import messages from '../i18n';
   import { deletePrometheusBlacklist, getPrometheusBlackList } from '@/api';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2Pagination } from '@/types/base';
   import { deleteEmpty } from '@/utils/helpers';
   import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 
@@ -155,9 +156,10 @@
       async getBlackList() {
         const params = deleteEmpty({ ...this.params });
         const data = await getPrometheusBlackList(params);
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
-        this.items = data.List || [];
+        const pagination = convertResponse2Pagination(data);
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
+        this.items = pagination.items || [];
       },
       onPageSizeChange(size) {
         this.params.page = 1;

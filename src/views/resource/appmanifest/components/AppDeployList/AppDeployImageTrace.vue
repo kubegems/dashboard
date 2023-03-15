@@ -65,6 +65,7 @@
 
   import messages from '../../i18n';
   import { getDeployEnvironmentAppImageTrace } from '@/api';
+  import { convertResponse2Pagination } from '@/types/base';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
@@ -122,9 +123,10 @@
             image: this.item.images[0],
           }),
         );
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        const pagination = convertResponse2Pagination(data);
+        this.items = pagination.items;
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
       },
       dispose() {
         this.items = [];

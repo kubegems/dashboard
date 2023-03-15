@@ -114,6 +114,7 @@
     postLoggingFlow,
     putLoggingNsFlow,
   } from '@/api';
+  import { convertResponse2List } from '@/types/base';
   import { integer, required } from '@/utils/rules';
 
   export default {
@@ -197,7 +198,7 @@
         const outputFunc = this.AdminViewport ? getOutputsData : getOutputsDataByTenant;
         const funcParams = this.AdminViewport ? params : [this.env.clusterName, this.Tenant().TenantName];
         res = await Promise.all([outputFunc(...funcParams), getClusterOutputsData(...params)]);
-        list = res.reduce((pre, current) => pre.concat(current.List || current), []);
+        list = res.reduce((pre, current) => pre.concat(convertResponse2List(current) || current), []);
 
         this.outputItems = list.map((op) => {
           return {

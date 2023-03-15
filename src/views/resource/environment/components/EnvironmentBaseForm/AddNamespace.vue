@@ -58,6 +58,7 @@
 
   import { namespaceSelectDataFilter } from '@/api';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2List } from '@/types/base';
   import { required } from '@/utils/rules';
 
   export default {
@@ -115,7 +116,7 @@
         }
         const data = await namespaceSelectDataFilter(this.clusterName);
         const namespaceSelect = [];
-        data.List.forEach((ns) => {
+        convertResponse2List(data).forEach((ns) => {
           namespaceSelect.push({
             text: ns.metadata.name,
             value: ns.metadata.name,

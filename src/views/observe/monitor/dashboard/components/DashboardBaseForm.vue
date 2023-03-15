@@ -101,6 +101,7 @@
   import messages from '../../i18n';
   import VariableSelect from './VariableSelect';
   import { getMetricsLabelValues, getMonitorDashboardTemplate } from '@/api';
+  import { convertResponse2List } from '@/types/base';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
@@ -205,7 +206,7 @@
       async monitorDashboardTemplateList() {
         const data = await getMonitorDashboardTemplate({ size: 1000 });
         if (data) {
-          this.templateItems = data.List.map((d) => {
+          this.templateItems = convertResponse2List(data).map((d) => {
             return { text: d.name, value: d.name, ...d };
           });
         }

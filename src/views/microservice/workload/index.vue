@@ -270,6 +270,7 @@
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2List, convertResponse2Pagination } from '@/types/base';
   import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
   import PluginPass from '@/views/microservice/components/PluginPass';
   import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
@@ -402,9 +403,10 @@
             noprocessing: noprocess,
           },
         );
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        const pagination = convertResponse2Pagination(data);
+        this.items = pagination.items;
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
         this.watchMicroAppWorkoladList();
       },
       watchMicroAppWorkoladList() {
@@ -434,7 +436,7 @@
               noprocessing: true,
             }),
           );
-          this.podItems = data.List;
+          this.podItems = convertResponse2List(data);
         } else {
           this.podItems = [];
         }

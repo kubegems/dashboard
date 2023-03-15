@@ -234,6 +234,7 @@
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
+  import { convertResponse2Pagination } from '@/types/base';
 
   export default {
     name: 'PrometheusRule',
@@ -325,9 +326,10 @@
 
         const data = await getPrometheusRuleList(this.cluster, this.namespace, this.params);
 
+        const pagination = convertResponse2Pagination(data);
         // 将index添加到id属性上
         this.items = [];
-        this.items = data.List.map((item, index) => {
+        this.items = pagination.items.map((item, index) => {
           return {
             index: index,
             metadata: {
@@ -339,8 +341,8 @@
             ...item,
           };
         });
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
         this.prometheusRuleStatus();
       },
       onAlertStateChange() {

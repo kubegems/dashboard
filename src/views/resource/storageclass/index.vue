@@ -99,6 +99,7 @@
   import { useCluster } from '@/composition/cluster';
   import { useGlobalI18n } from '@/i18n';
   import { useStore } from '@/store';
+  import { convertResponse2List } from '@/types/base';
   import { StorageClass } from '@/types/storageclass';
 
   const i18n = useGlobalI18n();
@@ -118,7 +119,7 @@
   const storageClassItems = ref<StorageClass[]>([]);
   const getStorageClassList = async (): Promise<void> => {
     const data = await new StorageClass().getStorageClassList(useCluster(), { page: 1, size: 1000 });
-    storageClassItems.value = data.List;
+    storageClassItems.value = convertResponse2List(data);
   };
 
   onMounted(() => {

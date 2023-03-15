@@ -50,6 +50,7 @@
   import { T_GPU_MEMORY_USAGE_PROMQL, T_GPU_USAGE_PROMQL } from '@/constants/prometheus';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2List } from '@/types/base';
 
   export default {
     name: 'TkeGpuMonitor',
@@ -108,7 +109,7 @@
           size: 1000,
           noprocessing: true,
         });
-        this.pods = data.List.map((d) => {
+        this.pods = convertResponse2List(data).map((d) => {
           return d.metadata.name;
         });
       },

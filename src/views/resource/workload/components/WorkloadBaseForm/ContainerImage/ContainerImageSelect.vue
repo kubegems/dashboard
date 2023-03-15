@@ -118,6 +118,7 @@
   import messages from '../../../i18n';
   import { getSecretList } from '@/api';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2List } from '@/types/base';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
@@ -234,7 +235,7 @@
           const data = await getSecretList(this.Edge, this.namespace || this.Environment().Namespace, {
             size: 1000,
           });
-          this.m_select_registryItems = data.List.map((d) => {
+          this.m_select_registryItems = convertResponse2List(data).map((d) => {
             if (d.type === 'kubernetes.io/dockerconfigjson') {
               return {
                 text: d.metadata.name,

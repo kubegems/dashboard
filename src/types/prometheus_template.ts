@@ -101,7 +101,7 @@ export class PrometheusTemplate {
 
   public async updatePrometheusTemplate(tenantId: number | string): Promise<PrometheusTemplate> {
     const data: { [key: string]: any } = await axios.put(
-      `observability/tenant/${tenantId}/template/ruless/${this.id}`,
+      `observability/tenant/${tenantId}/template/rules/${this.id}`,
       this,
     );
     return data as PrometheusTemplate;

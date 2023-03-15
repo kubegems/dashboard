@@ -167,6 +167,7 @@
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2Pagination } from '@/types/base';
   import { convertStrToNum, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
   export default {
@@ -256,14 +257,15 @@
     methods: {
       async projectList() {
         const data = await getProjectList(this.AdminViewport ? this.tenant : this.Tenant().ID, this.params);
-        this.items = data.List.map((item) => {
+        const pagination = convertResponse2Pagination(data);
+        this.items = pagination.items.map((item) => {
           return {
             name: item.TenantName,
             ...item,
           };
         });
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
         this.$router.replace({ query: { ...this.$route.query, ...this.params } });
         this.projectQuotaList();
       },
