@@ -17,7 +17,7 @@
 <template>
   <v-flex>
     <BaseSubTitle
-      v-if="pathLevel === 1"
+      v-if="pathLevel === 1 || (param.items && param.items.type === 'object')"
       class="mb-4"
       :color="pathLevel === 1 ? 'grey lighten-3' : ''"
       :divider="false"
