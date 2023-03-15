@@ -13,6 +13,7 @@
 | --- | --- | --- |
 | - | [fix: ⚡ support additionalItem field for json schema array type and fix few bugs] | [72b8dc3](https://github.com/chenshunliang/dashboard/commit/72b8dc3834006a83ce4f1ef24ab56bddb801aed6) |
 | - | [fix: 🐛 fix log query context missing log items bug] | [352c440](https://github.com/chenshunliang/dashboard/commit/352c440ddcacac30f9d2d00f1f07a959e843cc60) |
+| - | [fix: 🐛 fix few i18n bugs] | [6d3af25](https://github.com/chenshunliang/dashboard/commit/6d3af25b7c98a21a60abb77e8ddd338fe20f2578) |
 
 ### 🔨 reflactor
 

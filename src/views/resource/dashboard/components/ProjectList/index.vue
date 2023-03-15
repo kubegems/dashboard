@@ -59,7 +59,7 @@
               :no-data-text="$root.$t('data.no_data')"
             >
               <template #[`item.environmentName`]="{ item }">
-                <BaseMarquee :content="item.EnvironmentName" :speed="20">
+                <BaseMarquee :display-content="item.EnvironmentName" :speed="20">
                   <a class="font-weight-medium" @click.stop="environmentDetail(item)">
                     {{ item.EnvironmentName }}
                   </a>

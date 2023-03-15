@@ -19,7 +19,7 @@
     hide-no-data
     hide-selected
     :items="argsItems"
-    :label="$t('tip.params')"
+    :label="i18nLocal.t('tip.params')"
     :menu-props="{
       bottom: true,
       left: true,
@@ -39,54 +39,55 @@
   </v-autocomplete>
 </template>
 
-<script>
-  import messages from '../../../i18n';
+<script lang="ts" setup>
+  import { ref, watch } from 'vue';
 
-  export default {
-    name: 'Args',
-    i18n: {
-      messages: messages,
+  import { useI18n } from '../../../i18n';
+
+  const props = withDefaults(
+    defineProps<{
+      value: any[];
+    }>(),
+    {
+      value: undefined,
     },
-    data() {
-      return {
-        argsItems: [],
-        argsText: '',
-        args: [],
-      };
-    },
-    watch: {
-      value: {
-        handler(newValue) {
-          if (newValue) {
-            this.args = newValue;
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    methods: {
-      createArgs() {
-        if (!this.argsText) return;
-        this.args.push(this.argsText);
-        this.argsItems.push({
-          text: this.argsText,
-          value: this.argsText,
-        });
-        this.argsText = '';
-        this.$emit('input', this.args);
-        this.$emit('change', this.args);
-      },
-      removeArgs(item) {
-        const index = this.args.findIndex((args) => {
-          return args !== item.value;
-        });
-        if (index > -1) {
-          this.args.splice(index, 1);
-          this.$emit('input', this.args);
-          this.$emit('change', this.args);
-        }
-      },
-    },
+  );
+
+  const i18nLocal = useI18n();
+  const argsItems = ref([]);
+  const argsText = ref('');
+  const args = ref([]);
+
+  const emit = defineEmits(['input', 'change']);
+  const createArgs = (): void => {
+    if (!argsText.value) return;
+    args.value.push(argsText.value);
+    argsItems.value.push({
+      text: argsText.value,
+      value: argsText.value,
+    });
+    argsText.value = '';
+    emit('input', args.value);
+    emit('change', args.value);
   };
+
+  const removeArgs = (item: { text: string; value: string }): void => {
+    const index = args.value.findIndex((args) => {
+      return args !== item.value;
+    });
+    if (index > -1) {
+      args.value.splice(index, 1);
+      emit('input', args.value);
+      emit('change', args.value);
+    }
+  };
+
+  watch(
+    () => props.value,
+    async (newValue) => {
+      if (!newValue) return;
+      args.value = newValue;
+    },
+    { immediate: true, deep: true },
+  );
 </script>

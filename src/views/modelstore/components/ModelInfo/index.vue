@@ -17,7 +17,7 @@
   <div :style="{ height: `${height}px`, overflowY: 'auto' }">
     <v-card v-if="item && item.recommentContent" :class="{ 'mb-3': true, 'mt-3': noVersion }" color="success" dark flat>
       <v-card-title>
-        <span class="text-body-1 font-weight-medium">{{ $t('tip.platform_recomment') }}</span>
+        <span class="text-body-1 font-weight-medium">{{ i18nLocal.t('tip.platform_recomment') }}</span>
       </v-card-title>
 
       <v-card-text class="text-subtitle-2 font-weight-medium">
@@ -28,9 +28,9 @@
       <v-card-text class="pt-7 px-7">
         <div class="d-flex justify-center my-3">
           <div class="text-center" :style="{ wordBreak: 'break-all' }">
-            <BaseLogo default-logo="model" :icon-name="$route.query.registry" :width="100" />
+            <BaseLogo default-logo="model" :icon-name="query.registry" :width="100" />
             <h3 class="text-h6 font-weight-medium primary--text">
-              {{ $route.params.name }}
+              {{ params.name }}
             </h3>
             <VersionSelect v-if="!noVersion" v-model="version" :versions="item ? item.versions : []" />
           </div>
@@ -39,7 +39,7 @@
         <div class="py-5">
           <div>
             <div class="float-left model__rate">
-              <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.user_comment') }}</h5>
+              <h5 class="text-subtitle-1 kubegems__text">{{ i18nLocal.t('tip.user_comment') }}</h5>
               <h6 class="text-body-2 mb-3 model__rate__div">
                 <div class="float-left model__rate__div__fraction mr-3">
                   {{ item && item.rating ? item.rating.rating.toFixed(1) : 0 }}
@@ -56,14 +56,14 @@
                     :value="item && item.rating ? item.rating.rating : 0"
                   />
                   <div class="text-caption">
-                    {{ item && item.rating ? item.rating.count : 0 }}{{ $t('tip.comment') }}
+                    {{ item && item.rating ? item.rating.count : 0 }}{{ i18nLocal.t('tip.comment') }}
                   </div>
                 </div>
                 <div class="kubegems__clear-float" />
               </h6>
             </div>
             <div class="float-left model__rate">
-              <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.platform_recomment') }}</h5>
+              <h5 class="text-subtitle-1 kubegems__text">{{ i18nLocal.t('tip.platform_recomment') }}</h5>
               <h6 class="text-body-2 mb-2">
                 <div :class="`float-left model__rate__div__recommend mr-3 ${getMarginLeft(item)}`">
                   <div>
@@ -75,7 +75,7 @@
             </div>
             <div class="kubegems__clear-float" />
           </div>
-          <h5 v-if="item && item.tags.length > 0" class="text-subtitle-1 kubegems__text">Tag</h5>
+          <h5 v-if="item && item.tags && item.tags.length > 0" class="text-subtitle-1 kubegems__text">Tag</h5>
           <h6 class="text-body-2 mb-3">
             <v-chip v-for="(tag, index) in item ? item.tags : []" :key="index" class="ma-1" small>
               <v-avatar v-if="hasLogo(tag)" left>
@@ -84,25 +84,25 @@
               {{ tag }}
             </v-chip>
           </h6>
-          <h5 class="text-subtitle-1 kubegems__text">{{ $root.$t('resource.type') }}</h5>
+          <h5 class="text-subtitle-1 kubegems__text">{{ i18n.t('resource.type') }}</h5>
           <h6 class="text-body-2 mb-3">
             {{ item ? item.source : '' }}
           </h6>
-          <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.library') }}</h5>
+          <h5 class="text-subtitle-1 kubegems__text">{{ i18nLocal.t('tip.library') }}</h5>
           <h6 class="text-body-2 mb-3">
             {{ item ? item.framework : '' }}
           </h6>
-          <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.task_type') }}</h5>
+          <h5 class="text-subtitle-1 kubegems__text">{{ i18nLocal.t('tip.task_type') }}</h5>
           <h6 class="text-body-2 mb-3">
             {{ item ? item.task : '' }}
           </h6>
-          <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.protocol') }}</h5>
+          <h5 class="text-subtitle-1 kubegems__text">{{ i18nLocal.t('tip.protocol') }}</h5>
           <h6 class="text-body-2 mb-3">
             {{ item ? item.license : '' }}
           </h6>
-          <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.publish_status') }}</h5>
+          <h5 class="text-subtitle-1 kubegems__text">{{ i18nLocal.t('tip.publish_status') }}</h5>
           <h6 class="text-body-2 mb-3">
-            <v-icon color="success" left small>mdi-check-circle</v-icon>{{ $t('tip.published') }}
+            <v-icon color="success" left small>mdi-check-circle</v-icon>{{ i18nLocal.t('tip.published') }}
           </h6>
         </div>
       </v-card-text>
@@ -110,73 +110,72 @@
   </div>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { ComputedRef, computed, ref, watch } from 'vue';
 
-  import messages from '../../i18n';
-  import VersionSelect from './VersionSelect';
+  import { useI18n } from '../../i18n';
+  import VersionSelect from './VersionSelect.vue';
   import { MODEL_FRAMEWORK } from '@/constants/resource';
+  import { useGlobalI18n } from '@/i18n';
+  import { useParams, useQuery } from '@/router';
+  import { useStore } from '@/store';
+  import { AIModel } from '@/types/ai_model';
 
-  export default {
-    name: 'ModelInfo',
-    i18n: {
-      messages: messages,
+  withDefaults(
+    defineProps<{
+      item?: AIModel;
+      noVersion?: boolean;
+    }>(),
+    {
+      item: undefined,
+      noVersion: false,
     },
-    components: {
-      VersionSelect,
-    },
-    props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
-      noVersion: {
-        type: Boolean,
-        default: () => false,
-      },
-    },
-    data() {
-      return {
-        version: undefined,
-      };
-    },
-    computed: {
-      ...mapState(['Admin', 'Scale']),
-      height() {
-        return parseInt((window.innerHeight - 148) / this.Scale);
-      },
-    },
-    watch: {
-      version: {
-        handler(newValue) {
-          if (newValue) {
-            this.$emit('selcetVersion', newValue);
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    methods: {
-      hasLogo(tag) {
-        return MODEL_FRAMEWORK.some((i) => {
-          return tag.toLowerCase().indexOf(i) > -1;
-        });
-      },
-      refresh() {
-        this.$emit('refresh');
-      },
-      getMarginLeft(item) {
-        if (item && item.recomment >= 80) {
-          return '';
-        }
-        if (item && item.recomment >= 10) {
-          return 'ml-5';
-        }
-        return 'ml-6';
-      },
-    },
+  );
+
+  const i18nLocal = useI18n();
+  const i18n = useGlobalI18n();
+  const store = useStore();
+  const query = useQuery();
+  const params = useParams();
+
+  const height: ComputedRef<number> = computed(() => {
+    return parseInt(((window.innerHeight - 148) / store.state.Scale).toString());
+  });
+
+  const hasLogo = (tag: string): boolean => {
+    return MODEL_FRAMEWORK.some((i) => {
+      return tag.toLowerCase().indexOf(i) > -1;
+    });
   };
+
+  const emit = defineEmits(['refresh', 'selcetVersion']);
+  const refresh = (): void => {
+    emit('refresh');
+  };
+
+  defineExpose({
+    refresh,
+  });
+
+  const getMarginLeft = (item: AIModel): string => {
+    if (item && item.recomment >= 80) {
+      return '';
+    }
+    if (item && item.recomment >= 10) {
+      return 'ml-5';
+    }
+    return 'ml-6';
+  };
+
+  const version = ref<string>('');
+  watch(
+    () => version,
+    async (newValue) => {
+      if (!newValue) return;
+      emit('selcetVersion', newValue);
+    },
+    { immediate: true, deep: true },
+  );
 </script>
 
 <style lang="scss" scoped>

@@ -15,10 +15,8 @@
 -->
 <template>
   <div class="mt-3 white rounded pa-4">
-    <template v-if="files.length > 0">
-      <div v-for="(item, index) in files" :key="index" class="file text-subtitle-2 kubegems__text">
-        <!-- <div class="float-left"> 2022-04-23 12:12:12 CST </div>
-      <div class="float-left file__size">11 KiB</div> -->
+    <template v-if="fileItems.length > 0">
+      <div v-for="(item, index) in fileItems" :key="index" class="file text-subtitle-2 kubegems__text">
         <div class="float-left file__item">
           <v-icon color="primary">mdi-file</v-icon>
           {{ item.filename }}
@@ -26,46 +24,41 @@
         <div class="kubegems__clear-float" />
       </div>
     </template>
-    <div v-else class="text-center text-body-2 kubegems__text">{{ $root.$t('data.no_data') }}</div>
+    <div v-else class="text-center text-body-2 kubegems__text">{{ i18n.t('data.no_data') }}</div>
   </div>
 </template>
 
-<script>
-  import { Base64 } from 'js-base64';
+<script lang="ts" setup>
+  import { ref, watch } from 'vue';
 
-  import { getModelVersionContent } from '@/api';
+  import { useGlobalI18n } from '@/i18n';
+  import { AIModel } from '@/types/ai_model';
 
-  export default {
-    name: 'Files',
-    props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
+  const props = withDefaults(
+    defineProps<{
+      item?: AIModel;
+    }>(),
+    {
+      item: undefined,
     },
-    data: function () {
-      return {
-        files: [],
-      };
-    },
-    watch: {
-      item: {
-        handler(newValue) {
-          if (newValue && newValue.v) {
-            this.modelVersionContent();
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    methods: {
-      async modelVersionContent() {
-        const data = await getModelVersionContent(this.item.source, Base64.encode(this.item.name), this.item.v);
-        this.files = data.files || [];
-      },
-    },
+  );
+
+  const i18n = useGlobalI18n();
+
+  const fileItems = ref<{ filename: string; content: string }[]>([]);
+  const getModelContent = async (): Promise<void> => {
+    const data = await new AIModel({ source: props.item.source, name: props.item.name }).getModelContent(props.item.v);
+    fileItems.value = data.files || [];
   };
+
+  watch(
+    () => props.item,
+    async (newValue) => {
+      if (!newValue) return;
+      getModelContent();
+    },
+    { immediate: true, deep: true },
+  );
 </script>
 
 <style lang="scss" scoped>

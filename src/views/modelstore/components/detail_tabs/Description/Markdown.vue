@@ -17,43 +17,34 @@
   <div v-highlight class="markdown-body" v-html="html" />
 </template>
 
-<script>
+<script lang="ts" setup>
   import MarkdownIt from 'markdown-it';
+  import { ComputedRef, computed } from 'vue';
 
-  export default {
-    name: 'Markdown',
-    props: {
-      content: {
-        type: String,
-        default: '',
-      },
+  const props = withDefaults(
+    defineProps<{
+      content?: string;
+    }>(),
+    {
+      content: '',
     },
-    data() {
-      return {
-        md: null,
-      };
-    },
-    computed: {
-      html: function () {
-        const res = this.md.render(this.content);
-        return this.htmlDecodeByRegExp(res);
-      },
-    },
-    created() {
-      this.md = new MarkdownIt();
-    },
-    methods: {
-      htmlDecodeByRegExp(str) {
-        var s = '';
-        if (str.length == 0) return '';
-        s = str.replace(/&amp;/g, '&');
-        s = s.replace(/&lt;/g, '<');
-        s = s.replace(/&gt;/g, '>');
-        s = s.replace(/&nbsp;/g, ' ');
-        s = s.replace(/&#39;/g, "'");
-        s = s.replace(/&quot;/g, '"');
-        return s;
-      },
-    },
+  );
+
+  const md = new MarkdownIt();
+  const html: ComputedRef<string> = computed(() => {
+    const res = md.render(props.content);
+    return htmlDecodeByRegExp(res);
+  });
+
+  const htmlDecodeByRegExp = (str: string): string => {
+    var s = '';
+    if (str.length == 0) return '';
+    s = str.replace(/&amp;/g, '&');
+    s = s.replace(/&lt;/g, '<');
+    s = s.replace(/&gt;/g, '>');
+    s = s.replace(/&nbsp;/g, ' ');
+    s = s.replace(/&#39;/g, "'");
+    s = s.replace(/&quot;/g, '"');
+    return s;
   };
 </script>

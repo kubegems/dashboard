@@ -15,31 +15,45 @@
 -->
 <template>
   <v-sheet class="text-body-2 text--darken-1 d-flex align-center mx-1">
-    <span class="text-body-2 mr-1">{{ $root.$t('header.model_store') }}</span>
-    <v-menu v-model="repoMenu" bottom class="mx-1 px-1" left offset-y origin="top center" transition="scale-transition">
+    <span class="text-body-2 mr-1">{{ i18n.t('header.model_store') }}</span>
+    <v-menu
+      v-model="state.menu"
+      bottom
+      class="mx-1 px-1"
+      left
+      offset-y
+      origin="top center"
+      transition="scale-transition"
+    >
       <template #activator="{ on }">
         <v-btn class="primary--text font-weight-medium" color="white" text v-on="on">
-          <BaseLogo class="mr-2" :icon-name="selectRepo.name" :ml="0" :style="{ marginTop: '6px' }" :width="16" />
-          {{ selectRepo.name }}
-          <v-icon v-if="repoMenu" right> mdi-chevron-up </v-icon>
+          <BaseLogo
+            class="mr-2"
+            :icon-name="selectRegistry ? selectRegistry.name : ''"
+            :ml="0"
+            :style="{ marginTop: '6px' }"
+            :width="16"
+          />
+          {{ selectRegistry ? selectRegistry.name : '' }}
+          <v-icon v-if="state.menu" right> mdi-chevron-up </v-icon>
           <v-icon v-else right> mdi-chevron-down </v-icon>
         </v-btn>
       </template>
       <v-data-iterator
         class="file-iterator"
         hide-default-footer
-        :items="[{ text: $root.$t('header.model_store'), values: repoItems }]"
+        :items="[{ text: i18n.t('header.model_store'), values: registryItems }]"
       >
         <template #no-data>
           <v-card>
-            <v-card-text> {{ $root.$t('data.no_data') }} </v-card-text>
+            <v-card-text> {{ i18n.t('data.no_data') }} </v-card-text>
           </v-card>
         </template>
         <template #default="props">
           <v-card v-for="item in props.items" :key="item.text" flat min-height="100">
             <v-list dense>
               <v-flex class="text-subtitle-2 text-center ma-2">
-                <span>{{ $root.$t('header.model_store') }}</span>
+                <span>{{ i18n.t('header.model_store') }}</span>
               </v-flex>
               <v-divider class="mx-2" />
               <v-list-item
@@ -47,7 +61,7 @@
                 :key="index"
                 class="text-body-2 text-start font-weight-medium mx-2"
                 link
-                :style="{ color: repo.value === selectRepo.name ? `#1e88e5 !important` : `` }"
+                :style="{ color: selectRegistry && repo.value === selectRegistry.name ? `#1e88e5 !important` : `` }"
                 @click="setRepo(repo)"
               >
                 <v-list-item-content>
@@ -68,69 +82,76 @@
   </v-sheet>
 </template>
 
-<script>
-  import messages from '../i18n';
-  import { getModelSourceList } from '@/api';
+<script lang="ts" setup>
+  import { onMounted, reactive, ref, watch } from 'vue';
 
-  export default {
-    name: 'RegistrySelect',
-    i18n: {
-      messages: messages,
+  import { useRouter } from '@/composition/router';
+  import { useGlobalI18n } from '@/i18n';
+  import { useQuery } from '@/router';
+  import { AIModelRegistry } from '@/types/ai_model';
+
+  const props = withDefaults(
+    defineProps<{
+      value: AIModelRegistry;
+    }>(),
+    {
+      value: undefined,
     },
-    data() {
-      return {
-        repoMenu: false,
-        repoItems: [],
-        selectRepo: '',
-      };
-    },
-    watch: {
-      value: {
-        handler(newValue) {
-          if (newValue) {
-            this.selectRepo = newValue;
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    mounted() {
-      this.$nextTick(() => {
-        this.modelSourceList();
-      });
-    },
-    methods: {
-      setRepo(repo) {
-        this.selectRepo = repo;
-        this.$emit('change', this.selectRepo);
-        this.$emit('input', this.selectRepo);
-        this.$router.replace({ query: { ...this.$route.query, registry: this.selectRepo.name } });
-      },
-      async modelSourceList() {
-        const data = await getModelSourceList({ noprocessing: true });
-        this.repoItems = data
-          .filter((s) => {
-            return s.enabled;
-          })
-          .map((s) => {
-            return { text: s.name, value: s.name, ...s };
-          });
-        if (this.$route.query.registry) {
-          this.selectRepo = this.repoItems.find((r) => {
-            return r.name === this.$route.query.registry;
-          });
-          this.$emit('change', this.selectRepo);
-          this.$emit('input', this.selectRepo);
-        } else if (this.repoItems?.length > 0) {
-          this.selectRepo = this.repoItems[0];
-          this.$emit('change', this.selectRepo);
-          this.$emit('input', this.selectRepo);
-          this.$router.replace({
-            query: { ...this.$route.query, registry: this.selectRepo.name },
-          });
-        }
-      },
-    },
+  );
+
+  const i18n = useGlobalI18n();
+  const query = useQuery();
+  const router = useRouter();
+
+  const state = reactive({
+    menu: false,
+  });
+
+  const emit = defineEmits(['change', 'input']);
+  const selectRegistry = ref<AIModelRegistry>(undefined);
+  const setRepo = (repo: AIModelRegistry): void => {
+    selectRegistry.value = repo;
+    emit('change', selectRegistry.value);
+    emit('input', selectRegistry.value);
+    router.replace({ query: { ...query.value, registry: selectRegistry.value?.name } });
   };
+
+  const registryItems = ref<AIModelRegistry[]>([]);
+  const getModelSourceList = async () => {
+    const data = await new AIModelRegistry().getRegistryList({ noprocessing: true });
+    registryItems.value = data
+      .filter((s) => {
+        return s.enabled;
+      })
+      .map((s) => {
+        return new AIModelRegistry({ text: s?.name, value: s?.name, ...s });
+      });
+    if (query.value.registry) {
+      selectRegistry.value = registryItems.value.find((r) => {
+        return r.name === query.value.registry;
+      });
+      emit('change', selectRegistry.value);
+      emit('input', selectRegistry.value);
+    } else if (registryItems.value?.length > 0) {
+      selectRegistry.value = registryItems.value[0];
+      emit('change', selectRegistry.value);
+      emit('input', selectRegistry.value);
+      router.replace({
+        query: { ...query.value, registry: selectRegistry.value?.name },
+      });
+    }
+  };
+
+  onMounted(() => {
+    getModelSourceList();
+  });
+
+  watch(
+    () => props.value,
+    async (newValue) => {
+      if (!newValue) return;
+      selectRegistry.value = newValue;
+    },
+    { immediate: true, deep: true },
+  );
 </script>

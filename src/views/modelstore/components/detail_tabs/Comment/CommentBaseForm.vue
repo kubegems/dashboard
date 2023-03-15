@@ -15,26 +15,26 @@
 -->
 <template>
   <v-flex>
-    <BaseSubTitle :title="$root.$t('form.definition', [$t('tip.comment')])" />
+    <BaseSubTitle :title="i18n.t('form.definition', [i18nLocal.t('tip.comment')])" />
     <v-card-text class="pa-2">
-      <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
+      <v-form ref="form" v-model="state.valid" lazy-validation @submit.prevent>
         <v-row>
           <v-col v-if="!reply" cols="12">
-            <label class="v-label theme--light">{{ $t('tip.user_comment') }}</label>
+            <label class="v-label theme--light">{{ i18nLocal.t('tip.user_comment') }}</label>
             <v-rating
               v-model="obj.rating"
               background-color="orange lighten-3"
               color="orange"
               dense
-              :rules="objRules.ratingRules"
+              :rules="objRules.rating"
             />
           </v-col>
           <v-col cols="12">
             <v-textarea
               v-model="obj.content"
               auto-grow
-              :label="reply ? $t('operate.reply_c', [$t('tip.comment')]) : $t('tip.comment')"
-              :rules="objRules.contentRules"
+              :label="reply ? i18nLocal.t('operate.reply_c', [i18nLocal.t('tip.comment')]) : i18nLocal.t('tip.comment')"
+              :rules="objRules.content"
             />
           </v-col>
         </v-row>
@@ -43,69 +43,85 @@
   </v-flex>
 </template>
 
-<script>
-  import messages from '../../../i18n';
+<script lang="ts" setup>
+  import { reactive, ref, watch } from 'vue';
+
+  import { useI18n } from '../../../i18n';
+  import { useGlobalI18n } from '@/i18n';
+  import { AIModelComment } from '@/types/ai_model';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
-  export default {
-    name: 'CommentBaseForm',
-    i18n: {
-      messages: messages,
+  const props = withDefaults(
+    defineProps<{
+      item?: AIModelComment;
+      reply?: boolean;
+    }>(),
+    {
+      item: undefined,
+      reply: false,
     },
-    props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
-      reply: {
-        type: Boolean,
-        default: () => false,
-      },
-    },
-    data() {
-      return {
-        valid: false,
-        obj: {
-          rating: 0,
-          content: '',
-          postID: '',
-          replyID: '',
-        },
-        objRules: {
-          ratingRules: [required],
-          contentRules: [required],
-        },
-      };
-    },
-    watch: {
-      item: {
-        handler(newValue) {
-          if (newValue) {
-            this.setData(newValue);
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    methods: {
-      setData(data) {
-        this.obj = deepCopy(data);
-        if (this.$refs.form) {
-          this.$refs.form.resetValidation();
-        }
-      },
-      getData() {
-        return this.obj;
-      },
-      validate() {
-        return this.$refs.form.validate(true);
-      },
-      reset() {
-        this.$refs.form.resetValidation();
-        this.obj = this.$options.data().obj;
-      },
-    },
+  );
+
+  const i18nLocal = useI18n();
+  const i18n = useGlobalI18n();
+
+  const state = reactive({
+    valid: false,
+  });
+
+  const obj = ref<AIModelComment>(
+    new AIModelComment({
+      rating: 0,
+      content: '',
+      postID: '',
+      replyID: '',
+    }),
+  );
+  const objRules = {
+    rating: [required],
+    content: [required],
   };
+
+  const form = ref(null);
+  const setData = (data: AIModelComment): void => {
+    obj.value = deepCopy(data);
+    if (form.value) {
+      form.value.resetValidation();
+    }
+  };
+
+  const getData = (): AIModelComment => {
+    return obj.value;
+  };
+
+  const validate = (): boolean => {
+    return form.value.validate(true);
+  };
+
+  const reset = (): void => {
+    form.value.resetValidation();
+    obj.value = new AIModelComment({
+      rating: 0,
+      content: '',
+      postID: '',
+      replyID: '',
+    });
+  };
+
+  defineExpose({
+    setData,
+    getData,
+    validate,
+    reset,
+  });
+
+  watch(
+    () => props.item,
+    async (newValue) => {
+      if (!newValue) return;
+      setData(newValue);
+    },
+    { immediate: true, deep: true },
+  );
 </script>

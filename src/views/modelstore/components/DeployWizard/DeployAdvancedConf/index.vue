@@ -339,7 +339,7 @@
     watch: {
       item: {
         handler(newValue) {
-          if (newValue) {
+          if (newValue && newValue.source) {
             this.modelSourceDetail();
           }
         },

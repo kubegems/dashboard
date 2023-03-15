@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { AIModel, AIModelRegistry } from '@/types/ai_model';
+import { AIModel, AIModelComment, AIModelRegistry, AIModelRuntime } from '@/types/ai_model';
 import { convertResponse2Pagination } from '@/types/base';
 
 export const useAiModelPagination = async (
@@ -39,4 +39,38 @@ export const useRegistryUserList = async (registry: AIModelRegistry): Promise<st
     noprocessing: true,
   });
   return _data;
+};
+
+export const useAiModelCommentPagination = async (
+  model: AIModelComment,
+  source: string,
+  name: string,
+  page = 1,
+  size = 10,
+  request: KubeRequest = {},
+): Promise<Pagination<AIModelComment>> => {
+  const _data: KubePaginationResponse<AIModelComment[]> = await model.getCommentList(source, name, {
+    page: page,
+    size: size,
+    ...request,
+  });
+
+  return convertResponse2Pagination<AIModelComment>(_data);
+};
+
+export const useAiModelRuntimePagination = async (
+  model: AIModelRuntime,
+  source: string,
+  name: string,
+  page = 1,
+  size = 10,
+  request: KubeRequest = {},
+): Promise<Pagination<AIModelRuntime>> => {
+  const _data: KubePaginationResponse<AIModelRuntime[]> = await model.getRuntimeList(source, name, {
+    page: page,
+    size: size,
+    ...request,
+  });
+
+  return convertResponse2Pagination<AIModelRuntime>(_data);
 };

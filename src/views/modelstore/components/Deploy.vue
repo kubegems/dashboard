@@ -14,7 +14,7 @@
  * limitations under the License. 
 -->
 <template>
-  <BaseFullScreenDialog v-model="dialog" kubegems-logo :title="$root.$t('header.model_store')" @dispose="dispose">
+  <BaseFullScreenDialog v-model="state.dialog" kubegems-logo :title="i18n.t('header.model_store')" @dispose="dispose">
     <template #content>
       <v-flex>
         <v-row class="mt-0 ma-0">
@@ -33,45 +33,47 @@
   </BaseFullScreenDialog>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { ComputedRef, computed, reactive, ref } from 'vue';
 
-  import DeployWizard from './DeployWizard';
-  import ModelInfo from './ModelInfo';
+  import DeployWizard from './DeployWizard/index.vue';
+  import ModelInfo from './ModelInfo/index.vue';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+  import { AIModel } from '@/types/ai_model';
 
-  export default {
-    name: 'Deploy',
-    components: {
-      DeployWizard,
-      ModelInfo,
+  withDefaults(
+    defineProps<{
+      item?: AIModel;
+    }>(),
+    {
+      item: undefined,
     },
-    props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
-    },
-    data() {
-      return {
-        dialog: false,
-      };
-    },
-    computed: {
-      ...mapState(['Scale']),
-      height() {
-        return (window.innerHeight - 64) / this.Scale;
-      },
-    },
-    methods: {
-      open() {
-        this.dialog = true;
-      },
-      dispose() {
-        this.dialog = false;
-        this.$refs.deployWizard.reset();
-      },
-    },
+  );
+
+  const i18n = useGlobalI18n();
+  const store = useStore();
+
+  const state = reactive({
+    dialog: false,
+  });
+  const height: ComputedRef<number> = computed(() => {
+    return (window.innerHeight - 64) / store.state.Scale;
+  });
+
+  const open = (): void => {
+    state.dialog = true;
   };
+
+  const deployWizard = ref(null);
+  const dispose = (): void => {
+    state.dialog = false;
+    deployWizard.value.reset();
+  };
+
+  defineExpose({
+    open,
+  });
 </script>
 
 <style lang="scss" scoped>

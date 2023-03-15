@@ -15,169 +15,163 @@
 -->
 <template>
   <v-container fluid>
-    <Breadcrumb :hub="$route.query.registry" sync-status @setOnline="setOnline">
+    <Breadcrumb sync-status @setOnline="setOnline">
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn class="primary--text" small text @click="deployModel">
             <v-icon left small> mdi-rocket </v-icon>
-            {{ $root.$t('operate.deploy') }}
+            {{ i18n.t('operate.deploy') }}
           </v-btn>
-          <v-btn v-if="!online" class="primary--text" small text @click="refreshModel">
+          <v-btn v-if="!state.online" class="primary--text" small text @click="refreshModel">
             <v-icon left small>mdi-refresh</v-icon>
-            {{ $root.$t('operate.refresh') }}
+            {{ i18n.t('operate.refresh') }}
           </v-btn>
           <v-btn class="primary--text" small text @click="returnModel">
             <v-icon left small>mdi-reply</v-icon>
-            {{ $root.$t('operate.return') }}
+            {{ i18n.t('operate.return') }}
           </v-btn>
         </v-flex>
       </template>
     </Breadcrumb>
     <v-row class="mt-0">
       <v-col class="pt-0" cols="3">
-        <ModelInfo :item="item" @refresh="refresh" @selcetVersion="selcetVersion" />
+        <ModelInfo :item="aiModel" @refresh="refresh" @selcetVersion="selcetVersion" />
       </v-col>
       <v-col class="pt-0" cols="9">
         <v-card flat>
           <v-card-text>
-            <v-tabs v-model="tab" height="30">
+            <v-tabs v-model="state.tab" height="30">
               <v-tab v-for="item in tabItems" :key="item.value">
                 {{ item.text }}
               </v-tab>
             </v-tabs>
           </v-card-text>
         </v-card>
-        <component :is="currentComponent" :ref="tabItems[tab].value" :item="item" @refresh="refresh" />
+        <component :is="tabItems[state.tab].value" :ref="tabItems[state.tab].tab" :item="aiModel" @refresh="refresh" />
       </v-col>
     </v-row>
 
-    <Deploy ref="deploy" :item="item" />
+    <Deploy ref="deploy" :item="aiModel" />
   </v-container>
 </template>
 
-<script>
-  import { Base64 } from 'js-base64';
+<script lang="ts" setup>
+  import { nextTick, onMounted, reactive, ref, watch } from 'vue';
 
-  import Breadcrumb from './components/Breadcrumb';
-  import Deploy from './components/Deploy';
-  import Certificate from './components/detail_tabs/Certificate';
-  import Comment from './components/detail_tabs/Comment';
-  import Description from './components/detail_tabs/Description';
-  import Files from './components/detail_tabs/Files';
-  import Runtime from './components/detail_tabs/Runtime';
-  import ModelInfo from './components/ModelInfo';
-  import messages from './i18n';
-  import { getModelRate, getModelStoreDetail, postModelSync } from '@/api';
+  import Breadcrumb from './components/Breadcrumb.vue';
+  import Deploy from './components/Deploy.vue';
+  // import Certificate from './components/detail_tabs/Certificate/index.vue';
+  import Comment from './components/detail_tabs/Comment/index.vue';
+  import Description from './components/detail_tabs/Description/index.vue';
+  import Files from './components/detail_tabs/Files.vue';
+  import Runtime from './components/detail_tabs/Runtime/index.vue';
+  import ModelInfo from './components/ModelInfo/index.vue';
+  import { useI18n } from './i18n';
+  import { useRouter } from '@/composition/router';
+  import { useGlobalI18n } from '@/i18n';
+  import { useParams, useQuery } from '@/router';
+  import { useStore } from '@/store';
+  import { AIModel } from '@/types/ai_model';
 
-  export default {
-    name: 'ModelStoreDetail',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      Breadcrumb,
-      Certificate,
-      Comment,
-      Deploy,
-      Description,
-      ModelInfo,
-      Files,
-      Runtime,
-    },
-    data() {
-      this.tabMap = {
-        description: 0,
-        files: 1,
-        comment: 2,
-        runtime: 3,
-        certificate: 4,
-      };
+  const i18nLocal = useI18n();
+  const i18n = useGlobalI18n();
+  const router = useRouter();
+  const store = useStore();
+  const query = useQuery();
+  const params = useParams();
 
-      return {
-        tab: this.tabMap[this.$route.query.tab] || 0,
-        item: undefined,
-        version: '',
-        online: true,
-      };
-    },
-    computed: {
-      currentComponent() {
-        return this.tabItems[this.tab].value;
-      },
-      tabItems() {
-        return [
-          { text: this.$t('tab.description'), value: 'Description', tab: 'description' },
-          { text: this.$t('tab.files'), value: 'Files', tab: 'files' },
-          { text: this.$t('tab.comment'), value: 'Comment', tab: 'comment' },
-          { text: this.$t('tab.runtime'), value: 'Runtime', tab: 'runtime' },
-          // { text: this.$t('tab.certificate'), value: 'Certificate', tab: 'certificate' },
-        ];
-      },
-    },
-    watch: {
-      tab: {
-        handler() {
-          this.$router.replace({
-            params: { ...this.$route.params },
-            query: { ...this.$route.query, tab: this.tabItems[this.tab].tab },
-          });
-        },
-      },
-      version: {
-        handler(newValue) {
-          if (newValue) {
-            this.item = { ...this.item, v: newValue };
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    mounted() {
-      this.$nextTick(() => {
-        this.modelDetail();
+  const tabMap = {
+    description: 0,
+    files: 1,
+    comment: 2,
+    runtime: 3,
+    certificate: 4,
+  };
+  const tabItems = [
+    { text: i18nLocal.t('tab.description'), value: Description, tab: 'description' },
+    { text: i18nLocal.t('tab.files'), value: Files, tab: 'files' },
+    { text: i18nLocal.t('tab.comment'), value: Comment, tab: 'comment' },
+    { text: i18nLocal.t('tab.runtime'), value: Runtime, tab: 'runtime' },
+    // { text: i18nLocal.t('tab.certificate'), value: Certificate, tab: 'certificate' },
+  ];
+
+  const state = reactive({
+    tab: tabMap[query.value.tab] || 0,
+    online: true,
+  });
+  watch(
+    () => state.tab,
+    () => {
+      router.replace({
+        params: { ...params.value },
+        query: { ...query.value, tab: tabItems[state.tab].tab },
       });
     },
-    methods: {
-      async modelDetail() {
-        const data = await getModelStoreDetail(this.$route.query.registry, Base64.encode(this.$route.params.name));
-        const ratingData = await getModelRate(this.$route.query.registry, Base64.encode(this.$route.params.name));
-        this.item = { ...data, rating: { ...ratingData } };
+  );
+
+  const aiModel = ref<AIModel>(undefined);
+  const getModelDetail = async (): Promise<void> => {
+    const data = await new AIModel({ name: params.value.name }).getModel(query.value.registry);
+    const ratingData = await new AIModel({
+      source: query.value.registry,
+      name: params.value.name,
+    }).getModelRateInfo();
+    aiModel.value = new AIModel({ ...data, rating: { ...ratingData } });
+  };
+
+  onMounted(() => {
+    nextTick(() => {
+      getModelDetail();
+    });
+  });
+
+  const deploy = ref(null);
+  const deployModel = (): void => {
+    deploy.value.open();
+  };
+
+  const refresh = (): void => {
+    getModelDetail();
+  };
+
+  const returnModel = (): void => {
+    router.push({
+      name: 'modelstore-center',
+      query: {
+        registry: query.value.registry,
       },
-      deployModel() {
-        this.$refs.deploy.open();
-      },
-      refresh() {
-        this.modelDetail();
-      },
-      returnModel() {
-        this.$router.push({
-          name: 'modelstore-center',
-          query: {
-            registry: this.$route.query.registry,
-          },
-        });
-      },
-      selcetVersion(version) {
-        this.version = version;
-      },
-      async refreshModel() {
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.refresh'),
-          content: {
-            text: `${this.$root.$t('operate.refresh')} ${this.$route.params.name}`,
-            type: 'confirm',
-          },
-          param: {},
-          doFunc: async () => {
-            await postModelSync(this.$route.query.registry, Base64.encode(this.$route.params.name));
-            this.modelDetail();
-          },
-        });
-      },
-      setOnline(online) {
-        this.online = online;
-      },
+    });
+  };
+
+  const version = ref<string>('');
+  const selcetVersion = (ver: string): void => {
+    version.value = ver;
+  };
+  watch(
+    () => version,
+    (newValue) => {
+      if (!newValue) return;
+      aiModel.value = { ...aiModel.value, v: newValue };
     },
+    { immediate: true, deep: true },
+  );
+
+  const refreshModel = (): void => {
+    store.commit('SET_CONFIRM', {
+      title: i18n.t('operate.refresh'),
+      content: {
+        text: `${i18n.t('operate.refresh')} ${params.value.name}`,
+        type: 'confirm',
+      },
+      param: {},
+      doFunc: async () => {
+        await new AIModel({ source: query.value.registry, name: params.value.name }).syncModel();
+        getModelDetail();
+      },
+    });
+  };
+
+  const setOnline = (online: boolean): void => {
+    state.online = online;
   };
 </script>

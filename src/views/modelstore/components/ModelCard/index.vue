@@ -15,26 +15,26 @@
 -->
 <template>
   <div id="model__store" class="card" :style="{ height: `${height}px`, overflowY: 'auto' }">
-    <v-row v-scroll:#model__store="$_.debounce(onScroll, 50)" class="mt-0">
-      <v-col v-for="(item, index) in items" :key="index" class="pt-0" cols="3">
+    <v-row v-scroll:#model__store="_.debounce(scrolled, 50)" class="mt-0">
+      <v-col v-for="(item, index) in pagination.items" :key="index" class="pt-0" cols="3">
         <v-hover #default="{ hover }">
           <v-card class="mx-auto card__pos" :elevation="hover ? 5 : 0" flat height="100%">
             <v-list-item class="mb-5" three-line>
               <v-list-item-avatar size="80" tile>
-                <BaseLogo default-logo="model" :icon-name="$route.query.registry" :ml="0" :width="60" />
+                <BaseLogo default-logo="model" :icon-name="query.registry" :ml="0" :width="60" />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="text-subtitle-1 mb-3 card__title">
-                  <a @click="modelDetail(item)">{{ item.name }}</a>
+                  <a @click="toModelDetail(item)">{{ item.name }}</a>
                   <v-icon v-if="item.recomment >= 80" color="error">mdi-fire</v-icon>
                 </v-list-item-title>
 
                 <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
-                  {{ $root.$t('resource.type') }} : {{ item.task }}
+                  {{ i18n.t('resource.type') }} : {{ item.task }}
                 </v-list-item-subtitle>
                 <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
-                  {{ $t('tip.last_update_at') }} :
-                  {{ item.lastModified ? $moment(item.lastModified).format('lll') : $root.$t('data.unknown') }}
+                  {{ i18nLocal.t('tip.last_update_at') }} :
+                  {{ item.lastModified ? moment(item.lastModified).format('lll') : i18n.t('data.unknown') }}
                 </v-list-item-subtitle>
                 <v-list-item-subtitle
                   v-if="item.downloads > -1 || item.likes > -1"
@@ -61,22 +61,22 @@
                 />
               </div>
               <v-spacer />
-              <v-btn color="primary" small text @click="modelDetail(item)"> {{ $root.$t('operate.detail') }} </v-btn>
+              <v-btn color="primary" small text @click="toModelDetail(item)"> {{ i18n.t('operate.detail') }} </v-btn>
             </v-card-actions>
 
             <v-flex v-if="item.recommentContent" class="card__watermark-bg" />
             <v-flex
               v-if="item.recommentContent"
-              :class="`${Locale === 'en' ? 'card__watermark-en' : 'card__watermark'} font-weight-medium`"
+              :class="`${store.state.Locale === 'en' ? 'card__watermark-en' : 'card__watermark'} font-weight-medium`"
             >
-              {{ $t('tip.recommend') }}
+              {{ i18nLocal.t('tip.recommend') }}
             </v-flex>
           </v-card>
         </v-hover>
       </v-col>
     </v-row>
 
-    <div v-if="loading" class="my-3 py-2 text-center card__scroll__loading">
+    <div v-if="state.loading" class="my-3 py-2 text-center card__scroll__loading">
       <BaseDropProgress />
     </div>
 
@@ -97,119 +97,137 @@
   </div>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import _ from 'lodash';
+  import moment from 'moment';
+  import { ComputedRef, computed, reactive, ref, watch } from 'vue';
 
-  import messages from '../../i18n';
-  import { getModelStoreList } from '@/api';
+  import { useI18n } from '../../i18n';
+  import { useAiModelPagination } from '@/composition/ai_model';
+  import { useRouter } from '@/composition/router';
+  import { useGlobalI18n } from '@/i18n';
+  import { useQuery } from '@/router';
+  import { useStore } from '@/store';
+  import { AIModel, AIModelRegistry } from '@/types/ai_model';
 
-  export default {
-    name: 'ModelCard',
-    i18n: {
-      messages: messages,
+  const props = withDefaults(
+    defineProps<{
+      registry?: AIModelRegistry;
+    }>(),
+    {
+      registry: undefined,
     },
-    props: {
-      registry: {
-        type: Object,
-        default: () => null,
-      },
-    },
-    data() {
-      return {
-        items: [],
-        pageCount: 0,
-        params: {
-          page: 1,
-          size: 28,
-        },
-        offsetTop: 0,
-        loading: false,
-      };
-    },
-    computed: {
-      ...mapState(['Scale', 'Locale']),
-      height() {
-        return parseInt((window.innerHeight - 148) / this.Scale);
-      },
-    },
-    watch: {
-      registry: {
-        handler(newValue) {
-          if (newValue) {
-            this.items = [];
-            this.pageCount = 0;
-            this.params.page = 1;
-            this.modelStoreList();
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    methods: {
-      async modelStoreList(search = {}, append = false) {
-        let queryParams = { ...this.params, ...this.$route.query, ...search };
-        if (append) {
-          queryParams = { ...queryParams, noprocessing: true };
-        }
-        const data = await getModelStoreList(this.registry.name, queryParams);
-        if (append) {
-          this.items = this.items.concat(data.list);
-        } else {
-          this.items = data.list;
-        }
-        this.pageCount = Math.ceil(data.total / this.params.size);
-        this.params.page = data.page;
-        this.$router.replace({ query: { ...this.$route.query, ...search } });
-      },
-      search(s) {
-        this.modelStoreList({ search: s, page: 1 });
-      },
-      filter(filter) {
-        this.modelStoreList({ ...filter, page: 1 });
-      },
-      modelDetail(item) {
-        this.$router.push({
-          name: 'modelstore-detail',
-          params: {
-            name: item.name,
-          },
-          query: {
-            registry: this.registry.name,
-            online: this.registry.online,
-          },
-        });
-      },
-      beautifyFloatNum(num, decimal = 1) {
-        let result = num;
-        const units = ['', 'K', 'M'];
-        for (const index in units) {
-          if (Math.abs(result) < 1000.0) {
-            return `${result.toFixed(decimal)} ${units[index]}`;
-          }
-          result /= 1000.0;
-        }
-        return `${result.toFixed(decimal)} Yi`;
-      },
-      async onScroll(e) {
-        this.offsetTop = e.target.scrollTop;
-        if (e.target.scrollTop + document.getElementById('model__store').clientHeight >= e.target.scrollHeight - 1) {
-          this.params.page += 1;
-          if (this.pageCount < this.params.page) return;
-          this.loading = true;
-          await this.modelStoreList({}, true);
-          this.loading = false;
-        }
-      },
-      goToTop() {
-        const container = document.getElementById('model__store');
-        container.scrollTo({
-          top: 0,
-          behavior: 'smooth',
-        });
-      },
-    },
+  );
+
+  const i18nLocal = useI18n();
+  const i18n = useGlobalI18n();
+  const store = useStore();
+  const router = useRouter();
+  const query = useQuery();
+
+  const height: ComputedRef<number> = computed(() => {
+    return parseInt(((window.innerHeight - 148) / store.state.Scale).toString());
+  });
+
+  let pagination: Pagination<AIModel> = reactive<Pagination<AIModel>>({
+    page: 1,
+    size: 28,
+    pageCount: 0,
+    items: [],
+  });
+
+  const getModelStoreList = async (search: { [key: string]: string } = {}, append = false): Promise<void> => {
+    let queryParams = { ...query.value, ...search };
+    if (append) {
+      queryParams = { ...queryParams, noprocessing: 'true' };
+    }
+    const data: Pagination<AIModel> = await useAiModelPagination(
+      new AIModel({ source: query.value.registry }),
+      pagination.page,
+      pagination.size,
+      '',
+      queryParams,
+    );
+    if (append) {
+      pagination.items = pagination.items.concat(data.items);
+    } else {
+      pagination = Object.assign(pagination, data);
+    }
+    router.replace({ query: { ...query.value, ...search } });
   };
+
+  const search = (s: string): void => {
+    getModelStoreList({ search: s, page: '1' });
+  };
+
+  const filter = (filter: { [key: string]: string }): void => {
+    getModelStoreList({ ...filter, page: '1' });
+  };
+
+  defineExpose({
+    search,
+    filter,
+  });
+
+  const toModelDetail = (item: AIModel) => {
+    router.push({
+      name: 'modelstore-detail',
+      params: {
+        name: item.name,
+      },
+      query: {
+        registry: props.registry.name,
+        online: props.registry.online.toString(),
+      },
+    });
+  };
+
+  const beautifyFloatNum = (num: number, decimal = 1): string => {
+    let result = num;
+    const units = ['', 'K', 'M'];
+    for (const index in units) {
+      if (Math.abs(result) < 1000.0) {
+        return `${result.toFixed(decimal)} ${units[index]}`;
+      }
+      result /= 1000.0;
+    }
+    return `${result.toFixed(decimal)} Yi`;
+  };
+
+  const offsetTop = ref<number>(0);
+  const state = reactive({
+    loading: false,
+  });
+  const scrolled = async (e): Promise<void> => {
+    offsetTop.value = e.target.scrollTop;
+    if (e.target.scrollTop + document.getElementById('model__store').clientHeight >= e.target.scrollHeight - 1) {
+      pagination.page += 1;
+      if (pagination.pageCount < pagination.page) return;
+      state.loading = true;
+      await getModelStoreList({}, true);
+      state.loading = false;
+    }
+  };
+
+  const goToTop = () => {
+    const container = document.getElementById('model__store');
+    container.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  watch(
+    () => props.registry,
+    async (newValue) => {
+      if (!newValue) return;
+      pagination.items = [];
+      pagination.pageCount = 0;
+      pagination.page = 1;
+      getModelStoreList();
+    },
+    { immediate: true, deep: true },
+  );
 </script>
 
 <style lang="scss" scoped>

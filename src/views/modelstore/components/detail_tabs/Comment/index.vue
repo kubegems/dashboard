@@ -15,8 +15,8 @@
 -->
 <template>
   <div id="model__comment" class="comment" :style="{ height: `${height}px`, overflowY: 'auto' }">
-    <div v-scroll:#model__comment="$_.debounce(onScroll, 50)">
-      <v-card v-for="(item, index) in commentItems" :key="index" class="mt-3" flat>
+    <div v-scroll:#model__comment="_.debounce(scrolled, 50)">
+      <v-card v-for="(item, index) in pagination.items" :key="index" class="mt-3" flat>
         <v-card-text class="pa-0">
           <v-flex class="kubegems__top-right mt-2">
             <v-menu left>
@@ -27,19 +27,19 @@
               </template>
               <v-card>
                 <v-card-text class="pa-2 text-center">
-                  <v-flex v-if="User.Username === item.username">
+                  <v-flex v-if="store.state.User.Username === item.username">
                     <v-btn color="primary" small text @click="editCommnet(item)">
-                      {{ $root.$t('operate.edit') }}
+                      {{ i18n.t('operate.edit') }}
                     </v-btn>
                   </v-flex>
                   <v-flex>
                     <v-btn color="primary" small text @click="replyCommnet(item, item.id)">
-                      {{ $t('operate.reply') }}
+                      {{ i18nLocal.t('operate.reply') }}
                     </v-btn>
                   </v-flex>
-                  <v-flex v-if="User.Username === item.username">
+                  <v-flex v-if="store.state.User.Username === item.username">
                     <v-btn color="error" small text @click="removeComment(item)">
-                      {{ $root.$t('operate.delete') }}
+                      {{ i18n.t('operate.delete') }}
                     </v-btn>
                   </v-flex>
                 </v-card-text>
@@ -54,7 +54,8 @@
                 </v-avatar>
                 <span class="text-subtitle-1 mx-2 font-weight-medium">{{ item.username }}</span>
                 <span class="text-muted text-caption kubegems__text">
-                  {{ $moment(item.creationTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() }} {{ $t('operate.publish_comment') }}
+                  {{ moment(item.creationTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() }}
+                  {{ i18nLocal.t('operate.publish_comment') }}
                 </span>
               </div>
               <v-rating
@@ -75,7 +76,7 @@
           <v-spacer />
           <v-btn color="primary" depressed small text @click="showReply(item, index)">
             <v-icon left small>{{ item.expand ? 'mdi-chevron-double-up' : 'mdi-comment-text-outline' }}</v-icon>
-            {{ item.repliesCount || 0 }} {{ $t('operate.reply') }}
+            {{ item.repliesCount || 0 }} {{ i18nLocal.t('operate.reply') }}
           </v-btn>
         </v-card-actions>
 
@@ -92,19 +93,19 @@
                   </template>
                   <v-card>
                     <v-card-text class="pa-2 text-center">
-                      <v-flex v-if="User.Username === item.username">
+                      <v-flex v-if="store.state.User.Username === item.username">
                         <v-btn color="primary" small text @click="editCommnet(reply, true)">
-                          {{ $root.$t('operate.edit') }}
+                          {{ i18n.t('operate.edit') }}
                         </v-btn>
                       </v-flex>
                       <v-flex>
                         <v-btn color="primary" small text @click="replyCommnet(reply, item.id)">
-                          {{ $t('operate.reply') }}
+                          {{ i18nLocal.t('operate.reply') }}
                         </v-btn>
                       </v-flex>
-                      <v-flex v-if="User.Username === item.username">
+                      <v-flex v-if="store.state.User.Username === item.username">
                         <v-btn color="error" small text @click="removeComment(reply, true, item.id)">
-                          {{ $root.$t('operate.delete') }}
+                          {{ i18n.t('operate.delete') }}
                         </v-btn>
                       </v-flex>
                     </v-card-text>
@@ -119,7 +120,8 @@
                 </v-avatar>
                 <span class="text-subtitle-2 mx-2 font-weight-medium kubegems__text">{{ reply.username }}</span>
                 <span class="text-muted text-caption kubegems__text">
-                  {{ $moment(reply.creationTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() }} {{ $t('operate.publish_reply') }}
+                  {{ moment(reply.creationTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() }}
+                  {{ i18nLocal.t('operate.publish_reply') }}
                 </span>
               </div>
               <div
@@ -127,8 +129,8 @@
                 class="comment__reply__content grey lighten-4 rounded mx-4 px-3 kubegems__text"
               >
                 <div>
-                  {{ reply.replyTo.username }} {{ $t('tip.published_at') }}
-                  {{ $moment(reply.replyTo.creationTime).format('lll') }}
+                  {{ reply.replyTo.username }} {{ i18nLocal.t('tip.published_at') }}
+                  {{ moment(reply.replyTo.creationTime).format('lll') }}
                 </div>
                 “{{ reply.replyTo.content }}”
               </div>
@@ -178,152 +180,163 @@
   </div>
 </template>
 
-<script>
-  import { Base64 } from 'js-base64';
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import _ from 'lodash';
+  import moment from 'moment';
+  import { ComputedRef, computed, onMounted, reactive, ref } from 'vue';
 
-  import messages from '../../../i18n';
-  import Reply from './Reply';
-  import { deleteModelComment, getModelCommentList } from '@/api';
+  import { useI18n } from '../../../i18n';
+  import Reply from './Reply.vue';
+  import { useAiModelCommentPagination } from '@/composition/ai_model';
+  import { useGlobalI18n } from '@/i18n';
+  import { useParams, useQuery } from '@/router';
+  import { useStore } from '@/store';
+  import { AIModelComment } from '@/types/ai_model';
+  import { convertResponse2List } from '@/types/base';
 
-  export default {
-    name: 'Comment',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      Reply,
-    },
-    data() {
-      return {
-        commentItems: [],
-        replyItems: [],
-        pageCount: 0,
-        params: {
-          page: 1,
-          size: 10,
-          noprocessing: true,
-          withRepliesCount: true,
-        },
-        expandIndex: [],
-        offsetTop: 0,
-        loading: false,
-      };
-    },
-    computed: {
-      ...mapState(['Scale', 'User']),
-      height() {
-        return parseInt((window.innerHeight - 202) / this.Scale);
-      },
-    },
-    mounted() {
-      this.$nextTick(() => {
-        this.modelCommentList();
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
+  const query = useQuery();
+  const params = useParams();
+
+  const height: ComputedRef<number> = computed(() => {
+    return parseInt(((window.innerHeight - 202) / store.state.Scale).toString());
+  });
+
+  let pagination: Pagination<AIModelComment> = reactive<Pagination<AIModelComment>>({
+    page: 1,
+    size: 10,
+    pageCount: 0,
+    items: [],
+  });
+
+  const expandIndex = ref<number>(undefined);
+  const getModelCommentList = async (): Promise<void> => {
+    const data = await useAiModelCommentPagination(
+      new AIModelComment(),
+      query.value.registry,
+      params.value.name,
+      pagination.page,
+      pagination.size,
+      { withRepliesCount: true },
+    );
+    data.items = data.items.map((d, index) => {
+      return new AIModelComment({
+        ...d,
+        expand: expandIndex.value === index,
       });
-    },
-    methods: {
-      async modelCommentList() {
-        const data = await getModelCommentList(
-          this.$route.query.registry,
-          Base64.encode(this.$route.params.name),
-          this.params,
-        );
-        this.commentItems = data.list;
-        this.commentItems = this.commentItems.map((c, index) => {
-          return {
-            ...c,
-            expand: this.expandIndex === index,
-          };
-        });
-        this.pageCount = Math.ceil(data.total / this.params.size);
-        this.params.page = data.page;
-      },
-      async modelReplyList(commentid) {
-        const data = await getModelCommentList(this.$route.query.registry, Base64.encode(this.$route.params.name), {
-          reply: commentid,
-          size: 1000,
-          noprocessing: true,
-        });
-        this.replyItems = data.list;
-      },
-      async showReply(item, index) {
-        const comment = this.commentItems[index];
-        if (comment.expand) {
-          comment.expand = false;
-          this.expandIndex = -1;
-        } else {
-          await this.modelReplyList(item.id);
-          comment.expand = true;
-          this.expandIndex = index;
-        }
-        const items = this.commentItems.map((c, i) => {
-          return {
-            ...c,
-            expand: i === index && comment.expand,
-          };
-        });
-        this.$set(this, 'commentItems', items);
-      },
-      addComment() {
-        this.$refs.reply.open(this.$root.$t('operate.add_c', [this.$t('tip.comment')]));
-      },
-      replyCommnet(item, rootId) {
-        const data = {
-          replyTo: {
-            id: item.id,
-            username: item.username,
-            content: item.content,
-            creationTime: item.creationTime,
-            rootID: rootId,
-          },
-        };
-        this.$refs.reply.init(data, true);
-        this.$refs.reply.open(this.$t('operate.reply_c', [this.$t('tip.comment')]));
-      },
-      refresh(reply, commentid) {
-        if (reply) {
-          this.modelReplyList(commentid);
-        }
-        this.modelCommentList();
-        this.$emit('refresh');
-      },
-      editCommnet(item, reply = false) {
-        this.$refs.reply.init(item, reply);
-        this.$refs.reply.open(this.$root.$t('operate.edit_c', [this.$t('tip.comment')]));
-      },
-      removeComment(item, reply, commentid) {
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.delete_c', [this.$t('tip.comment')]),
-          content: {
-            text: this.$root.$t('operate.delete_c', [this.$t('tip.comment')]),
-            type: 'confirm',
-          },
-          param: { item, reply, commentid },
-          doFunc: async (param) => {
-            await deleteModelComment(this.$route.query.registry, Base64.encode(this.$route.params.name), param.item.id);
-            this.refresh(param.reply, param.commentid);
-          },
-        });
-      },
-      onScroll(e) {
-        this.offsetTop = e.target.scrollTop;
-        if (e.target.scrollTop + document.getElementById('model__comment').clientHeight >= e.target.scrollHeight - 1) {
-          this.params.page += 1;
-          if (this.pageCount < this.params.page) return;
-          this.loading = true;
-          this.modelCommentList();
-          this.loading = false;
-        }
-      },
-      goToTop() {
-        const container = document.getElementById('model__comment');
-        container.scrollTo({
-          top: 0,
-          behavior: 'smooth',
-        });
-      },
-    },
+    });
+    if (pagination.page === 1) {
+      pagination = Object.assign(pagination, data);
+      goToTop();
+    } else {
+      pagination.items = pagination.items.concat(data.items);
+    }
   };
+
+  const replyItems = ref<AIModelComment[]>([]);
+  const getModelReplyList = async (commentid): Promise<void> => {
+    const data = await new AIModelComment().getCommentList(query.value.registry, params.value.name, {
+      reply: commentid,
+      size: 1000,
+      noprocessing: true,
+      page: 1,
+    });
+    replyItems.value = convertResponse2List<AIModelComment>(data);
+  };
+
+  const showReply = async (item: AIModelComment, index: number): Promise<void> => {
+    const comment = pagination.items[index];
+    if (comment.expand) {
+      comment.expand = false;
+      expandIndex.value = -1;
+    } else {
+      await getModelReplyList(item.id);
+      comment.expand = true;
+      expandIndex.value = index;
+    }
+    pagination.items = pagination.items.map((c, i) => {
+      return new AIModelComment({
+        ...c,
+        expand: i === index && comment.expand,
+      });
+    });
+  };
+
+  const reply = ref(null);
+  const addComment = (): void => {
+    reply.value.open(i18n.t('operate.add_c', [i18nLocal.t('tip.comment')]));
+  };
+
+  const replyCommnet = (item: AIModelComment, rootId: string): void => {
+    const data = {
+      replyTo: {
+        id: item.id,
+        username: item.username,
+        content: item.content,
+        creationTime: item.creationTime,
+        rootID: rootId,
+      },
+    };
+    reply.value.init(data, true);
+    reply.value.open(i18nLocal.t('operate.reply_c', [i18nLocal.t('tip.comment')]));
+  };
+
+  const emit = defineEmits(['refresh']);
+  const refresh = (reply: boolean, commentid: number): void => {
+    if (reply) {
+      getModelReplyList(commentid);
+    }
+    pagination.page = 1;
+    getModelCommentList();
+    emit('refresh');
+  };
+
+  const editCommnet = (item: AIModelComment, rep = false): void => {
+    reply.value.init(item, rep);
+    reply.value.open(i18n.t('operate.edit_c', [i18nLocal.t('tip.comment')]));
+  };
+
+  const removeComment = (item: AIModelComment, reply = false, commentid: string = undefined): void => {
+    store.commit('SET_CONFIRM', {
+      title: i18n.t('operate.delete_c', [i18nLocal.t('tip.comment')]),
+      content: {
+        text: i18n.t('operate.delete_c', [i18nLocal.t('tip.comment')]),
+        type: 'confirm',
+      },
+      param: { item, reply, commentid },
+      doFunc: async (param) => {
+        await new AIModelComment(param.item).deleteComment(query.value.registry, params.value.name);
+        refresh(param.reply, param.commentid);
+      },
+    });
+  };
+
+  const offsetTop = ref<number>(0);
+  const loading = ref<boolean>(false);
+  const scrolled = (e): void => {
+    offsetTop.value = e.target.scrollTop;
+    if (e.target.scrollTop + document.getElementById('model__comment').clientHeight >= e.target.scrollHeight - 1) {
+      pagination.page += 1;
+      if (pagination.pageCount < pagination.page) return;
+      loading.value = true;
+      getModelCommentList();
+      loading.value = false;
+    }
+  };
+
+  const goToTop = (): void => {
+    const container = document.getElementById('model__comment');
+    container.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  onMounted(() => {
+    getModelCommentList();
+  });
 </script>
 
 <style lang="scss" scoped>

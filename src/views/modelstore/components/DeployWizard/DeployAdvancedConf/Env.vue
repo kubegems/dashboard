@@ -1,6 +1,6 @@
 <template>
   <v-menu
-    v-model="menu"
+    v-model="state.menu"
     bottom
     :close-on-content-click="false"
     left
@@ -15,7 +15,7 @@
         hide-no-data
         hide-selected
         :items="[]"
-        :label="$t('tip.env')"
+        :label="i18nLocal.t('tip.env')"
         :menu-props="{
           bottom: true,
           left: true,
@@ -43,13 +43,13 @@
     </template>
     <v-card>
       <v-card-text class="pa-2">
-        <v-form ref="form" v-model="valid" class="px-2" lazy-validation @click.stop @submit.prevent>
+        <v-form ref="form" v-model="state.valid" class="px-2" lazy-validation @click.stop @submit.prevent>
           <v-row>
             <v-col cols="6">
-              <v-text-field v-model="obj.name" :label="$root.$t('form.key')" :rules="objRules.nameRules" />
+              <v-text-field v-model="obj.name" :label="i18n.t('form.key')" :rules="objRules.name" />
             </v-col>
             <v-col cols="6">
-              <v-text-field v-model="obj.value" :label="$root.$t('form.value')" :rules="objRules.valueRules" />
+              <v-text-field v-model="obj.value" :label="i18n.t('form.value')" :rules="objRules.value" />
             </v-col>
           </v-row>
         </v-form>
@@ -57,74 +57,85 @@
       <v-card-title class="pa-0">
         <v-spacer />
         <v-btn class="mr-2 mb-2" color="primary" dark right small text @click="addEnv">
-          {{ $root.$t('operate.confirm') }}</v-btn
+          {{ i18n.t('operate.confirm') }}</v-btn
         >
       </v-card-title>
     </v-card>
   </v-menu>
 </template>
 
-<script>
-  import messages from '../../../i18n';
+<script lang="ts" setup>
+  import { reactive, ref, watch } from 'vue';
+
+  import { useI18n } from '../../../i18n';
+  import { useGlobalI18n } from '@/i18n';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
-  export default {
-    name: 'Env',
-    i18n: {
-      messages: messages,
+  const props = withDefaults(
+    defineProps<{
+      value: any[];
+    }>(),
+    {
+      value: undefined,
     },
-    data() {
-      return {
-        valid: false,
-        menu: false,
-        env: [],
-        obj: {
-          name: '',
-          value: '',
-        },
-        objRules: {
-          nameRules: [required],
-          valueRules: [required],
-        },
-      };
-    },
-    watch: {
-      value: {
-        handler(newValue) {
-          if (newValue) {
-            this.env = newValue;
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    methods: {
-      addEnv() {
-        if (this.$refs.form.validate(true)) {
-          this.env.push(deepCopy(this.obj));
-          this.menu = false;
-          this.obj = this.$options.data().obj;
-          this.$refs.form.resetValidation();
+  );
 
-          this.$emit('input', this.env);
-          this.$emit('change', this.env);
-        }
-      },
-      removeEnv(item) {
-        const index = this.env.findIndex((e) => {
-          return e.name === item.name && e.value === item.value;
-        });
-        if (index > -1) {
-          this.env.splice(index, 1);
-        }
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
 
-        this.$emit('input', this.env);
-        this.$emit('change', this.env);
-      },
-    },
+  const state = reactive({
+    valid: false,
+    menu: false,
+  });
+
+  const obj = ref({
+    name: '',
+    value: '',
+  });
+  const objRules = {
+    name: [required],
+    value: [required],
   };
+  const env = ref<{ name: string; value: string }[]>([]);
+
+  const emit = defineEmits(['input', 'change']);
+  const form = ref(null);
+  const addEnv = (): void => {
+    if (form.value.validate(true)) {
+      env.value.push(deepCopy(obj.value));
+      state.menu = false;
+      obj.value = {
+        name: '',
+        value: '',
+      };
+      form.value.resetValidation();
+
+      emit('input', env.value);
+      emit('change', env.value);
+    }
+  };
+
+  const removeEnv = (item: { name: string; value: string }): void => {
+    const index = env.value.findIndex((e) => {
+      return e.name === item.name && e.value === item.value;
+    });
+    if (index > -1) {
+      env.value.splice(index, 1);
+    }
+
+    emit('input', env.value);
+    emit('change', env.value);
+  };
+
+  watch(
+    () => props.value,
+    async (newValue) => {
+      if (!newValue) return;
+      env.value = newValue;
+    },
+    { immediate: true, deep: true },
+  );
 </script>
 
 <style lang="scss" scoped>
