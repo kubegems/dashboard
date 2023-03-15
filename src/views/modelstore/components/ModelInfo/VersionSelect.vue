@@ -17,7 +17,7 @@
   <v-sheet class="text-body-2 text--darken-1 mx-1 mt-4 version">
     <div>
       <v-menu
-        v-model="versionMenu"
+        v-model="state.menu"
         bottom
         class="mx-1 px-1"
         left
@@ -26,15 +26,15 @@
         transition="scale-transition"
       >
         <template #activator="{ on }">
-          <div class="text-body-2 mr-2 float-left mt-2">{{ $t('tip.version') }}</div>
+          <div class="text-body-2 mr-2 float-left mt-2">{{ i18nLocal.t('tip.version') }}</div>
           <v-btn class="primary--text font-weight-medium" color="white" text v-on="on">
             {{ selectVersion }}
-            <v-icon v-if="versionMenu" right> mdi-chevron-up </v-icon>
+            <v-icon v-if="state.menu" right> mdi-chevron-up </v-icon>
             <v-icon v-else right> mdi-chevron-down </v-icon>
           </v-btn>
           <v-btn
             v-clipboard:copy="selectVersion"
-            v-clipboard:success="onCopy"
+            v-clipboard:success="copyed"
             class="float-right mt-1"
             color="primary"
             icon
@@ -46,18 +46,18 @@
         <v-data-iterator
           class="file-iterator"
           hide-default-footer
-          :items="[{ text: $t('tip.version'), values: versions }]"
+          :items="[{ text: i18nLocal.t('tip.version'), values: versions || [] }]"
         >
           <template #no-data>
             <v-card>
-              <v-card-text> {{ $root.$t('data.no_data') }} </v-card-text>
+              <v-card-text> {{ i18n.t('data.no_data') }} </v-card-text>
             </v-card>
           </template>
           <template #default="props">
             <v-card v-for="item in props.items" :key="item.text" flat min-height="100">
               <v-list dense>
                 <v-flex class="text-subtitle-2 text-center ma-2">
-                  <span>{{ $t('tip.version') }}</span>
+                  <span>{{ i18nLocal.t('tip.version') }}</span>
                 </v-flex>
                 <v-divider class="mx-2" />
                 <v-list-item
@@ -81,58 +81,54 @@
   </v-sheet>
 </template>
 
-<script>
-  import messages from '../../i18n';
+<script lang="ts" setup>
+  import { reactive, ref, watch } from 'vue';
 
-  export default {
-    name: 'VersionSelect',
-    i18n: {
-      messages: messages,
+  import { useI18n } from '../../i18n';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
+
+  const props = withDefaults(
+    defineProps<{
+      versions?: { [key: string]: any }[];
+    }>(),
+    {
+      versions: undefined,
     },
-    props: {
-      versions: {
-        type: Array,
-        default: () => [],
-      },
-    },
-    data() {
-      return {
-        versionMenu: false,
-        selectVersion: '',
-      };
-    },
-    watch: {
-      versions: {
-        handler(newValue) {
-          if (newValue && newValue?.length > 0) {
-            this.selectVersion = newValue[0]?.name;
-            this.$emit('change', this.selectVersion);
-            this.$emit('input', this.selectVersion);
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-      value: {
-        handler(newValue) {
-          this.selectVersion = newValue;
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    methods: {
-      setVersion(ver) {
-        this.selectVersion = ver?.name;
-        this.$emit('change', this.selectVersion);
-        this.$emit('input', this.selectVersion);
-      },
-      onCopy() {
-        this.$store.commit('SET_SNACKBAR', {
-          text: this.$t('tip.copyed'),
-          color: 'success',
-        });
-      },
-    },
+  );
+
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
+
+  const state = reactive({
+    menu: false,
+  });
+
+  const emit = defineEmits(['change', 'input']);
+  const selectVersion = ref<string>('');
+  const setVersion = (ver) => {
+    selectVersion.value = ver?.name;
+    emit('change', selectVersion.value);
+    emit('input', selectVersion.value);
   };
+
+  const copyed = () => {
+    store.commit('SET_SNACKBAR', {
+      text: i18nLocal.t('tip.copyed'),
+      color: 'success',
+    });
+  };
+
+  watch(
+    () => props.versions,
+    async (newValue) => {
+      if (newValue && newValue?.length > 0) {
+        selectVersion.value = newValue[0]?.name;
+        emit('change', selectVersion.value);
+        emit('input', selectVersion.value);
+      }
+    },
+    { immediate: true, deep: true },
+  );
 </script>

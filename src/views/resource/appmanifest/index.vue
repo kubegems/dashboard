@@ -137,6 +137,7 @@
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2Pagination } from '@/types/base';
   import { convertStrToNum } from '@/utils/helpers';
 
   export default {
@@ -208,9 +209,10 @@
             Object.assign({ environment_id: this.ThisAppEnvironmentID }, this.params),
           );
         }
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        const pagination = convertResponse2Pagination(data);
+        this.items = pagination.items;
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
         this.$router.replace({ query: { ...this.$route.query, ...this.params } });
       },
       updateApp(item) {

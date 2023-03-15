@@ -56,7 +56,15 @@ class Server {
   mounts?: Mount[] = [];
   privileged?: boolean = false;
   ports?: V1ContainerPort[] = [];
-  resources?: any;
+  args: string[] = [];
+  command: string[] = [];
+  env: { name: string; value: string }[] = [];
+  resources?: any = {
+    limits: {
+      cpu: 2,
+      memory: '4Gi',
+    },
+  };
   upgradeStrategy?: string;
   podSpec?: V1PodSpec;
 

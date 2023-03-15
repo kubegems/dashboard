@@ -44,11 +44,18 @@
           :color="item.criticalAlertCount > 0 ? 'error' : 'warning'"
           icon="mdi-fire-alert"
           single-line
+          small
         />
+        <v-icon color="primary" small @click="toAlertDashboard"> mdi-open-in-new </v-icon>
       </template>
       <template #[`item.alertRuleCount`]="{ item }">
         {{ item.alertRuleCount }}
-        <BaseTipChips :chips="item.alertResourceMap || {}" color="primary" icon="mdi-ruler" single-line />
+        <BaseTipChips :chips="item.alertResourceMap || {}" color="primary" icon="mdi-ruler" single-line small />
+        <v-icon color="primary" small @click="toAlertRule(item)"> mdi-open-in-new </v-icon>
+      </template>
+      <template #[`item.monitorCollectorCount`]="{ item }">
+        {{ item.monitorCollectorCount }}
+        <v-icon color="primary" small @click="toMetrics(item)"> mdi-open-in-new </v-icon>
       </template>
       <template #[`item.status`]="{ item }">
         <StatusTag :item="item" :l="item.logging" :m="item.monitoring" :s="item.serviceMesh" />
@@ -67,6 +74,7 @@
       </template>
       <template #[`item.loggingCollectorCount`]="{ item }">
         {{ item.loggingCollectorCount }}
+        <v-icon color="primary" small @click="toLogFlow(item)"> mdi-open-in-new </v-icon>
         <v-menu
           v-if="item.warning"
           bottom
@@ -176,11 +184,11 @@
           { text: this.$t('table.restart_count'), value: 'containerRestartTotal', align: 'start' },
           { text: this.$root.$t('resource.cpu'), value: 'cpu', align: 'start' },
           { text: this.$root.$t('resource.memory'), value: 'memory', align: 'start' },
-          { text: this.$t('table.metrics_count'), value: 'monitorCollectorCount', align: 'start' },
-          { text: this.$t('table.alert_rule_count'), value: 'alertRuleCount', align: 'end', width: 100 },
-          { text: this.$t('table.living_alert_count'), value: 'alertLiving', align: 'end' },
-          { text: this.$t('table.log_count'), value: 'loggingCollectorCount', align: 'start' },
-          { text: this.$t('table.error_log_count'), value: 'errorLogCount', align: 'end', width: 105 },
+          { text: this.$t('table.metrics_count'), value: 'monitorCollectorCount', align: 'end', width: 75 },
+          { text: this.$t('table.alert_rule_count'), value: 'alertRuleCount', align: 'end', width: 75 },
+          { text: this.$t('table.living_alert_count'), value: 'alertLiving', align: 'end', width: 75 },
+          { text: this.$t('table.log_count'), value: 'loggingCollectorCount', align: 'end', width: 75 },
+          { text: this.$t('table.error_log_count'), value: 'errorLogCount', align: 'end', width: 75 },
           { text: this.$t('table.log_rate'), value: 'logRate', align: 'end', width: 130 },
           { text: this.$t('table.event_count'), value: 'eventCount', align: 'end', width: 100 },
         ];
@@ -255,6 +263,51 @@
         let result = rate ? parseInt(rate.replaceAll('/min', '')) : 0;
         result = `${this.beautyLogCount(result)} /min`;
         return result;
+      },
+      toMetrics(item) {
+        this.$router.push({
+          name: 'observe-monitor-config',
+          query: {
+            proj: item.projectName,
+            env: item.environmentName,
+            envid: item.environmentID,
+            projid: item.projectID,
+            cluster: item.clusterName,
+            namespace: item.namespace,
+          },
+        });
+      },
+      toAlertRule(item) {
+        this.$router.push({
+          name: 'observe-monitor-config',
+          query: {
+            proj: item.projectName,
+            env: item.environmentName,
+            envid: item.environmentID,
+            projid: item.projectID,
+            cluster: item.clusterName,
+            namespace: item.namespace,
+            tab: 'prometheusrule',
+          },
+        });
+      },
+      toLogFlow(item) {
+        this.$router.push({
+          name: 'log-config',
+          query: {
+            proj: item.projectName,
+            env: item.environmentName,
+            envid: item.environmentID,
+            projid: item.projectID,
+            cluster: item.clusterName,
+            namespace: item.namespace,
+          },
+        });
+      },
+      toAlertDashboard() {
+        this.$router.push({
+          name: 'observe-monitor-overview',
+        });
       },
     },
   };

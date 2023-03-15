@@ -64,8 +64,18 @@ export class AIModelRegistry implements RegistryUser, Operator {
     return data as AIModelRegistry[];
   }
 
+  public async getRegistryList(params: KubeRequest = {}): Promise<AIModelRegistry[]> {
+    const data: { [key: string]: any } = await axios(`sources`, { params: params });
+    return data as AIModelRegistry[];
+  }
+
   public async getRegistryByAdmin(params: KubeRequest = {}): Promise<AIModelRegistry> {
     const data: { [key: string]: any } = await axios(`admin/sources/${this.name}`, { params: params });
+    return data as AIModelRegistry;
+  }
+
+  public async getRegistry(params: KubeRequest = {}): Promise<AIModelRegistry> {
+    const data: { [key: string]: any } = await axios(`sources/${this.name}`, { params: params });
     return data as AIModelRegistry;
   }
 
@@ -119,7 +129,15 @@ export class AIModelRegistry implements RegistryUser, Operator {
   }
 }
 
-export class AIModel {
+interface ModelOperator {
+  syncModel(): Promise<void>;
+}
+
+interface ModelExtendInfo {
+  getModelRateInfo(params: KubeRequest): Promise<{ count: number; rating: number; total: number }>;
+}
+
+export class AIModel implements ModelOperator, ModelExtendInfo {
   constructor(model?: { [key: string]: any }) {
     Object.assign(this, model);
   }
@@ -135,19 +153,73 @@ export class AIModel {
   likes: number;
   name: string;
   paper: string;
-  rating: number;
+  rating: { [key: string]: any };
   recomment: number;
   recommentContent: string;
   source: string;
-  tags: string[];
+  tags: string[] = [];
   task: string;
   updateAt: Date;
-  versions: { [key: string]: string };
+  versions: { [key: string]: any }[] = [];
   [others: string]: any;
 
-  public async getModelList(source: string, params: KubePaginationRequest): Promise<KubePaginationResponse<AIModel[]>> {
+  public async getModelListByAdmin(
+    source: string,
+    params: KubePaginationRequest,
+  ): Promise<KubePaginationResponse<AIModel[]>> {
     const data: { [key: string]: any } = await axios(`admin/sources/${source}/models`, { params: params });
     return data as KubePaginationResponse<AIModel[]>;
+  }
+
+  public async getModelList(source: string, params: KubePaginationRequest): Promise<KubePaginationResponse<AIModel[]>> {
+    const data: { [key: string]: any } = await axios(`sources/${source}/models`, { params: params });
+    return data as KubePaginationResponse<AIModel[]>;
+  }
+
+  public async getModel(source: string, params: KubeRequest = {}): Promise<AIModel> {
+    const data: { [key: string]: any } = await axios(`sources/${source}/models/${Base64.encode(this.name)}`, {
+      params: params,
+    });
+    return data as AIModel;
+  }
+
+  public async getModelRateInfo(params: KubeRequest = {}): Promise<{ count: number; rating: number; total: number }> {
+    const data: { [key: string]: any } = await axios(
+      `sources/${this.source}/models/${Base64.encode(this.name)}/rating`,
+      {
+        params: params,
+      },
+    );
+    return data as { count: number; rating: number; total: number };
+  }
+
+  public async getModelContent(
+    version: string,
+    params: KubeRequest = {},
+  ): Promise<{
+    creationTime: Date;
+    files: { filename: string; content: string }[];
+    intro: string;
+    name: string;
+    updationTime: Date;
+  }> {
+    const data: { [key: string]: any } = await axios(
+      `sources/${this.source}/models/${Base64.encode(this.name)}/versions/${version}`,
+      {
+        params: params,
+      },
+    );
+    return data as {
+      creationTime: Date;
+      files: { filename: string; content: string }[];
+      intro: string;
+      name: string;
+      updationTime: Date;
+    };
+  }
+
+  public async syncModel(): Promise<void> {
+    await axios.post(`sources/${this.source}/models/${Base64.encode(this.name)}/sync`);
   }
 
   public async updateModelByAdmin(): Promise<AIModel> {
@@ -160,5 +232,85 @@ export class AIModel {
 
   public async deleteModelByAdmin(): Promise<void> {
     await axios.delete(`admin/sources/${this.source}/models/${Base64.encode(this.name)}`);
+  }
+}
+
+export class AIModelComment {
+  constructor(model?: { [key: string]: any }) {
+    Object.assign(this, model);
+  }
+
+  content: string;
+  creationTime: Date;
+  id: string;
+  postID: string;
+  rating: number;
+  replyTo: any;
+  updationTime: Date;
+  username: string;
+  [others: string]: any;
+
+  public async getCommentList(
+    source: string,
+    name: string,
+    params: KubePaginationRequest,
+  ): Promise<KubePaginationResponse<AIModelComment[]>> {
+    const data: { [key: string]: any } = await axios(`sources/${source}/models/${Base64.encode(name)}/comments`, {
+      params: params,
+    });
+    return data as KubePaginationResponse<AIModelComment[]>;
+  }
+
+  public async addComment(source: string, name: string): Promise<AIModelComment> {
+    const data: { [key: string]: any } = await axios.post(
+      `sources/${source}/models/${Base64.encode(name)}/comments`,
+      this,
+    );
+    return data as AIModelComment;
+  }
+
+  public async updateComment(source: string, name: string): Promise<AIModelComment> {
+    const data: { [key: string]: any } = await axios.put(
+      `sources/${source}/models/${Base64.encode(name)}/comments/${this.id}}`,
+      this,
+    );
+    return data as AIModelComment;
+  }
+
+  public async deleteComment(source: string, name: string): Promise<void> {
+    await axios.delete(`sources/${source}/models/${Base64.encode(name)}/comments/${this.id}`);
+  }
+}
+
+export class AIModelRuntime {
+  constructor(runtime?: { [key: string]: any }) {
+    Object.assign(this, runtime);
+  }
+
+  cluster: string;
+  creationTimestamp: Date;
+  creator: string;
+  environment: string;
+  grpcURL: string;
+  modelName: string;
+  modelVersion: string;
+  name: string;
+  namespace: string;
+  phase: string;
+  project: string;
+  tenant: string;
+  url: string;
+  username: string;
+  [others: string]: any;
+
+  public async getRuntimeList(
+    source: string,
+    name: string,
+    params: KubePaginationRequest,
+  ): Promise<KubePaginationResponse<AIModelRuntime[]>> {
+    const data: { [key: string]: any } = await axios(`sources/${source}/models/${Base64.encode(name)}/instances`, {
+      params: params,
+    });
+    return data as KubePaginationResponse<AIModelRuntime[]>;
   }
 }

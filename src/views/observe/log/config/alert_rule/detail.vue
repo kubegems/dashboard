@@ -82,6 +82,7 @@
   import { deleteLogAlertRule, getLogAlertRuleDetail, getPrometheusAlertHistory } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2List } from '@/types/base';
   import AlertBarChart from '@/views/observe/monitor/config/prometheusrule/components//AlertBarChart';
   import AlertList from '@/views/observe/monitor/config/prometheusrule/components/AlertList';
   import UpdateAlertRule from '@/views/observe/monitor/config/prometheusrule/components/UpdatePrometheusRule';
@@ -200,30 +201,29 @@
             noprocessing: true,
           },
         );
-        if (data.List) {
-          const severitys = ['error', 'critical'];
-          severitys.forEach((severity) => {
-            this.metrics.push({
-              metric: { name: severity },
-              values: this.timeArray.map((d) => {
-                return [d, 0];
-              }),
-            });
+
+        const severitys = ['error', 'critical'];
+        severitys.forEach((severity) => {
+          this.metrics.push({
+            metric: { name: severity },
+            values: this.timeArray.map((d) => {
+              return [d, 0];
+            }),
           });
-          data.List.forEach((d) => {
-            const time = Date.parse(this.$moment(d.CreatedAt));
-            const index = this.timeArray.findIndex((t) => {
-              return t >= time;
-            });
-            if (index > -1) {
-              if (d.Labels.severity === 'error') {
-                this.metrics[0].values[index][1] += d.Count;
-              } else if (d.Labels.severity === 'critical') {
-                this.metrics[1].values[index][1] += d.Count;
-              }
+        });
+        convertResponse2List(data).forEach((d) => {
+          const time = Date.parse(this.$moment(d.CreatedAt));
+          const index = this.timeArray.findIndex((t) => {
+            return t >= time;
+          });
+          if (index > -1) {
+            if (d.Labels.severity === 'error') {
+              this.metrics[0].values[index][1] += d.Count;
+            } else if (d.Labels.severity === 'critical') {
+              this.metrics[1].values[index][1] += d.Count;
             }
-          });
-        }
+          }
+        });
       },
     },
   };

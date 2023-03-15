@@ -23,7 +23,7 @@
     </div>
     <div class="v-menu__content theme--light manuable__content__active">
       <div class="v-card v-sheet theme--light text-center">
-        <div class="v-card__text pa-2 text-caption">{{ content }}</div>
+        <div class="v-card__text pa-2 text-caption">{{ displayContent }}</div>
       </div>
     </div>
   </div>
@@ -34,12 +34,12 @@
 
   const props = withDefaults(
     defineProps<{
-      content?: string;
+      displayContent?: string;
       delay?: number;
       speed?: number;
     }>(),
     {
-      content: '',
+      displayContent: '',
       delay: 0.5,
       speed: 100,
     },
@@ -62,7 +62,7 @@
   const wrap = ref(null);
   const content = ref(null);
   watch(
-    () => props.content,
+    () => props.displayContent,
     async (newValue) => {
       if (!newValue) return;
       nextTick(() => {

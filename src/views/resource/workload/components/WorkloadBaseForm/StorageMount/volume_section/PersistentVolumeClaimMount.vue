@@ -64,6 +64,7 @@
   import VolumeMountForInitContainer from './VolumeMountForInitContainer';
   import { getAppResourceFileMetas, getPersistentVolumeClaimList } from '@/api';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2List } from '@/types/base';
   import { required } from '@/utils/rules';
 
   export default {
@@ -158,7 +159,7 @@
           data = await getPersistentVolumeClaimList(this.ThisCluster, this.namespace || this.$route.query.namespace, {
             size: 1000,
           });
-          this.items = data.List;
+          this.items = convertResponse2List(data);
         }
         this.items = this.items
           .filter((v) => {

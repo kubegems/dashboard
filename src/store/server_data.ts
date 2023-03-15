@@ -21,11 +21,17 @@ import {
   userTenantSelectData,
   virtualSpaceSelectData,
 } from '@/api';
+import { convertResponse2List } from '@/types/base';
+import { Cluster } from '@/types/cluster';
+import { Environment } from '@/types/environment';
+import { Project } from '@/types/project';
+import { Tenant } from '@/types/tenant';
+import { VirtualSpace } from '@/types/virtualspace';
 
 export async function useVirtualSpace(): Promise<{ [key: string]: string | number }[]> {
   const data: { [key: string]: any } = await virtualSpaceSelectData({ noprocessing: true });
   const virtualSpaceSelect: { [key: string]: string | number }[] = [];
-  data.List.forEach((r: any): void => {
+  convertResponse2List(data as KubePaginationResponse<VirtualSpace[]>).forEach((r: any): void => {
     virtualSpaceSelect.push({
       VirtualSpaceName: r.VirtualSpaceName,
       ID: r.ID,
@@ -37,7 +43,7 @@ export async function useVirtualSpace(): Promise<{ [key: string]: string | numbe
 export async function useCluster(): Promise<{ [key: string]: string | number }[]> {
   const data: { [key: string]: any } = await clusterSelectData({ noprocessing: true });
   const clusterSelect: { [key: string]: string | number }[] = [];
-  data.List.forEach((c: any): void => {
+  convertResponse2List(data as KubePaginationResponse<Cluster[]>).forEach((c: any): void => {
     clusterSelect.push({
       ClusterName: c.ClusterName,
       Version: c.Version,
@@ -57,7 +63,7 @@ export async function useTenant(admin: boolean, userid: number): Promise<{ [key:
     });
   }
   const tenantSelect: { [key: string]: string | number }[] = [];
-  data.List.forEach((tenant: any): void => {
+  convertResponse2List(data as KubePaginationResponse<Tenant[]>).forEach((tenant: any): void => {
     if (tenant.IsActive && ((tenant.Clusters && tenant.Clusters.length > 0) || tenant.ResourceQuotas)) {
       tenantSelect.push({
         TenantName: tenant.TenantName,
@@ -73,7 +79,7 @@ export async function useProject(tenantid: number): Promise<{ [key: string]: str
     noprocessing: true,
   });
   const tenantProjectSelect: { [key: string]: string | number }[] = [];
-  data.List.forEach((p: any): void => {
+  convertResponse2List(data as KubePaginationResponse<Project[]>).forEach((p: any): void => {
     tenantProjectSelect.push({
       ProjectName: p.ProjectName,
       ID: p.ID,
@@ -87,7 +93,7 @@ export async function useEnvironment(projectid: number): Promise<{ [key: string]
     noprocessing: true,
   });
   const projectEnvironmentSelect: { [key: string]: string | number }[] = [];
-  data.List.forEach((ns: any): void => {
+  convertResponse2List(data as KubePaginationResponse<Environment[]>).forEach((ns: any): void => {
     projectEnvironmentSelect.push({
       EnvironmentName: ns.EnvironmentName,
       ID: ns.ID,

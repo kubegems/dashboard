@@ -155,6 +155,7 @@
   import AppStoreCard from './components/AppStoreCard';
   import messages from './i18n';
   import { getAppStoreList, getRepositoryList } from '@/api';
+  import { convertResponse2Pagination } from '@/types/base';
   import Breadcrumb from '@/views/modelstore/components/Breadcrumb';
 
   export default {
@@ -208,9 +209,10 @@
           this.params.reponame = this.selectRepo;
         }
         const data = await getAppStoreList(this.params);
-        this.chartsNum = data.Total;
-        this.items = data.List;
-        this.all = data.List;
+        const pagination = convertResponse2Pagination(data);
+        this.chartsNum = pagination.total;
+        this.items = data.items;
+        this.all = data.items;
         this.generatTypes();
       },
       setRepo(repo) {

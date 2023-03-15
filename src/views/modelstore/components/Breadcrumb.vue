@@ -21,31 +21,34 @@
         <v-card class="custom-shaodow pa-0" flat height="64">
           <v-card-text class="breadcrumb__flex">
             <div class="text-subtitle-2 kubegems__text font-weight-medium breadcrumb__font">
-              <img height="32" :src="imgSrc" />
+              <img height="32" :src="state.imgSrc" />
             </div>
-            <v-icon v-if="tip !== undefined" class="breadcrumb__bg mr-1" right small> mdi-help-rhombus </v-icon>
-            <div v-if="tip !== undefined" class="text-overline breadcrumb__bg breadcrumb__tip font-weight-regular">
-              {{ tip }}
+            <v-icon v-if="state.tip !== undefined" class="breadcrumb__bg mr-1" right small> mdi-help-rhombus </v-icon>
+            <div
+              v-if="state.tip !== undefined"
+              class="text-overline breadcrumb__bg breadcrumb__tip font-weight-regular"
+            >
+              {{ state.tip }}
             </div>
-            <div v-if="status" class="breadcrumb__status">
-              <template v-if="status.status === 'SUCCESS'">
+            <div v-if="state.status" class="breadcrumb__status">
+              <template v-if="state.status.status === 'SUCCESS'">
                 <v-icon class="mr-1" color="success" small>mdi-check-circle</v-icon>
-                {{ $t('status.synced') }}
+                {{ i18nLocal.t('status.synced') }}
               </template>
-              <template v-else-if="['INITIALIZE', 'PROGRESS', 'STARTED'].indexOf(status.status) > -1">
+              <template v-else-if="['INITIALIZE', 'PROGRESS', 'STARTED'].indexOf(state.status.status) > -1">
                 <v-icon class="mr-1 kubegems__waiting-circle-flashing" color="warning"> mdi-autorenew </v-icon>
-                {{ $t('status.running') }}
-                {{ status.progress }}
+                {{ i18nLocal.t('status.running') }}
+                {{ state.status.progress }}
               </template>
-              <template v-else-if="status.status === 'FAILURE'">
+              <template v-else-if="state.status.status === 'FAILURE'">
                 <v-icon class="mr-1" color="error" small> mdi-close-circle </v-icon>
-                {{ $t('status.failure') }}
+                {{ i18nLocal.t('status.failure') }}
               </template>
-              <template v-else-if="status.status === 'STOP'">
+              <template v-else-if="state.status.status === 'STOP'">
                 <v-icon class="mr-1" color="grey" small> mdi-alert-circle </v-icon>
-                {{ $t('status.no_sync') }}
+                {{ i18nLocal.t('status.no_sync') }}
               </template>
-              {{ status.finishedAt ? $moment(status.finishedAt).format('lll') : '' }}
+              {{ state.status.finishedAt ? moment(state.status.finishedAt).format('lll') : '' }}
             </div>
             <slot name="extend" />
           </v-card-text>
@@ -55,119 +58,122 @@
   </v-flex>
 </template>
 
-<script>
-  import messages from '../i18n';
-  import { getModelSourceDetail } from '@/api';
-  import { LOGO_BLUE } from '@/constants/platform';
+<script lang="ts" setup>
+  import moment from 'moment';
+  import { onUnmounted, reactive, watch } from 'vue';
 
-  export default {
-    name: 'Breadcrumb',
-    i18n: {
-      messages: messages,
+  import { useI18n } from '../i18n';
+  import { LOGO_BLUE } from '@/constants/platform';
+  import { useQuery } from '@/router';
+  import { AIModelRegistry } from '@/types/ai_model';
+
+  const props = withDefaults(
+    defineProps<{
+      syncStatus?: boolean;
+    }>(),
+    {
+      syncStatus: false,
     },
-    props: {
-      hub: {
-        type: String,
-        default: () => 'kubegems-hub',
-      },
-      syncStatus: {
-        type: Boolean,
-        default: () => false,
-      },
-    },
-    data() {
-      return {
-        imgSrc: '',
-        tip: '',
-        status: null,
-        timeinterval: null,
-      };
-    },
-    watch: {
-      hub: {
-        handler(newValue) {
-          switch (newValue) {
-            case 'huggingface':
-              this.imgSrc = '/icon/hugging-face.svg';
-              this.tip = this.$t('tip.huggingface');
-              break;
-            case 'openmmlab':
-              this.imgSrc = '/icon/openmmlab.svg';
-              this.tip = this.$t('tip.openmmlab');
-              break;
-            case 'tensorflow':
-              this.imgSrc = '/icon/tensorflow.svg';
-              this.tip = this.$t('tip.tensorflow');
-              break;
-            case 'kubegems-charts':
-              this.imgSrc = LOGO_BLUE;
-              this.tip = this.$t('tip.kubegems_chart');
-              break;
-            case 'bitnami':
-              this.imgSrc = '/icon/bitnami.svg';
-              this.tip = this.$t('tip.bitnami');
-              break;
-            case 'chartmuseum':
-              this.imgSrc = '/icon/chartmuseum-b.svg';
-              this.tip = this.$t('tip.chartmuseum');
-              break;
-            case 'pytorch':
-              this.imgSrc = '/icon/pytorch.svg';
-              this.tip = this.$t('tip.pytorch');
-              break;
-            case 'paddlepaddle':
-              this.imgSrc = '/icon/paddlepaddle.svg';
-              this.tip = this.$t('tip.paddlepaddle');
-              break;
-            case 'banzaicloud':
-              this.imgSrc = '/icon/banzaicloud-logo.svg';
-              this.tip = this.$t('tip.banzaicloud');
-              break;
-            case 'hashicorp':
-              this.imgSrc = '/icon/hashicorp-logo.svg';
-              this.tip = this.$t('tip.hashicorp');
-              break;
-            case 'cloudminds':
-            case 'CloudMinds':
-            case 'cloudminds-modelx':
-              this.imgSrc = '/icon/cloudminds-logo.svg';
-              this.tip = this.$t('tip.cloudminds');
-              break;
-            default:
-              this.imgSrc = LOGO_BLUE;
-              this.tip = this.$t('tip.kubegems');
-              break;
-          }
-          if (this.syncStatus && newValue) {
-            this.loadRegistryStatus();
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    destroyed() {
-      this.clearInterval();
-    },
-    methods: {
-      loadRegistryStatus() {
-        this.clearInterval();
-        this.registryStatus();
-        this.timeinterval = setInterval(() => {
-          this.registryStatus();
-        }, 1000 * 10);
-      },
-      async registryStatus() {
-        const data = await getModelSourceDetail(this.$route.query.registry, { noprocessing: true, count: true });
-        this.status = data.syncStatus;
-        this.$emit('updateModelCount', data.modelsCount || 0);
-        this.$emit('setOnline', data.online);
-      },
-      clearInterval() {
-        if (this.timeinterval) clearInterval(this.timeinterval);
-      },
-    },
+  );
+
+  const i18nLocal = useI18n();
+  const query = useQuery();
+
+  const state = reactive({
+    imgSrc: '',
+    tip: '',
+    status: null,
+    timeinterval: null,
+  });
+
+  const loadRegistryStatus = (): void => {
+    clearVal();
+    getRegistryStatus();
+    state.timeinterval = setInterval(() => {
+      getRegistryStatus();
+    }, 1000 * 10);
   };
+
+  const emit = defineEmits(['updateModelCount', 'setOnline']);
+  const getRegistryStatus = async (): Promise<void> => {
+    const data = await new AIModelRegistry({ name: query.value.registry }).getRegistry({
+      noprocessing: true,
+      count: true,
+    });
+    state.status = data.syncStatus;
+    emit('updateModelCount', data.modelsCount || 0);
+    emit('setOnline', data.online);
+  };
+
+  const clearVal = (): void => {
+    if (state.timeinterval) clearInterval(state.timeinterval);
+  };
+
+  watch(
+    () => query.value.registry,
+    async (newValue) => {
+      switch (newValue) {
+        case 'huggingface':
+          state.imgSrc = '/icon/hugging-face.svg';
+          state.tip = i18nLocal.t('tip.huggingface').toString();
+          break;
+        case 'openmmlab':
+          state.imgSrc = '/icon/openmmlab.svg';
+          state.tip = i18nLocal.t('tip.openmmlab').toString();
+          break;
+        case 'tensorflow':
+          state.imgSrc = '/icon/tensorflow.svg';
+          state.tip = i18nLocal.t('tip.tensorflow').toString();
+          break;
+        case 'kubegems-charts':
+          state.imgSrc = LOGO_BLUE;
+          state.tip = i18nLocal.t('tip.kubegems_chart').toString();
+          break;
+        case 'bitnami':
+          state.imgSrc = '/icon/bitnami.svg';
+          state.tip = i18nLocal.t('tip.bitnami').toString();
+          break;
+        case 'chartmuseum':
+          state.imgSrc = '/icon/chartmuseum-b.svg';
+          state.tip = i18nLocal.t('tip.chartmuseum').toString();
+          break;
+        case 'pytorch':
+          state.imgSrc = '/icon/pytorch.svg';
+          state.tip = i18nLocal.t('tip.pytorch').toString();
+          break;
+        case 'paddlepaddle':
+          state.imgSrc = '/icon/paddlepaddle.svg';
+          state.tip = i18nLocal.t('tip.paddlepaddle').toString();
+          break;
+        case 'banzaicloud':
+          state.imgSrc = '/icon/banzaicloud-logo.svg';
+          state.tip = i18nLocal.t('tip.banzaicloud').toString();
+          break;
+        case 'hashicorp':
+          state.imgSrc = '/icon/hashicorp-logo.svg';
+          state.tip = i18nLocal.t('tip.hashicorp').toString();
+          break;
+        case 'cloudminds':
+        case 'CloudMinds':
+        case 'cloudminds-modelx':
+          state.imgSrc = '/icon/cloudminds-logo.svg';
+          state.tip = i18nLocal.t('tip.cloudminds').toString();
+          break;
+        default:
+          state.imgSrc = LOGO_BLUE;
+          state.tip = i18nLocal.t('tip.kubegems').toString();
+          break;
+      }
+      if (props.syncStatus && newValue) {
+        loadRegistryStatus();
+      }
+    },
+    { immediate: true, deep: true },
+  );
+
+  onUnmounted(() => {
+    clearVal();
+  });
 </script>
 
 <style lang="scss" scoped>

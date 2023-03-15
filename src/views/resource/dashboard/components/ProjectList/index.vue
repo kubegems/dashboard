@@ -59,7 +59,7 @@
               :no-data-text="$root.$t('data.no_data')"
             >
               <template #[`item.environmentName`]="{ item }">
-                <BaseMarquee :content="item.EnvironmentName" :speed="20">
+                <BaseMarquee :display-content="item.EnvironmentName" :speed="20">
                   <a class="font-weight-medium" @click.stop="environmentDetail(item)">
                     {{ item.EnvironmentName }}
                   </a>
@@ -215,6 +215,7 @@
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2List, convertResponse2Pagination } from '@/types/base';
   import { beautifyCpuUnit, beautifyNetworkUnit, beautifyStorageUnit } from '@/utils/helpers';
   import AddEnvironment from '@/views/resource/environment/components/AddEnvironment';
   import AddProject from '@/views/resource/project/components/AddProject';
@@ -283,9 +284,10 @@
     methods: {
       async projectList() {
         const data = await getProjectList(this.Tenant().ID, Object.assign(this.pageParams, {}));
-        this.projectItems = data.List;
-        this.pageCount = Math.ceil(data.Total / this.pageParams.size);
-        this.pageParams.page = data.CurrentPage;
+        const pagination = convertResponse2Pagination(data);
+        this.projectItems = pagination.items;
+        this.pageCount = pagination.pageCount;
+        this.pageParams.page = pagination.page;
         if (this.projectItems.length > 0) {
           this.expand = 0;
           this.projectEnvironmentList(this.projectItems[0]);
@@ -297,7 +299,8 @@
       async projectEnvironmentList(item) {
         this.environmentItems = [];
         const data = await getProjectEnvironmentList(item.ID, { noprocessing: true });
-        data.List.sort(function (a, b) {
+        const list = convertResponse2List(data);
+        list.sort(function (a, b) {
           if (a.EnvironmentName < b.EnvironmentName) {
             return -1;
           }
@@ -306,7 +309,7 @@
           }
           return 0;
         });
-        this.environmentItems = data.List;
+        this.environmentItems = list;
         await this.projectEnvironmentQuotaList(item);
         const envdict = {};
         this.environmentItems.forEach((e) => {

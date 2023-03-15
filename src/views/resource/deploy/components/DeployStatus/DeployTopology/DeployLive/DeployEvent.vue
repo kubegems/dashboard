@@ -80,6 +80,7 @@
   import { getEventList } from '@/api';
   import { EVENT_STATUS_COLOR } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2Pagination } from '@/types/base';
 
   export default {
     name: 'DeployEvent',
@@ -136,9 +137,10 @@
           this.resource.namespace,
           Object.assign({ topkind: this.resource.kind, topname: this.resource.name }, this.params),
         );
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        const pagination = convertResponse2Pagination(data);
+        this.items = pagination.items;
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
       },
       dispose() {
         return;

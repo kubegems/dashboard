@@ -19,6 +19,8 @@ import Vuex, { ActionContext, Store } from 'vuex';
 import { useCluster, useEnvironment, useProject, useTenant, useVirtualSpace } from './server_data';
 import { getBroadcastlist, getClusterPluginsList, getPluginsList, getRESTMapping } from '@/api';
 import router from '@/router';
+import { convertResponse2List } from '@/types/base';
+import { Broadcast as cast } from '@/types/broadcast';
 import { delAllCookie, getCookie } from '@/utils/cookie';
 import { sleep } from '@/utils/helpers';
 
@@ -517,7 +519,7 @@ const store: Store<{ [key: string]: any }> = new Store({
           noprocessing: true,
           active: true,
         });
-        const items = data.List;
+        const items = convertResponse2List(data as KubePaginationResponse<cast[]>);
         if (items) commit('SET_BROADCAST', items);
       };
       await doFunc();

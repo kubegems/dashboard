@@ -144,6 +144,7 @@
   import { getPodList } from '@/api';
   import { POD_STATUS_COLOR, WORKLOAD_STATUS_COLOR } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2List } from '@/types/base';
 
   export default {
     name: 'WorkloadInfo',
@@ -182,7 +183,7 @@
             noprocessing: true,
           }),
         );
-        this.podItems = data.List;
+        this.podItems = convertResponse2List(data);
       },
     },
   };

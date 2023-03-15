@@ -18,7 +18,7 @@
     <v-dialog v-if="deploying" hide-overlay light persistent :value="processing" width="300">
       <v-card class="pa-1" color="primary" flat>
         <v-card-text class="text-center white--text">
-          {{ $t('status.deploying') }}
+          {{ i18nLocal.t('status.deploying') }}
           <v-progress-linear class="mb-0 mt-2" color="white" indeterminate />
         </v-card-text>
       </v-card>
@@ -26,55 +26,48 @@
 
     <v-card-text v-else class="pa-5 text-center">
       <Icon class="ml-0 success--text" height="100px" icon="mdi:check-circle" width="100px" />
-      <h4 class="text-h6 mt-3 mb-8">{{ $t('status.deploy_success') }}</h4>
+      <h4 class="text-h6 mt-3 mb-8">{{ i18nLocal.t('status.deploy_success') }}</h4>
       <div class="mt-3">
-        <v-btn color="primary" small text @click="showDeployStatus"> {{ $t('operate.view_deploy_status') }} </v-btn>
+        <v-btn color="primary" small text @click="showDeployStatus">
+          {{ i18nLocal.t('operate.view_deploy_status') }}
+        </v-btn>
       </div>
     </v-card-text>
   </v-card>
 </template>
 
-<script>
-  import messages from '../../i18n';
+<script lang="ts" setup>
+  import { ref, watch } from 'vue';
 
-  export default {
-    name: 'DeployStatus',
-    i18n: {
-      messages: messages,
+  import { useI18n } from '../../i18n';
+
+  const props = withDefaults(
+    defineProps<{
+      base?: any;
+      processing?: boolean;
+    }>(),
+    {
+      base: undefined,
+      processing: false,
     },
-    props: {
-      base: {
-        type: Object,
-        default: () => null,
-      },
-      processing: {
-        type: Boolean,
-        default: () => false,
-      },
-    },
-    data() {
-      return {
-        deploying: true,
-      };
-    },
-    watch: {
-      processing: {
-        handler(newValue) {
-          if (newValue) {
-            const _v = this;
-            setTimeout(() => {
-              _v.deploying = false;
-            }, 3000);
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    methods: {
-      showDeployStatus() {
-        this.$emit('showDeployStatus', this.base);
-      },
-    },
+  );
+
+  const i18nLocal = useI18n();
+
+  const emit = defineEmits(['showDeployStatus']);
+  const showDeployStatus = () => {
+    emit('showDeployStatus', props.base);
   };
+
+  const deploying = ref<boolean>(false);
+  watch(
+    () => props.processing,
+    async (newValue) => {
+      if (!newValue) return;
+      setTimeout(() => {
+        deploying.value = false;
+      }, 3000);
+    },
+    { immediate: true, deep: true },
+  );
 </script>

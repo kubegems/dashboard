@@ -69,6 +69,7 @@
   import messages from '../i18n';
   import { getJobList } from '@/api';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2Pagination } from '@/types/base';
 
   export default {
     name: 'JobList',
@@ -120,9 +121,10 @@
             topname: this.item ? this.item.metadata.name : this.$route.params.name,
           }),
         );
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        const pagination = convertResponse2Pagination(data);
+        this.items = pagination.items;
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
       },
       onPageSizeChange(size) {
         this.params.page = 1;

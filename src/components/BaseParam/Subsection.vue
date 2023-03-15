@@ -18,14 +18,18 @@
   <v-flex class="my-0 mt-0">
     <BaseSubTitle
       class="my-0 mt-0"
-      :color="pathLevel === 1 ? 'grey lighten-3' : ''"
+      :color="pathLevel === 1 ? 'grey lighten-3' : pathLevel > 1 ? 'grey lighten-5' : ''"
       :divider="false"
       :freeze="pathLevel !== 1"
-      :pl="pathLevel === 1 ? 2 : 0"
+      :pl="pathLevel >= 1 ? 2 : 0"
       :title="label"
     />
 
-    <v-flex class="my-0 mt-0" :v-if="param.children && param.children.length > 0">
+    <v-flex
+      class="my-0 mt-0"
+      :style="{ paddingLeft: `${4 * pathLevel}px` }"
+      :v-if="param.children && param.children.length > 0"
+    >
       <BaseParam
         v-for="(childrenParam, index) in param.children"
         :id="`${id}-${index}`"

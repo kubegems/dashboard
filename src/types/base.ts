@@ -79,24 +79,27 @@ export const convertResponse2Pagination = <T>(resData: KubePaginationResponse<T[
   let _data: { [key: string]: any };
   if (resData.List)
     _data = {
-      items: resData.List,
-      pageCount: Math.ceil(resData.Total / resData.CurrentSize),
-      page: resData.CurrentPage,
-      size: resData.CurrentSize,
+      items: resData?.List,
+      pageCount: Math.ceil((resData?.Total || 0) / (resData?.CurrentSize || 1)),
+      page: resData?.CurrentPage,
+      size: resData?.CurrentSize,
+      total: resData?.Total,
     };
   else
     _data = {
-      items: resData.list,
-      pageCount: Math.ceil(resData.total / resData.size),
-      page: resData.page,
-      size: resData.size,
+      items: resData?.list,
+      pageCount: Math.ceil((resData?.total || 0) / (resData?.size || 1)),
+      page: resData?.page,
+      size: resData?.size,
+      total: resData?.total,
     };
   return _data as Pagination<T>;
 };
 
 export const convertResponse2List = <T>(resData: KubePaginationResponse<T[]>): T[] => {
   if (resData.List) return resData.List as T[];
-  else return resData.list as T[];
+  else if (resData.list) return resData.list as T[];
+  else return [];
 };
 
 export {};

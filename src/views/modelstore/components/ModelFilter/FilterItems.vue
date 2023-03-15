@@ -18,16 +18,16 @@
     <div class="filter__title text-subtitle-2">{{ title }}</div>
     <div>
       <v-text-field
-        v-if="searchShow"
+        v-if="state.searchShow"
         v-model="search"
         class="mr-4 my-2 ml-2"
         dense
         flat
         hide-details
-        :label="`${title}${$t('tip.name')}`"
+        :label="`${title}${i18nLocal.t('tip.name')}`"
         prepend-inner-icon="mdi-magnify"
         solo
-        @keyup="onSearch"
+        @keyup="searched"
       />
 
       <v-chip v-if="tagHide" class="ml-3 my-1 kubegems__pointer" color="primary" small @click="clearSelect">
@@ -42,8 +42,8 @@
         </v-avatar>
         {{ tagHide }}
       </v-chip>
-      <v-chip-group v-model="tagIndex" active-class="primary" class="px-3" column @change="onTagChange">
-        <v-chip v-for="tag in searchShow ? tagsCopy : shortTags" :key="tag" class="my-1" small>
+      <v-chip-group v-model="tagIndex" active-class="primary" class="px-3" column @change="tagChanged">
+        <v-chip v-for="tag in state.searchShow ? tagsCopy : shortTags" :key="tag" class="my-1" small>
           <v-avatar v-if="title !== 'Framework' || hasLogo(tag)" left>
             <BaseLogo
               class="filter__logo"
@@ -56,123 +56,134 @@
           {{ tag }}
         </v-chip>
       </v-chip-group>
-      <v-chip v-if="orderedTags.length > 12" color="primary mx-3" small @click="searchShow = !searchShow">
-        <span v-if="searchShow">
+      <v-chip
+        v-if="orderedTags && orderedTags.length > 12"
+        color="primary mx-3"
+        small
+        @click="state.searchShow = !state.searchShow"
+      >
+        <span v-if="state.searchShow">
           <v-icon small>mdi-chevron-double-up</v-icon>
         </span>
         <span v-else> + {{ orderedTags.length - 12 }}</span>
       </v-chip>
     </div>
-    <div v-if="!tags || orderedTags.length === 0" class="filter__null"> {{ $root.$t('data.no_data') }} </div>
+    <div v-if="!tags || (orderedTags && orderedTags.length === 0)" class="filter__null">
+      {{ i18n.t('data.no_data') }}
+    </div>
   </div>
 </template>
 
-<script>
-  import messages from '../../i18n';
+<script lang="ts" setup>
+  import { ComputedRef, computed, reactive, ref, watch } from 'vue';
+
+  import { useI18n } from '../../i18n';
   import { MODEL_FRAMEWORK } from '@/constants/resource';
+  import { useGlobalI18n } from '@/i18n';
+  import { useQuery } from '@/router';
   import { deepCopy } from '@/utils/helpers';
 
-  export default {
-    name: 'FilterItems',
-    i18n: {
-      messages: messages,
+  const props = withDefaults(
+    defineProps<{
+      title?: string;
+      tags?: string[];
+    }>(),
+    {
+      title: '',
+      tags: undefined,
     },
-    props: {
-      title: {
-        type: String,
-        default: () => '',
-      },
-      tags: {
-        type: Array,
-        default: () => [],
-      },
-    },
-    data() {
-      return {
-        search: '',
-        searchShow: false,
-        tagsCopy: [],
-        orderedTags: [],
-        tagIndex: undefined,
-        tagHide: '',
-        orderIndex: ['pytorch', 'tensorflow', 'transformers', 'onnx'],
-      };
-    },
-    computed: {
-      shortTags() {
-        return this.orderedTags.slice(0, 12);
-      },
-    },
-    watch: {
-      tags: {
-        handler(newValue) {
-          this.orderedTags = [];
-          newValue.forEach((t) => {
-            const index = this.orderIndex.findIndex((i) => {
-              return t.indexOf(i) > -1;
-            });
-            if (index > -1) {
-              this.orderedTags.splice(index, 0, t);
-            } else {
-              this.orderedTags.push(t);
-            }
-          });
-          this.tagsCopy = deepCopy(this.orderedTags.slice(0, 100));
-          const tag = this.$route.query.tags;
-          const index = this.orderedTags.findIndex((t) => {
-            return t === tag;
-          });
-          if (index > -1) {
-            this.tagHide = tag;
-            this.tagIndex = this.tagsCopy.indexOf(tag);
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    methods: {
-      onSearch() {
-        if (this.search) {
-          this.tagsCopy = this.orderedTags.filter((t) => {
-            return t.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
-          });
-        } else {
-          this.tagsCopy = deepCopy(this.orderedTags.slice(0, 100));
-        }
-      },
-      onTagChange() {
-        const t = this.tagsCopy[this.tagIndex];
-        const index = this.orderedTags.indexOf(t);
-        if (index && index >= 12) {
-          this.tagHide = this.orderedTags[index];
-          this.tagIndex = -1;
-        } else {
-          this.tagHide = '';
-        }
+  );
 
-        this.$emit('search', { [this.title.toLowerCase()]: index > -1 ? this.orderedTags[index] : null });
-      },
-      clearSelect() {
-        this.tagIndex = -1;
-        this.onTagChange();
-      },
-      getLogo(tag) {
-        if (this.title === 'Tags') {
-          return 'tag';
-        }
-        if (this.title === 'License') {
-          return 'license';
-        }
-        return tag;
-      },
-      hasLogo(tag) {
-        return MODEL_FRAMEWORK.some((i) => {
-          return tag.toLowerCase().indexOf(i) > -1;
-        });
-      },
-    },
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const query = useQuery();
+  const state = reactive({
+    searchShow: false,
+  });
+
+  const search = ref<string>('');
+  const tagsCopy = ref<string[]>([]);
+  const orderedTags = ref<string[]>([]);
+  const tagIndex = ref<number>(undefined);
+  const tagHide = ref('');
+  const orderIndex = ['pytorch', 'tensorflow', 'transformers', 'onnx'];
+
+  const shortTags: ComputedRef<string[]> = computed(() => {
+    return orderedTags.value.slice(0, 12);
+  });
+
+  const searched = (): void => {
+    if (search.value) {
+      tagsCopy.value = orderedTags.value.filter((t) => {
+        return t.toLowerCase().indexOf(search.value.toLowerCase()) > -1;
+      });
+    } else {
+      tagsCopy.value = deepCopy(orderedTags.value.slice(0, 100));
+    }
   };
+
+  const emit = defineEmits(['search']);
+  const tagChanged = (): void => {
+    const t = tagsCopy.value[tagIndex.value];
+    const index = orderedTags.value.indexOf(t);
+    if (index && index >= 12) {
+      tagHide.value = orderedTags.value[index];
+      tagIndex.value = -1;
+    } else {
+      tagHide.value = '';
+    }
+
+    emit('search', { [props.title.toLowerCase()]: index > -1 ? orderedTags.value[index] : null });
+  };
+
+  const clearSelect = (): void => {
+    tagIndex.value = -1;
+    tagChanged();
+  };
+
+  const getLogo = (tag: string): string => {
+    if (props.title === 'Tags') {
+      return 'tag';
+    }
+    if (props.title === 'License') {
+      return 'license';
+    }
+    return tag;
+  };
+
+  const hasLogo = (tag: string): boolean => {
+    return MODEL_FRAMEWORK.some((i) => {
+      return tag.toLowerCase().indexOf(i) > -1;
+    });
+  };
+
+  watch(
+    () => props.tags,
+    async (newValue) => {
+      if (!newValue) return;
+      orderedTags.value = [];
+      newValue.forEach((t) => {
+        const index = orderIndex.findIndex((i) => {
+          return t.indexOf(i) > -1;
+        });
+        if (index > -1) {
+          orderedTags.value.splice(index, 0, t);
+        } else {
+          orderedTags.value.push(t);
+        }
+      });
+      tagsCopy.value = deepCopy(orderedTags.value.slice(0, 100));
+      const tag = query.value.tags;
+      const index = orderedTags.value.findIndex((t) => {
+        return t === tag;
+      });
+      if (index > -1) {
+        tagHide.value = tag;
+        tagIndex.value = tagsCopy.value.indexOf(tag);
+      }
+    },
+    { immediate: true, deep: true },
+  );
 </script>
 
 <style lang="scss" scoped>

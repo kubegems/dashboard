@@ -14,67 +14,72 @@
  * limitations under the License. 
 -->
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-comment" :title="title" :width="500" @reset="reset">
+  <BaseDialog v-model="state.dialog" icon="mdi-comment" :title="state.title" :width="500" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :item="item" :reply="reply" />
+      <CommentBaseForm ref="form" :item="comment" :reply="state.reply" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addComment">
-        {{ $root.$t('operate.confirm') }}
+      <v-btn class="float-right" color="primary" :loading="store.state.Circular" text @click="confirm">
+        {{ i18n.t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>
 </template>
 
-<script>
-  import { Base64 } from 'js-base64';
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { reactive, ref } from 'vue';
 
-  import CommentBaseForm from './CommentBaseForm';
-  import { postModelComment, putModelComment } from '@/api';
+  import CommentBaseForm from './CommentBaseForm.vue';
+  import { useGlobalI18n } from '@/i18n';
+  import { useParams, useQuery } from '@/router';
+  import { useStore } from '@/store';
+  import { AIModelComment } from '@/types/ai_model';
 
-  export default {
-    name: 'Reply',
-    components: {
-      CommentBaseForm,
-    },
-    data() {
-      return {
-        dialog: false,
-        title: '',
-        formComponent: 'CommentBaseForm',
-        reply: false,
-        item: null,
-      };
-    },
-    computed: {
-      ...mapState(['Circular']),
-    },
-    methods: {
-      open(title) {
-        this.dialog = true;
-        this.title = title;
-      },
-      async addComment() {
-        if (this.$refs[this.formComponent].validate()) {
-          const data = this.$refs[this.formComponent].getData();
-          if (data.id) {
-            await putModelComment(this.$route.query.registry, Base64.encode(this.$route.params.name), data.id, data);
-          } else {
-            await postModelComment(this.$route.query.registry, Base64.encode(this.$route.params.name), data);
-          }
-          this.reset();
-          this.$emit('refresh', this.reply, data?.replyTo?.rootID);
-        }
-      },
-      init(item, reply) {
-        this.reply = reply;
-        this.item = item;
-      },
-      reset() {
-        this.dialog = false;
-        this.$refs[this.formComponent].reset();
-      },
-    },
+  const i18n = useGlobalI18n();
+  const store = useStore();
+  const query = useQuery();
+  const params = useParams();
+
+  const state = reactive({
+    dialog: false,
+    title: '',
+    reply: false,
+  });
+
+  const open = (title: string): void => {
+    state.dialog = true;
+    state.title = title;
+  };
+
+  const comment = ref<AIModelComment>(undefined);
+  const init = (item: AIModelComment, reply: boolean): void => {
+    state.reply = reply;
+    comment.value = item;
+  };
+
+  defineExpose({
+    open,
+    init,
+  });
+
+  const emit = defineEmits(['refresh']);
+  const form = ref(null);
+  const confirm = async (): Promise<void> => {
+    if (form.value.validate()) {
+      const data = form.value.getData();
+      if (data.id) {
+        await new AIModelComment(data).updateComment(query.value.registry, params.value.name);
+      } else {
+        await new AIModelComment(data).addComment(query.value.registry, params.value.name);
+      }
+      reset();
+      emit('refresh', state.reply, data?.replyTo?.rootID);
+    }
+  };
+
+  const reset = (): void => {
+    state.dialog = false;
+    form.value.reset();
+    state.reply = false;
   };
 </script>

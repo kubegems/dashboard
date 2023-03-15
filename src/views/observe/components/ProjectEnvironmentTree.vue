@@ -60,6 +60,7 @@
   import { getProjectEnvironmentList, getProjectList } from '@/api';
   import { SERVICE_LOGGING_NS, SERVICE_MONITOR_NS } from '@/constants/namespace';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2List } from '@/types/base';
 
   export default {
     name: 'ProjectEnvironmentTree',
@@ -109,7 +110,7 @@
         // } else {
         const data = await getProjectList(this.Tenant().ID, { size: 999 });
         // }
-        this.items = data.List.map((item) => ({
+        this.items = convertResponse2List(data).map((item) => ({
           type: 'project',
           treeId: `proj-${item.ProjectName}`,
           id: item.ID,
@@ -150,7 +151,7 @@
         } else {
           data = await getProjectEnvironmentList(proj.id, { size: 999, noprocessing: true });
         }
-        const children = data.List.map((item) => ({
+        const children = convertResponse2List(data).map((item) => ({
           type: 'environment',
           treeId: `env-${item.EnvironmentName}`,
           id: item.ID,

@@ -125,6 +125,7 @@
   import { mapState } from 'vuex';
 
   import { getSecretList } from '@/api';
+  import { convertResponse2List } from '@/types/base';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
@@ -174,7 +175,7 @@
         const data = await getSecretList(this.EnvironmentFilter.cluster, this.EnvironmentFilter.namespace, {
           size: 1000,
         });
-        this.items = data.List.filter((s) => {
+        this.items = convertResponse2List(data).filter((s) => {
           return s.secret.type === 'kubernetes.io/tls';
         });
         this.items.forEach((v) => {

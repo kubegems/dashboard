@@ -42,6 +42,9 @@ import 'brace/mode/sass';
 import 'brace/mode/scss';
 import 'brace/snippets/json';
 
+import './sentry';
+import './tracing';
+
 import store from '@/store';
 
 Vue.prototype.$aceOptions = {

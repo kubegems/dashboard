@@ -96,7 +96,7 @@ const table: { [key: string]: any } = {
       } else this.m_table_sortparam['name'] = null;
     },
     m_table_sortDesc(desc: boolean): void {
-      if (desc) {
+      if (desc !== undefined) {
         this.m_table_sortparam['desc'] = desc;
       } else {
         this.m_table_sortparam['desc'] = null;

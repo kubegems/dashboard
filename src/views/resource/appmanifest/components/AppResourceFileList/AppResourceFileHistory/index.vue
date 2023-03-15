@@ -71,6 +71,7 @@
   import AppResourceFileDiff from './AppResourceFileDiff';
   import { getAppResourceFileHistorys, postRollbackAppResourceFile } from '@/api';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2Pagination } from '@/types/base';
 
   export default {
     name: 'AppResourceFileHistory',
@@ -123,9 +124,10 @@
           this.app.name,
           this.params,
         );
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        const pagination = convertResponse2Pagination(data);
+        this.items = pagination.items;
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
       },
       diff(item) {
         this.$refs.appResourceFileDiff.init(this.app, item);

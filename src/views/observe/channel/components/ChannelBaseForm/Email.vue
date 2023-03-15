@@ -98,6 +98,7 @@
   import messages from '../../i18n';
   import { getTenantUserList } from '@/api';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2List } from '@/types/base';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
@@ -173,17 +174,19 @@
         });
         this.emailToItems = this.emailToItems
           .concat(
-            data.List.filter((user) => {
-              return user.Email && user.Email && user.Email.length > 0;
-            }).map((user) => {
-              if (
-                !this.emailToItems.some((e) => {
-                  return e && e.text === user.Email;
-                })
-              ) {
-                return { text: user.Email, value: user.Email };
-              }
-            }),
+            convertResponse2List(data)
+              .filter((user) => {
+                return user.Email && user.Email && user.Email.length > 0;
+              })
+              .map((user) => {
+                if (
+                  !this.emailToItems.some((e) => {
+                    return e && e.text === user.Email;
+                  })
+                ) {
+                  return { text: user.Email, value: user.Email };
+                }
+              }),
           )
           .filter((e) => {
             return Boolean(e);

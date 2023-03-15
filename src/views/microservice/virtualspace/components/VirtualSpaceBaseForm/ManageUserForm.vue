@@ -104,6 +104,7 @@
     postAddVirtualSpaceUser,
   } from '@/api';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2List } from '@/types/base';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
@@ -153,7 +154,7 @@
     methods: {
       async virtualSpaceEnvironmentUser() {
         const data = await getVirtualSpaceEnvironmentUser(this.EnvironmentID, {});
-        this.allUsers = data.List.filter((d) => {
+        this.allUsers = convertResponse2List(data).filter((d) => {
           return !this.users.find((u) => {
             return u.Username === d.Username;
           });
@@ -164,12 +165,12 @@
         const data = await getVirtualSpaceUserList(this.obj.ID, {
           size: 1000,
         });
-        this.users = data.List;
+        this.users = convertResponse2List(data);
         this.usersCopy = JSON.parse(JSON.stringify(this.users));
-        this.normalUsers = data.List.filter((d) => {
+        this.normalUsers = convertResponse2List(data).filter((d) => {
           return d.Role === 'normal';
         });
-        this.adminUsers = data.List.filter((d) => {
+        this.adminUsers = convertResponse2List(data).filter((d) => {
           return d.Role === 'admin';
         });
       },

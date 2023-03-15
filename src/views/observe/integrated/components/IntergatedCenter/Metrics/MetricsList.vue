@@ -55,6 +55,7 @@
 
   import messages from '../../../i18n';
   import { getRuleList } from '@/api';
+  import { convertResponse2Pagination } from '@/types/base';
 
   export default {
     name: 'MetricsList',
@@ -117,8 +118,9 @@
       async metricsList() {
         const data = await getRuleList(this.Tenant().ID, '_all', { size: 1000 });
 
-        this.items = data.List;
-        this.pageCount = Math.ceil(this.items.length / this.params.size);
+        const pagination = convertResponse2Pagination(data);
+        this.items = pagination.items;
+        this.pageCount = pagination.pageCount;
       },
       onPageIndexChange(page) {
         this.params.page = page;

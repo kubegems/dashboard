@@ -105,6 +105,7 @@
   import messages from '../../i18n';
   import { deleteLogQuerySnapshot, getLogQuerySnapshotList } from '@/api';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2Pagination } from '@/types/base';
   import { randomString } from '@/utils/helpers';
   import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 
@@ -170,8 +171,9 @@
       },
       async logQuerySnapshotList() {
         const data = await getLogQuerySnapshotList(this.clusterid, this.params);
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / data.CurrentSize);
+        const pagination = convertResponse2Pagination(data);
+        this.items = pagination.items;
+        this.pageCount = pagination.pageCount;
       },
       removeLogQuerySnapshot(item) {
         this.$store.commit('SET_CONFIRM', {

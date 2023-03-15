@@ -20,7 +20,7 @@
       hide-no-data
       hide-selected
       :items="commandItems"
-      :label="$t('tip.run_command')"
+      :label="i18nLocal.t('tip.run_command')"
       :menu-props="{
         bottom: true,
         left: true,
@@ -48,54 +48,56 @@
   </div>
 </template>
 
-<script>
-  import messages from '../../../i18n';
+<script lang="ts" setup>
+  import { ref, watch } from 'vue';
 
-  export default {
-    name: 'Command',
-    i18n: {
-      messages: messages,
+  import { useI18n } from '../../../i18n';
+
+  const props = withDefaults(
+    defineProps<{
+      value: any[];
+    }>(),
+    {
+      value: undefined,
     },
-    data() {
-      return {
-        commandItems: [],
-        commandText: '',
-        command: [],
-      };
-    },
-    watch: {
-      value: {
-        handler(newValue) {
-          if (newValue) {
-            this.command = newValue;
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    methods: {
-      createCommand() {
-        if (!this.commandText) return;
-        this.command.push(this.commandText);
-        this.commandItems.push({
-          text: this.commandText,
-          value: this.commandText,
-        });
-        this.commandText = '';
-        this.$emit('input', this.command);
-        this.$emit('change', this.command);
-      },
-      removeCommand(item) {
-        const index = this.command.findIndex((command) => {
-          return command !== item.value;
-        });
-        if (index > -1) {
-          this.command.splice(index, 1);
-          this.$emit('input', this.command);
-          this.$emit('change', this.command);
-        }
-      },
-    },
+  );
+
+  const i18nLocal = useI18n();
+
+  const commandItems = ref([]);
+  const commandText = ref('');
+  const command = ref([]);
+
+  const emit = defineEmits(['input', 'change']);
+  const createCommand = (): void => {
+    if (!commandText.value) return;
+    command.value.push(commandText.value);
+    commandItems.value.push({
+      text: commandText.value,
+      value: commandText.value,
+    });
+    commandText.value = '';
+    emit('input', command.value);
+    emit('change', command.value);
   };
+
+  const removeCommand = (item: { text: string; value: string }): void => {
+    const index = command.value.findIndex((command) => {
+      return command !== item.value;
+    });
+    if (index > -1) {
+      command.value.splice(index, 1);
+      emit('input', command.value);
+      emit('change', command.value);
+    }
+  };
+
+  watch(
+    () => props.value,
+    async (newValue) => {
+      if (!newValue) return;
+      command.value = newValue;
+    },
+    { immediate: true, deep: true },
+  );
 </script>

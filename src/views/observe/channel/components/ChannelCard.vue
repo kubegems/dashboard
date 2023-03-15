@@ -148,6 +148,7 @@
   import UpdateChannel from './UpdateChannel';
   import { deleteChannel, getChannelList, postSendTestChannel } from '@/api';
   import BasePermission from '@/mixins/permission';
+  import { convertResponse2Pagination } from '@/types/base';
 
   export default {
     name: 'ChannelCard',
@@ -195,13 +196,14 @@
           queryParams = { ...queryParams, noprocessing: true };
         }
         const data = await getChannelList(this.Tenant().ID, queryParams);
+        const pagination = convertResponse2Pagination(data);
         if (append) {
-          this.items = this.items.concat(data.List);
+          this.items = this.items.concat(pagination.items);
         } else {
-          this.items = data.List;
+          this.items = pagination.items;
         }
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
         this.$router.replace({ query: { ...this.$route.query } });
       },
       async onScroll(e) {

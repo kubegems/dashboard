@@ -112,6 +112,7 @@
   import messages from '../../../i18n';
   import { getLogAlertRuleDetail, getPrometheusAlertHistory, getPrometheusRuleDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2Pagination } from '@/types/base';
 
   export default {
     name: 'AlertList',
@@ -240,13 +241,13 @@
             status: 'resolved',
           }),
         );
-        if (data.List) {
-          this.pageCount = Math.ceil(data.Total / this.params.size);
-          this.params.page = data.CurrentPage;
-          this.items = data.List.map((item, index) => {
-            return { index: index, ...item };
-          });
-        }
+        const pagination = convertResponse2Pagination(data);
+
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
+        this.items = pagination.items.map((item, index) => {
+          return { index: index, ...item };
+        });
       },
       onPageSizeChange(size) {
         this.params.page = 1;

@@ -111,6 +111,7 @@
   import { getEventList } from '@/api';
   import { EVENT_STATUS_COLOR } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2Pagination } from '@/types/base';
   import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
 
   export default {
@@ -175,9 +176,10 @@
           this.$route.query.namespace || '_all',
           Object.assign(this.selector, this.params),
         );
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        const pagination = convertResponse2Pagination(data);
+        this.items = pagination.items;
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
       },
       onPageSizeChange(size) {
         this.params.page = 1;

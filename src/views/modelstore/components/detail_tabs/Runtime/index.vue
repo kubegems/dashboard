@@ -21,17 +21,17 @@
         :headers="headers"
         hide-default-footer
         item-key="creationTimestamp"
-        :items="items"
-        :items-per-page="params.size"
-        :no-data-text="$root.$t('data.no_data')"
-        :page.sync="params.page"
+        :items="pagination.items"
+        :items-per-page="pagination.size"
+        :no-data-text="i18n.t('data.no_data')"
+        :page.sync="pagination.page"
       >
-        <template #[`item.name`]="{ item }">
+        <template #item.name="{ item }">
           <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="toEnvironmentModelList(item)">
             {{ item.name }}
           </a>
         </template>
-        <template #[`item.phase`]="{ item }">
+        <template #item.phase="{ item }">
           <span
             :class="`v-avatar mr-2 ${['Pending'].indexOf(item.phase) > -1 ? 'kubegems__waiting-flashing' : ''}`"
             :style="{
@@ -45,11 +45,11 @@
             {{ item.phase || 'No Status' }}
           </span>
         </template>
-        <template #[`item.url`]="{ item }">
+        <template #item.url="{ item }">
           <div class="py-1">
             <v-icon color="primary">mdi-alpha-h</v-icon>
             HTTP: {{ item.url }}
-            <v-btn v-if="item.url" v-clipboard:copy="item.url" v-clipboard:success="onCopy" color="primary" icon small>
+            <v-btn v-if="item.url" v-clipboard:copy="item.url" v-clipboard:success="copyed" color="primary" icon small>
               <v-icon color="primary" small> mdi-content-copy </v-icon>
             </v-btn>
           </div>
@@ -59,7 +59,7 @@
             <v-btn
               v-if="item.grpcURL"
               v-clipboard:copy="item.grpcURL"
-              v-clipboard:success="onCopy"
+              v-clipboard:success="copyed"
               color="primary"
               icon
               small
@@ -68,154 +68,145 @@
             </v-btn>
           </div>
         </template>
-        <template #[`item.preview`]="{ item }">
+        <template #item.preview="{ item }">
           <v-btn
-            v-if="
-              item.phase === 'Running' &&
-              ($route.query.registry === 'huggingface' || $route.query.registry === 'openmmlab')
-            "
+            v-if="item.phase === 'Running' && (query.registry === 'huggingface' || query.registry === 'openmmlab')"
             color="primary"
             small
             text
             @click="experienceModel(item)"
           >
             <v-icon color="primary" left> mdi-eye </v-icon>
-            {{ $t('operate.experience') }}
+            {{ i18nLocal.t('operate.experience') }}
           </v-btn>
         </template>
       </v-data-table>
       <BasePagination
-        v-if="pageCount >= 1"
-        v-model="params.page"
-        :page-count="pageCount"
-        :size="params.size"
-        @changepage="onPageIndexChange"
-        @changesize="onPageSizeChange"
-        @loaddata="runtimeList"
+        v-if="pagination.pageCount >= 1"
+        v-model="pagination.page"
+        :page-count="pagination.pageCount"
+        :size="pagination.size"
+        @changepage="pageChange"
+        @changesize="sizeChange"
+        @loaddata="getRuntimeList"
       />
     </v-card-text>
 
-    <ModelExperience ref="modelExperience" :item="item" />
+    <ModelExperience ref="experience" :item="item" />
   </v-card>
 </template>
 
-<script>
-  import { Base64 } from 'js-base64';
+<script lang="ts" setup>
+  import { onMounted, reactive, ref } from 'vue';
 
-  import messages from '../../../i18n';
-  import ModelExperience from './components/ModelExperience';
-  import { getModelRuntimeList } from '@/api';
+  import { useI18n } from '../../../i18n';
+  import ModelExperience from './components/ModelExperience.vue';
+  import { useAiModelRuntimePagination } from '@/composition/ai_model';
+  import { useEnvironmentAllow, useProjectAllow, useTenantAllow } from '@/composition/permission';
+  import { useRouter } from '@/composition/router';
   import { POD_STATUS_COLOR } from '@/constants/resource';
-  import BasePermission from '@/mixins/permission';
+  import { useGlobalI18n } from '@/i18n';
+  import { useParams, useQuery } from '@/router';
+  import { useStore } from '@/store';
+  import { AIModel, AIModelRuntime } from '@/types/ai_model';
 
-  export default {
-    name: 'RuntimeList',
-    i18n: {
-      messages: messages,
+  withDefaults(
+    defineProps<{
+      item?: AIModel;
+    }>(),
+    {
+      item: undefined,
     },
-    components: {
-      ModelExperience,
-    },
-    mixins: [BasePermission],
-    props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
-    },
-    data() {
-      this.POD_STATUS_COLOR = POD_STATUS_COLOR;
+  );
 
-      return {
-        items: [],
-        pageCount: 0,
+  const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
+  const store = useStore();
+  const router = useRouter();
+  const query = useQuery();
+  const params = useParams();
+
+  const headers = [
+    { text: i18nLocal.t('table.deploy_instance'), value: 'name', align: 'start' },
+    { text: i18nLocal.t('table.model_version'), value: 'modelVersion', align: 'start' },
+    { text: i18nLocal.t('table.status'), value: 'phase', align: 'start' },
+    { text: i18n.t('resource.cluster'), value: 'cluster', align: 'start' },
+    { text: i18n.t('resource.namespace'), value: 'namespace', align: 'start' },
+    { text: i18nLocal.t('table.creator'), value: 'creator', align: 'start' },
+    { text: 'Api(http/grpc)', value: 'url', align: 'start' },
+    { text: '', value: 'preview', align: 'start', width: 50 },
+  ];
+
+  let pagination: Pagination<AIModelRuntime> = reactive<Pagination<AIModelRuntime>>({
+    page: 1,
+    size: 10,
+    pageCount: 0,
+    items: [],
+  });
+
+  const pageChange = (page: number): void => {
+    pagination.page = page;
+  };
+
+  const sizeChange = (size: number): void => {
+    pagination.page = 1;
+    pagination.size = size;
+  };
+
+  const getRuntimeList = async (param: KubePaginationRequest = pagination): Promise<void> => {
+    const data: Pagination<AIModelRuntime> = await useAiModelRuntimePagination(
+      new AIModelRuntime(),
+      query.value.registry,
+      params.value.name,
+      param.page,
+      param.size,
+    );
+    pagination = Object.assign(pagination, data);
+  };
+
+  onMounted(() => {
+    getRuntimeList();
+  });
+
+  const toEnvironmentModelList = (item: AIModelRuntime): void => {
+    if (useEnvironmentAllow(item.environment) || useProjectAllow(item.project) || useTenantAllow(item.tenant)) {
+      router.push({
+        name: 'app-list',
         params: {
-          page: 1,
-          size: 10,
-          noprocessing: true,
+          tenant: item.tenant,
+          project: item.project,
+          environment: item.environment,
         },
-      };
-    },
-    computed: {
-      headers() {
-        return [
-          { text: this.$t('table.deploy_instance'), value: 'name', align: 'start' },
-          { text: this.$t('table.model_version'), value: 'modelVersion', align: 'start' },
-          { text: this.$t('table.status'), value: 'phase', align: 'start' },
-          { text: this.$root.$t('resource.cluster'), value: 'cluster', align: 'start' },
-          { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
-          { text: this.$t('table.creator'), value: 'creator', align: 'start' },
-          { text: 'Api(http/grpc)', value: 'url', align: 'start' },
-          { text: '', value: 'preview', align: 'start', width: 50 },
-        ];
-      },
-    },
-    mounted() {
-      this.$nextTick(() => {
-        this.runtimeList();
+        query: {
+          kind: 'modelstore',
+          tab: 'modelstore',
+        },
       });
-    },
-    methods: {
-      async runtimeList() {
-        const data = await getModelRuntimeList(
-          this.$route.query.registry,
-          Base64.encode(this.$route.params.name),
-          this.params,
-        );
-        this.items = data.list;
-        this.pageCount = Math.ceil(data.total / this.params.size);
-        this.params.page = data.page;
-        this.$router.replace({ query: { ...this.$route.query } });
-      },
-      onPageSizeChange(size) {
-        this.params.page = 1;
-        this.params.size = size;
-      },
-      onPageIndexChange(page) {
-        this.params.page = page;
-      },
-      toEnvironmentModelList(item) {
-        if (
-          this.m_permisson_resourceAllow(item.environment) ||
-          this.m_permisson_projectAllow(item.project) ||
-          this.m_permisson_tenantAllow(item.tenant)
-        ) {
-          this.$router.push({
-            name: 'app-list',
-            params: {
-              tenant: item.tenant,
-              project: item.project,
-              environment: item.environment,
-            },
-            query: {
-              kind: 'modelstore',
-              tab: 'modelstore',
-            },
-          });
-        } else {
-          this.$store.commit('SET_SNACKBAR', {
-            text: this.$t('tip.no_access'),
-            color: 'warning',
-          });
-        }
-      },
-      experienceModel(item) {
-        if (item?.phase !== 'Running') {
-          this.$store.commit('SET_SNACKBAR', {
-            text: this.$t('tip.status_error'),
-            color: 'warning',
-          });
-          return;
-        }
-        this.$refs.modelExperience.init(item);
-        this.$refs.modelExperience.open();
-      },
-      onCopy() {
-        this.$store.commit('SET_SNACKBAR', {
-          text: this.$t('tip.copyed'),
-          color: 'success',
-        });
-      },
-    },
+    } else {
+      store.commit('SET_SNACKBAR', {
+        text: i18nLocal.t('tip.no_access'),
+        color: 'warning',
+      });
+    }
+  };
+
+  const experience = ref(null);
+  const experienceModel = (item: AIModelRuntime): void => {
+    if (item?.phase !== 'Running') {
+      store.commit('SET_SNACKBAR', {
+        text: i18nLocal.t('tip.status_error'),
+        color: 'warning',
+      });
+      return;
+    }
+    experience.value.init(item);
+    experience.value.open();
+  };
+
+  const copyed = (): void => {
+    store.commit('SET_SNACKBAR', {
+      text: i18nLocal.t('tip.copyed'),
+      color: 'success',
+    });
   };
 </script>

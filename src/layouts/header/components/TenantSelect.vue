@@ -83,6 +83,7 @@
   import { useRouter } from '@/composition/router';
   import { useGlobalI18n } from '@/i18n';
   import { useStore } from '@/store';
+  import { convertResponse2List } from '@/types/base';
   import { Tenant } from '@/types/tenant';
   import { User } from '@/types/user';
   import { deepCopy } from '@/utils/helpers';
@@ -128,7 +129,7 @@
     } else {
       data = await new User(store.state.User).getTenantList(params);
     }
-    tenantItems.value = data.List;
+    tenantItems.value = convertResponse2List<Tenant>(data);
     tenantItems.value.forEach((item) => {
       item.diaplayName =
         item.ResourceQuotas?.length > 0

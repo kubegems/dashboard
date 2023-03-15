@@ -229,6 +229,7 @@
   import Secret from './Secret';
   import { getAppResourceFileMetas, getConfigMapList, getSecretList } from '@/api';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2List } from '@/types/base';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
@@ -342,7 +343,7 @@
           data = await getSecretList(this.ThisCluster, this.namespace, {
             size: 1000,
           });
-          this.items = data.List;
+          this.items = convertResponse2List(data);
         }
         this.items.forEach((v) => {
           v.text = v.secret.metadata.name;
@@ -372,7 +373,7 @@
           data = await getConfigMapList(this.ThisCluster, this.namespace, {
             size: 1000,
           });
-          this.items = data.List;
+          this.items = convertResponse2List(data);
         }
         this.items.forEach((v) => {
           v.text = v.metadata.name;

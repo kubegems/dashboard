@@ -125,6 +125,7 @@
   import { getIngressList } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2List } from '@/types/base';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
 
@@ -244,7 +245,7 @@
           size: 1000,
         });
         this.ingressItems = [];
-        data.List.forEach((ing) => {
+        convertResponse2List(data).forEach((ing) => {
           this.ingressItems.push({
             text: ing.metadata.name,
             value: ing.metadata.name,

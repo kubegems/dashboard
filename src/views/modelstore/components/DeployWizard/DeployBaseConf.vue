@@ -162,7 +162,7 @@
       },
       versionItems() {
         if (this.item) {
-          return this.item.versions.map((v) => {
+          return this.item.versions?.map((v) => {
             return { text: v.name, value: v.name };
           });
         }

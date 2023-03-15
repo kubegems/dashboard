@@ -38,6 +38,7 @@
 <script>
   import messages from '../../i18n';
   import { getProjectList } from '@/api';
+  import { convertResponse2List } from '@/types/base';
 
   export default {
     name: 'ProjectSelect',
@@ -69,7 +70,7 @@
     methods: {
       async getTenantProjectList() {
         const data = await getProjectList(this.tenant.ID, { size: 1000, noprocessing: true });
-        this.projectItems = data.List.map((item) => {
+        this.projectItems = convertResponse2List(data).map((item) => {
           return {
             text: item.ProjectName,
             value: item.ID,

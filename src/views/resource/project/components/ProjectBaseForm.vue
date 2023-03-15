@@ -131,6 +131,7 @@
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2List } from '@/types/base';
   import { k8sName, required } from '@/utils/rules';
 
   export default {
@@ -222,7 +223,7 @@
         const data = await getTenantUserList(this.Tenant().ID, {
           size: 1000,
         });
-        this.allUsers = data.List.filter((d) => {
+        this.allUsers = convertResponse2List(data).filter((d) => {
           return !this.users.find((u) => {
             return u.Username === d.Username;
           });
@@ -233,18 +234,18 @@
         const data = await getProjectUserList(this.obj.ProjectID, {
           size: 1000,
         });
-        this.users = data.List;
+        this.users = convertResponse2List(data);
         this.usersCopy = JSON.parse(JSON.stringify(this.users));
-        this.testUsers = data.List.filter((d) => {
+        this.testUsers = convertResponse2List(data).filter((d) => {
           return d.Role === 'test';
         });
-        this.devUsers = data.List.filter((d) => {
+        this.devUsers = convertResponse2List(data).filter((d) => {
           return d.Role === 'dev';
         });
-        this.opsUsers = data.List.filter((d) => {
+        this.opsUsers = convertResponse2List(data).filter((d) => {
           return d.Role === 'ops';
         });
-        this.adminUsers = data.List.filter((d) => {
+        this.adminUsers = convertResponse2List(data).filter((d) => {
           return d.Role === 'admin';
         });
       },

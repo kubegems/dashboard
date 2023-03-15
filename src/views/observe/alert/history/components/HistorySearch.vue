@@ -122,6 +122,7 @@
 
   import messages from '../../i18n';
   import { getRuleList, getRuleResourceList, getRuleScopeList } from '@/api';
+  import { convertResponse2List } from '@/types/base';
 
   export default {
     name: 'HistorySearch',
@@ -273,9 +274,9 @@
         if (scope) {
           const data = await getRuleResourceList(this.Tenant().ID, scope.id, { size: 1000, noprocessing: true });
           let items = [];
-          this.resourceItems = data.List;
+          this.resourceItems = convertResponse2List(data);
           if (this.tagMap.scope) {
-            items = data.List.map((resource) => ({
+            items = convertResponse2List(data).map((resource) => ({
               text: resource.showName,
               value: resource.name,
             }));
@@ -295,7 +296,7 @@
           const data = await getRuleList(this.Tenant().ID, resource.id, { size: 1000, noprocessing: true });
           let items = [];
           if (this.tagMap.resource) {
-            items = data.List.map((rule) => ({
+            items = convertResponse2List(data).map((rule) => ({
               text: rule.showName,
               value: rule.name,
             }));
@@ -319,8 +320,8 @@
       },
       async getScopeItems() {
         const data = await getRuleScopeList(this.Tenant().ID, { size: 1000, noprocessing: true });
-        const config = data.List;
-        this.scopeItems = data.List;
+        const config = convertResponse2List(data);
+        this.scopeItems = convertResponse2List(data);
         this.$set(
           this.labels.scope,
           'items',

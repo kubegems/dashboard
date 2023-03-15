@@ -136,6 +136,7 @@
   import UpdateFlow from './components/UpdateFlow';
   import { deleteClusterFlowData, deleteFlowData, getClusterFlowsData, getFlowsData } from '@/api';
   import BasePermission from '@/mixins/permission';
+  import { convertResponse2List } from '@/types/base';
 
   export default {
     name: 'LogFlow',
@@ -227,7 +228,7 @@
 
         const params = [cluster, namespace, { page: 1, size: 999 }];
         const res = await Promise.all([getFlowsData(...params), getClusterFlowsData(...params)]);
-        const list = res.reduce((pre, current) => pre.concat(current?.List || []), []);
+        const list = res.reduce((pre, current) => pre.concat(convertResponse2List(current) || []), []);
         this.cacheAll = list.sort(
           (a, b) => Date.parse(b.metadata.creationTimestamp) - Date.parse(a.metadata.creationTimestamp),
         );

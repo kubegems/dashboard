@@ -16,9 +16,9 @@
 <template>
   <v-card>
     <v-card-text class="pa-0 pl-2 pb-2">
-      <BaseSubTitle class="pt-2 mb-1" :divider="false" :title="$t('tip.ai_model')">
+      <BaseSubTitle class="pt-2 mb-1" :divider="false" :title="i18nLocal.t('tip.ai_model')">
         <template #action>
-          <span class="text-body-2 kubegems__text mr-2"> {{ $t('tip.model_count') }} : {{ modelCount }} </span>
+          <span class="text-body-2 kubegems__text mr-2"> {{ i18nLocal.t('tip.model_count') }} : {{ modelCount }} </span>
         </template>
       </BaseSubTitle>
       <v-text-field
@@ -26,84 +26,76 @@
         class="mr-4 my-2 ml-2"
         flat
         hide-details
-        :label="$t('filter.model_name')"
+        :label="i18nLocal.t('filter.model_name')"
         prepend-inner-icon="mdi-magnify"
         solo
-        @keyup.enter="onSearch"
+        @keyup.enter="seareched"
       />
       <div class="mt-4">
-        <FilterItems :tags="tasks" title="Task" @search="onFilterSeach" />
+        <FilterItems :tags="condition.tasks || []" title="Task" @search="filtered" />
       </div>
       <div class="mt-4">
-        <FilterItems :tags="frameworks" title="Framework" @search="onFilterSeach" />
+        <FilterItems :tags="condition.frameworks || []" title="Framework" @search="filtered" />
       </div>
       <div class="mt-4">
-        <FilterItems :tags="licenses" title="License" @search="onFilterSeach" />
+        <FilterItems :tags="condition.licenses || []" title="License" @search="filtered" />
       </div>
     </v-card-text>
   </v-card>
 </template>
 
-<script>
-  import messages from '../../i18n';
-  import FilterItems from './FilterItems';
-  import { getModelStoreFilterCondition } from '@/api';
+<script lang="ts" setup>
+  import { onMounted, ref, watch } from 'vue';
 
-  export default {
-    name: 'ModelFilter',
-    i18n: {
-      messages: messages,
+  import { useI18n } from '../../i18n';
+  import FilterItems from './FilterItems.vue';
+  import { useQuery } from '@/router';
+  import { AIModelRegistry } from '@/types/ai_model';
+
+  const props = withDefaults(
+    defineProps<{
+      modelCount?: number;
+      registry?: AIModelRegistry;
+    }>(),
+    {
+      modelCount: 0,
+      registry: undefined,
     },
-    components: {
-      FilterItems,
-    },
-    props: {
-      modelCount: {
-        type: Number,
-        default: () => 0,
-      },
-      registry: {
-        type: Object,
-        default: () => null,
-      },
-    },
-    data() {
-      return {
-        search: '',
-        frameworks: [],
-        licenses: [],
-        tasks: [],
-      };
-    },
-    watch: {
-      registry: {
-        handler(newValue) {
-          if (newValue) {
-            this.modelStoreFilterCondition();
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    mounted() {
-      this.$nextTick(() => {
-        this.search = this.$route.query.search || '';
-      });
-    },
-    methods: {
-      onSearch() {
-        this.$emit('search', this.search);
-      },
-      onFilterSeach(filter) {
-        this.$emit('filter', filter);
-      },
-      async modelStoreFilterCondition() {
-        const data = await getModelStoreFilterCondition(this.registry.name);
-        this.tasks = data.tasks;
-        this.frameworks = data.frameworks;
-        this.licenses = data.licenses;
-      },
-    },
+  );
+
+  const i18nLocal = useI18n();
+  const query = useQuery();
+  const search = ref<string>('');
+
+  const emit = defineEmits(['search', 'filter']);
+  const seareched = () => {
+    emit('search', search.value);
   };
+
+  const filtered = (filter) => {
+    emit('filter', filter);
+  };
+
+  const condition = ref<{ frameworks: string[]; licenses: string[]; tags: string[]; tasks: string[] }>({
+    frameworks: [],
+    licenses: [],
+    tags: [],
+    tasks: [],
+  });
+  const getModelStoreFilterCondition = async () => {
+    condition.value = await new AIModelRegistry({ name: props.registry.name }).getSelector();
+  };
+
+  watch(
+    () => props.registry,
+    async (newValue) => {
+      if (!newValue) return;
+      getModelStoreFilterCondition();
+    },
+    { immediate: true, deep: true },
+  );
+
+  onMounted(() => {
+    search.value = query.value.search || '';
+  });
 </script>

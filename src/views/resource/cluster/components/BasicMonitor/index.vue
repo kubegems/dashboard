@@ -184,6 +184,7 @@
   import { CLUSTER_API_SERVER_SUCCESS_RATE_PROMQL } from '@/constants/prometheus';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
+  import { convertResponse2List } from '@/types/base';
 
   export default {
     name: 'BasicMonitor',
@@ -248,7 +249,7 @@
         const componentStatuses = await getClusterComponentStatus(this.$route.params.name, {
           noprocessing: true,
         });
-        for (const v of componentStatuses.List) {
+        for (const v of convertResponse2List(componentStatuses)) {
           if (v.metadata.name === 'scheduler') {
             this.scheduler = v;
           } else if (v.metadata.name === 'controller-manager') {

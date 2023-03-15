@@ -15,25 +15,20 @@
 -->
 <template>
   <v-container fluid>
-    <Breadcrumb
-      :hub="registry ? registry.name : ''"
-      sync-status
-      @setOnline="setOnline"
-      @updateModelCount="updateModelCount"
-    >
+    <Breadcrumb sync-status @setOnline="setOnline" @updateModelCount="updateModelCount">
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <RegistrySelect v-model="registry" />
+          <RegistrySelect v-model="state.registry" />
         </v-flex>
       </template>
     </Breadcrumb>
-    <template v-if="GlobalPlugins['kubegems-models']">
+    <template v-if="store.state.GlobalPlugins['kubegems-models']">
       <v-row class="mt-0">
         <v-col class="pt-0" cols="3">
-          <ModelFilter :model-count="modelCount" :registry="registry" @filter="filter" @search="search" />
+          <ModelFilter :model-count="state.modelCount" :registry="state.registry" @filter="filter" @search="search" />
         </v-col>
         <v-col class="pt-0" cols="9">
-          <ModelCard ref="modelCard" :online="online" :registry="registry" />
+          <ModelCard ref="card" :online="state.online" :registry="state.registry" />
         </v-col>
       </v-row>
     </template>
@@ -44,10 +39,10 @@
             <div class="d-flex align-center pa-10">
               <div class="text-center">
                 <h2 class="text-h5 primary--text font-weight-medium">
-                  {{ $root.$t('plugin.missing', ['kubegems-model']) }}
+                  {{ i18n.t('plugin.missing', ['kubegems-model']) }}
                 </h2>
                 <h6 class="text-subtitle-1 mt-4 primary--text op-5 font-weight-regular">
-                  {{ $root.$t('plugin.no_permission') }}
+                  {{ i18n.t('plugin.no_permission') }}
                 </h6>
               </div>
             </div>
@@ -58,49 +53,39 @@
   </v-container>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { reactive, ref } from 'vue';
 
-  import Breadcrumb from './components/Breadcrumb';
-  import ModelCard from './components/ModelCard';
-  import ModelFilter from './components/ModelFilter';
-  import RegistrySelect from './components/RegistrySelect';
-  import messages from './i18n';
+  import Breadcrumb from './components/Breadcrumb.vue';
+  import ModelCard from './components/ModelCard/index.vue';
+  import ModelFilter from './components/ModelFilter/index.vue';
+  import RegistrySelect from './components/RegistrySelect.vue';
+  import { useGlobalI18n } from '@/i18n';
+  import { useStore } from '@/store';
 
-  export default {
-    name: 'ModelStoreCenter',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      Breadcrumb,
-      ModelCard,
-      ModelFilter,
-      RegistrySelect,
-    },
-    data() {
-      return {
-        registry: null,
-        modelCount: 0,
-        online: true,
-      };
-    },
-    computed: {
-      ...mapState(['GlobalPlugins']),
-    },
-    methods: {
-      search(search) {
-        this.$refs.modelCard.search(search);
-      },
-      filter(filter) {
-        this.$refs.modelCard.filter(filter);
-      },
-      updateModelCount(modelCount) {
-        this.modelCount = modelCount;
-      },
-      setOnline(online) {
-        this.online = online;
-      },
-    },
+  const i18n = useGlobalI18n();
+  const store = useStore();
+
+  const state = reactive({
+    registry: undefined,
+    modelCount: 0,
+    online: true,
+  });
+
+  const card = ref(null);
+  const search = (search: string): void => {
+    card.value.search(search);
+  };
+
+  const filter = (filter: { [key: string]: any }): void => {
+    card.value.filter(filter);
+  };
+
+  const updateModelCount = (modelCount: number): void => {
+    state.modelCount = modelCount;
+  };
+
+  const setOnline = (online: boolean): void => {
+    state.online = online;
   };
 </script>

@@ -143,6 +143,7 @@
   import { deletePrometheusBlacklist, getPrometheusAlertSearch, postAddPrometheusBlacklist } from '@/api';
   import { SERVICE_MONITOR_NS } from '@/constants/namespace';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2Pagination } from '@/types/base';
   import { deleteEmpty } from '@/utils/helpers';
   import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 
@@ -288,9 +289,10 @@
         }
 
         const data = await getPrometheusAlertSearch(this.isSystem ? '_all' : this.tenant.ID, params);
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
-        this.items = data.List || [];
+        const pagination = convertResponse2Pagination(data);
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
+        this.items = pagination.items || [];
       },
       onSearch() {
         this.params.page = 1;

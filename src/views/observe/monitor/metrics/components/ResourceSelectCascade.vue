@@ -142,6 +142,7 @@
   import messages from '../../i18n';
   import { getRuleList, getRuleResourceList, getRuleScopeList, getRuleSearch } from '@/api';
   import BaseSelect from '@/mixins/select';
+  import { convertResponse2List } from '@/types/base';
 
   export default {
     name: 'ResourceSelectCascade',
@@ -259,8 +260,8 @@
       },
       async ruleScopeList() {
         const data = await getRuleScopeList(this.tenant.ID, { noprocessing: true, size: 1000, preload: 'Resources' });
-        this.scopeItems = data.List || [];
-        this.scopeItemsCopy = data.List || [];
+        this.scopeItems = convertResponse2List(data);
+        this.scopeItemsCopy = convertResponse2List(data);
       },
       async ruleResourceList(scopeId, resourceId = -1) {
         const data = await getRuleResourceList(this.tenant.ID, scopeId, {
@@ -268,8 +269,8 @@
           size: 1000,
           preload: 'Rules',
         });
-        this.resourceItems = data.List || [];
-        this.resourceItemsCopy = data.List || [];
+        this.resourceItems = convertResponse2List(data);
+        this.resourceItemsCopy = convertResponse2List(data);
         if (this.generator) {
           this.resourceIndex = this.resourceItems.findIndex((r) => {
             return r.id === resourceId;
@@ -278,8 +279,8 @@
       },
       async ruleList(resourceId, ruleId = -1) {
         const data = await getRuleList(this.tenant.ID, resourceId, { noprocessing: true, size: 1000 });
-        this.ruleItems = data.List || [];
-        this.ruleItemsCopy = data.List || [];
+        this.ruleItems = convertResponse2List(data);
+        this.ruleItemsCopy = convertResponse2List(data);
         if (this.generator) {
           this.ruleIndex = this.ruleItems.findIndex((r) => {
             return r.id === ruleId;

@@ -74,6 +74,7 @@
   import { useI18n } from './i18n';
   import { VENDOR } from '@/constants/platform';
   import { useStore } from '@/store';
+  import { convertResponse2List } from '@/types/base';
   import { OAuth } from '@/types/oauth';
 
   const i18nLocal = useI18n();
@@ -113,7 +114,7 @@
   const getOAuthList = async () => {
     const data = await new OAuth().getOAuthList({ page: 1, size: 1000 });
     oauthItems.value = items as OAuth[];
-    data.List.forEach((item) => {
+    convertResponse2List(data).forEach((item) => {
       const index = items.findIndex((i) => {
         return i.vendor === item.vendor;
       });

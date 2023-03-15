@@ -137,6 +137,7 @@
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
+  import { convertResponse2Pagination } from '@/types/base';
   import { convertStrToNum } from '@/utils/helpers';
 
   export default {
@@ -204,15 +205,16 @@
         } else {
           data = await getRegistryList(this.Project().ID, this.params);
         }
-        this.items = data.List.map((item) => {
+        const pagination = convertResponse2Pagination(data);
+        this.items = pagination.items.map((item) => {
           return {
             name: item.TenantName,
             ...item,
           };
         });
         this.m_table_generateSelectResourceNoK8s('ProjectName', 'ID');
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
+        this.pageCount = pagination.pageCount;
+        this.params.page = pagination.page;
         this.$router.replace({ query: { ...this.$route.query, ...this.params } });
       },
       addRegistry() {
