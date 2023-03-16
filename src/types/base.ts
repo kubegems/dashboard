@@ -79,19 +79,19 @@ export const convertResponse2Pagination = <T>(resData: KubePaginationResponse<T[
   let _data: { [key: string]: any };
   if (resData.List)
     _data = {
-      items: resData?.List,
+      items: resData?.List || [],
       pageCount: Math.ceil((resData?.Total || 0) / (resData?.CurrentSize || 1)),
-      page: resData?.CurrentPage,
-      size: resData?.CurrentSize,
-      total: resData?.Total,
+      page: resData?.CurrentPage || 1,
+      size: resData?.CurrentSize || 10,
+      total: resData?.Total || 0,
     };
   else
     _data = {
-      items: resData?.list,
+      items: resData?.list || [],
       pageCount: Math.ceil((resData?.total || 0) / (resData?.size || 1)),
-      page: resData?.page,
-      size: resData?.size,
-      total: resData?.total,
+      page: resData?.page || 1,
+      size: resData?.size || 10,
+      total: resData?.total || 0,
     };
   return _data as Pagination<T>;
 };

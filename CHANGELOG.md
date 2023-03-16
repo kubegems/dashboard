@@ -1,5 +1,18 @@
 # 1.23.7 (2023-3-15)
 
+### Bug Fixes
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [fix: 🐛 fix json schema render bug and fix list sort bug] | [9e1ee94](https://github.com/chenshunliang/dashboard/commit/9e1ee94f81e82add42583bc637f500249a108ec9) |
+
+### 🔨 reflactor
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [refactor: 🔨 base pagination fit to response data] | [a593d2b](https://github.com/chenshunliang/dashboard/commit/a593d2b2e855c40bf27754b160569d7822f52a73) |
+| - | [refactor: 🔨 reflactor model code for vue3] | [9be7998](https://github.com/chenshunliang/dashboard/commit/9be7998405daa46679cd8cc8129b28246872e611) |
+
 # 1.23.6 (2023-3-10)
 
 ### 🌟 新功能

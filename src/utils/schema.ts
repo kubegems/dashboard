@@ -55,8 +55,8 @@ export const retrieveFromSchema = (
           ...properties[propertyKey],
           path: itemPath,
           name: propertyKey,
-          type,
-          value,
+          type: type,
+          value: value,
           enum: enumItems,
           children: children,
         };

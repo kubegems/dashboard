@@ -211,8 +211,8 @@
         const data = await getAppStoreList(this.params);
         const pagination = convertResponse2Pagination(data);
         this.chartsNum = pagination.total;
-        this.items = data.items;
-        this.all = data.items;
+        this.items = pagination.items;
+        this.all = pagination.items;
         this.generatTypes();
       },
       setRepo(repo) {
