@@ -139,6 +139,7 @@
   import { useStore } from '@/store';
   import { sleep } from '@/utils/helpers';
   import { retrieveFromSchema } from '@/utils/schema';
+  import { getValue } from '@/utils/yaml';
 
   const props = withDefaults(
     defineProps<{
@@ -234,7 +235,7 @@
     additionalItems.value.splice(index - 1, 1);
   };
 
-  onMounted(() => {
+  onMounted(async () => {
     if (props.param.items && props.param.items.enum && props.param.items.enum.length > 0) {
       const enums = props.param.items.enum;
       // 去重
@@ -243,7 +244,31 @@
     if (props.param.default && props.param.default.length > 0) {
       state.selectedItems = props.param.default;
     }
-    if (props.param.items && Array.isArray(props.param.items)) return;
+    if (props.param.items && Array.isArray(props.param.items)) {
+      const value = getValue(props.appValues, props.param.path);
+      if (value) {
+        const initValue = JSON.parse(value.toString());
+        if (initValue?.length > 1) {
+          Array.from(Array(initValue.length - 1).keys()).forEach(async (v, index) => {
+            additionalItems.value.push({ type: 'string' });
+            await sleep(100);
+            emit('changeBasicFormParam', props.param, initValue[index + 1], 'set', `${props.param.path}/${index + 1}`);
+          });
+        }
+      }
+
+      return;
+    }
+    if (props.param.items && props.param.items.type === 'object') {
+      const value = getValue(props.appValues, props.param.path);
+      if (value) {
+        const initValue = JSON.parse(value.toString());
+        list.value = Array.from(Array(initValue.length).keys());
+        await sleep(100);
+        emit('changeBasicFormParam', props.param, '', 'noop', '');
+      }
+      return;
+    }
     changed(state.selectedItems);
   });
 </script>

@@ -129,8 +129,8 @@
   const headers = [
     { text: i18nLocal.t('table.deploy_instance'), value: 'name', align: 'start' },
     { text: i18nLocal.t('table.model_version'), value: 'modelVersion', align: 'start' },
-    { text: i18nLocal.t('table.status'), value: 'phase', align: 'start' },
-    { text: i18n.t('resource.cluster'), value: 'cluster', align: 'start' },
+    { text: i18nLocal.t('table.status'), value: 'phase', align: 'start', width: 150 },
+    { text: i18n.t('resource.cluster'), value: 'cluster', align: 'start', width: 150 },
     { text: i18n.t('resource.namespace'), value: 'namespace', align: 'start' },
     { text: i18nLocal.t('table.creator'), value: 'creator', align: 'start' },
     { text: 'Api(http/grpc)', value: 'url', align: 'start' },
