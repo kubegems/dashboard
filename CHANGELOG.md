@@ -1,4 +1,4 @@
-# 1.23.7 (2023-3-16)
+# 1.23.7 (2023-3-20)
 
 ### Bug Fixes
 
@@ -13,6 +13,12 @@
 | --- | --- | --- |
 | - | [refactor: 🔨 base pagination fit to response data] | [a593d2b](https://github.com/chenshunliang/dashboard/commit/a593d2b2e855c40bf27754b160569d7822f52a73) |
 | - | [refactor: 🔨 reflactor model code for vue3] | [9be7998](https://github.com/chenshunliang/dashboard/commit/9be7998405daa46679cd8cc8129b28246872e611) |
+
+### Build
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | ci: :chrone: upgrade vite to v4.2.0 | ([e272d42](https://github.com/chenshunliang/dashboard/commit/e272d42e3664b2cd2522c5f568f99e04a303385b)) |
 
 # 1.23.6 (2023-3-10)
 

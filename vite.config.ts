@@ -30,7 +30,8 @@ export default defineConfig({
     chunkSplitPlugin({
       strategy: 'default',
       customSplitting: {
-        'vue-vendor': ['vue', 'vue-clipboard2', 'vue-form-wizard', 'vue-meta', 'vuex'],
+        'vue-vendor': ['vue'],
+        'vue-extend': ['vue-clipboard2', 'vue-form-wizard', 'vue-meta', 'vuex'],
         'vuetify-vendor': ['vuetify'],
         xterm: ['xterm', 'xterm-addon-fit'],
         filepond: [
