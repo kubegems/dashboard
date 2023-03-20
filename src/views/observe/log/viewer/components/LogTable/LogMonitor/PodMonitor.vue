@@ -98,6 +98,7 @@
         params: {
           start: '',
           end: '',
+          pass: true,
         },
         timeinterval: null,
       };

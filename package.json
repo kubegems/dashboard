@@ -125,11 +125,11 @@
     "stylelint-config-standard": "^22.0.0",
     "stylelint-scss": "^3.19.0",
     "unplugin-vue-components": "^0.22.8",
-    "vite": "^3.1.8",
-    "vite-plugin-chunk-split": "^0.4.1",
-    "vite-plugin-md": "^0.20.4",
+    "vite": "^4.2.0",
+    "vite-plugin-chunk-split": "^0.4.7",
+    "vite-plugin-vue-markdown": "^0.22.4",
     "vite-plugin-vue-setup-extend": "^0.4.0",
-    "vite-plugin-vue-setup-inherit-attrs": "^1.0.5"
+    "vite-plugin-vue-setup-inherit-attrs": "^1.0.7"
   },
   "browserslist": [
     "> 5%",

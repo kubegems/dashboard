@@ -25,7 +25,7 @@ export const useEnvironmentRole = (): string => {
   if (useTenantRole() === 'admin') return 'tenantadmin';
   if (useProjectRole() === 'admin') return 'projectadmin';
   if (useProjectRole() === 'ops') return 'projectops';
-  const role: Auth = store.state.Auth.environments.find((t: Auth) => {
+  const role: Auth = store.state.Auth?.environments?.find((t: Auth) => {
     return t.id === store.getters.Environment().ID;
   });
   if (role) {
@@ -37,7 +37,7 @@ export const useEnvironmentRole = (): string => {
 export const useProjectRole = (): string => {
   if (store.state.Admin) return 'sys';
   if (useTenantRole() === 'admin') return 'tenantadmin';
-  const role: Auth = store.state.Auth.projects.find((t: Auth) => {
+  const role: Auth = store.state.Auth?.projects?.find((t: Auth) => {
     return t.id === store.getters.Project().ID;
   });
   if (role) {
@@ -48,7 +48,7 @@ export const useProjectRole = (): string => {
 
 export const useTenantRole = (): string => {
   if (store.state.Admin) return 'sys';
-  const role: Auth = store.state.Auth.tenant.find((t: Auth) => {
+  const role: Auth = store.state.Auth?.tenant?.find((t: Auth) => {
     return t.id === store.getters.Tenant().ID;
   });
   if (role) {
@@ -59,7 +59,7 @@ export const useTenantRole = (): string => {
 
 export const useVirtualSpaceRole = (): string => {
   if (store.state.Admin) return 'sys';
-  const role: Auth = store.state.Auth.virtualSpaces.find((t: Auth) => {
+  const role: Auth = store.state.Auth?.virtualSpaces?.find((t: Auth) => {
     return t.id === store.getters.VirtualSpace().ID;
   });
   if (role) {
@@ -70,7 +70,7 @@ export const useVirtualSpaceRole = (): string => {
 
 export const useEnvironmentAllow = (env: string = undefined): boolean => {
   return (
-    store.state.Auth.environments.findIndex((t) => {
+    store.state.Auth?.environments?.findIndex((t) => {
       if (env) {
         return t.name === env && t.isAdmin;
       } else {
@@ -85,7 +85,7 @@ export const useEnvironmentAllow = (env: string = undefined): boolean => {
 
 export const useProjectAllow = (project: string = undefined): boolean => {
   return (
-    store.state.Auth.projects.findIndex((t) => {
+    store.state.Auth?.projects?.findIndex((t) => {
       if (project) {
         return t.name === project && (t.isAdmin || t.role === 'ops');
       } else {
@@ -99,7 +99,7 @@ export const useProjectAllow = (project: string = undefined): boolean => {
 
 export const useTenantAllow = (tenant: string = undefined): boolean => {
   return (
-    store.state.Auth.Auth.tenant.findIndex((t) => {
+    store.state.Auth?.tenant?.findIndex((t) => {
       if (tenant) {
         return t.name === tenant && t.isAdmin;
       } else {
@@ -111,7 +111,7 @@ export const useTenantAllow = (tenant: string = undefined): boolean => {
 
 export const useVirtualSpaceAllow = (virtualspace: string = undefined): boolean => {
   return (
-    store.state.Auth.virtualSpaces.findIndex((t) => {
+    store.state.Auth?.virtualSpaces?.findIndex((t) => {
       if (virtualspace) {
         return t.isAdmin && t.name === virtualspace;
       } else {

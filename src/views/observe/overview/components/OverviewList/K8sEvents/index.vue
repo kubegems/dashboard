@@ -26,7 +26,7 @@
         </v-tab>
       </v-tabs>
       <div class="d-flex flex-column mt-0">
-        <component :is="tabItems[tab].value" :data="data" :date="date" @loadData="eventList" />
+        <component :is="tabItems[tab].value" v-if="data" :data="data" :date="date" @loadData="eventList" />
       </div>
     </template>
   </BasePanel>

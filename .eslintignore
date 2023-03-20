@@ -4,3 +4,4 @@ build/*.js
 node_modules/*
 src/components/BasePluginPass.vue
 components.d.ts
+tsconfig.json

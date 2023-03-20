@@ -297,7 +297,7 @@
       },
       reset() {
         this.dialog = false;
-        this.$refs[this.formComponent].reset();
+        this.$refs[this.formComponent]?.reset();
         this.step = 0;
         this.formComponent = '';
         this.yaml = false;

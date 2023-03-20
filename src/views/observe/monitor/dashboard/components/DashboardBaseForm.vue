@@ -214,10 +214,10 @@
       inputVariable() {
         if (
           this.variableItems.findIndex((v) => {
-            return v.value === this.variableText.trim();
+            return v.value === this.variableText?.trim() || [];
           }) === -1
         ) {
-          this.variables = this.variableText.trim();
+          this.variables = this.variableText?.trim() || [];
           this.onVariableChange();
         }
       },

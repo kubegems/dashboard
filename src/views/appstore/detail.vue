@@ -17,7 +17,7 @@
 <template>
   <v-container fluid>
     <Breadcrumb hub="kubegems-charts">
-      <template v-if="Object.keys(item.files).length > 0" #extend>
+      <template v-if="Object.keys(item.files) && Object.keys(item.files).length > 0" #extend>
         <v-flex class="kubegems__full-right">
           <v-btn class="primary--text" small text @click="deployAppStore">
             <v-icon left small> mdi-rocket </v-icon>

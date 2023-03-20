@@ -1,10 +1,11 @@
-# 1.23.7 (2023-3-15)
+# 1.23.7 (2023-3-16)
 
 ### Bug Fixes
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [fix: 🐛 fix json schema render bug and fix list sort bug] | [9e1ee94](https://github.com/chenshunliang/dashboard/commit/9e1ee94f81e82add42583bc637f500249a108ec9) |
+| - | [fix: 🐛 fix json schema init bug, fix app store list data bug] | [f2ff4f2](https://github.com/chenshunliang/dashboard/commit/f2ff4f261febb146156714725d117a521ecf6d4b) |
 
 ### 🔨 reflactor
 

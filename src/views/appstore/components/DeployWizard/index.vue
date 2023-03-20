@@ -340,7 +340,7 @@
           this.appValuesOrigin = this.$yamlload(this.filesCopy?.['values.yaml']) || {};
           this.appValuesYaml = this.$yamldump(this.appValuesOrigin);
         }
-        if (Object.keys(this.appValues).length === 0) {
+        if (Object.keys(this.appValues)?.length === 0) {
           this.$store.commit('SET_SNACKBAR', {
             text: this.$t('tip.values_error'),
             color: 'warning',
@@ -478,12 +478,9 @@
         });
       },
       onAppNameChange() {
-        if (Object.prototype.hasOwnProperty.call(this.appValues, 'nameOverride')) {
-          this.appValues.nameOverride = this.obj.AppName;
-        }
-        if (Object.prototype.hasOwnProperty.call(this.appValues, 'fullnameOverride')) {
-          this.appValues.fullnameOverride = this.obj.AppName;
-        }
+        this.appValues.nameOverride = this.obj.AppName;
+        this.appValues.fullnameOverride = this.obj.AppName;
+
         this.appValuesYaml = setYamlValue(this.appValuesYaml, 'nameOverride', this.obj.AppName);
         this.appValuesYaml = setYamlValue(this.appValuesYaml, 'fullnameOverride', this.obj.AppName);
 
