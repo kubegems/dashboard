@@ -54,6 +54,18 @@
         </template>
       </v-combobox>
 
+      <v-switch
+        v-if="AdminViewport"
+        v-model="isSystem"
+        class="float-left ml-6 mt-2"
+        dense
+        hide-details
+        @change="onSystemFlagChanged"
+      >
+        <template #label>
+          <div class="text-body-2 mt-n1">{{ $t('tip.system_alert') }}</div>
+        </template>
+      </v-switch>
       <v-btn class="ml-4" color="primary" text @click="onSearch">
         <v-icon left>mdi-magnify</v-icon>
         {{ $t('operate.go') }}
@@ -76,18 +88,6 @@
         >
           {{ tag.text }}({{ tag.items.length }})
         </v-btn>
-        <v-switch
-          v-if="AdminViewport"
-          v-model="isSystem"
-          class="float-left ml-6"
-          dense
-          hide-details
-          @change="onSystemFlagChanged"
-        >
-          <template #label>
-            <div class="text-body-2 mt-n1">{{ $t('tip.system_alert') }}</div>
-          </template>
-        </v-switch>
         <div class="kubegems__clear-float" />
       </div>
 

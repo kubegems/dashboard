@@ -93,7 +93,7 @@
       };
     },
     computed: {
-      ...mapGetters('Tenant'),
+      ...mapGetters(['Tenant']),
     },
     watch: {
       value: {

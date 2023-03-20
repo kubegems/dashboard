@@ -39,7 +39,7 @@
       labelShow?: boolean;
       metrics?: any[];
       title?: string;
-      autoGrow?: string;
+      autoGrow?: boolean;
       duration?: number;
       xDisplay?: boolean;
       yDisplay?: boolean;
@@ -53,7 +53,7 @@
       labelShow: true,
       metrics: undefined,
       title: '',
-      autoGrow: '',
+      autoGrow: true,
       duration: 0,
       xDisplay: true,
       yDisplay: true,

@@ -28,16 +28,15 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'Alert',
-    props: {
-      message: {
-        type: String,
-        default: () => '',
-      },
+<script lang="ts" setup>
+  withDefaults(
+    defineProps<{
+      message?: string;
+    }>(),
+    {
+      message: '',
     },
-  };
+  );
 </script>
 
 <style lang="scss" scoped>

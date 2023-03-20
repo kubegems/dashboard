@@ -136,6 +136,7 @@
         params: {
           start: '',
           end: '',
+          pass: true,
         },
         timeinterval: null,
       };
@@ -186,6 +187,7 @@
           this.item.stream?.cluster,
           Object.assign(this.params, {
             query: NODE_LOAD1_PROMQL.replaceAll('$1', this.item.stream?.node),
+            pass: true,
           }),
         );
         if (data1?.length > 0) data1[0].metric['name'] = this.$t('tip.load_1');

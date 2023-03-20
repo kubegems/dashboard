@@ -86,7 +86,7 @@
       },
       reset() {
         this.dialog = false;
-        this.$refs[this.formComponent].reset();
+        this.$refs[this.formComponent]?.reset();
       },
     },
   };

@@ -64,14 +64,21 @@
   const confirm = async (): Promise<void> => {
     if (form.value.validate()) {
       const data = form.value.getYaml();
-      const temp: MonitorTemplate = yaml.load(data);
-      if (template.value) {
-        await new MonitorTemplate({ ...temp, name: template.value.name }).updateMonitorTemplate();
-      } else {
-        await new MonitorTemplate(temp).addMonitorTemplate();
+      try {
+        const temp: MonitorTemplate = yaml.load(data);
+        if (template.value) {
+          await new MonitorTemplate({ ...temp, name: template.value.name }).updateMonitorTemplate();
+        } else {
+          await new MonitorTemplate(temp).addMonitorTemplate();
+        }
+        reset();
+        emit('refresh');
+      } catch (e) {
+        store.commit('SET_SNACKBAR', {
+          text: e,
+          color: 'warning',
+        });
       }
-      reset();
-      emit('refresh');
     }
   };
 

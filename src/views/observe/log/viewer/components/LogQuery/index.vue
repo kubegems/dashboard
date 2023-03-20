@@ -213,14 +213,14 @@
     },
     mounted() {
       this.$nextTick(() => {
-        if (this.$route.query.query) {
+        if (this.$route.query?.query) {
           const keyArr = ['app', 'pod', 'container', 'stream', 'node', 'image'];
           const reg = new RegExp(
             '([\\u4e00-\\u9fa5\\w]+)=~?"([\\u4e00-\\u9fa5\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/\|]+)"',
             'g',
           );
           const selected = {};
-          this.$route.query.query.match(reg).map((s) => {
+          this.$route.query?.query?.match(reg)?.map((s) => {
             const l = s.split('=');
             if (l.length === 2) {
               if (keyArr.includes(l[0])) {

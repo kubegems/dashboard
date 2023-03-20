@@ -250,7 +250,7 @@
         });
       },
       onAppNameInput() {
-        if (this.search.length > 0) {
+        if (this.search?.length > 0) {
           const filterItems = [];
           this.items.forEach((app) => {
             if (app.name.indexOf(this.search) > -1) {
@@ -271,7 +271,7 @@
           this.filterKeywords.splice(index, 1);
         }
 
-        if (this.filterKeywords.length > 0) {
+        if (this.filterKeywords?.length > 0) {
           const filterItems = [];
           this.all.forEach((app) => {
             if (app.keywords) {

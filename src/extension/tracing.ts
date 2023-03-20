@@ -26,10 +26,6 @@ import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions'
 import store from '@/store';
 
 const integratedOpenTelemetry = () => {
-  registerInstrumentations({
-    instrumentations: [new UserInteractionInstrumentation(), new XMLHttpRequestInstrumentation()],
-  });
-
   const resource = Resource.default().merge(
     new Resource({
       [SemanticResourceAttributes.SERVICE_NAME]: 'kubegems-dashboard',
@@ -52,6 +48,10 @@ const integratedOpenTelemetry = () => {
 
   provider.register({
     contextManager: new ZoneContextManager(),
+  });
+
+  registerInstrumentations({
+    instrumentations: [new UserInteractionInstrumentation(), new XMLHttpRequestInstrumentation()],
   });
 };
 

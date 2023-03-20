@@ -64,6 +64,11 @@ server {
     proxy_pass http://${API_SERVER}/;
   }
 
+  location ~ ^/status {
+    default_type application/json;
+    return 200 '{"status":"success","hostname":"$hostname","unix":"$msec"}';
+  }
+
   error_page   500 502 503 504  /50x.html;
   location = /50x.html {
     root   /usr/src/app;

@@ -17,7 +17,7 @@
 <template>
   <v-card flat>
     <v-card-title class="text-h6 primary--text">
-      {{ item ? item.metadata.name : '' }}
+      {{ item && item.metadata ? item.metadata.name : '' }}
     </v-card-title>
     <v-list-item two-line>
       <v-list-item-content class="kubegems__text">

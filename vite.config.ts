@@ -6,7 +6,7 @@ import { VuetifyResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
 import { chunkSplitPlugin } from 'vite-plugin-chunk-split';
-import Markdown from 'vite-plugin-md';
+import Markdown from 'vite-plugin-vue-markdown';
 import VueSetupExtend from 'vite-plugin-vue-setup-extend';
 import inheritAttrs from 'vite-plugin-vue-setup-inherit-attrs';
 
@@ -19,7 +19,7 @@ export default defineConfig({
   },
   plugins: [
     vue({ include: [/\.vue$/, /\.md$/] }),
-    inheritAttrs(),
+    inheritAttrs() as any,
     Markdown(),
     Components({
       resolvers: [VuetifyResolver()],

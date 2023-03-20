@@ -34,7 +34,6 @@
       colorful?: boolean;
       extendHeight?: number;
       labels?: string[];
-      labelShow?: boolean;
       metrics?: any[];
       title?: string;
     }>(),
@@ -44,7 +43,6 @@
       colorful: false,
       extendHeight: 280,
       labels: undefined,
-      labelShow: true,
       metrics: undefined,
       title: '',
     },
@@ -72,7 +70,7 @@
               text: props.title,
             },
             legend: {
-              display: props.labelShow,
+              display: true,
               position: 'bottom',
               labels: {
                 usePointStyle: true,

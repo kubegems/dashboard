@@ -19,7 +19,6 @@
     :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
     :color="['#26C6DA', '#FB8C00']"
     height="290px"
-    :label-show="false"
     :metrics="series"
   />
 </template>

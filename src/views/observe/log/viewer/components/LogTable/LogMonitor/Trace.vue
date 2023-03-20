@@ -113,6 +113,7 @@
   };
 
   const dispose = (): void => {
+    telemetry.value = new Telemetry();
     return;
   };
 

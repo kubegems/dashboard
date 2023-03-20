@@ -259,8 +259,8 @@
   };
 
   const approve = ref(null);
-  const toScaleResource = (approve: Approve): void => {
-    approve.value.init(approve);
+  const toScaleResource = (item: Approve): void => {
+    approve.value.init(item);
     approve.value.open();
   };
 
