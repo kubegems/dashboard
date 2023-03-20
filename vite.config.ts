@@ -30,8 +30,8 @@ export default defineConfig({
     chunkSplitPlugin({
       strategy: 'default',
       customSplitting: {
-        'vue-vendor': ['vue'],
-        'vue-extend': ['vue-clipboard2', 'vue-form-wizard', 'vue-meta', 'vuex'],
+        // 'vue-vendor': ['vue'],
+        // 'vue-extend': ['vue-clipboard2', 'vue-form-wizard', 'vue-meta', 'vuex'],
         'vuetify-vendor': ['vuetify'],
         xterm: ['xterm', 'xterm-addon-fit'],
         filepond: [
@@ -43,7 +43,7 @@ export default defineConfig({
         ],
         '@iconify-json/logos': ['@iconify-json/logos'],
         '@iconify-json/mdi': ['@iconify-json/mdi'],
-        'base-tool': ['lodash', 'yaml', 'js-yaml', 'js-base64', 'ajv', 'vuedraggable', 'brace'],
+        'base-tool': ['js-yaml', 'js-base64', 'ajv', 'vuedraggable', 'brace'],
         highlight: ['highlight.js'],
         chart: ['chart.js', 'chartjs-adapter-moment', 'chartjs-plugin-doughnutlabel-v3'],
         'vue2-ace-editor': ['vue2-ace-editor'],
@@ -52,6 +52,17 @@ export default defineConfig({
         'vue-table-dynamic': ['vue-table-dynamic'],
         'vue-i18n': ['vue-i18n'],
         sentry: ['@sentry/tracing', '@sentry/vue'],
+        opentelemetry: [
+          '@opentelemetry/api',
+          '@opentelemetry/context-zone',
+          '@opentelemetry/exporter-trace-otlp-http',
+          '@opentelemetry/instrumentation',
+          '@opentelemetry/instrumentation-user-interaction',
+          '@opentelemetry/instrumentation-xml-http-request',
+          '@opentelemetry/resources',
+          '@opentelemetry/sdk-trace-web',
+          '@opentelemetry/semantic-conventions',
+        ],
       },
     }),
     VueSetupExtend(),

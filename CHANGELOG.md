@@ -19,6 +19,7 @@
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | ci: :chrone: upgrade vite to v4.2.0 | ([e272d42](https://github.com/chenshunliang/dashboard/commit/e272d42e3664b2cd2522c5f568f99e04a303385b)) |
+| - | ci: :chrone: update vite config | ([b1e9894](https://github.com/chenshunliang/dashboard/commit/b1e9894e7b52a6ebddacabe24bdeead589f2d2c2)) |
 
 # 1.23.6 (2023-3-10)
 
