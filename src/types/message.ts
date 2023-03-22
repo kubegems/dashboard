@@ -71,10 +71,10 @@ export class Approve implements ApproveOperator {
   }
 
   public async passApprove(): Promise<void> {
-    await axios.post(`approve/${this.ID}/pass`);
+    await axios.post(`approve/${this.ID}/pass`, this);
   }
 
   public async rejectApprove(): Promise<void> {
-    await axios.post(`approve/${this.ID}/reject`);
+    await axios.post(`approve/${this.ID}/reject`, this);
   }
 }

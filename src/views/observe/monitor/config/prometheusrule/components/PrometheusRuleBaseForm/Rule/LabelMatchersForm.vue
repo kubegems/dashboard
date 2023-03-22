@@ -67,7 +67,6 @@
                 :label="i18nLocal.t('tip.label_value')"
                 multiple
                 :no-data-text="i18n.t('data.no_data')"
-                :rules="objRule.valueRules"
                 :search-input.sync="valueText"
                 @change="labelValueChanged"
                 @keyup.enter="createLabelValue"
@@ -154,7 +153,7 @@
   ];
 
   let obj = reactive<Matcher>({ index: -1, type: '', name: '', value: '' });
-  const objRule = reactive({ typeRules: [required], nameRules: [required], valueRules: [required] });
+  const objRule = reactive({ typeRules: [required], nameRules: [required] });
 
   const form = ref(null);
   const emit = defineEmits(['closeOverlay', 'addData']);

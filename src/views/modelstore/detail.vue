@@ -41,7 +41,7 @@
         <v-card flat>
           <v-card-text>
             <v-tabs v-model="state.tab" height="30">
-              <v-tab v-for="item in tabItems" :key="item.value">
+              <v-tab v-for="item in tabItems" :key="item.tab">
                 {{ item.text }}
               </v-tab>
             </v-tabs>
