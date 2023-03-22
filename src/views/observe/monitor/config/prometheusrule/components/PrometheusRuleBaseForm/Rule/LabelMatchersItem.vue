@@ -46,7 +46,7 @@
                   {{ i18nLocal.t('tip.label_value') }}
                 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
-                  {{ item.value }}
+                  {{ item.value || i18n.t('data.no_data') }}
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>

@@ -224,7 +224,22 @@
       spec: {
         handler(newValue) {
           if (newValue) {
-            this.obj.server.resources = deepCopy(newValue.server.resources);
+            const data = deepCopy(newValue);
+            if (data?.server?.resources?.limits['tencent.com/vcuda-core']) {
+              data.server.resources.limits['tencent.com/vcuda-core'] =
+                data.server.resources.limits['tencent.com/vcuda-core'] / 100;
+            }
+            if (data?.server?.resources?.limits['tencent.com/vcuda-memory']) {
+              data.server.resources.limits['tencent.com/vcuda-memory'] =
+                (data.server.resources.limits['tencent.com/vcuda-memory'] / 1024) * 256;
+            }
+            if (
+              data?.server?.resources?.limits['nvidia.com/gpu'] &&
+              parseInt(data?.server?.resources?.limits['nvidia.com/gpu']) === 0
+            ) {
+              delete data.server.resources.limits['nvidia.com/gpu'];
+            }
+            this.obj.server.resources = data?.server?.resources;
             this.obj.replicas = newValue.replicas;
           }
         },
