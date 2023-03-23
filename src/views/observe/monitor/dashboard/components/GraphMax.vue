@@ -98,6 +98,7 @@
         labelpairs: {},
         dashboardId: 0,
         index: -1,
+        labelChanged: false,
       };
     },
     computed: {
@@ -176,7 +177,11 @@
       onDatetimeChange() {
         this.params.start = this.$moment(this.date[0]).utc().format();
         this.params.end = this.$moment(this.date[1]).utc().format();
-        this.loadMetrics();
+        if (this.labelChanged) {
+          this.onLabelChange();
+        } else {
+          this.loadMetrics();
+        }
       },
       getUnit(unit) {
         if (unit === 'short') {
@@ -244,10 +249,13 @@
         });
       },
       onLabelChange(label) {
-        if (label.value?.length === 0) {
-          this.$delete(this.labelpairs, label.text);
-        } else {
-          this.$set(this.labelpairs, label.text, label.value);
+        this.labelChanged = true;
+        if (label) {
+          if (label.value?.length === 0) {
+            this.$delete(this.labelpairs, label.text);
+          } else {
+            this.$set(this.labelpairs, label.text, label.value);
+          }
         }
         let newParams = {};
         for (const key in this.labelpairs) {

@@ -49,6 +49,7 @@ const StoreMode = 'store';
 const Locale = 'locale';
 const Broadcast = 'broadcast';
 const Edge = 'edge';
+const Guided = 'guided';
 
 const store: Store<{ [key: string]: any }> = new Store({
   state: {
@@ -110,6 +111,7 @@ const store: Store<{ [key: string]: any }> = new Store({
     Locale: window.localStorage.getItem(Locale) || 'zh-Hans',
     Broadcast: JSON.parse(window.localStorage.getItem(Broadcast)) || [],
     Edge: window.localStorage.getItem(Edge) || '',
+    Guided: [true, 'true'].includes(window.localStorage.getItem(Guided)) || false,
   },
   mutations: {
     SET_PLUGINS(state: { [key: string]: any }, payload: { [key: string]: any }[]): void {
@@ -193,6 +195,10 @@ const store: Store<{ [key: string]: any }> = new Store({
     SET_ADMIN(state: { [key: string]: any }, payload: boolean): void {
       state.Admin = payload;
       window.localStorage.setItem(Admin, String(payload));
+    },
+    SET_GUIDED(state: { [key: string]: any }, payload: boolean): void {
+      state.Guided = payload;
+      window.localStorage.setItem(Guided, String(payload));
     },
     SET_ADMIN_VIEWPORT(state: { [key: string]: any }, payload: boolean): void {
       state.AdminViewport = payload;

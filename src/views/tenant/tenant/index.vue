@@ -23,7 +23,7 @@
         <v-spacer />
         <v-menu left>
           <template #activator="{ on }">
-            <v-btn icon>
+            <v-btn id="intro_add_tenant" icon>
               <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
             </v-btn>
           </template>
@@ -169,6 +169,7 @@
   import { useI18n } from './i18n';
   import { useRoute, useRouter } from '@/composition/router';
   import { useTenantPagination } from '@/composition/tenant';
+  import intro from '@/extension/guide';
   import { useGlobalI18n } from '@/i18n';
   import { useQuery } from '@/router';
   import { useStore } from '@/store';
@@ -234,7 +235,23 @@
       } else {
         pagination.search = '';
       }
-      getTenantList();
+      await getTenantList();
+      if (!store.state.Guided && pagination.item?.length === 0) {
+        intro
+          .setOptions({
+            steps: [
+              {
+                element: document.querySelector('#intro_add_tenant'),
+                intro: i18nLocal.t('intro.add_tenant'),
+              },
+            ],
+          })
+          .start();
+
+        intro.onexit(() => {
+          store.commit('SET_GUIDED', true);
+        });
+      }
     },
     {
       immediate: true,
@@ -254,6 +271,7 @@
   const tenant = ref(null);
   const addTenant = (): void => {
     tenant.value.open();
+    intro.exit();
   };
 
   const updateTenant = (item: Tenant): void => {

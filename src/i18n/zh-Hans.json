@@ -571,5 +571,11 @@
     "pod": "容器组",
     "monitor": "监控",
     "gpu_monitor": "GPU监控"
+  },
+  "intro": {
+    "next": "下一步",
+    "previous": "上一步",
+    "over": "不再提示",
+    "done": "完成"
   }
 }

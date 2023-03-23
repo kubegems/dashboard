@@ -32,7 +32,7 @@
     @transitionend="transitionend"
     @update:mini-variant="updateSidebar"
   >
-    <v-list class="ma-0 pa-0">
+    <v-list id="intro_nav" class="ma-0 pa-0">
       <v-list-item-group color="white" @change="onNavChange">
         <v-list-item class="py-3" @click="expand = !expand">
           <v-list-item-content class="primary--text">

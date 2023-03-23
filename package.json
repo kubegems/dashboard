@@ -67,6 +67,7 @@
     "filepond-plugin-image-preview": "^4.6.11",
     "github-markdown-css": "^5.1.0",
     "highlight.js": "^11.5.1",
+    "intro.js": "^6.0.0",
     "js-base64": "^3.6.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",

@@ -570,5 +570,11 @@
     "pod": "Pod",
     "monitor": "Monitor",
     "gpu_monitor": "GPU Monitor"
+  },
+  "intro": {
+    "next": "Next",
+    "previous": "Previous",
+    "over": "Jump over",
+    "done": "Done"
   }
 }

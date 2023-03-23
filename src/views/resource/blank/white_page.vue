@@ -36,9 +36,38 @@
 </template>
 
 <script lang="ts" setup>
+  import { nextTick, onMounted } from 'vue';
+
   import { useI18n } from './i18n';
+  import intro from '@/extension/guide';
+  import { useStore } from '@/store';
 
   const i18nLocal = useI18n();
+  const store = useStore();
+
+  onMounted(() => {
+    nextTick(() => {
+      if (store.state.Guided) {
+        intro
+          .setOptions({
+            steps: [
+              {
+                intro: i18nLocal.t('intro.welcome'),
+              },
+              {
+                element: document.querySelector('#intro_tool'),
+                intro: i18nLocal.t('intro.enter'),
+              },
+            ],
+          })
+          .start();
+
+        intro.onexit(() => {
+          store.commit('SET_GUIDED', true);
+        });
+      }
+    });
+  });
 </script>
 
 <style lang="scss" scoped>

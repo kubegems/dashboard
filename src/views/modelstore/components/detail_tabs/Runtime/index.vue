@@ -47,25 +47,36 @@
         </template>
         <template #item.url="{ item }">
           <div class="py-1">
-            <v-icon color="primary">mdi-alpha-h</v-icon>
-            HTTP: {{ item.url }}
-            <v-btn v-if="item.url" v-clipboard:copy="item.url" v-clipboard:success="copyed" color="primary" icon small>
-              <v-icon color="primary" small> mdi-content-copy </v-icon>
-            </v-btn>
-          </div>
-          <div class="py-1">
-            <v-icon color="primary">mdi-alpha-g</v-icon>
-            GRPC: {{ item.grpcURL }}
+            <v-icon class="float-left" color="primary">mdi-alpha-h</v-icon>
+            <div class="url">HTTP: {{ item.url }}</div>
             <v-btn
-              v-if="item.grpcURL"
-              v-clipboard:copy="item.grpcURL"
+              v-if="item.url"
+              v-clipboard:copy="item.url"
               v-clipboard:success="copyed"
+              class="float-left url__btn"
               color="primary"
               icon
               small
             >
               <v-icon color="primary" small> mdi-content-copy </v-icon>
             </v-btn>
+            <div class="kubegems__clear-float" />
+          </div>
+          <div v-if="item.grpcURL" class="py-1">
+            <v-icon class="float-left" color="primary">mdi-alpha-g</v-icon>
+            <div class="url"> GRPC: {{ item.grpcURL }}</div>
+            <v-btn
+              v-if="item.grpcURL"
+              v-clipboard:copy="item.grpcURL"
+              v-clipboard:success="copyed"
+              class="float-left url__btn"
+              color="primary"
+              icon
+              small
+            >
+              <v-icon color="primary" small> mdi-content-copy </v-icon>
+            </v-btn>
+            <div class="kubegems__clear-float" />
           </div>
         </template>
         <template #item.preview="{ item }">
@@ -129,11 +140,11 @@
   const headers = [
     { text: i18nLocal.t('table.deploy_instance'), value: 'name', align: 'start' },
     { text: i18nLocal.t('table.model_version'), value: 'modelVersion', align: 'start' },
-    { text: i18nLocal.t('table.status'), value: 'phase', align: 'start', width: 150 },
-    { text: i18n.t('resource.cluster'), value: 'cluster', align: 'start', width: 150 },
+    { text: i18nLocal.t('table.status'), value: 'phase', align: 'start' },
+    { text: i18n.t('resource.cluster'), value: 'cluster', align: 'start' },
     { text: i18n.t('resource.namespace'), value: 'namespace', align: 'start' },
     { text: i18nLocal.t('table.creator'), value: 'creator', align: 'start' },
-    { text: 'Api(http/grpc)', value: 'url', align: 'start' },
+    { text: 'Api(http/grpc)', value: 'url', align: 'start', width: 520 },
     { text: '', value: 'preview', align: 'start', width: 50 },
   ];
 
@@ -210,3 +221,18 @@
     });
   };
 </script>
+
+<style lang="scss" scoped>
+  .url {
+    width: 440px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: auto;
+    float: left;
+    line-height: 24px;
+
+    &__btn {
+      margin-top: -2px;
+    }
+  }
+</style>

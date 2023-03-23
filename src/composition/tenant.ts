@@ -98,13 +98,16 @@ export const useTenantPagination = async (
     t.Memory = 0;
     t.Storage = 0;
     t.ResourceQuotas.forEach((r) => {
-      if (!r.Content['limits.storage']) {
-        r.Content['limits.storage'] = r.Content['requests.storage'];
+      if (!r?.Content) {
+        r.Content = {};
+      }
+      if (!r?.Content?.['limits.storage']) {
+        r.Content['limits.storage'] = r?.Content?.['requests.storage'];
       }
 
-      t.Cpu += sizeOfCpu(r.Content['limits.cpu']);
-      t.Memory += sizeOfStorage(r.Content['limits.memory']);
-      t.Storage += sizeOfStorage(r.Content['limits.storage']);
+      t.Cpu += sizeOfCpu(r?.Content?.['limits.cpu']);
+      t.Memory += sizeOfStorage(r?.Content?.['limits.memory']);
+      t.Storage += sizeOfStorage(r?.Content?.['limits.storage']);
     });
 
     if (t.AllocatedResourcequota && !t.AllocatedResourcequota['limits.storage']) {

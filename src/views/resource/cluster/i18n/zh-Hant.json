@@ -72,5 +72,9 @@
   "operate": {
     "label": "注入標籤",
     "label_c": "給{0}注入標籤"
+  },
+  "intro": {
+    "add_cluster": "從此處給平台綁定集群",
+    "add_tenant": "集群加入後，從此處進入平台管理添加租戶"
   }
 }
