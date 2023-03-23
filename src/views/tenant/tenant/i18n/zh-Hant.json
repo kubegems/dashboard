@@ -69,5 +69,9 @@
       "unit": "單位"
     },
     "cluster": "集群資源"
+  },
+  "intro": {
+    "add_tenant": "從此處添加租戶",
+    "add_cluster": "從此處為租戶分配集群資源"
   }
 }

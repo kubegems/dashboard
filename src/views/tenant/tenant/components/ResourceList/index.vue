@@ -38,7 +38,7 @@
           </span>
         </template>
         <template #action>
-          <v-btn class="float-right" color="primary" small text @click="addResource">
+          <v-btn id="intro_add_cluster" class="float-right" color="primary" small text @click="addResource">
             <v-icon left small> mdi-server-plus </v-icon>
             {{ i18n.t('operate.add_c', [i18n.t('resource.cluster')]) }}
           </v-btn>
@@ -113,16 +113,18 @@
 
 <script lang="ts" setup>
   import _ from 'lodash';
-  import { ComputedRef, computed, reactive, ref, watch } from 'vue';
+  import { ComputedRef, computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../../i18n';
   import AddResource from './AddResource.vue';
   import ScaleResource from './ScaleResource.vue';
   import TenantMonitor from './TenantMonitor.vue';
   import { useTenantResourceQuotaPagination } from '@/composition/tenant';
+  import intro from '@/extension/guide';
   import { useGlobalI18n } from '@/i18n';
   import { useStore } from '@/store';
   import { Tenant, TenantResourceQuota } from '@/types/tenant';
+  import { sleep } from '@/utils/helpers';
   import GpuTip from '@/views/resource/components/common/GpuTip.vue';
 
   const i18n = useGlobalI18n();
@@ -199,6 +201,23 @@
     async (newValue) => {
       if (newValue) {
         getResourceQuotaList();
+        if (!store.state.Guided && pagination.items?.length > 0) {
+          await sleep(500);
+          intro
+            .setOptions({
+              steps: [
+                {
+                  element: document.querySelector('#intro_add_cluster'),
+                  intro: i18nLocal.t('intro.add_cluster'),
+                },
+              ],
+            })
+            .start();
+
+          intro.onexit(() => {
+            store.commit('SET_GUIDED', true);
+          });
+        }
       }
     },
     {
@@ -210,6 +229,7 @@
   const addResource = (): void => {
     add.value.init(props.tenant);
     add.value.open();
+    intro.exit();
   };
 
   const monitor = ref(null);

@@ -547,5 +547,11 @@
     "pod": "ポッド",
     "monitor": "監視",
     "gpu_monitor": "GPU監視"
+  },
+  "intro": {
+    "next": "次のステップ",
+    "previous": "前のステップ",
+    "over": "再度通知しない",
+    "done": "終了"
   }
 }

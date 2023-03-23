@@ -69,5 +69,9 @@
       "unit": "Units"
     },
     "cluster": "Cluster resources"
+  },
+  "intro": {
+    "add_tenant": "Add tenant from here",
+    "add_cluster": "Allocate cluster resources to tenants from here"
   }
 }

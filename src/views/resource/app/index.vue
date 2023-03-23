@@ -213,32 +213,36 @@
           </template>
           <template #[`item.url`]="{ item }">
             <div class="py-1">
-              <v-icon color="primary">mdi-alpha-h</v-icon>
-              HTTP: {{ item.status.url }}
+              <v-icon class="float-left" color="primary">mdi-alpha-h</v-icon>
+              <div class="url"> HTTP: {{ item.status.url }} </div>
               <v-btn
                 v-if="item.status.url"
                 v-clipboard:copy="item.status.url"
                 v-clipboard:success="onCopy"
+                class="float-left url__btn"
                 color="primary"
                 icon
                 small
               >
                 <v-icon color="primary" small> mdi-content-copy </v-icon>
               </v-btn>
+              <div class="kubegems__clear-float" />
             </div>
-            <div class="py-1">
-              <v-icon color="primary">mdi-alpha-g</v-icon>
-              GRPC: {{ item.status.grpcAddress }}
+            <div v-if="item.status.grpcAddress" class="py-1">
+              <v-icon class="float-left" color="primary">mdi-alpha-g</v-icon>
+              <div class="url">GRPC: {{ item.status.grpcAddress }}</div>
               <v-btn
                 v-if="item.status.grpcAddress"
                 v-clipboard:copy="item.status.grpcAddress"
                 v-clipboard:success="onCopy"
+                class="float-left url__btn"
                 color="primary"
                 icon
                 small
               >
                 <v-icon color="primary" small> mdi-content-copy </v-icon>
               </v-btn>
+              <div class="kubegems__clear-float" />
             </div>
           </template>
           <template #[`item.replicas`]="{ item }">
@@ -452,10 +456,10 @@
             { text: this.$t('table.model_name'), value: 'modelName', align: 'start', sortable: false },
             { text: this.$t('table.model_version'), value: 'modelVersion', align: 'start', sortable: false },
             { text: this.$t('table.replicas'), value: 'replicas', align: 'start', sortable: false },
-            { text: this.$t('table.source'), value: 'source', align: 'start', sortable: false, width: 150 },
-            { text: this.$t('table.task'), value: 'task', align: 'start', sortable: false, width: 230 },
+            { text: this.$t('table.source'), value: 'source', align: 'start', sortable: false },
+            { text: this.$t('table.task'), value: 'task', align: 'start', sortable: false },
             { text: this.$t('table.status'), value: 'phase', align: 'start', sortable: false, width: 120 },
-            { text: 'Api(http/grpc)', value: 'url', align: 'start', sortable: false },
+            { text: 'Api(http/grpc)', value: 'url', align: 'start', sortable: false, width: 460 },
             { text: this.$root.$t('resource.create_at'), value: 'creationTimestamp', align: 'start', width: 120 },
             { text: '', value: 'preview', align: 'center', sortable: false },
             { text: '', value: 'modelAction', align: 'center', width: 20, sortable: false },
@@ -762,3 +766,18 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .url {
+    width: 380px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: auto;
+    float: left;
+    line-height: 24px;
+
+    &__btn {
+      margin-top: -2px;
+    }
+  }
+</style>

@@ -63,6 +63,7 @@ export default defineConfig({
           '@opentelemetry/sdk-trace-web',
           '@opentelemetry/semantic-conventions',
         ],
+        intro: ['intro.js'],
       },
     }),
     VueSetupExtend(),

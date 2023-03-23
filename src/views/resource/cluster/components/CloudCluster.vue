@@ -91,7 +91,7 @@
         </v-hover>
       </v-col>
       <v-col class="pt-0" cols="3">
-        <v-card class="kubegems__full-height" flat min-height="168">
+        <v-card id="intro_add_cluster" class="kubegems__full-height" flat min-height="168">
           <v-card-text class="pa-0 kubegems__full-height">
             <v-list-item class="kubegems__full-height" three-line>
               <v-list-item-content>
@@ -119,9 +119,11 @@
   import AddCluster from './AddCluster';
   import UpdateCluster from './UpdateCluster';
   import { deleteCluster, getClusterList, getClusterStatus } from '@/api';
+  import intro from '@/extension/guide';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { convertResponse2List } from '@/types/base';
+  import { sleep } from '@/utils/helpers';
   import Terminal from '@/views/resource/components/common/Terminal';
 
   export default {
@@ -144,16 +146,39 @@
       };
     },
     computed: {
-      ...mapState(['JWT', 'Locale']),
+      ...mapState(['JWT', 'Locale', 'Guided']),
       ...mapGetters(['Cluster']),
     },
     destroyed() {
       if (this.interval) clearInterval(this.interval);
     },
     mounted() {
-      this.clusterList();
-      this.syncClusterStatus();
-      this.$store.commit('SET_NAMESPACE_FILTER', null);
+      this.$nextTick(async () => {
+        await this.clusterList();
+        this.syncClusterStatus();
+        this.$store.commit('SET_NAMESPACE_FILTER', null);
+        await sleep(500);
+        if (!this.Guided && this.items?.length === 0) {
+          intro
+            .setOptions({
+              steps: [
+                {
+                  element: document.querySelector('#intro_add_cluster'),
+                  intro: this.$t('intro.add_cluster'),
+                },
+                {
+                  element: document.querySelector('#intro_nav'),
+                  intro: this.$t('intro.add_tenant'),
+                },
+              ],
+            })
+            .start();
+
+          intro.onexit(() => {
+            this.$store.commit('SET_GUIDED', true);
+          });
+        }
+      });
     },
     methods: {
       async clusterList(del = false) {
@@ -202,6 +227,7 @@
       },
       addCluster() {
         this.$refs.addCluster.open();
+        intro.exit();
       },
       updateCluster(item) {
         this.$refs.updateCluster.init(item);

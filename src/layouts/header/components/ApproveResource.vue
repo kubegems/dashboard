@@ -134,7 +134,7 @@
       if (obj.Content['limits.tencent.com/vcuda-memory']) {
         data.Content['limits.tencent.com/vcuda-memory'] = obj.Content[`limits.tencent.com/vcuda-memory`];
       }
-      await new Approve({ ID: approve.value.ID }).passApprove();
+      await new Approve(approve.value).passApprove();
       state.passLoading = false;
       reset();
       emit('refresh');
@@ -143,7 +143,7 @@
 
   const approveReject = async (): Promise<void> => {
     state.cancelLoading = true;
-    await new Approve({ ID: approve.value.ID }).rejectApprove();
+    await new Approve(approve.value).rejectApprove();
     state.cancelLoading = false;
     reset();
     emit('refresh');

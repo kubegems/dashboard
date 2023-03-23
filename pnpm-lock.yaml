@@ -52,6 +52,7 @@ specifiers:
   happy-dom: ^7.4.0
   highlight.js: ^11.5.1
   husky: ^7.0.2
+  intro.js: ^6.0.0
   js-base64: ^3.6.0
   js-yaml: ^4.1.0
   lint-staged: ^11.0.0
@@ -118,6 +119,7 @@ dependencies:
   filepond-plugin-image-preview: 4.6.11_filepond@4.30.4
   github-markdown-css: 5.1.0
   highlight.js: 11.6.0
+  intro.js: 6.0.0
   js-base64: 3.7.2
   js-yaml: 4.1.0
   lodash: 4.17.21
@@ -4082,6 +4084,10 @@ packages:
   /interpret/1.4.0:
     resolution: {integrity: sha512-agE4QfB2Lkp9uICn7BAqoscw4SZP9kTE2hxiFI3jBPmXJfdqiahTbUuKGsMoN2GtqL9AxhYioAcVvgsb1HvRbA==}
     engines: {node: '>= 0.10'}
+    dev: false
+
+  /intro.js/6.0.0:
+    resolution: {integrity: sha512-ZUiR6BoLSvPSlLG0boewnWVgji1fE1gBvP/pyw5pgCKXEDQz1mMeUxarggClPNs71UTq364LwSk9zxz17A9gaQ==}
     dev: false
 
   /is-alphabetical/1.0.4:

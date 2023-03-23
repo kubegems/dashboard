@@ -43,6 +43,11 @@
                 </template>
               </v-autocomplete>
             </v-col>
+            <v-col cols="6">
+              <v-btn class="mt-4" color="primary" small text @click="refreshModel">
+                {{ $root.$t('operate.refresh') }}
+              </v-btn>
+            </v-col>
             <v-col cols="12">
               <v-text-field
                 v-model="obj.spec.server.image"
@@ -69,7 +74,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getModelStoreDetail, putModelRuntime } from '@/api';
+  import { getModelStoreDetail, postModelSync, putModelRuntime } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
@@ -140,6 +145,20 @@
         this.dialog = false;
         this.$refs.form.resetValidation();
         this.obj = this.$options.data().obj;
+      },
+      refreshModel() {
+        this.$store.commit('SET_CONFIRM', {
+          title: this.$root.$t('operate.refresh'),
+          content: {
+            text: `${this.$root.$t('operate.refresh')} ${this.obj.spec.model.name}`,
+            type: 'confirm',
+          },
+          param: {},
+          doFunc: async () => {
+            await postModelSync(this.obj.spec.model.source, Base64.encode(this.obj.spec.model.name));
+            this.modelStoreDetail();
+          },
+        });
       },
     },
   };

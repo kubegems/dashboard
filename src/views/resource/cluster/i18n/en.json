@@ -72,5 +72,9 @@
   "operate": {
     "label": "Inject label",
     "label_c": "Inject label for {0}"
+  },
+  "intro": {
+    "add_cluster": "Bind the cluster to the platform from here",
+    "add_tenant": "After the cluster joins, enter the platform management to add tenants from here"
   }
 }
