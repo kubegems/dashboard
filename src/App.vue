@@ -28,7 +28,6 @@
 
   import { useMeta, useVuetify } from '@/composition/proxy';
   import { useRouter } from '@/composition/router';
-  import intro from '@/extension/guide';
   import { useGlobalI18n } from '@/i18n';
   import { useStore } from '@/store';
 

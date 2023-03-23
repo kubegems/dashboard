@@ -99,20 +99,22 @@
   import TenantForm from './components/TenantForm.vue';
   import UserList from './components/UserList/index.vue';
   import { useI18n } from './i18n';
-  import { useRoute, useRouter } from '@/composition/router';
+  import { useRouter } from '@/composition/router';
   import { useGlobalI18n } from '@/i18n';
+  import { useParams, useQuery } from '@/router';
   import { useStore } from '@/store';
   import { Tenant } from '@/types/tenant';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();
-  const route = useRoute();
   const router = useRouter();
   const store = useStore();
+  const query = useQuery();
+  const routeParams = useParams();
 
   const tenant = ref<Tenant>(undefined);
   const getTenantDetail = async (): Promise<void> => {
-    const data = await new Tenant({ ID: parseInt(route.query.id as string) }).getTenant();
+    const data = await new Tenant({ ID: parseInt(query.value.id as string) }).getTenant();
     tenant.value = data;
   };
 
@@ -174,7 +176,7 @@
         await new Tenant(param.item).deleteTenant();
         store.commit('CLEAR_TENANT');
         store.dispatch('UPDATE_TENANT_DATA');
-        router.push({ name: 'tenant-list', params: route.params });
+        router.push({ name: 'tenant-list', params: routeParams.value });
       },
     });
   };

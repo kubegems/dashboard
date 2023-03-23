@@ -21,17 +21,18 @@
 <script lang="ts" setup>
   import { nextTick, onMounted, ref } from 'vue';
 
-  import { useRoute } from '@/composition/router';
+  import { useParams, useQuery } from '@/router';
   import { Pod } from '@/types/pod';
   import Terminal from '@/views/resource/components/common/Terminal/index.vue';
 
-  const route = useRoute();
+  const query = useQuery();
+  const params = useParams();
 
   const pod = ref<Pod>(undefined);
 
   const getPod = async (): Promise<void> => {
-    const data = await new Pod({ metadata: { name: route.params.name, namespace: route.query.namespace } }).getPod(
-      route.query.cluster as string,
+    const data = await new Pod({ metadata: { name: params.value.name, namespace: query.value.namespace } }).getPod(
+      query.value.cluster as string,
     );
     pod.value = data;
   };
@@ -41,13 +42,13 @@
     nextTick(async () => {
       await getPod();
       const item = {
-        namespace: route.query.namespace,
-        name: route.params.name,
+        namespace: query.value.namespace,
+        name: params.value.name,
         containers: pod.value.spec.containers,
       };
       let container = pod.value.spec.containers[0].name;
-      if (route.query.container) container = route.query.container as string;
-      terminal.value.init(container, item, route.query.type);
+      if (query.value.container) container = query.value.container as string;
+      terminal.value.init(container, item, query.value.type);
       terminal.value.open();
     });
   });

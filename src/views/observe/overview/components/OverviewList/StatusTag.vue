@@ -44,11 +44,12 @@
   import { ComputedRef, computed } from 'vue';
 
   import { useI18n } from '../../i18n';
-  import { useRoute, useRouter } from '@/composition/router';
+  import { useRouter } from '@/composition/router';
+  import { useParams } from '@/router';
 
   const i18nLocal = useI18n();
   const router = useRouter();
-  const route = useRoute();
+  const routeParams = useParams();
 
   const props = withDefaults(
     defineProps<{
@@ -99,7 +100,7 @@
     if (item.key === 'm' && item.status) {
       router.push({
         name: 'observe-monitor-config',
-        params: route.params,
+        params: routeParams.value,
         query: {
           proj: props.item.projectName,
           env: props.item.environmentName,
@@ -113,7 +114,7 @@
     } else if (item.key === 'l' && item.status) {
       router.push({
         name: 'log-config',
-        params: route.params,
+        params: routeParams.value,
         query: {
           proj: props.item.projectName,
           env: props.item.environmentName,

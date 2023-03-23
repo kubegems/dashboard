@@ -100,8 +100,9 @@
   import MonitorTemplateForm from './components/MonitorTemplateForm.vue';
   import ResourceInfo from './components/ResourceInfo.vue';
   import { useI18n } from './i18n';
-  import { useRoute, useRouter } from '@/composition/router';
+  import { useRouter } from '@/composition/router';
   import { useGlobalI18n } from '@/i18n';
+  import { useParams } from '@/router';
   import { useStore } from '@/store';
   import { MonitorTemplate } from '@/types/monitor_template';
 
@@ -109,14 +110,14 @@
   const i18nLocal = useI18n();
   const store = useStore();
   const router = useRouter();
-  const route = useRoute();
+  const routeParams = useParams();
 
   const tab = ref<number>(0);
   const tabItems = [{ text: i18nLocal.t('tab.template_info'), value: ResourceInfo }];
 
   const template = ref<MonitorTemplate>(undefined);
   const getMonitorTemplate = async (): Promise<void> => {
-    const data = await new MonitorTemplate({ name: route.params.name }).getMonitorTemplate();
+    const data = await new MonitorTemplate({ name: routeParams.value.name }).getMonitorTemplate();
     template.value = data;
   };
 
@@ -134,7 +135,7 @@
       },
       doFunc: async () => {
         await new MonitorTemplate(template.value).deleteMonitorTemplate();
-        router.push({ name: 'monitor-template-list', params: route.params });
+        router.push({ name: 'monitor-template-list', params: routeParams.value });
       },
     });
   };

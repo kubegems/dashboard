@@ -116,17 +116,17 @@
 <script lang="ts" setup>
   import { onMounted, reactive, ref } from 'vue';
 
-  import { useRoute } from '@/composition/router';
   import { useTenantUserList } from '@/composition/tenant';
   import { useUserList } from '@/composition/user';
   import { useGlobalI18n } from '@/i18n';
+  import { useQuery } from '@/router';
   import { ResourceRole } from '@/types/role';
   import { Tenant } from '@/types/tenant';
   import { User } from '@/types/user';
   import { deepCopy } from '@/utils/helpers';
 
   const i18n = useGlobalI18n();
-  const route = useRoute();
+  const query = useQuery();
 
   const state = reactive({
     dialog: false,
@@ -166,7 +166,7 @@
   const tenantUserItems = ref<User[]>([]);
   const tenantUserItemsCopy = ref<User[]>([]);
   const tenantUserList = async (): Promise<void> => {
-    const data = await useTenantUserList(new Tenant({ ID: parseInt(route.query.id as string) }));
+    const data = await useTenantUserList(new Tenant({ ID: parseInt(query.value.id as string) }));
     tenantUserItems.value = data;
     tenantUserItemsCopy.value = deepCopy(tenantUserItems.value);
   };
@@ -202,7 +202,7 @@
     allUserItems.value.splice(index, 1);
     user.Role = state.tab === 0 ? ResourceRole.Ordinary : ResourceRole.Admin;
     tenantUserItems.value.push(user);
-    await new Tenant({ ID: parseInt(route.query.id as string) }).addUser(user, user.Role);
+    await new Tenant({ ID: parseInt(query.value.id as string) }).addUser(user, user.Role);
     emit('refresh');
   };
 
@@ -212,7 +212,7 @@
     });
     tenantUserItems.value.splice(index, 1);
     allUserItems.value.push(user);
-    await new Tenant({ ID: parseInt(route.query.id as string) }).deleteUser(user);
+    await new Tenant({ ID: parseInt(query.value.id as string) }).deleteUser(user);
     emit('refresh');
   };
 

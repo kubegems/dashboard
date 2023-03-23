@@ -58,14 +58,14 @@
   import moment from 'moment';
   import { ComputedRef, computed } from 'vue';
 
-  import { useRoute } from '@/composition/router';
   import { ENVIRONMENT_KEY, PROJECT_KEY } from '@/constants/label';
   import { useGlobalI18n } from '@/i18n';
+  import { useParams } from '@/router';
   import { useStore } from '@/store';
 
   const i18n = useGlobalI18n();
   const store = useStore();
-  const route = useRoute();
+  const routeParams = useParams();
 
   const props = withDefaults(
     defineProps<{
@@ -90,10 +90,10 @@
   });
 
   const projectName: ComputedRef<string> = computed(() => {
-    return props.item?.metadata?.labels?.[PROJECT_KEY] || route.params?.project || '';
+    return props.item?.metadata?.labels?.[PROJECT_KEY] || routeParams.value?.project || '';
   });
 
   const environmentName: ComputedRef<string> = computed(() => {
-    return props.item?.metadata?.labels?.[ENVIRONMENT_KEY] || route.params?.environment || '';
+    return props.item?.metadata?.labels?.[ENVIRONMENT_KEY] || routeParams.value?.environment || '';
   });
 </script>

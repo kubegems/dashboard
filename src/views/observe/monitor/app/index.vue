@@ -48,21 +48,22 @@
   import ServiceList from './components/ServiceList.vue';
   import ServiceSelect from './components/ServiceSelect.vue';
   import Trace from './components/Trace/index.vue';
-  import { useRoute, useRouter } from '@/composition/router';
+  import { useRouter } from '@/composition/router';
+  import { useQuery } from '@/router';
   import { useStore } from '@/store';
   import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade.vue';
 
   const i18nLocal = useI18n();
-  const route = useRoute();
   const router = useRouter();
   const store = useStore();
+  const query = useQuery();
 
   const env = ref({});
   const date = ref([]);
   const service = ref('');
 
   const tabMap: { [key: string]: number } = { service: 0, overview: 1, trace: 2 };
-  const tab = ref(tabMap[route.query.tab as string] || 0);
+  const tab = ref(tabMap[query.value.tab as string] || 0);
   const tabItems = [
     { text: i18nLocal.t('tab.service'), value: ServiceList, tab: 'service' },
     { text: i18nLocal.t('tab.overview'), value: Overview, tab: 'overview' },
@@ -70,7 +71,7 @@
   ];
   const tabChange = (): void => {
     router.replace({
-      query: { ...route.query, tab: tabItems[tab.value].tab },
+      query: { ...query.value, tab: tabItems[tab.value].tab },
     });
   };
 </script>

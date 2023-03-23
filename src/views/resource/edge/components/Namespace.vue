@@ -68,18 +68,20 @@
 
   import { useI18n } from '../i18n';
   import { useNamespacePagination } from '@/composition/namespace';
-  import { useRoute, useRouter } from '@/composition/router';
+  import { useRouter } from '@/composition/router';
   import { useGlobalI18n } from '@/i18n';
+  import { useParams, useQuery } from '@/router';
   import { Namespace } from '@/types/namespace';
 
   onMounted(() => {
     getNamespaceList();
   });
 
-  const route = useRoute();
   const router = useRouter();
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();
+  const query = useQuery();
+  const routeParams = useParams();
 
   const headers = [
     { text: i18nLocal.t('table.name'), value: 'name', align: 'start' },
@@ -99,12 +101,12 @@
   const getNamespaceList = async (params: KubePaginationRequest = pagination): Promise<void> => {
     const data: Pagination<Namespace> = await useNamespacePagination(
       new Namespace(),
-      route.params.name,
+      routeParams.value.name,
       params.page,
       params.size,
     );
     pagination = Object.assign(pagination, data);
-    router.replace({ query: { ...route.query, page: pagination.page.toString(), size: pagination.size.toString() } });
+    router.replace({ query: { ...query.value, page: pagination.page.toString(), size: pagination.size.toString() } });
   };
 
   const pageChange = (page: number): void => {

@@ -66,20 +66,22 @@
   import Namespace from './components/Namespace.vue';
   import Node from './components/Node.vue';
   import { useI18n } from './i18n';
-  import { useRoute, useRouter } from '@/composition/router';
+  import { useRouter } from '@/composition/router';
+  import { useParams, useQuery } from '@/router';
   import { useStore } from '@/store';
   import { EdgeCluster } from '@/types/edge_cluster';
   import EdgeClusterForm from '@/views/resource/cluster/components/EdgeClusterForm/index.vue';
   import Terminal from '@/views/resource/components/common/Terminal/index.vue';
 
-  const route = useRoute();
   const router = useRouter();
   const i18nLocal = useI18n();
   const store = useStore();
+  const query = useQuery();
+  const routeParams = useParams();
 
   onMounted(() => {
     nextTick(() => {
-      store.commit('SET_EDGE', route.params.name);
+      store.commit('SET_EDGE', routeParams.value.name);
     });
   });
 
@@ -89,7 +91,7 @@
     namespace: 2,
   };
 
-  const tab = ref<number>(tabMap[route.query.tab as string] || 0);
+  const tab = ref<number>(tabMap[query.value.tab as string] || 0);
 
   const tabItems = [
     { text: i18nLocal.t('tab.detail'), value: EdgeClusterC, tab: 'edge' },
@@ -99,14 +101,14 @@
 
   const tabChange = (): void => {
     router.replace({
-      query: { ...route.query, tab: tabItems[tab.value].tab },
+      query: { ...query.value, tab: tabItems[tab.value].tab },
     });
   };
 
   const date = ref([]);
 
   const getEdgeCluster = async (): Promise<EdgeCluster> => {
-    const item: EdgeCluster = await new EdgeCluster({ metadata: { name: route.params.name } }).getEdgeCluster();
+    const item: EdgeCluster = await new EdgeCluster({ metadata: { name: routeParams.value.name } }).getEdgeCluster();
     return item;
   };
 

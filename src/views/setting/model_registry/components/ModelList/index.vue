@@ -178,9 +178,9 @@
   import RecommendContent from './RecommendContent.vue';
   import TagModel from './TagModel.vue';
   import { useAiModelPagination } from '@/composition/ai_model';
-  import { useRoute, useRouter } from '@/composition/router';
+  import { useRouter } from '@/composition/router';
   import { useGlobalI18n } from '@/i18n';
-  import { useQuery } from '@/router';
+  import { useParams, useQuery } from '@/router';
   import { useStore } from '@/store';
   import { AIModel, AIModelRegistry } from '@/types/ai_model';
   import { deepCopy } from '@/utils/helpers';
@@ -188,8 +188,8 @@
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();
   const store = useStore();
-  const route = useRoute();
   const router = useRouter();
+  const routeParams = useParams();
 
   const props = withDefaults(
     defineProps<{
@@ -326,7 +326,7 @@
 
   const conditions = ref([]);
   const generateFilter = async (): Promise<void> => {
-    const data = await new AIModelRegistry({ name: route.params.name }).getSelector();
+    const data = await new AIModelRegistry({ name: routeParams.value.name }).getSelector();
     conditions.value.push({
       text: i18nLocal.t('filter.framework'),
       value: 'framework',
@@ -378,7 +378,7 @@
       name: 'modelstore-detail',
       params: { name: item.name },
       query: {
-        registry: route.params.name,
+        registry: routeParams.value.name,
         online: props.item.online.toString(),
       },
     });

@@ -167,19 +167,19 @@
 
   import TenantForm from './components/TenantForm.vue';
   import { useI18n } from './i18n';
-  import { useRoute, useRouter } from '@/composition/router';
+  import { useRouter } from '@/composition/router';
   import { useTenantPagination } from '@/composition/tenant';
   import intro from '@/extension/guide';
   import { useGlobalI18n } from '@/i18n';
-  import { useQuery } from '@/router';
+  import { useParams, useQuery } from '@/router';
   import { useStore } from '@/store';
   import { Tenant } from '@/types/tenant';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();
   const router = useRouter();
-  const route = useRoute();
   const store = useStore();
+  const routeParams = useParams();
 
   const headers = [
     { text: i18nLocal.t('table.name'), value: 'tenantName', align: 'start' },
@@ -282,7 +282,7 @@
   const tenantDetail = (item: Tenant): void => {
     router.push({
       name: 'tenant-detail',
-      params: Object.assign(route.params, { name: item.TenantName }),
+      params: Object.assign(routeParams.value, { name: item.TenantName }),
       query: { id: item.ID.toString() },
     });
   };

@@ -59,8 +59,8 @@
 
   import { useI18n } from '../../../i18n';
   import { useEnvironmentListInProject } from '@/composition/project';
-  import { useRoute } from '@/composition/router';
   import { useGlobalI18n } from '@/i18n';
+  import { useQuery } from '@/router';
   import { useStore } from '@/store';
   import { Environment } from '@/types/environment';
   import { Project } from '@/types/project';
@@ -79,7 +79,7 @@
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();
   const store = useStore();
-  const route = useRoute();
+  const query = useQuery();
 
   const state = reactive({
     dialog: false,
@@ -89,9 +89,9 @@
   let environmentItems = ref<Environment[]>([]);
   onMounted(() => {
     nextTick(async () => {
-      if (route.query.projid && route.query.proj) {
+      if (query.value.projid && query.value.proj) {
         environmentItems.value = await useEnvironmentListInProject(
-          new Project({ ID: route.query.projid, ProjectName: route.query.proj }),
+          new Project({ ID: query.value.projid, ProjectName: query.value.proj }),
         );
       }
     });

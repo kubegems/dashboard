@@ -162,7 +162,7 @@
           };
         }
         if (t) {
-          const variableItems = t.variables ? Object.keys(t.variables) : [];
+          const variableItems = t.variables ? Object.keys(t?.variables || {}) : [];
           return variableItems.concat(this.variables ? [this.variables] : []).map((v) => {
             return { text: v, value: v };
           });
@@ -183,8 +183,8 @@
             if (this.obj.template) {
               this.template = true;
             }
-            this.globalVariable = this.obj.variables && Object.keys(this.obj.variables).length > 0;
-            const keys = this.obj.variables ? Object.keys(this.obj.variables) : [];
+            this.globalVariable = this.obj.variables && Object.keys(this.obj?.variables || {}).length > 0;
+            const keys = this.obj.variables ? Object.keys(this.obj?.variables || {}) : [];
             if (keys.length > 0) {
               this.variables = keys[0];
               this.variableVal = this.obj.variables[this.variables].split(',').filter((v) => {

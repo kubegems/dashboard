@@ -235,7 +235,7 @@
   import { ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
   import { METATYPE_CN, RESOURCE_ROLE } from '@/constants/platform';
   import { useGlobalI18n } from '@/i18n';
-  import { useParams } from '@/router';
+  import { useParams, useQuery } from '@/router';
   import { useStore } from '@/store';
   import { Cluster } from '@/types/cluster';
   import { EdgeCluster } from '@/types/edge_cluster';
@@ -303,7 +303,7 @@
     state.loading = true;
     state.projectPagination = await useProjectListInTenant(new Tenant({ ID: store.getters.Tenant().ID }));
     state.project = state.projectPagination.findIndex((project: Project) => {
-      return project?.ProjectName === route.params.project;
+      return project?.ProjectName === params.value.project;
     });
 
     state.environmentPagination = await useEnvironmentListInProject(new Project(project.value));
@@ -315,8 +315,8 @@
       if (environment.value.AllowEdgeRegistration) {
         state.edgeClusterPagination = await useEdgeClusterList(new EdgeCluster(), {
           [ENVIRONMENT_KEY]: [params.value.environment],
-          [PROJECT_KEY]: [route.params.project],
-          [TENANT_KEY]: [route.params.tenant],
+          [PROJECT_KEY]: [params.value.project],
+          [TENANT_KEY]: [params.value.tenant],
         });
         state.edgeCluster = state.edgeClusterPagination.findIndex((edgeCluster: Cluster) => {
           return edgeCluster.ClusterName === store.state.Edge;
@@ -352,7 +352,7 @@
         state.edgeClusterPagination = await useEdgeClusterList(new EdgeCluster(), {
           [ENVIRONMENT_KEY]: [environment.value.EnvironmentName],
           [PROJECT_KEY]: [project.value?.ProjectName],
-          [TENANT_KEY]: [route.params.tenant],
+          [TENANT_KEY]: [params.value.tenant],
         });
       else state.edgeClusterPagination = [];
     } else {
@@ -364,8 +364,8 @@
     return state.edgeClusterPagination[state.edgeCluster] as Cluster;
   });
   let name: string = route.name;
-  let query = route.query;
-  let param = route.params;
+  let query = useQuery().value;
+  let param = params.value;
   const selectCluster = async (isEdge = false): Promise<void> => {
     if (isEdge) {
       if (cluster.value?.Status === 'Online') {

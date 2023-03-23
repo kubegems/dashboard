@@ -65,7 +65,7 @@
 
   import { useRoute, useRouter } from '@/composition/router';
   import { useGlobalI18n } from '@/i18n';
-  import { useQuery } from '@/router';
+  import { useParams, useQuery } from '@/router';
   import { deepCopy } from '@/utils/helpers';
 
   const props = withDefaults(
@@ -85,6 +85,7 @@
   const query = useQuery();
   const router = useRouter();
   const route = useRoute();
+  const routeParams = useParams();
 
   const combobox = reactive({
     conditions: [],
@@ -230,7 +231,7 @@
     // 处理多tab列表
     const tab = query.value.tab || null;
     await router.replace({
-      params: route.params,
+      params: routeParams.value,
       name: route.name,
       query: Object.assign({ tab: tab, ...query.value, ...{ page: 1 } }, params),
     });

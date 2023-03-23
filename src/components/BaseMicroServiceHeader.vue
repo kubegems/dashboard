@@ -115,7 +115,7 @@
             @click.stop
           >
             <v-icon left>mdi-kubernetes</v-icon>
-            {{ route.query.cluster }}
+            {{ query.cluster }}
           </v-btn>
         </v-sheet>
         <v-sheet class="text-subtitle-1 ml-4">
@@ -129,7 +129,7 @@
             @click.stop
           >
             <v-icon left>mdi-cloud</v-icon>
-            {{ route.query.environment }}
+            {{ query.environment }}
           </v-btn>
         </v-sheet>
       </template>
@@ -158,17 +158,18 @@
   import { inject, reactive, ref } from 'vue';
 
   import { useVirtualSpaceRole } from '@/composition/permission';
-  import { useRoute, useRouter } from '@/composition/router';
+  import { useRouter } from '@/composition/router';
   import { useVirtualSpaceList } from '@/composition/virtualspace';
   import { VIRTUALSPACE_ROLE } from '@/constants/platform';
   import { useGlobalI18n } from '@/i18n';
+  import { useQuery } from '@/router';
   import { useStore } from '@/store';
   import { VirtualSpace } from '@/types/virtualspace';
 
   const i18n = useGlobalI18n();
   const store = useStore();
   const router = useRouter();
-  const route = useRoute();
+  const query = useQuery();
 
   withDefaults(
     defineProps<{

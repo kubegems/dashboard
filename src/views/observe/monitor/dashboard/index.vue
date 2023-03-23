@@ -281,7 +281,7 @@
       async loadMetrics(init = true) {
         this.metrics = {};
         const dashboard = this.items[this.tab];
-        if (dashboard?.variables && Object.keys(dashboard.variables).length > 0) {
+        if (dashboard?.variables && Object.keys(dashboard.variables || {}).length > 0) {
           if (init) {
             this.variable = Object.keys(dashboard.variables)[0];
             this.variableValues = dashboard.variables[this.variable].split(',').filter((v) => {
@@ -392,7 +392,7 @@
         // });
 
         let metricItems = [];
-        Object.keys(data).forEach((key) => {
+        Object.keys(data || {}).forEach((key) => {
           const newData = data[key].map((d) => {
             return { metric: d.metric, values: d.values, key: key };
           });

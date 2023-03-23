@@ -74,9 +74,9 @@
   import { useI18n } from '../../i18n';
   import Pagination from '../Pagination.vue';
   import { useEdgeClusterPagination } from '@/composition/cluster';
-  import { useRoute } from '@/composition/router';
   import { EDGE_DEVICEID_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
   import { useGlobalI18n } from '@/i18n';
+  import { useParams } from '@/router';
   import { EdgeCluster } from '@/types/edge_cluster';
 
   onMounted(() => {
@@ -94,9 +94,9 @@
     Offline = '#9e9e9e',
   }
 
-  const route = useRoute();
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();
+  const routeParams = useParams();
 
   const headers = [
     { text: i18nLocal.t('edge.table.name'), value: 'name', align: 'start' },
@@ -115,7 +115,7 @@
 
   const getEdgeClusterList = async (params: KubePaginationRequest = pagination): Promise<void> => {
     const data: Pagination<EdgeCluster> = await useEdgeClusterPagination(new EdgeCluster(), params.page, params.size, {
-      [TENANT_KEY]: [route.params.tenant],
+      [TENANT_KEY]: [routeParams.value.tenant],
     });
     pagination = Object.assign(pagination, data);
   };

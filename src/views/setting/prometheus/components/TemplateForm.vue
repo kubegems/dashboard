@@ -41,14 +41,14 @@
   import { reactive, ref } from 'vue';
 
   import TemplateBaseForm from './TemplateBaseForm.vue';
-  import { useRoute } from '@/composition/router';
   import { useGlobalI18n } from '@/i18n';
+  import { useQuery } from '@/router';
   import { useStore } from '@/store';
   import { PrometheusTemplate } from '@/types/prometheus_template';
 
   const i18n = useGlobalI18n();
   const store = useStore();
-  const route = useRoute();
+  const query = useQuery();
 
   const state = reactive({
     dialog: false,
@@ -76,7 +76,7 @@
   const confirm = async (): Promise<void> => {
     if (form.value.validate()) {
       let data = form.value.getData();
-      data.resourceID = parseInt(route.query.resourceId as string);
+      data.resourceID = parseInt(query.value.resourceId as string);
       template.value = Object.assign(template.value, data);
       if (state.edit) {
         await new PrometheusTemplate(template.value).updatePrometheusTemplate('_all');

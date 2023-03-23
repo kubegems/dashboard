@@ -102,15 +102,15 @@
   import { ComputedRef, computed, reactive, ref } from 'vue';
 
   import { useI18n } from '../../../../../i18n';
-  import { useRoute } from '@/composition/router';
   import { useGlobalI18n } from '@/i18n';
+  import { useQuery } from '@/router';
   import { PrometheusRule } from '@/types/prometheus_rule';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();
-  const route = useRoute();
+  const query = useQuery();
 
   type Matcher = {
     index?: number;
@@ -225,12 +225,12 @@
     } else {
       params = {
         label: obj.name,
-        match: `{namespace="${route.query.namespace}"}`,
+        match: `{namespace="${query.value.namespace}"}`,
       };
     }
     const data: string[] = await new PrometheusRule({
-      cluster: route.query.cluster,
-      namespace: route.query.namespace,
+      cluster: query.value.cluster,
+      namespace: query.value.namespace,
       alertType: props.mode,
     }).getLabelValues(params);
     labelValueItems.value = data.map((d) => {

@@ -167,10 +167,10 @@
 
   import { useI18n } from './i18n';
   import { useEdgeClusterPagination } from '@/composition/cluster';
-  import { useRoute, useRouter } from '@/composition/router';
+  import { useRouter } from '@/composition/router';
   import { EDGE_DEVICEID_KEY, ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
   import { useGlobalI18n } from '@/i18n';
-  import { useQuery } from '@/router';
+  import { useParams, useQuery } from '@/router';
   import { useStore } from '@/store';
   import { EdgeCluster } from '@/types/edge_cluster';
   import EdgeClusterForm from '@/views/resource/cluster/components/EdgeClusterForm/index.vue';
@@ -191,9 +191,9 @@
 
   const store = useStore();
   const i18n = useGlobalI18n();
-  const route = useRoute();
   const router = useRouter();
   const i18nLocal = useI18n();
+  const routeParams = useParams();
 
   const filters = [
     { text: i18nLocal.t('filter.edge_name'), value: 'search', items: [] },
@@ -220,9 +220,9 @@
   });
 
   const labels = ref<{ [key: string]: string[] }>({
-    [ENVIRONMENT_KEY]: [route.params.environment],
-    [PROJECT_KEY]: [route.params.project],
-    [TENANT_KEY]: [route.params.tenant],
+    [ENVIRONMENT_KEY]: [routeParams.value.environment],
+    [PROJECT_KEY]: [routeParams.value.project],
+    [TENANT_KEY]: [routeParams.value.tenant],
   });
 
   const getEdgeClusterList = async (params: KubePaginationRequest = pagination): Promise<void> => {
@@ -311,7 +311,7 @@
     store.commit('SET_EDGE', item.metadata.name);
     router.push({
       name: 'edge-detail',
-      params: { ...route.params, name: item.metadata.name },
+      params: { ...routeParams.value, name: item.metadata.name },
       query: { edgeName: item.metadata.name },
     });
   };

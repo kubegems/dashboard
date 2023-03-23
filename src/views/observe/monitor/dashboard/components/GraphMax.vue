@@ -163,7 +163,7 @@
         });
 
         let metricItems = [];
-        Object.keys(data).forEach((key) => {
+        Object.keys(data || {}).forEach((key) => {
           const newData = data[key].map((d) => {
             delete d.metric['__name__'];
             delete d.metric['namespace'];
@@ -222,7 +222,7 @@
       },
       getLabelItems() {
         const firstTarget = this.graph.targets[0];
-        Object.keys(this.labels).forEach(async (label) => {
+        Object.keys(this.labels || {}).forEach(async (label) => {
           const params = firstTarget.promqlGenerator
             ? firstTarget.promqlGenerator
             : {

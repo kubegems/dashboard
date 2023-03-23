@@ -40,7 +40,7 @@
       <v-list-item-content class="kubegems__text">
         <v-list-item-title class="text-subtitle-2"> {{ i18nLocal.t('tip.model_count') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
-          {{ route.query.modelCount || 0 }}
+          {{ query.modelCount || 0 }}
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -84,8 +84,8 @@
   import VueI18n from 'vue-i18n';
 
   import { useI18n } from '../i18n';
-  import { useRoute } from '@/composition/router';
   import { LOGO_BLUE } from '@/constants/platform';
+  import { useQuery } from '@/router';
   import { AIModelRegistry } from '@/types/ai_model';
 
   const props = withDefaults(
@@ -98,7 +98,7 @@
   );
 
   const i18nLocal = useI18n();
-  const route = useRoute();
+  const query = useQuery();
 
   const getRegistryMeta = (item): { imgSrc: string; tip: VueI18n.TranslateResult; address: string } => {
     switch (item.name) {
