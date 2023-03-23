@@ -1,4 +1,10 @@
-# 1.23.7 (2023-3-22)
+# 1.23.7 (2023-3-23)
+
+### 🌟 新功能
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [feat: ✨ support user guide for platform] | [4e4d0c2](https://github.com/chenshunliang/dashboard/commit/4e4d0c2a62470ffd2a5da0fc4b5f639c771e21a8) |
 
 ### Bug Fixes
 

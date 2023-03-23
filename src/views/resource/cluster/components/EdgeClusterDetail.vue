@@ -59,9 +59,10 @@
   import { ComputedRef, computed, onMounted, reactive, ref } from 'vue';
 
   import { useEdgeClusterConvertToCluster } from '@/composition/cluster';
-  import { useRoute, useRouter } from '@/composition/router';
+  import { useRouter } from '@/composition/router';
   import { RESOURCE_CN, RESOURCE_EN, RESOURCE_ICON } from '@/constants/resource';
   import { useGlobalI18n } from '@/i18n';
+  import { useParams } from '@/router';
   import { Cluster } from '@/types/cluster';
   import { EdgeCluster } from '@/types/edge_cluster';
   import BasicMonitor from '@/views/resource/cluster/components/BasicMonitor/index.vue';
@@ -72,16 +73,16 @@
   onMounted(async () => {
     await router.replace({
       params: {
-        cluster: route.params.name,
+        cluster: routerParams.value.name,
       },
     });
     getCluster();
     getEdgeClusterStatistics();
   });
 
-  const route = useRoute();
   const router = useRouter();
   const i18n = useGlobalI18n();
+  const routerParams = useParams();
 
   let params = reactive({
     start: undefined,
@@ -103,12 +104,12 @@
   });
 
   const getCluster = async (): Promise<void> => {
-    const data: Cluster = await useEdgeClusterConvertToCluster(route.params.name);
+    const data: Cluster = await useEdgeClusterConvertToCluster(routerParams.value.name);
     cluster = Object.assign(cluster, data);
   };
 
   const getEdgeClusterStatistics = async (): Promise<any> => {
-    const data = await new EdgeCluster({ metadata: { name: route.params.name } }).getStatistics();
+    const data = await new EdgeCluster({ metadata: { name: routerParams.value.name } }).getStatistics();
     workloadsStatistics.value = data.workloads;
     quota.value = data.resources;
   };

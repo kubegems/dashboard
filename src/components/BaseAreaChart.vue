@@ -29,9 +29,9 @@
   import moment from 'moment';
   import { ComputedRef, computed, nextTick, onMounted, ref, watch } from 'vue';
 
-  import { useRoute } from '@/composition/router';
   import { LINE_THEME_COLORS, LINE_THEME_FUL_COLORS } from '@/constants/chart';
   import { useGlobalI18n } from '@/i18n';
+  import { useParams } from '@/router';
   import { useStore } from '@/store';
   import { randomString } from '@/utils/helpers';
 
@@ -90,7 +90,7 @@
 
   const store = useStore();
   const i18n = useGlobalI18n();
-  const route = useRoute();
+  const params = useParams();
 
   const allUnit = {
     short: ['n', 'u', 'm', '', 'K', 'Mil', 'Bil', 'Tri'],
@@ -406,7 +406,7 @@
         return Object.values(metricAndValues.metric)[0].toString();
       }
     }
-    return route.params.name || `${i18n.t('data.data')}${index + 1}`;
+    return params.value.name || `${i18n.t('data.data')}${index + 1}`;
   };
 
   const loadDatasets = (): any[] => {

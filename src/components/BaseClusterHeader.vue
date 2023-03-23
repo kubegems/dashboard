@@ -154,9 +154,9 @@
   import { ComputedRef, computed, inject, reactive } from 'vue';
 
   import { useClusterList, useEdgeClusterList } from '@/composition/cluster';
-  import { useRoute, useRouter } from '@/composition/router';
+  import { useRouter } from '@/composition/router';
   import { useGlobalI18n } from '@/i18n';
-  import { useParams } from '@/router';
+  import { useParams, useQuery } from '@/router';
   import { useStore } from '@/store';
   import { Cluster } from '@/types/cluster';
   import { EdgeCluster } from '@/types/edge_cluster';
@@ -179,7 +179,7 @@
   const i18n = useGlobalI18n();
   const store = useStore();
   const router = useRouter();
-  const route = useRoute();
+  const query = useQuery();
   type reloadHandler = () => void;
   const reload: reloadHandler = inject('reload');
   const state = reactive({
@@ -251,7 +251,7 @@
       }
       await router.replace({
         params: { cluster: cluster.value.ClusterName },
-        query: { ...route.query, namespace: null, page: '1' },
+        query: { ...query.value, namespace: null, page: '1' },
       });
       await store.dispatch('UPDATE_CLUSTER_DATA');
       state.menu = false;

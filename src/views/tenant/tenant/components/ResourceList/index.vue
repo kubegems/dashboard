@@ -113,7 +113,7 @@
 
 <script lang="ts" setup>
   import _ from 'lodash';
-  import { ComputedRef, computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
+  import { ComputedRef, computed, reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../../i18n';
   import AddResource from './AddResource.vue';

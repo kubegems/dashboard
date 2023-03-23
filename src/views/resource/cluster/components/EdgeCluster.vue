@@ -210,11 +210,11 @@
   import { useEdgeClusterPagination, useEdgeHubList } from '@/composition/cluster';
   import { useEnvironmentList } from '@/composition/environment';
   import { useProjectList } from '@/composition/project';
-  import { useRoute, useRouter } from '@/composition/router';
+  import { useRouter } from '@/composition/router';
   import { useTenantList } from '@/composition/tenant';
   import { EDGE_DEVICEID_KEY, ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
   import { useGlobalI18n } from '@/i18n';
-  import { useQuery } from '@/router';
+  import { useParams, useQuery } from '@/router';
   import { useStore } from '@/store';
   import { EdgeCluster } from '@/types/edge_cluster';
   import { EdgeHub } from '@/types/edge_hub';
@@ -238,7 +238,7 @@
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();
   const router = useRouter();
-  const route = useRoute();
+  const routeParams = useParams();
 
   const labels = ref<{ [key: string]: string[] }>({});
   let tenantList = ref<Tenant[]>([]);
@@ -436,7 +436,7 @@
     store.commit('SET_EDGE', item.metadata.name);
     router.push({
       name: 'cluster-detail',
-      params: { name: item.metadata.name, ...route.params },
+      params: { name: item.metadata.name, ...routeParams.value },
     });
   };
   const terminal = ref(null);

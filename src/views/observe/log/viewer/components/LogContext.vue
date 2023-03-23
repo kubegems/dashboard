@@ -17,23 +17,23 @@
 <template>
   <BaseFullScreenDialog v-model="visible" icon="mdi-note-text" :title="$t('tip.log_context')" @dispose="handleDispose">
     <template #content>
-      <v-card class="log-context" flat>
-        <div class="text-center py-3">
-          <v-btn color="primary" :loading="loading.preview" text x-small @click="handleLoadPreview">
-            {{ $t('operate.prev_10') }}
-          </v-btn>
-        </div>
+      <v-card id="log__context" class="log-context" flat>
+        <div v-scroll:#log__context="$_.debounce(onScroll, 50)">
+          <div v-if="loading.preview" class="text-center py-3 log-context__loading">
+            <BaseDropProgress />
+          </div>
 
-        <LogTable :items="items.preview" mode="context" />
+          <div id="log__pre" class="my-3" />
 
-        <LogTable highlight :items="items.current" mode="context" />
+          <LogTable :items="items.preview" mode="context" />
 
-        <LogTable :items="items.next" mode="context" />
+          <LogTable id="log__target" highlight :items="items.current" mode="context" />
 
-        <div class="text-center py-3">
-          <v-btn color="primary" :loading="loading.next" text x-small @click="handleLoadNext">
-            {{ $t('operate.next_10') }}
-          </v-btn>
+          <LogTable :items="items.next" mode="context" />
+
+          <div v-if="loading.next" class="text-center py-3 log-context__loading">
+            <BaseDropProgress />
+          </div>
         </div>
       </v-card>
     </template>
@@ -44,6 +44,7 @@
   import messages from '../../i18n';
   import LogTable from './LogTable';
   import { getLogContext } from '@/api';
+  import { sleep } from '@/utils/helpers';
 
   export default {
     name: 'LogContext',
@@ -104,7 +105,7 @@
         ).toString();
         const start = new Date(parseInt(timestamp.substr(0, 13)) - 1000 * 60 * 60 * 3).getTime() + '000000';
         const end = parseInt(timestamp).toString();
-        const data = await this.getLogContext(start, end, 'backward', 11);
+        const data = await this.getLogContext(start, end, 'backward', 20);
         if (!this.items.preview.length) data.pop();
         const uniqueArray = Array.from(
           new Set(
@@ -117,6 +118,11 @@
           return JSON.parse(d);
         });
         this.loading.preview = false;
+        await sleep(200);
+        document.getElementById('log__context').scrollTo({
+          top: 350,
+          behavior: 'smooth',
+        });
       },
       async handleLoadNext() {
         this.loading.next = true;
@@ -125,7 +131,7 @@
         ).toString();
         const start = parseInt(timestamp).toString();
         const end = new Date(parseInt(timestamp.substr(0, 13)) + 1000 * 60 * 60 * 3).getTime() + '000000';
-        const data = await this.getLogContext(start, end, 'forward', 11);
+        const data = await this.getLogContext(start, end, 'forward', 20);
         const uniqueArray = Array.from(
           new Set(
             [...this.items.next, ...data].map((d) => {
@@ -145,6 +151,13 @@
         this.loading.preview = false;
         this.loading.next = false;
       },
+      async onScroll(e) {
+        if (e.target.scrollTop + document.getElementById('log__context').clientHeight >= e.target.scrollHeight - 1) {
+          await this.handleLoadNext();
+        } else if (e.target.scrollTop === 0) {
+          await this.handleLoadPreview();
+        }
+      },
     },
   };
 </script>
@@ -157,6 +170,7 @@
     bottom: 0;
     left: 0;
     overflow: auto;
+    padding: 8px;
 
     &::-webkit-scrollbar {
       display: block !important;
@@ -169,6 +183,11 @@
     }
     &::-webkit-scrollbar:vertical {
       width: 10px;
+    }
+
+    &__loading {
+      position: relative;
+      height: 70px;
     }
   }
 </style>

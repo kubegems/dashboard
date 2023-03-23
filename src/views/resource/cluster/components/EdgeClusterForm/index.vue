@@ -58,9 +58,9 @@
   import RegisterEdgeCluster from './RegisterEdgeCluster.vue';
   import RegisterMessage from './RegisterMessage.vue';
   import SelectCloudCluster from './SelectCloudCluster.vue';
-  import { useRoute } from '@/composition/router';
   import { ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@/constants/label';
   import { useGlobalI18n } from '@/i18n';
+  import { useParams } from '@/router';
   import { useStore } from '@/store';
   import { EdgeCluster } from '@/types/edge_cluster';
 
@@ -75,7 +75,7 @@
 
   const store = useStore();
   const i18n = useGlobalI18n();
-  const route = useRoute();
+  const routeParams = useParams();
 
   const state = reactive({
     dialog: false,
@@ -120,9 +120,9 @@
           : (async () => {
               if (props.inEnv) {
                 edgeCluster.value.metadata.labels = Object.assign(edgeCluster.value.metadata.labels, {
-                  [ENVIRONMENT_KEY]: route.params.environment,
-                  [PROJECT_KEY]: route.params.project,
-                  [TENANT_KEY]: route.params.tenant,
+                  [ENVIRONMENT_KEY]: routeParams.value.environment,
+                  [PROJECT_KEY]: routeParams.value.project,
+                  [TENANT_KEY]: routeParams.value.tenant,
                 });
               }
               edgeCluster.value = await new EdgeCluster(edgeCluster.value).addEdgeCluster();

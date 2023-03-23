@@ -168,8 +168,9 @@
 
   import { useI18n } from '../i18n';
   import { useNodePagination } from '@/composition/node';
-  import { useRoute, useRouter } from '@/composition/router';
+  import { useRouter } from '@/composition/router';
   import { useGlobalI18n } from '@/i18n';
+  import { useParams, useQuery } from '@/router';
   import { useStore } from '@/store';
   import { Node } from '@/types/node';
   import { sizeOfStorage } from '@/utils/helpers';
@@ -178,11 +179,12 @@
     getNodeList();
   });
 
-  const route = useRoute();
   const router = useRouter();
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();
   const store = useStore();
+  const query = useQuery();
+  const routeParams = useParams();
 
   const headers = [
     { text: i18nLocal.t('table.name'), value: 'name', align: 'start' },
@@ -206,9 +208,14 @@
   });
 
   const getNodeList = async (params: KubePaginationRequest = pagination): Promise<void> => {
-    const data: Pagination<Node> = await useNodePagination(new Node(), route.params.name, params.page, params.size);
+    const data: Pagination<Node> = await useNodePagination(
+      new Node(),
+      routeParams.value.name,
+      params.page,
+      params.size,
+    );
     pagination = Object.assign(pagination, data);
-    router.replace({ query: { ...route.query, page: pagination.page.toString(), size: pagination.size.toString() } });
+    router.replace({ query: { ...query.value, page: pagination.page.toString(), size: pagination.size.toString() } });
   };
 
   const pageChange = (page: number): void => {
@@ -280,7 +287,7 @@
       },
       param: { item },
       doFunc: async (param) => {
-        await new Node(param.item).patchCordonNode(route.params.name, true);
+        await new Node(param.item).patchCordonNode(routeParams.value.name, true);
         getNodeList();
       },
     });
@@ -294,7 +301,7 @@
       },
       param: { item },
       doFunc: async (param) => {
-        await new Node(param.item).patchCordonNode(route.params.name, false);
+        await new Node(param.item).patchCordonNode(routeParams.value.name, false);
         getNodeList();
       },
     });

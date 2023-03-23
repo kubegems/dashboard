@@ -137,7 +137,7 @@
 
   import { useI18n } from './i18n';
   import { useClusterList } from '@/composition/cluster';
-  import { useRoute, useRouter } from '@/composition/router';
+  import { useRouter } from '@/composition/router';
   import { useClusterListInTenant, useEnvironmentListInTenant } from '@/composition/tenant';
   import { useGlobalI18n } from '@/i18n';
   import { useQuery } from '@/router';
@@ -150,7 +150,7 @@
   const i18nLocal = useI18n();
   const store = useStore();
   const router = useRouter();
-  const route = useRoute();
+  const query = useQuery();
 
   const date = ref([]);
   const datetimeChanged = (): void => {
@@ -258,7 +258,7 @@
       clusterItems.value = await useClusterList(new Cluster());
     }
     if (clusterItems.value.length > 0 && !pagination.request.clustername) {
-      router.replace({ query: { clustername: clusterItems.value[0].ClusterName, ...route.query } });
+      router.replace({ query: { clustername: clusterItems.value[0].ClusterName, ...query.value } });
     }
   };
   const filters: ComputedRef<any[]> = computed(() => {
@@ -341,7 +341,6 @@
       },
     ];
   });
-  const query = useQuery();
   watch(
     () => query.value.message,
     async (newValue, oldValue) => {

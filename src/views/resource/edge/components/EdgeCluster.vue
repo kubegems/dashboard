@@ -51,9 +51,9 @@
   import { ComputedRef, computed, onMounted, reactive, ref, watch } from 'vue';
 
   import { useEdgeClusterConvertToCluster } from '@/composition/cluster';
-  import { useRoute } from '@/composition/router';
   import { RESOURCE_CN, RESOURCE_EN, RESOURCE_ICON } from '@/constants/resource';
   import { useGlobalI18n } from '@/i18n';
+  import { useParams } from '@/router';
   import { Cluster } from '@/types/cluster';
   import { EdgeCluster } from '@/types/edge_cluster';
   import BasicMonitor from '@/views/resource/cluster/components/BasicMonitor/index.vue';
@@ -94,8 +94,8 @@
     },
   );
 
-  const route = useRoute();
   const i18n = useGlobalI18n();
+  const routeParams = useParams();
 
   let workloadsStatistics = ref({});
   let quota = ref({
@@ -112,12 +112,12 @@
   });
 
   const getCluster = async (): Promise<void> => {
-    const data: Cluster = await useEdgeClusterConvertToCluster(route.params.name);
+    const data: Cluster = await useEdgeClusterConvertToCluster(routeParams.value.name);
     cluster = Object.assign(cluster, data);
   };
 
   const getEdgeClusterStatistics = async (): Promise<any> => {
-    const data = await new EdgeCluster({ metadata: { name: route.params.name } }).getStatistics();
+    const data = await new EdgeCluster({ metadata: { name: routeParams.value.name } }).getStatistics();
     workloadsStatistics.value = data.workloads;
     quota.value = data.resources;
   };

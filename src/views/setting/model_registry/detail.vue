@@ -72,22 +72,23 @@
   import ModelList from './components/ModelList/index.vue';
   import ModelRegistryForm from './components/ModelRegistryForm/index.vue';
   import { useEnvironmentAllow } from '@/composition/permission';
-  import { useRoute, useRouter } from '@/composition/router';
+  import { useRouter } from '@/composition/router';
   import { useGlobalI18n } from '@/i18n';
+  import { useParams } from '@/router';
   import { useStore } from '@/store';
   import { AIModelRegistry } from '@/types/ai_model';
 
   const i18n = useGlobalI18n();
   const store = useStore();
   const router = useRouter();
-  const route = useRoute();
+  const routeParams = useParams();
 
   const tab = ref(0);
   const tabItems = [{ text: i18n.t('header.model_store'), value: ModelList }];
 
   const registry = ref<AIModelRegistry>(undefined);
   const getModelRegistryDetail = async (): Promise<void> => {
-    registry.value = await new AIModelRegistry({ name: route.params.name }).getRegistryByAdmin();
+    registry.value = await new AIModelRegistry({ name: routeParams.value.name }).getRegistryByAdmin();
   };
 
   onMounted(() => {

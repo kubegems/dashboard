@@ -50,13 +50,14 @@
 
   import { useI18n } from '../i18n';
   import ScopeResourceTree from './ScopeResourceTree.vue';
-  import { useRoute, useRouter } from '@/composition/router';
+  import { useRouter } from '@/composition/router';
   import { useGlobalI18n } from '@/i18n';
+  import { useQuery } from '@/router';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();
   const router = useRouter();
-  const route = useRoute();
+  const query = useQuery();
 
   const resource = ref(undefined);
 
@@ -64,7 +65,7 @@
     if (resource) {
       router.replace({
         query: {
-          ...route.query,
+          ...query.value,
           scopeId: resource?.scopeId,
           resourceId: resource?.id,
         },
