@@ -245,11 +245,11 @@
     });
     if (data) {
       duration.value = data;
-      const values = data[0].values.map((d) => {
+      const values = data[0]?.values?.map((d) => {
         return d[1] as number;
       });
       const maxDur = Math.max(...values);
-      const maxTime = data[0].values[
+      const maxTime = data[0]?.values?.[
         values.findIndex((v) => {
           return v.toString() === maxDur.toString();
         })
@@ -258,7 +258,7 @@
       statistics.value[1].t = moment(data[0] ? maxTime * 1000 : 0).format('YYYY-MM-DD HH:mm:ss');
 
       const minDur = Math.min(...values);
-      const minTime = data[0].values[
+      const minTime = data[0]?.values?.[
         values.findIndex((v) => {
           return v.toString() === minDur.toString();
         })
@@ -281,7 +281,7 @@
     if (data) {
       const all = data.length;
       const success = data.filter((d) => {
-        return d.values[0][1] === '1';
+        return d.values?.[0]?.[1] === '1';
       }).length;
       statistics.value[3].v = `${((success / all) * 100).toFixed(1)}%`;
       statistics.value[3].t = '--';

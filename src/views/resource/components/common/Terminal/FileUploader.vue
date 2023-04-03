@@ -80,12 +80,21 @@
         formData.append('dest', `${destDir}`);
 
         const request = new XMLHttpRequest();
-        request.open(
-          'POST',
-          `/api/v1/proxy/cluster/${getQueryString('t_cluster')}/custom/core/v1/namespaces/${getQueryString(
-            't_namespace',
-          )}/pods/${getQueryString('t_pod')}/actions/upfile?container=${container}`,
-        );
+        if (store.state.Edge) {
+          request.open(
+            'POST',
+            `/api/v1/edge-clusters/${getQueryString('t_cluster')}/proxy/custom/core/v1/namespaces/${getQueryString(
+              't_namespace',
+            )}/pods/${getQueryString('t_pod')}/actions/upfile?container=${container}`,
+          );
+        } else {
+          request.open(
+            'POST',
+            `/api/v1/proxy/cluster/${getQueryString('t_cluster')}/custom/core/v1/namespaces/${getQueryString(
+              't_namespace',
+            )}/pods/${getQueryString('t_pod')}/actions/upfile?container=${container}`,
+          );
+        }
         request.setRequestHeader('Authorization', `Bearer ${store.state.JWT}`);
 
         request.upload.onprogress = (e) => {
