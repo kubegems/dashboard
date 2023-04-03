@@ -511,12 +511,12 @@ const select: { [key: string]: any } = {
       });
       this.m_select_projectItems = projectSelect;
     },
-    async m_select_registrySelectData(): Promise<void> {
+    async m_select_registrySelectData(noprocessing = false): Promise<void> {
       let data: { [key: string]: any } = null;
       if (this.AdminViewport) {
-        data = await registrySelectData();
+        data = await registrySelectData({ noprocessing: noprocessing });
       } else {
-        data = await projectRegistrySelectData(this.Project().ID);
+        data = await projectRegistrySelectData(this.Project().ID, { noprocessing: noprocessing });
       }
       const registrySelect: { [key: string]: string }[] = [];
       convertResponse2List(data as KubePaginationResponse<{ RegistryAddress: string; RegistryName: string }[]>).forEach(

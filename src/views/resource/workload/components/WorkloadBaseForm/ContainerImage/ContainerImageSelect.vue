@@ -236,15 +236,15 @@
             size: 1000,
           });
           this.m_select_registryItems = convertResponse2List(data).map((d) => {
-            if (d.type === 'kubernetes.io/dockerconfigjson') {
+            if (d.secret.type === 'kubernetes.io/dockerconfigjson') {
               return {
-                text: d.metadata.name,
-                value: d.metadata.name,
+                text: d.secret.metadata.name,
+                value: d.secret.metadata.name,
               };
             }
           });
         } else {
-          this.m_select_registrySelectData();
+          this.m_select_registrySelectData(true);
         }
         this.updateImage();
       },
