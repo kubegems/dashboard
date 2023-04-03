@@ -36,7 +36,7 @@
           prepend-inner-icon="mdi-cube"
           solo
           @change="onNamespaceFilterChange"
-          @focus="onNamespaceSelectFocus(Cluster().ClusterName)"
+          @focus="onNamespaceSelectFocus"
         >
           <template #selection="{ item, selected }">
             <v-chip
@@ -134,7 +134,11 @@
         this.reload();
       },
       onNamespaceSelectFocus(clusterName) {
-        this.m_select_namespaceSelectData(clusterName, { noprocessing: true });
+        let cluster = this.Cluster().ClusterName;
+        if (this.Edge) {
+          cluster = this.Edge;
+        }
+        this.m_select_namespaceSelectData(cluster, { noprocessing: true });
       },
     },
   };
