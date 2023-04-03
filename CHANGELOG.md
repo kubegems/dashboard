@@ -1,4 +1,4 @@
-# 1.23.7 (2023-3-23)
+# 1.23.7 (2023-4-3)
 
 ### 🌟 新功能
 
@@ -13,6 +13,9 @@
 | - | [fix: 🐛 fix json schema render bug and fix list sort bug] | [9e1ee94](https://github.com/chenshunliang/dashboard/commit/9e1ee94f81e82add42583bc637f500249a108ec9) |
 | - | [fix: 🐛 fix json schema init bug, fix app store list data bug] | [f2ff4f2](https://github.com/chenshunliang/dashboard/commit/f2ff4f261febb146156714725d117a521ecf6d4b) |
 | - | [fix: 🐛 fix resource approve api bug] | [5c7199a](https://github.com/chenshunliang/dashboard/commit/5c7199a21e4b6ee45203ea116030519db1fa4c72) |
+| - | [fix: 🐛 fix create edge workload can not find registry secret bug] | [f30f174](https://github.com/chenshunliang/dashboard/commit/f30f174dd117c09452b310388e0165133f8ea5d5) |
+| - | [fix: 🐛 fix edge pod upload url error bug] | [f30f174](https://github.com/chenshunliang/dashboard/commit/f30f174dd117c09452b310388e0165133f8ea5d5) |
+| - | [fix: 🐛 fix edge resource list namespace error bug] | [e696111](https://github.com/chenshunliang/dashboard/commit/e69611142f61ad26c90ef2f3f1e1b199f103a3ad) |
 
 ### 🔨 reflactor
 

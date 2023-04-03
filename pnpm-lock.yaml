@@ -410,6 +410,12 @@ importers:
       moment:
         specifier: ^2.29.4
         version: 2.29.4
+      vue:
+        specifier: ^2.7.14
+        version: 2.7.14
+      vue-clipboard2:
+        specifier: ^0.3.3
+        version: 0.3.3
       vue-i18n:
         specifier: ^8.27.2
         version: 8.28.2(vue@2.7.14)
@@ -423,36 +429,7 @@ importers:
         specifier: ^3.6.2
         version: 3.6.2(vue@2.7.14)
 
-  packages/kubegems:
-    dependencies:
-      '@kubegems/components':
-        specifier: workspace:*
-        version: link:../components
-      '@kubegems/extension':
-        specifier: workspace:*
-        version: link:../extension
-      '@kubegems/libs':
-        specifier: workspace:*
-        version: link:../libs
-
-  packages/layout:
-    dependencies:
-      '@kubegems/api':
-        specifier: workspace:*
-        version: link:../api
-      '@kubegems/components':
-        specifier: workspace:*
-        version: link:../components
-      '@kubegems/extension':
-        specifier: workspace:*
-        version: link:../extension
-      '@kubegems/libs':
-        specifier: workspace:*
-        version: link:../libs
-
   packages/libs: {}
-
-  packages/nacos: {}
 
 packages:
 
