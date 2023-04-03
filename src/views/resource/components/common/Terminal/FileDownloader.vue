@@ -56,7 +56,7 @@
       };
     },
     computed: {
-      ...mapState(['JWT']),
+      ...mapState(['JWT', 'Edge']),
     },
     watch: {
       left: {
@@ -70,9 +70,15 @@
     },
     methods: {
       async download() {
-        window.open(
-          `/api/v1/proxy/cluster/${this.$route.query.t_cluster}/custom/core/v1/namespaces/${this.$route.query.t_namespace}/pods/${this.$route.query.t_pod}/actions/file?filename=${this.file}&token=${this.JWT}&container=${this.container}`,
-        );
+        if (this.Edge) {
+          window.open(
+            `/api/v1/edge-clusters/${this.$route.query.t_cluster}/proxy/custom/core/v1/namespaces/${this.$route.query.t_namespace}/pods/${this.$route.query.t_pod}/actions/file?filename=${this.file}&token=${this.JWT}&container=${this.container}`,
+          );
+        } else {
+          window.open(
+            `/api/v1/proxy/cluster/${this.$route.query.t_cluster}/custom/core/v1/namespaces/${this.$route.query.t_namespace}/pods/${this.$route.query.t_pod}/actions/file?filename=${this.file}&token=${this.JWT}&container=${this.container}`,
+          );
+        }
       },
       getFile() {
         const index = this.file.lastIndexOf('/');
