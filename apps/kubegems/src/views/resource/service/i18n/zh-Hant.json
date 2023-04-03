@@ -1,0 +1,32 @@
+{
+  "filter": {
+    "service_name": "服務名稱"
+  },
+  "table": {
+    "name": "名稱",
+    "access_info": "訪問資訊",
+    "service_type": "服務類型（ExternalIp/LoadBalancerIp）"
+  },
+  "tip": {
+    "add_port_tip": "請添加端口配置",
+    "label": "匹配標籤",
+    "type": "類型",
+    "service_port": "服務端口",
+    "container_port": "容器端口",
+    "host_port": "主機端口",
+    "link_workload": "關聯工作負載",
+    "access_type": "訪問類型",
+    "extend_access": "外部訪問",
+    "keep_alive": "工作階段保持（秒）",
+    "port_config": "端口配置",
+    "port": "端口",
+    "annotation": "註解",
+    "no_access": "禁止訪問",
+    "app_protocol": "應用協定",
+    "protocol": "協定"
+  },
+  "form": {
+    "name_rule": "名稱格式錯誤（<protocol>[-<suffix>]）",
+    "limit_max_rule": "超出最大限制"
+  }
+}

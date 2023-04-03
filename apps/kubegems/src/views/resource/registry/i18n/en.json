@@ -1,0 +1,26 @@
+{
+  "tip": {
+    "select_project": "Please select items first",
+    "enable_scan": "Enable mirror scanning and analysis",
+    "yes": "Yes",
+    "no": "No",
+    "set_default": "Place mirror repository {0} as default repository",
+    "cancel_default": "Canceling default settings for repository {0}"
+  },
+  "filter": {
+    "registry_name": "Image repository name"
+  },
+  "table": {
+    "name": "Repository Name",
+    "address": "Repository Address",
+    "default": "Default repository",
+    "username": "Username",
+    "creator": "Created By",
+    "last_update_at": "Last updated",
+    "passwd": "Password"
+  },
+  "operate": {
+    "set_default": "Set Default Repository",
+    "cancel_default": "Cancel Default Repository"
+  }
+}

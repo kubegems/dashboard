@@ -1,0 +1,29 @@
+{
+  "table": {
+    "name": "Name",
+    "unit": "Units",
+    "rule": "Rules",
+    "label": "Tags"
+  },
+  "form": {
+    "name": "Name",
+    "show_name": "Display Name",
+    "label": "Labels (enter)",
+    "unit": "Units",
+    "description": "Description"
+  },
+  "tip": {
+    "group_and_resource": "Group/Resources",
+    "group": "Group",
+    "select_resource": "Please select a resource",
+    "default": "Default",
+    "byte": "Bytes",
+    "byte_rate": "Byte Rate",
+    "time": "Time",
+    "precent": "Percentage",
+    "custom": "Custom"
+  },
+  "filter": {
+    "search": "Search"
+  }
+}

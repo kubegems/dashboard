@@ -1,0 +1,9 @@
+{
+  "table": {
+    "name": "Side name",
+    "label": "Match Tags"
+  },
+  "filter": {
+    "sidecar_name": "Side name"
+  }
+}

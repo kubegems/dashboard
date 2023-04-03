@@ -1,0 +1,50 @@
+{
+  "tip": {
+    "detail": "詳情",
+    "version": "版本",
+    "desc": "簡介",
+    "registry": "倉庫",
+    "app_version": "應用版本",
+    "maintainer": "維護者",
+    "create_at": "創建時間",
+    "error_info": "錯誤資訊",
+    "deploying": "部署中，請等待",
+    "deploy_success": "部署成功",
+    "view_deploy_status": "查看部署狀態",
+    "third_registry": "第三方倉庫",
+    "advise": "建議",
+    "third_registry_deploy": "第三方倉庫，建議使用values.yaml配置",
+    "values_error": "獲取values.yaml失敗",
+    "params_check_error": "參數校驗失敗",
+    "project_is_null": "缺少專案",
+    "environment_is_null": "缺少環境",
+    "base_info": "基本配置",
+    "advance_setting": "詳細配置",
+    "complete": "完成",
+    "bitnami": "Bitnami 讓您可以輕鬆地在任何平台上啟動和運行您最喜歡的開源軟體，包括您的筆記型電腦、Kubernetes 和所有主要雲。",
+    "kubegems": "一個描述Kubernetes相關資源的檔集合，單個應用可以用來部署某些複雜的HTTP伺服器以及web全棧應用、資料庫、緩存等。",
+    "chartmuseum": "ChartMuseum 是一個開源的、易於部署的、Helm Chart 儲存庫伺服器。",
+    "banzaicloud": "構建操作系統用於您的容器和雲",
+    "hashicorp": "HashiCorp 提供一致的工作流程來為任何應用程序配置、保護、連接和運行任何基礎設施。",
+    "grafana": "Grafana 是適用於每個數據庫的開源分析和監控解決方案。",
+    "opentelemetry": "高質量、無處不在的便攜式遙測技術，以實現有效的可觀測性。",
+    "kubecost": "Kubecost 的團隊使用 Kubernetes 的真實成本和持續性為力，幫助您不斷降低云成本。",
+    "scylla": "ScyllaDB 是用於需要高性能和低延遲的數據密集型應用程序的分佈式數據庫。",
+    "no_i18n_file": "不存在翻譯文件，使用原始語言",
+    "copyed": "已複製到粘貼板"
+  },
+  "filter": {
+    "name": "應用名稱"
+  },
+  "form": {
+    "name": "名稱",
+    "appname": "應用名稱",
+    "address": "位址",
+    "version": "版本"
+  },
+  "tab": {
+    "form": "Schema表單",
+    "app_detail": "應用詳情",
+    "config_file": "配置檔"
+  }
+}

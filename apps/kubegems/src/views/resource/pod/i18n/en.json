@@ -1,0 +1,60 @@
+{
+  "filter": {
+    "pod_name": "Container Group Name",
+    "status": "Status"
+  },
+  "table": {
+    "name": "Container Group",
+    "status": "Status",
+    "container_count": "Containers",
+    "restart_count": "Restart count",
+    "used": "{0} Usage",
+    "container_name": "Container Name",
+    "image": "Mirror"
+  },
+  "tab": {
+    "container": "Container"
+  },
+  "tip": {
+    "no_limit": "No limit",
+    "probe": "Probe",
+    "live_probe": "Survival Probe",
+    "read_probe": "Stap Ready",
+    "start_probe": "Boot Probe",
+    "no_operate": "Unoperable",
+    "in_traffic": "Network access traffic",
+    "out_traffic": "Network export traffic",
+    "ip": "{0} IP",
+    "volume": "Volume",
+    "env": "Environment Variables",
+    "condition": "Status",
+    "last_change_at": "Last changed time",
+    "last_state": "Latest status",
+    "exit_code": "Exit code",
+    "reason": "Reason",
+    "started_at": "Last Started at",
+    "finished_at": "Last End at",
+    "last_start_at": "Latest Start at",
+    "load": "Load",
+    "cpu_rate": "CPU Usage",
+    "memory_rate": "Memory usage",
+    "memory_used_status": "Memory Used Status",
+    "network": "Network bandwidth",
+    "remain_storage": "Disk remaining capacity",
+    "disk_iops": "Disk IOPS",
+    "load_1": "1 minute load",
+    "load_5": "5 Minutes Load",
+    "load_15": "15 mins load",
+    "write_iops": "Write to IOPS",
+    "read_iops": "read IOPS",
+    "total_memory": "Total",
+    "used_memory": "Used",
+    "buffer_memory": "Buffers",
+    "cached_memory": "Cached",
+    "node_monitor": "Monitoring of the node where the pods resides"
+  },
+  "operate": {
+    "terminal": "Terminal",
+    "log": "Logs"
+  }
+}

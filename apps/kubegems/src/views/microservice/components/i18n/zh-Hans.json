@@ -1,0 +1,36 @@
+{
+  "tip": {
+    "missing_plugin": "该应用环境所在集群暂时还未启用 {0} 插件！",
+    "plugin_tip": "您可以联系平台管理员启用该插件",
+    "select_environment": "请选择应用环境",
+    "start_end_time": "起止时间",
+    "limit_count": "限制条数",
+    "auto_inject": "自动注入",
+
+    "request_count": "请求量",
+    "realtime_rate": "实时速率",
+    "last_24_hours": "过去24h",
+    "response_time": "响应时间",
+    "realtime": "实时",
+    "error_request": "异常请求数",
+    "traffic": "流量",
+    "status": "状态",
+    "replicas": "副本",
+    "replicas_updated": "{0}个副本已更新",
+    "replicas_ready": "{0}个副本已就绪",
+    "replicas_available": "{0}个副本可用",
+    "replicas_unavailable": "{0}个副本不可用"
+  },
+  "table": {
+    "ingress": "入口流量",
+    "egress": "出口流量",
+    "name": "名称",
+    "rate": "速率",
+    "success_precent": "成功率",
+    "protocol": "协议",
+    "label": "标签",
+    "port": "端口",
+    "service_ip": "服务IP",
+    "pod_count": "容器组数量"
+  }
+}

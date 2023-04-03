@@ -1,0 +1,17 @@
+{
+  "table": {
+    "name": "Snapshot Name",
+    "class": "Snapshot Class",
+    "origin_pvc": "Source Storage Volume"
+  },
+  "filter": {
+    "snapshot_name": "Snapshot Name"
+  },
+  "operate": {
+    "restore": "Snapshot recovery"
+  },
+  "form": {
+    "name": "Snapshot",
+    "pvc_name": "Storage volume name"
+  }
+}

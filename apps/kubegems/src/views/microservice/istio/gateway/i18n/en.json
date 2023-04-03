@@ -1,0 +1,9 @@
+{
+  "table": {
+    "name": "Gateway Name",
+    "selector": "Match Tags"
+  },
+  "filter": {
+    "gateway_name": "Gateway Name"
+  }
+}

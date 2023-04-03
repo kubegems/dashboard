@@ -1,0 +1,68 @@
+{
+  "tab": {
+    "message": "消息盒子",
+    "audit": "操作歷史",
+    "setting": "個人設置",
+    "auth": "認證"
+  },
+  "table": {
+    "email": "郵箱",
+    "mobile": "手機號",
+    "registe_at": "註冊時間",
+    "last_login_at": "上次登錄"
+  },
+  "message": {
+    "table": {
+      "message": "消息",
+      "time": "時間",
+      "type": "類型"
+    },
+    "filter": {
+      "notify": "通知",
+      "approval": "審批",
+      "alert": "告警"
+    }
+  },
+  "audit": {
+    "table": {
+      "trigger_time": "觸發時間",
+      "tenant": "租戶",
+      "account": "使用者",
+      "operate": "操作",
+      "object": "物件",
+      "label": "標籤",
+      "status": "狀態"
+    }
+  },
+  "setting": {
+    "tip": {
+      "personal_info": "個人資訊",
+      "old": "原{0}",
+      "new": "新{0}",
+      "confirm_passwd": "確認新密碼",
+      "i18n": "語言",
+      "auth": "認證資訊",
+      "exprie": "過期時間（秒）"
+    }
+  },
+  "operate": {
+    "generate_c": "產生{0}"
+  },
+  "auth": {
+    "table": {
+      "expired": "是否過期",
+      "expire_at": "過期時間",
+      "grant_type": "授權類型",
+      "yes": "是",
+      "no": "否"
+    },
+    "tip": {
+      "copyed": "已複製到粘貼板"
+    }
+  },
+  "token": {
+    "tip": {
+      "token_tip": "時間設置為 0 表示 token 永不過期"
+    }
+  }
+}

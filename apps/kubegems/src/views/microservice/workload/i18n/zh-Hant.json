@@ -1,0 +1,30 @@
+{
+  "table": {
+    "name": "負載名稱",
+    "version": "版本",
+    "status": "狀態",
+    "label": "標籤",
+    "restart_count": "重啟次數"
+  },
+  "filter": {
+    "workload_name": "負載名稱"
+  },
+  "tip": {
+    "auto_inject": "自動注入",
+    "realtime": "即時",
+    "no_pod": "不存在容器組"
+  },
+  "operate": {
+    "inject": "注入SideCar",
+    "uninject": "取消注入SideCar",
+    "inject_c": "為應用 {0} 注入SideCar",
+    "uninject_c": "為應用 {0} 取消注入SideCar"
+  },
+  "tab": {
+    "network_topology": "流量拓撲",
+    "log": "日誌",
+    "ingress": "入口流量",
+    "egress": "出口流量",
+    "trace": "鏈路追蹤"
+  }
+}

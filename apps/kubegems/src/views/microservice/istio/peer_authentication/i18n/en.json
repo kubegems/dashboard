@@ -1,0 +1,10 @@
+{
+  "table": {
+    "name": "Endpoint authentication name",
+    "label": "Match Tags",
+    "tls": "TLS Settings"
+  },
+  "filter": {
+    "peer_name": "Endpoint authentication name"
+  }
+}

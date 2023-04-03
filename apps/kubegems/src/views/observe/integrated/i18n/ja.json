@@ -1,0 +1,70 @@
+{
+  "tip": {
+    "middleware": "ミドルウェア",
+    "monitor_and_log": "監視/ログ",
+    "integrated_config": "アクセス設定",
+    "config_metrics_and_trace": "{0} アプリのTrace, Metricsを設定",
+    "config_exporter": "{0} の間のエクスプレスを構成する",
+    "config_c": "{0} を設定",
+    "log_config": "ログ取得構成",
+    "sample_log": "ワンクリックで有効にする（非アクティブモード）",
+    "diy_config": "カスタム設定",
+    "related_app": "アプリケーションへリンク",
+    "related_output": "関連ログルート",
+    "enable_throttle": "スピード ON",
+    "throttle": "スピード",
+    "item_pre_minute": "バー/分",
+    "enable_log_monitor": "LogCat を開く",
+    "sample": "シンプルモード",
+    "added_log_collect": "新しいログ採取量が追加されました",
+    "name": "注文番号による検索",
+    "metrics_config": "採集設定の監視",
+    "related_service": "関連サービス",
+    "servicemonitor_port": "デバッガーポート",
+    "no_service_tip": "サービスがありませんか？ <a>アプリケーション ストア</a> にexportを作成してください",
+    "request_path": "リクエストパス",
+    "metrics": "メトリクス",
+
+    "instance_status": "インスタンスの状態",
+    "data_status": "データの状態",
+    "link_2_app": "<a>詳細</a>をクリックして操作を表示します",
+    "preview_data": "<a>Metric Explore</a>に入ってデータをプレビューします",
+    "success_data": "データが正常に検出されました",
+    "data_from_prometheus": "プロメテウスからのデータの受信を確認する,通常 3 ～ 5 分待つ必要があります",
+    "cpnfirm_project_and_env": "プロジェクト <span class=\"px-1\">{0}</span> 環境 <span class=\"px-1\">{1}</span> 配下のインスタンスの稼働状況を確認",
+    "prometheus_probe": "クラウド ダイヤル テスト",
+    "probe_config": "クラウド ダイヤル テストの構成",
+    "task_name": "ミッション名",
+    "interval": "検出頻度",
+    "1_min": "1分",
+    "5_min": "5分",
+    "10_min": "10分",
+    "30_min": "30分",
+    "1_hour": "1時間",
+    "2_hour": "2時間",
+    "6_hour": "6時間",
+    "12_hour": "12時間",
+    "probe_type_config": "プローブ タイプの設定",
+    "all_probe_address": "全監視ポイント",
+    "need_probe_address": "監視が必要",
+    "add_alert_failed": "アラート ルールを追加できませんでした"
+  },
+  "operate": {
+    "open": "オン",
+    "close": "閉じる",
+    "refresh_middleware_status": "データを確認する"
+  },
+  "table": {
+    "name": "注文番号による検索",
+    "rule": "ルール",
+    "expr": "評価式",
+    "unit": "単位"
+  },
+  "status": {
+    "deploying": "展開中",
+    "ready": "準備完了"
+  },
+  "ruler": {
+    "tcp_check": "不正な形式 (例: {ドメイン/IP}:{ポート})"
+  }
+}

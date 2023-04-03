@@ -1,0 +1,9 @@
+{
+  "table": {
+    "name": "閘道名稱",
+    "selector": "匹配標籤"
+  },
+  "filter": {
+    "gateway_name": "閘道名稱"
+  }
+}

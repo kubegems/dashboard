@@ -1,0 +1,40 @@
+{
+  "table": {
+    "name": "名稱",
+    "status": "狀態",
+    "access_mode": "訪問模式",
+    "storage": "容量",
+    "mount": "掛載",
+    "capacity": "容量"
+  },
+  "filter": {
+    "pvc_name": "存儲卷名稱"
+  },
+  "operate": {
+    "scale": "擴容",
+    "create_snapshot": "創建快照",
+    "scale_pvc": "擴容存儲卷"
+  },
+  "status": {
+    "mounted": "已掛載",
+    "unmounted": "未掛載"
+  },
+  "tip": {
+    "now_capacity": "當前容量",
+    "dest_capacity": "目標容量",
+    "used": "使用量",
+    "inode_rate": "Inode使用率",
+    "label": "標籤",
+    "annotation": "註解",
+    "rwo": "單節點讀寫",
+    "rox": "多節點唯讀",
+    "rwx": "多節點讀寫",
+    "can_create_snapshot": "可創建快照",
+    "volume_mode": "卷模式",
+    "volume_name": "卷名稱"
+  },
+  "form": {
+    "storage_rule": "格式錯誤（示例：1Ki，1Mi，1Gi，1Ti）",
+    "limit_min_rule": "小於當前值"
+  }
+}

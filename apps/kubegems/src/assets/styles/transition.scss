@@ -1,0 +1,14 @@
+/**
+ * 过渡效果
+ */
+
+.drawer-enter-active,
+.drawer-leave-active {
+  transition: all 0.3s ease;
+}
+.drawer-enter,
+.drawer-leave,
+.drawer-leave-active {
+  transform: translateX(100%);
+  opacity: 0;
+}

@@ -1,0 +1,26 @@
+{
+  "tip": {
+    "select_project": "請先選擇專案",
+    "enable_scan": "啟用鏡像掃描和分析報告",
+    "yes": "是",
+    "no": "否",
+    "set_default": "將鏡像倉庫 {0} 置為預設倉庫",
+    "cancel_default": "取消鏡像倉庫 {0} 的預設設置"
+  },
+  "filter": {
+    "registry_name": "鏡像倉庫名稱"
+  },
+  "table": {
+    "name": "倉庫名稱",
+    "address": "倉庫位址",
+    "default": "默認倉庫",
+    "username": "使用者名",
+    "creator": "創建人",
+    "last_update_at": "最近更新時間",
+    "passwd": "密碼"
+  },
+  "operate": {
+    "set_default": "設置預設倉庫",
+    "cancel_default": "取消預設倉庫"
+  }
+}

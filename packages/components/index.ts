@@ -14,5 +14,5 @@
  * limitations under the License.
  */
 
-const requireComponent: any = import.meta.globEager('./*.vue');
+const requireComponent: any = import.meta.globEager('./baseComponents/*.vue');
 export default requireComponent;

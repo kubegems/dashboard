@@ -1,0 +1,30 @@
+{
+  "table": {
+    "name": "名称",
+    "unit": "单位",
+    "rule": "规则",
+    "label": "标签"
+  },
+  "form": {
+    "name": "名称",
+    "show_name": "显示名称",
+    "label": "标签(回车)",
+    "unit": "单位",
+    "description": "描述"
+  },
+  "tip": {
+    "group_and_resource": "组/资源",
+    "group": "组",
+    "select_resource": "请选择一个资源",
+
+    "default": "默认",
+    "byte": "字节",
+    "byte_rate": "字节速率",
+    "time": "时间",
+    "precent": "百分比",
+    "custom": "自定义"
+  },
+  "filter": {
+    "search": "搜索"
+  }
+}

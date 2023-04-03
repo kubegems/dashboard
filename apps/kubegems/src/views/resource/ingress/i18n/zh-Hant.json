@@ -1,0 +1,31 @@
+{
+  "filter": {
+    "ingress_name": "路由名稱"
+  },
+  "table": {
+    "name": "名稱",
+    "address": "訪問位址"
+  },
+  "tip": {
+    "gateway_not_found": "找不到對應閘道",
+    "ingress_rule": "路由規則",
+    "gateway": "聲明閘道",
+    "protocol": "協定",
+    "annotation": "註解",
+    "random_domain": "隨機功能變數名稱",
+    "path": "路徑",
+    "port_number": "端口號",
+    "port_name": "端口名",
+    "port": "端口",
+    "no_random_domain": "暫無可生成的隨機功能變數名稱",
+    "leave_1_rule": "至少保留一項路由規則",
+    "auto_domain": "自動生成功能變數名稱",
+    "domain": "域名",
+    "request": "訪問"
+  },
+  "operate": {
+    "add_path": "添加Path",
+    "add_secret": "添加密鑰",
+    "remove_secret": "移除密鑰"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "filter": {
+    "template_name": "模版名称"
+  },
+  "table": {
+    "name": "名称",
+    "refresh": "刷新间隔",
+    "description": "描述",
+    "graph_count": "图表数量",
+    "expr": "表达式",
+    "unit": "单位",
+    "generator": "组 | 资源 | 规则"
+  },
+  "tab": {
+    "template_info": "模版信息"
+  },
+  "tip": {
+    "graph": "图表",
+    "start": "起始时间",
+    "end": "结束时间",
+    "step": "间隔",
+    "rule": "规则"
+  },
+  "operate": {
+    "load_c": "导入{0}"
+  }
+}

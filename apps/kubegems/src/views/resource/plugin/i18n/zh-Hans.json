@@ -1,0 +1,43 @@
+{
+  "tip": {
+    "inner": "内置插件",
+    "status": "状态",
+    "desc": "简介",
+    "version": "版本",
+    "laset_version": "最新版本",
+    "enable_plugin": "请先启用插件",
+    "select_version": "请选择新版本",
+    "category": "类别",
+    "repository": "仓库地址",
+    "plugin_params": "插件参数",
+    "schema_form": "Schema表单",
+    "message": "安装状态",
+    "now": "当前",
+    "no_params": "暂无提供可更改的插件参数",
+    "no_i18n_file": "不存在翻译文件，使用原始语言",
+    "requirement": "依赖",
+    "deployed_namespace": "部署命名空间",
+    "requirement_error": "依赖错误"
+  },
+  "operate": {
+    "install": "启用",
+    "install_c": "启用{0}",
+    "uninstall": "卸载",
+    "uninstall_c": "卸载{0}",
+    "check_upgrade": "检查插件版本",
+    "upgrade": "升级"
+  },
+  "status": {
+    "deploying": "部署中",
+    "installed": "已安装"
+  },
+  "tab": {
+    "core": "核心插件",
+    "kubernetes": "Kubernetes插件"
+  },
+  "table": {
+    "name": "插件名称",
+    "installed_version": "已安装版本",
+    "upgrade_version": "可升级版本"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "table": {
+    "kubernetes_version": "Kubernetes version",
+    "status": "Status",
+    "kubeconfig_expired": "Configuration Expiration",
+
+    "name": "Name",
+    "label": "Label",
+    "version": "Version",
+    "register_cluster": "Register cluster",
+    "tunnel": "Tunnel",
+    "node_count": "Node count",
+    "join_at": "Join time",
+    "address": "Address"
+  },
+  "tip": {
+    "control_cluster": "Control",
+    "resource_oversold": "Resource Override",
+    "missing_kubeconfig": "Please enter KubeConfig",
+    "physics": "Physics",
+    "virtual": "v",
+    "total": "Total {0}",
+    "sum": "Sum",
+    "oversold_precent": "{0} score ratio",
+    "oversold": "Over-commit {0}",
+    "all": "Total {0}",
+    "used": "Used {0}",
+    "reason": "Reason",
+    "cert_expired": "Certificate Expiration",
+    "api_success_rate": "Success rate for API",
+    "cluster_init_config": "Cluster initialization settings",
+    "test_cluster": "Test cluster",
+    "connect_success": "Cluster connection successful",
+    "connect_failed": "Cluster connection failed",
+    "connecting": "Connecting clusters",
+    "support_version": "Support Version",
+    "cluster_vendor": "Cluster Vendor",
+    "now_select": "Current selection",
+    "register_cluster": "Register Cluster",
+    "custom_image": "Custom Image",
+    "success_added": "Add edge cluster successfully",
+    "copyed": "Copied to clipboard",
+    "label": "Label",
+    "add_command": "Join command",
+    "create_at": "Create time",
+    "select_environment": "Please select a distribution environment",
+    "heartbeat_time": "Last heartbeat time",
+    "manufacture": "Device Information",
+    "expired_soon": "Expiring"
+  },
+  "form": {
+    "format_rule": "Wrong format (example: max 1 decimal)",
+    "limit_min_rule": "Less than minimum limit",
+    "limit_max_rule": "Maximum limit exceeded",
+    "name": "Cluster name",
+    "image": "Image"
+  },
+  "tab": {
+    "etcd_timeout": "ETCD timeout",
+    "apiserver_timeout": "API ervertime",
+    "cluster_cpu": "CPU",
+    "cluster_memory": "Memory",
+    "cluster_storage": "Storage",
+    "cluster_pod": "Pod",
+    "cloud_cluster": "Kubernetes Cluster",
+    "edge_cluster": "Edge Cluster"
+  },
+  "filter": {
+    "edge_name": "Name",
+    "device_id": "Device Id"
+  },
+  "operate": {
+    "label": "Inject label",
+    "label_c": "Inject label for {0}"
+  },
+  "intro": {
+    "add_cluster": "Bind the cluster to the platform from here",
+    "add_tenant": "After the cluster joins, enter the platform management to add tenants from here"
+  }
+}

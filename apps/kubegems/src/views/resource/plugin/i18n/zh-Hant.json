@@ -1,0 +1,43 @@
+{
+  "tip": {
+    "inner": "內置元件",
+    "status": "狀態",
+    "desc": "簡介",
+    "version": "版本",
+    "laset_version": "最新版本",
+    "enable_plugin": "請先啟用元件",
+    "select_version": "請選擇新版本",
+    "category": "類別",
+    "repository": "倉庫地址",
+    "plugin_params": "元件參數",
+    "schema_form": "Schema表單",
+    "message": "安裝狀態",
+    "now": "當前",
+    "no_params": "暫無提供可更改的插件參數",
+    "no_i18n_file": "不存在翻譯文件，使用原始語言",
+    "requirement": "依賴",
+    "deployed_namespace": "部署命名空間",
+    "requirement_error": "依賴錯誤"
+  },
+  "operate": {
+    "install": "啟用",
+    "install_c": "開啟{0}",
+    "uninstall": "卸載",
+    "uninstall_c": "卸載{0}",
+    "check_upgrade": "檢查元件版本",
+    "upgrade": "升級"
+  },
+  "status": {
+    "deploying": "部署中",
+    "installed": "已安裝"
+  },
+  "tab": {
+    "core": "核心元件",
+    "kubernetes": "Kubernetes元件"
+  },
+  "table": {
+    "name": "元件名稱",
+    "installed_version": "已安裝版本",
+    "upgrade_version": "可升級版本"
+  }
+}

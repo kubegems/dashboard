@@ -1,0 +1,69 @@
+{
+  "tip": {
+    "middleware": "中間件",
+    "monitor_and_log": "監控/日誌",
+    "integrated_config": "接入配置",
+    "config_metrics_and_trace": "配置 {0} 應用的Trace， Metrics",
+    "config_exporter": "配置 {0} 中間件的Exporter",
+    "config_c": "設定 {0}",
+    "log_config": "日誌採集配置",
+    "sample_log": "一鍵開啟（精簡模式）",
+    "diy_config": "自訂配置",
+    "related_app": "關聯應用",
+    "related_output": "關聯日誌路由",
+    "enable_throttle": "啟用限速",
+    "throttle": "限速",
+    "item_pre_minute": "條/分鐘",
+    "enable_log_monitor": "啟用日誌狀態監控",
+    "sample": "精簡模式",
+    "added_log_collect": "已添加日誌採集",
+    "name": "名稱",
+    "metrics_config": "監控採集配置",
+    "related_service": "關聯服務",
+    "servicemonitor_port": "採集器端口",
+    "no_service_tip": "沒有服務？ 從 <a>應用商店</a> 創建exporter",
+    "request_path": "請求路徑",
+    "metrics": "指標",
+    "instance_status": "實例狀態",
+    "data_status": "數據狀態",
+    "link_2_app": " 點擊 <a>詳情</a> 查看運行情況",
+    "preview_data": "進入 <a>指標查詢器</a> 預覽數據",
+    "success_data": "成功監測到數據",
+    "data_from_prometheus": "從prometheus中確認收到數據， 通常需要等待3到5分鐘",
+    "cpnfirm_project_and_env": "確認專案<span class=\"px-1\">{0}</span> 環境<span class=\"px-1\">{1}</span> 下的實例運行狀態",
+    "prometheus_probe": "雲撥測",
+    "probe_config": "雲撥測配置",
+    "task_name": "任務名稱",
+    "interval": "探測頻率",
+    "1_min": "1分鐘",
+    "5_min": "5分鐘",
+    "10_min": "10分鐘",
+    "30_min": "30分鐘",
+    "1_hour": "1小時",
+    "2_hour": "2小時",
+    "6_hour": "6小時",
+    "12_hour": "12小時",
+    "probe_type_config": "探測類型配置",
+    "all_probe_address": "全部監測點",
+    "need_probe_address": "需要監測點",
+    "add_alert_failed": "添加告警規則失敗"
+  },
+  "operate": {
+    "open": "開啟",
+    "close": "關閉",
+    "refresh_middleware_status": "檢查數據"
+  },
+  "table": {
+    "name": "名稱",
+    "rule": "規則",
+    "expr": "表達式",
+    "unit": "單位"
+  },
+  "status": {
+    "deploying": "部署中",
+    "ready": "已就緒"
+  },
+  "ruler": {
+    "tcp_check": "格式錯誤(示例:{domain/ip}:{port})"
+  }
+}

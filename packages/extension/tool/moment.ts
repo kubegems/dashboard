@@ -17,20 +17,20 @@ import 'moment/dist/locale/zh-cn';
 import 'moment/dist/locale/ja';
 import 'moment/dist/locale/zh-tw';
 import moment from 'moment';
-import { Store } from 'vuex';
+import { useStore } from '../store';
+import Vue from 'vue';
 
-const integratedMoment = (options: { store: Store<{ [key: string]: any }> }) => {
-  moment.locale(
-    (() => {
-      if (options.store.state.Locale === 'zh-Hans') {
-        return 'zh-cn';
-      }
-      if (options.store.state.Locale === 'zh-Hant') {
-        return 'zh-tw';
-      }
-      return options.store.state.Locale;
-    })(),
-  );
-};
+const store = useStore();
 
-export default integratedMoment;
+moment.locale(
+  (() => {
+    if (store.state.Locale === 'zh-Hans') {
+      return 'zh-cn';
+    }
+    if (store.state.Locale === 'zh-Hant') {
+      return 'zh-tw';
+    }
+    return store.state.Locale;
+  })(),
+);
+Vue.prototype.$moment = moment;

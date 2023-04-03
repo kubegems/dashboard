@@ -1,0 +1,65 @@
+{
+  "table": {
+    "name": "環境名稱",
+    "creator": "創建人",
+    "used": "已使用{0}"
+  },
+  "filter": {
+    "environment_name": "環境名稱"
+  },
+  "tip": {
+    "delete_cascade": "當前刪除策略為 delLabels， 該策略僅刪除關聯",
+    "delete_all": "當前刪除策略為 delNamespace， 該策略會刪除整個命名空間， 請謹慎操作",
+    "resource_used_list": "環境資源使用清單",
+    "resource_monitor": "資源監控",
+    "cpu_used": "CPU使用量",
+    "memory_used": "記憶體使用量",
+    "ingress": "網路入口流量",
+    "egress": "網路出口流量",
+    "last_day_resource_used": "過去一天資源使用排名",
+    "cpu_avg_used": "CPU平均使用量",
+    "cpu_max_used": "CPU最大使用量",
+    "memory_avg_used": "記憶體平均使用量",
+    "memory_max_used": "記憶體最大使用量",
+    "resource_used": "資源使用",
+    "traffic": "網路流量",
+    "max": "最大",
+    "min": "最小",
+    "avg": "平均",
+    "receive": "接收",
+    "send": "發送",
+    "resource_allocated": "資源分配",
+    "show": "顯示",
+    "hide": "摺疊",
+    "tenant_resource_allocated": "租戶在集群上已分配資源",
+    "resource_quota": "資源配額",
+    "limit_range": "資源限制",
+    "limit_value": "{0}限制值",
+    "limit": "限制值",
+    "default": "預設值",
+    "default_request": "默認請求值",
+    "storage_capacity": "存儲卷容量",
+    "delete_all_select": "刪除整個命名空間",
+    "delete_cascade_select": "僅刪除關聯",
+    "edge_open_tip": "目標集群需開啟 Kubegems Edge 插件"
+  },
+  "operate": {
+    "scale_resource": "調整資源限制",
+    "resource_used_list": "資源使用清單",
+    "edit_limit": "修改限制",
+    "bind_ns": "綁定NS"
+  },
+  "form": {
+    "limit_min_rule": "低於最小值限制",
+    "limit_max_rule": "最大值超出可用資源",
+    "cpu_format_rule": "格式錯誤（範例：1m，1）",
+    "memory_format_rule": "格式錯誤（範例：1Mi，1Gi）",
+    "storage_format_rule": "格式錯誤（示例：1Ki，1Mi，1Gi，1Ti）",
+    "limit_request_rule": "Limits小於Requests",
+    "limit_20_rule": "超出20字元限制",
+    "name": "名稱",
+    "remark": "備註",
+    "delete_policy": "刪除策略",
+    "allow_edge": "開啟邊緣集群"
+  }
+}

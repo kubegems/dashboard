@@ -4,11 +4,11 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
-    "start": "vite --force --cors -l info",
-    "build": "vite build",
-    "build:inner": "cross-env VUE_APP_SENTRY=true NODE_ENV=production VUE_APP_API_TIMEOUT=15 VUE_APP_ENVIRONMENT=production VUE_APP_OTEL=true vite build",
-    "preview": "vite preview -l info -d",
-    "lint": "eslint ./ --ext .ts,.tsx,.vue,.js,.jsx",
+    "start": "pnpm -C ./apps/kubegems start",
+    "build": "pnpm -C ./apps/kubegems build",
+    "build:inner": "pnpm -C ./apps/kubegems build:inner",
+    "preview": " pnpm -C ./apps/kubegems preview",
+    "lint": " pnpm -C ./apps/kubegems lint",
     "prepare": "husky install",
     "cz": "git add . && git cz",
     "amend": "git add . && git commit --amend"
@@ -25,11 +25,11 @@
   },
   "lint-staged": {
     "**/*.{js,jsx,vue}": [
-      "eslint ./ --ext .ts,.tsx,.vue,.js,.jsx --fix",
+      "pnpm -C ./apps/kubegems lint --fix",
       "git add"
     ],
     "**/*.{html,vue,css,sass,scss}": [
-      "stylelint --fix",
+      "pnpm -C ./apps/kubegems stylelint --fix",
       "git add"
     ]
   },

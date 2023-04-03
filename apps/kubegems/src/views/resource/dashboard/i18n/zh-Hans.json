@@ -1,0 +1,49 @@
+{
+  "more": "更多",
+  "audit": {
+    "audit": "审计"
+  },
+  "event": {
+    "event": "事件",
+    "cluster": "集群"
+  },
+  "project": {
+    "table": {
+      "type": "类型",
+      "traffic_in": "流量in",
+      "traffic_out": "流量out",
+
+      "remark": "备注",
+      "alias": "别名",
+
+      "test": "测试",
+      "dev": "开发",
+      "prod": "生产"
+    }
+  },
+  "resource": {
+    "table": {
+      "all": "总{0}",
+      "allocated": "已分配{0}",
+      "applying": "资源申请中"
+    },
+    "title": "资源调整"
+  },
+  "tip": {
+    "tenant": "请创建或加入租户"
+  },
+  "tab": {
+    "cloud_cluster": "云端集群",
+    "edge_cluster": "边缘集群"
+  },
+  "edge": {
+    "table": {
+      "name": "名称",
+      "label": "标签",
+      "status": "状态",
+      "register_cluster": "注册集群",
+      "tunnel": "隧道",
+      "node_count": "主机数"
+    }
+  }
+}

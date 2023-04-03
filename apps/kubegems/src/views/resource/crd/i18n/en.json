@@ -1,0 +1,13 @@
+{
+  "table": {
+    "name": "Name",
+    "status": "Status",
+    "last_update_time": "Last updated"
+  },
+  "filter": {
+    "crd_name": "cd name"
+  },
+  "tab": {
+    "cr_list": "CRs List"
+  }
+}

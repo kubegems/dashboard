@@ -1,0 +1,33 @@
+{
+  "tab": {
+    "detail": "Detail",
+    "node": "Node",
+    "namespace": "Namespace"
+  },
+  "table": {
+    "status": "状態",
+    "role": "ロール",
+    "taint": "ドット",
+    "load": "5分間の負荷",
+    "join_at": "参加日",
+    "create_at": "作成時間",
+
+    "name": "名前",
+    "label": "ラベル",
+    "version": "バージョン",
+    "register_cluster": "クラスターを登録する",
+    "tunnel": "トンネル",
+    "node_count": "ホスト数"
+  },
+  "operate": {
+    "allow_schedule": "許可されたフィルタ：",
+    "stop_schedule": "スケジューリングを終了します。"
+  },
+  "filter": {
+    "edge_name": "名前",
+    "device_id": "デバイスID"
+  },
+  "tip": {
+    "manufacture": "デバイス情報"
+  }
+}

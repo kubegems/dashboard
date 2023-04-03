@@ -1,0 +1,43 @@
+{
+  "tip": {
+    "inner": "Built-in",
+    "status": "Status",
+    "desc": "Introduction",
+    "version": "Version",
+    "laset_version": "Latest Version",
+    "enable_plugin": "Please enable components first",
+    "select_version": "Please select new version",
+    "category": "Category",
+    "repository": "Repository",
+    "plugin_params": "Plugin params",
+    "schema_form": "Schema Form",
+    "message": "Install Status",
+    "now": "Current",
+    "no_params": "No modifiable plugin parameters are available yet",
+    "no_i18n_file": "No translation files exist, use the original language",
+    "requirement": "Requirements",
+    "deployed_namespace": "Deployed Namespace",
+    "requirement_error": "Requirement Error"
+  },
+  "operate": {
+    "install": "Enabled",
+    "install_c": "Enable {0}",
+    "uninstall": "Uninstall",
+    "uninstall_c": "Uninstall {0}",
+    "check_upgrade": "Check plugin version",
+    "upgrade": "Upgrade"
+  },
+  "status": {
+    "deploying": "Deploying",
+    "installed": "Installed"
+  },
+  "tab": {
+    "core": "Core Component",
+    "kubernetes": "Kubernetes Component"
+  },
+  "table": {
+    "name": "Plugin name",
+    "installed_version": "Installed version",
+    "upgrade_version": "Upgrade version"
+  }
+}

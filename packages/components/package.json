@@ -19,22 +19,5 @@
     "filepond-plugin-image-preview": "^4.6.11",
     "vue": "^2.7.14",
     "vuetify": "^2.6.14"
-  },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.42.1",
-    "@typescript-eslint/parser": "^5.42.1",
-    "@vitejs/plugin-vue2": "^2.0.0",
-    "@vitejs/plugin-vue2-jsx": "^1.0.3",
-    "@volar-plugins/vetur": "^0.1.0",
-    "eslint": "^7.27.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-define-config": "^1.5.1",
-    "eslint-import-resolver-alias": "^1.1.2",
-    "eslint-import-resolver-typescript": "^3.5.2",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-vue": "^8.4.1",
-    "eslint-plugin-vuetify": "^1.1.0",
-    "prettier": "^2.6.2"
   }
 }

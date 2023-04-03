@@ -1,0 +1,17 @@
+{
+  "table": {
+    "trigger_time": "觸發時間",
+    "tenant": "租戶",
+    "account": "使用者",
+    "operate": "操作",
+    "object": "物件",
+    "label": "標籤",
+    "status": "狀態"
+  },
+  "filter": {
+    "account": "使用者",
+    "search": "檢索",
+    "status": "狀態",
+    "action": "操作"
+  }
+}

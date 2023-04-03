@@ -1,0 +1,40 @@
+{
+  "table": {
+    "name": "Name",
+    "status": "Status",
+    "access_mode": "Access mode",
+    "storage": "Capacity",
+    "mount": "Mount",
+    "capacity": "Capacity"
+  },
+  "filter": {
+    "pvc_name": "Storage volume name"
+  },
+  "operate": {
+    "scale": "Expansion",
+    "create_snapshot": "Create snapshot",
+    "scale_pvc": "Extended Storage Volume"
+  },
+  "status": {
+    "mounted": "Mounted",
+    "unmounted": "Not Mounted"
+  },
+  "tip": {
+    "now_capacity": "Current capacity",
+    "dest_capacity": "Target rating",
+    "used": "Usage",
+    "inode_rate": "Inode Usage",
+    "label": "Tags",
+    "annotation": "Note",
+    "rwo": "Single node read/write",
+    "rox": "Multi-node read-only",
+    "rwx": "Multi-Node Read-write",
+    "can_create_snapshot": "Can create snapshot",
+    "volume_mode": "Volume mode",
+    "volume_name": "Volume Name"
+  },
+  "form": {
+    "storage_rule": "Wrong format (Example: 1Ki,1Mi,1Gi,1Ti)",
+    "limit_min_rule": "Less than current value"
+  }
+}

@@ -13,6 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import Vue from 'vue';
+import ACEEditor from 'vue2-ace-editor';
+
 import 'brace/theme/chrome';
 import 'brace/ext/language_tools';
 import 'brace/ext/searchbox';
@@ -34,3 +37,14 @@ import 'brace/mode/plain_text';
 import 'brace/mode/sass';
 import 'brace/mode/scss';
 import 'brace/snippets/json';
+
+Vue.component('ACEEditor', ACEEditor);
+
+Vue.prototype.$aceOptions = {
+  tabSize: 2,
+  fontSize: 12,
+  printMarginColumn: 100,
+  showPrintMargin: false,
+  wrap: true,
+  readOnly: false,
+};

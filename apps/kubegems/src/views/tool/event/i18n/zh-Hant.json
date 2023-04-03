@@ -1,0 +1,17 @@
+{
+  "table": {
+    "component": "來源元件",
+    "host": "來源主機",
+    "service": "服務",
+    "namespace": "命名空間",
+    "type": "類型",
+    "message": "消息",
+    "count": "次數",
+    "first_at": "首次發生時間",
+    "last_at": "最近發生時間"
+  },
+  "filter": {
+    "cluster": "集群",
+    "message": "消息"
+  }
+}

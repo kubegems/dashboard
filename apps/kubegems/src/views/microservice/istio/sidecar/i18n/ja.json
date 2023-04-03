@@ -1,0 +1,9 @@
+{
+  "table": {
+    "name": "車両名",
+    "label": "一致するタグ"
+  },
+  "filter": {
+    "sidecar_name": "車両名"
+  }
+}

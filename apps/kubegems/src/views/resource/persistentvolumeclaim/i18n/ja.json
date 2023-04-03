@@ -1,0 +1,40 @@
+{
+  "table": {
+    "name": "注文番号による検索",
+    "status": "状態",
+    "access_mode": "アクセスモード",
+    "storage": "内容",
+    "mount": "マウント",
+    "capacity": "内容"
+  },
+  "filter": {
+    "pvc_name": "ストレージボリューム名"
+  },
+  "operate": {
+    "scale": "拡張する",
+    "create_snapshot": "スナップショットを作成する",
+    "scale_pvc": "拡張ストレージボリューム"
+  },
+  "status": {
+    "mounted": "マウントしました",
+    "unmounted": "マウントされていません"
+  },
+  "tip": {
+    "now_capacity": "現在の容量",
+    "dest_capacity": "目標容量",
+    "used": "使用率",
+    "inode_rate": "Inodeメトリックの使用率",
+    "label": "タグ",
+    "annotation": "コメント",
+    "rwo": "単一ノード読み取り/書き込み",
+    "rox": "複数ノード読み取り専用",
+    "rwx": "複数ノード読み取り/書き込み",
+    "can_create_snapshot": "スナップショットが作成可能",
+    "volume_mode": "ボリュームモード",
+    "volume_name": "ボリューム名"
+  },
+  "form": {
+    "storage_rule": "書式エラー (例. 1Ki,1Mi,1Gi,1Ti)",
+    "limit_min_rule": "より少なく："
+  }
+}

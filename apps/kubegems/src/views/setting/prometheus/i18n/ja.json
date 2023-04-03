@@ -1,0 +1,29 @@
+{
+  "table": {
+    "name": "注文番号による検索",
+    "unit": "単位",
+    "rule": "ルール",
+    "label": "タグ"
+  },
+  "form": {
+    "name": "注文番号による検索",
+    "show_name": "表示名",
+    "label": "タグ（Enter）",
+    "unit": "単位",
+    "description": "説明"
+  },
+  "tip": {
+    "group_and_resource": "グループ/リソース",
+    "group": "グループ",
+    "select_resource": "リソースを選択してください",
+    "default": "デフォルト",
+    "byte": "バイト",
+    "byte_rate": "バイトレート",
+    "time": "時間",
+    "precent": "パーセント",
+    "custom": "カスタム"
+  },
+  "filter": {
+    "search": "検索"
+  }
+}

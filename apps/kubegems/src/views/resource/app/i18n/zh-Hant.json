@@ -1,0 +1,73 @@
+{
+  "filter": {
+    "app_name": "應用名稱"
+  },
+  "operate": {
+    "link_c": "關聯{0}",
+    "advanced_deploy": "高級部署",
+    "scale_replicas": "調整副本數",
+    "rollback": "回滾",
+    "auto_scale_policy": "彈性伸縮策略",
+    "confirm_and_publish": "確定併發佈",
+    "upgrade_model": "更新模型",
+    "experience": "預覽"
+  },
+  "tip": {
+    "platform_app": "平台應用",
+    "app_store_app": "應用商店應用",
+    "model_store_app": "演算法商店應用",
+    "used": "{0}使用量",
+    "version": "版本",
+    "replicas": "副本",
+    "now_replicas": "當前副本數",
+    "dest_replicas": "目標副本數",
+    "error_info": "錯誤資訊",
+    "model_instance": "模型實例",
+    "allocated": "已分配{0}",
+    "unallocated": "未分配",
+    "protocol": "協定",
+    "params": "參數",
+    "port": "端口",
+    "port_name": "端口名稱",
+    "container_port": "容器端口",
+    "host_address": "主機位址",
+    "host_port": "主機端口",
+    "status_error": "模型實例狀態異常",
+    "copyed": "已複製到粘貼板"
+  },
+  "table": {
+    "name": "應用名稱",
+    "kind": "應用類型",
+    "image_version": "當前鏡像版本",
+    "status": "狀態",
+    "publisher": "發佈人",
+    "publish_at": "發佈時間",
+    "task_status": "部署任務狀態",
+    "instance_name": "實例名稱",
+    "model_name": "模型名稱",
+    "model_version": "模型版本",
+    "source": "模型來源",
+    "image": "鏡像",
+    "creator": "創建人",
+    "now_version": "當前版本",
+    "replicas": "副本數",
+    "task": "任務類型",
+    "repo": "倉庫"
+  },
+  "tab": {
+    "manifest": "資源編排",
+    "control_center": "控制中心",
+    "resource_status": "資源狀態",
+    "deploy_history": "部署歷史",
+    "image_safey": "鏡像安全",
+    "runtime": "運行資訊"
+  },
+  "form": {
+    "limit_min_rule": "小於最小限制"
+  },
+  "status": {
+    "running": "執行中",
+    "complete": "已完成",
+    "failed": "執行失敗"
+  }
+}

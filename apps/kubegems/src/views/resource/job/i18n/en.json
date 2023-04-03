@@ -1,0 +1,29 @@
+{
+  "filter": {
+    "job_name": "Task Name"
+  },
+  "table": {
+    "name": "Name",
+    "status": "Status",
+    "start_at": "Start Time",
+    "end_at": "End Time"
+  },
+  "tip": {
+    "add_image": "Please add a container image",
+    "restart_count": "Number of retries",
+    "parallelism": "Parallel number",
+    "complete_at": "Finish Time",
+    "succeed": "Success Count",
+    "condition": "Status",
+    "env": "Environment Variables",
+    "volume": "Volume",
+    "last_change_at": "Last changed time",
+    "job_setting": "Task Settings",
+    "max_restart_count": "Maximum number of retries",
+    "complations": "Completed",
+    "deadline_seconds": "Exit timeout (in seconds)",
+    "restart_policy": "Restart Policy",
+    "policy_never": "Never (create a new container group when failing)",
+    "policy_onfailure": "OnFailure (internal reboot container on failure)"
+  }
+}

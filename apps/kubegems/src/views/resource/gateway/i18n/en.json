@@ -1,0 +1,50 @@
+{
+  "tip": {
+    "instance_count": "Number of Instances",
+    "default": "Default",
+    "port": "Gateway Port",
+    "status": "Status",
+    "loadbalancer": "External Load Balancer Gateway (LoadBalancer)",
+    "nodeport": "General cluster gateway (NodePort)",
+    "connect_count": "Connections",
+    "default_domain": "Default domain name",
+    "extend_label": "Work load attachments",
+    "address": "Gateway Address",
+    "available": "{0} instances available",
+    "unavailable": "{0} instance not available",
+    "name": "Gateway Name",
+    "type": "Gateway Type",
+    "protocol": "Protocol",
+    "replicas": "Number of copies",
+    "image": "Mirror",
+    "config_item": "Configuration Item",
+    "used": "{0} Usage",
+    "in_traffic": "Network access traffic",
+    "out_traffic": "Network export traffic",
+    "workload_monitor": "Gateway Workload Monitor"
+  },
+  "tab": {
+    "config": "Configuration",
+    "ingress": "Route"
+  },
+  "table": {
+    "name": "Name",
+    "address": "Access address",
+    "container_port": "Container Port",
+    "service_port": "Service Port",
+    "host_port": "Host Port"
+  },
+  "operate": {
+    "access": "Visits",
+    "use_default_domain": "Use Default Domain"
+  },
+  "status": {
+    "normal": "Normal",
+    "error": "Exception"
+  },
+  "form": {
+    "name_rule": "Wrong format (start with letter)",
+    "domain_rule": "Invalid domain format (wildcard '*' supported)",
+    "image_rule": "Wrong format (not in mirror format)"
+  }
+}

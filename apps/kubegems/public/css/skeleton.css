@@ -1,0 +1,136 @@
+.skeleton {
+  background-color: white;
+  height: 100vh;
+  position: relative;
+  float: left;
+  width: 100vw;
+}
+
+.skeleton__max {
+  width: 100%;
+  display: none;
+}
+
+.skeleton__title {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.skeleton__img__ani {
+  animation-name: img-change;
+  animation-duration: 1.5s;
+  animation-timing-function: cubic-bezier(0.75, 0, 0.16, 1);
+  animation-delay: 2s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes img-change {
+  0% {
+    content: url(/logo-blue.svg);
+    width: 400px;
+  }
+  45% {
+    content: url(/logo-white.svg);
+    width: 400px;
+  }
+  75% {
+    content: url(/logo-white.svg);
+    width: 400px;
+  }
+  100% {
+    content: url(/logo-white.svg);
+    width: 18vw;
+  }
+}
+
+.skeleton__img {
+  width: 400px;
+  content: url(/logo-blue.svg);
+}
+
+.skeleton__img__small {
+  content: url(/logo-white.svg);
+  width: 18vw;
+}
+
+.skeleton__loading {
+  text-align: center;
+}
+
+.skeleton__loading__left {
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 10px;
+  opacity: 0;
+}
+
+.skeleton__loading__right {
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 10px;
+  opacity: 0;
+}
+
+.skeleton__loading__color {
+  background-color: #1e88e5;
+}
+
+.skeleton__loading__left__box {
+  float: left;
+  position: relative;
+  width: 50%;
+}
+
+.skeleton__loading__left__ani_start {
+  animation-name: loading-left;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  position: absolute;
+  right: 0;
+}
+
+.skeleton__loading__right__box {
+  float: right;
+  position: relative;
+  width: 50%;
+}
+
+.skeleton__loading__right__ani_start {
+  animation-name: loading-right;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  position: absolute;
+  left: 0;
+}
+
+@keyframes loading-left {
+  0% {
+    right: 0;
+    opacity: 1;
+  }
+  100% {
+    right: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes loading-right {
+  0% {
+    left: 0;
+    opacity: 1;
+  }
+  100% {
+    left: 30px;
+    opacity: 1;
+  }
+}

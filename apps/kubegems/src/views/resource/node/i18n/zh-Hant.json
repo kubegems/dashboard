@@ -1,0 +1,62 @@
+{
+  "filter": {
+    "node_name": "節點名稱"
+  },
+  "operate": {
+    "gpu_schedule": "GPU調度",
+    "allow_schedule": "允許調度",
+    "stop_schedule": "停止調度",
+    "hide": "摺疊",
+    "show": "顯示"
+  },
+  "table": {
+    "name": "主機名",
+    "status": "狀態",
+    "role": "角色",
+    "taint": "污點",
+    "load": "5分鐘負載",
+    "join_at": "加入時間"
+  },
+  "tab": {
+    "taint": "親和性"
+  },
+  "tip": {
+    "load": "負載",
+    "cpu_rate": "CPU使用率",
+    "memory_rate": "內存使用率",
+    "memory_used_status": "內存使用狀態",
+    "network": "網路頻寬",
+    "remain_storage": "磁碟剩餘容量",
+    "disk_iops": "磁碟IOPS",
+    "load_1": "1分鐘負載",
+    "load_5": "5分鐘負載",
+    "load_15": "15分鐘負載",
+    "in_traffic": "入口流量",
+    "out_traffic": "出口流量",
+    "write_iops": "寫入IOPS",
+    "read_iops": "讀取IOPS",
+    "resource_statics": "資源統計",
+    "architecture": "架構",
+    "runtime_version": "容器運行時版本",
+    "kernel_version": "內核版本",
+    "kubeproxy_version": "kubeProxy版本",
+    "kubelet_version": "kubelet版本",
+    "os": "操作系統",
+    "os_version": "操作系統版本",
+    "system_uuid": "系統UUID",
+    "image_count": "鏡像數量",
+    "volume": "卷",
+    "condition": "狀況",
+    "last_update_at": "上次更新時間",
+    "nvidia": "Nvidia GPU驅動",
+    "schedule": "節點調度",
+    "policy": "策略",
+    "no_schedule": "不允許調度 （NoSchedule）",
+    "prefer_no_schedule": "盡量不調度 （PreferNoSchedule）",
+    "no_execute": "不允許並驅逐已有容器組 （NoExecute）",
+    "total_memory": "總內存",
+    "used_memory": "使用内存",
+    "buffer_memory": "Buffers",
+    "cached_memory": "Cached"
+  }
+}

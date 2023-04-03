@@ -1,0 +1,42 @@
+{
+  "table": {
+    "name": "名前",
+    "channel": "チャネル",
+    "default": "ビルトイン",
+    "status": "最新状況",
+    "cascade_name": "クラスター/環境/レシーバー"
+  },
+  "tip": {
+    "email": "メール",
+    "send": "差出人",
+    "recv": "宛先",
+    "smtp": "SMTPサーバ",
+    "port": "ポート",
+    "yes": "はい",
+    "no": "番号",
+    "send_passwd": "差出人のパスワード",
+    "test_success": "テストが正常に送信されました",
+    "feishu": "feishu",
+    "user_id": "ユーザーID",
+    "advanced_setting": "詳細設定",
+    "get_feishu_id": "フェイシュウのユーザーIDの取得方法",
+    "sign_secret": "署名をチェック",
+    "skip_verify": "セキュリティチェックをスキップ",
+    "send_resolved": "アラーム修理通知の送信",
+    "aliyun_msg": "Aliyun情報",
+    "aliyun_voice": "Aliyunボイス",
+    "dingding": "Dingding",
+    "phone": "電話番号",
+    "receiver_update": "次のシンクは同期的に更新されます"
+  },
+  "filter": {
+    "channel_name": "アラームチャンネル"
+  },
+  "resource": {
+    "channel": "アラームチャンネル"
+  },
+  "operate": {
+    "test_c": "{0}チャンネルをテスト",
+    "test": "テスト"
+  }
+}
