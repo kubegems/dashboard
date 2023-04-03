@@ -1,0 +1,17 @@
+{
+  "name": "@kubegems/api",
+  "version": "1.23.7",
+  "description": "base api for kubegems",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kubegems",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@kubegems/libs": "workspace:*",
+    "@kubernetes/client-node": "^0.18.0",
+    "axios": "^0.27.2",
+    "qs": "^6.11.0"
+  }
+}

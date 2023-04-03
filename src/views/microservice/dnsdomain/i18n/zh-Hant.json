@@ -1,9 +1,0 @@
-{
-  "table": {
-    "name": "DNS",
-    "creator": "創建人"
-  },
-  "filter": {
-    "dns_name": "DNS"
-  }
-}

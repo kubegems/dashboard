@@ -1,9 +1,0 @@
-{
-  "table": {
-    "name": "ゲートウェイ名",
-    "selector": "一致するタグ"
-  },
-  "filter": {
-    "gateway_name": "ゲートウェイ名"
-  }
-}

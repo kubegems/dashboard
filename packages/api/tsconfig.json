@@ -7,25 +7,14 @@
     "watch": false,
     "allowJs": true,
     "checkJs": false,
-    "types": ["vite/client"],
     "jsx": "preserve",
     "removeComments": true,
     "moduleResolution": "node",
     "baseUrl": "./",
     "outDir": "./",
-    "paths": {
-      "@": ["./src/"],
-      "@/*": ["src/*"],
-      "src": ["./src/"]
-    },
     "resolveJsonModule": true,
-    "typeRoots": ["./types"],
     "allowSyntheticDefaultImports": true
   },
-  "vueCompilerOptions": {
-    "target": 2.7,
-    "extensions": [".vue"]
-  },
-  "include": ["src/**/*", "packages/**/*"],
-  "exclude": ["node_modules", "logs", "dist", "vite.config.ts", "volar.config.ts", "components.d.ts"]
+  "include": ["*"],
+  "exclude": []
 }

@@ -1,9 +1,0 @@
-{
-  "table": {
-    "name": "邊車名稱",
-    "label": "匹配標籤"
-  },
-  "filter": {
-    "sidecar_name": "邊車名稱"
-  }
-}

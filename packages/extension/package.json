@@ -1,0 +1,15 @@
+{
+  "name": "@kubegems/extension",
+  "version": "1.23.7",
+  "description": "extension for kubegems",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kubegems",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@kubegems/api": "workspace:*",
+    "@kubegems/libs": "workspace:*"
+  }
+}
