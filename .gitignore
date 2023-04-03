@@ -19,3 +19,4 @@ dist/
 .vite
 .sentryclirc
 build.sh
+apps/pai

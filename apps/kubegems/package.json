@@ -1,0 +1,38 @@
+{
+  "name": "@kubegems/kubegems",
+  "version": "1.23.7",
+  "description": "base ui for kubegems ",
+  "main": "main.ts",
+  "scripts": {
+    "lint": "eslint ./ --ext .ts,.tsx,.vue,.js,.jsx",
+    "stylelint": "stylelint",
+    "start": "vite --force --cors -l info",
+    "preview": "vite preview -l info -d",
+    "build": "vite build",
+    "build:inner": "cross-env VUE_APP_SENTRY=true NODE_ENV=production VUE_APP_API_TIMEOUT=15 VUE_APP_ENVIRONMENT=production VUE_APP_OTEL=true vite build"
+  },
+  "author": "kubegems",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@kubegems/api": "workspace:*",
+    "@kubegems/components": "workspace:*",
+    "@kubegems/extension": "workspace:*",
+    "@kubegems/libs": "workspace:*",
+    "filepond": "^4.30.4",
+    "filepond-plugin-file-validate-size": "^2.2.7",
+    "filepond-plugin-file-validate-type": "^1.2.8",
+    "filepond-plugin-image-preview": "^4.6.11",
+    "vue-filepond": "^7.0.3",
+    "vue-i18n": "^8.27.2",
+    "vue-okr-tree": "^1.0.12",
+    "vue-form-wizard": "0.8.4",
+    "v-code-diff": "^0.3.12",
+    "vue-slider-component": "^2.8.16",
+    "xterm": "^5.1.0",
+    "xterm-addon-fit": "^0.7.0",
+    "@kubernetes/client-node": "^0.18.0",
+    "@sentry/browser": "^7.38.0",
+    "@iconify-json/logos": "^1.1.17",
+    "@iconify-json/mdi": "^1.1.34"
+  }
+}

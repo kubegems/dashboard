@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://kubegems.io" target="_blank">
-    <img alt="Kubegems Logo" width="30%" style="max-width: 100%;" src="./public/kubegems-logo.jpeg">
+    <img alt="Kubegems Logo" width="30%" style="max-width: 100%;" src="./kubegems-logo.jpeg">
   </a>
 </p>
 
@@ -35,10 +35,6 @@
   <a title="commit-activity" target="_blank" href="https://github.com/kubegems">
     <img alt="preview badge" src="https://img.shields.io/github/commit-activity/m/kubegems/dashboard">
   </a>
-</p>
-
-<p align="center">
-  <img alt="Kubegems Dashboard" width="85%" style="max-width: 100%;" src="./public/dashboard.png">
 </p>
 
 ## Introduction

@@ -1,0 +1,213 @@
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+-->
+
+<template>
+  <div>
+    <v-card>
+      <v-card-title class="py-4">
+        <v-flex>
+          <v-flex class="float-right">
+            <v-sheet class="text-body-2 text--darken-1">
+              <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
+            </v-sheet>
+          </v-flex>
+          <div class="kubegems__clear-float" />
+        </v-flex>
+      </v-card-title>
+      <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
+        <v-row>
+          <v-col cols="6">
+            <BaseAreaChart label="host" :metrics="qps" title="QPS" type="" />
+          </v-col>
+          <v-col cols="6">
+            <BaseAreaChart label="state" :metrics="connections" :title="$t('tip.connect_count')" type="" />
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
+    <v-card class="mt-3">
+      <v-card-title class="py-1">
+        <span class="text-subtitle-1 kubegems__text">{{ $t('tip.workload_monitor') }}</span>
+      </v-card-title>
+      <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
+        <v-row>
+          <v-col cols="6">
+            <BaseAreaChart label="pod" :metrics="cpu" :title="$t('tip.used', [$root.$t('resource.cpu')])" type="cpu" />
+          </v-col>
+          <v-col cols="6">
+            <BaseAreaChart
+              label="pod"
+              :metrics="memory"
+              :title="$t('tip.used', [$root.$t('resource.memory')])"
+              unit="Mi"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6">
+            <BaseAreaChart label="pod" :metrics="networkin" :title="$t('tip.in_traffic')" type="network" />
+          </v-col>
+          <v-col cols="6">
+            <BaseAreaChart label="pod" :metrics="networkout" :title="$t('tip.out_traffic')" type="network" />
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
+  </div>
+</template>
+
+<script>
+  import { SERVICE_GATEWAY_NS } from '@kubegems/libs/constants/namespace';
+  import {
+    GATEWAY_CONNECTIONS_PROMQL,
+    GATEWAY_QPS_PROMQL,
+    WORKLOAD_CPU_USAGE_CORE_PROMQL,
+    WORKLOAD_MEMORY_USAGE_BYTE_PROMQL,
+    WORKLOAD_NETWORK_IN_PROMQL,
+    WORKLOAD_NETWORK_OUT_PROMQL,
+  } from '@kubegems/libs/constants/prometheus';
+  import { mapState } from 'vuex';
+
+  import messages from '../i18n';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+
+  export default {
+    name: 'GatewayMonitor',
+    i18n: {
+      messages: messages,
+    },
+    mixins: [BasePermission, BaseResource],
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
+      },
+      selector: {
+        type: Object,
+        default: () => ({}),
+      },
+    },
+    data() {
+      return {
+        qps: [],
+        connections: [],
+        cpu: [],
+        memory: [],
+        networkin: [],
+        networkout: [],
+        date: [],
+        params: {
+          start: '',
+          end: '',
+        },
+        timeinterval: null,
+      };
+    },
+    computed: {
+      ...mapState(['Scale']),
+    },
+    watch: {
+      item() {
+        this.loadMetrics();
+      },
+    },
+    destroyed() {
+      if (this.timeinterval) clearInterval(this.timeinterval);
+    },
+    mounted() {
+      this.$nextTick(() => {
+        this.onDatetimeChange();
+      });
+    },
+    methods: {
+      async loadMetrics() {
+        if (this.timeinterval) clearInterval(this.timeinterval);
+        this.loadData();
+        this.timeinterval = setInterval(() => {
+          this.params.start = this.$moment(this.params.start).utc().add(30, 'seconds').format();
+          this.params.end = this.$moment(this.params.end).utc().add(30, 'seconds').format();
+          this.loadData();
+        }, 1000 * 30);
+      },
+      async loadData() {
+        this.gatewayQPS();
+        this.gatewayConnections();
+        this.workloadCPUUsage();
+        this.workloadMemoryUsage();
+        this.workloadNetworkIn();
+        this.workloadNetworkOut();
+      },
+      async gatewayQPS() {
+        const data = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: GATEWAY_QPS_PROMQL.replaceAll('$1', this.selector.topname),
+            noprocessing: true,
+          }),
+        );
+        if (data) this.qps = data;
+      },
+      async gatewayConnections() {
+        const data = await this.m_permission_matrix(
+          this.ThisCluster,
+          Object.assign(this.params, {
+            query: GATEWAY_CONNECTIONS_PROMQL.replaceAll('$1', this.selector.topname),
+            noprocessing: true,
+          }),
+        );
+        if (data) this.connections = data;
+      },
+      async workloadCPUUsage() {
+        const query = WORKLOAD_CPU_USAGE_CORE_PROMQL.replaceAll(
+          '$1',
+          `Deployment:${this.$route.params.name}`,
+        ).replaceAll('$2', SERVICE_GATEWAY_NS);
+        const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
+        if (data) this.cpu = data;
+      },
+      async workloadMemoryUsage() {
+        const query = WORKLOAD_MEMORY_USAGE_BYTE_PROMQL.replaceAll(
+          '$1',
+          `Deployment:${this.$route.params.name}`,
+        ).replaceAll('$2', SERVICE_GATEWAY_NS);
+        const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
+        if (data) this.memory = data;
+      },
+      async workloadNetworkIn() {
+        const query = WORKLOAD_NETWORK_IN_PROMQL.replaceAll('$1', `Deployment:${this.$route.params.name}`).replaceAll(
+          '$2',
+          SERVICE_GATEWAY_NS,
+        );
+        const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
+        if (data) this.networkin = data;
+      },
+      async workloadNetworkOut() {
+        const query = WORKLOAD_NETWORK_OUT_PROMQL.replaceAll('$1', `Deployment:${this.$route.params.name}`).replaceAll(
+          '$2',
+          SERVICE_GATEWAY_NS,
+        );
+        const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
+        if (data) this.networkout = data;
+      },
+      onDatetimeChange() {
+        this.params.start = this.$moment(this.date[0]).utc().format();
+        this.params.end = this.$moment(this.date[1]).utc().format();
+        this.loadMetrics();
+      },
+    },
+  };
+</script>

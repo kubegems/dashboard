@@ -1,275 +1,380 @@
 lockfileVersion: '6.0'
 
-dependencies:
-  '@iconify-json/logos':
-    specifier: ^1.1.17
-    version: 1.1.18
-  '@iconify-json/mdi':
-    specifier: ^1.1.34
-    version: 1.1.34
-  '@iconify/vue2':
-    specifier: ^1.2.1
-    version: 1.2.1(vue@2.7.14)
-  '@kubernetes/client-node':
-    specifier: ^0.18.0
-    version: 0.18.0
-  '@opentelemetry/api':
-    specifier: ^1.4.0
-    version: 1.4.0
-  '@opentelemetry/context-zone':
-    specifier: ^1.9.1
-    version: 1.9.1(@opentelemetry/api@1.4.0)
-  '@opentelemetry/exporter-trace-otlp-http':
-    specifier: ^0.35.1
-    version: 0.35.1(@opentelemetry/api@1.4.0)
-  '@opentelemetry/instrumentation':
-    specifier: ^0.35.1
-    version: 0.35.1(@opentelemetry/api@1.4.0)
-  '@opentelemetry/instrumentation-user-interaction':
-    specifier: ^0.32.1
-    version: 0.32.1(@opentelemetry/api@1.4.0)(zone.js@0.11.4)
-  '@opentelemetry/instrumentation-xml-http-request':
-    specifier: ^0.35.1
-    version: 0.35.1(@opentelemetry/api@1.4.0)
-  '@opentelemetry/resources':
-    specifier: ^1.9.1
-    version: 1.9.1(@opentelemetry/api@1.4.0)
-  '@opentelemetry/sdk-trace-web':
-    specifier: ^1.9.1
-    version: 1.9.1(@opentelemetry/api@1.4.0)
-  '@opentelemetry/semantic-conventions':
-    specifier: ^1.9.1
-    version: 1.9.1
-  ajv:
-    specifier: ^8.6.3
-    version: 8.11.0
-  axios:
-    specifier: ^0.27.2
-    version: 0.27.2
-  brace:
-    specifier: ^0.11.1
-    version: 0.11.1
-  chart.js:
-    specifier: ^3.9.1
-    version: 3.9.1
-  chartjs-adapter-moment:
-    specifier: ^1.0.0
-    version: 1.0.0(chart.js@3.9.1)(moment@2.29.4)
-  chartjs-plugin-datalabels:
-    specifier: ^2.1.0
-    version: 2.1.0(chart.js@3.9.1)
-  chartjs-plugin-doughnutlabel-v3:
-    specifier: ^1.2.0
-    version: 1.2.0(chart.js@3.9.1)
-  fast-json-patch:
-    specifier: ^3.1.1
-    version: 3.1.1
-  filepond:
-    specifier: ^4.30.4
-    version: 4.30.4
-  filepond-plugin-file-validate-size:
-    specifier: ^2.2.7
-    version: 2.2.7(filepond@4.30.4)
-  filepond-plugin-file-validate-type:
-    specifier: ^1.2.8
-    version: 1.2.8(filepond@4.30.4)
-  filepond-plugin-image-preview:
-    specifier: ^4.6.11
-    version: 4.6.11(filepond@4.30.4)
-  github-markdown-css:
-    specifier: ^5.1.0
-    version: 5.1.0
-  highlight.js:
-    specifier: ^11.5.1
-    version: 11.6.0
-  intro.js:
-    specifier: ^6.0.0
-    version: 6.0.0
-  js-base64:
-    specifier: ^3.6.0
-    version: 3.7.2
-  js-yaml:
-    specifier: ^4.1.0
-    version: 4.1.0
-  lodash:
-    specifier: ^4.17.21
-    version: 4.17.21
-  markdown-it:
-    specifier: ^12.0.6
-    version: 12.3.2
-  moment:
-    specifier: ^2.29.4
-    version: 2.29.4
-  qs:
-    specifier: ^6.11.0
-    version: 6.11.0
-  v-code-diff:
-    specifier: ^0.3.12
-    version: 0.3.12(vue@2.7.14)
-  vue:
-    specifier: ^2.7.14
-    version: 2.7.14
-  vue-clipboard2:
-    specifier: ^0.3.3
-    version: 0.3.3
-  vue-filepond:
-    specifier: ^7.0.3
-    version: 7.0.3(filepond@4.30.4)(vue@2.7.14)
-  vue-form-wizard:
-    specifier: 0.8.4
-    version: 0.8.4
-  vue-i18n:
-    specifier: ^8.27.2
-    version: 8.28.2(vue@2.7.14)
-  vue-meta:
-    specifier: ^2.4.0
-    version: 2.4.0
-  vue-okr-tree:
-    specifier: ^1.0.12
-    version: 1.0.15
-  vue-router:
-    specifier: ^3.6.5
-    version: 3.6.5(vue@2.7.14)
-  vue-slider-component:
-    specifier: ^2.8.16
-    version: 2.8.16
-  vue-table-dynamic:
-    specifier: ^0.4.10
-    version: 0.4.10
-  vue2-ace-editor:
-    specifier: ^0.0.15
-    version: 0.0.15
-  vuedraggable:
-    specifier: ^2.24.3
-    version: 2.24.3
-  vuetify:
-    specifier: ^2.6.14
-    version: 2.6.14(vue@2.7.14)
-  vuex:
-    specifier: ^3.6.2
-    version: 3.6.2(vue@2.7.14)
-  xterm:
-    specifier: ^5.1.0
-    version: 5.1.0
-  xterm-addon-fit:
-    specifier: ^0.7.0
-    version: 0.7.0(xterm@5.1.0)
-  yaml:
-    specifier: ^2.1.3
-    version: 2.1.3
+importers:
 
-devDependencies:
-  '@sentry/browser':
-    specifier: ^7.38.0
-    version: 7.38.0
-  '@sentry/tracing':
-    specifier: ^7.28.1
-    version: 7.28.1
-  '@sentry/vue':
-    specifier: ^7.28.1
-    version: 7.28.1(vue@2.7.14)
-  '@typescript-eslint/eslint-plugin':
-    specifier: ^5.42.1
-    version: 5.42.1(@typescript-eslint/parser@5.42.1)(eslint@7.32.0)(typescript@4.8.4)
-  '@typescript-eslint/parser':
-    specifier: ^5.42.1
-    version: 5.42.1(eslint@7.32.0)(typescript@4.8.4)
-  '@vitejs/plugin-vue2':
-    specifier: ^2.0.0
-    version: 2.0.0(vite@4.2.0)(vue@2.7.14)
-  '@vitejs/plugin-vue2-jsx':
-    specifier: ^1.0.3
-    version: 1.0.3(vite@4.2.0)(vue@2.7.14)
-  '@volar-plugins/vetur':
-    specifier: ^0.1.0
-    version: 0.1.0
-  '@vueuse/core':
-    specifier: ^9.5.0
-    version: 9.5.0(vue@2.7.14)
-  commitizen:
-    specifier: ^4.2.4
-    version: 4.2.5
-  commitlint:
-    specifier: ^13.2.0
-    version: 13.2.1
-  cross-env:
-    specifier: ^7.0.3
-    version: 7.0.3
-  cz-conventional-changelog:
-    specifier: ^3.3.0
-    version: 3.3.0
-  eslint:
-    specifier: ^7.27.0
-    version: 7.32.0
-  eslint-config-prettier:
-    specifier: ^8.5.0
-    version: 8.5.0(eslint@7.32.0)
-  eslint-define-config:
-    specifier: ^1.5.1
-    version: 1.11.0
-  eslint-import-resolver-alias:
-    specifier: ^1.1.2
-    version: 1.1.2(eslint-plugin-import@2.26.0)
-  eslint-import-resolver-typescript:
-    specifier: ^3.5.2
-    version: 3.5.2(eslint-plugin-import@2.26.0)(eslint@7.32.0)
-  eslint-plugin-import:
-    specifier: ^2.26.0
-    version: 2.26.0(@typescript-eslint/parser@5.42.1)(eslint-import-resolver-typescript@3.5.2)(eslint@7.32.0)
-  eslint-plugin-prettier:
-    specifier: ^4.0.0
-    version: 4.2.1(eslint-config-prettier@8.5.0)(eslint@7.32.0)(prettier@2.7.1)
-  eslint-plugin-vue:
-    specifier: ^8.4.1
-    version: 8.7.1(eslint@7.32.0)
-  eslint-plugin-vuetify:
-    specifier: ^1.1.0
-    version: 1.1.0(eslint@7.32.0)(vuetify@2.6.14)
-  happy-dom:
-    specifier: ^7.4.0
-    version: 7.6.6
-  husky:
-    specifier: ^7.0.2
-    version: 7.0.4
-  lint-staged:
-    specifier: ^11.0.0
-    version: 11.2.6
-  prettier:
-    specifier: ^2.6.2
-    version: 2.7.1
-  right-pad:
-    specifier: ^1.0.1
-    version: 1.0.1
-  sass:
-    specifier: ~1.26.5
-    version: 1.26.11
-  stylelint:
-    specifier: ^13.13.1
-    version: 13.13.1
-  stylelint-config-standard:
-    specifier: ^22.0.0
-    version: 22.0.0(stylelint@13.13.1)
-  stylelint-scss:
-    specifier: ^3.19.0
-    version: 3.21.0(stylelint@13.13.1)
-  unplugin-vue-components:
-    specifier: ^0.22.8
-    version: 0.22.9(vue@2.7.14)
-  vite:
-    specifier: ^4.2.0
-    version: 4.2.0(@types/node@14.18.33)(sass@1.26.11)
-  vite-plugin-chunk-split:
-    specifier: ^0.4.7
-    version: 0.4.7(vite@4.2.0)
-  vite-plugin-vue-markdown:
-    specifier: ^0.22.4
-    version: 0.22.4(vite@4.2.0)
-  vite-plugin-vue-setup-extend:
-    specifier: ^0.4.0
-    version: 0.4.0(vite@4.2.0)
-  vite-plugin-vue-setup-inherit-attrs:
-    specifier: ^1.0.7
-    version: 1.0.7(vite@4.2.0)
+  .:
+    dependencies:
+      ajv:
+        specifier: ^8.6.3
+        version: 8.11.0
+      axios:
+        specifier: ^0.27.2
+        version: 0.27.2
+      brace:
+        specifier: ^0.11.1
+        version: 0.11.1
+      fast-json-patch:
+        specifier: ^3.1.1
+        version: 3.1.1
+      github-markdown-css:
+        specifier: ^5.1.0
+        version: 5.1.0
+      highlight.js:
+        specifier: ^11.5.1
+        version: 11.6.0
+      js-base64:
+        specifier: ^3.6.0
+        version: 3.7.2
+      js-yaml:
+        specifier: ^4.1.0
+        version: 4.1.0
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      markdown-it:
+        specifier: ^12.0.6
+        version: 12.3.2
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
+      qs:
+        specifier: ^6.11.0
+        version: 6.11.0
+      vue:
+        specifier: ^2.7.14
+        version: 2.7.14
+      vue-meta:
+        specifier: ^2.4.0
+        version: 2.4.0
+      vue-router:
+        specifier: ^3.6.5
+        version: 3.6.5(vue@2.7.14)
+      vue-table-dynamic:
+        specifier: ^0.4.10
+        version: 0.4.10
+      vuedraggable:
+        specifier: ^2.24.3
+        version: 2.24.3
+      vuetify:
+        specifier: ^2.6.14
+        version: 2.6.14(vue@2.7.14)
+      vuex:
+        specifier: ^3.6.2
+        version: 3.6.2(vue@2.7.14)
+      yaml:
+        specifier: ^2.1.3
+        version: 2.1.3
+    devDependencies:
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.42.1
+        version: 5.42.1(@typescript-eslint/parser@5.42.1)(eslint@7.32.0)(typescript@4.8.4)
+      '@typescript-eslint/parser':
+        specifier: ^5.42.1
+        version: 5.42.1(eslint@7.32.0)(typescript@4.8.4)
+      '@vitejs/plugin-vue2':
+        specifier: ^2.0.0
+        version: 2.0.0(vite@4.2.0)(vue@2.7.14)
+      '@vitejs/plugin-vue2-jsx':
+        specifier: ^1.0.3
+        version: 1.0.3(vite@4.2.0)(vue@2.7.14)
+      '@volar-plugins/vetur':
+        specifier: ^0.1.0
+        version: 0.1.0
+      '@vueuse/core':
+        specifier: ^9.5.0
+        version: 9.5.0(vue@2.7.14)
+      commitizen:
+        specifier: ^4.2.4
+        version: 4.2.5
+      commitlint:
+        specifier: ^13.2.0
+        version: 13.2.1
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      cz-conventional-changelog:
+        specifier: ^3.3.0
+        version: 3.3.0
+      eslint:
+        specifier: ^7.27.0
+        version: 7.32.0
+      eslint-config-prettier:
+        specifier: ^8.5.0
+        version: 8.5.0(eslint@7.32.0)
+      eslint-define-config:
+        specifier: ^1.5.1
+        version: 1.11.0
+      eslint-import-resolver-alias:
+        specifier: ^1.1.2
+        version: 1.1.2(eslint-plugin-import@2.26.0)
+      eslint-import-resolver-typescript:
+        specifier: ^3.5.2
+        version: 3.5.2(eslint-plugin-import@2.26.0)(eslint@7.32.0)
+      eslint-plugin-import:
+        specifier: ^2.26.0
+        version: 2.26.0(@typescript-eslint/parser@5.42.1)(eslint-import-resolver-typescript@3.5.2)(eslint@7.32.0)
+      eslint-plugin-prettier:
+        specifier: ^4.0.0
+        version: 4.2.1(eslint-config-prettier@8.5.0)(eslint@7.32.0)(prettier@2.7.1)
+      eslint-plugin-vue:
+        specifier: ^8.4.1
+        version: 8.7.1(eslint@7.32.0)
+      eslint-plugin-vuetify:
+        specifier: ^1.1.0
+        version: 1.1.0(eslint@7.32.0)(vuetify@2.6.14)
+      happy-dom:
+        specifier: ^7.4.0
+        version: 7.6.6
+      husky:
+        specifier: ^7.0.2
+        version: 7.0.4
+      lint-staged:
+        specifier: ^11.0.0
+        version: 11.2.6
+      prettier:
+        specifier: ^2.6.2
+        version: 2.7.1
+      right-pad:
+        specifier: ^1.0.1
+        version: 1.0.1
+      sass:
+        specifier: ~1.26.5
+        version: 1.26.11
+      stylelint:
+        specifier: ^13.13.1
+        version: 13.13.1
+      stylelint-config-standard:
+        specifier: ^22.0.0
+        version: 22.0.0(stylelint@13.13.1)
+      stylelint-scss:
+        specifier: ^3.19.0
+        version: 3.21.0(stylelint@13.13.1)
+      unplugin-vue-components:
+        specifier: ^0.22.8
+        version: 0.22.9(vue@2.7.14)
+      vite:
+        specifier: ^4.2.0
+        version: 4.2.0(@types/node@14.18.33)(sass@1.26.11)
+      vite-plugin-chunk-split:
+        specifier: ^0.4.7
+        version: 0.4.7(vite@4.2.0)
+      vite-plugin-vue-markdown:
+        specifier: ^0.22.4
+        version: 0.22.4(vite@4.2.0)
+      vite-plugin-vue-setup-extend:
+        specifier: ^0.4.0
+        version: 0.4.0(vite@4.2.0)
+      vite-plugin-vue-setup-inherit-attrs:
+        specifier: ^1.0.7
+        version: 1.0.7(vite@4.2.0)
+
+  apps/kubegems:
+    dependencies:
+      '@iconify-json/logos':
+        specifier: ^1.1.17
+        version: 1.1.18
+      '@iconify-json/mdi':
+        specifier: ^1.1.34
+        version: 1.1.34
+      '@kubegems/api':
+        specifier: workspace:*
+        version: link:../../packages/api
+      '@kubegems/components':
+        specifier: workspace:*
+        version: link:../../packages/components
+      '@kubegems/extension':
+        specifier: workspace:*
+        version: link:../../packages/extension
+      '@kubegems/libs':
+        specifier: workspace:*
+        version: link:../../packages/libs
+      '@kubernetes/client-node':
+        specifier: ^0.18.0
+        version: 0.18.0
+      '@sentry/browser':
+        specifier: ^7.38.0
+        version: 7.38.0
+      filepond:
+        specifier: ^4.30.4
+        version: 4.30.4
+      filepond-plugin-file-validate-size:
+        specifier: ^2.2.7
+        version: 2.2.7(filepond@4.30.4)
+      filepond-plugin-file-validate-type:
+        specifier: ^1.2.8
+        version: 1.2.8(filepond@4.30.4)
+      filepond-plugin-image-preview:
+        specifier: ^4.6.11
+        version: 4.6.11(filepond@4.30.4)
+      v-code-diff:
+        specifier: ^0.3.12
+        version: 0.3.12(vue@2.7.14)
+      vue-filepond:
+        specifier: ^7.0.3
+        version: 7.0.3(filepond@4.30.4)(vue@2.7.14)
+      vue-form-wizard:
+        specifier: 0.8.4
+        version: 0.8.4
+      vue-i18n:
+        specifier: ^8.27.2
+        version: 8.28.2(vue@2.7.14)
+      vue-okr-tree:
+        specifier: ^1.0.12
+        version: 1.0.15
+      vue-slider-component:
+        specifier: ^2.8.16
+        version: 2.8.16
+      xterm:
+        specifier: ^5.1.0
+        version: 5.1.0
+      xterm-addon-fit:
+        specifier: ^0.7.0
+        version: 0.7.0(xterm@5.1.0)
+
+  apps/pai: {}
+
+  packages/api:
+    dependencies:
+      '@kubegems/libs':
+        specifier: workspace:*
+        version: link:../libs
+      '@kubernetes/client-node':
+        specifier: ^0.18.0
+        version: 0.18.0
+      axios:
+        specifier: ^0.27.2
+        version: 0.27.2
+      qs:
+        specifier: ^6.11.0
+        version: 6.11.0
+
+  packages/components:
+    dependencies:
+      '@kubegems/api':
+        specifier: workspace:*
+        version: link:../api
+      '@kubegems/extension':
+        specifier: workspace:*
+        version: link:../extension
+      '@kubegems/libs':
+        specifier: workspace:*
+        version: link:../libs
+      chart.js:
+        specifier: ^3.9.1
+        version: 3.9.1
+      chartjs-adapter-moment:
+        specifier: ^1.0.0
+        version: 1.0.0(chart.js@3.9.1)(moment@2.29.4)
+      chartjs-plugin-datalabels:
+        specifier: ^2.1.0
+        version: 2.1.0(chart.js@3.9.1)
+      chartjs-plugin-doughnutlabel-v3:
+        specifier: ^1.2.0
+        version: 1.2.0(chart.js@3.9.1)
+      filepond:
+        specifier: ^4.30.4
+        version: 4.30.4
+      filepond-plugin-file-validate-size:
+        specifier: ^2.2.7
+        version: 2.2.7(filepond@4.30.4)
+      filepond-plugin-file-validate-type:
+        specifier: ^1.2.8
+        version: 1.2.8(filepond@4.30.4)
+      filepond-plugin-image-preview:
+        specifier: ^4.6.11
+        version: 4.6.11(filepond@4.30.4)
+      vue:
+        specifier: ^2.7.14
+        version: 2.7.14
+      vue-filepond:
+        specifier: ^7.0.3
+        version: 7.0.3(filepond@4.30.4)(vue@2.7.14)
+      vuetify:
+        specifier: ^2.6.14
+        version: 2.6.14(vue@2.7.14)
+
+  packages/extension:
+    dependencies:
+      '@iconify-json/logos':
+        specifier: ^1.1.17
+        version: 1.1.18
+      '@iconify-json/mdi':
+        specifier: ^1.1.34
+        version: 1.1.34
+      '@iconify/vue2':
+        specifier: ^1.2.1
+        version: 1.2.1(vue@2.7.14)
+      '@kubegems/api':
+        specifier: workspace:*
+        version: link:../api
+      '@kubegems/libs':
+        specifier: workspace:*
+        version: link:../libs
+      '@opentelemetry/api':
+        specifier: ^1.4.0
+        version: 1.4.0
+      '@opentelemetry/context-zone':
+        specifier: ^1.9.1
+        version: 1.9.1(@opentelemetry/api@1.4.0)
+      '@opentelemetry/exporter-trace-otlp-http':
+        specifier: ^0.35.1
+        version: 0.35.1(@opentelemetry/api@1.4.0)
+      '@opentelemetry/instrumentation':
+        specifier: ^0.35.1
+        version: 0.35.1(@opentelemetry/api@1.4.0)
+      '@opentelemetry/instrumentation-user-interaction':
+        specifier: ^0.32.1
+        version: 0.32.1(@opentelemetry/api@1.4.0)(zone.js@0.11.4)
+      '@opentelemetry/instrumentation-xml-http-request':
+        specifier: ^0.35.1
+        version: 0.35.1(@opentelemetry/api@1.4.0)
+      '@opentelemetry/resources':
+        specifier: ^1.9.1
+        version: 1.9.1(@opentelemetry/api@1.4.0)
+      '@opentelemetry/sdk-trace-web':
+        specifier: ^1.9.1
+        version: 1.9.1(@opentelemetry/api@1.4.0)
+      '@opentelemetry/semantic-conventions':
+        specifier: ^1.9.1
+        version: 1.9.1
+      '@sentry/browser':
+        specifier: ^7.38.0
+        version: 7.38.0
+      '@sentry/tracing':
+        specifier: ^7.28.1
+        version: 7.28.1
+      '@sentry/vue':
+        specifier: ^7.28.1
+        version: 7.28.1(vue@2.7.14)
+      intro.js:
+        specifier: ^6.0.0
+        version: 6.0.0
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
+      vue:
+        specifier: ^2.7.14
+        version: 2.7.14
+      vue-clipboard2:
+        specifier: ^0.3.3
+        version: 0.3.3
+      vue-i18n:
+        specifier: ^8.27.2
+        version: 8.28.2(vue@2.7.14)
+      vue-router:
+        specifier: ^3.6.5
+        version: 3.6.5(vue@2.7.14)
+      vue2-ace-editor:
+        specifier: ^0.0.15
+        version: 0.0.15
+      vuex:
+        specifier: ^3.6.2
+        version: 3.6.2(vue@2.7.14)
+
+  packages/libs: {}
 
 packages:
 
@@ -1382,7 +1487,7 @@ packages:
       '@sentry/types': 7.28.1
       '@sentry/utils': 7.28.1
       tslib: 1.14.1
-    dev: true
+    dev: false
 
   /@sentry/browser@7.38.0:
     resolution: {integrity: sha512-rPJr+2jRYL29PeMYA2JgzYKTZQx6bc3T9evbAdIh0n+popSjpVyOpOMV/3l6A7KZeeix3dpp6eUZUxTJukqriQ==}
@@ -1393,7 +1498,7 @@ packages:
       '@sentry/types': 7.38.0
       '@sentry/utils': 7.38.0
       tslib: 1.14.1
-    dev: true
+    dev: false
 
   /@sentry/core@7.28.1:
     resolution: {integrity: sha512-7wvnuvn/mrAfcugWoCG/3pqDIrUgH5t+HisMJMGw0h9Tc33KqrmqMDCQVvjlrr2pWrw/vuUCFdm8CbUHJ832oQ==}
@@ -1402,7 +1507,7 @@ packages:
       '@sentry/types': 7.28.1
       '@sentry/utils': 7.28.1
       tslib: 1.14.1
-    dev: true
+    dev: false
 
   /@sentry/core@7.38.0:
     resolution: {integrity: sha512-+hXh/SO3Ie6WC2b+wi01xLhyVREdkRXS5QBmCiv3z2ks2HvYXp7PoKSXJvNKiwCP+pBD+enOnM1YEzM2yEy5yw==}
@@ -1411,7 +1516,7 @@ packages:
       '@sentry/types': 7.38.0
       '@sentry/utils': 7.38.0
       tslib: 1.14.1
-    dev: true
+    dev: false
 
   /@sentry/replay@7.28.1(@sentry/browser@7.28.1):
     resolution: {integrity: sha512-Os0PzMjKlwtHwzTU0kfVzGzsi4Vaj3g2arCl4Qnr3b6kYTb9WOFZo/n/v56ss7Z+nZG3K8W5PisoD4MRsRJRig==}
@@ -1423,7 +1528,7 @@ packages:
       '@sentry/core': 7.28.1
       '@sentry/types': 7.28.1
       '@sentry/utils': 7.28.1
-    dev: true
+    dev: false
 
   /@sentry/replay@7.38.0:
     resolution: {integrity: sha512-Ai78/OIYedny605x8uS0n/a5uj7qnuevogGD6agLat9lGc8DFvC07m2iS+EFyGOwtQzyDlRYJvYkHL8peR3crQ==}
@@ -1432,7 +1537,7 @@ packages:
       '@sentry/core': 7.38.0
       '@sentry/types': 7.38.0
       '@sentry/utils': 7.38.0
-    dev: true
+    dev: false
 
   /@sentry/tracing@7.28.1:
     resolution: {integrity: sha512-uWspnuz+7FyW8ES5lRaVA7O/YJSzMlSkvBFtgzaoKmdaueokU/sRLwlCsrdgwavG1wpm79df7R1iiSeqhaXDlw==}
@@ -1442,17 +1547,17 @@ packages:
       '@sentry/types': 7.28.1
       '@sentry/utils': 7.28.1
       tslib: 1.14.1
-    dev: true
+    dev: false
 
   /@sentry/types@7.28.1:
     resolution: {integrity: sha512-DvSplMVrVEmOzR2M161V5+B8Up3vR71xMqJOpWTzE9TqtFJRGPtqT/5OBsNJJw1+/j2ssMcnKwbEo9Q2EGeS6g==}
     engines: {node: '>=8'}
-    dev: true
+    dev: false
 
   /@sentry/types@7.38.0:
     resolution: {integrity: sha512-NKOALR6pNUMzUrsk2m+dkPrO8uGNvNh1LD0BCPswKNjC2qHo1h1mDGCgBmF9+EWyii8ZoACTIsxvsda+MBf97Q==}
     engines: {node: '>=8'}
-    dev: true
+    dev: false
 
   /@sentry/utils@7.28.1:
     resolution: {integrity: sha512-75/jzLUO9HH09iC9TslNimGbxOP3jgn89P+q7uR+rp2fJfRExHVeKJZQdK0Ij4/SmE7TJ3Uh2r154N0INZEx1g==}
@@ -1460,7 +1565,7 @@ packages:
     dependencies:
       '@sentry/types': 7.28.1
       tslib: 1.14.1
-    dev: true
+    dev: false
 
   /@sentry/utils@7.38.0:
     resolution: {integrity: sha512-MgbI3YmYuyyhUtvcXkgGBqjOW+nuLLNGUdWCK+C4kObf8VbLt3dSE/7SEMT6TSHLYQmxs2BxFgx5Agn97m68kQ==}
@@ -1468,7 +1573,7 @@ packages:
     dependencies:
       '@sentry/types': 7.38.0
       tslib: 1.14.1
-    dev: true
+    dev: false
 
   /@sentry/vue@7.28.1(vue@2.7.14):
     resolution: {integrity: sha512-+H0ymfzNcmOjWLIZMDnua/TUQlzh4L36Au92N0ByzU4YneeB+rsmEuxWnldVo5qYJXV3XOu83Eug5eDstgTNyw==}
@@ -1482,7 +1587,7 @@ packages:
       '@sentry/utils': 7.28.1
       tslib: 1.14.1
       vue: 2.7.14
-    dev: true
+    dev: false
 
   /@stylelint/postcss-css-in-js@0.37.3(postcss-syntax@0.36.2)(postcss@7.0.39):
     resolution: {integrity: sha512-scLk3cSH1H9KggSniseb2KNAU5D9FWc3H7BxCSAIdtU9OWIyw0zkEZ9qEKHryRM+SExYXRKNb7tOOVNAsQ3iwg==}
@@ -6310,7 +6415,6 @@ packages:
 
   /tslib@1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
-    dev: true
 
   /tslib@2.4.1:
     resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}

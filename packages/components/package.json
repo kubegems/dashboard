@@ -1,0 +1,28 @@
+{
+  "name": "@kubegems/components",
+  "version": "1.23.7",
+  "description": "base components for kubegems ",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./ --ext .ts,.tsx,.vue,.js,.jsx"
+  },
+  "author": "kubegems",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@kubegems/api": "workspace:*",
+    "@kubegems/extension": "workspace:*",
+    "@kubegems/libs": "workspace:*",
+    "filepond": "^4.30.4",
+    "filepond-plugin-file-validate-size": "^2.2.7",
+    "filepond-plugin-file-validate-type": "^1.2.8",
+    "filepond-plugin-image-preview": "^4.6.11",
+    "vue": "^2.7.14",
+    "vuetify": "^2.6.14",
+    "chart.js": "^3.9.1",
+    "chartjs-adapter-moment": "^1.0.0",
+    "chartjs-plugin-datalabels": "^2.1.0",
+    "chartjs-plugin-doughnutlabel-v3": "^1.2.0",
+    "vue-filepond": "^7.0.3"
+  }
+}
