@@ -1,0 +1,12 @@
+{
+  "name": "@kubegems/libs",
+  "version": "1.23.7",
+  "description": "libs api for kubegems",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kubegems",
+  "license": "Apache-2.0",
+  "dependencies": {}
+}

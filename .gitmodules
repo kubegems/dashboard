@@ -1,0 +1,3 @@
+[submodule "apps/pai"]
+	path = apps/pai
+	url = git@github.com:kubegems/pai-console.git
