@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Plugin } from '@kubegems/api/typed/plugin';
+import { Auth } from '@kubegems/api/typed/role';
 import { useStore } from '@kubegems/extension/store';
 
-import { Plugin } from '@/types/plugin';
 import { Matrix, Vector } from '@/types/prometheus';
-import { Auth } from '@/types/role';
 
 const store = useStore();
 

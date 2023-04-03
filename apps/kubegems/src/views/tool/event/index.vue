@@ -132,6 +132,10 @@
 </template>
 
 <script lang="ts" setup>
+  import { useClusterList } from '@kubegems/api/hooks/cluster';
+  import { useClusterListInTenant, useEnvironmentListInTenant } from '@kubegems/api/hooks/tenant';
+  import { Cluster } from '@kubegems/api/typed/cluster';
+  import { Tenant } from '@kubegems/api/typed/tenant';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useQuery } from '@kubegems/extension/router';
@@ -140,11 +144,7 @@
   import { ComputedRef, computed, onMounted, reactive, ref, watch } from 'vue';
 
   import { useI18n } from './i18n';
-  import { useClusterList } from '@/composition/cluster';
-  import { useClusterListInTenant, useEnvironmentListInTenant } from '@/composition/tenant';
-  import { Cluster } from '@/types/cluster';
   import { Log } from '@/types/log';
-  import { Tenant } from '@/types/tenant';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

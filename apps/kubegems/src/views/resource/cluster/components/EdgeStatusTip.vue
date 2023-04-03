@@ -75,10 +75,10 @@
 </template>
 
 <script lang="ts" setup>
+  import { EdgeCluster } from '@kubegems/api/typed/edge_cluster';
   import moment from 'moment';
 
   import { useI18n } from '../i18n';
-  import { EdgeCluster } from '@/types/edge_cluster';
 
   withDefaults(
     defineProps<{

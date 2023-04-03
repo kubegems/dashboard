@@ -70,8 +70,8 @@
 </template>
 
 <script>
+  import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import { required } from '@kubegems/libs/utils/rules';
   import { Base64 } from 'js-base64';
   import { mapGetters, mapState } from 'vuex';
 

@@ -157,6 +157,8 @@
 </template>
 
 <script lang="ts" setup>
+  import { useUserPagination } from '@kubegems/api/hooks/user';
+  import { User } from '@kubegems/api/typed/user';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
@@ -169,8 +171,6 @@
   import ResetPassword from './components/ResetPassword.vue';
   import UpdateRole from './components/UpdateRole.vue';
   import { useI18n } from './i18n';
-  import { useUserPagination } from '@/composition/user';
-  import { User } from '@/types/user';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

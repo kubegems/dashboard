@@ -4,60 +4,6 @@ importers:
 
   .:
     dependencies:
-      '@iconify-json/logos':
-        specifier: ^1.1.17
-        version: 1.1.18
-      '@iconify-json/mdi':
-        specifier: ^1.1.34
-        version: 1.1.34
-      '@iconify/vue2':
-        specifier: ^1.2.1
-        version: 1.2.1(vue@2.7.14)
-      '@kubegems/api':
-        specifier: workspace:*
-        version: link:packages/api
-      '@kubegems/components':
-        specifier: workspace:*
-        version: link:packages/components
-      '@kubegems/extension':
-        specifier: workspace:*
-        version: link:packages/extension
-      '@kubegems/kubegems':
-        specifier: workspace:*
-        version: link:apps/kubegems
-      '@kubegems/libs':
-        specifier: workspace:*
-        version: link:packages/libs
-      '@kubernetes/client-node':
-        specifier: ^0.18.0
-        version: 0.18.0
-      '@opentelemetry/api':
-        specifier: ^1.4.0
-        version: 1.4.0
-      '@opentelemetry/context-zone':
-        specifier: ^1.9.1
-        version: 1.9.1(@opentelemetry/api@1.4.0)
-      '@opentelemetry/exporter-trace-otlp-http':
-        specifier: ^0.35.1
-        version: 0.35.1(@opentelemetry/api@1.4.0)
-      '@opentelemetry/instrumentation':
-        specifier: ^0.35.1
-        version: 0.35.1(@opentelemetry/api@1.4.0)
-      '@opentelemetry/instrumentation-user-interaction':
-        specifier: ^0.32.1
-        version: 0.32.1(@opentelemetry/api@1.4.0)(zone.js@0.11.4)
-      '@opentelemetry/instrumentation-xml-http-request':
-        specifier: ^0.35.1
-        version: 0.35.1(@opentelemetry/api@1.4.0)
-      '@opentelemetry/resources':
-        specifier: ^1.9.1
-        version: 1.9.1(@opentelemetry/api@1.4.0)
-      '@opentelemetry/sdk-trace-web':
-        specifier: ^1.9.1
-        version: 1.9.1(@opentelemetry/api@1.4.0)
-      '@opentelemetry/semantic-conventions':
-        specifier: ^1.9.1
-        version: 1.9.1
       ajv:
         specifier: ^8.6.3
         version: 8.11.0
@@ -67,42 +13,15 @@ importers:
       brace:
         specifier: ^0.11.1
         version: 0.11.1
-      chart.js:
-        specifier: ^3.9.1
-        version: 3.9.1
-      chartjs-adapter-moment:
-        specifier: ^1.0.0
-        version: 1.0.0(chart.js@3.9.1)(moment@2.29.4)
-      chartjs-plugin-datalabels:
-        specifier: ^2.1.0
-        version: 2.1.0(chart.js@3.9.1)
-      chartjs-plugin-doughnutlabel-v3:
-        specifier: ^1.2.0
-        version: 1.2.0(chart.js@3.9.1)
       fast-json-patch:
         specifier: ^3.1.1
         version: 3.1.1
-      filepond:
-        specifier: ^4.30.4
-        version: 4.30.4
-      filepond-plugin-file-validate-size:
-        specifier: ^2.2.7
-        version: 2.2.7(filepond@4.30.4)
-      filepond-plugin-file-validate-type:
-        specifier: ^1.2.8
-        version: 1.2.8(filepond@4.30.4)
-      filepond-plugin-image-preview:
-        specifier: ^4.6.11
-        version: 4.6.11(filepond@4.30.4)
       github-markdown-css:
         specifier: ^5.1.0
         version: 5.1.0
       highlight.js:
         specifier: ^11.5.1
         version: 11.6.0
-      intro.js:
-        specifier: ^6.0.0
-        version: 6.0.0
       js-base64:
         specifier: ^3.6.0
         version: 3.7.2
@@ -121,42 +40,18 @@ importers:
       qs:
         specifier: ^6.11.0
         version: 6.11.0
-      v-code-diff:
-        specifier: ^0.3.12
-        version: 0.3.12(vue@2.7.14)
       vue:
         specifier: ^2.7.14
         version: 2.7.14
-      vue-clipboard2:
-        specifier: ^0.3.3
-        version: 0.3.3
-      vue-filepond:
-        specifier: ^7.0.3
-        version: 7.0.3(filepond@4.30.4)(vue@2.7.14)
-      vue-form-wizard:
-        specifier: 0.8.4
-        version: 0.8.4
-      vue-i18n:
-        specifier: ^8.27.2
-        version: 8.28.2(vue@2.7.14)
       vue-meta:
         specifier: ^2.4.0
         version: 2.4.0
-      vue-okr-tree:
-        specifier: ^1.0.12
-        version: 1.0.15
       vue-router:
         specifier: ^3.6.5
         version: 3.6.5(vue@2.7.14)
-      vue-slider-component:
-        specifier: ^2.8.16
-        version: 2.8.16
       vue-table-dynamic:
         specifier: ^0.4.10
         version: 0.4.10
-      vue2-ace-editor:
-        specifier: ^0.0.15
-        version: 0.0.15
       vuedraggable:
         specifier: ^2.24.3
         version: 2.24.3
@@ -166,25 +61,10 @@ importers:
       vuex:
         specifier: ^3.6.2
         version: 3.6.2(vue@2.7.14)
-      xterm:
-        specifier: ^5.1.0
-        version: 5.1.0
-      xterm-addon-fit:
-        specifier: ^0.7.0
-        version: 0.7.0(xterm@5.1.0)
       yaml:
         specifier: ^2.1.3
         version: 2.1.3
     devDependencies:
-      '@sentry/browser':
-        specifier: ^7.38.0
-        version: 7.38.0
-      '@sentry/tracing':
-        specifier: ^7.28.1
-        version: 7.28.1
-      '@sentry/vue':
-        specifier: ^7.28.1
-        version: 7.28.1(vue@2.7.14)
       '@typescript-eslint/eslint-plugin':
         specifier: ^5.42.1
         version: 5.42.1(@typescript-eslint/parser@5.42.1)(eslint@7.32.0)(typescript@4.8.4)
@@ -290,6 +170,12 @@ importers:
 
   apps/kubegems:
     dependencies:
+      '@iconify-json/logos':
+        specifier: ^1.1.17
+        version: 1.1.18
+      '@iconify-json/mdi':
+        specifier: ^1.1.34
+        version: 1.1.34
       '@kubegems/api':
         specifier: workspace:*
         version: link:../../packages/api
@@ -302,6 +188,50 @@ importers:
       '@kubegems/libs':
         specifier: workspace:*
         version: link:../../packages/libs
+      '@kubernetes/client-node':
+        specifier: ^0.18.0
+        version: 0.18.0
+      '@sentry/browser':
+        specifier: ^7.38.0
+        version: 7.38.0
+      filepond:
+        specifier: ^4.30.4
+        version: 4.30.4
+      filepond-plugin-file-validate-size:
+        specifier: ^2.2.7
+        version: 2.2.7(filepond@4.30.4)
+      filepond-plugin-file-validate-type:
+        specifier: ^1.2.8
+        version: 1.2.8(filepond@4.30.4)
+      filepond-plugin-image-preview:
+        specifier: ^4.6.11
+        version: 4.6.11(filepond@4.30.4)
+      v-code-diff:
+        specifier: ^0.3.12
+        version: 0.3.12(vue@2.7.14)
+      vue-filepond:
+        specifier: ^7.0.3
+        version: 7.0.3(filepond@4.30.4)(vue@2.7.14)
+      vue-form-wizard:
+        specifier: 0.8.4
+        version: 0.8.4
+      vue-i18n:
+        specifier: ^8.27.2
+        version: 8.28.2(vue@2.7.14)
+      vue-okr-tree:
+        specifier: ^1.0.12
+        version: 1.0.15
+      vue-slider-component:
+        specifier: ^2.8.16
+        version: 2.8.16
+      xterm:
+        specifier: ^5.1.0
+        version: 5.1.0
+      xterm-addon-fit:
+        specifier: ^0.7.0
+        version: 0.7.0(xterm@5.1.0)
+
+  apps/pai: {}
 
   packages/api:
     dependencies:
@@ -329,6 +259,18 @@ importers:
       '@kubegems/libs':
         specifier: workspace:*
         version: link:../libs
+      chart.js:
+        specifier: ^3.9.1
+        version: 3.9.1
+      chartjs-adapter-moment:
+        specifier: ^1.0.0
+        version: 1.0.0(chart.js@3.9.1)(moment@2.29.4)
+      chartjs-plugin-datalabels:
+        specifier: ^2.1.0
+        version: 2.1.0(chart.js@3.9.1)
+      chartjs-plugin-doughnutlabel-v3:
+        specifier: ^1.2.0
+        version: 1.2.0(chart.js@3.9.1)
       filepond:
         specifier: ^4.30.4
         version: 4.30.4
@@ -344,6 +286,9 @@ importers:
       vue:
         specifier: ^2.7.14
         version: 2.7.14
+      vue-filepond:
+        specifier: ^7.0.3
+        version: 7.0.3(filepond@4.30.4)(vue@2.7.14)
       vuetify:
         specifier: ^2.6.14
         version: 2.6.14(vue@2.7.14)
@@ -1542,6 +1487,7 @@ packages:
       '@sentry/types': 7.28.1
       '@sentry/utils': 7.28.1
       tslib: 1.14.1
+    dev: false
 
   /@sentry/browser@7.38.0:
     resolution: {integrity: sha512-rPJr+2jRYL29PeMYA2JgzYKTZQx6bc3T9evbAdIh0n+popSjpVyOpOMV/3l6A7KZeeix3dpp6eUZUxTJukqriQ==}
@@ -1552,6 +1498,7 @@ packages:
       '@sentry/types': 7.38.0
       '@sentry/utils': 7.38.0
       tslib: 1.14.1
+    dev: false
 
   /@sentry/core@7.28.1:
     resolution: {integrity: sha512-7wvnuvn/mrAfcugWoCG/3pqDIrUgH5t+HisMJMGw0h9Tc33KqrmqMDCQVvjlrr2pWrw/vuUCFdm8CbUHJ832oQ==}
@@ -1560,6 +1507,7 @@ packages:
       '@sentry/types': 7.28.1
       '@sentry/utils': 7.28.1
       tslib: 1.14.1
+    dev: false
 
   /@sentry/core@7.38.0:
     resolution: {integrity: sha512-+hXh/SO3Ie6WC2b+wi01xLhyVREdkRXS5QBmCiv3z2ks2HvYXp7PoKSXJvNKiwCP+pBD+enOnM1YEzM2yEy5yw==}
@@ -1568,6 +1516,7 @@ packages:
       '@sentry/types': 7.38.0
       '@sentry/utils': 7.38.0
       tslib: 1.14.1
+    dev: false
 
   /@sentry/replay@7.28.1(@sentry/browser@7.28.1):
     resolution: {integrity: sha512-Os0PzMjKlwtHwzTU0kfVzGzsi4Vaj3g2arCl4Qnr3b6kYTb9WOFZo/n/v56ss7Z+nZG3K8W5PisoD4MRsRJRig==}
@@ -1579,6 +1528,7 @@ packages:
       '@sentry/core': 7.28.1
       '@sentry/types': 7.28.1
       '@sentry/utils': 7.28.1
+    dev: false
 
   /@sentry/replay@7.38.0:
     resolution: {integrity: sha512-Ai78/OIYedny605x8uS0n/a5uj7qnuevogGD6agLat9lGc8DFvC07m2iS+EFyGOwtQzyDlRYJvYkHL8peR3crQ==}
@@ -1587,6 +1537,7 @@ packages:
       '@sentry/core': 7.38.0
       '@sentry/types': 7.38.0
       '@sentry/utils': 7.38.0
+    dev: false
 
   /@sentry/tracing@7.28.1:
     resolution: {integrity: sha512-uWspnuz+7FyW8ES5lRaVA7O/YJSzMlSkvBFtgzaoKmdaueokU/sRLwlCsrdgwavG1wpm79df7R1iiSeqhaXDlw==}
@@ -1596,14 +1547,17 @@ packages:
       '@sentry/types': 7.28.1
       '@sentry/utils': 7.28.1
       tslib: 1.14.1
+    dev: false
 
   /@sentry/types@7.28.1:
     resolution: {integrity: sha512-DvSplMVrVEmOzR2M161V5+B8Up3vR71xMqJOpWTzE9TqtFJRGPtqT/5OBsNJJw1+/j2ssMcnKwbEo9Q2EGeS6g==}
     engines: {node: '>=8'}
+    dev: false
 
   /@sentry/types@7.38.0:
     resolution: {integrity: sha512-NKOALR6pNUMzUrsk2m+dkPrO8uGNvNh1LD0BCPswKNjC2qHo1h1mDGCgBmF9+EWyii8ZoACTIsxvsda+MBf97Q==}
     engines: {node: '>=8'}
+    dev: false
 
   /@sentry/utils@7.28.1:
     resolution: {integrity: sha512-75/jzLUO9HH09iC9TslNimGbxOP3jgn89P+q7uR+rp2fJfRExHVeKJZQdK0Ij4/SmE7TJ3Uh2r154N0INZEx1g==}
@@ -1611,6 +1565,7 @@ packages:
     dependencies:
       '@sentry/types': 7.28.1
       tslib: 1.14.1
+    dev: false
 
   /@sentry/utils@7.38.0:
     resolution: {integrity: sha512-MgbI3YmYuyyhUtvcXkgGBqjOW+nuLLNGUdWCK+C4kObf8VbLt3dSE/7SEMT6TSHLYQmxs2BxFgx5Agn97m68kQ==}
@@ -1618,6 +1573,7 @@ packages:
     dependencies:
       '@sentry/types': 7.38.0
       tslib: 1.14.1
+    dev: false
 
   /@sentry/vue@7.28.1(vue@2.7.14):
     resolution: {integrity: sha512-+H0ymfzNcmOjWLIZMDnua/TUQlzh4L36Au92N0ByzU4YneeB+rsmEuxWnldVo5qYJXV3XOu83Eug5eDstgTNyw==}
@@ -1631,6 +1587,7 @@ packages:
       '@sentry/utils': 7.28.1
       tslib: 1.14.1
       vue: 2.7.14
+    dev: false
 
   /@stylelint/postcss-css-in-js@0.37.3(postcss-syntax@0.36.2)(postcss@7.0.39):
     resolution: {integrity: sha512-scLk3cSH1H9KggSniseb2KNAU5D9FWc3H7BxCSAIdtU9OWIyw0zkEZ9qEKHryRM+SExYXRKNb7tOOVNAsQ3iwg==}

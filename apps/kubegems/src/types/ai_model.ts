@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
+import { User } from '@kubegems/api/typed/user';
 import axios from 'axios';
 import { Base64 } from 'js-base64';
-
-import { User } from './user';
 
 interface RegistryUser {
   getUserList(params: KubeRequest): Promise<string[]>;

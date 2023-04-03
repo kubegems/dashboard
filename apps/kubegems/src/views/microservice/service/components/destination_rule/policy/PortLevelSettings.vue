@@ -135,8 +135,8 @@
 </template>
 
 <script>
+  import { port } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import { port } from '@kubegems/libs/utils/rules';
 
   import ConnectionPool from './ConnectionPool';
   import LoadBalancer from './LoadBalancer';

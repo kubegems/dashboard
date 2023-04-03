@@ -23,7 +23,7 @@ import Vue from 'vue';
 import Vuex, { ActionContext, Store } from 'vuex';
 
 import { useCluster, useEnvironment, useProject, useTenant, useVirtualSpace } from './api';
-import router from '@kubegems/extension/router';
+import router from '../../router';
 
 Vue.use(Vuex);
 

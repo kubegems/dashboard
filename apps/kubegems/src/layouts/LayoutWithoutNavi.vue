@@ -15,19 +15,21 @@
 -->
 
 <template>
-  <v-app id="inspire">
-    <Header v-model="expandOnHover" :show-app-bar-nav-icon="false" :small-title="route.meta.smallTitle" />
-    <v-main :style="{ minHeight: `${height}px` }">
-      <router-view />
+  <LayoutWithoutNavi>
+    <template #header>
+      <Header v-model="expandOnHover" :show-app-bar-nav-icon="false" :small-title="route.meta.smallTitle" />
+    </template>
+    <template #tool>
       <Tool v-if="store.state.Admin" />
-    </v-main>
-  </v-app>
+    </template>
+  </LayoutWithoutNavi>
 </template>
 
 <script lang="ts" setup>
+  import LayoutWithoutNavi from '@kubegems/components/layouts/LayoutWithoutNavi.vue';
   import { useRoute } from '@kubegems/extension/proxy';
   import { useStore } from '@kubegems/extension/store';
-  import { computed, ref } from 'vue';
+  import { ref } from 'vue';
 
   import Header from './header/Header.vue';
   import Tool from './tool/Tool.vue';
@@ -36,8 +38,4 @@
   const route = useRoute();
 
   const expandOnHover = ref(false);
-
-  const height = computed<number>(() => {
-    return window.innerHeight / store.state.Scale;
-  });
 </script>

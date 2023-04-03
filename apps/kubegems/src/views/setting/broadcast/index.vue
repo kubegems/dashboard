@@ -98,6 +98,8 @@
 </template>
 
 <script lang="ts" setup>
+  import { useBroadcastPagination } from '@kubegems/api/hooks/broadcast';
+  import { Broadcast } from '@kubegems/api/typed/broadcast';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
   import moment from 'moment';
@@ -105,8 +107,6 @@
 
   import BroadcastForm from './components/BroadcastForm.vue';
   import { useI18n } from './i18n';
-  import { useBroadcastPagination } from '@/composition/broadcast';
-  import { Broadcast } from '@/types/broadcast';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

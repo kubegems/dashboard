@@ -15,27 +15,26 @@
 -->
 
 <template>
-  <v-app id="inspire">
-    <Header
-      v-model="expandOnHover"
-      :small-title="store.state.AdminViewport ? 'header.administrator' : 'header.tenant_workspace'"
-    />
-    <v-main :style="{ minHeight: `${height}px` }">
-      <BasePluginPass>
-        <template #default>
-          <router-view />
-        </template>
-      </BasePluginPass>
-      <Tool v-if="store.state.Admin" />
-
+  <Layout>
+    <template #header>
+      <Header
+        v-model="expandOnHover"
+        :small-title="store.state.AdminViewport ? 'header.administrator' : 'header.tenant_workspace'"
+      />
+    </template>
+    <template #sidebar>
       <Sidebar :key="store.state.SidebarKey" :expand-on-hover.sync="expandOnHover" />
-    </v-main>
-  </v-app>
+    </template>
+    <template #tool>
+      <Tool v-if="store.state.Admin" />
+    </template>
+  </Layout>
 </template>
 
 <script lang="ts" setup>
+  import Layout from '@kubegems/components/layouts/Layout.vue';
   import { useStore } from '@kubegems/extension/store';
-  import { computed, ref } from 'vue';
+  import { ref } from 'vue';
 
   import Header from './header/Header.vue';
   import Sidebar from './sidebar/Sidebar.vue';
@@ -44,7 +43,4 @@
   const store = useStore();
 
   const expandOnHover = ref(false);
-  const height = computed<number>(() => {
-    return window.innerHeight / store.state.Scale;
-  });
 </script>

@@ -70,6 +70,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { User } from '@kubegems/api/typed/user';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
@@ -78,7 +79,6 @@
   import ManageUser from './ManageUser.vue';
   import ModelBaseInfo from './ModelBaseInfo/index.vue';
   import { AIModelRegistry } from '@/types/ai_model';
-  import { User } from '@/types/user';
 
   const i18n = useGlobalI18n();
   const store = useStore();

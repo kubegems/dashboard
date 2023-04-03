@@ -39,7 +39,7 @@
 </template>
 
 <script>
-  import { required } from '@kubegems/libs/utils/rules';
+  import { required } from '@kubegems/extension/ruler';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';

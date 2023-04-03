@@ -94,8 +94,8 @@
 
 <script lang="ts" setup>
   import { useGlobalI18n } from '@kubegems/extension/i18n';
+  import { required } from '@kubegems/extension/ruler';
   import { useStore } from '@kubegems/extension/store';
-  import { required } from '@kubegems/libs/utils/rules';
   import { reactive, ref } from 'vue';
 
   import { useI18n } from '../../i18n';

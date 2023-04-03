@@ -244,15 +244,15 @@
 </template>
 
 <script lang="ts" setup>
+  import { useClusterList } from '@kubegems/api/hooks/cluster';
+  import { Cluster } from '@kubegems/api/typed/cluster';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
+  import { integer, required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import { integer, required } from '@kubegems/libs/utils/rules';
   import { ComputedRef, computed, reactive, ref } from 'vue';
 
   import { useI18n } from '../../../i18n';
   import ResourceChart from './ResourceChart.vue';
-  import { useClusterList } from '@/composition/cluster';
-  import { Cluster } from '@/types/cluster';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

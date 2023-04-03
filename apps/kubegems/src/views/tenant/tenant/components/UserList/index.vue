@@ -100,6 +100,10 @@
 </template>
 
 <script lang="ts" setup>
+  import { useTenantUserPagination } from '@kubegems/api/hooks/tenant';
+  import { ResourceRole } from '@kubegems/api/typed/role';
+  import { Tenant } from '@kubegems/api/typed/tenant';
+  import { User } from '@kubegems/api/typed/user';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
   import moment from 'moment';
@@ -107,10 +111,6 @@
 
   import { useI18n } from '../../i18n';
   import AddUser from './AddUser.vue';
-  import { useTenantUserPagination } from '@/composition/tenant';
-  import { ResourceRole } from '@/types/role';
-  import { Tenant } from '@/types/tenant';
-  import { User } from '@/types/user';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

@@ -67,8 +67,8 @@
 </template>
 
 <script>
+  import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import { required } from '@kubegems/libs/utils/rules';
 
   import { getNodeList } from '@/api';
   import BaseResource from '@/mixins/resource';

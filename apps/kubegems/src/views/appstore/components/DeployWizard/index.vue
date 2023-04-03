@@ -188,8 +188,8 @@
 </template>
 
 <script>
+  import { k8sName, required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import { k8sName, required } from '@kubegems/libs/utils/rules';
   import { retrieveFromSchema } from '@kubegems/libs/utils/schema';
   import { deleteValue, setValue, setYamlValue } from '@kubegems/libs/utils/yaml';
   import { Base64 } from 'js-base64';

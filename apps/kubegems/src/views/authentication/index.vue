@@ -203,9 +203,9 @@
 
 <script>
   import locales from '@kubegems/extension/i18n/locales';
+  import { required } from '@kubegems/extension/ruler';
   import { PLATFORM, VENDOR } from '@kubegems/libs/constants/platform';
   import { validateJWT } from '@kubegems/libs/utils/helpers';
-  import { required } from '@kubegems/libs/utils/rules';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from './i18n';

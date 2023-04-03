@@ -238,8 +238,8 @@
 </template>
 
 <script>
+  import { required } from '@kubegems/extension/ruler';
   import { deepCopy, randomString } from '@kubegems/libs/utils/helpers';
-  import { required } from '@kubegems/libs/utils/rules';
 
   import messages from '../../i18n';
   import BaseResource from '@/mixins/resource';

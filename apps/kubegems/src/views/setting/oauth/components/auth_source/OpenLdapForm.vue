@@ -60,11 +60,11 @@
 </template>
 
 <script lang="ts" setup>
-  import { required } from '@kubegems/libs/utils/rules';
+  import { OAuth } from '@kubegems/api/typed/oauth';
+  import { required } from '@kubegems/extension/ruler';
   import { reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../../i18n';
-  import { OAuth } from '@/types/oauth';
 
   const i18nLocal = useI18n();
 

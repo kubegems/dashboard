@@ -114,16 +114,15 @@
 </template>
 
 <script lang="ts" setup>
+  import { useTenantUserList } from '@kubegems/api/hooks/tenant';
+  import { useUserList } from '@kubegems/api/hooks/user';
+  import { ResourceRole } from '@kubegems/api/typed/role';
+  import { Tenant } from '@kubegems/api/typed/tenant';
+  import { User } from '@kubegems/api/typed/user';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useQuery } from '@kubegems/extension/router';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import { onMounted, reactive, ref } from 'vue';
-
-  import { useTenantUserList } from '@/composition/tenant';
-  import { useUserList } from '@/composition/user';
-  import { ResourceRole } from '@/types/role';
-  import { Tenant } from '@/types/tenant';
-  import { User } from '@/types/user';
 
   const i18n = useGlobalI18n();
   const query = useQuery();

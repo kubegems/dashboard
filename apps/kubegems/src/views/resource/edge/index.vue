@@ -162,6 +162,8 @@
 </template>
 
 <script lang="ts" setup>
+  import { useEdgeClusterPagination } from '@kubegems/api/hooks/cluster';
+  import { EdgeCluster } from '@kubegems/api/typed/edge_cluster';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useParams, useQuery } from '@kubegems/extension/router';
@@ -171,8 +173,6 @@
   import { onUnmounted, reactive, ref, watch } from 'vue';
 
   import { useI18n } from './i18n';
-  import { useEdgeClusterPagination } from '@/composition/cluster';
-  import { EdgeCluster } from '@/types/edge_cluster';
   import EdgeClusterForm from '@/views/resource/cluster/components/EdgeClusterForm/index.vue';
   import EdgeManufactureTip from '@/views/resource/cluster/components/EdgeManufactureTip.vue';
   import EdgeStatusTip from '@/views/resource/cluster/components/EdgeStatusTip.vue';

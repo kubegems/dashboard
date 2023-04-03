@@ -119,8 +119,8 @@
 </template>
 
 <script>
+  import { positiveInteger } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import { positiveInteger } from '@kubegems/libs/utils/rules';
   import { mapGetters } from 'vuex';
 
   import messages from '../../../i18n';

@@ -52,7 +52,7 @@
 </template>
 
 <script>
-  import { required } from '@kubegems/libs/utils/rules';
+  import { required } from '@kubegems/extension/ruler';
 
   import messages from '../../../../i18n';
   import VolumeMount from './VolumeMount';

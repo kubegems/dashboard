@@ -68,13 +68,13 @@
 </template>
 
 <script lang="ts" setup>
+  import { User } from '@kubegems/api/typed/user';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
+  import { email, password, required } from '@kubegems/extension/ruler';
   import { useStore } from '@kubegems/extension/store';
-  import { email, password, required } from '@kubegems/libs/utils/rules';
   import { reactive, ref } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { User } from '@/types/user';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

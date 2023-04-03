@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import { required } from '@kubegems/libs/utils/rules';
+  import { required } from '@kubegems/extension/ruler';
   import { mapState } from 'vuex';
 
   import BaseResource from '@/mixins/resource';

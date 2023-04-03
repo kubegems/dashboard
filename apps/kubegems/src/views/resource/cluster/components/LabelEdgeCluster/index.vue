@@ -70,6 +70,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { EdgeCluster } from '@kubegems/api/typed/edge_cluster';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
   import { EDGE_DEVICEID_KEY, ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@kubegems/libs/constants/label';
@@ -77,7 +78,6 @@
 
   import { useI18n } from '../../i18n';
   import TenantProjEnvSelectCascade from './TenantProjEnvSelectCascade.vue';
-  import { EdgeCluster } from '@/types/edge_cluster';
   import LabelForm from '@/views/resource/components/label/LabelForm.vue';
   import LabelItem from '@/views/resource/components/label/LabelItem.vue';
 

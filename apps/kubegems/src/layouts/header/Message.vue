@@ -145,6 +145,8 @@
 </template>
 
 <script lang="ts" setup>
+  import { Auth } from '@kubegems/api/typed/auth';
+  import { Approve, Message } from '@kubegems/api/typed/message';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRoute, useRouter } from '@kubegems/extension/proxy';
   import { useParams, useQuery } from '@kubegems/extension/router';
@@ -154,9 +156,7 @@
 
   import ApproveResource from './components/ApproveResource.vue';
   import { useI18n } from './i18n';
-  import { Auth } from '@/types/auth';
   import { convertResponse2Pagination } from '@/types/base';
-  import { Approve, Message } from '@/types/message';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

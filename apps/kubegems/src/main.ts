@@ -34,6 +34,10 @@ const store = useStore();
 
 Vue.config.productionTip = false;
 
+// 加载其他包中路由
+
+// 加载sidebar
+
 const timeout: NodeJS.Timeout = setTimeout((): void => {
   // eslint-disable-next-line vue/require-name-property
   new Vue({

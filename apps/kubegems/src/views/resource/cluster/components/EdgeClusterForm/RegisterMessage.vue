@@ -41,11 +41,11 @@
 </template>
 
 <script lang="ts" setup>
+  import { EdgeCluster } from '@kubegems/api/typed/edge_cluster';
   import { useStore } from '@kubegems/extension/store';
   import { ComputedRef, computed } from 'vue';
 
   import { useI18n } from '../../i18n';
-  import { EdgeCluster } from '@/types/edge_cluster';
 
   const props = withDefaults(
     defineProps<{

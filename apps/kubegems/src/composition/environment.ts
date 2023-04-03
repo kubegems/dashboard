@@ -17,9 +17,6 @@ import { useGlobalI18n } from '@kubegems/extension/i18n';
 import { useQuery } from '@kubegems/extension/router';
 import { useStore } from '@kubegems/extension/store';
 
-import { convertResponse2List } from '@/types/base';
-import { Environment } from '@/types/environment';
-
 const store = useStore();
 const i18n = useGlobalI18n();
 const query = useQuery();
@@ -45,16 +42,6 @@ export const useEnvironmentID = (): number => {
     EnvironmentID = store.getters.Environment().ID;
   }
   return EnvironmentID;
-};
-
-export const useEnvironmentList = async (environment: Environment): Promise<Environment[]> => {
-  const _data: KubePaginationResponse<Environment[]> = await environment.getEnvironmentList({
-    page: 1,
-    size: 1000,
-    noprocessing: true,
-    preload: 'Tenant,Project',
-  });
-  return convertResponse2List<Environment>(_data);
 };
 
 export const useBeautifyData = (data: { [key: string]: any }): { [key: string]: any } => {

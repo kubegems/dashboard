@@ -326,8 +326,8 @@
 </template>
 
 <script>
+  import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import { required } from '@kubegems/libs/utils/rules';
 
   export default {
     name: 'HTTPRouteDestinationForm',

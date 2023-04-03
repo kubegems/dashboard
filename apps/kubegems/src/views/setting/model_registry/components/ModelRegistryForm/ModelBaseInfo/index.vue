@@ -77,7 +77,7 @@
 
 <script lang="ts" setup>
   import { useGlobalI18n } from '@kubegems/extension/i18n';
-  import { required } from '@kubegems/libs/utils/rules';
+  import { required } from '@kubegems/extension/ruler';
   import { reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../../../i18n';

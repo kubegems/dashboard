@@ -16,7 +16,7 @@
 import introJs from 'intro.js';
 import 'intro.js/introjs.css';
 
-import { useGlobalI18n } from '@kubegems/extension/i18n';
+import { useGlobalI18n } from '../i18n';
 
 const i18n = useGlobalI18n();
 

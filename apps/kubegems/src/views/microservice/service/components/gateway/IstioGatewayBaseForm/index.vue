@@ -68,8 +68,8 @@
 </template>
 
 <script>
+  import { k8sName, required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import { k8sName, required } from '@kubegems/libs/utils/rules';
   import { mapGetters, mapState } from 'vuex';
 
   import ServerForm from './ServerForm';

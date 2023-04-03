@@ -97,8 +97,8 @@
 </template>
 
 <script>
+  import { port, required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import { port, required } from '@kubegems/libs/utils/rules';
 
   import messages from '../../../../../i18n';
   import Port from './Port';

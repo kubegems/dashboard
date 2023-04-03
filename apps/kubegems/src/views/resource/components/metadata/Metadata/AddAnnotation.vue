@@ -54,7 +54,7 @@
 </template>
 
 <script>
-  import { k8sAnnotation, required } from '@kubegems/libs/utils/rules';
+  import { k8sAnnotation, required } from '@kubegems/extension/ruler';
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';

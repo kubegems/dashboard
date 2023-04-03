@@ -102,7 +102,7 @@
 </template>
 
 <script>
-  import { integer, required } from '@kubegems/libs/utils/rules';
+  import { integer, required } from '@kubegems/extension/ruler';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';

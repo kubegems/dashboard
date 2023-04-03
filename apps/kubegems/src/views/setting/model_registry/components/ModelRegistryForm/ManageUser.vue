@@ -97,15 +97,15 @@
 </template>
 
 <script lang="ts" setup>
+  import { useUserList } from '@kubegems/api/hooks/user';
+  import { User } from '@kubegems/api/typed/user';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import { reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../../i18n';
   import { useRegistryUserList } from '@/composition/ai_model';
-  import { useUserList } from '@/composition/user';
   import { AIModelRegistry } from '@/types/ai_model';
-  import { User } from '@/types/user';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

@@ -55,16 +55,16 @@
 </template>
 
 <script lang="ts" setup>
+  import { useEnvironmentListInProject } from '@kubegems/api/hooks/project';
+  import { Environment } from '@kubegems/api/typed/environment';
+  import { Project } from '@kubegems/api/typed/project';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useQuery } from '@kubegems/extension/router';
+  import { required } from '@kubegems/extension/ruler';
   import { useStore } from '@kubegems/extension/store';
-  import { required } from '@kubegems/libs/utils/rules';
   import { nextTick, onMounted, reactive, ref } from 'vue';
 
   import { useI18n } from '../../../i18n';
-  import { useEnvironmentListInProject } from '@/composition/project';
-  import { Environment } from '@/types/environment';
-  import { Project } from '@/types/project';
   import { PrometheusRule } from '@/types/prometheus_rule';
 
   const props = withDefaults(

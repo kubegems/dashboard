@@ -112,6 +112,8 @@
 </template>
 
 <script lang="ts" setup>
+  import { useTenantResourceQuotaPagination } from '@kubegems/api/hooks/tenant';
+  import { Tenant, TenantResourceQuota } from '@kubegems/api/typed/tenant';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
   import intro from '@kubegems/extension/tool/guide';
@@ -123,8 +125,6 @@
   import AddResource from './AddResource.vue';
   import ScaleResource from './ScaleResource.vue';
   import TenantMonitor from './TenantMonitor.vue';
-  import { useTenantResourceQuotaPagination } from '@/composition/tenant';
-  import { Tenant, TenantResourceQuota } from '@/types/tenant';
   import GpuTip from '@/views/resource/components/common/GpuTip.vue';
 
   const i18n = useGlobalI18n();

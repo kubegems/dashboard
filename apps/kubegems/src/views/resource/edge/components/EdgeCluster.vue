@@ -48,14 +48,14 @@
   </div>
 </template>
 <script lang="ts" setup>
+  import { useEdgeClusterConvertToCluster } from '@kubegems/api/hooks/cluster';
+  import { Cluster } from '@kubegems/api/typed/cluster';
+  import { EdgeCluster } from '@kubegems/api/typed/edge_cluster';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useParams } from '@kubegems/extension/router';
   import { RESOURCE_CN, RESOURCE_EN, RESOURCE_ICON } from '@kubegems/libs/constants/resource';
   import { ComputedRef, computed, onMounted, reactive, ref, watch } from 'vue';
 
-  import { useEdgeClusterConvertToCluster } from '@/composition/cluster';
-  import { Cluster } from '@/types/cluster';
-  import { EdgeCluster } from '@/types/edge_cluster';
   import BasicMonitor from '@/views/resource/cluster/components/BasicMonitor/index.vue';
   import MetricMonitor from '@/views/resource/cluster/components/MetricMonitor.vue';
   import ResourceChart from '@/views/resource/cluster/components/ResourceChart.vue';

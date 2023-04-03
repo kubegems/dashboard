@@ -81,6 +81,8 @@
 </template>
 
 <script lang="ts" setup>
+  import { useAccessTokenPagination } from '@kubegems/api/hooks/auth';
+  import { AccessToken, Auth } from '@kubegems/api/typed/auth';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
   import moment from 'moment';
@@ -88,8 +90,6 @@
 
   import { useI18n } from '../../i18n';
   import GenerateToken from './GenerateToken.vue';
-  import { useAccessTokenPagination } from '@/composition/auth';
-  import { AccessToken, Auth } from '@/types/auth';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();

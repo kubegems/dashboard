@@ -1,6 +1,6 @@
-import { useGlobalI18n } from '@kubegems/extension/i18n';
+import { useGlobalI18n } from './i18n';
 
-import { typeOf } from './helpers';
+import { typeOf } from '@kubegems/libs/utils/helpers';
 
 const i18n = useGlobalI18n();
 

@@ -68,6 +68,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { OAuth } from '@kubegems/api/typed/oauth';
   import { useStore } from '@kubegems/extension/store';
   import { VENDOR } from '@kubegems/libs/constants/platform';
   import { onMounted, ref } from 'vue';
@@ -75,7 +76,6 @@
   import ConfigAuthSource from './components/ConfigAuthSource.vue';
   import { useI18n } from './i18n';
   import { convertResponse2List } from '@/types/base';
-  import { OAuth } from '@/types/oauth';
 
   const i18nLocal = useI18n();
   const store = useStore();

@@ -50,9 +50,9 @@
 
 <script lang="ts" setup>
   import { useGlobalI18n } from '@kubegems/extension/i18n';
+  import { positiveInteger, required } from '@kubegems/extension/ruler';
   import { useStore } from '@kubegems/extension/store';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import { positiveInteger, required } from '@kubegems/libs/utils/rules';
   import { reactive, ref } from 'vue';
 
   import { useI18n } from '../../i18n';

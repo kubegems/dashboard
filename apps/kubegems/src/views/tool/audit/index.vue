@@ -116,6 +116,12 @@
 </template>
 
 <script lang="ts" setup>
+  import { useAuditPagination } from '@kubegems/api/hooks/audit';
+  import { useTenantUserList } from '@kubegems/api/hooks/tenant';
+  import { useUserList } from '@kubegems/api/hooks/user';
+  import { Audit } from '@kubegems/api/typed/audit';
+  import { Tenant } from '@kubegems/api/typed/tenant';
+  import { User } from '@kubegems/api/typed/user';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
@@ -124,12 +130,6 @@
   import { ComputedRef, computed, onMounted, reactive, ref, watch } from 'vue';
 
   import { useI18n } from './i18n';
-  import { useAuditPagination } from '@/composition/audit';
-  import { useTenantUserList } from '@/composition/tenant';
-  import { useUserList } from '@/composition/user';
-  import { Audit } from '@/types/audit';
-  import { Tenant } from '@/types/tenant';
-  import { User } from '@/types/user';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();

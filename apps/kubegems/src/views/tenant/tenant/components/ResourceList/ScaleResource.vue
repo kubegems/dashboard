@@ -45,6 +45,9 @@
 </template>
 
 <script lang="ts" setup>
+  import { useClusterQuota } from '@kubegems/api/hooks/cluster';
+  import { Cluster } from '@kubegems/api/typed/cluster';
+  import { Tenant, TenantResourceQuota } from '@kubegems/api/typed/tenant';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
@@ -52,9 +55,6 @@
 
   import { useI18n } from '../../i18n';
   import ResourceBaseForm from './ResourceBaseForm/index.vue';
-  import { useClusterQuota } from '@/composition/cluster';
-  import { Cluster } from '@/types/cluster';
-  import { Tenant, TenantResourceQuota } from '@/types/tenant';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

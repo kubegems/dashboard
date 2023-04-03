@@ -13,6 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Environment } from '@kubegems/api/typed/environment';
+import { Project } from '@kubegems/api/typed/project';
+import { Tenant } from '@kubegems/api/typed/tenant';
+import { User } from '@kubegems/api/typed/user';
+import { VirtualSpace } from '@kubegems/api/typed/virtualspace';
 import { mapGetters, mapState } from 'vuex';
 
 import {
@@ -45,17 +50,12 @@ import {
 import { convertResponse2List } from '@/types/base';
 import { DaemonSet } from '@/types/daemonset';
 import { Deployment } from '@/types/deployment';
-import { Environment } from '@/types/environment';
 import { Issuer } from '@/types/issuer';
 import { Namespace } from '@/types/namespace';
-import { Project } from '@/types/project';
 import { Secret } from '@/types/secret';
 import { Service } from '@/types/service';
 import { StatefulSet } from '@/types/statefulset';
 import { StorageClass } from '@/types/storageclass';
-import { Tenant } from '@/types/tenant';
-import { User } from '@/types/user';
-import { VirtualSpace } from '@/types/virtualspace';
 
 const select: { [key: string]: any } = {
   data() {

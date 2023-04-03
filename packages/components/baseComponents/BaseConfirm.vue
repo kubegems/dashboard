@@ -110,7 +110,7 @@
 <script lang="ts" setup>
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
-  import { required } from '@kubegems/libs/utils/rules';
+  import { required } from '@kubegems/extension/ruler';
   import { ComputedRef, computed, reactive, ref } from 'vue';
 
   const i18n = useGlobalI18n();

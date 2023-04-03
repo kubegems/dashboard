@@ -51,16 +51,16 @@
 </template>
 
 <script lang="ts" setup>
+  import { OAuth } from '@kubegems/api/typed/oauth';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
+  import { required } from '@kubegems/extension/ruler';
   import { useStore } from '@kubegems/extension/store';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import { required } from '@kubegems/libs/utils/rules';
   import { reactive, ref } from 'vue';
 
   import { useI18n } from '../i18n';
   import OauthForm from './auth_source/OauthForm.vue';
   import OpenLdapForm from './auth_source/OpenLdapForm.vue';
-  import { OAuth } from '@/types/oauth';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

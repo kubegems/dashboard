@@ -101,8 +101,8 @@
 <script lang="ts" setup>
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useQuery } from '@kubegems/extension/router';
+  import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import { required } from '@kubegems/libs/utils/rules';
   import { ComputedRef, computed, reactive, ref } from 'vue';
 
   import { useI18n } from '../../../../../i18n';

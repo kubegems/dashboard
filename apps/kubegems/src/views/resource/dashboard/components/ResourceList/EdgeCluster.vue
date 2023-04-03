@@ -69,6 +69,8 @@
 </template>
 
 <script lang="ts" setup>
+  import { useEdgeClusterPagination } from '@kubegems/api/hooks/cluster';
+  import { EdgeCluster } from '@kubegems/api/typed/edge_cluster';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useParams } from '@kubegems/extension/router';
   import { EDGE_DEVICEID_KEY, PROJECT_KEY, TENANT_KEY } from '@kubegems/libs/constants/label';
@@ -76,8 +78,6 @@
 
   import { useI18n } from '../../i18n';
   import Pagination from '../Pagination.vue';
-  import { useEdgeClusterPagination } from '@/composition/cluster';
-  import { EdgeCluster } from '@/types/edge_cluster';
 
   onMounted(() => {
     getEdgeClusterList();

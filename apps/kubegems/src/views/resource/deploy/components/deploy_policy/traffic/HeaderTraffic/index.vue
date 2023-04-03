@@ -59,8 +59,8 @@
 </template>
 
 <script>
+  import { positiveInteger } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import { positiveInteger } from '@kubegems/libs/utils/rules';
 
   import messages from '../../../../i18n';
   import StringMatchForm from './StringMatchForm';

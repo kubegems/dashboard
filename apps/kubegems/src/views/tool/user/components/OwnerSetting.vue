@@ -138,18 +138,18 @@
 </template>
 
 <script lang="ts" setup>
+  import { Auth } from '@kubegems/api/typed/auth';
+  import { User } from '@kubegems/api/typed/user';
   import iii, { useGlobalI18n } from '@kubegems/extension/i18n';
   import locales from '@kubegems/extension/i18n/locales';
   import { useRoute } from '@kubegems/extension/proxy';
+  import { email, password, phone, required } from '@kubegems/extension/ruler';
   import { useStore } from '@kubegems/extension/store';
   import { PLATFORM } from '@kubegems/libs/constants/platform';
-  import { email, password, phone, required } from '@kubegems/libs/utils/rules';
   import moment from 'moment';
   import { inject, nextTick, onMounted, reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { Auth } from '@/types/auth';
-  import { User } from '@/types/user';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();

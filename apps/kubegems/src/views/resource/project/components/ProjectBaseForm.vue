@@ -124,7 +124,7 @@
 </template>
 
 <script>
-  import { k8sName, required } from '@kubegems/libs/utils/rules';
+  import { k8sName, required } from '@kubegems/extension/ruler';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';

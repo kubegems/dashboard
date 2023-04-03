@@ -37,14 +37,14 @@
 </template>
 
 <script lang="ts" setup>
+  import { useClusterQuota } from '@kubegems/api/hooks/cluster';
+  import { Cluster } from '@kubegems/api/typed/cluster';
+  import { Approve } from '@kubegems/api/typed/message';
+  import { Tenant } from '@kubegems/api/typed/tenant';
   import { deepCopy, sizeOfCpu, sizeOfStorage } from '@kubegems/libs/utils/helpers';
   import { reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { useClusterQuota } from '@/composition/cluster';
-  import { Cluster } from '@/types/cluster';
-  import { Approve } from '@/types/message';
-  import { Tenant } from '@/types/tenant';
   import ResourceBaseForm from '@/views/tenant/tenant/components/ResourceList/ResourceBaseForm/index.vue';
 
   const i18nLocal = useI18n();

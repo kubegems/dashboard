@@ -198,8 +198,8 @@
 </template>
 
 <script>
+  import { k8sName, required, timeInterval } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import { k8sName, required, timeInterval } from '@kubegems/libs/utils/rules';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../../../../i18n';

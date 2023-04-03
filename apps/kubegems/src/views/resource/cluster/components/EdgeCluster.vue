@@ -199,6 +199,15 @@
 </template>
 
 <script lang="ts" setup>
+  import { useEdgeClusterPagination, useEdgeHubList } from '@kubegems/api/hooks/cluster';
+  import { useEnvironmentList } from '@kubegems/api/hooks/environment';
+  import { useProjectList } from '@kubegems/api/hooks/project';
+  import { useTenantList } from '@kubegems/api/hooks/tenant';
+  import { EdgeCluster } from '@kubegems/api/typed/edge_cluster';
+  import { EdgeHub } from '@kubegems/api/typed/edge_hub';
+  import { Environment } from '@kubegems/api/typed/environment';
+  import { Project } from '@kubegems/api/typed/project';
+  import { Tenant } from '@kubegems/api/typed/tenant';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useParams, useQuery } from '@kubegems/extension/router';
@@ -212,15 +221,6 @@
   import EdgeManufactureTip from './EdgeManufactureTip.vue';
   import EdgeStatusTip from './EdgeStatusTip.vue';
   import LabelEdgeCluster from './LabelEdgeCluster/index.vue';
-  import { useEdgeClusterPagination, useEdgeHubList } from '@/composition/cluster';
-  import { useEnvironmentList } from '@/composition/environment';
-  import { useProjectList } from '@/composition/project';
-  import { useTenantList } from '@/composition/tenant';
-  import { EdgeCluster } from '@/types/edge_cluster';
-  import { EdgeHub } from '@/types/edge_hub';
-  import { Environment } from '@/types/environment';
-  import { Project } from '@/types/project';
-  import { Tenant } from '@/types/tenant';
   import Terminal from '@/views/resource/components/common/Terminal/index.vue';
 
   enum edgeStatus {

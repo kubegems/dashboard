@@ -162,6 +162,8 @@
 </template>
 
 <script lang="ts" setup>
+  import { useTenantPagination } from '@kubegems/api/hooks/tenant';
+  import { Tenant } from '@kubegems/api/typed/tenant';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useParams, useQuery } from '@kubegems/extension/router';
@@ -172,8 +174,6 @@
 
   import TenantForm from './components/TenantForm.vue';
   import { useI18n } from './i18n';
-  import { useTenantPagination } from '@/composition/tenant';
-  import { Tenant } from '@/types/tenant';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

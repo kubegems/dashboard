@@ -19,13 +19,13 @@
 </template>
 
 <script lang="ts" setup>
+  import { Auth } from '@kubegems/api/typed/auth';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
   import { onMounted } from 'vue';
 
   import { useI18n } from './i18n';
-  import { Auth } from '@/types/auth';
 
   const i18nLocal = useI18n();
   const query = useQuery();

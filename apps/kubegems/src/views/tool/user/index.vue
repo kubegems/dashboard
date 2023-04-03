@@ -90,6 +90,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { Auth } from '@kubegems/api/typed/auth';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
   import { VENDOR } from '@kubegems/libs/constants/platform';
@@ -101,7 +102,6 @@
   import MessageBox from './components/MessageBox.vue';
   import OwnerSetting from './components/OwnerSetting.vue';
   import { useI18n } from './i18n';
-  import { Auth } from '@/types/auth';
 
   const store = useStore();
   const i18n = useGlobalI18n();

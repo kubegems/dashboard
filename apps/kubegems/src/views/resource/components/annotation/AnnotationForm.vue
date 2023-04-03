@@ -66,8 +66,8 @@
 </template>
 
 <script>
+  import { k8sAnnotation, required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import { k8sAnnotation, required } from '@kubegems/libs/utils/rules';
 
   import BaseResource from '@/mixins/resource';
 

@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { required } from '@kubegems/libs/utils/rules';
+  import { required } from '@kubegems/extension/ruler';
   import { ComputedRef, computed, onMounted } from 'vue';
 
   const props = withDefaults(

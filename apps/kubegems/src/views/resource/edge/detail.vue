@@ -60,6 +60,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { EdgeCluster } from '@kubegems/api/typed/edge_cluster';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useParams, useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
@@ -69,7 +70,6 @@
   import Namespace from './components/Namespace.vue';
   import Node from './components/Node.vue';
   import { useI18n } from './i18n';
-  import { EdgeCluster } from '@/types/edge_cluster';
   import EdgeClusterForm from '@/views/resource/cluster/components/EdgeClusterForm/index.vue';
   import Terminal from '@/views/resource/components/common/Terminal/index.vue';
 

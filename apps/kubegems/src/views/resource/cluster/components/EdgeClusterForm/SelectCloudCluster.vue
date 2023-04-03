@@ -49,13 +49,13 @@
 </template>
 
 <script lang="ts" setup>
+  import { EdgeCluster } from '@kubegems/api/typed/edge_cluster';
+  import { EdgeHub } from '@kubegems/api/typed/edge_hub';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { onMounted, reactive, ref } from 'vue';
 
   import { useI18n } from '../../i18n';
-  import { EdgeCluster } from '@/types/edge_cluster';
-  import { EdgeHub } from '@/types/edge_hub';
-  // import { required } from '@kubegems/libs/utils/rules';
+  // import { required } from '@kubegems/extension/ruler';
 
   onMounted(() => {
     getEdgeHub();

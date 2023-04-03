@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Environment } from '@kubegems/api/typed/environment';
+import { Project } from '@kubegems/api/typed/project';
+
 import { convertResponse2List } from '@/types/base';
-import { Environment } from '@/types/environment';
-import { Project } from '@/types/project';
 
 export const useProjectList = async (project: Project): Promise<Project[]> => {
   const _data: KubePaginationResponse<Project[]> = await project.getProjectList({

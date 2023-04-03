@@ -38,8 +38,14 @@ const originalRoutes = global
   .concat(userCenter) // 用户中心
   .concat(modelStore);
 
+const rs = router.getRoutes();
 originalRoutes.forEach((r) => {
-  router.addRoute(r);
+  if (
+    !rs.find((rr) => {
+      return rr.name === r.name;
+    })
+  )
+    router.addRoute(r);
 });
 
 router.beforeResolve((to, from, next): void => {

@@ -53,6 +53,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { EdgeCluster } from '@kubegems/api/typed/edge_cluster';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useParams } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
@@ -62,7 +63,6 @@
   import RegisterEdgeCluster from './RegisterEdgeCluster.vue';
   import RegisterMessage from './RegisterMessage.vue';
   import SelectCloudCluster from './SelectCloudCluster.vue';
-  import { EdgeCluster } from '@/types/edge_cluster';
 
   const props = withDefaults(
     defineProps<{

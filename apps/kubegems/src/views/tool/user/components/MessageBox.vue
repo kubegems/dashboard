@@ -66,13 +66,13 @@
 </template>
 
 <script lang="ts" setup>
+  import { useMessagePagination } from '@kubegems/api/hooks/message';
+  import { Message } from '@kubegems/api/typed/message';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import moment from 'moment';
   import { onMounted, reactive, ref } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { useMessagePagination } from '@/composition/message';
-  import { Message } from '@/types/message';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

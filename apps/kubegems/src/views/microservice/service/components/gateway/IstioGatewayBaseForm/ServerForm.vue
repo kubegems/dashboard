@@ -157,9 +157,9 @@
 </template>
 
 <script>
+  import { required } from '@kubegems/extension/ruler';
   import { SERVICE_GATEWAY_NS } from '@kubegems/libs/constants/namespace';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import { required } from '@kubegems/libs/utils/rules';
   import { mapState } from 'vuex';
 
   import { getSecretList } from '@/api';

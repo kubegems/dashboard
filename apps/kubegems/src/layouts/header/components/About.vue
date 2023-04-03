@@ -73,6 +73,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { Version } from '@kubegems/api/typed/version';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
   import { LOGO_BLUE } from '@kubegems/libs/constants/platform';
@@ -80,7 +81,6 @@
   import { reactive, ref } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { Version } from '@/types/version';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();

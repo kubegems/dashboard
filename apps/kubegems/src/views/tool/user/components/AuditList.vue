@@ -101,14 +101,14 @@
 </template>
 
 <script lang="ts" setup>
+  import { useAuditPagination } from '@kubegems/api/hooks/audit';
+  import { Audit } from '@kubegems/api/typed/audit';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import yaml from 'js-yaml';
   import moment from 'moment';
   import { onMounted, reactive, ref } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { useAuditPagination } from '@/composition/audit';
-  import { Audit } from '@/types/audit';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();

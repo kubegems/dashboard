@@ -127,8 +127,8 @@
 </template>
 
 <script>
+  import { positiveInteger, required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import { positiveInteger, required } from '@kubegems/libs/utils/rules';
 
   import messages from '../../i18n';
 

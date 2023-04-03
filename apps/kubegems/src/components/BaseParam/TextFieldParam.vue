@@ -44,7 +44,7 @@
 
 <script lang="ts" setup>
   import { useGlobalI18n } from '@kubegems/extension/i18n';
-  import { required, timeInterval } from '@kubegems/libs/utils/rules';
+  import { required, timeInterval } from '@kubegems/extension/ruler';
   import { ComputedRef, computed, onMounted } from 'vue';
 
   const props = withDefaults(

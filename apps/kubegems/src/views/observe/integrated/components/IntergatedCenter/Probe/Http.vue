@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { required } from '@kubegems/libs/utils/rules';
+  import { required } from '@kubegems/extension/ruler';
   import { reactive, watch } from 'vue';
 
   import { PrometheusProbe } from '@/types/prometheus_probe';

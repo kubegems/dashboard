@@ -146,16 +146,15 @@
 </template>
 
 <script lang="ts" setup>
+  import { useEnvironmentListInProject } from '@kubegems/api/hooks/project';
+  import { useProjectListInTenant, useTenantList } from '@kubegems/api/hooks/tenant';
+  import { Environment } from '@kubegems/api/typed/environment';
+  import { Project } from '@kubegems/api/typed/project';
+  import { Tenant } from '@kubegems/api/typed/tenant';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@kubegems/libs/constants/label';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import { ComputedRef, computed, reactive, ref, watch } from 'vue';
-
-  import { useEnvironmentListInProject } from '@/composition/project';
-  import { useProjectListInTenant, useTenantList } from '@/composition/tenant';
-  import { Environment } from '@/types/environment';
-  import { Project } from '@/types/project';
-  import { Tenant } from '@/types/tenant';
 
   const i18n = useGlobalI18n();
 
