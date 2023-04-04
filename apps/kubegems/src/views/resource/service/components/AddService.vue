@@ -76,7 +76,7 @@
       };
     },
     computed: {
-      ...mapState(['Circular', 'AdminViewport']),
+      ...mapState(['Circular', 'AdminViewport', 'Edge']),
     },
     methods: {
       open() {
@@ -105,7 +105,7 @@
             data = this.$refs[this.formComponent].getData();
           }
           data = this.m_resource_beautifyData(data);
-          const namespace = this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace;
+          const namespace = this.AdminViewport || this.Edge ? data?.metadata?.namespace : this.ThisNamespace;
           if (!this.m_resource_checkDataWithNS(data, namespace)) {
             return;
           }

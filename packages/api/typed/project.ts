@@ -24,7 +24,20 @@ interface EnvironmnetInProject {
   getEnvironmentList(params: KubePaginationRequest): Promise<KubePaginationResponse<Environment[]>>;
 }
 
-export class Project implements UserRole, EnvironmnetInProject {
+interface ResourceQuotaInProject {
+  getResourceQuotaList(
+    tenantId: number,
+    params: KubePaginationRequest,
+  ): Promise<
+    {
+      project: string;
+      projectid: number;
+      resourceStatus: { quota: { [key: string]: any }; resource: { [key: string]: any } };
+    }[]
+  >;
+}
+
+export class Project implements UserRole, EnvironmnetInProject, ResourceQuotaInProject {
   constructor(project?: { [key: string]: any }) {
     Object.assign(this, project);
   }
@@ -48,7 +61,7 @@ export class Project implements UserRole, EnvironmnetInProject {
     return data as KubePaginationResponse<Project[]>;
   }
 
-  public async getProject(params: KubeRequest): Promise<Project> {
+  public async getProject(params: KubeRequest = {}): Promise<Project> {
     const data: { [key: string]: any } = await axios(`project/${this.ID}`, { params: params });
     return data as Project;
   }
@@ -101,5 +114,23 @@ export class Project implements UserRole, EnvironmnetInProject {
   public async getEnvironmentList(params: KubePaginationRequest): Promise<KubePaginationResponse<Environment[]>> {
     const data: { [key: string]: any } = await axios(`project/${this.ID}/environment`, { params: params });
     return data as KubePaginationResponse<Environment[]>;
+  }
+
+  public async getResourceQuotaList(
+    tenantId: number,
+    params: KubePaginationRequest,
+  ): Promise<
+    {
+      project: string;
+      projectid: number;
+      resourceStatus: { quota: { [key: string]: any }; resource: { [key: string]: any } };
+    }[]
+  > {
+    const data: { [key: string]: any } = await axios(`/tenant/${tenantId}/projectquotas`, { params: params });
+    return data as {
+      project: string;
+      projectid: number;
+      resourceStatus: { quota: { [key: string]: any }; resource: { [key: string]: any } };
+    }[];
   }
 }

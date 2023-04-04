@@ -1,6 +1,6 @@
 {
   "name": "@kubegems/platform",
-  "version": "1.23.7",
+  "version": "1.23.8",
   "description": "platform management page for kubegems",
   "main": "index.ts",
   "scripts": {

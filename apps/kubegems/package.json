@@ -1,6 +1,6 @@
 {
   "name": "@kubegems/kubegems",
-  "version": "1.23.7",
+  "version": "1.23.8",
   "description": "base ui for kubegems ",
   "main": "main.ts",
   "scripts": {

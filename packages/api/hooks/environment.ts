@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { User } from 'typed/user';
 import { Environment } from '../typed/environment';
-import { convertResponse2List } from '../utils';
+import { convertResponse2List, convertResponse2Pagination } from '../utils';
 
 export const useEnvironmentList = async (environment: Environment): Promise<Environment[]> => {
   const _data: KubePaginationResponse<Environment[]> = await environment.getEnvironmentList({
@@ -24,4 +25,29 @@ export const useEnvironmentList = async (environment: Environment): Promise<Envi
     preload: 'Tenant,Project',
   });
   return convertResponse2List<Environment>(_data);
+};
+
+export const useEnvironmentPagination = async (
+  environment: Environment,
+  page = 1,
+  size = 10,
+  request = {},
+): Promise<Pagination<Environment>> => {
+  const _data: KubePaginationResponse<Environment[]> = await environment.getEnvironmentList({
+    page: page,
+    size: size,
+    preload: 'Tenant,Project',
+    ...request,
+  });
+
+  return convertResponse2Pagination<Environment>(_data);
+};
+
+export const useEnvironmentUserList = async (environment: Environment): Promise<User[]> => {
+  const _data: KubePaginationResponse<User[]> = await environment.getUserList({
+    page: 1,
+    size: 1000,
+    noprocessing: true,
+  });
+  return convertResponse2List<User>(_data);
 };

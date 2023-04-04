@@ -30,6 +30,7 @@ import * as tenant from './tenant';
 import * as user from './user';
 import * as version from './version';
 import * as virtualSpace from './virtualspace';
+import * as namespace from './namespace';
 
 export default {
   auth,
@@ -49,4 +50,5 @@ export default {
   edgeCluster,
   edgeHub,
   kubernetes,
+  namespace,
 };

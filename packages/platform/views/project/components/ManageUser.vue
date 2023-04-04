@@ -16,9 +16,9 @@
 
 <template>
   <BaseDialog
-    v-model="dialog"
+    v-model="state.dialog"
     icon="mdi-account-settings"
-    :title="$root.$t('form.definition', [$root.$t('resource.project')])"
+    :title="i18n.t('form.definition', [i18n.t('resource.project')])"
     :width="900"
     @reset="reset"
   >
@@ -26,19 +26,19 @@
       <v-card flat>
         <v-card-text class="pa-0">
           <BaseSubTitle
-            :title="$root.$t('resource.project_c', [$root.$t('resource.member_c', [$root.$t('resource.role')])])"
+            :title="i18n.t('resource.project_c', [i18n.t('resource.member_c', [i18n.t('resource.role')])])"
           />
-          <v-tabs v-model="tab" class="pa-2" height="120px" vertical @change="onTabChange">
+          <v-tabs v-model="tab" class="pa-2" height="120px" vertical @change="tabChanged">
             <v-tab v-for="item in tabItems" :key="item.value">
               {{ item.text }}
             </v-tab>
-            <v-tab-item v-for="item in tabItems" :key="item.tab" :reverse-transition="false" :transition="false">
+            <v-tab-item v-for="item in tabItems" :key="item.value" :reverse-transition="false" :transition="false">
               <v-row class="pa-0 ma-0">
                 <v-col class="py-1" cols="6">
                   <v-card elevation="2" flat height="550px">
                     <v-card-text>
                       <v-flex class="px-1 mb-2">
-                        {{ $root.$t('resource.project_c', [$root.$t('resource.member')]) }}
+                        {{ i18n.t('resource.project_c', [i18n.t('resource.member')]) }}
                       </v-flex>
                       <v-text-field
                         v-model="searchAllUser"
@@ -46,7 +46,7 @@
                         dense
                         hide-details
                         prepend-inner-icon="mdi-magnify"
-                        @keyup="onAllUsernameInput"
+                        @keyup="allUsernameInput"
                       />
                       <v-list dense height="450px" :style="{ overflowY: `auto` }">
                         <v-list-item v-for="(user, index) in allUsers" :key="index" link @click="setRole(user, index)">
@@ -75,15 +75,10 @@
                         dense
                         hide-details
                         prepend-inner-icon="mdi-magnify"
-                        @keyup="onRoleUsernameInput"
+                        @keyup="roleUsernameInput"
                       />
                       <v-list dense height="450px" :style="{ overflowY: `auto` }">
-                        <v-list-item
-                          v-for="(user, index) in roleUsers"
-                          :key="index"
-                          link
-                          @click="removeRole(user, index)"
-                        >
+                        <v-list-item v-for="(user, index) in users" :key="index" link @click="removeRole(user, index)">
                           <v-list-item-avatar class="my-1">
                             <v-avatar class="white--text font-weight-medium" color="primary" :size="32">
                               {{ user.Username ? user.Username[0].toLocaleUpperCase() : 'N' }}
@@ -106,149 +101,116 @@
   </BaseDialog>
 </template>
 
-<script>
-  import { convertResponse2List } from '@kubegems/api/utils';
-  import { mapGetters, mapState } from 'vuex';
+<script lang="ts" setup>
+  import { useProjectUserList } from '@kubegems/api/hooks/project';
+  import { useTenantUserList } from '@kubegems/api/hooks/tenant';
+  import { Project } from '@kubegems/api/typed/project';
+  import { ResourceRole } from '@kubegems/api/typed/role';
+  import { Tenant } from '@kubegems/api/typed/tenant';
+  import { User } from '@kubegems/api/typed/user';
+  import { useGlobalI18n } from '@kubegems/extension/i18n';
+  import { useStore } from '@kubegems/extension/store';
+  import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import { reactive, ref } from 'vue';
 
-  import { deleteProjectUser, getProjectUserList, getTenantUserList, postAddProjectUser } from '@/api';
-  import BaseSelect from '@/mixins/select';
+  const i18n = useGlobalI18n();
+  const store = useStore();
 
-  export default {
-    name: 'ManageUser',
-    mixins: [BaseSelect],
-    data() {
-      return {
-        dialog: false,
-        tab: 0,
-        allUsers: [],
-        allUsersCopy: [],
-        users: [],
-        usersCopy: [],
-        testUsers: [],
-        devUsers: [],
-        opsUsers: [],
-        adminUsers: [],
-        searchAllUser: '',
-        searchRoleUser: '',
-      };
-    },
-    computed: {
-      ...mapState(['JWT', 'Scale']),
-      ...mapGetters(['Tenant', 'Project']),
-      roleUsers() {
-        switch (this.tabItems[this.tab].value) {
-          case 'dev':
-            return this.devUsers;
-          case 'test':
-            return this.testUsers;
-          case 'ops':
-            return this.opsUsers;
-          case 'admin':
-            return this.adminUsers;
-          default:
-            return [];
-        }
-      },
-      tabItems() {
-        return [
-          { text: this.$root.$t('role.project.test'), value: 'test' },
-          { text: this.$root.$t('role.project.dev'), value: 'dev' },
-          { text: this.$root.$t('role.project.ops'), value: 'ops' },
-          { text: this.$root.$t('role.project.admin'), value: 'admin' },
-        ];
-      },
-    },
-    methods: {
-      open() {
-        this.dialog = true;
-      },
-      async tenantUserList() {
-        const data = await getTenantUserList(this.Tenant().ID, {
-          size: 1000,
-        });
-        this.allUsers = convertResponse2List(data).filter((d) => {
-          return !this.users.find((u) => {
-            return u.Username === d.Username;
-          });
-        });
-        this.allUsersCopy = JSON.parse(JSON.stringify(this.allUsers));
-      },
-      async projectUserList() {
-        const data = await getProjectUserList(this.Project().ID, {
-          size: 1000,
-        });
-        this.users = convertResponse2List(data);
-        this.usersCopy = JSON.parse(JSON.stringify(this.users));
-        this.testUsers = convertResponse2List(data).filter((d) => {
-          return d.Role === 'test';
-        });
-        this.devUsers = convertResponse2List(data).filter((d) => {
-          return d.Role === 'dev';
-        });
-        this.opsUsers = convertResponse2List(data).filter((d) => {
-          return d.Role === 'ops';
-        });
-        this.adminUsers = convertResponse2List(data).filter((d) => {
-          return d.Role === 'admin';
-        });
-      },
-      async setRole(user, index) {
-        this.$delete(this.allUsers, index);
-        this.roleUsers.push(user);
-        await postAddProjectUser(parseInt(this.Project().ID), {
-          UserID: user.ID,
-          ProjectID: parseInt(this.Project().ID),
-          Role: this.tabItems[this.tab].value,
-        });
-      },
-      async removeRole(user, index) {
-        this.$delete(this.roleUsers, index);
-        this.allUsers.push(user);
-        await deleteProjectUser(parseInt(this.Project().ID), user.ID);
-      },
-      async init() {
-        if (this.Tenant().ID > 0) {
-          this.searchAllUser = '';
-          this.searchRoleUser = '';
-          await this.projectUserList();
-          await this.tenantUserList();
-        }
-      },
-      async onTabChange() {
-        this.$nextTick(async () => {
-          this.searchAllUser = '';
-          this.searchRoleUser = '';
-          await this.projectUserList();
-          await this.tenantUserList();
-        });
-      },
-      onAllUsernameInput() {
-        this.allUsers = this.allUsersCopy.filter((u) => {
-          return u.Username.indexOf(this.searchAllUser) > -1;
-        });
-      },
-      onRoleUsernameInput() {
-        const users = this.usersCopy.filter((u) => {
-          return u.Username.indexOf(this.searchRoleUser) > -1 && u.Role === this.tabItems[this.tab].value;
-        });
-        switch (this.tabItems[this.tab].value) {
-          case 'dev':
-            this.devUsers = users;
-            break;
-          case 'test':
-            this.testUsers = users;
-            break;
-          case 'ops':
-            this.opsUsers = users;
-            break;
-          case 'admin':
-            this.adminUsers = users;
-            break;
-        }
-      },
-      reset() {
-        this.dialog = false;
-      },
-    },
+  const state = reactive({
+    dialog: false,
+  });
+
+  const tab = ref(0);
+  const tabItems = [
+    { text: i18n.t('role.project.test'), value: 'test' },
+    { text: i18n.t('role.project.dev'), value: 'dev' },
+    { text: i18n.t('role.project.ops'), value: 'ops' },
+    { text: i18n.t('role.project.admin'), value: 'admin' },
+  ];
+  const tabRole = {
+    0: 'test',
+    1: 'dev',
+    2: 'ops',
+    3: 'admin',
+  };
+
+  const reset = (): void => {
+    state.dialog = false;
+  };
+
+  const users = ref<User[]>([]);
+  const usersCopy = ref<User[]>([]);
+  const getProjectUserList = async (): Promise<void> => {
+    const data = await useProjectUserList(new Project({ ID: store.getters.Project().ID }));
+    users.value = data;
+    usersCopy.value = deepCopy(users.value);
+  };
+
+  const allUsers = ref<User[]>([]);
+  const allUsersCopy = ref<User[]>([]);
+  const getTenantUserList = async (): Promise<void> => {
+    const data = await useTenantUserList(new Tenant({ ID: store.getters.Tenant().ID }));
+    allUsers.value = data.filter((d) => {
+      return !users.value.find((u) => {
+        return u.Username === d.Username;
+      });
+    });
+    allUsersCopy.value = deepCopy(allUsers.value);
+  };
+
+  const setRole = async (user: User, index: number): Promise<void> => {
+    allUsers.value.splice(index, 1);
+    users.value.push(user);
+    user.Role = ResourceRole[tabRole[tab.value]];
+    await new Project({ ID: store.getters.Project().ID }).addUser(user, user.Role);
+  };
+
+  const removeRole = async (user: User, index: number): Promise<void> => {
+    users.value = users.value.filter((u) => {
+      return u.Role === tabRole[tab.value];
+    });
+    users.value.splice(index, 1);
+    allUsers.value.push(user);
+    await new Project({ ID: store.getters.Project().ID }).deleteUser(user);
+  };
+
+  const open = (): void => {
+    state.dialog = true;
+  };
+
+  const searchAllUser = ref('');
+  const searchRoleUser = ref('');
+  const init = async (): Promise<void> => {
+    if (store.getters.Tenant().ID > 0) {
+      searchAllUser.value = '';
+      searchRoleUser.value = '';
+      await getProjectUserList();
+      await getTenantUserList();
+    }
+  };
+
+  defineExpose({
+    open,
+    init,
+  });
+
+  const tabChanged = async (): Promise<void> => {
+    searchAllUser.value = '';
+    searchRoleUser.value = '';
+    await getProjectUserList();
+    await getTenantUserList();
+  };
+
+  const allUsernameInput = (): void => {
+    allUsers.value = allUsersCopy.value.filter((u) => {
+      return u.Username.indexOf(searchAllUser.value) > -1;
+    });
+  };
+
+  const roleUsernameInput = (): void => {
+    const userfilters = usersCopy.value.filter((u) => {
+      return u.Username.indexOf(searchRoleUser.value) > -1 && u.Role === tabItems[tab.value].value;
+    });
+    users.value = userfilters;
   };
 </script>

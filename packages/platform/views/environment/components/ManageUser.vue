@@ -16,9 +16,9 @@
 
 <template>
   <BaseDialog
-    v-model="dialog"
+    v-model="state.dialog"
     icon="mdi-account-settings"
-    :title="$root.$t('resource.environment_c', [$root.$t('resource.member')])"
+    :title="i18n.t('resource.environment_c', [i18n.t('resource.member')])"
     :width="900"
     @reset="reset"
   >
@@ -26,19 +26,19 @@
       <v-card flat>
         <v-card-text class="pa-0">
           <BaseSubTitle
-            :title="$root.$t('resource.environment_c', [$root.$t('resource.member_c', [$root.$t('resource.role')])])"
+            :title="i18n.t('resource.environment_c', [i18n.t('resource.member_c', [i18n.t('resource.role')])])"
           />
-          <v-tabs v-model="tab" class="pa-2" height="60px" vertical @change="onTabChange">
+          <v-tabs v-model="tab" class="pa-2" height="60px" vertical @change="tabChanged">
             <v-tab v-for="item in tabItems" :key="item.value">
               {{ item.text }}
             </v-tab>
-            <v-tab-item v-for="item in tabItems" :key="item.tab" :reverse-transition="false" :transition="false">
+            <v-tab-item v-for="item in tabItems" :key="item.value" :reverse-transition="false" :transition="false">
               <v-row class="pa-0 ma-0">
                 <v-col class="py-1" cols="6">
                   <v-card elevation="2" flat height="550px">
                     <v-card-text>
                       <v-flex class="px-1 mb-2">
-                        {{ $root.$t('resource.project_c', [$root.$t('resource.member')]) }}
+                        {{ i18n.t('resource.project_c', [i18n.t('resource.member')]) }}
                       </v-flex>
                       <v-text-field
                         v-model="searchAllUser"
@@ -46,7 +46,7 @@
                         dense
                         hide-details
                         prepend-inner-icon="mdi-magnify"
-                        @keyup="onAllUsernameInput"
+                        @keyup="allUsernameInput"
                       />
                       <v-list dense height="450px" :style="{ overflowY: `auto` }">
                         <v-list-item v-for="(user, index) in allUsers" :key="index" link @click="setRole(user, index)">
@@ -67,7 +67,7 @@
                   <v-card elevation="2" flat height="550px">
                     <v-card-text>
                       <v-flex class="px-1 mb-2">
-                        {{ tab === 0 ? $root.$t('role.environment.reader') : $root.$t('role.environment.operator') }}
+                        {{ tab === 0 ? i18n.t('role.environment.reader') : i18n.t('role.environment.operator') }}
                       </v-flex>
                       <v-text-field
                         v-model="searchRoleUser"
@@ -75,15 +75,10 @@
                         dense
                         hide-details
                         prepend-inner-icon="mdi-magnify"
-                        @keyup="onRoleUsernameInput"
+                        @keyup="roleUsernameInput"
                       />
                       <v-list dense height="450px" :style="{ overflowY: `auto` }">
-                        <v-list-item
-                          v-for="(user, index) in tab === 0 ? readerUsers : operatorUsers"
-                          :key="index"
-                          link
-                          @click="removeRole(user, index)"
-                        >
+                        <v-list-item v-for="(user, index) in users" :key="index" link @click="removeRole(user, index)">
                           <v-list-item-avatar class="my-1">
                             <v-avatar class="white--text font-weight-medium" color="primary" :size="32">
                               {{ user.Username[0].toLocaleUpperCase() }}
@@ -106,125 +101,108 @@
   </BaseDialog>
 </template>
 
-<script>
-  import { convertResponse2List } from '@kubegems/api/utils';
-  import { mapGetters, mapState } from 'vuex';
+<script lang="ts" setup>
+  import { useEnvironmentUserList } from '@kubegems/api/hooks/environment';
+  import { useProjectUserList } from '@kubegems/api/hooks/project';
+  import { Environment } from '@kubegems/api/typed/environment';
+  import { Project } from '@kubegems/api/typed/project';
+  import { ResourceRole } from '@kubegems/api/typed/role';
+  import { User } from '@kubegems/api/typed/user';
+  import { useGlobalI18n } from '@kubegems/extension/i18n';
+  import { useStore } from '@kubegems/extension/store';
+  import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import { reactive, ref } from 'vue';
 
-  import { deleteEnvironmentUser, getEnvironmentUserList, getProjectUserList, postAddEnvironmentUser } from '@/api';
-  import BaseSelect from '@/mixins/select';
+  const i18n = useGlobalI18n();
+  const store = useStore();
 
-  export default {
-    name: 'ManageUser',
-    mixins: [BaseSelect],
-    data() {
-      return {
-        dialog: false,
-        tab: 0,
-        allUsers: [],
-        allUsersCopy: [],
-        users: [],
-        usersCopy: [],
-        readerUsers: [],
-        operatorUsers: [],
-        searchAllUser: '',
-        searchRoleUser: '',
-      };
-    },
-    computed: {
-      ...mapState(['JWT', 'Scale']),
-      ...mapGetters(['Project', 'Environment']),
-      tabItems() {
-        return [
-          { text: this.$root.$t('role.environment.reader'), value: 'reader' },
-          { text: this.$root.$t('role.environment.operator'), value: 'operator' },
-        ];
-      },
-    },
-    methods: {
-      open() {
-        this.dialog = true;
-      },
-      async projectUserList() {
-        const data = await getProjectUserList(this.Project().ID, {
-          size: 1000,
-        });
-        this.allUsers = convertResponse2List(data).filter((d) => {
-          return !this.users.find((u) => {
-            return u.Username === d.Username;
-          });
-        });
-        this.allUsersCopy = JSON.parse(JSON.stringify(this.allUsers));
-      },
-      async environmentUserList() {
-        const data = await getEnvironmentUserList(this.Environment().ID, {
-          size: 1000,
-        });
-        this.users = convertResponse2List(data);
-        this.usersCopy = JSON.parse(JSON.stringify(this.users));
-        this.readerUsers = convertResponse2List(data).filter((d) => {
-          return d.Role === 'reader';
-        });
-        this.operatorUsers = convertResponse2List(data).filter((d) => {
-          return d.Role === 'operator';
-        });
-      },
-      async setRole(user, index) {
-        this.$delete(this.allUsers, index);
-        if (this.tab === 0) {
-          this.readerUsers.push(user);
-        } else {
-          this.operatorUsers.push(user);
-        }
-        await postAddEnvironmentUser(parseInt(this.Environment().ID), {
-          UserID: user.ID,
-          EnvironmentID: parseInt(this.Environment().ID),
-          Role: this.tab === 0 ? 'reader' : 'operator',
-        });
-      },
-      async removeRole(user, index) {
-        if (this.tab === 0) {
-          this.$delete(this.readerUsers, index);
-        } else {
-          this.$delete(this.operatorUsers, index);
-        }
-        this.allUsers.push(user);
-        await deleteEnvironmentUser(parseInt(this.Environment().ID), user.ID);
-      },
-      async init() {
-        if (this.Project().ID > 0) {
-          this.searchAllUser = '';
-          this.searchRoleUser = '';
-          await this.environmentUserList();
-          await this.projectUserList();
-        }
-      },
-      async onTabChange() {
-        this.$nextTick(async () => {
-          this.searchAllUser = '';
-          this.searchRoleUser = '';
-          await this.environmentUserList();
-          await this.projectUserList();
-        });
-      },
-      onAllUsernameInput() {
-        this.allUsers = this.allUsersCopy.filter((u) => {
-          return u.Username.indexOf(this.searchAllUser) > -1;
-        });
-      },
-      onRoleUsernameInput() {
-        if (this.tab === 0) {
-          this.readerUsers = this.usersCopy.filter((u) => {
-            return u.Username.indexOf(this.searchRoleUser) > -1 && u.Role === 'reader';
-          });
-        } else {
-          this.operatorUsers = this.usersCopy.filter((u) => {
-            return u.Username.indexOf(this.searchRoleUser) > -1 && u.Role === 'operator';
-          });
-        }
-      },
-      reset() {
-        this.dialog = false;
-      },
-    },
+  const state = reactive({
+    dialog: false,
+  });
+
+  const tab = ref(0);
+  const tabItems = [
+    { text: i18n.t('role.environment.reader'), value: 'reader' },
+    { text: i18n.t('role.environment.operator'), value: 'operator' },
+  ];
+  const tabRole = {
+    0: 'reader',
+    1: 'operator',
+  };
+
+  const users = ref<User[]>([]);
+  const usersCopy = ref<User[]>([]);
+  const getEnvironmentUserList = async () => {
+    const data = await useEnvironmentUserList(new Environment({ ID: store.getters.Environment().ID }));
+    users.value = data;
+    usersCopy.value = deepCopy(users.value);
+  };
+
+  const allUsers = ref<User[]>([]);
+  const allUsersCopy = ref<User[]>([]);
+  const getProjectUserList = async () => {
+    const data = await useProjectUserList(new Project({ ID: store.getters.Project().ID }));
+    allUsers.value = data.filter((d) => {
+      return !users.value.find((u) => {
+        return u.Username === d.Username;
+      });
+    });
+    allUsersCopy.value = deepCopy(allUsers.value);
+  };
+
+  const setRole = async (user: User, index: number): Promise<void> => {
+    allUsers.value.splice(index, 1);
+    users.value.push(user);
+    user.Role = ResourceRole[tabRole[tab.value]];
+    await new Environment({ ID: store.getters.Environment().ID }).addUser(user, user.Role);
+  };
+
+  const removeRole = async (user: User, index: number): Promise<void> => {
+    users.value.splice(index, 1);
+    allUsers.value.push(user);
+    await await new Environment({ ID: store.getters.Environment().ID }).deleteUser(user);
+  };
+
+  const searchAllUser = ref('');
+  const searchRoleUser = ref('');
+  const tabChanged = async (): Promise<void> => {
+    searchAllUser.value = '';
+    searchRoleUser.value = '';
+    await getEnvironmentUserList();
+    await getProjectUserList();
+  };
+
+  const allUsernameInput = (): void => {
+    allUsers.value = allUsersCopy.value.filter((u) => {
+      return u.Username.indexOf(searchAllUser.value) > -1;
+    });
+  };
+
+  const roleUsernameInput = (): void => {
+    users.value = usersCopy.value.filter((u) => {
+      return u.Username.indexOf(searchRoleUser.value) > -1 && u.Role === tabRole[tab.value];
+    });
+  };
+
+  const open = (): void => {
+    state.dialog = true;
+  };
+
+  const init = async (): Promise<void> => {
+    if (store.getters.Project().ID > 0) {
+      searchAllUser.value = '';
+      searchRoleUser.value = '';
+      await getEnvironmentUserList();
+      await getProjectUserList();
+    }
+  };
+
+  defineExpose({
+    init,
+    open,
+  });
+
+  const reset = (): void => {
+    state.dialog = false;
   };
 </script>

@@ -43,7 +43,7 @@ export class Environment implements UserRole {
     return data as KubePaginationResponse<Environment[]>;
   }
 
-  public async getEnvironment(params: KubeRequest): Promise<Environment> {
+  public async getEnvironment(params: KubeRequest = {}): Promise<Environment> {
     const data: { [key: string]: any } = await axios(`environment/${this.ID}`, { params: params });
     return data as Environment;
   }
