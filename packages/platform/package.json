@@ -1,0 +1,17 @@
+{
+  "name": "@kubegems/platform",
+  "version": "1.23.7",
+  "description": "platform management page for kubegems",
+  "main": "index.ts",
+  "scripts": {
+    "lint": "eslint ./ --ext .ts,.tsx,.vue,.js,.jsx --fix"
+  },
+  "author": "kubegems",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@kubegems/api": "workspace:*",
+    "@kubegems/components": "workspace:*",
+    "@kubegems/extension": "workspace:*",
+    "@kubegems/libs": "workspace:*"
+  }
+}

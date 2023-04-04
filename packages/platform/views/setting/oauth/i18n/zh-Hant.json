@@ -1,0 +1,26 @@
+{
+  "operate": {
+    "enable": "啟用",
+    "enable_c": "開啟{0}",
+    "disable": "禁用",
+    "disable_c": "關閉{0}",
+    "config": "配置"
+  },
+  "status": {
+    "enabled": "已啟用"
+  },
+  "tip": {
+    "kubegems": "Kubegems 內置的資料庫認證",
+    "oauth": "使您的組織能夠使用 Oauth 協議登錄",
+    "openldap": "使您的組織能夠使用 Ldap 協議登錄",
+    "gitlab": "使您的組織能夠使用 GitLab 帳號登錄",
+    "github": "使您的組織能夠使用 GitHub 帳號登錄",
+    "tls": "開啟tls",
+    "config_title": "配置第三方認證"
+  },
+  "form": {
+    "name": "名稱",
+    "format_rule": "格式錯誤",
+    "ladp_address": "Ldap位址"
+  }
+}

@@ -24,14 +24,13 @@
 </template>
 
 <script lang="ts" setup>
-  import Chart, { Align, InteractionMode, ScatterDataPoint } from 'chart.js/auto';
-  import 'chartjs-adapter-moment';
-
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useParams } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
   import { LINE_THEME_COLORS, LINE_THEME_FUL_COLORS } from '@kubegems/libs/constants/chart';
   import { randomString } from '@kubegems/libs/utils/helpers';
+  import Chart, { Align, InteractionMode, ScatterDataPoint } from 'chart.js/auto';
+  import 'chartjs-adapter-moment';
   import moment from 'moment';
   import { ComputedRef, computed, nextTick, onMounted, ref, watch } from 'vue';
 

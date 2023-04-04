@@ -4,7 +4,7 @@
   "description": "base api for kubegems",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint ./ --ext .ts,.tsx,.vue,.js,.jsx --fix"
   },
   "author": "kubegems",
   "license": "Apache-2.0",

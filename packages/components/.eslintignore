@@ -1,4 +1,4 @@
 dist/*
 build/*.js
 node_modules/*
-./BasePluginPass.vue
+BasePluginPass.vue

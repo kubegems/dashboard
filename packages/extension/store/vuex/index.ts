@@ -22,8 +22,8 @@ import { sleep } from '@kubegems/libs/utils/helpers';
 import Vue from 'vue';
 import Vuex, { ActionContext, Store } from 'vuex';
 
-import { useCluster, useEnvironment, useProject, useTenant, useVirtualSpace } from './api';
 import router from '../../router';
+import { useCluster, useEnvironment, useProject, useTenant, useVirtualSpace } from './api';
 
 Vue.use(Vuex);
 

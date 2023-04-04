@@ -11,7 +11,8 @@
     "lint": " pnpm -C ./apps/kubegems lint",
     "prepare": "husky install",
     "cz": "git add . && git cz",
-    "amend": "git add . && git commit --amend"
+    "amend": "git add . && git commit --amend",
+    "clean": "rm -rf node_modules **/*/node_modules"
   },
   "husky": {
     "hooks": {

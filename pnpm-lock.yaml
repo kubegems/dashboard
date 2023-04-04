@@ -376,6 +376,21 @@ importers:
 
   packages/libs: {}
 
+  packages/platform:
+    dependencies:
+      '@kubegems/api':
+        specifier: workspace:*
+        version: link:../api
+      '@kubegems/components':
+        specifier: workspace:*
+        version: link:../components
+      '@kubegems/extension':
+        specifier: workspace:*
+        version: link:../extension
+      '@kubegems/libs':
+        specifier: workspace:*
+        version: link:../libs
+
 packages:
 
   /@ampproject/remapping@2.2.0:

@@ -87,14 +87,13 @@
 
   import messages from '../i18n';
   import { getEnvironmentResourceUsage, getProjectResourceUsage } from '@/api';
-  import { ResourceBeatifulMixin } from '@/views/resource/environment/mixins/resourcebeatiful';
+  import { useResourceBeatiful } from '@/composition/environment';
 
   export default {
     name: 'ResourceUseList',
     i18n: {
       messages: messages,
     },
-    mixins: [ResourceBeatifulMixin],
     props: {
       title: {
         type: String,
@@ -154,7 +153,7 @@
           this.resourceUseDetail = await getProjectResourceUsage(this.Project().ID, params);
         }
         if (this.resourceUseDetail) {
-          this.itemsObj = this.getResourceBeatiful(this.resourceUseDetail);
+          this.itemsObj = useResourceBeatiful(this.resourceUseDetail);
         }
       },
       dispose() {

@@ -26,9 +26,8 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed } from 'vue';
-
   import { useStore } from '@kubegems/extension/store';
+  import { computed } from 'vue';
 
   const store = useStore();
 

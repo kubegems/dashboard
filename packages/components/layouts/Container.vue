@@ -34,9 +34,8 @@
 </template>
 
 <script lang="ts" setup>
-  import { onMounted } from 'vue';
-
   import { useStore } from '@kubegems/extension/store';
+  import { onMounted } from 'vue';
 
   onMounted(() => {
     store.dispatch('INIT_BROADCAST');

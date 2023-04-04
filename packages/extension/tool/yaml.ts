@@ -15,6 +15,7 @@
  */
 import yaml from 'js-yaml';
 import Vue from 'vue';
+
 import { useStore } from '../store';
 
 const store = useStore();

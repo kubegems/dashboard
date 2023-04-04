@@ -1,0 +1,36 @@
+{
+  "table": {
+    "name": "名称",
+    "status": "状态",
+    "email": "邮箱",
+    "mobile": "手机号",
+    "role": "角色",
+    "last_login_at": "最近登录",
+    "registe_at": "注册时间"
+  },
+  "filter": {
+    "username_or_email": "用户名或邮箱"
+  },
+  "operate": {
+    "role": "角色",
+    "reset_pwd": "重设密码"
+  },
+  "status": {
+    "enabled": "启用",
+    "disabled": "禁用"
+  },
+  "tip": {
+    "role_title": "用户系统角色",
+    "passwd_title": "重设用户密码",
+    "random_passwd": "生成随机密码"
+  },
+  "resource": {
+    "password": "密码"
+  },
+  "form": {
+    "new_passwd": "新密码",
+    "username": "用户名",
+    "passwd": "密码",
+    "email": "邮箱"
+  }
+}
