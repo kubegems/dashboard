@@ -29,6 +29,7 @@ import '@kubegems/extension/tool';
 
 import '@/assets/styles/index.scss';
 import '@/types/axios';
+import '@kubegems/api/response';
 
 const store = useStore();
 

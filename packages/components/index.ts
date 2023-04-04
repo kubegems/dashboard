@@ -14,5 +14,7 @@
  * limitations under the License.
  */
 
+import '@kubegems/api/response';
+
 const requireComponent: any = import.meta.globEager('./baseComponents/*.vue');
 export default requireComponent;

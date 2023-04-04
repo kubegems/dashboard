@@ -136,7 +136,7 @@
   const store = useStore();
 
   const headers = computed(() => {
-    const items = [
+    const items: { text: string; value: string; align: string; width?: number }[] = [
       { text: i18nLocal.t('table.name'), value: 'projectName', align: 'start' },
       { text: i18nLocal.t('table.alias'), value: 'projectAlias', align: 'start' },
       { text: i18nLocal.t('table.environment_space'), value: 'environment', align: 'start' },
@@ -144,7 +144,7 @@
     ];
     if (store.state.Admin && store.state.AdminViewport) {
       items.splice(1, 0, {
-        text: i18n.t('resource.tenant'),
+        text: i18n.t('resource.tenant').toString(),
         value: 'tenant',
         align: 'start',
       });
