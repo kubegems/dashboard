@@ -17,8 +17,9 @@ import 'moment/dist/locale/zh-cn';
 import 'moment/dist/locale/ja';
 import 'moment/dist/locale/zh-tw';
 import moment from 'moment';
-import { useStore } from '../store';
 import Vue from 'vue';
+
+import { useStore } from '../store';
 
 const store = useStore();
 

@@ -32,6 +32,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { useGlobalI18n } from '@kubegems/extension/i18n';
   import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
   import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
   import { nextTick, onMounted } from 'vue';
@@ -39,7 +40,6 @@
 
   import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
   import 'filepond/dist/filepond.min.css';
-  import { useGlobalI18n } from '@kubegems/extension/i18n';
 
   const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
   const i18n = useGlobalI18n();

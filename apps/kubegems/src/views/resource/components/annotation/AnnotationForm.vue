@@ -33,24 +33,13 @@
               />
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-autocomplete
+              <v-text-field
                 v-model="obj.value"
                 class="my-0"
-                color="primary"
-                hide-selected
-                :items="nodeItems"
                 :label="$root.$t('form.value')"
-                :no-data-text="$root.$t('data.no_data')"
+                required
                 :rules="objRules.valueRule"
-                :search-input.sync="valueText"
-                @keyup.enter="inputValue"
-              >
-                <template #selection="{ item }">
-                  <v-chip class="mx-1" color="primary" small>
-                    {{ item['text'] }}
-                  </v-chip>
-                </template>
-              </v-autocomplete>
+              />
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
@@ -86,12 +75,10 @@
         expand: false,
         annotationsCopy: {},
         obj: {
-          key: 'kubernetes.io/hostname',
+          key: '',
           value: '',
         },
         oldKey: null,
-        nodeItems: [],
-        valueText: '',
       };
     },
     computed: {
@@ -113,7 +100,6 @@
       if (this.data) {
         this.annotationsCopy = deepCopy(this.data);
       }
-      this.getNodeList();
     },
     methods: {
       init(data) {
@@ -138,42 +124,6 @@
         this.$refs.form.reset();
         this.oldKey = null;
         this.$emit('closeOverlay');
-      },
-      getDistinctTaints(taints) {
-        if (taints === undefined) return [];
-        const t = [];
-        taints.forEach((taint) => {
-          if (t.indexOf(taint.effect) === -1) {
-            t.push(taint.effect);
-          }
-        });
-        return t;
-      },
-      async getNodeList() {
-        const data = await getNodeList(this.ThisCluster);
-        this.nodeItems = convertResponse2List(data).map((d) => {
-          if (
-            d.metadata?.labels?.[`node-role.kubernetes.io/master`] === undefined &&
-            d.metadata?.labels?.[`kubernetes.io/role`] !== 'master' &&
-            this.getDistinctTaints(d.spec?.taints).indexOf('NoSchedule') === -1
-          ) {
-            return { text: d.metadata.name, value: d.metadata.name };
-          }
-        });
-      },
-      inputValue() {
-        if (
-          this.nodeItems.findIndex((v) => {
-            return v.value === this.valueText?.trim();
-          }) === -1
-        ) {
-          this.nodeItems.push({
-            text: this.valueText?.trim(),
-            value: this.valueText?.trim(),
-          });
-          this.obj.value = this.valueText?.trim();
-          this.valueText = '';
-        }
       },
     },
   };

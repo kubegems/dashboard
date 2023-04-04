@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Vue from 'vue';
 import { icons as logosIconSet } from '@iconify-json/logos';
 import { icons as mdiIconSet } from '@iconify-json/mdi';
 import { Icon, addCollection } from '@iconify/vue2/dist/offline';
+import Vue from 'vue';
 
 addCollection(logosIconSet);
 addCollection(mdiIconSet);

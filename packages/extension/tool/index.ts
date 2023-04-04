@@ -6,7 +6,6 @@ import './tracing';
 import './yaml';
 import _ from 'lodash';
 import Vue from 'vue';
-
 import VueClipboard from 'vue-clipboard2';
 import VueMeta from 'vue-meta';
 
