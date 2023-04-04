@@ -130,16 +130,17 @@
     const webSocketMessage = function (ev) {
       term.write(ev.data);
       if (_vue.terminalType !== 'kubectl') {
-        const reg = new RegExp('.*?(\\/[\\w-_ \\$\\.#\/\\u4e00-\\u9fa5]*)', 'g');
+        const reg = new RegExp('.*?(~?\\/[\\w-_ \\$\\.#\/\\u4e00-\\u9fa5]*)', 'g');
         const matches = reg.exec(ev.data);
         if (matches) {
-          _vue.dist = matches[1]
+          const dir = matches[1]
             .replaceAll('#', '')
             .replaceAll('$', '')
             .replaceAll(' ', '')
             .replaceAll('[6n', '')
             .replaceAll('[00m', '')
             .replaceAll('[J', '');
+          if (!dir.startsWith('~')) _vue.dist = dir;
         }
       }
     };

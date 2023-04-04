@@ -1,6 +1,6 @@
 {
   "name": "@kubegems/api",
-  "version": "1.23.7",
+  "version": "1.23.8",
   "description": "base api for kubegems",
   "main": "index.ts",
   "scripts": {

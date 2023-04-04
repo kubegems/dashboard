@@ -18,6 +18,7 @@ import Vue from 'vue';
 
 import { platform } from './router';
 import sidebar from './sidebar';
+import '@kubegems/api/response';
 
 for (const path in requireComponent) {
   const pathArr: string[] = path.split('/');

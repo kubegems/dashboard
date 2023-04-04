@@ -1,6 +1,6 @@
 {
   "name": "@kubegems/components",
-  "version": "1.23.7",
+  "version": "1.23.8",
   "description": "base components for kubegems ",
   "main": "index.ts",
   "scripts": {

@@ -18,4 +18,6 @@ import * as hooks from './hooks';
 import * as typed from './typed';
 import * as utils from './utils';
 
+import './response';
+
 export default { typed, hooks, utils, direct };

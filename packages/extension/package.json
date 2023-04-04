@@ -1,6 +1,6 @@
 {
   "name": "@kubegems/extension",
-  "version": "1.23.7",
+  "version": "1.23.8",
   "description": "extension for kubegems",
   "main": "index.ts",
   "scripts": {
