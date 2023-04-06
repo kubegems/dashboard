@@ -82,6 +82,7 @@
 </template>
 
 <script>
+  import schemaValidates from '@kubegems/libs/schema';
   import { deepCopy, randomString } from '@kubegems/libs/utils/helpers';
   import { mapState } from 'vuex';
 
@@ -132,8 +133,7 @@
             }
             kind = ['deployment', 'statefulset', 'daemonset'].indexOf(kind) > -1 ? 'workload' : kind;
 
-            const modules = import.meta.globEager(`@/utils/schema/*.ts`);
-            const schema = modules[`/src/utils/schema/${kind}.ts`]?.default;
+            const schema = schemaValidates?.[kind];
             if (!this.m_resource_validateJsonSchema(schema, jsondata)) {
               return;
             }
@@ -189,8 +189,7 @@
             ['deployment', 'statefulset', 'daemonset'].indexOf(data.kind.toLocaleLowerCase()) > -1
               ? 'workload'
               : data.kind.toLocaleLowerCase();
-          const modules = import.meta.globEager(`@/utils/schema/*.ts`);
-          const schema = modules[`/src/utils/schema/${kind}.ts`]?.default;
+          const schema = schemaValidates?.[kind];
           if (!schema) {
             this.yaml = true;
             this.switchKey = randomString(6);

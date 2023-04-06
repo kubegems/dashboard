@@ -10,7 +10,6 @@ node_modules
 .env.local
 .git/
 package-lock.json
-.github/
 .sentryclirc
 dist/
 

@@ -82,8 +82,8 @@
 </template>
 
 <script>
+  import CronjobSchema from '@kubegems/libs/schema/cronjob';
   import { deepCopy, randomString } from '@kubegems/libs/utils/helpers';
-  import CronjobSchema from '@kubegems/libs/utils/schema/cronjob';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';

@@ -50,8 +50,8 @@
 </template>
 
 <script>
+  import ConfigmapSchema from '@kubegems/libs/schema/configmap';
   import { randomString } from '@kubegems/libs/utils/helpers';
-  import ConfigmapSchema from '@kubegems/libs/utils/schema/configmap';
   import { mapState } from 'vuex';
 
   import ConfigMapBaseForm from './ConfigMapBaseForm';

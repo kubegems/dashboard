@@ -49,8 +49,8 @@
 </template>
 
 <script>
+  import ServiceSchema from '@kubegems/libs/schema/service';
   import { randomString } from '@kubegems/libs/utils/helpers';
-  import ServiceSchema from '@kubegems/libs/utils/schema/service';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';

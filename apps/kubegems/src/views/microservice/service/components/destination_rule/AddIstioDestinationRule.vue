@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import IstioDestinationRuleSchema from '@kubegems/libs/utils/schema/destinationrule';
+  import IstioDestinationRuleSchema from '@kubegems/libs/schema/destinationrule';
   import { mapState } from 'vuex';
 
   import IstioDestinationRuleBaseForm from './IstioDestinationRuleBaseForm';

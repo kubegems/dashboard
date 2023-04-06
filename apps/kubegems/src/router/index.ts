@@ -2,7 +2,6 @@ import { useGlobalI18n } from '@kubegems/extension/i18n';
 import { useRouter } from '@kubegems/extension/router';
 import { useStore } from '@kubegems/extension/store';
 import { PLATFORM } from '@kubegems/libs/constants/platform';
-import Vue from 'vue';
 
 import { adminObserve } from './admin_observe';
 import { adminWorkspace } from './admin_workspace';
@@ -62,7 +61,7 @@ router.beforeEach(async (to, from, next): Promise<void> => {
   }
   if (to.meta.requireAuth && !store.state.JWT) {
     store.commit('SET_SNACKBAR', {
-      text: Vue.prototype.$_i18n.t('tip.need_login'),
+      text: i18n.t('tip.need_login'),
       color: 'warning',
     });
     next({ name: 'login', query: { redirect: to.fullPath } });

@@ -50,8 +50,8 @@
 
 <script>
   import { SERVICE_LOGGING_NS } from '@kubegems/libs/constants/namespace';
+  import FlowSchema from '@kubegems/libs/schema/flow';
   import { randomString } from '@kubegems/libs/utils/helpers';
-  import FlowSchema from '@kubegems/libs/utils/schema/flow';
   import { mapState } from 'vuex';
 
   import FlowBaseForm from './FlowBaseForm';

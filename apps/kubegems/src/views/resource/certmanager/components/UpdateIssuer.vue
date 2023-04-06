@@ -49,8 +49,8 @@
 </template>
 
 <script>
+  import IssuerSchema from '@kubegems/libs/schema/issuer';
   import { deepCopy, randomString } from '@kubegems/libs/utils/helpers';
-  import IssuerSchema from '@kubegems/libs/utils/schema/issuer';
   import { mapState } from 'vuex';
 
   import IssuerBaseForm from './IssuerBaseForm';

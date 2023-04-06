@@ -17,15 +17,17 @@ import yaml from 'js-yaml';
 import Vue from 'vue';
 
 import { useStore } from '../store';
+import { useGlobalI18n } from '../i18n';
 
 const store = useStore();
+const i18n = useGlobalI18n();
 
 Vue.prototype.$yamlload = (data: string): Record<string, unknown> | null => {
   try {
     const d: Record<string, unknown> = yaml.load(data);
     if (typeof d === 'string') {
       store.commit('SET_SNACKBAR', {
-        text: Vue.prototype.$_i18n.t('tip.not_based_yaml'),
+        text: i18n.t('tip.not_based_yaml'),
         color: 'warning',
       });
       return null;

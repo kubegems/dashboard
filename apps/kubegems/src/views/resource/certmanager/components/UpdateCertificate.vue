@@ -49,8 +49,8 @@
 </template>
 
 <script>
+  import CertmanagerSchema from '@kubegems/libs/schema/certificate';
   import { deepCopy, randomString } from '@kubegems/libs/utils/helpers';
-  import CertmanagerSchema from '@kubegems/libs/utils/schema/certificate';
   import { mapState } from 'vuex';
 
   import CertificateBaseForm from './CertificateBaseForm';

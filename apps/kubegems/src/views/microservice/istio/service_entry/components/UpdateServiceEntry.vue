@@ -34,8 +34,8 @@
 </template>
 
 <script>
+  import IstioServiceEntrySchema from '@kubegems/libs/schema/serviceentry';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import IstioServiceEntrySchema from '@kubegems/libs/utils/schema/serviceentry';
   import { mapState } from 'vuex';
 
   import { getIstioServiceEntryDetail, patchUpdateIstioServiceEntry } from '@/api';

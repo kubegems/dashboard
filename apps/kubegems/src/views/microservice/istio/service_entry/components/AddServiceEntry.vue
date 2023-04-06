@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import IstioServiceEntrySchema from '@kubegems/libs/utils/schema/serviceentry';
+  import IstioServiceEntrySchema from '@kubegems/libs/schema/serviceentry';
   import { mapGetters, mapState } from 'vuex';
 
   import { postAddIstioServiceEntry } from '@/api';

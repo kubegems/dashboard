@@ -16,6 +16,7 @@
 
 import i18n from '@kubegems/extension/i18n';
 import { useStore } from '@kubegems/extension/store';
+import { integratedSentry } from '@kubegems/extension/tool/sentry';
 import Vue from 'vue';
 
 import App from './App.vue';
@@ -34,6 +35,18 @@ import '@kubegems/api/response';
 const store = useStore();
 
 Vue.config.productionTip = false;
+
+// 集成sentry
+if (import.meta.env.VUE_APP_SENTRY === 'true') {
+  integratedSentry({
+    dsn: import.meta.env.VUE_APP_DSN,
+    release: import.meta.env.VUE_APP_RELEASE,
+    origins: import.meta.env.VUE_APP_ORIGINS,
+    env: import.meta.env.VUE_APP_ENVIRONMENT,
+    store: store,
+    router: router,
+  });
+}
 
 // 加载其他包中路由
 

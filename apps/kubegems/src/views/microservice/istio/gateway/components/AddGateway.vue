@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import IstioGatewaySchema from '@kubegems/libs/utils/schema/gateway';
+  import IstioGatewaySchema from '@kubegems/libs/schema/gateway';
   import { mapGetters, mapState } from 'vuex';
 
   import { postAddIstioGateway } from '@/api';

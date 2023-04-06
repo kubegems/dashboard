@@ -49,8 +49,8 @@
 </template>
 
 <script>
+  import OutputSchema from '@kubegems/libs/schema/output';
   import { randomString } from '@kubegems/libs/utils/helpers';
-  import OutputSchema from '@kubegems/libs/utils/schema/output';
   import { mapState } from 'vuex';
 
   import OutputBaseForm from './OutputBaseForm';

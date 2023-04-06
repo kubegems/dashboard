@@ -34,8 +34,8 @@
 </template>
 
 <script>
+  import IstioAuthorizationPolicySchema from '@kubegems/libs/schema/authorizationpolicy';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import IstioAuthorizationPolicySchema from '@kubegems/libs/utils/schema/authorizationpolicy';
   import { mapState } from 'vuex';
 
   import { getIstioAuthorizationPolicyDetail, patchUpdateIstioAuthorizationPolicy } from '@/api';
