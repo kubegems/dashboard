@@ -49,8 +49,8 @@
 </template>
 
 <script>
+  import ServiceMonitorSchema from '@kubegems/libs/schema/servicemonitor';
   import { randomString } from '@kubegems/libs/utils/helpers';
-  import ServiceMonitorSchema from '@kubegems/libs/utils/schema/servicemonitor';
   import { mapState } from 'vuex';
 
   import ServiceMonitorBaseForm from './ServiceMonitorBaseForm';

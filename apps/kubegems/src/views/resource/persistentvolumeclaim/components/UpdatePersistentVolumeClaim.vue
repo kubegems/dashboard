@@ -49,8 +49,8 @@
 </template>
 
 <script>
+  import PersistentVolumeClaimSchema from '@kubegems/libs/schema/persistentvolumeclaim';
   import { deepCopy, randomString } from '@kubegems/libs/utils/helpers';
-  import PersistentVolumeClaimSchema from '@kubegems/libs/utils/schema/persistentvolumeclaim';
   import { mapState } from 'vuex';
 
   import PersistentVolumeClaimBaseForm from './PersistentVolumeClaimBaseForm';

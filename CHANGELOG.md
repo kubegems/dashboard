@@ -1,3 +1,17 @@
+# 1.23.8 (2023-4-4)
+
+### Bug Fixes
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [fix: 🐛 fix create resource occured namespace error in tanent edge space bug] | [6565d2b](https://github.com/chenshunliang/dashboard/commit/6565d2bc0dfee1809eee58b65c236c0a567b578e) |
+
+### 🔨 reflactor
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [refactor: :hammer: code structor update, init monorepo] | [8d22545](https://github.com/chenshunliang/dashboard/commit/8d22545ecd32073595ad852c87e9f3348b0310a1) |
+
 # 1.23.7 (2023-4-3)
 
 ### 🌟 新功能

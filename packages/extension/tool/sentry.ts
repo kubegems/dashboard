@@ -19,7 +19,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import { Store } from 'vuex';
 
-const integratedSentry = (options: {
+const _integratedSentry = (options: {
   dsn: string;
   release: string;
   origins: string;
@@ -85,4 +85,4 @@ const integratedSentry = (options: {
   });
 };
 
-export default integratedSentry;
+export const integratedSentry = _integratedSentry;

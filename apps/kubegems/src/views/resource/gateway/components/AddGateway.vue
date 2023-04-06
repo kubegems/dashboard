@@ -49,8 +49,8 @@
 </template>
 
 <script>
+  import GatewaySchema from '@kubegems/libs/schema/tenantgateway';
   import { randomString } from '@kubegems/libs/utils/helpers';
-  import GatewaySchema from '@kubegems/libs/utils/schema/tenantgateway';
   import { mapGetters, mapState } from 'vuex';
 
   import GatewayBaseForm from './GatewayBaseForm';

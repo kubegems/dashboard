@@ -34,8 +34,8 @@
 </template>
 
 <script>
+  import IstioVirtualServiceSchema from '@kubegems/libs/schema/virtualservice';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import IstioVirtualServiceSchema from '@kubegems/libs/utils/schema/virtualservice';
   import { mapState } from 'vuex';
 
   import IstioVirtualServiceBaseForm from './IstioVirtualServiceBaseForm';

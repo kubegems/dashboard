@@ -34,8 +34,8 @@
 </template>
 
 <script>
+  import IstioAuthorizationPolicySchema from '@kubegems/libs/schema/peerauthentication';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import IstioAuthorizationPolicySchema from '@kubegems/libs/utils/schema/peerauthentication';
   import { mapState } from 'vuex';
 
   import { getIstioPeerAuthenticationDetail, patchUpdateIstioPeerAuthentication } from '@/api';

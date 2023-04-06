@@ -49,8 +49,8 @@
 </template>
 
 <script>
+  import IngressSchema from '@kubegems/libs/schema/ingress';
   import { randomString } from '@kubegems/libs/utils/helpers';
-  import IngressSchema from '@kubegems/libs/utils/schema/ingress';
   import { mapState } from 'vuex';
 
   import IngressBaseForm from './IngressBaseForm';

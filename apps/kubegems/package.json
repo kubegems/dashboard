@@ -2,14 +2,14 @@
   "name": "@kubegems/kubegems",
   "version": "1.23.8",
   "description": "base ui for kubegems ",
-  "main": "main.ts",
+  "main": "src/main.ts",
   "scripts": {
     "lint": "eslint ./ --ext .ts,.tsx,.vue,.js,.jsx",
     "stylelint": "stylelint",
     "start": "vite --force --cors -l info",
     "preview": "vite preview -l info -d",
     "build": "vite build",
-    "build:inner": "cross-env VUE_APP_SENTRY=true NODE_ENV=production VUE_APP_API_TIMEOUT=15 VUE_APP_ENVIRONMENT=production VUE_APP_OTEL=true vite build"
+    "build:inner": "cross-env VUE_APP_SENTRY=true NODE_ENV=production VUE_APP_API_TIMEOUT=15 VUE_APP_ENVIRONMENT=production vite build"
   },
   "author": "kubegems",
   "license": "Apache-2.0",

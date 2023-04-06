@@ -49,8 +49,8 @@
 </template>
 
 <script>
+  import SecretSchema from '@kubegems/libs/schema/secret';
   import { deepCopy, randomString } from '@kubegems/libs/utils/helpers';
-  import SecretSchema from '@kubegems/libs/utils/schema/secret';
   import { mapState } from 'vuex';
 
   import SecretBaseForm from './SecretBaseForm';

@@ -82,8 +82,8 @@
 </template>
 
 <script>
+  import WorkloadSchema from '@kubegems/libs/schema/workload';
   import { deepCopy, randomString } from '@kubegems/libs/utils/helpers';
-  import WorkloadSchema from '@kubegems/libs/utils/schema/workload';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';

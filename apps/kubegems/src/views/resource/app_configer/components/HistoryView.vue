@@ -179,7 +179,7 @@
           this.historyItem.key,
           rev,
         );
-        return detail.value;
+        return detail?.value;
       },
       async expandItem(index) {
         if (this.history[index].expanded) {

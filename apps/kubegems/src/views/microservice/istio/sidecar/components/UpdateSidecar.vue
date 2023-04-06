@@ -34,8 +34,8 @@
 </template>
 
 <script>
+  import IstioSidecarSchema from '@kubegems/libs/schema/sidecar';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import IstioSidecarSchema from '@kubegems/libs/utils/schema/sidecar';
   import { mapState } from 'vuex';
 
   import { getIstioSidecarDetail, patchUpdateIstioSidecar } from '@/api';
