@@ -245,9 +245,9 @@
           { text: this.$t('table.role'), value: 'role', align: 'start' },
           { text: this.$t('table.taint'), value: 'taint', align: 'start' },
           { text: this.$t('table.load'), value: 'load', align: 'start', width: 100 },
-          { text: this.$root.$t('resource.cpu'), value: 'cpu', align: 'start', width: 150 },
-          { text: this.$root.$t('resource.memory'), value: 'memory', align: 'start', width: 150 },
-          { text: this.$root.$t('resource.pod'), value: 'pod', align: 'start', width: 150 },
+          { text: this.$root.$t('resource.cpu'), value: 'cpu', align: 'start', width: 135 },
+          { text: this.$root.$t('resource.memory'), value: 'memory', align: 'start', width: 135 },
+          { text: this.$root.$t('resource.pod'), value: 'pod', align: 'start', width: 135 },
           { text: this.$t('table.join_at'), value: 'createAt', align: 'start', width: 180 },
           { text: '', value: 'action', align: 'center', width: 20 },
         ];
@@ -449,9 +449,7 @@
         if (taints === undefined) return [];
         const t = [];
         taints.forEach((taint) => {
-          if (t.indexOf(taint.effect) === -1) {
-            t.push(taint.effect);
-          }
+          t.push(`${taint.key} ${taint.effect}`);
         });
         return t;
       },

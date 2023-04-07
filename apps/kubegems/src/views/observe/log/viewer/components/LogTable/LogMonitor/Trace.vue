@@ -80,7 +80,7 @@
       const ends = item.spans.map((span) => {
         return span.startTime + span.duration;
       });
-      return Math.max(...ends) - item.spans[0].startTime;
+      return Math.max(...(ends || [])) - item.spans[0].startTime;
     }
     return 0;
   };

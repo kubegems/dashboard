@@ -25,6 +25,7 @@
           :active="active"
           class="text-body-2"
           dense
+          expand-icon="mdi-chevron-down"
           item-key="name"
           :items="items"
           :open="[app ? app.name : '']"

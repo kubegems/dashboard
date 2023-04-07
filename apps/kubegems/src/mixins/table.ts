@@ -125,7 +125,7 @@ const table: { [key: string]: any } = {
         }).length === 0
       ) {
         this.$store.commit('SET_SNACKBAR', {
-          text: this.$t('tip.batch_select_c', [title]),
+          text: this.$root.$t('tip.batch_select_c', [title]),
           color: 'warning',
         });
         return;
@@ -176,7 +176,7 @@ const table: { [key: string]: any } = {
     m_table_batchRemoveNotK8SResource(title: string, resourceType: string, listFunc: listHandler): void {
       if (!Object.values(this.m_table_batchResources).some((c: any) => c.checked)) {
         this.$store.commit('SET_SNACKBAR', {
-          text: this.$t('tip.batch_select_c', [title]),
+          text: this.$root.$t('tip.batch_select_c', [title]),
           color: 'warning',
         });
         return;

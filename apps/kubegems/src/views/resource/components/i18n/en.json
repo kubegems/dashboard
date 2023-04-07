@@ -52,7 +52,9 @@
     "requests": "{0} Requests",
     "core": "core",
     "real_time": "The specific time",
-    "datetime": "Time"
+    "datetime": "Time",
+    "file_viewer": "File browser",
+    "file_tree": "File Tree"
   },
   "table": {
     "container_name": "Container Name",
@@ -70,10 +72,19 @@
     "name": "Container Group",
     "status": "Status",
     "restart_count": "Restart count",
-    "used": "{0} Usage"
+    "used": "{0} Usage",
+    "filename": "FileName",
+    "prop": "Property",
+    "owner": "Owner",
+    "group": "Group",
+    "size": "Size",
+    "update_at": "Update At"
   },
   "operate": {
     "terminal": "Terminal",
     "log": "Logs"
+  },
+  "filter": {
+    "filename": "FileName"
   }
 }

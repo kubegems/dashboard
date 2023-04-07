@@ -15,7 +15,7 @@
 -->
 <template>
   <v-menu
-    v-model="menu"
+    v-model="state.menu"
     bottom
     :close-delay="200"
     :close-on-content-click="false"
@@ -26,31 +26,22 @@
     transition="scale-transition"
   >
     <template #activator="{ on }">
-      <v-btn color="white" icon text v-on="on">
-        <v-icon>mdi-upload</v-icon>
+      <v-btn color="primary" text v-on="on">
+        {{ i18n.t('operate.upload') }}
       </v-btn>
     </template>
     <v-card flat width="350">
       <v-card-text class="pa-3">
-        <div class="uploader__title mb-2"> {{ $root.$t('operate.upload') }} </div>
-        <div class="uploader__title mb-2">
-          {{ $t('tip.dest_dir') }} : {{ dist }}
-          <div class="orange--text">
-            <v-icon color="orange" small> mdi-information-variant </v-icon>
-            {{ $t('tip.path_tip') }}
-          </div>
-        </div>
         <FilePond
-          ref="filePond"
           allow-multiple="true"
           credits="false"
           :files="files"
-          :label-file-processing="$t('tip.label_file_processing')"
-          :label-file-processing-complete="$t('tip.label_file_processing_complete')"
-          :label-file-processing-error="$t('tip.label_file_processing_error')"
-          :label-idle="$t('tip.file_upload')"
-          :label-tap-to-cancel="$t('tip.label_tap_to_cancel')"
-          :label-tap-to-retry="$t('tip.label_tap_to_retry')"
+          :label-file-processing="i18nLocal.t('tip.label_file_processing')"
+          :label-file-processing-complete="i18nLocal.t('tip.label_file_processing_complete')"
+          :label-file-processing-error="i18nLocal.t('tip.label_file_processing_error')"
+          :label-idle="i18nLocal.t('tip.file_upload')"
+          :label-tap-to-cancel="i18nLocal.t('tip.label_tap_to_cancel')"
+          :label-tap-to-retry="i18nLocal.t('tip.label_tap_to_retry')"
           max-parallel-uploads="5"
         />
       </v-card-text>
@@ -58,43 +49,57 @@
   </v-menu>
 </template>
 
-<script>
+<script lang="ts" setup>
+  import { useGlobalI18n } from '@kubegems/extension/i18n';
+  import { useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
-  import { getQueryString } from '@kubegems/libs/utils/helpers';
   import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
   import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+  import { reactive, ref } from 'vue';
   import vueFilePond, { setOptions } from 'vue-filepond';
 
-  import messages from '../../i18n';
+  import { useI18n } from '../../i18n';
 
   import 'filepond/dist/filepond.min.css';
 
-  const store = useStore();
+  const props = withDefaults(
+    defineProps<{
+      directory?: string;
+    }>(),
+    {
+      directory: '/',
+    },
+  );
 
-  let destDir = '/';
-  let container = '';
+  const store = useStore();
+  const i18nLocal = useI18n();
+  const i18n = useGlobalI18n();
+  const query = useQuery();
+
+  const state = reactive({
+    menu: false,
+  });
+
+  const emit = defineEmits(['refresh']);
+  const files = ref([]);
   const FilePond = vueFilePond(FilePondPluginFileValidateSize, FilePondPluginFileValidateType);
   setOptions({
     server: {
       process: (fieldName, file, metadata, load, error, progress, abort) => {
         const formData = new FormData();
         formData.append('files[]', file);
-        formData.append('dest', `${destDir}`);
+        formData.append('dest', `${props.directory}`);
 
         const request = new XMLHttpRequest();
         if (store.state.Edge) {
           request.open(
             'POST',
-            `/api/v1/edge-clusters/${getQueryString('t_cluster')}/proxy/custom/core/v1/namespaces/${getQueryString(
-              't_namespace',
-            )}/pods/${getQueryString('t_pod')}/actions/upfile?container=${container}`,
+            `/api/v1/edge-clusters/${query.value.t_cluster}/proxy/custom/core/v1/namespaces/${query.value.t_namespace}/pods/${query.value.t_pod}/actions/upfile?container=${query.value.t_container}`,
           );
         } else {
           request.open(
             'POST',
-            `/api/v1/proxy/cluster/${getQueryString('t_cluster')}/custom/core/v1/namespaces/${getQueryString(
-              't_namespace',
-            )}/pods/${getQueryString('t_pod')}/actions/upfile?container=${container}`,
+            `/api/v1/proxy/cluster/${query.value.t_cluster}/custom/core/v1/namespaces/${query.value.t_namespace}/pods/${query.value.t_pod}/actions/upfile?container=${query.value.t_container}`,
           );
         }
         request.setRequestHeader('Authorization', `Bearer ${store.state.JWT}`);
@@ -106,6 +111,7 @@
         request.onload = function () {
           if (request.status >= 200 && request.status < 300) {
             load(request.responseText);
+            emit('refresh', props.directory);
           } else {
             error('error');
           }
@@ -124,57 +130,10 @@
     },
   });
 
-  export default {
-    name: 'FileUploader',
-    i18n: {
-      messages: messages,
-    },
-    components: {
-      FilePond,
-    },
-    props: {
-      container: {
-        type: String,
-        default: '',
-      },
-      dist: {
-        type: String,
-        default: () => '/',
-      },
-    },
-    data() {
-      return {
-        menu: false,
-        files: [],
-      };
-    },
-    watch: {
-      dist: {
-        handler(newValue) {
-          if (newValue) {
-            destDir = this.dist;
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-      menu: {
-        handler(newValue) {
-          if (newValue) {
-            container = this.container;
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    methods: {
-      reset() {
-        if (this.$refs.filePond) this.$refs.filePond.removeFiles();
-        destDir = '/';
-      },
-    },
-  };
+  // const filePond = ref(null);
+  // const reset = (): void => {
+  //   filePond.value.removeFiles();
+  // };
 </script>
 
 <style lang="scss" scoped>

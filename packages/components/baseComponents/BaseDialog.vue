@@ -38,9 +38,9 @@
         <div class="kubegems__clear-float" />
       </v-sheet>
       <v-card-text class="pa-0">
-        <v-container>
+        <div class="content">
           <slot name="content" />
-        </v-container>
+        </div>
       </v-card-text>
       <div class="px-4 py-2">
         <slot name="action" />
@@ -61,14 +61,14 @@
   const props = withDefaults(
     defineProps<{
       icon?: string;
-      minHeight?: string;
+      minHeight?: number;
       title?: string;
       width?: number;
       value: boolean;
     }>(),
     {
       icon: '',
-      minHeight: '',
+      minHeight: undefined,
       title: '',
       width: 800,
       value: false,
@@ -98,3 +98,12 @@
     { deep: true },
   );
 </script>
+
+<style lang="scss" scoped>
+  .content {
+    width: 100%;
+    padding: 12px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+</style>

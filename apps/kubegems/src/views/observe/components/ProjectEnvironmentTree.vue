@@ -32,6 +32,7 @@
       :active.sync="active"
       color="primary"
       dense
+      expand-icon="mdi-chevron-down"
       item-key="treeId"
       :items="items"
       :load-children="environmentList"

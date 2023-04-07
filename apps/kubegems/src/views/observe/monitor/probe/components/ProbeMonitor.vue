@@ -248,7 +248,7 @@
       const values = data[0]?.values?.map((d) => {
         return d[1] as number;
       });
-      const maxDur = Math.max(...values);
+      const maxDur = Math.max(...(values || []));
       const maxTime = data[0]?.values?.[
         values.findIndex((v) => {
           return v.toString() === maxDur.toString();
@@ -257,7 +257,7 @@
       statistics.value[1].v = beautifyTime((maxDur.toString() || 0) as string, 1000000);
       statistics.value[1].t = moment(data[0] ? maxTime * 1000 : 0).format('YYYY-MM-DD HH:mm:ss');
 
-      const minDur = Math.min(...values);
+      const minDur = Math.min(...(values || []));
       const minTime = data[0]?.values?.[
         values.findIndex((v) => {
           return v.toString() === minDur.toString();

@@ -133,6 +133,18 @@ export function beautifyStorageUnit(num: number, decimal = 1): string {
   return `${result.toFixed(decimal)} Yi`;
 }
 
+export function beautifyFileUnit(num: number, decimal = 1): string {
+  let result: number = num;
+  const units: string[] = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB'];
+  for (const index in units) {
+    if (Math.abs(result) < 1024.0) {
+      return `${result.toFixed(decimal)} ${units[index]}`;
+    }
+    result /= 1024.0;
+  }
+  return `${result.toFixed(decimal)} Yi`;
+}
+
 export function sizeOfCpu(num: number | string, suffix = 'core'): number {
   if (num === undefined) return 0;
   if (num === null) return 0;

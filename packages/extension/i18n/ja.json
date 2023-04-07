@@ -245,7 +245,7 @@
     "save": "保存",
     "detail": "詳細",
     "reset": "リセット",
-    "upload": "ファイルのアップロード",
+    "upload": "アップロード",
     "download": "ダウンロード",
     "allocate": "分配します",
     "allocate_c": "分配します {0}"
