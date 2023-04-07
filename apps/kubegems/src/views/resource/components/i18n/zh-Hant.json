@@ -52,7 +52,9 @@
     "requests": "{0}請求值",
     "core": "核心",
     "real_time": "具體時間",
-    "datetime": "時間"
+    "datetime": "時間",
+    "file_viewer": "文件瀏覽器",
+    "file_tree": "文件樹"
   },
   "table": {
     "container_name": "容器名",
@@ -70,10 +72,19 @@
     "name": "容器組",
     "status": "狀態",
     "restart_count": "重啟次數",
-    "used": "{0}使用量"
+    "used": "{0}使用量",
+    "filename": "文件名",
+    "prop": "屬性",
+    "owner": "所有者",
+    "group": "組",
+    "size": "文件大小",
+    "update_at": "更新時間"
   },
   "operate": {
     "terminal": "終端",
     "log": "日誌"
+  },
+  "filter": {
+    "filename": "文件名"
   }
 }

@@ -52,7 +52,9 @@
     "requests": "{0}リクエスト値",
     "core": "芯",
     "real_time": "特定の時間",
-    "datetime": "時間"
+    "datetime": "時間",
+    "file_viewer": "ファイルブラウザ",
+    "file_tree": "ファイルツリー"
   },
   "table": {
     "container_name": "コンテナ名",
@@ -70,10 +72,19 @@
     "name": "ポッド",
     "status": "状態",
     "restart_count": "再起動",
-    "used": "{0}使用量"
+    "used": "{0}使用量",
+    "filename": "ファイル名",
+    "prop": "属性",
+    "owner": "オーナー",
+    "group": "グループ",
+    "size": "ファイルサイズ",
+    "update_at": "更新時間"
   },
   "operate": {
     "terminal": "ターミナル",
     "log": "ログ"
+  },
+  "filter": {
+    "filename": "ファイル名"
   }
 }

@@ -65,7 +65,7 @@
       </template>
       <template #expanded-item="{ headers, item }">
         <td class="pa-4" :colspan="headers.length">
-          <pre class="log-table__pre">{{ item.stream }}</pre>
+          <pre class="log-table__pre">{{ JSON.stringify(item.stream) }}</pre>
         </td>
       </template>
     </v-data-table>

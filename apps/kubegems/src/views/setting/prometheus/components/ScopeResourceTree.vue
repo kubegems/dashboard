@@ -32,6 +32,7 @@
       :active.sync="state.active"
       color="primary"
       dense
+      expand-icon="mdi-chevron-down"
       item-key="treeId"
       :items="scopeItems"
       :load-children="getRuleResourceList"

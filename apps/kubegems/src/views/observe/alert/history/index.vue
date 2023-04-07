@@ -94,7 +94,7 @@
         </template>
         <template #expanded-item="{ headers, item }">
           <td class="pa-4" :colspan="headers.length">
-            <pre class="pre">{{ item.AlertInfo.Labels }}</pre>
+            <pre class="pre">{{ JSON.stringify(item.AlertInfo.Labels) }}</pre>
           </td>
         </template>
         <template #[`item.action`]="{ item }">

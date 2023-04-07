@@ -52,7 +52,7 @@
         </div>
         <v-flex class="float-right">
           <v-flex class="float-left" :style="{ marginTop: `${actionTop}px` }">
-            <div v-if="store.state.Progress" :style="{ float: 'left' }">
+            <div v-if="store.state.Progress" :style="{ float: 'left', marginTop: '5px', marginRight: '8px' }">
               <v-progress-circular color="white" indeterminate size="20" width="3" />
             </div>
             <slot name="action" />

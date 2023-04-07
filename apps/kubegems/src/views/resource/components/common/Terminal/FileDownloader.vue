@@ -14,79 +14,40 @@
  * limitations under the License. 
 -->
 <template>
-  <v-menu v-model="menu" :position-x="left" :position-y="top">
-    <v-card>
-      <v-card-text class="pa-2">
-        <v-flex>
-          <v-btn color="primary" small text @click="download">
-            {{ $root.$t('operate.download') }} <span class="grey--text">{{ getFile() }}</span>
-          </v-btn>
-        </v-flex>
-      </v-card-text>
-    </v-card>
-  </v-menu>
+  <v-flex>
+    <v-btn color="primary" small text @click.stop="download">
+      {{ i18n.t('operate.download') }}
+    </v-btn>
+  </v-flex>
 </template>
 
-<script>
-  import { mapState } from 'vuex';
+<script lang="ts" setup>
+  import { useGlobalI18n } from '@kubegems/extension/i18n';
+  import { useQuery } from '@kubegems/extension/router';
+  import { useStore } from '@kubegems/extension/store';
 
-  export default {
-    name: 'FileDownloader',
-    props: {
-      container: {
-        type: String,
-        default: '',
-      },
-      file: {
-        type: String,
-        default: '',
-      },
-      left: {
-        type: Number,
-        default: 0,
-      },
-      top: {
-        type: Number,
-        default: 0,
-      },
+  const props = withDefaults(
+    defineProps<{
+      fileName?: string;
+    }>(),
+    {
+      fileName: '',
     },
-    data() {
-      return {
-        menu: false,
-      };
-    },
-    computed: {
-      ...mapState(['JWT', 'Edge']),
-    },
-    watch: {
-      left: {
-        handler(newValue) {
-          if (newValue) {
-            this.menu = true;
-          }
-        },
-        deep: true,
-      },
-    },
-    methods: {
-      async download() {
-        if (this.Edge) {
-          window.open(
-            `/api/v1/edge-clusters/${this.$route.query.t_cluster}/proxy/custom/core/v1/namespaces/${this.$route.query.t_namespace}/pods/${this.$route.query.t_pod}/actions/file?filename=${this.file}&token=${this.JWT}&container=${this.container}`,
-          );
-        } else {
-          window.open(
-            `/api/v1/proxy/cluster/${this.$route.query.t_cluster}/custom/core/v1/namespaces/${this.$route.query.t_namespace}/pods/${this.$route.query.t_pod}/actions/file?filename=${this.file}&token=${this.JWT}&container=${this.container}`,
-          );
-        }
-      },
-      getFile() {
-        const index = this.file.lastIndexOf('/');
-        if (index > -1) {
-          return ` ${this.file.substr(index + 1)}`;
-        }
-        return ` ${this.file}`;
-      },
-    },
+  );
+
+  const i18n = useGlobalI18n();
+  const store = useStore();
+  const query = useQuery();
+
+  const download = () => {
+    if (store.state.Edge) {
+      window.open(
+        `/api/v1/edge-clusters/${query.value.t_cluster}/proxy/custom/core/v1/namespaces/${query.value.t_namespace}/pods/${query.value.t_pod}/actions/file?filename=${props.fileName}&token=${store.state.JWT}&container=${query.value.t_container}`,
+      );
+    } else {
+      window.open(
+        `/api/v1/proxy/cluster/${query.value.t_cluster}/custom/core/v1/namespaces/${query.value.t_namespace}/pods/${query.value.t_pod}/actions/file?filename=${props.fileName}&token=${store.state.JWT}&container=${query.value.t_container}`,
+      );
+    }
   };
 </script>

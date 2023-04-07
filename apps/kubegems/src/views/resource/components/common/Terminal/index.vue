@@ -23,23 +23,14 @@
           <v-btn color="white" depressed icon @click="openOnBlankTab">
             <v-icon color="white" small> mdi-open-in-new </v-icon>
           </v-btn>
-          <span class="text-body-2 mx-2"> {{ $t('tip.now_path') }} : {{ dist }} </span>
-          <v-menu nudge-right="20px" nudge-top="16px" open-on-hover right>
-            <template #activator="{ on }">
-              <span class="text-caption" v-on="on">
-                <v-icon color="white" small> mdi-information-variant </v-icon>
-              </span>
-            </template>
-            <v-card>
-              <v-card-text class="pa-2 text-caption"> {{ $t('tip.download_tip') }} </v-card-text>
-            </v-card>
-          </v-menu>
         </template>
       </v-flex>
     </template>
     <template #action>
-      <v-sheet v-if="terminalType !== 'kubectl'" class="text-subtitle-2 primary white--text">
-        <FileUploader ref="uploader" :container="container" :dist="dist" />
+      <v-sheet v-if="terminalType !== 'kubectl'" class="text-subtitle-2 primary white--text float-left">
+        <v-btn color="white" icon text @click="openFileViewer">
+          <v-icon>mdi-file</v-icon>
+        </v-btn>
         <v-btn class="mx-2" color="white" icon text @click="refreshContainer">
           <v-icon>mdi-refresh</v-icon>
         </v-btn>
@@ -94,7 +85,7 @@
     </template>
     <template #content>
       <div id="terminal" :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`" />
-      <FileDownloader :container="container" :file="file" :left="left" :top="top" />
+      <FileViewer ref="fileViewer" />
     </template>
   </BaseFullScreenDialog>
 </template>
@@ -107,8 +98,7 @@
   import { FitAddon } from 'xterm-addon-fit';
 
   import messages from '../../i18n';
-  import FileDownloader from './FileDownloader';
-  import FileUploader from './FileUploader';
+  import FileViewer from './FileViewer';
   import BaseResource from '@/mixins/resource';
 
   const bindTerminalResize = (term, websocket) => {
@@ -123,26 +113,12 @@
     term.onResize(onTermResize);
   };
 
-  const bindTerminal = (term, websocket, bidirectional, _vue) => {
+  const bindTerminal = (term, websocket, bidirectional) => {
     term.socket = websocket;
 
     // 回显
     const webSocketMessage = function (ev) {
       term.write(ev.data);
-      if (_vue.terminalType !== 'kubectl') {
-        const reg = new RegExp('.*?(~?\\/[\\w-_ \\$\\.#\/\\u4e00-\\u9fa5]*)', 'g');
-        const matches = reg.exec(ev.data);
-        if (matches) {
-          const dir = matches[1]
-            .replaceAll('#', '')
-            .replaceAll('$', '')
-            .replaceAll(' ', '')
-            .replaceAll('[6n', '')
-            .replaceAll('[00m', '')
-            .replaceAll('[J', '');
-          if (!dir.startsWith('~')) _vue.dist = dir;
-        }
-      }
     };
     // 心跳
     const heartBeatTimer = setInterval(function () {
@@ -181,8 +157,7 @@
       messages: messages,
     },
     components: {
-      FileDownloader,
-      FileUploader,
+      FileViewer,
     },
     mixins: [BaseResource],
     data() {
@@ -198,12 +173,6 @@
         websock: null,
         terminalType: 'shell',
         containerMenu: false,
-        dist: '/',
-
-        left: 0,
-        top: 0,
-        file: '',
-        isEdge: false,
       };
     },
     computed: {
@@ -231,6 +200,7 @@
               t_cluster: this.ThisCluster,
               t_namespace: this.item.namespace,
               t_pod: this.item.name,
+              t_container: this.container,
             },
           });
         }
@@ -372,10 +342,6 @@
         const xtermScreen = document.querySelector('.xterm-screen');
         xtermScreen.style.height = `${this.height}px`;
 
-        term.onSelectionChange(() => {
-          this.doDownload(null);
-        });
-
         var msg = JSON.stringify({
           type: 'resize',
           rows: this.rows,
@@ -387,11 +353,6 @@
       },
       onWindowResize() {
         this.term?.fit();
-      },
-      doLink(ev, url) {
-        if (ev.type === 'click') {
-          window.open(url);
-        }
       },
       doClose() {
         window.removeEventListener('resize', this.onWindowResize);
@@ -423,22 +384,8 @@
         this.dialog = false;
         window.open(routeData.href, '_blank');
       },
-      doDownload(e, setFile = true) {
-        if (this.terminalType === 'kubectl') return;
-        if (this.term?.hasSelection()) {
-          const reg = RegExp('^[\\w- _\\.#\\(\\)\\u4e00-\\u9fa5]*(\\.[\\w-_\\.#]*)?$', 'g');
-          const selection = this.term?.getSelection().replaceAll(' ', '');
-          if (selection && reg.exec(selection)) {
-            const position = this.term?.getSelectionPosition();
-            if (position) {
-              this.top = ((position.end.y + 1) * 20 + 64) / this.Scale;
-              this.left = (position.end.x * 8) / this.Scale;
-            }
-            if (setFile) {
-              this.file = `${this.dist}/${selection}`;
-            }
-          }
-        }
+      openFileViewer() {
+        this.$refs.fileViewer.open();
       },
     },
   };
