@@ -59,6 +59,16 @@
                   >
                     mdi-console
                   </v-icon>
+                  <v-icon
+                    v-if="m_permisson_resourceAllow && container.state && container.state.running !== undefined"
+                    class="kubegems__pointer"
+                    color="primary float-left"
+                    right
+                    small
+                    @click="fileViewer(container.name, item)"
+                  >
+                    mdi-sd
+                  </v-icon>
                   <div class="kubegems__clear-float" />
                 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
@@ -170,6 +180,7 @@
 
     <ContainerLog ref="containerLog" />
     <Terminal ref="terminal" />
+    <FileViewer ref="fileViewer" />
   </v-flex>
 </template>
 
@@ -184,6 +195,7 @@
   import ContainerLog from '@/views/resource/components/common/ContainerLog';
   import ProbeTip from '@/views/resource/components/common/ProbeTip';
   import Terminal from '@/views/resource/components/common/Terminal';
+  import FileViewer from '@/views/resource/components/common/Terminal/FileViewer';
 
   export default {
     name: 'ContainerItems',
@@ -192,6 +204,7 @@
     },
     components: {
       ContainerLog,
+      FileViewer,
       ProbeTip,
       Terminal,
     },
@@ -324,6 +337,19 @@
         };
         this.$refs.terminal.init(container, item, 'shell', Boolean(this.Edge));
         this.$refs.terminal.open();
+      },
+      async fileViewer(container, pod) {
+        await this.$router.replace({
+          params: this.$route.params,
+          query: {
+            ...this.$route.query,
+            t_cluster: this.ThisCluster,
+            t_namespace: pod.metadata.namespace,
+            t_pod: pod.metadata.name,
+            t_container: container,
+          },
+        });
+        this.$refs.fileViewer.open();
       },
     },
   };
