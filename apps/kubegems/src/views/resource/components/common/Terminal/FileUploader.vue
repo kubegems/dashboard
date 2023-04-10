@@ -35,6 +35,7 @@
         <FilePond
           allow-multiple="true"
           credits="false"
+          file-pond
           :files="files"
           :label-file-processing="i18nLocal.t('tip.label_file_processing')"
           :label-file-processing-complete="i18nLocal.t('tip.label_file_processing_complete')"
@@ -130,10 +131,14 @@
     },
   });
 
-  // const filePond = ref(null);
-  // const reset = (): void => {
-  //   filePond.value.removeFiles();
-  // };
+  const filePond = ref(null);
+  const reset = (): void => {
+    filePond.value.removeFiles();
+  };
+
+  defineExpose({
+    reset,
+  });
 </script>
 
 <style lang="scss" scoped>

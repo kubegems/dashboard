@@ -43,25 +43,34 @@
             rounded
             :search="fileTree.search"
             transition
+            @update:active="activeNode"
           >
             <template #prepend="{ item }">
               <v-icon v-if="item.isDir || item.children" color="primary" left small> mdi-folder </v-icon>
               <v-icon v-else color="primary" left small> {{ getIconByFileExt(item.name) }} </v-icon>
             </template>
             <template #label="{ item }">
-              <div class="text-body-2" @click="openNode(item)">{{ item.name }}</div>
+              <div v-if="item.isDir || item.children" class="text-body-2" @click.stop="openNode(item)">
+                {{ item.name }}
+              </div>
+              <div v-else class="text-body-2">{{ item.name }}</div>
             </template>
           </v-treeview>
         </v-col>
         <v-col :cols="9" :style="{ position: 'relative' }">
-          <BaseFilter1
-            :default="{ items: [], text: i18nLocal.t('filter.filename'), value: 'search' }"
-            :filters="filters"
-            :reload="false"
-            @filter="customFilter"
-          />
-          <div class="mt-2">{{ i18nLocal.t('tip.path') }}: {{ getDir() }}</div>
+          <v-card-title class="pa-0">
+            <BaseFilter1
+              :default="{ items: [], text: i18nLocal.t('filter.filename'), value: 'search' }"
+              :filters="filters"
+              :reload="false"
+              @filter="customFilter"
+            />
+            <v-spacer />
+            <FileUploader ref="uploader" :directory="currentDir" @refresh="refresh" />
+          </v-card-title>
+          <div class="mt-2">{{ i18nLocal.t('tip.path') }}: {{ currentDir }}</div>
           <v-data-table
+            class="file__table"
             disable-sort
             :headers="headers"
             hide-default-footer
@@ -76,7 +85,10 @@
               <v-icon v-if="item.islink" color="primary" left small> mdi-link-variant </v-icon>
               <v-icon v-else-if="item.isDir || item.children" color="primary" left small> mdi-folder </v-icon>
               <v-icon v-else color="primary" left small> {{ getIconByFileExt(item.name) }} </v-icon>
-              {{ item.name }}
+              <span v-if="item.isDir || item.children" class="kubegems__pointer" @click="enterDir(item)">
+                {{ item.name }}
+              </span>
+              <span v-else> {{ item.name }} </span>
               <abbr v-if="item.islink" class="success--text">
                 <v-icon v-if="item.islink" class="ml-2" color="grey" left small> mdi-arrow-right </v-icon>
                 {{ item.realFile }}
@@ -89,35 +101,9 @@
               {{ beautifyFileUnit(item.size, 2) }}
             </template>
             <template #item.action="{ item }">
-              <v-flex :id="`r${item.name.replaceAll('.', '_')}`" />
-              <v-menu :attach="`#r${item.name.replaceAll('.', '_')}`" left>
-                <template #activator="{ on }">
-                  <v-btn icon>
-                    <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
-                  </v-btn>
-                </template>
-                <v-card>
-                  <v-card-text class="pa-2">
-                    <v-flex v-if="item.isDir">
-                      <FileUploader :directory="item.absname" @refresh="refresh" />
-                    </v-flex>
-                    <v-flex>
-                      <FileDownloader :file-name="item.absname" />
-                    </v-flex>
-                  </v-card-text>
-                </v-card>
-              </v-menu>
+              <FileDownloader :file-name="item.absname" />
             </template>
           </v-data-table>
-          <BasePagination
-            v-if="pagination.pageCount >= 1"
-            v-model="pagination.page"
-            :front-page="true"
-            :page-count="pagination.pageCount"
-            :size="pagination.size"
-            @changepage="pageChange"
-            @changesize="sizeChange"
-          />
         </v-col>
       </v-row>
     </template>
@@ -153,7 +139,7 @@
       children: [],
     }),
   ]);
-  const fileTree = reactive({
+  let fileTree = reactive({
     active: undefined,
     items: [],
     search: '',
@@ -174,11 +160,12 @@
   const itemsCopy = ref([]);
   let pagination: Pagination<File> = reactive<Pagination<File>>({
     page: 1,
-    size: 10,
+    size: 1000,
     items: [],
     pageCount: 0,
     search: '',
   });
+  const currentDir = ref('/');
 
   const filters = [{ text: i18nLocal.t('filter.filename'), value: 'search', items: [] }];
 
@@ -203,7 +190,7 @@
     });
   };
 
-  const getFilesInDir = async (file: File): Promise<void> => {
+  const getFilesInDir = async (file: File, autoOpen = false): Promise<void> => {
     const data = await new File().getFileListInDir(query.value.t_cluster, query.value.t_namespace, query.value.t_pod, {
       container: query.value.t_container,
       directory: file?.absname || '/',
@@ -226,26 +213,37 @@
     }
     items.value = treeData;
     itemsCopy.value = deepCopy(treeData);
+    currentDir.value = file?.absname || '/';
+
+    if (
+      !fileTree.open.some((f) => {
+        return f.absnameKey === file.absnameKey;
+      }) &&
+      autoOpen
+    ) {
+      fileTree.open.push(file);
+    }
   };
 
   const openNode = (file: File): void => {
-    if (file && file.isDir && file?.children?.length > 0) {
-      items.value = file.children;
-      itemsCopy.value = deepCopy(file.children);
+    if (file && file.isDir) {
+      if (file?.children?.length > 0) {
+        items.value = file.children;
+        itemsCopy.value = deepCopy(file.children);
+      }
+      currentDir.value = file?.absname;
     }
   };
 
-  const getDir = () => {
-    if (items.value?.length > 0) {
-      return items.value[0].baseDir;
-    }
-    if (fileTree.open?.length > 0) {
-      return fileTree.open[0].baseDir;
-    }
+  const activeNode = (): void => {
     if (fileTree.active?.length > 0) {
-      return fileTree.active[0].baseDir;
+      const node = fileTree.active[0];
+      currentDir.value = node?.baseDir;
     }
-    return '/';
+  };
+
+  const enterDir = (item: File): void => {
+    getFilesInDir(new File(item), true);
   };
 
   const getIconByFileExt = (file: string): string => {
@@ -287,15 +285,7 @@
     }
   };
 
-  const pageChange = (page: number): void => {
-    pagination.page = page;
-  };
-
-  const sizeChange = (size: number): void => {
-    pagination.page = 1;
-    pagination.size = size;
-  };
-
+  const uploader = ref(null);
   const reset = (): void => {
     state.dialog = false;
     fileItems.value = [
@@ -307,12 +297,26 @@
         children: [],
       }),
     ];
+    fileTree = Object.assign(fileTree, {
+      active: undefined,
+      items: [],
+      search: '',
+      open: [],
+    });
     items.value = [];
     itemsCopy.value = [];
+    currentDir.value = '/';
+
+    if (uploader.value) uploader.value.reset();
   };
 
   const open = async (): Promise<void> => {
     state.dialog = true;
+    getFilesInDir(
+      new File({
+        absname: '/',
+      }),
+    );
   };
 
   defineExpose({
@@ -335,6 +339,11 @@
     }
 
     &__tree {
+      max-height: 630px;
+      overflow: auto;
+    }
+
+    &__table {
       max-height: 600px;
       overflow: auto;
     }

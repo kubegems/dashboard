@@ -253,7 +253,7 @@
     "save": "Save",
     "detail": "Detail",
     "reset": "Reset",
-    "upload": "Upload",
+    "upload": "Upload files",
     "download": "Download",
     "allocate": "Allocate",
     "allocate_c": "Allocate {0}"

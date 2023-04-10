@@ -1,4 +1,10 @@
-# 1.23.8 (2023-4-4)
+# 1.23.8 (2023-4-7)
+
+### 🌟 新功能
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | [feat: ✨ support file tree from terminal] | [8a9fd3f](https://github.com/chenshunliang/dashboard/commit/8a9fd3fe7d90955322f9d9ce104c569724567230) |
 
 ### Bug Fixes
 

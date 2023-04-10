@@ -190,3 +190,7 @@
 .v-data-table__selected .v-data-table__checkbox .v-input--selection-controls__input i {
   color: #1e88e5 !important;
 }
+
+.v-treeview-node__label {
+  white-space: break-spaces;
+}

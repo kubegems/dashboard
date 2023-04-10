@@ -29,7 +29,7 @@
     <template #action>
       <v-sheet v-if="terminalType !== 'kubectl'" class="text-subtitle-2 primary white--text float-left">
         <v-btn color="white" icon text @click="openFileViewer">
-          <v-icon>mdi-file</v-icon>
+          <v-icon>mdi-sd</v-icon>
         </v-btn>
         <v-btn class="mx-2" color="white" icon text @click="refreshContainer">
           <v-icon>mdi-refresh</v-icon>
