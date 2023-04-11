@@ -113,7 +113,8 @@
     "for": "评估时间",
     "status": "状态",
     "output": "路由器",
-    "plugin": "插件"
+    "plugin": "插件",
+    "filter": "过滤器"
   },
   "tab": {
     "log_flow": "日志采集器",

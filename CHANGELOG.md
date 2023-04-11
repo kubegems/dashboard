@@ -1,4 +1,4 @@
-# 1.23.8 (2023-4-10)
+# 1.23.8 (2023-4-11)
 
 ### 🌟 新功能
 
@@ -12,6 +12,7 @@
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [fix: 🐛 fix create resource occured namespace error in tanent edge space bug] | [6565d2b](https://github.com/chenshunliang/dashboard/commit/6565d2bc0dfee1809eee58b65c236c0a567b578e) |
+| - | [fix: 🐛 fix base dialog component height style not render correct bug] | [dff71c2](https://github.com/chenshunliang/dashboard/commit/dff71c229cb87ac3094a0c55397a8775ad1c8526) |
 
 ### 🔨 reflactor
 

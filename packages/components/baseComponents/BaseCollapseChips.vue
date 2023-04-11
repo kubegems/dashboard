@@ -30,17 +30,31 @@
     >
       <template #activator="{ on }">
         <v-flex v-on="on">
-          <v-chip v-for="item in visibleItems" :key="item[itemValue]" class="mr-2 my-1" :color="color" small>
+          <!-- <v-chip v-for="item in visibleItems" :key="item[itemValue]" class="mr-2 my-1" :color="color" small>
             <v-icon v-if="icon" left small> {{ icon }} </v-icon>
-            <strong v-if="dataType === 'object'" class="mr-1">
-              {{ item[itemValue] }}
-            </strong>
+            <strong v-if="dataType === 'object'" class="mr-1"> {{ item[itemValue] }} </strong>
             <slot :item="item">{{ item[itemText] }}</slot>
-          </v-chip>
+          </v-chip> -->
 
-          <v-chip v-if="items.length > 1" class="my-1" :color="color" small>
+          <div v-for="item in visibleItems" :key="item[itemValue]" class="mr-2 my-1">
+            <div class="success white--text float-left collapse__left text-caption">
+              <div :class="`${color} pl-2 pr-1 collapse__front`">
+                <v-icon v-if="icon" color="white" small class="mr-1"> {{ icon }} </v-icon>
+                <strong v-if="dataType === 'object'" class="mr-1"> {{ item[itemValue] }} </strong>
+              </div>
+            </div>
+            <div class="success white--text float-left collapse__right text-caption px-2">
+              <slot :item="item">{{ item[itemText] }}</slot>
+            </div>
+            <div class="kubegems__clear-float" />
+          </div>
+
+          <div
+            v-if="items.length > 1"
+            :class="`${color} white--text collapse__left collapse__right text-caption px-2 float-left`"
+          >
             <strong>+ {{ items.length - 1 }}</strong>
-          </v-chip>
+          </div>
         </v-flex>
       </template>
 
@@ -84,7 +98,7 @@
     }>(),
     {
       chips: [],
-      color: 'success',
+      color: 'primary',
       count: 1,
       delimiter: '',
       emptyText: '-',
@@ -151,6 +165,26 @@
 
     &__chip {
       word-break: break-all;
+    }
+
+    &__front {
+      border-radius: 20px;
+    }
+
+    &__left {
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+      line-height: 22px;
+    }
+
+    &__right {
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+      line-height: 22px;
+      max-width: 350px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: auto;
     }
   }
 </style>

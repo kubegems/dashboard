@@ -123,16 +123,7 @@
           {{ item.metadata.creationTimestamp ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}
         </template>
         <template #[`item.taint`]="{ item }">
-          <v-chip
-            v-for="(val, index) in getDistinctTaints(item.spec.taints)"
-            :key="index"
-            class="ma-1 font-weight-medium"
-            color="success"
-            small
-            text-color="white"
-          >
-            {{ val }}
-          </v-chip>
+          <BaseCollapseChips :chips="getDistinctTaints(item.spec.taints) || {}" icon="mdi-label-variant" single-line />
         </template>
         <template #[`item.role`]="{ item }">
           <span
@@ -239,16 +230,16 @@
       },
       headers() {
         return [
-          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$t('table.name'), value: 'name', align: 'start', width: 200 },
           { text: 'IP', value: 'ip', align: 'start' },
-          { text: this.$t('table.status'), value: 'status', align: 'start', width: 150 },
+          { text: this.$t('table.status'), value: 'status', align: 'start', width: 145 },
           { text: this.$t('table.role'), value: 'role', align: 'start' },
-          { text: this.$t('table.taint'), value: 'taint', align: 'start' },
-          { text: this.$t('table.load'), value: 'load', align: 'start', width: 100 },
+          { text: this.$t('table.taint'), value: 'taint', align: 'start', class: 'table__taint' },
+          { text: this.$t('table.load'), value: 'load', align: 'start', width: 80 },
           { text: this.$root.$t('resource.cpu'), value: 'cpu', align: 'start', width: 135 },
           { text: this.$root.$t('resource.memory'), value: 'memory', align: 'start', width: 135 },
           { text: this.$root.$t('resource.pod'), value: 'pod', align: 'start', width: 135 },
-          { text: this.$t('table.join_at'), value: 'createAt', align: 'start', width: 180 },
+          { text: this.$t('table.join_at'), value: 'createAt', align: 'start' },
           { text: '', value: 'action', align: 'center', width: 20 },
         ];
       },
@@ -446,10 +437,14 @@
         return tmpConditions;
       },
       getDistinctTaints(taints) {
-        if (taints === undefined) return [];
-        const t = [];
+        if (taints === undefined) return {};
+        const t = {};
         taints.forEach((taint) => {
-          t.push(`${taint.key} ${taint.effect}`);
+          if (t[taint.key]) {
+            t[`${taint.key} `] = taint.effect;
+          } else {
+            t[taint.key] = taint.effect;
+          }
         });
         return t;
       },
@@ -478,3 +473,9 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .table__taint {
+    max-width: 350px;
+  }
+</style>
