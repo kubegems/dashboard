@@ -1,10 +1,11 @@
-# 1.23.8 (2023-4-7)
+# 1.23.8 (2023-4-10)
 
 ### 🌟 新功能
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
 | - | [feat: ✨ support file tree from terminal] | [8a9fd3f](https://github.com/chenshunliang/dashboard/commit/8a9fd3fe7d90955322f9d9ce104c569724567230) |
+| - | [perf: ⚡ optimization file viewer] | [e58640c](https://github.com/chenshunliang/dashboard/commit/e58640c9bea2dd002108d3561a0ff5327d6557d2) |
 
 ### Bug Fixes
 

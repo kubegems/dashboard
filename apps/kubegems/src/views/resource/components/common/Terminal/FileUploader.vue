@@ -33,6 +33,7 @@
     <v-card flat width="350">
       <v-card-text class="pa-3">
         <FilePond
+          ref="filePond"
           allow-multiple="true"
           credits="false"
           file-pond
@@ -133,7 +134,7 @@
 
   const filePond = ref(null);
   const reset = (): void => {
-    filePond.value.removeFiles();
+    if (filePond.value) filePond.value.removeFiles();
   };
 
   defineExpose({

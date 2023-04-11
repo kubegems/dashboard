@@ -188,12 +188,9 @@
     });
   };
 
-  onMounted(() => {
-    getClusterItems();
-  });
-
   const open = (): void => {
     state.dialog = true;
+    getClusterItems();
   };
 
   const init = async (item: Environment): Promise<void> => {

@@ -60,7 +60,7 @@
           disable-sort
           :headers="headers"
           hide-default-footer
-          :items="pagination.items"
+          :items="environmentItems"
           :items-per-page="pagination.size"
           :no-data-text="i18n.t('data.no_data')"
           :page.sync="pagination.page"
@@ -82,11 +82,14 @@
               {{ i18n.t(`metadata.environment_type.${item.MetaType}`) }}
             </v-chip>
           </template>
-          <template #item.creator="{ item }">
-            {{ item.Creator.Username }}
-          </template>
           <template #item.namespace="{ item }">
             {{ item.Namespace }}
+          </template>
+          <template #item.resourceQuota="{ item }">
+            <pre>{{ JSON.stringify(item.ResourceQuota, null, 2) }}</pre>
+          </template>
+          <template #item.deletePolicy="{ item }">
+            {{ item.DeletePolicy }}
           </template>
           <template #item.action="{ item }">
             <v-flex :id="`r${item.ID}`" />
@@ -140,7 +143,7 @@
   import { useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
   import { METATYPE_CN } from '@kubegems/libs/constants/platform';
-  import { computed, onMounted, reactive, ref, watch } from 'vue';
+  import { computed, ComputedRef, onMounted, reactive, ref, watch } from 'vue';
 
   import EnvironmentBaseForm from './components/EnvironmentBaseForm/index.vue';
   import { useI18n } from './i18n';
@@ -149,33 +152,13 @@
   const i18nLocal = useI18n();
   const store = useStore();
 
-  const headers = computed(() => {
+  const headers: ComputedRef<any[]> = computed(() => {
     const items = [
       { text: i18nLocal.t('table.name'), value: 'environmentName', align: 'start' },
       { text: i18n.t('resource.type'), value: 'metaType', align: 'start' },
       { text: i18n.t('resource.namespace'), value: 'namespace', align: 'start' },
-      { text: i18nLocal.t('table.creator'), value: 'creator', align: 'start' },
-      { text: i18n.t('resource.cpu'), value: 'cpu', align: 'start' },
-      { text: i18n.t('resource.memory'), value: 'memory', align: 'start' },
-      { text: i18n.t('resource.storage'), value: 'storage', align: 'start' },
-      {
-        text: i18nLocal.t('table.used', [i18n.t('resource.cpu')]),
-        value: 'usedCpu',
-        align: 'start',
-        width: 150,
-      },
-      {
-        text: i18nLocal.t('table.used', [i18n.t('resource.memory')]),
-        value: 'usedMemory',
-        align: 'start',
-        width: 150,
-      },
-      {
-        text: i18nLocal.t('table.used', [i18n.t('resource.storage')]),
-        value: 'usedStorage',
-        align: 'start',
-        width: 150,
-      },
+      { text: 'ResourceQuota', value: 'resourceQuota', align: 'start' },
+      { text: 'DeletePolicy', value: 'deletePolicy', align: 'start' },
     ];
     if (useProjectAllow()) {
       items.push({ text: '', value: 'action', align: 'center', width: 20 });
@@ -195,9 +178,10 @@
     });
   };
 
+  const environmentItems = ref<Environment[]>([]);
   let pagination: Pagination<Environment> = reactive<Pagination<Environment>>({
     page: 1,
-    size: 10,
+    size: 1000,
     pageCount: 0,
     items: [],
     request: {
@@ -208,7 +192,7 @@
   const itemsCopy = ref<Environment[]>([]);
   const getEnvironmentList = async (): Promise<void> => {
     const data = await useEnvironmentListInTenant(new Tenant({ ID: tenant.value }));
-    pagination = Object.assign(pagination, data);
+    environmentItems.value = data;
   };
 
   const customFilter = () => {
@@ -236,7 +220,7 @@
       } else {
         pagination.request.search = '';
       }
-      getEnvironmentList();
+      if (tenant.value) getEnvironmentList();
     },
     {
       immediate: true,
@@ -289,17 +273,10 @@
   };
 
   onMounted(async () => {
-    if (store.getters.Tenant().ID > 0) {
-      await getTenantList();
-      if (tenantItems.value.length > 0) {
-        tenant.value = tenantItems.value[0].value;
-        getEnvironmentList();
-      }
-    } else {
-      store.commit('SET_SNACKBAR', {
-        text: i18n.t('data.no_tenant'),
-        color: 'warning',
-      });
+    await getTenantList();
+    if (tenantItems.value.length > 0) {
+      tenant.value = tenantItems.value[0].value;
+      getEnvironmentList();
     }
   });
 </script>
