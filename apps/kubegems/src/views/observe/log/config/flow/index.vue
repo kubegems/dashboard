@@ -60,6 +60,17 @@
               :id="`s_router_${index}`"
               :chips="[...(item.spec.globalOutputRefs || []), ...(item.spec.localOutputRefs || [])]"
               :count="1"
+              icon="mdi-road-variant"
+              single-line
+            />
+          </template>
+          <template #[`item.filter`]="{ item, index }">
+            <BaseCollapseChips
+              :id="`s_router_${index}`"
+              :chips="getFilter(item) || []"
+              :count="1"
+              icon="mdi-filter"
+              single-line
             />
           </template>
           <template #[`item.createAt`]="{ item }">
@@ -180,6 +191,7 @@
           { text: this.$root.$t('resource.type'), value: 'kind', align: 'start' },
           { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
           { text: this.$t('table.output'), value: 'router', align: 'start' },
+          { text: this.$t('table.filter'), value: 'filter', align: 'start' },
           { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start', width: 200 },
           { text: this.$t('table.status'), value: 'status', align: 'start', width: 100 },
         ];
@@ -297,6 +309,17 @@
             env: this.$route.query.env,
           },
         });
+      },
+      getFilter(item) {
+        return item.spec.filters.length > 1
+          ? item.spec.filters.reduce((f1, f2) => {
+              return Array.isArray(f1) ? f1.concat(Object.keys(f2)) : Object.keys(f1).concat(Object.keys(f2));
+            })
+          : item.spec.filters
+              .map((f) => {
+                return Object.keys(f);
+              })
+              .flat();
       },
     },
   };

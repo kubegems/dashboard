@@ -113,7 +113,8 @@
     "for": "評価時間",
     "status": "状態",
     "output": "ルーター",
-    "plugin": "プラグイン"
+    "plugin": "プラグイン",
+    "filter": "フィルター"
   },
   "tab": {
     "log_flow": "ログのコレクタ",

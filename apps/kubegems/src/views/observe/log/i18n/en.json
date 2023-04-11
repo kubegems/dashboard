@@ -113,7 +113,8 @@
     "for": "Evaluation Time",
     "status": "Status",
     "output": "Router",
-    "plugin": "Plugins"
+    "plugin": "Plugins",
+    "filter": "Filter"
   },
   "tab": {
     "log_flow": "Log Collector",

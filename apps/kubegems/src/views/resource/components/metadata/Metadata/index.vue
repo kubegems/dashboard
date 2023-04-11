@@ -27,22 +27,21 @@
       </BaseSubTitle>
       <v-flex class="px-4">
         <v-flex class="pb-4">
-          <v-sheet v-for="(value, key) in metadata ? metadata.labels : []" :key="key" class="ml-2">
-            <v-chip
-              class="my-1"
-              :close="!readonly"
-              close-icon="mdi-delete"
-              color="success"
-              small
-              text-color="white"
-              @click:close="removeMetadata(key, 'label')"
-            >
-              <v-icon left small> mdi-label </v-icon>
-              <strong class="mx-1"> {{ key }} </strong>
+          <div v-for="(value, key) in metadata ? metadata.labels : []" :key="key" class="mr-2 my-1">
+            <div class="success white--text float-left metadata__left text-caption">
+              <div class="primary pl-2 pr-1 metadata__front">
+                <v-icon color="white" small> mdi-label </v-icon>
+                <strong class="mr-1"> {{ key }} </strong>
+              </div>
+            </div>
+            <div class="success white--text float-left metadata__right text-caption px-2">
               {{ value }}
-            </v-chip>
+              <v-btn v-if="!readonly" color="white" icon x-small @click="removeMetadata(key, 'label')">
+                <v-icon small>mdi-delete</v-icon>
+              </v-btn>
+            </div>
             <div class="kubegems__clear-float" />
-          </v-sheet>
+          </div>
         </v-flex>
       </v-flex>
     </v-card>
@@ -58,22 +57,23 @@
       </BaseSubTitle>
       <v-flex class="px-4 pb-4">
         <v-flex>
-          <v-sheet v-for="(value, key) in metadata ? metadata.annotations : []" :key="key" class="ml-2">
-            <v-chip
-              v-if="ANNOTATION_IGNORE_ARRAY.indexOf(key) === -1"
-              class="my-1 kubegems__text"
-              :close="!readonly"
-              close-icon="mdi-delete"
-              color="gray"
-              small
-              @click:close="removeMetadata(key, 'annotation')"
-            >
-              <v-icon left small> mdi-label </v-icon>
-              <strong class="mx-1"> {{ key }} </strong>
-              {{ value }}
-            </v-chip>
-            <div class="kubegems__clear-float" />
-          </v-sheet>
+          <div v-for="(value, key) in metadata ? metadata.annotations : []" :key="key" class="mr-2 my-1">
+            <template v-if="ANNOTATION_IGNORE_ARRAY.indexOf(key) === -1">
+              <div class="success white--text float-left metadata__left text-caption">
+                <div class="primary pl-2 pr-1 metadata__front">
+                  <v-icon color="white" small> mdi-label </v-icon>
+                  <strong class="mr-1"> {{ key }} </strong>
+                </div>
+              </div>
+              <div class="success white--text float-left metadata__right text-caption px-2">
+                {{ value }}
+                <v-btn v-if="!readonly" color="white" icon x-small @click="removeMetadata(key, 'annotation')">
+                  <v-icon small>mdi-delete</v-icon>
+                </v-btn>
+              </div>
+              <div class="kubegems__clear-float" />
+            </template>
+          </div>
         </v-flex>
       </v-flex>
     </v-card>
@@ -180,3 +180,29 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .metadata {
+    position: relative;
+
+    &__front {
+      border-radius: 20px;
+    }
+
+    &__left {
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+      line-height: 22px;
+    }
+
+    &__right {
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+      line-height: 22px;
+      max-width: 350px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: auto;
+    }
+  }
+</style>

@@ -114,7 +114,8 @@
     "for": "評估時間",
     "status": "狀態",
     "output": "路由器",
-    "plugin": "外掛程式"
+    "plugin": "外掛程式",
+    "filter": "篩檢程式"
   },
   "tab": {
     "log_flow": "日誌採集器",

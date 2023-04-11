@@ -316,7 +316,7 @@
           { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
           { text: this.$t('table.version'), value: 'istioVersion', align: 'start' },
           { text: this.$t('table.status'), value: 'status', align: 'start' },
-          { text: this.$t('table.label'), value: 'labels', align: 'start', width: 450 },
+          { text: this.$t('table.label'), value: 'labels', align: 'start', width: 600 },
         ];
         if (this.m_permisson_virtualSpaceAllow()) {
           items.push({ text: '', value: 'action', align: 'end', width: 10 });

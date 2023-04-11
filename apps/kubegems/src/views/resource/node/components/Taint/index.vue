@@ -25,33 +25,22 @@
           </v-btn>
         </template>
       </BaseSubTitle>
-      <v-flex class="pb-4">
-        <v-sheet v-for="(t, index) in taint.spec.taints" :key="index" class="ml-2">
-          <v-chip
-            class="my-1"
-            close
-            close-icon="mdi-delete"
-            color="success"
-            small
-            text-color="white"
-            @click:close="removeTaint(t)"
-          >
-            <v-icon left small> mdi-asterisk </v-icon>
-            <span class="mr-2">
-              <strong class="mx-1"> key </strong>
-              {{ t.key }}
-            </span>
-            <span class="mr-2">
-              <strong class="mx-1"> value </strong>
-              {{ t.value }}
-            </span>
-            <span class="mr-2">
-              <strong class="mx-1"> effect </strong>
-              {{ t.effect }}
-            </span>
-          </v-chip>
+      <v-flex class="px-4 pb-4">
+        <div v-for="(t, index) in taint.spec.taints || []" :key="index" class="mr-2 my-1">
+          <div class="success white--text float-left taint__left text-caption">
+            <div class="primary pl-2 pr-1 taint__front">
+              <v-icon color="white" small> mdi-asterisk </v-icon>
+              <strong class="mr-1"> {{ t.key }} </strong>
+            </div>
+          </div>
+          <div class="success white--text float-left taint__right text-caption px-2">
+            {{ t.effect }}
+            <v-btn color="white" icon x-small @click="removeTaint(t)">
+              <v-icon small>mdi-delete</v-icon>
+            </v-btn>
+          </div>
           <div class="kubegems__clear-float" />
-        </v-sheet>
+        </div>
       </v-flex>
 
       <AddTaint ref="addTaint" @refresh="refreshTaint" />
@@ -140,3 +129,29 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .taint {
+    position: relative;
+
+    &__front {
+      border-radius: 20px;
+    }
+
+    &__left {
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+      line-height: 22px;
+    }
+
+    &__right {
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+      line-height: 22px;
+      max-width: 350px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: auto;
+    }
+  }
+</style>

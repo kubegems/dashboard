@@ -20,12 +20,12 @@
       <v-sheet class="pa-2">
         <BaseListItemForDetail :mt="0" :title="$t('tip.match_app')">
           <template #content>
-            <BaseCollapseChips v-if="flow" id="r_app" :chips="matchs" icon="mdi-apps" single-line />
+            <BaseCollapseChips v-if="flow" id="r_app" :chips="matchs || []" icon="mdi-apps" single-line />
           </template>
         </BaseListItemForDetail>
         <BaseListItemForDetail :title="$t('tip.filter')">
           <template #content>
-            <BaseCollapseChips v-if="flow" id="r_fliter" :chips="filters" icon="mdi-filter" single-line />
+            <BaseCollapseChips v-if="flow" id="r_fliter" :chips="filters || []" icon="mdi-filter" single-line />
           </template>
         </BaseListItemForDetail>
         <BaseListItemForDetail :title="`${$t('table.output')}(Output)`">
@@ -33,8 +33,8 @@
             <BaseCollapseChips
               v-if="flow"
               id="r_output"
-              :chips="flow.spec.localOutputRefs"
-              icon="mdi-router-wireless"
+              :chips="flow.spec.localOutputRefs || []"
+              icon="mdi-road-variant"
               single-line
             />
           </template>
@@ -44,8 +44,8 @@
             <BaseCollapseChips
               v-if="flow"
               id="r_clusteroutput"
-              :chips="flow.spec.globalOutputRefs"
-              icon="mdi-router-wireless"
+              :chips="flow.spec.globalOutputRefs || []"
+              icon="mdi-road-variant"
               single-line
             />
           </template>

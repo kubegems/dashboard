@@ -284,7 +284,7 @@
         const items = [
           { text: this.$t('table.name'), value: 'name', align: 'start', filterable: true },
           { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
-          { text: this.$t('table.label'), value: 'labels', align: 'start', width: 500 },
+          { text: this.$t('table.label'), value: 'labels', align: 'start', width: 600 },
           { text: this.$t('table.config_check'), value: 'valid', align: 'start' },
           { text: this.$t('table.istio_config'), value: 'config', align: 'start', width: 350 },
         ];
