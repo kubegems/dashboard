@@ -16,8 +16,8 @@
 export default [
   {
     text: 'administration',
-    sidebar: 'platform',
-    value: 'platform',
+    sidebar: 'management',
+    value: 'management',
     icon: 'mdi:widgets',
     admin: true,
   },

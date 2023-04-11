@@ -245,19 +245,12 @@
   };
 
   onMounted(() => {
-    if (store.getters.Tenant().ID > 0) {
-      nextTick(async () => {
-        await getTenantList();
-        if (tenantItems.value.length > 0) {
-          tenant.value = tenantItems.value[0].value;
-          getProjectList();
-        }
-      });
-    } else {
-      store.commit('SET_SNACKBAR', {
-        text: i18n.t('data.no_tenant'),
-        color: 'warning',
-      });
-    }
+    nextTick(async () => {
+      await getTenantList();
+      if (tenantItems.value.length > 0) {
+        tenant.value = tenantItems.value[0].value;
+        getProjectList();
+      }
+    });
   });
 </script>

@@ -38,9 +38,9 @@
         <div class="kubegems__clear-float" />
       </v-sheet>
       <v-card-text class="pa-0">
-        <div class="content">
+        <v-container class="cover__container">
           <slot name="content" />
-        </div>
+        </v-container>
       </v-card-text>
       <div class="px-4 py-2">
         <slot name="action" />
@@ -100,10 +100,9 @@
 </script>
 
 <style lang="scss" scoped>
-  .content {
-    width: 100%;
-    padding: 12px;
-    margin-right: auto;
-    margin-left: auto;
+  @media (min-width: 1264px) {
+    .cover__container {
+      max-width: 1600px !important;
+    }
   }
 </style>
