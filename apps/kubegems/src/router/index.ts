@@ -2,14 +2,13 @@ import { useGlobalI18n } from '@kubegems/extension/i18n';
 import { useRouter } from '@kubegems/extension/router';
 import { useStore } from '@kubegems/extension/store';
 import { PLATFORM } from '@kubegems/libs/constants/platform';
+import { microService, entryMicroService } from '@kubegems/servicemesh/export';
 
 import { adminObserve } from './admin_observe';
 import { adminWorkspace } from './admin_workspace';
 import { appStore } from './app_store';
 import { dashboard } from './dashboard';
-import { entryMicroService } from './entry_microservice';
 import { global } from './global';
-import { microService } from './microservice';
 import { modelStore } from './model_store';
 import { observe } from './observe';
 import { platform } from './platform';
@@ -30,8 +29,28 @@ const originalRoutes = global
   .concat(dashboard) // 首页
   .concat(adminObserve) // 管理员可观测性
   .concat(observe) // 租户可观测性
-  .concat(entryMicroService) // 微服务入口
-  .concat(microService) // 微服务工作台
+  .concat([
+    {
+      path: '/microservice',
+      name: 'entry-microservice',
+      component: () => import('@/layouts/Layout.vue'),
+      redirect: {
+        name: 'virtualspace-list',
+      },
+      children: entryMicroService,
+    },
+  ]) // 微服务入口
+  .concat([
+    {
+      path: '/microservice',
+      name: 'microservice',
+      component: () => import('@/layouts/Layout.vue'),
+      redirect: {
+        name: 'virtualspace-list',
+      },
+      children: microService,
+    },
+  ]) // 微服务工作台
   .concat(tool) // 租户工具箱
   .concat(appStore) // 应用商店
   .concat(userCenter) // 用户中心

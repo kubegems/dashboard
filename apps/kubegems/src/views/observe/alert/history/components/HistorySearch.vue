@@ -118,10 +118,10 @@
 </template>
 
 <script>
+  import { getRuleList, getRuleResourceList, getRuleScopeList } from '@kubegems/api/direct';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { getRuleList, getRuleResourceList, getRuleScopeList } from '@/api';
   import { convertResponse2List } from '@/types/base';
 
   export default {

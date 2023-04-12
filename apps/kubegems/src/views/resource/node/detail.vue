@@ -127,14 +127,14 @@
 </template>
 
 <script>
+  import { getNodeDetail, patchCordonNode } from '@kubegems/api/direct';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import NodeMonitor from './components/NodeMonitor';
   import ResourceInfo from './components/ResourceInfo';
   import Taint from './components/Taint';
   import messages from './i18n';
-  import { getNodeDetail, patchCordonNode } from '@/api';
-  import BaseResource from '@/mixins/resource';
   import EventList from '@/views/resource/components/common/EventList';
   import PodList from '@/views/resource/components/common/PodList';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';

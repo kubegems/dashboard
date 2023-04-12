@@ -161,12 +161,12 @@
 </template>
 
 <script>
+  import { getGatewayAddressList, getGatewayDetail } from '@kubegems/api/direct';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getGatewayAddressList, getGatewayDetail } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'ResourceInfo',

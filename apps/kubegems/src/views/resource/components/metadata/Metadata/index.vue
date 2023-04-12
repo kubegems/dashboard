@@ -35,7 +35,7 @@
               </div>
             </div>
             <div class="success white--text float-left metadata__right text-caption px-2">
-              {{ value }}
+              <strong>{{ value }}</strong>
               <v-btn v-if="!readonly" color="white" icon x-small @click="removeMetadata(key, 'label')">
                 <v-icon small>mdi-delete</v-icon>
               </v-btn>
@@ -66,7 +66,7 @@
                 </div>
               </div>
               <div class="success white--text float-left metadata__right text-caption px-2">
-                {{ value }}
+                <strong>{{ value }}</strong>
                 <v-btn v-if="!readonly" color="white" icon x-small @click="removeMetadata(key, 'annotation')">
                   <v-icon small>mdi-delete</v-icon>
                 </v-btn>
@@ -83,15 +83,15 @@
   </div>
 </template>
 <script>
+  import { patchMetadataNode } from '@kubegems/api/direct';
   import { ANNOTATION_IGNORE_ARRAY } from '@kubegems/libs/constants/resource';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import AddAnnotation from './AddAnnotation';
   import AddLabel from './AddLabel';
-  import { patchMetadataNode } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'Metadata',

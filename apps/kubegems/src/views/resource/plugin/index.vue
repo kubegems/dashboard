@@ -164,6 +164,14 @@
 </template>
 
 <script>
+  import {
+    deleteDisablePlugin,
+    getClusterPluginsDetail,
+    getClusterPluginsList,
+    postCheckPluginUpdate,
+  } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import CheckPluginVersion from './components/CheckPluginVersion';
@@ -172,9 +180,6 @@
   import UpgradeTip from './components/UpgradeTip';
   import VersionSelect from './components/VersionSelect';
   import messages from './i18n';
-  import { deleteDisablePlugin, getClusterPluginsDetail, getClusterPluginsList, postCheckPluginUpdate } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'Plugin',

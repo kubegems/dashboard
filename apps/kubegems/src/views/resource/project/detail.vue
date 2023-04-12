@@ -74,8 +74,12 @@
 </template>
 
 <script>
+  import { deleteProject, getProjectDetail, getProjectQuota } from '@kubegems/api/direct';
   import { PROJECT_ROLE } from '@kubegems/libs/constants/platform';
   import { RESOURCE_CN } from '@kubegems/libs/constants/resource';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import DashboardCard from './components/DashboardCard';
@@ -84,10 +88,6 @@
   import ResourceList from './components/ResourceList';
   import UpdateProject from './components/UpdateProject';
   import messages from './i18n';
-  import { deleteProject, getProjectDetail, getProjectQuota } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
   import AddEnvironment from '@/views/resource/environment/components/AddEnvironment';
   import ResourceUseList from '@/views/resource/environment/components/ResourceUseList';
 

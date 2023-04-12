@@ -1,0 +1,15 @@
+*.log
+*.log.*
+
+# editor
+.vscode/
+.idea/
+.DS_Store
+
+node_modules
+.env.local
+.git/
+package-lock.json
+.github/
+.sentryclirc
+.vite

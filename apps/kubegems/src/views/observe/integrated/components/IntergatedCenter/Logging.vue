@@ -102,11 +102,6 @@
 </template>
 
 <script>
-  import { integer, required } from '@kubegems/extension/ruler';
-  import { mapGetters, mapState } from 'vuex';
-
-  import messages from '../../i18n';
-  import ProjectEnvSelect from './ProjectEnvSelect';
   import {
     getClusterOutputsData,
     getLoggingAppList,
@@ -114,7 +109,12 @@
     getOutputsDataByTenant,
     postLoggingFlow,
     putLoggingNsFlow,
-  } from '@/api';
+  } from '@kubegems/api/direct';
+  import { integer, required } from '@kubegems/extension/ruler';
+  import { mapGetters, mapState } from 'vuex';
+
+  import messages from '../../i18n';
+  import ProjectEnvSelect from './ProjectEnvSelect';
   import { convertResponse2List } from '@/types/base';
 
   export default {

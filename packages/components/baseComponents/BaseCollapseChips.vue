@@ -39,12 +39,16 @@
           <div v-for="item in visibleItems" :key="item[itemValue]" class="mr-2 my-1">
             <div class="success white--text float-left collapse__left text-caption">
               <div :class="`${color} pl-2 pr-1 collapse__front`">
-                <v-icon v-if="icon" color="white" small class="mr-1"> {{ icon }} </v-icon>
+                <v-icon v-if="icon" class="mr-1" color="white" small> {{ icon }} </v-icon>
                 <strong v-if="dataType === 'object'" class="mr-1"> {{ item[itemValue] }} </strong>
               </div>
             </div>
             <div class="success white--text float-left collapse__right text-caption px-2">
-              <slot :item="item">{{ item[itemText] }}</slot>
+              <slot :item="item">
+                <strong>
+                  {{ item[itemText] }}
+                </strong>
+              </slot>
             </div>
             <div class="kubegems__clear-float" />
           </div>

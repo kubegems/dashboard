@@ -164,6 +164,7 @@
 </template>
 
 <script>
+  import { getLogExport, getLogQueryRange, postAddLogQueryHistory } from '@kubegems/api/direct';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
@@ -176,7 +177,6 @@
   import LogSaveSnapshot from './components/LogSaveSnapshot';
   import LogSnapshot from './components/LogSnapshot';
   import LogTable from './components/LogTable';
-  import { getLogExport, getLogQueryRange, postAddLogQueryHistory } from '@/api';
 
   export default {
     name: 'LogViewer',

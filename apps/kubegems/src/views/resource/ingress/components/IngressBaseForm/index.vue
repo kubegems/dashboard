@@ -168,13 +168,13 @@
 <script>
   import { k8sName, required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import IngressRuleForm from './IngressRuleForm';
   import IngressRuleItem from './IngressRuleItem';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
   import AnnotationForm from '@/views/resource/components/annotation/AnnotationForm';
   import AnnotationItem from '@/views/resource/components/annotation/AnnotationItem';
 

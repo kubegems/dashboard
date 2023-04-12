@@ -119,14 +119,14 @@
 </template>
 
 <script>
+  import { getIngressList } from '@kubegems/api/direct';
   import { k8sName, required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getIngressList } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
   import { convertResponse2List } from '@/types/base';
 
   export default {

@@ -136,14 +136,18 @@
 </template>
 
 <script>
+  import {
+    deletePrometheusBlacklist,
+    getPrometheusAlertSearch,
+    postAddPrometheusBlacklist,
+  } from '@kubegems/api/direct';
   import { SERVICE_MONITOR_NS } from '@kubegems/libs/constants/namespace';
   import { deleteEmpty } from '@kubegems/libs/utils/helpers';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
   import HistorySearch from './components/HistorySearch';
-  import { deletePrometheusBlacklist, getPrometheusAlertSearch, postAddPrometheusBlacklist } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import { convertResponse2Pagination } from '@/types/base';
   import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 

@@ -49,13 +49,13 @@
 </template>
 
 <script>
+  import { postAddGateway } from '@kubegems/api/direct';
   import GatewaySchema from '@kubegems/libs/schema/tenantgateway';
   import { randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import GatewayBaseForm from './GatewayBaseForm';
-  import { postAddGateway } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AddGateway',

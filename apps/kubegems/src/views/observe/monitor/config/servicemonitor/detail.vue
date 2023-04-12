@@ -77,13 +77,13 @@
 </template>
 
 <script>
+  import { deleteServiceMonitor, getServiceMonitorDetail } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import ResourceInfo from './components/ResourceInfo';
   import UpdateServiceMonitor from './components/UpdateServiceMonitor';
-  import { deleteServiceMonitor, getServiceMonitorDetail } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
   import EventList from '@/views/resource/components/common/EventList';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';

@@ -49,13 +49,13 @@
 </template>
 
 <script>
+  import { getServiceMonitorDetail, patchUpdateServiceMonitor } from '@kubegems/api/direct';
   import ServiceMonitorSchema from '@kubegems/libs/schema/servicemonitor';
   import { deepCopy, randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import ServiceMonitorBaseForm from './ServiceMonitorBaseForm';
-  import { getServiceMonitorDetail, patchUpdateServiceMonitor } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'UpdateServiceMonitor',

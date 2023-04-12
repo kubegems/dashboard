@@ -64,8 +64,9 @@
 </template>
 
 <script>
+  import { getLogLabels } from '@kubegems/api/direct';
+
   import messages from '../../../i18n';
-  import { getLogLabels } from '@/api';
   import AddAlertRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule';
 
   export default {

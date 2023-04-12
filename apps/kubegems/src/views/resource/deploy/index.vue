@@ -262,6 +262,9 @@
 </template>
 
 <script>
+  import { getStrategyDeployEnvironmentAppsDetail, postSwitchDeployAppStrategy } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import BlueGreen from './components/deploy_policy/BlueGreen';
@@ -269,9 +272,6 @@
   import Recreate from './components/deploy_policy/Recreate';
   import RollingUpdate from './components/deploy_policy/RollingUpdate';
   import messages from './i18n';
-  import { getStrategyDeployEnvironmentAppsDetail, postSwitchDeployAppStrategy } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AppDeployCenter',

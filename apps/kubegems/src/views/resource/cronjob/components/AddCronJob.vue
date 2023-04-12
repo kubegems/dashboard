@@ -74,14 +74,14 @@
 </template>
 
 <script>
+  import { postAddCronJob } from '@kubegems/api/direct';
   import CronjobSchema from '@kubegems/libs/schema/cronjob';
   import { randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
   import CronjobBaseForm from './CronjobBaseForm';
-  import { postAddCronJob } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AddCronJob',

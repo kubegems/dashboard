@@ -67,8 +67,9 @@
 </template>
 
 <script>
+  import { deleteWorkloadResourceAdvise } from '@kubegems/api/direct';
+
   import messages from '../i18n';
-  import { deleteWorkloadResourceAdvise } from '@/api';
 
   export default {
     name: 'ResourceAdvise',

@@ -119,15 +119,15 @@
 </template>
 
 <script>
+  import { deleteCRD, getCrdList } from '@kubegems/api/direct';
   import { convertStrToNum } from '@kubegems/libs/utils/helpers';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseTable from '@kubegems/mixins/table';
   import { mapState } from 'vuex';
 
   import messages from './i18n';
-  import { deleteCRD, getCrdList } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseTable from '@/mixins/table';
   import { convertResponse2Pagination } from '@/types/base';
 
   export default {

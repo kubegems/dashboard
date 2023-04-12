@@ -87,12 +87,12 @@
 </template>
 
 <script>
+  import { deletePrometheusBlacklist, getPrometheusBlackList } from '@kubegems/api/direct';
   import { deleteEmpty } from '@kubegems/libs/utils/helpers';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { deletePrometheusBlacklist, getPrometheusBlackList } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import { convertResponse2Pagination } from '@/types/base';
   import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 

@@ -74,15 +74,15 @@
 </template>
 
 <script>
+  import { deletePod, getPodDetail } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import ContainerList from './components/ContainerList';
   import PodMonitor from './components/PodMonitor';
   import ResourceInfo from './components/ResourceInfo';
   import messages from './i18n';
-  import { deletePod, getPodDetail } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
   import EventList from '@/views/resource/components/common/EventList';
   import NvidiaGpuMonitor from '@/views/resource/components/common/NvidiaGpuMonitor';

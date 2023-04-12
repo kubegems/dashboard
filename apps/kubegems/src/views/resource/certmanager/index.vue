@@ -183,6 +183,11 @@
 </template>
 
 <script>
+  import { deleteCertificate, deleteIssuer, getCertificateList, getIssuerList } from '@kubegems/api/direct';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseTable from '@kubegems/mixins/table';
   import { mapState } from 'vuex';
 
   import AddCertificate from './components/AddCertificate';
@@ -190,11 +195,6 @@
   import UpdateCertificate from './components/UpdateCertificate';
   import UpdateIssuer from './components/UpdateIssuer';
   import messages from './i18n';
-  import { deleteCertificate, deleteIssuer, getCertificateList, getIssuerList } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseTable from '@/mixins/table';
   import { convertResponse2Pagination } from '@/types/base';
   import EventTip from '@/views/resource/components/common/EventTip';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';

@@ -247,21 +247,21 @@
 </template>
 
 <script>
-  import { k8sName, required } from '@kubegems/extension/ruler';
-  import { deepCopy } from '@kubegems/libs/utils/helpers';
-  import { mapGetters, mapState } from 'vuex';
-
-  import messages from '../../i18n';
-  import AddNamespace from './AddNamespace';
   import {
     deleteEnvironmentUser,
     getClusterPluginsList,
     getEnvironmentUserList,
     getProjectUserList,
     postAddEnvironmentUser,
-  } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
+  } from '@kubegems/api/direct';
+  import { k8sName, required } from '@kubegems/extension/ruler';
+  import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
+  import { mapGetters, mapState } from 'vuex';
+
+  import messages from '../../i18n';
+  import AddNamespace from './AddNamespace';
   import { convertResponse2List } from '@/types/base';
   import LimitRange from '@/views/resource/environment/components/base/LimitRange';
   import LimitRangeCard from '@/views/resource/environment/components/base/LimitRangeCard';

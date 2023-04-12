@@ -49,13 +49,13 @@
 </template>
 
 <script>
+  import { postAddServiceMonitor } from '@kubegems/api/direct';
   import ServiceMonitorSchema from '@kubegems/libs/schema/servicemonitor';
   import { randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import ServiceMonitorBaseForm from './ServiceMonitorBaseForm';
-  import { postAddServiceMonitor } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AddServiceMonitor',

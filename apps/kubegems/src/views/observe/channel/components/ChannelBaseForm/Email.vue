@@ -93,13 +93,13 @@
 </template>
 
 <script>
+  import { getTenantUserList } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters } from 'vuex';
 
   import messages from '../../i18n';
-  import { getTenantUserList } from '@/api';
-  import BaseResource from '@/mixins/resource';
   import { convertResponse2List } from '@/types/base';
 
   export default {

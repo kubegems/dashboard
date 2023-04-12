@@ -108,12 +108,12 @@
 </template>
 
 <script>
+  import { getEnvironmentQuota } from '@kubegems/api/direct';
   import { sizeOfCpu, sizeOfStorage, sizeOfTke } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getEnvironmentQuota } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'ResourceQuota',

@@ -62,9 +62,9 @@
 </template>
 
 <script>
+  import BasePermission from '@kubegems/mixins/permission';
   import { mapGetters, mapState } from 'vuex';
 
-  import BasePermission from '@/mixins/permission';
   import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 
   export default {

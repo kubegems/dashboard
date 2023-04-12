@@ -151,12 +151,12 @@
 <script>
   import { positiveInteger, required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import GatewayDataItem from './GatewayDataItem';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
   import DataForm from '@/views/resource/components/common/DataForm';
 
   export default {

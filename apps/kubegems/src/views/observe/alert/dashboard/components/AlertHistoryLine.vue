@@ -35,10 +35,10 @@
 </template>
 
 <script>
+  import { getAlertGraph } from '@kubegems/api/direct';
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { getAlertGraph } from '@/api';
 
   export default {
     name: 'AlertHistoryLine',

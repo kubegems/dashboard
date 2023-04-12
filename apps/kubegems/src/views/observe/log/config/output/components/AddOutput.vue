@@ -49,13 +49,13 @@
 </template>
 
 <script>
+  import { postClusterOutputData, postOutputData } from '@kubegems/api/direct';
   import OutputSchema from '@kubegems/libs/schema/output';
   import { randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import OutputBaseForm from './OutputBaseForm';
-  import { postClusterOutputData, postOutputData } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AddOutput',

@@ -177,13 +177,13 @@
 </template>
 
 <script>
+  import { getAppImageSecurityReportList, putSetPublishAppImage } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters } from 'vuex';
 
   import messages from '../../i18n';
   import AppImageSecurityReportDetail from './AppImageSecurityReportDetail';
-  import { getAppImageSecurityReportList, putSetPublishAppImage } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import { convertResponse2Pagination } from '@/types/base';
 
   export default {

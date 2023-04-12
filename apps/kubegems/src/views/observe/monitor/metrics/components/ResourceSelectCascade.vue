@@ -137,11 +137,11 @@
 </template>
 
 <script>
+  import { getRuleList, getRuleResourceList, getRuleScopeList, getRuleSearch } from '@kubegems/api/direct';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters } from 'vuex';
 
   import messages from '../../i18n';
-  import { getRuleList, getRuleResourceList, getRuleScopeList, getRuleSearch } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import { convertResponse2List } from '@/types/base';
 
   export default {

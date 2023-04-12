@@ -61,14 +61,14 @@
 </template>
 
 <script>
+  import { getClusterDetail, putUpdateCluster } from '@kubegems/api/direct';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
   import ClusterBaseForm from './ClusterBaseForm';
-  import { getClusterDetail, putUpdateCluster } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'UpdateCluster',

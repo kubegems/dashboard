@@ -82,8 +82,12 @@
   </v-container>
 </template>
 <script>
+  import { deleteCluster, getClusterDetail, getClusterQuota } from '@kubegems/api/direct';
   import { CLUSTER_POD_CAPACITY_PROMQL } from '@kubegems/libs/constants/prometheus';
   import { RESOURCE_CN, RESOURCE_EN, RESOURCE_ICON } from '@kubegems/libs/constants/resource';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
@@ -93,10 +97,6 @@
   import ResourceChart from './ResourceChart';
   import ResourceInfo from './ResourceInfo';
   import UpdateCluster from './UpdateCluster';
-  import { deleteCluster, getClusterDetail, getClusterQuota } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
   import Terminal from '@/views/resource/components/common/Terminal';
 
   export default {

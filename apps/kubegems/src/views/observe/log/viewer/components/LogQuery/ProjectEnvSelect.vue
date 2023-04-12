@@ -61,9 +61,9 @@
 </template>
 
 <script>
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters } from 'vuex';
 
-  import BaseSelect from '@/mixins/select';
   import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 
   export default {

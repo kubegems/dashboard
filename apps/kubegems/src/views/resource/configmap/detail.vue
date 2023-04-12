@@ -73,14 +73,14 @@
 </template>
 
 <script>
+  import { deleteConfigMap, getConfigMapDetail } from '@kubegems/api/direct';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import UpdateConfigMap from './components/UpdateConfigMap';
   import messages from './i18n';
-  import { deleteConfigMap, getConfigMapDetail } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
 

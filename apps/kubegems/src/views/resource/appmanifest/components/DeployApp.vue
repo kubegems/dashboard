@@ -141,12 +141,12 @@
 </template>
 
 <script>
+  import { getAppImageTags, getEnvironmentAppImageList, postDeployEnvironmentAppImages } from '@kubegems/api/direct';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getAppImageTags, getEnvironmentAppImageList, postDeployEnvironmentAppImages } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'DeployApp',

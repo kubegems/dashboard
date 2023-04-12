@@ -79,6 +79,10 @@
 </template>
 
 <script>
+  import { deleteEnvironment, getEnvironmentDetail } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import ManageUser from './components/ManageUser';
@@ -89,10 +93,6 @@
   import TopNResourceUsage from './components/TopNResourceUsage';
   import UpdateEnvironment from './components/UpdateEnvironment';
   import messages from './i18n';
-  import { deleteEnvironment, getEnvironmentDetail } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'EnvironmentDetail',

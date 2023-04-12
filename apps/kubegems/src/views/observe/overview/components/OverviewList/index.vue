@@ -132,6 +132,9 @@
 </template>
 
 <script>
+  import { getEnvironmentObservability } from '@kubegems/api/direct';
+  import BaseSelect from '@kubegems/mixins/select';
+
   import messages from '../../i18n';
   import Duration from './Duration';
   import ErrorLogRateChart from './ErrorLogRateChart';
@@ -139,8 +142,6 @@
   import LogRateChart from './LogRateChart';
   import ProjectSelect from './ProjectSelect';
   import StatusTag from './StatusTag';
-  import { getEnvironmentObservability } from '@/api';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'OverviewList',

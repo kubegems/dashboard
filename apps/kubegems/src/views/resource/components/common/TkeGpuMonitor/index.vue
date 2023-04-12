@@ -42,14 +42,14 @@
 </template>
 
 <script>
+  import { getPodList } from '@kubegems/api/direct';
   import { T_GPU_MEMORY_USAGE_PROMQL, T_GPU_USAGE_PROMQL } from '@kubegems/libs/constants/prometheus';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';
   import DashboardCard from './DashboardCard';
-  import { getPodList } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import { convertResponse2List } from '@/types/base';
 
   export default {

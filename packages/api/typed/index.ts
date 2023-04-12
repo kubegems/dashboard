@@ -22,6 +22,7 @@ import * as edgeHub from './edge_hub';
 import * as environment from './environment';
 import * as kubernetes from './kubernetes';
 import * as message from './message';
+import * as namespace from './namespace';
 import * as oauth from './oauth';
 import * as plugin from './plugin';
 import * as project from './project';
@@ -30,7 +31,6 @@ import * as tenant from './tenant';
 import * as user from './user';
 import * as version from './version';
 import * as virtualSpace from './virtualspace';
-import * as namespace from './namespace';
 
 export default {
   auth,

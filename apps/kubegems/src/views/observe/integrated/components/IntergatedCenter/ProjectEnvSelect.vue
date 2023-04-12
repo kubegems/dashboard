@@ -68,10 +68,10 @@
 </template>
 
 <script>
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters } from 'vuex';
 
   import messages from '../../i18n';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'ProjectEnvSelect',

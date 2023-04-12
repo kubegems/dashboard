@@ -169,7 +169,15 @@
 </template>
 
 <script>
+  import {
+    deleteMonitorDashboard,
+    getDashboardMetricsByPanel,
+    getMonitorDashboardList,
+    getRuleScopeList,
+    putUpdateMonitorDashboard,
+  } from '@kubegems/api/direct';
   import { randomString } from '@kubegems/libs/utils/helpers';
+  import BasePermission from '@kubegems/mixins/permission';
   import draggable from 'vuedraggable';
   import { mapGetters, mapState } from 'vuex';
 
@@ -180,14 +188,6 @@
   import UpdateDashboard from './components/UpdateDashboard';
   import UpdateGraph from './components/UpdateGraph';
   import VariableSelect from './components/VariableSelect';
-  import {
-    deleteMonitorDashboard,
-    getDashboardMetricsByPanel,
-    getMonitorDashboardList,
-    getRuleScopeList,
-    putUpdateMonitorDashboard,
-  } from '@/api';
-  import BasePermission from '@/mixins/permission';
   import { convertResponse2List } from '@/types/base';
   import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 

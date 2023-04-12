@@ -159,15 +159,15 @@
 </template>
 
 <script>
+  import { deleteProject, getProjectList, getTenantProjectQuotaList } from '@kubegems/api/direct';
   import { convertStrToNum, sizeOfCpu, sizeOfStorage } from '@kubegems/libs/utils/helpers';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import UpdateProject from './components/UpdateProject';
   import messages from './i18n';
-  import { deleteProject, getProjectList, getTenantProjectQuotaList } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseSelect from '@/mixins/select';
   import { convertResponse2Pagination } from '@/types/base';
 
   export default {

@@ -39,13 +39,13 @@
 </template>
 
 <script>
+  import { postEnablePlugin } from '@kubegems/api/direct';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import PluginInfo from './PluginInfo';
   import SchemaRender from './SchemaRender';
-  import { postEnablePlugin } from '@/api';
 
   export default {
     name: 'InstallPluginSchema',

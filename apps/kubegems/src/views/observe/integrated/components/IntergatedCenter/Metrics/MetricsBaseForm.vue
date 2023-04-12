@@ -85,12 +85,12 @@
 </template>
 
 <script>
+  import { getServiceList, postServiceMonitor } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
 
   import messages from '../../../i18n';
   import ProjectEnvSelect from '../ProjectEnvSelect';
   import MetricsList from './MetricsList';
-  import { getServiceList, postServiceMonitor } from '@/api';
   import { convertResponse2List } from '@/types/base';
 
   export default {

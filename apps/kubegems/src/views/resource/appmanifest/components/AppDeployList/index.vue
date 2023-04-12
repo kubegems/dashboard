@@ -79,10 +79,11 @@
 </template>
 
 <script>
+  import { getDeployEnvironmentAppsStatus } from '@kubegems/api/direct';
+  import BaseResource from '@kubegems/mixins/resource';
+
   import messages from '../../i18n';
   import AppDeployImageTrace from './AppDeployImageTrace';
-  import { getDeployEnvironmentAppsStatus } from '@/api';
-  import BaseResource from '@/mixins/resource';
   import { convertResponse2Pagination } from '@/types/base';
 
   export default {

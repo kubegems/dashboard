@@ -33,10 +33,11 @@
 </template>
 
 <script>
+  import { getEventListFromLoki } from '@kubegems/api/direct';
+
   import messages from '../../../i18n';
   import Chart from './Chart';
   import EventList from './EventList';
-  import { getEventListFromLoki } from '@/api';
 
   export default {
     name: 'K8sEvents',

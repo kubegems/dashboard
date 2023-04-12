@@ -49,13 +49,13 @@
 </template>
 
 <script>
+  import { postAddCertificate } from '@kubegems/api/direct';
   import CertmanagerSchema from '@kubegems/libs/schema/certificate';
   import { randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import CertificateBaseForm from './CertificateBaseForm';
-  import { postAddCertificate } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AddCertificate',

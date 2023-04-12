@@ -41,8 +41,9 @@
 </template>
 
 <script>
+  import { getConfigListener } from '@kubegems/api/direct';
+
   import messages from '../i18n';
-  import { getConfigListener } from '@/api';
 
   export default {
     name: 'ConfigListener',

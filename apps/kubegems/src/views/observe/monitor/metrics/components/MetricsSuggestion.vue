@@ -42,8 +42,9 @@
 </template>
 
 <script>
+  import { getMetrics } from '@kubegems/api/direct';
+
   import messages from '../../i18n';
-  import { getMetrics } from '@/api';
 
   export default {
     name: 'MetricsSuggestion',

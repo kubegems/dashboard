@@ -61,9 +61,9 @@
 
 <script>
   import { required } from '@kubegems/extension/ruler';
+  import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../../../../i18n';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'VolumeMount',

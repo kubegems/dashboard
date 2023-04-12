@@ -73,9 +73,8 @@
 </template>
 
 <script>
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters } from 'vuex';
-
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'TenantSelect',

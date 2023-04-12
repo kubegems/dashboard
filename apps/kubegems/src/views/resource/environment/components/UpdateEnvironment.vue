@@ -34,12 +34,12 @@
 </template>
 
 <script>
+  import { getEnvironmentDetail, putUpdateEnvironment } from '@kubegems/api/direct';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import EnvironmentBaseForm from './EnvironmentBaseForm';
-  import { getEnvironmentDetail, putUpdateEnvironment } from '@/api';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'UpdateEnvironment',

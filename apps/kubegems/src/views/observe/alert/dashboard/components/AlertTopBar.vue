@@ -36,10 +36,10 @@
 </template>
 
 <script>
+  import { getAlertGroup } from '@kubegems/api/direct';
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { getAlertGroup } from '@/api';
 
   export default {
     name: 'AlertTopBar',

@@ -51,10 +51,10 @@
 </template>
 
 <script>
+  import { getRuleList } from '@kubegems/api/direct';
   import { mapGetters } from 'vuex';
 
   import messages from '../../../i18n';
-  import { getRuleList } from '@/api';
   import { convertResponse2Pagination } from '@/types/base';
 
   export default {

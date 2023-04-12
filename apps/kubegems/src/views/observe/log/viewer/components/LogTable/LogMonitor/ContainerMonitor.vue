@@ -44,12 +44,12 @@
 </template>
 
 <script>
+  import { getPodDetail } from '@kubegems/api/direct';
   import { CONTAINER_CPU_USAGE_PROMQL, CONTAINER_MEMORY_USAGE_PROMQL } from '@kubegems/libs/constants/prometheus';
+  import BasePermission from '@kubegems/mixins/permission';
   import { mapState } from 'vuex';
 
   import messages from '../../../../i18n';
-  import { getPodDetail } from '@/api';
-  import BasePermission from '@/mixins/permission';
 
   export default {
     name: 'ContainerMonitor',

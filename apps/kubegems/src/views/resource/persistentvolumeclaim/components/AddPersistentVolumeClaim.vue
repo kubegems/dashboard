@@ -49,13 +49,13 @@
 </template>
 
 <script>
+  import { postAddPersistentVolumeClaim } from '@kubegems/api/direct';
   import PersistentVolumeClaimSchema from '@kubegems/libs/schema/persistentvolumeclaim';
   import { randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import PersistentVolumeClaimBaseForm from './PersistentVolumeClaimBaseForm';
-  import { postAddPersistentVolumeClaim } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AddPersistentVolumeClaim',

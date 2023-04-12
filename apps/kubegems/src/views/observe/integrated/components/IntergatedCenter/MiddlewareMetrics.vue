@@ -140,6 +140,13 @@
 </template>
 
 <script>
+  import {
+    getAppStoreRunningDetail,
+    getChartSchema,
+    getServiceMonitorStatus,
+    postDeployAppStore,
+    postImportPrometheusRule,
+  } from '@kubegems/api/direct';
   import { randomString } from '@kubegems/libs/utils/helpers';
   import { retrieveFromSchema } from '@kubegems/libs/utils/schema';
   import { deleteValue, setValue } from '@kubegems/libs/utils/yaml';
@@ -148,13 +155,6 @@
 
   import messages from '../../i18n';
   import ProjectEnvSelect from './ProjectEnvSelect';
-  import {
-    getAppStoreRunningDetail,
-    getChartSchema,
-    getServiceMonitorStatus,
-    postDeployAppStore,
-    postImportPrometheusRule,
-  } from '@/api';
 
   export default {
     name: 'MiddlewareMetrics',

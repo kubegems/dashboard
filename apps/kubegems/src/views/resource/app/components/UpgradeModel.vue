@@ -70,13 +70,13 @@
 </template>
 
 <script>
+  import { getModelStoreDetail, postModelSync, putModelRuntime } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import { Base64 } from 'js-base64';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getModelStoreDetail, postModelSync, putModelRuntime } from '@/api';
 
   export default {
     name: 'UpgradeModel',

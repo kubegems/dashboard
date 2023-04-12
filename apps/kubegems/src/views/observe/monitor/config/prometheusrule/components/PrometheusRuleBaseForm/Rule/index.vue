@@ -198,8 +198,11 @@
 </template>
 
 <script>
+  import { getMetricsLabels } from '@kubegems/api/direct';
   import { k8sName, required, timeInterval } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../../../../i18n';
@@ -207,9 +210,6 @@
   import AlertLevelItem from './AlertLevelItem';
   import LabelMatchersForm from './LabelMatchersForm';
   import LabelMatchersItem from './LabelMatchersItem';
-  import { getMetricsLabels } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
   // import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
   import ResourceSelectCascade from '@/views/observe/monitor/metrics/components/ResourceSelectCascade';
 

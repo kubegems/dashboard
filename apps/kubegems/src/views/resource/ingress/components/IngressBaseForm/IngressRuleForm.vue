@@ -240,10 +240,10 @@
 <script>
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy, randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
 
   import messages from '../../i18n';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'IngressRuleForm',

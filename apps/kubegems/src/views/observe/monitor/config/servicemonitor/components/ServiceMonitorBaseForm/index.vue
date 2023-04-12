@@ -71,13 +71,13 @@
 
 <script>
   import { k8sName, required } from '@kubegems/extension/ruler';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../../../i18n';
   import EndpointForm from './EndpointForm';
   import EndpointItem from './EndpointItem';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'ServiceMonitorBaseForm',

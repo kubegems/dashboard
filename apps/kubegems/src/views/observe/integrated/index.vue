@@ -64,12 +64,12 @@
 </template>
 
 <script>
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import IntergatedCenter from './components/IntergatedCenter';
   import messages from './i18n';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'Intergated',

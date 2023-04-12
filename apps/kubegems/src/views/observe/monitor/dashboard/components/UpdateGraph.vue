@@ -34,12 +34,12 @@
 </template>
 
 <script>
+  import { putUpdateMonitorDashboard } from '@kubegems/api/direct';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';
   import GraphBaseForm from './GraphBaseForm';
-  import { putUpdateMonitorDashboard } from '@/api';
 
   export default {
     name: 'UpdateDashboard',

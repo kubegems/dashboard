@@ -90,7 +90,9 @@
 </template>
 
 <script>
+  import { getPodDetail } from '@kubegems/api/direct';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../../../i18n';
@@ -99,8 +101,6 @@
   import DeployLiveYaml from './DeployLiveYaml';
   import DeployLog from './DeployLog';
   import DeployResult from './DeployResult';
-  import { getPodDetail } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'DeployLive',

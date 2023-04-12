@@ -61,11 +61,11 @@
 </template>
 
 <script>
+  import { getDeployEnvironmentAppImageTrace } from '@kubegems/api/direct';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { getDeployEnvironmentAppImageTrace } from '@/api';
   import { convertResponse2Pagination } from '@/types/base';
 
   export default {

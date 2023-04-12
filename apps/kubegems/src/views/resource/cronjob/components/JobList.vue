@@ -64,11 +64,11 @@
 </template>
 
 <script>
+  import { getJobList } from '@kubegems/api/direct';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getJobList } from '@/api';
-  import BaseResource from '@/mixins/resource';
   import { convertResponse2Pagination } from '@/types/base';
 
   export default {

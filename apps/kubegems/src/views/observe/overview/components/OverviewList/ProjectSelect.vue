@@ -36,8 +36,9 @@
 </template>
 
 <script>
+  import { getProjectList } from '@kubegems/api/direct';
+
   import messages from '../../i18n';
-  import { getProjectList } from '@/api';
   import { convertResponse2List } from '@/types/base';
 
   export default {

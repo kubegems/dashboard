@@ -39,11 +39,11 @@
 </template>
 
 <script>
+  import { postAddLogQuerySnapshot } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { postAddLogQuerySnapshot } from '@/api';
 
   export default {
     name: 'LogSaveSnapshot',

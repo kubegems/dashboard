@@ -16,7 +16,7 @@
 import { useGlobalI18n } from '@kubegems/extension/i18n';
 import { useQuery } from '@kubegems/extension/router';
 import { useStore } from '@kubegems/extension/store';
-import { beautifyCpuUnit, sizeOfCpu, beautifyStorageUnit, sizeOfStorage } from '@kubegems/libs/utils/helpers';
+import { beautifyCpuUnit, beautifyStorageUnit, sizeOfCpu, sizeOfStorage } from '@kubegems/libs/utils/helpers';
 
 const store = useStore();
 const i18n = useGlobalI18n();

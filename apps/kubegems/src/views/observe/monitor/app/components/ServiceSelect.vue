@@ -81,8 +81,9 @@
 </template>
 
 <script>
+  import { getMetricsLabelValues } from '@kubegems/api/direct';
+
   import messages from '../../i18n';
-  import { getMetricsLabelValues } from '@/api';
 
   export default {
     name: 'ServiceSelect',

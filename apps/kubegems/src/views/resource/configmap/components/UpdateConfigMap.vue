@@ -50,13 +50,13 @@
 </template>
 
 <script>
+  import { getConfigMapDetail, patchUpdateConfigMap } from '@kubegems/api/direct';
   import ConfigmapSchema from '@kubegems/libs/schema/configmap';
   import { deepCopy, randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import ConfigMapBaseForm from './ConfigMapBaseForm';
-  import { getConfigMapDetail, patchUpdateConfigMap } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'UpdateConfigMap',

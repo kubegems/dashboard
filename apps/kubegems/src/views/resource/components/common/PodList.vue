@@ -248,21 +248,21 @@
 </template>
 
 <script>
+  import { deletePod, getPodList } from '@kubegems/api/direct';
+  import RealDatetimeTip from '@kubegems/components/logicComponents/RealDatetimeTip';
   import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@kubegems/libs/constants/prometheus';
   import { POD_STATUS_COLOR } from '@kubegems/libs/constants/resource';
   import { beautifyCpuUnit, beautifyStorageUnit } from '@kubegems/libs/utils/helpers';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseTable from '@kubegems/mixins/table';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
   import ContainerLog from './ContainerLog';
   import EventTip from './EventTip';
   import Terminal from './Terminal';
-  import { deletePod, getPodList } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseTable from '@/mixins/table';
   import { convertResponse2Pagination } from '@/types/base';
-  import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
   import ContainerItems from '@/views/resource/pod/components/ContainerItems';
 
   export default {

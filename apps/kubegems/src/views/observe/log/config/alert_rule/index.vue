@@ -215,21 +215,21 @@
 </template>
 
 <script>
-  import { SERVICE_MONITOR_NS } from '@kubegems/libs/constants/namespace';
-  import { mapGetters, mapState } from 'vuex';
-
-  import messages from '../../i18n';
   import {
     deleteLogAlertRule,
     getLogAlertRuleList,
     getLogAlertRuleStatus,
     postDisableAlertRule,
     postEnableAlertRule,
-  } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseTable from '@/mixins/table';
+  } from '@kubegems/api/direct';
+  import { SERVICE_MONITOR_NS } from '@kubegems/libs/constants/namespace';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseTable from '@kubegems/mixins/table';
+  import { mapGetters, mapState } from 'vuex';
+
+  import messages from '../../i18n';
   import { convertResponse2Pagination } from '@/types/base';
   import AddAlertRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule';
   import CopyAlertRule from '@/views/observe/monitor/config/prometheusrule/components/CopyPrometheusRule';

@@ -75,11 +75,11 @@
     ENVIRONMENT_NETWORK_IN_PROMQL,
     ENVIRONMENT_NETWORK_OUT_PROMQL,
   } from '@kubegems/libs/constants/prometheus';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'ResourceMonitor',

@@ -71,12 +71,17 @@
 </template>
 
 <script>
+  import {
+    deleteClusterFlowData,
+    deleteFlowData,
+    getClusterFlowDetailData,
+    getFlowDetailData,
+  } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
   import { mapState } from 'vuex';
 
   import ResourceInfo from './components/ResourceInfo';
   import UpdateFlow from './components/UpdateFlow';
-  import { deleteClusterFlowData, deleteFlowData, getClusterFlowDetailData, getFlowDetailData } from '@/api';
-  import BasePermission from '@/mixins/permission';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
   import Metadata from '@/views/resource/components/metadata/Metadata';

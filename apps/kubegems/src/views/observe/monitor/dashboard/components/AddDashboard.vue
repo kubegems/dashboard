@@ -34,11 +34,11 @@
 </template>
 
 <script>
+  import { postAddMonitorDashboard } from '@kubegems/api/direct';
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';
   import DashboardBaseForm from './DashboardBaseForm';
-  import { postAddMonitorDashboard } from '@/api';
 
   export default {
     name: 'AddDashboard',

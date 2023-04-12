@@ -34,10 +34,10 @@
 </template>
 
 <script>
+  import { getRegistryDetail, putUpdateRegistry } from '@kubegems/api/direct';
   import { mapGetters, mapState } from 'vuex';
 
   import RegistryBaseForm from './RegistryBaseForm';
-  import { getRegistryDetail, putUpdateRegistry } from '@/api';
 
   export default {
     name: 'UpdateRegistry',

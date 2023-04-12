@@ -139,6 +139,15 @@
 </template>
 
 <script>
+  import {
+    deleteApp,
+    deleteAppStoreApp,
+    deleteModelRuntime,
+    getAppRunningDetail,
+    getModelRuntimeDetail,
+  } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import ModelMonitor from './components/ModelMonitor';
@@ -149,9 +158,6 @@
   import UpdateModelRuntime from './components/UpdateModelRuntime';
   import UpgradeModel from './components/UpgradeModel';
   import messages from './i18n';
-  import { deleteApp, deleteAppStoreApp, deleteModelRuntime, getAppRunningDetail, getModelRuntimeDetail } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import AppDeployList from '@/views/resource/appmanifest/components/AppDeployList';
   import AppImageSecurityReportList from '@/views/resource/appmanifest/components/AppImageSecurityReportList';
   import AppResourceFileList from '@/views/resource/appmanifest/components/AppResourceFileList';

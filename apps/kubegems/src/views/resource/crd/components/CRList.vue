@@ -80,12 +80,13 @@
 </template>
 
 <script>
+  import { deleteCr, getCrList } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+
   import messages from '../i18n';
   import AddCR from './AddCR';
   import UpdateCR from './UpdateCR';
-  import { deleteCr, getCrList } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import { convertResponse2Pagination } from '@/types/base';
 
   export default {

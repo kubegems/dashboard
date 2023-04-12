@@ -111,11 +111,11 @@
 
 <script>
   import { k8sLabel, k8sName, required } from '@kubegems/extension/ruler';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
   import LabelForm from '@/views/resource/components/label/LabelForm';
   import LabelItem from '@/views/resource/components/label/LabelItem';
 

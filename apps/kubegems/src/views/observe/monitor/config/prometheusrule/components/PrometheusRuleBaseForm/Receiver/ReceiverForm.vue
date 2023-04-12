@@ -64,15 +64,15 @@
 </template>
 
 <script>
+  import { getChannelList } from '@kubegems/api/direct';
   import { required, timeInterval } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters } from 'vuex';
 
   import messages from '../../../../../i18n';
-  import { getChannelList } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import { convertResponse2List } from '@/types/base';
 
   export default {

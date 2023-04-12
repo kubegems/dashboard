@@ -143,7 +143,7 @@
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { required, k8sName } from '@kubegems/extension/ruler';
   import { useStore } from '@kubegems/extension/store';
-  import { onMounted, reactive, ref } from 'vue';
+  import { reactive, ref } from 'vue';
 
   import { useI18n } from '../../i18n';
   import AddNamespace from './AddNamespace.vue';

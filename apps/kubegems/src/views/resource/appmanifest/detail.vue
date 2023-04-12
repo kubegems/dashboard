@@ -63,6 +63,8 @@
 </template>
 
 <script>
+  import { deleteManifest, getManifestDetail } from '@kubegems/api/direct';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import AppDeployList from './components/AppDeployList';
@@ -71,8 +73,6 @@
   import ResourceInfo from './components/ResourceInfo';
   import UpdateApp from './components/UpdateApp';
   import messages from './i18n';
-  import { deleteManifest, getManifestDetail } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AppManifestDetail',

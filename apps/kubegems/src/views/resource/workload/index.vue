@@ -227,15 +227,6 @@
 </template>
 
 <script>
-  import { WORKLOAD_STATUS_COLOR } from '@kubegems/libs/constants/resource';
-  import { mapGetters, mapState } from 'vuex';
-
-  import AddWorkload from './components/AddWorkload';
-  import PodItems from './components/PodItems';
-  import ResourceAdvise from './components/ResourceAdvise';
-  import ResourceLimit from './components/ResourceLimit';
-  import UpdateWorkload from './components/UpdateWorkload';
-  import messages from './i18n';
   import {
     deleteDaemonSet,
     deleteDeployment,
@@ -245,11 +236,20 @@
     getDeploymentList,
     getStatefulSetList,
     getWorkloadResourcesList,
-  } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseTable from '@/mixins/table';
+  } from '@kubegems/api/direct';
+  import { WORKLOAD_STATUS_COLOR } from '@kubegems/libs/constants/resource';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseTable from '@kubegems/mixins/table';
+  import { mapGetters, mapState } from 'vuex';
+
+  import AddWorkload from './components/AddWorkload';
+  import PodItems from './components/PodItems';
+  import ResourceAdvise from './components/ResourceAdvise';
+  import ResourceLimit from './components/ResourceLimit';
+  import UpdateWorkload from './components/UpdateWorkload';
+  import messages from './i18n';
   import { convertResponse2Pagination } from '@/types/base';
   import EventTip from '@/views/resource/components/common/EventTip';
   import GpuTip from '@/views/resource/components/common/GpuTip';

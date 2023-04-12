@@ -74,14 +74,14 @@
 </template>
 
 <script>
+  import { postAddJob } from '@kubegems/api/direct';
   import JobSchema from '@kubegems/libs/schema/job';
   import { randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
   import JobBaseForm from './JobBaseForm';
-  import { postAddJob } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AddJob',

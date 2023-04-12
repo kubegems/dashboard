@@ -19,7 +19,8 @@
 </template>
 
 <script>
-  import { getPodDetail } from '@/api';
+  import { getPodDetail } from '@kubegems/api/direct';
+
   import ContainerLog from '@/views/resource/components/common/ContainerLog';
 
   export default {

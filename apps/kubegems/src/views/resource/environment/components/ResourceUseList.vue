@@ -83,10 +83,10 @@
 </template>
 
 <script>
+  import { getEnvironmentResourceUsage, getProjectResourceUsage } from '@kubegems/api/direct';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getEnvironmentResourceUsage, getProjectResourceUsage } from '@/api';
   import { useResourceBeatiful } from '@/composition/environment';
 
   export default {

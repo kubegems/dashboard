@@ -78,13 +78,13 @@
 </template>
 
 <script>
+  import { deleteJob, getJobDetail } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import ResourceInfo from './components/ResourceInfo';
   import UpdateJob from './components/UpdateJob';
-  import { deleteJob, getJobDetail } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
   import EventList from '@/views/resource/components/common/EventList';
   import PodList from '@/views/resource/components/common/PodList';

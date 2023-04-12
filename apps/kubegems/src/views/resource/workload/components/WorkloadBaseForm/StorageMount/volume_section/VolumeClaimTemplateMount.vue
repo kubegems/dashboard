@@ -97,13 +97,13 @@
 </template>
 
 <script>
+  import { getStorageClassList } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../../../../i18n';
   import VolumeMount from './VolumeMount';
-  import { getStorageClassList } from '@/api';
-  import BaseResource from '@/mixins/resource';
   import { convertResponse2List } from '@/types/base';
 
   export default {

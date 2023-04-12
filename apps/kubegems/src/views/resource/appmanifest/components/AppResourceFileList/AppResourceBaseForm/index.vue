@@ -31,9 +31,10 @@
 </template>
 
 <script>
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
+
   import AppBaseInfo from './AppBaseInfo';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
   import ConfigMapBaseForm from '@/views/resource/configmap/components/ConfigMapBaseForm';
   import CronJobContaninerImage from '@/views/resource/cronjob/components/CronjobBaseForm/ContainerImage';
   import CronJobBaseInfo from '@/views/resource/cronjob/components/CronjobBaseForm/CronJobBaseInfo';

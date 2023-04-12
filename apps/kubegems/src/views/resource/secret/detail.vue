@@ -87,15 +87,15 @@
 </template>
 
 <script>
+  import { deleteSecret, getSecretDetail } from '@kubegems/api/direct';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { Base64 } from 'js-base64';
   import { mapState } from 'vuex';
 
   import UpdateSecret from './components/UpdateSecret';
   import messages from './i18n';
-  import { deleteSecret, getSecretDetail } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
 

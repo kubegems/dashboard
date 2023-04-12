@@ -53,11 +53,11 @@
     CLUSTER_MEMORY_USAGE_PROMQL,
     CLUSTER_POD_RUNNING_COUNT_PROMQL,
   } from '@kubegems/libs/constants/prometheus';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'MetricMonitor',

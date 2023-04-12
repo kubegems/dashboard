@@ -79,13 +79,13 @@
 </template>
 
 <script>
+  import { deleteIngress, getGatewayDetail, getIngressDetail } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import ResourceInfo from './components/ResourceInfo';
   import UpdateIngress from './components/UpdateIngress';
-  import { deleteIngress, getGatewayDetail, getIngressDetail } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
   import EventList from '@/views/resource/components/common/EventList';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';

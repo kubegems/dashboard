@@ -49,13 +49,13 @@
 </template>
 
 <script>
+  import { getCertificateDetail, patchUpdateCertificate } from '@kubegems/api/direct';
   import CertmanagerSchema from '@kubegems/libs/schema/certificate';
   import { deepCopy, randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import CertificateBaseForm from './CertificateBaseForm';
-  import { getCertificateDetail, patchUpdateCertificate } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'Updatecertificate',

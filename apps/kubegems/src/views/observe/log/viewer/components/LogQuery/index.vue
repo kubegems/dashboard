@@ -116,14 +116,14 @@
 </template>
 
 <script>
+  import { getLogSeries } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
   import { mapState } from 'vuex';
 
   import messages from '../../../i18n';
   import AdvancedTextare from './AdvancedTextare';
   import LabelSelector from './LabelSelector';
   import ProjectEnvSelect from './ProjectEnvSelect';
-  import { getLogSeries } from '@/api';
-  import BasePermission from '@/mixins/permission';
 
   export default {
     name: 'LogQuery',

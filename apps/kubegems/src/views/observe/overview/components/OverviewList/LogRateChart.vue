@@ -41,10 +41,10 @@
 </template>
 
 <script>
+  import { getMetricsQueryrange } from '@kubegems/api/direct';
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { getMetricsQueryrange } from '@/api';
 
   export default {
     name: 'LogRateChart',

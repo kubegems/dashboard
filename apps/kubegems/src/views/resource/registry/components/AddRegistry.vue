@@ -34,11 +34,11 @@
 </template>
 
 <script>
+  import { postAddRegistry } from '@kubegems/api/direct';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import RegistryBaseForm from './RegistryBaseForm';
-  import { postAddRegistry } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AddRegistry',

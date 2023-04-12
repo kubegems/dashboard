@@ -100,12 +100,12 @@
 </template>
 
 <script>
+  import { deleteLogQuerySnapshot, getLogQuerySnapshotList } from '@kubegems/api/direct';
   import { randomString } from '@kubegems/libs/utils/helpers';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { deleteLogQuerySnapshot, getLogQuerySnapshotList } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import { convertResponse2Pagination } from '@/types/base';
   import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 

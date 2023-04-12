@@ -134,13 +134,13 @@
 </template>
 
 <script>
+  import { getClusterOutputsData, getOutputsData } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapState } from 'vuex';
 
   import messages from '../../../../i18n';
-  import { getClusterOutputsData, getOutputsData } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import { convertResponse2List } from '@/types/base';
 
   export default {

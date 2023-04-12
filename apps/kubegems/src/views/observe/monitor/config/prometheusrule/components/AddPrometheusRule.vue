@@ -55,13 +55,13 @@
 </template>
 
 <script>
+  import { postAddLogAlertRule, postAddPrometheusRule } from '@kubegems/api/direct';
   import { deepCopy, sizeOfByte } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../../i18n';
   import PrometheusRuleBaseForm from './PrometheusRuleBaseForm';
-  import { postAddLogAlertRule, postAddPrometheusRule } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'PrometheusRule',

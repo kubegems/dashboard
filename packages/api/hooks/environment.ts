@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { User } from 'typed/user';
 import { Environment } from '../typed/environment';
+import { User } from '../typed/user';
 import { convertResponse2List, convertResponse2Pagination } from '../utils';
 
 export const useEnvironmentList = async (environment: Environment): Promise<Environment[]> => {

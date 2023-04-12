@@ -116,16 +116,21 @@
 </template>
 
 <script>
+  import {
+    deleteAppResourceFile,
+    getAppResourceFiles,
+    postRefreshAppResource,
+    postSyncAppResource,
+  } from '@kubegems/api/direct';
   import { APP_MENIFEST_TAG } from '@kubegems/libs/constants/resource';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import AddResourceFile from './AddResourceFile';
   import AppResourceFileHistory from './AppResourceFileHistory';
   import UpdateResourceFile from './UpdateResourceFile';
-  import { deleteAppResourceFile, getAppResourceFiles, postRefreshAppResource, postSyncAppResource } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AppResourceFileList',

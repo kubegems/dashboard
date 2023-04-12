@@ -77,15 +77,15 @@
 </template>
 
 <script>
+  import { deleteCronJob, getCronJobDetail } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import JobList from './components/JobList';
   import ResourceInfo from './components/ResourceInfo';
   import UpdateCronJob from './components/UpdateCronJob';
   import messages from './i18n';
-  import { deleteCronJob, getCronJobDetail } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
   import EventList from '@/views/resource/components/common/EventList';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';

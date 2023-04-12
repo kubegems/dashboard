@@ -279,8 +279,11 @@
 </template>
 
 <script>
+  import { getMetricsLabelValues, getMetricsLabels, getMetricsQueryrange } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
   import { debounce, deepCopy } from '@kubegems/libs/utils/helpers';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
@@ -288,10 +291,7 @@
   import MetricsItem from './components/MetricsItem';
   // import MetricsSuggestion from './components/MetricsSuggestion';
   import ResourceSelectCascade from './components/ResourceSelectCascade';
-  import { getMetricsLabelValues, getMetricsLabels, getMetricsQueryrange } from '@/api';
   import { units } from '@/composition/metrics';
-  import BasePermission from '@/mixins/permission';
-  import BaseSelect from '@/mixins/select';
   import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
   import AddPrometheusRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule';
 

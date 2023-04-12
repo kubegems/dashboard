@@ -140,14 +140,14 @@
 </template>
 
 <script>
+  import { deleteChannel, getChannelList, postSendTestChannel } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
   import AddChannel from './AddChannel';
   import ChannelUpdateTip from './ChannelUpdateTip.vue';
   import UpdateChannel from './UpdateChannel';
-  import { deleteChannel, getChannelList, postSendTestChannel } from '@/api';
-  import BasePermission from '@/mixins/permission';
   import { convertResponse2Pagination } from '@/types/base';
 
   export default {

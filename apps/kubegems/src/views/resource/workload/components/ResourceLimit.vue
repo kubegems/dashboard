@@ -90,17 +90,6 @@
 
 <script>
   import {
-    beautifyCpuUnit,
-    beautifyStorageUnit,
-    deepCopy,
-    sizeOfCpu,
-    sizeOfStorage,
-  } from '@kubegems/libs/utils/helpers';
-  import VueSlider from 'vue-slider-component/src/vue2-slider';
-  import { mapState } from 'vuex';
-
-  import messages from '../i18n';
-  import {
     getDaemonSetDetail,
     getDeploymentDetail,
     getStatefulSetDetail,
@@ -108,9 +97,20 @@
     patchUpdateDeployment,
     patchUpdateDeploymentArgo,
     patchUpdateStatefulSet,
-  } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
+  } from '@kubegems/api/direct';
+  import {
+    beautifyCpuUnit,
+    beautifyStorageUnit,
+    deepCopy,
+    sizeOfCpu,
+    sizeOfStorage,
+  } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
+  import VueSlider from 'vue-slider-component/src/vue2-slider';
+  import { mapState } from 'vuex';
+
+  import messages from '../i18n';
 
   // import 'vue-slider-component/theme/default.css';
 

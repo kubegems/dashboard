@@ -149,16 +149,16 @@
 </template>
 
 <script>
+  import { deleteService, getServiceList } from '@kubegems/api/direct';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseTable from '@kubegems/mixins/table';
   import { mapState } from 'vuex';
 
   import AddService from './components/AddService';
   import UpdateService from './components/UpdateService';
   import messages from './i18n';
-  import { deleteService, getServiceList } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseTable from '@/mixins/table';
   import { convertResponse2Pagination } from '@/types/base';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
 

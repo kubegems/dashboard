@@ -53,10 +53,10 @@
 </template>
 
 <script>
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapState } from 'vuex';
 
   import AppInfo from './AppInfo';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'Deploy',

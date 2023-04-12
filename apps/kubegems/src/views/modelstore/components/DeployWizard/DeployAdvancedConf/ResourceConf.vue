@@ -119,13 +119,13 @@
 </template>
 
 <script>
+  import { getEnvironmentQuota } from '@kubegems/api/direct';
   import { positiveInteger } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters } from 'vuex';
 
   import messages from '../../../i18n';
-  import { getEnvironmentQuota } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'ResourceConf',

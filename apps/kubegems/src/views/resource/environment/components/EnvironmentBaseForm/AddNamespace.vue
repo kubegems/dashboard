@@ -54,11 +54,11 @@
 </template>
 
 <script>
+  import { namespaceSelectDataFilter } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters } from 'vuex';
 
-  import { namespaceSelectDataFilter } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import { convertResponse2List } from '@/types/base';
 
   export default {

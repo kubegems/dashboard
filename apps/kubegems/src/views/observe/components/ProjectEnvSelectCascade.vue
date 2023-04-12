@@ -143,8 +143,7 @@
 
 <script>
   import { METATYPE_CN } from '@kubegems/libs/constants/platform';
-
-  import BaseSelect from '@/mixins/select';
+  import BaseSelect from '@kubegems/mixins/select';
 
   export default {
     name: 'ProjectEnvSelectCascade',

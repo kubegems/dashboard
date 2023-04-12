@@ -89,11 +89,11 @@
 </template>
 
 <script>
+  import { getItemDetail, getItemHistory, postPubConfigItems } from '@kubegems/api/direct';
   import { CodeDiff } from 'v-code-diff';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getItemDetail, getItemHistory, postPubConfigItems } from '@/api';
 
   export default {
     name: 'HistoryView',

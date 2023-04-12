@@ -21,10 +21,10 @@
 </template>
 
 <script>
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import DeployTopology from './DeployTopology';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'DeployStatus',

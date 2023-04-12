@@ -214,16 +214,16 @@
 </template>
 
 <script>
+  import RealDatetimeTip from '@kubegems/components/logicComponents/RealDatetimeTip';
   import { CONTAINER_CPU_USAGE_PROMQL, CONTAINER_MEMORY_USAGE_PROMQL } from '@kubegems/libs/constants/prometheus';
   import { CONTAINER_STATUS_COLOR } from '@kubegems/libs/constants/resource';
   import { beautifyCpuUnit, beautifyStorageUnit, deepCopy } from '@kubegems/libs/utils/helpers';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import ContainerLog from '@/views/resource/components/common/ContainerLog';
-  import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
   import Terminal from '@/views/resource/components/common/Terminal';
 
   export default {

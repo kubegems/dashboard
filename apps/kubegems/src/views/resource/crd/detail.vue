@@ -73,14 +73,14 @@
 </template>
 
 <script>
+  import { deleteCRD, getCrdDetail } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import CRList from './components/CRList';
   import ResourceInfo from './components/ResourceInfo';
   import messages from './i18n';
-  import { deleteCRD, getCrdDetail } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
   import Metadata from '@/views/resource/components/metadata/Metadata';

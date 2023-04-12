@@ -29,16 +29,16 @@
 </template>
 
 <script>
+  import { getPodList } from '@kubegems/api/direct';
   import {
     MODEL_WORKLOAD_CPU_USAGE_CORE_PROMQL,
     MODEL_WORKLOAD_MEMORY_USAGE_BYTE_PROMQL,
   } from '@kubegems/libs/constants/prometheus';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getPodList } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import { convertResponse2List } from '@/types/base';
 
   export default {

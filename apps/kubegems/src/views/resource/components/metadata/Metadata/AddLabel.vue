@@ -54,12 +54,12 @@
 </template>
 
 <script>
+  import { patchMetadataNode } from '@kubegems/api/direct';
   import { k8sLabel, k8sName, required } from '@kubegems/extension/ruler';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { patchMetadataNode } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AddLabel',

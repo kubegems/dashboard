@@ -111,6 +111,9 @@
 </template>
 
 <script>
+  import { deleteGateway, getGatewayDetail } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import GatewayConfigmap from './components/GatewayConfigmap';
@@ -119,9 +122,6 @@
   import ResourceInfo from './components/ResourceInfo';
   import UpdateGateway from './components/UpdateGateway';
   import messages from './i18n';
-  import { deleteGateway, getGatewayDetail } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import EventList from '@/views/resource/components/common/EventList';
   import PodList from '@/views/resource/components/common/PodList';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';

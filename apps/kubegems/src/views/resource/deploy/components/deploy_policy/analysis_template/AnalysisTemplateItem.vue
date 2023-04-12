@@ -63,7 +63,7 @@
 </template>
 
 <script>
-  import BaseResource from '@/mixins/resource';
+  import BaseResource from '@kubegems/mixins/resource';
 
   export default {
     name: 'AnalysisTemplateItem',

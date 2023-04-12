@@ -49,13 +49,13 @@
 </template>
 
 <script>
+  import { postAddSecret } from '@kubegems/api/direct';
   import SecretSchema from '@kubegems/libs/schema/secret';
   import { randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import SecretBaseForm from './SecretBaseForm';
-  import { postAddSecret } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AddSecret',

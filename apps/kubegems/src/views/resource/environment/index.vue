@@ -170,18 +170,18 @@
 </template>
 
 <script>
+  import { deleteEnvironment, getEnvironmentTenantResourceQuota } from '@kubegems/api/direct';
   import { METATYPE_CN } from '@kubegems/libs/constants/platform';
   import { deepCopy, sizeOfCpu, sizeOfStorage } from '@kubegems/libs/utils/helpers';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
+  import BaseTable from '@kubegems/mixins/table';
   import { mapGetters, mapState } from 'vuex';
 
   import UpdateEnvironment from './components/UpdateEnvironment';
   import messages from './i18n';
-  import { deleteEnvironment, getEnvironmentTenantResourceQuota } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
-  import BaseTable from '@/mixins/table';
 
   export default {
     name: 'Environment',

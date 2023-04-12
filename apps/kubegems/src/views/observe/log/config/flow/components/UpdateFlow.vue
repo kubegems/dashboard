@@ -49,14 +49,19 @@
 </template>
 
 <script>
+  import {
+    getClusterFlowDetailData,
+    getFlowDetailData,
+    patchClusterFlowData,
+    patchFlowData,
+  } from '@kubegems/api/direct';
   import { SERVICE_LOGGING_NS } from '@kubegems/libs/constants/namespace';
   import FlowSchema from '@kubegems/libs/schema/flow';
   import { deepCopy, randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import FlowBaseForm from './FlowBaseForm';
-  import { getClusterFlowDetailData, getFlowDetailData, patchClusterFlowData, patchFlowData } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'UpdateFlow',

@@ -34,11 +34,11 @@
 </template>
 
 <script>
+  import { postAddChannel } from '@kubegems/api/direct';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
   import ChannelBaseForm from './ChannelBaseForm';
-  import { postAddChannel } from '@/api';
 
   export default {
     name: 'AddChannel',

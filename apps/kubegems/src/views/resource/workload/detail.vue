@@ -141,8 +141,18 @@
 </template>
 
 <script>
+  import {
+    deleteDaemonSet,
+    deleteDeployment,
+    deleteStatefulSet,
+    getDaemonSetDetail,
+    getDeploymentDetail,
+    getStatefulSetDetail,
+  } from '@kubegems/api/direct';
   import { WORKLOAD_CPU_USAGE_PROMQL, WORKLOAD_MEMORY_USAGE_PROMQL } from '@kubegems/libs/constants/prometheus';
   import { beautifyCpuUnit, beautifyStorageUnit, sizeOfCpu, sizeOfStorage } from '@kubegems/libs/utils/helpers';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import HPAStrategy from './components/HPAStrategy';
@@ -152,16 +162,6 @@
   import UpdateWorkload from './components/UpdateWorkload';
   import WorkloadMonitor from './components/WorkloadMonitor';
   import messages from './i18n';
-  import {
-    deleteDaemonSet,
-    deleteDeployment,
-    deleteStatefulSet,
-    getDaemonSetDetail,
-    getDeploymentDetail,
-    getStatefulSetDetail,
-  } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
   import EventList from '@/views/resource/components/common/EventList';
   import NvidiaGpuMonitor from '@/views/resource/components/common/NvidiaGpuMonitor';

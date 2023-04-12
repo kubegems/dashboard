@@ -112,11 +112,11 @@
 </template>
 
 <script>
+  import { deleteTenantUser, getTenantUserList, postAddTenantUser, userSelectData } from '@kubegems/api/direct';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { deleteTenantUser, getTenantUserList, postAddTenantUser, userSelectData } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import { convertResponse2List } from '@/types/base';
 
   export default {

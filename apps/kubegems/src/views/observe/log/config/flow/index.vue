@@ -140,13 +140,13 @@
 </template>
 
 <script>
+  import { deleteClusterFlowData, deleteFlowData, getClusterFlowsData, getFlowsData } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import AddFlow from './components/AddFlow';
   import UpdateFlow from './components/UpdateFlow';
-  import { deleteClusterFlowData, deleteFlowData, getClusterFlowsData, getFlowsData } from '@/api';
-  import BasePermission from '@/mixins/permission';
   import { convertResponse2List } from '@/types/base';
 
   export default {

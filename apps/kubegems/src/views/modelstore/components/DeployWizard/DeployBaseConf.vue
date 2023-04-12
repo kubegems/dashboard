@@ -105,11 +105,11 @@
 <script>
   import { k8sName, required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import BasePermission from '@/mixins/permission';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'DeployBaseConf',

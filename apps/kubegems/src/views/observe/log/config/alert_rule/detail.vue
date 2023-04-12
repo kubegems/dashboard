@@ -76,12 +76,12 @@
 </template>
 
 <script>
+  import { deleteLogAlertRule, getLogAlertRuleDetail, getPrometheusAlertHistory } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { deleteLogAlertRule, getLogAlertRuleDetail, getPrometheusAlertHistory } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import { convertResponse2List } from '@/types/base';
   import AlertBarChart from '@/views/observe/monitor/config/prometheusrule/components//AlertBarChart';
   import AlertList from '@/views/observe/monitor/config/prometheusrule/components/AlertList';

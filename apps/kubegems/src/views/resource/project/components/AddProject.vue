@@ -40,11 +40,11 @@
 </template>
 
 <script>
+  import { postAddProject, postAddProjectUser } from '@kubegems/api/direct';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import ProjectBaseForm from './ProjectBaseForm';
-  import { postAddProject, postAddProjectUser } from '@/api';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'AddProject',

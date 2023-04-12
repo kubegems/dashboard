@@ -71,7 +71,8 @@
 </template>
 
 <script>
-  import BasePermission from '@/mixins/permission';
+  import BasePermission from '@kubegems/mixins/permission';
+
   import EmptyOverlay from '@/views/observe/components/EmptyOverlay';
   import ProjectEnvironmentTree from '@/views/observe/components/ProjectEnvironmentTree';
 

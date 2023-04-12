@@ -38,11 +38,10 @@ m
 </template>
 
 <script>
+  import { getCrDetail, patchUpdateCR } from '@kubegems/api/direct';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
-
-  import { getCrDetail, patchUpdateCR } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'UpdateCR',

@@ -34,7 +34,7 @@
             </div>
           </div>
           <div class="success white--text float-left taint__right text-caption px-2">
-            {{ t.effect }}
+            <strong>{{ t.effect }}</strong>
             <v-btn color="white" icon x-small @click="removeTaint(t)">
               <v-icon small>mdi-delete</v-icon>
             </v-btn>
@@ -48,13 +48,13 @@
   </v-card>
 </template>
 <script>
+  import { getNodeDetail, patchTaintNode } from '@kubegems/api/direct';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters } from 'vuex';
 
   import messages from '../../i18n';
   import AddTaint from './AddTaint';
-  import { getNodeDetail, patchTaintNode } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'Taint',

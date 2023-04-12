@@ -57,6 +57,8 @@
 </template>
 
 <script>
+  import { getAlertToday } from '@kubegems/api/direct';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
@@ -64,8 +66,6 @@
   import AlertHistoryLine from './components/AlertHistoryLine';
   import AlertTopBar from './components/AlertTopBar';
   import ValueCard from './components/ValueCard';
-  import { getAlertToday } from '@/api';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'AlertDashboard',

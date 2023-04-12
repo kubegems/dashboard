@@ -98,12 +98,12 @@
 </template>
 
 <script>
+  import { getMetricsLabelValues, getMonitorDashboardTemplate } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
 
   import messages from '../../i18n';
   import VariableSelect from './VariableSelect';
-  import { getMetricsLabelValues, getMonitorDashboardTemplate } from '@/api';
   import { convertResponse2List } from '@/types/base';
 
   export default {

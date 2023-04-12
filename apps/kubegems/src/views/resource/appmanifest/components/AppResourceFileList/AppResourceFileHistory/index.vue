@@ -67,10 +67,11 @@
 </template>
 
 <script>
+  import { getAppResourceFileHistorys, postRollbackAppResourceFile } from '@kubegems/api/direct';
+  import BaseResource from '@kubegems/mixins/resource';
+
   import messages from '../../../i18n';
   import AppResourceFileDiff from './AppResourceFileDiff';
-  import { getAppResourceFileHistorys, postRollbackAppResourceFile } from '@/api';
-  import BaseResource from '@/mixins/resource';
   import { convertResponse2Pagination } from '@/types/base';
 
   export default {

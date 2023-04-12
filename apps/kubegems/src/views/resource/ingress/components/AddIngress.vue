@@ -49,13 +49,13 @@
 </template>
 
 <script>
+  import { postAddIngress } from '@kubegems/api/direct';
   import IngressSchema from '@kubegems/libs/schema/ingress';
   import { randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import IngressBaseForm from './IngressBaseForm';
-  import { postAddIngress } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AddIngress',

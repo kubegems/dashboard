@@ -160,19 +160,19 @@
 </template>
 
 <script>
+  import { deleteCronJob, getCronJobList } from '@kubegems/api/direct';
+  import RealDatetimeTip from '@kubegems/components/logicComponents/RealDatetimeTip';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseTable from '@kubegems/mixins/table';
   import { mapGetters, mapState } from 'vuex';
 
   import AddCronJob from './components/AddCronJob';
   import UpdateCronJob from './components/UpdateCronJob';
   import messages from './i18n';
-  import { deleteCronJob, getCronJobList } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseTable from '@/mixins/table';
   import { convertResponse2Pagination } from '@/types/base';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
-  import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
 
   export default {
     name: 'CronJob',

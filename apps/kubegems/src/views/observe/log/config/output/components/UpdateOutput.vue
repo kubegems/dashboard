@@ -49,13 +49,18 @@
 </template>
 
 <script>
+  import {
+    getClusterOutputDetailData,
+    getOutputDetailData,
+    patchClusterOutputData,
+    patchOutputData,
+  } from '@kubegems/api/direct';
   import OutputSchema from '@kubegems/libs/schema/output';
   import { deepCopy, randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import OutputBaseForm from './OutputBaseForm';
-  import { getClusterOutputDetailData, getOutputDetailData, patchClusterOutputData, patchOutputData } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'UpdateOutput',

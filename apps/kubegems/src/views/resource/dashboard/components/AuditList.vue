@@ -73,10 +73,10 @@
 </template>
 
 <script>
+  import { getAuditList } from '@kubegems/api/direct';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getAuditList } from '@/api';
   import { convertResponse2List } from '@/types/base';
 
   export default {

@@ -62,10 +62,15 @@
 </template>
 
 <script>
+  import {
+    getDashboardMetricsByPanel,
+    getMetricsLabelValues,
+    getMetricsLabels,
+    getRuleSearch,
+  } from '@kubegems/api/direct';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { getDashboardMetricsByPanel, getMetricsLabelValues, getMetricsLabels, getRuleSearch } from '@/api';
 
   export default {
     name: 'GraphMax',

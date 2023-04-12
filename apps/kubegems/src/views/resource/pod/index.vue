@@ -50,6 +50,7 @@
         </v-menu>
       </v-card-title>
       <v-data-table
+        calculate-widths
         class="mx-4 kubegems__table-row-pointer"
         :headers="headers"
         hide-default-footer
@@ -78,7 +79,7 @@
         <template #[`item.name`]="{ item }">
           <v-flex class="float-left">
             <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="podDetail(item)">
-              {{ item.metadata.name }}
+              <BaseCopyItem :item="item.metadata.name" :max-width="AdminViewport ? 270 : 450" />
             </a>
           </v-flex>
           <v-flex v-if="isTke(item) || isNvidia(item)" class="float-left">
@@ -238,25 +239,25 @@
 </template>
 
 <script>
+  import { deletePod, getPodList } from '@kubegems/api/direct';
+  import RealDatetimeTip from '@kubegems/components/logicComponents/RealDatetimeTip';
   import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@kubegems/libs/constants/prometheus';
   import { POD_STATUS_COLOR } from '@kubegems/libs/constants/resource';
   import { beautifyCpuUnit, beautifyStorageUnit } from '@kubegems/libs/utils/helpers';
   import { stringifySelector } from '@kubegems/libs/utils/k8s_selector';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseTable from '@kubegems/mixins/table';
   import { mapGetters, mapState } from 'vuex';
 
   import ContainerItems from './components/ContainerItems';
   import RestartTip from './components/RestartTip';
   import messages from './i18n';
-  import { deletePod, getPodList } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseTable from '@/mixins/table';
   import { convertResponse2Pagination } from '@/types/base';
   import EventTip from '@/views/resource/components/common/EventTip';
   import GpuTip from '@/views/resource/components/common/GpuTip';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
-  import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
 
   export default {
     name: 'Pod',
@@ -289,7 +290,11 @@
       ...mapGetters(['Environment']),
       headers() {
         const items = [
-          { text: this.$t('table.name'), value: 'name', align: 'start', width: 320 },
+          {
+            text: this.$t('table.name'),
+            value: 'name',
+            align: 'start',
+          },
           { text: this.$t('table.status'), value: 'status', align: 'start', width: 180 },
           { text: this.$t('table.container_count'), value: 'container', align: 'start', sortable: false },
           { text: this.$t('table.restart_count'), value: 'restart', align: 'end', sortable: false, width: 90 },
@@ -307,7 +312,7 @@
             width: 140,
             sortable: false,
           },
-          { text: 'Age', value: 'age', align: 'start' },
+          { text: 'Age', value: 'age', align: 'start', width: 100 },
           { text: 'Pod IP', value: 'ip', align: 'start', sortable: false },
           { text: 'Node IP', value: 'nip', align: 'start', sortable: false },
         ];

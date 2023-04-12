@@ -56,13 +56,13 @@
 </template>
 
 <script>
+  import { getStrategyDeployEnvironmentAppsDetail, postStrategyDeployEnvironmentApps } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import BaseDeployInfoForm from './base/BaseDeployInfoForm';
-  import { getStrategyDeployEnvironmentAppsDetail, postStrategyDeployEnvironmentApps } from '@/api';
 
   export default {
     name: 'RollingUpdate',

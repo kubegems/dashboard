@@ -69,6 +69,7 @@
 </template>
 
 <script>
+  import { getAppStoreDetail, getAppStoreFiles } from '@kubegems/api/direct';
   import { Base64 } from 'js-base64';
   import { mapState } from 'vuex';
 
@@ -78,7 +79,6 @@
   import Deploy from './components/Deploy';
   import Markdown from './components/Markdown';
   import messages from './i18n';
-  import { getAppStoreDetail, getAppStoreFiles } from '@/api';
   import Breadcrumb from '@/views/modelstore/components/Breadcrumb';
 
   export default {

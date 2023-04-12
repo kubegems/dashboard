@@ -40,12 +40,12 @@
 </template>
 
 <script>
+  import { getProjectDetail, putUpdateProject } from '@kubegems/api/direct';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapState } from 'vuex';
 
   import ProjectBaseForm from './ProjectBaseForm';
-  import { getProjectDetail, putUpdateProject } from '@/api';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'UpdateProject',

@@ -109,13 +109,18 @@
 </template>
 
 <script>
+  import {
+    deleteClusterOutputData,
+    deleteOutputData,
+    getClusterOutputsData,
+    getOutputsData,
+  } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import AddOutput from './components/AddOutput';
   import UpdateOutput from './components/UpdateOutput';
-  import { deleteClusterOutputData, deleteOutputData, getClusterOutputsData, getOutputsData } from '@/api';
-  import BasePermission from '@/mixins/permission';
   import { convertResponse2List } from '@/types/base';
 
   export default {

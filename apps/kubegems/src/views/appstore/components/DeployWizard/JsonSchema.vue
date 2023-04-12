@@ -34,12 +34,11 @@
 </template>
 
 <script>
+  import { getAppStoreDetail } from '@kubegems/api/direct';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapState } from 'vuex';
-
-  import { getAppStoreDetail } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'JsonSchema',

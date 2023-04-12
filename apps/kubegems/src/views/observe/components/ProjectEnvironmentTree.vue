@@ -56,11 +56,11 @@
 </template>
 
 <script>
+  import { getProjectEnvironmentList, getProjectList } from '@kubegems/api/direct';
   import { SERVICE_LOGGING_NS, SERVICE_MONITOR_NS } from '@kubegems/libs/constants/namespace';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
-  import { getProjectEnvironmentList, getProjectList } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import { convertResponse2List } from '@/types/base';
 
   export default {

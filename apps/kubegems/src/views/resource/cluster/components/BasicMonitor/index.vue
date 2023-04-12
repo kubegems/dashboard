@@ -176,14 +176,14 @@
 </template>
 
 <script>
+  import { getClusterCertInfo, getClusterComponentStatus } from '@kubegems/api/direct';
   import { CLUSTER_API_SERVER_SUCCESS_RATE_PROMQL } from '@kubegems/libs/constants/prometheus';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import Tips from './Tips';
-  import { getClusterCertInfo, getClusterComponentStatus } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import { convertResponse2List } from '@/types/base';
 
   export default {

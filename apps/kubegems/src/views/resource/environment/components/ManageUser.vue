@@ -107,10 +107,15 @@
 </template>
 
 <script>
+  import {
+    deleteEnvironmentUser,
+    getEnvironmentUserList,
+    getProjectUserList,
+    postAddEnvironmentUser,
+  } from '@kubegems/api/direct';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
-  import { deleteEnvironmentUser, getEnvironmentUserList, getProjectUserList, postAddEnvironmentUser } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import { convertResponse2List } from '@/types/base';
 
   export default {

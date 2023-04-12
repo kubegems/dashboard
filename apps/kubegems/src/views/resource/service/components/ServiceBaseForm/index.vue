@@ -213,16 +213,16 @@
 </template>
 
 <script>
+  import { getAppResourceFileMetas } from '@kubegems/api/direct';
   import { k8sName, required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import ServicePortForm from './ServicePortForm';
   import ServicePortItem from './ServicePortItem';
-  import { getAppResourceFileMetas } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
   import AnnotationForm from '@/views/resource/components/annotation/AnnotationForm';
   import AnnotationItem from '@/views/resource/components/annotation/AnnotationItem';
   import LabelForm from '@/views/resource/components/label/LabelForm';

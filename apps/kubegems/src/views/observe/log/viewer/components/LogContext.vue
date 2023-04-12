@@ -41,11 +41,11 @@
 </template>
 
 <script>
+  import { getLogContext } from '@kubegems/api/direct';
   import { sleep } from '@kubegems/libs/utils/helpers';
 
   import messages from '../../i18n';
   import LogTable from './LogTable';
-  import { getLogContext } from '@/api';
 
   export default {
     name: 'LogContext',

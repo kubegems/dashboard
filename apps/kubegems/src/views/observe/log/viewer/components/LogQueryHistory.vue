@@ -104,12 +104,12 @@
 </template>
 
 <script>
+  import { deleteLogQueryHistory, getLogQueryHistoryList } from '@kubegems/api/direct';
   import { randomString } from '@kubegems/libs/utils/helpers';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters } from 'vuex';
 
   import messages from '../../i18n';
-  import { deleteLogQueryHistory, getLogQueryHistoryList } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 
   export default {
