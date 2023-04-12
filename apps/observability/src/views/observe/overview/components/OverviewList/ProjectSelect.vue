@@ -37,9 +37,9 @@
 
 <script>
   import { getProjectList } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
 
   import messages from '../../i18n';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'ProjectSelect',

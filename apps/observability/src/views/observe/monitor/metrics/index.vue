@@ -268,19 +268,19 @@
 
 <script>
   import { getMetricsLabelValues, getMetricsLabels, getMetricsQueryrange } from '@kubegems/api/direct';
+  import { units } from '@kubegems/api/hooks/metrics';
   import { required } from '@kubegems/extension/ruler';
   import { debounce, deepCopy } from '@kubegems/libs/utils/helpers';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
+  import ProjectEnvSelectCascade from '../../components/ProjectEnvSelectCascade';
+  import AddPrometheusRule from '../../monitor/config/prometheusrule/components/AddPrometheusRule';
   import messages from '../i18n';
   import ButtonInput from './components/ButtonInput';
   import MetricsItem from './components/MetricsItem';
   import ResourceSelectCascade from './components/ResourceSelectCascade';
-  import { units } from '@kubegems/api/hooks/metrics';
-  import ProjectEnvSelectCascade from '../../components/ProjectEnvSelectCascade';
-  import AddPrometheusRule from '../../monitor/config/prometheusrule/components/AddPrometheusRule';
 
   export default {
     name: 'MetricsIndex',

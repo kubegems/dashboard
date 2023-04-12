@@ -57,14 +57,14 @@
 </template>
 
 <script lang="ts" setup>
+  import { useOperationPagination } from '@kubegems/api/hooks/telemetry';
+  import { Telemetry } from '@kubegems/api/typed/opentelemetry';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { beautifyTime } from '@kubegems/libs/utils/helpers';
   import moment from 'moment';
   import { nextTick, reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../../../i18n';
-  import { useOperationPagination } from '@kubegems/api/hooks/telemetry';
-  import { Telemetry } from '@kubegems/api/typed/opentelemetry';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();

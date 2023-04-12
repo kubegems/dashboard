@@ -55,8 +55,9 @@
 </template>
 
 <script lang="ts" setup>
-  import { useI18n } from '../../../i18n';
   import { PrometheusRule } from '@kubegems/api/typed/prometheus_rule';
+
+  import { useI18n } from '../../../i18n';
 
   withDefaults(
     defineProps<{

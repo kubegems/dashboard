@@ -28,11 +28,11 @@
 </template>
 
 <script>
+  import ProjectEnvironmentLayout from '../../components/ProjectEnvironmentLayout';
   import messages from '../i18n';
   import AlertRule from './alert_rule';
   import Flow from './flow';
   import Output from './output';
-  import ProjectEnvironmentLayout from '../../components/ProjectEnvironmentLayout';
 
   export default {
     name: 'MonitorConfig',

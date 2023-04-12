@@ -46,12 +46,12 @@
   import { useStore } from '@kubegems/extension/store';
   import { ref } from 'vue';
 
+  import ProjectEnvSelectCascade from '../../components/ProjectEnvSelectCascade.vue';
   import { useI18n } from '../i18n';
   import Overview from './components/Overview.vue';
   import ServiceList from './components/ServiceList.vue';
   import ServiceSelect from './components/ServiceSelect.vue';
   import Trace from './components/Trace/index.vue';
-  import ProjectEnvSelectCascade from '../../components/ProjectEnvSelectCascade.vue';
 
   const i18nLocal = useI18n();
   const router = useRouter();

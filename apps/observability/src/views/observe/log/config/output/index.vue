@@ -115,13 +115,13 @@
     getClusterOutputsData,
     getOutputsData,
   } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import BasePermission from '@kubegems/mixins/permission';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import AddOutput from './components/AddOutput';
   import UpdateOutput from './components/UpdateOutput';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'LogFlow',

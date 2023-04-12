@@ -68,12 +68,11 @@
 <script lang="ts" setup>
   import { Auth } from '@kubegems/api/typed/auth';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
+  import router from '@kubegems/extension/router';
   import { required } from '@kubegems/extension/ruler';
   import { useStore } from '@kubegems/extension/store';
   import { validateJWT } from '@kubegems/libs/utils/helpers';
   import { onMounted, reactive, ref } from 'vue';
-
-  import router from '@kubegems/extension/router';
 
   const store = useStore();
   const i18n = useGlobalI18n();

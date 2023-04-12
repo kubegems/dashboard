@@ -93,16 +93,16 @@
 </template>
 
 <script lang="ts" setup>
+  import { PrometheusProbe } from '@kubegems/api/typed/prometheus_probe';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { required } from '@kubegems/extension/ruler';
   import { useStore } from '@kubegems/extension/store';
   import { reactive, ref } from 'vue';
 
-  import { useI18n } from '../../i18n';
-  import { PrometheusProbe } from '@kubegems/api/typed/prometheus_probe';
   import Http from '../../../integrated/components/IntergatedCenter/Probe/Http.vue';
   import Icmp from '../../../integrated/components/IntergatedCenter/Probe/Icmp.vue';
   import Tcp from '../../../integrated/components/IntergatedCenter/Probe/Tcp.vue';
+  import { useI18n } from '../../i18n';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();

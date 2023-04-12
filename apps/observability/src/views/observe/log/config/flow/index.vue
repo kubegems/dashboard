@@ -141,13 +141,13 @@
 
 <script>
   import { deleteClusterFlowData, deleteFlowData, getClusterFlowsData, getFlowsData } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import BasePermission from '@kubegems/mixins/permission';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import AddFlow from './components/AddFlow';
   import UpdateFlow from './components/UpdateFlow';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'LogFlow',

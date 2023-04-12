@@ -35,12 +35,12 @@
 </template>
 
 <script lang="ts" setup>
+  import { Telemetry } from '@kubegems/api/typed/opentelemetry';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useStore } from '@kubegems/extension/store';
   import { ref, watch } from 'vue';
 
   import { useI18n } from '../../../../i18n';
-  import { Telemetry } from '@kubegems/api/typed/opentelemetry';
 
   const props = withDefaults(
     defineProps<{

@@ -198,11 +198,11 @@
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../../../../i18n';
+  import ResourceSelectCascade from '../../../../../metrics/components/ResourceSelectCascade';
   import AlertLevelForm from './AlertLevelForm';
   import AlertLevelItem from './AlertLevelItem';
   import LabelMatchersForm from './LabelMatchersForm';
   import LabelMatchersItem from './LabelMatchersItem';
-  import ResourceSelectCascade from '../../../../../metrics/components/ResourceSelectCascade';
 
   export default {
     name: 'Rule',

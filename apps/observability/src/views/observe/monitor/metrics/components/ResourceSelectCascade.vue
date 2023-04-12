@@ -138,11 +138,11 @@
 
 <script>
   import { getRuleList, getRuleResourceList, getRuleScopeList, getRuleSearch } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters } from 'vuex';
 
   import messages from '../../i18n';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'ResourceSelectCascade',

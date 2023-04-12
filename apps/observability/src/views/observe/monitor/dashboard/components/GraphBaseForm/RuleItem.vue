@@ -76,10 +76,10 @@
 </template>
 
 <script lang="ts" setup>
+  import { MonitorTarget } from '@kubegems/api/typed/monitor';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
 
   import { useI18n } from '../../../i18n';
-  import { MonitorTarget } from '@kubegems/api/typed/monitor';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();

@@ -78,16 +78,16 @@
 
 <script>
   import { deleteServiceMonitor, getServiceMonitorDetail } from '@kubegems/api/direct';
+  import BasicResourceInfo from '@kubegems/components/logicComponents/BasicResourceInfo';
+  import EventList from '@kubegems/components/logicComponents/EventList';
+  import Metadata from '@kubegems/components/logicComponents/Metadata';
+  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import ResourceInfo from './components/ResourceInfo';
   import UpdateServiceMonitor from './components/UpdateServiceMonitor';
-  import BasicResourceInfo from '@kubegems/components/logicComponents/BasicResourceInfo';
-  import EventList from '@kubegems/components/logicComponents/EventList';
-  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
-  import Metadata from '@kubegems/components/logicComponents/Metadata';
 
   export default {
     name: 'ServiceMonitorDetail',

@@ -176,11 +176,13 @@
     getRuleScopeList,
     putUpdateMonitorDashboard,
   } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import { randomString } from '@kubegems/libs/utils/helpers';
   import BasePermission from '@kubegems/mixins/permission';
   import draggable from 'vuedraggable';
   import { mapGetters, mapState } from 'vuex';
 
+  import ProjectEnvSelectCascade from '../../components/ProjectEnvSelectCascade';
   import messages from '../i18n';
   import AddDashboard from './components/AddDashboard';
   import AddGraph from './components/AddGraph';
@@ -188,8 +190,6 @@
   import UpdateDashboard from './components/UpdateDashboard';
   import UpdateGraph from './components/UpdateGraph';
   import VariableSelect from './components/VariableSelect';
-  import { convertResponse2List } from '@kubegems/api/utils';
-  import ProjectEnvSelectCascade from '../../components/ProjectEnvSelectCascade';
 
   export default {
     name: 'MonitorDashboard',

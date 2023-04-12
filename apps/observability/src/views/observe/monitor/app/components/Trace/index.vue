@@ -81,13 +81,13 @@
 </template>
 
 <script lang="ts" setup>
+  import { Telemetry } from '@kubegems/api/typed/opentelemetry';
   import { useStore } from '@kubegems/extension/store';
   import moment from 'moment';
   import { nextTick, ref, watch } from 'vue';
 
   import Operation from './Operation.vue';
   import Trace from './Trace/index.vue';
-  import { Telemetry } from '@kubegems/api/typed/opentelemetry';
 
   const store = useStore();
 

@@ -86,12 +86,12 @@
 
 <script>
   import { getServiceList, postServiceMonitor } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import { required } from '@kubegems/extension/ruler';
 
   import messages from '../../../i18n';
   import ProjectEnvSelect from '../ProjectEnvSelect';
   import MetricsList from './MetricsList';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'MetricsBaseForm',

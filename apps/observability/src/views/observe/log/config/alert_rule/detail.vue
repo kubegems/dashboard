@@ -77,15 +77,15 @@
 
 <script>
   import { deleteLogAlertRule, getLogAlertRuleDetail, getPrometheusAlertHistory } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
-  import messages from '../../i18n';
-  import { convertResponse2List } from '@kubegems/api/utils';
   import AlertBarChart from '../../../monitor/config/prometheusrule/components/AlertBarChart';
   import AlertList from '../../../monitor/config/prometheusrule/components/AlertList';
   import UpdateAlertRule from '../../../monitor/config/prometheusrule/components/UpdatePrometheusRule';
+  import messages from '../../i18n';
 
   export default {
     name: 'AlertRuleDetail',

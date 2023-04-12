@@ -57,11 +57,10 @@
 
 <script>
   import { getProjectEnvironmentList, getProjectList } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import { SERVICE_LOGGING_NS, SERVICE_MONITOR_NS } from '@kubegems/libs/constants/namespace';
   import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
-
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'ProjectEnvironmentTree',

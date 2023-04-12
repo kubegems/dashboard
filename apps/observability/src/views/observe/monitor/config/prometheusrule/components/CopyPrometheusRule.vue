@@ -58,6 +58,7 @@
   import { useEnvironmentListInProject } from '@kubegems/api/hooks/project';
   import { Environment } from '@kubegems/api/typed/environment';
   import { Project } from '@kubegems/api/typed/project';
+  import { PrometheusRule } from '@kubegems/api/typed/prometheus_rule';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useQuery } from '@kubegems/extension/router';
   import { required } from '@kubegems/extension/ruler';
@@ -65,7 +66,6 @@
   import { nextTick, onMounted, reactive, ref } from 'vue';
 
   import { useI18n } from '../../../i18n';
-  import { PrometheusRule } from '@kubegems/api/typed/prometheus_rule';
 
   const props = withDefaults(
     defineProps<{

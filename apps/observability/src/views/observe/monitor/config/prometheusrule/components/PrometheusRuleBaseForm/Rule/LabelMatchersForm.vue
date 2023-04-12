@@ -99,6 +99,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { PrometheusRule } from '@kubegems/api/typed/prometheus_rule';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useQuery } from '@kubegems/extension/router';
   import { required } from '@kubegems/extension/ruler';
@@ -106,7 +107,6 @@
   import { ComputedRef, computed, reactive, ref } from 'vue';
 
   import { useI18n } from '../../../../../i18n';
-  import { PrometheusRule } from '@kubegems/api/typed/prometheus_rule';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();

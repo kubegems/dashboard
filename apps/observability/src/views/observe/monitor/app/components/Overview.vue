@@ -75,12 +75,12 @@
 </template>
 
 <script lang="ts" setup>
+  import { Telemetry } from '@kubegems/api/typed/opentelemetry';
   import { useStore } from '@kubegems/extension/store';
   import moment from 'moment';
   import { nextTick, ref, watch } from 'vue';
 
   import { useI18n } from '../../i18n';
-  import { Telemetry } from '@kubegems/api/typed/opentelemetry';
 
   const i18nLocal = useI18n();
   const store = useStore();

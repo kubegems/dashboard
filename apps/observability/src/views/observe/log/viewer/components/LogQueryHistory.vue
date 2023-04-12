@@ -109,8 +109,8 @@
   import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters } from 'vuex';
 
-  import messages from '../../i18n';
   import ProjectEnvSelectCascade from '../../../components/ProjectEnvSelectCascade';
+  import messages from '../../i18n';
 
   export default {
     name: 'LogHistory',

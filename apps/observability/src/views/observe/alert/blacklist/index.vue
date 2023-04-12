@@ -88,13 +88,13 @@
 
 <script>
   import { deletePrometheusBlacklist, getPrometheusBlackList } from '@kubegems/api/direct';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import { deleteEmpty } from '@kubegems/libs/utils/helpers';
   import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
-  import messages from '../i18n';
-  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import ProjectEnvSelectCascade from '../../components/ProjectEnvSelectCascade';
+  import messages from '../i18n';
 
   export default {
     name: 'AlertHistroy',

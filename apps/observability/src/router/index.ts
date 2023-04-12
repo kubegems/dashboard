@@ -15,9 +15,9 @@
  */
 import { useGlobalI18n } from '@kubegems/extension/i18n';
 import { useRouter } from '@kubegems/extension/router';
+import { useStore } from '@kubegems/extension/store';
 import { PLATFORM } from '@kubegems/libs/constants/platform';
 import { platform } from '@kubegems/platform/router';
-import { useStore } from '@kubegems/extension/store';
 
 import { global } from './global';
 import { observe } from './observe';

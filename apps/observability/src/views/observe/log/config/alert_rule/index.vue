@@ -222,6 +222,7 @@
     postDisableAlertRule,
     postEnableAlertRule,
   } from '@kubegems/api/direct';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import { SERVICE_MONITOR_NS } from '@kubegems/libs/constants/namespace';
   import BaseFilter from '@kubegems/mixins/base_filter';
   import BasePermission from '@kubegems/mixins/permission';
@@ -229,12 +230,11 @@
   import BaseTable from '@kubegems/mixins/table';
   import { mapGetters, mapState } from 'vuex';
 
-  import messages from '../../i18n';
-  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import AddAlertRule from '../../../monitor/config/prometheusrule/components/AddPrometheusRule';
   import CopyAlertRule from '../../../monitor/config/prometheusrule/components/CopyPrometheusRule';
   import RuleStatusTip from '../../../monitor/config/prometheusrule/components/RuleStatusTip';
   import UpdateAlertRule from '../../../monitor/config/prometheusrule/components/UpdatePrometheusRule';
+  import messages from '../../i18n';
 
   export default {
     name: 'AlertRule',

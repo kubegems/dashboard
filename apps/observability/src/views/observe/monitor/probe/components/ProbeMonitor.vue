@@ -93,6 +93,8 @@
 </template>
 
 <script lang="ts" setup>
+  import { Matrix, Vector } from '@kubegems/api/typed/prometheus';
+  import { PrometheusProbe } from '@kubegems/api/typed/prometheus_probe';
   import { useStore } from '@kubegems/extension/store';
   import {
     PROBE_AVAILABILITY_PROMQL,
@@ -108,8 +110,6 @@
   import { onUnmounted, reactive, ref } from 'vue';
 
   import { useI18n } from '../../i18n';
-  import { Matrix, Vector } from '@kubegems/api/typed/prometheus';
-  import { PrometheusProbe } from '@kubegems/api/typed/prometheus_probe';
 
   const store = useStore();
   const i18nLocal = useI18n();

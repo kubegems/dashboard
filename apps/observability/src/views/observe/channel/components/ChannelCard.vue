@@ -141,6 +141,7 @@
 
 <script>
   import { deleteChannel, getChannelList, postSendTestChannel } from '@kubegems/api/direct';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import BasePermission from '@kubegems/mixins/permission';
   import { mapGetters, mapState } from 'vuex';
 
@@ -148,7 +149,6 @@
   import AddChannel from './AddChannel';
   import ChannelUpdateTip from './ChannelUpdateTip.vue';
   import UpdateChannel from './UpdateChannel';
-  import { convertResponse2Pagination } from '@kubegems/api/utils';
 
   export default {
     name: 'ChannelCard',

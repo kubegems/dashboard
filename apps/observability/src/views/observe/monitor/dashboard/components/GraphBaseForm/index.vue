@@ -88,6 +88,7 @@
 </template>
 
 <script>
+  import { addCustomUnit, getUnitItems } from '@kubegems/api/hooks/metrics';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import { mapState } from 'vuex';
@@ -95,7 +96,6 @@
   import messages from '../../../i18n';
   import RuleForm from './RuleForm';
   import RuleItem from './RuleItem';
-  import { addCustomUnit, getUnitItems } from '@kubegems/api/hooks/metrics';
 
   export default {
     name: 'GraphBaseForm',

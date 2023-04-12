@@ -77,14 +77,14 @@
     getClusterFlowDetailData,
     getFlowDetailData,
   } from '@kubegems/api/direct';
+  import Metadata from '@kubegems/components/logicComponents//Metadata';
+  import ResourceYaml from '@kubegems/components/logicComponents//ResourceYaml';
+  import BasicResourceInfo from '@kubegems/components/logicComponents/BasicResourceInfo';
   import BasePermission from '@kubegems/mixins/permission';
   import { mapState } from 'vuex';
 
   import ResourceInfo from './components/ResourceInfo';
   import UpdateFlow from './components/UpdateFlow';
-  import BasicResourceInfo from '@kubegems/components/logicComponents/BasicResourceInfo';
-  import ResourceYaml from '@kubegems/components/logicComponents//ResourceYaml';
-  import Metadata from '@kubegems/components/logicComponents//Metadata';
 
   export default {
     name: 'FlowDetail',

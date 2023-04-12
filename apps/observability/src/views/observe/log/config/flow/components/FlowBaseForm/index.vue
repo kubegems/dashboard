@@ -135,13 +135,13 @@
 
 <script>
   import { getClusterOutputsData, getOutputsData } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import BaseSelect from '@kubegems/mixins/select';
   import { mapState } from 'vuex';
 
   import messages from '../../../../i18n';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'FlowBaseForm',

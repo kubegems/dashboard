@@ -75,6 +75,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { PrometheusProbe } from '@kubegems/api/typed/prometheus_probe';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { required } from '@kubegems/extension/ruler';
   import { useStore } from '@kubegems/extension/store';
@@ -85,7 +86,6 @@
   import Http from './Http.vue';
   import Icmp from './Icmp.vue';
   import Tcp from './Tcp.vue';
-  import { PrometheusProbe } from '@kubegems/api/typed/prometheus_probe';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();

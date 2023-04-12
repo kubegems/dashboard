@@ -110,12 +110,12 @@
     postLoggingFlow,
     putLoggingNsFlow,
   } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import { integer, required } from '@kubegems/extension/ruler';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import ProjectEnvSelect from './ProjectEnvSelect';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'Logging',

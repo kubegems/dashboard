@@ -116,17 +116,17 @@
 </template>
 
 <script lang="ts" setup>
+  import { usePrometheusProbePagination } from '@kubegems/api/hooks/prometheus';
+  import { PrometheusProbe } from '@kubegems/api/typed/prometheus_probe';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
   import { nextTick, reactive, ref, watch } from 'vue';
 
+  import ProjectEnvSelectCascade from '../../components/ProjectEnvSelectCascade.vue';
   import { useI18n } from '../i18n';
   import ProbeForm from './components/ProbeForm.vue';
   import ProbeMonitor from './components/ProbeMonitor.vue';
-  import { usePrometheusProbePagination } from '@kubegems/api/hooks/prometheus';
-  import { PrometheusProbe } from '@kubegems/api/typed/prometheus_probe';
-  import ProjectEnvSelectCascade from '../../components/ProjectEnvSelectCascade.vue';
 
   const store = useStore();
   const env = ref(undefined);

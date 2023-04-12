@@ -77,14 +77,14 @@
     getClusterOutputDetailData,
     getOutputDetailData,
   } from '@kubegems/api/direct';
+  import BasicResourceInfo from '@kubegems/components/logicComponents/BasicResourceInfo';
+  import Metadata from '@kubegems/components/logicComponents/Metadata';
+  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
   import BasePermission from '@kubegems/mixins/permission';
   import { mapState } from 'vuex';
 
   import ResourceInfo from './components/ResourceInfo';
   import UpdateOutput from './components/UpdateOutput';
-  import BasicResourceInfo from '@kubegems/components/logicComponents/BasicResourceInfo';
-  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
-  import Metadata from '@kubegems/components/logicComponents/Metadata';
 
   export default {
     name: 'OutputDetail',

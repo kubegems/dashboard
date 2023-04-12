@@ -222,6 +222,7 @@
     postDisableAlertRule,
     postEnableAlertRule,
   } from '@kubegems/api/direct';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import { SERVICE_MONITOR_NS } from '@kubegems/libs/constants/namespace';
   import BaseFilter from '@kubegems/mixins/base_filter';
   import BasePermission from '@kubegems/mixins/permission';
@@ -234,7 +235,6 @@
   import CopyPrometheusRule from './components/CopyPrometheusRule';
   import RuleStatusTip from './components/RuleStatusTip';
   import UpdatePrometheusRule from './components/UpdatePrometheusRule';
-  import { convertResponse2Pagination } from '@kubegems/api/utils';
 
   export default {
     name: 'PrometheusRule',

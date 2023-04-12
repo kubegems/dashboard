@@ -128,9 +128,8 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { SIDEBAR_ITEMS } from './sidebar_items';
-
   import { useRoutes } from '../../router';
+  import { SIDEBAR_ITEMS } from './sidebar_items';
 
   export default {
     name: 'Sidebar',

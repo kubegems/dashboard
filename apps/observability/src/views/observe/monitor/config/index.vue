@@ -28,10 +28,10 @@
 </template>
 
 <script>
+  import ProjectEnvironmentLayout from '../../components/ProjectEnvironmentLayout';
   import messages from '../i18n';
   import PrometheusRule from './prometheusrule';
   import ServiceMonitor from './servicemonitor';
-  import ProjectEnvironmentLayout from '../../components/ProjectEnvironmentLayout';
 
   export default {
     name: 'MonitorConfig',

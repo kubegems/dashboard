@@ -160,6 +160,8 @@
 </template>
 
 <script lang="ts" setup>
+  import { useTracePagination } from '@kubegems/api/hooks/telemetry';
+  import { Telemetry } from '@kubegems/api/typed/opentelemetry';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
   import { beautifyTime } from '@kubegems/libs/utils/helpers';
@@ -168,8 +170,6 @@
 
   import { useI18n } from '../../../../i18n';
   import SpanWarnTip from './SpanWarnTip.vue';
-  import { useTracePagination } from '@kubegems/api/hooks/telemetry';
-  import { Telemetry } from '@kubegems/api/typed/opentelemetry';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();

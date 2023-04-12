@@ -127,6 +127,7 @@
 
 <script>
   import { deleteServiceMonitor, getServiceMonitorList } from '@kubegems/api/direct';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import BaseFilter from '@kubegems/mixins/base_filter';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
@@ -136,7 +137,6 @@
   import messages from '../../i18n';
   import AddServiceMonitor from './components/AddServiceMonitor';
   import UpdateServiceMonitor from './components/UpdateServiceMonitor';
-  import { convertResponse2Pagination } from '@kubegems/api/utils';
 
   export default {
     name: 'ServiceMonitorList',

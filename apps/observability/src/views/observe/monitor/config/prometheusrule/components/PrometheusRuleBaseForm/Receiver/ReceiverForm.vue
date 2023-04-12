@@ -65,6 +65,7 @@
 
 <script>
   import { getChannelList } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import { required, timeInterval } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import BaseFilter from '@kubegems/mixins/base_filter';
@@ -73,7 +74,6 @@
   import { mapGetters } from 'vuex';
 
   import messages from '../../../../../i18n';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'ReceiverForm',

@@ -66,8 +66,8 @@
 <script>
   import { getLogLabels } from '@kubegems/api/direct';
 
-  import messages from '../../../i18n';
   import AddAlertRule from '../../../../monitor/config/prometheusrule/components/AddPrometheusRule';
+  import messages from '../../../i18n';
 
   export default {
     name: 'AdvancedTextarea',

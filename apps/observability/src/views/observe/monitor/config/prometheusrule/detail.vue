@@ -81,6 +81,7 @@
 
 <script>
   import { deletePrometheusRule, getPrometheusAlertHistory, getPrometheusRuleDetail } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
@@ -89,7 +90,6 @@
   import AlertBarChart from './components/AlertBarChart';
   import AlertList from './components/AlertList';
   import UpdatePrometheusRule from './components/UpdatePrometheusRule';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'PrometheusRuleDetail',

@@ -29,10 +29,9 @@
 </template>
 
 <script lang="ts" setup>
+  import { PrometheusProbe } from '@kubegems/api/typed/prometheus_probe';
   import { required } from '@kubegems/extension/ruler';
   import { reactive, watch } from 'vue';
-
-  import { PrometheusProbe } from '@kubegems/api/typed/prometheus_probe';
 
   const props = withDefaults(
     defineProps<{
