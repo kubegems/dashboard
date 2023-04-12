@@ -139,17 +139,17 @@
 </template>
 
 <script>
+  import { deleteConfigMap, getConfigMapList } from '@kubegems/api/direct';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseTable from '@kubegems/mixins/table';
   import { mapState } from 'vuex';
 
   import AddConfigMap from './components/AddConfigMap';
   import UpdateConfigMap from './components/UpdateConfigMap';
   import messages from './i18n';
-  import { deleteConfigMap, getConfigMapList } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseTable from '@/mixins/table';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
 
   export default {
@@ -182,7 +182,7 @@
             text: this.$t('table.item'),
             value: 'data',
             align: 'start',
-            width: 700,
+            width: 500,
             sortable: false,
           },
           { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start', width: 180 },

@@ -40,7 +40,7 @@
         <template #[`item.name`]="{ item }">
           <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="nodeDetail(item)">
             <v-flex class="float-left">
-              {{ item.metadata.name }}
+              <BaseCopyItem :item="item.metadata.name" />
             </v-flex>
             <v-flex
               v-if="
@@ -183,6 +183,7 @@
 </template>
 
 <script>
+  import { getNodeList, patchCordonNode } from '@kubegems/api/direct';
   import {
     NODE_ALL_CPU_USAGE_PROMQL,
     NODE_ALL_MEMORY_USAGE_PROMQL,
@@ -190,15 +191,14 @@
     NODE_POD_RUNNING_COUNT_PROMQL,
   } from '@kubegems/libs/constants/prometheus';
   import { convertStrToNum, sizeOfStorage } from '@kubegems/libs/utils/helpers';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import GpuScheduleForm from './components/GpuScheduleForm';
   import messages from './i18n';
-  import { getNodeList, patchCordonNode } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import GpuTip from '@/views/resource/components/common/GpuTip';
 
   export default {
@@ -230,7 +230,7 @@
       },
       headers() {
         return [
-          { text: this.$t('table.name'), value: 'name', align: 'start', width: 200 },
+          { text: this.$t('table.name'), value: 'name', align: 'start', width: 195 },
           { text: 'IP', value: 'ip', align: 'start' },
           { text: this.$t('table.status'), value: 'status', align: 'start', width: 145 },
           { text: this.$t('table.role'), value: 'role', align: 'start' },

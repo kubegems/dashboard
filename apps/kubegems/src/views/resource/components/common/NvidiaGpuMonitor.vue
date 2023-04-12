@@ -47,19 +47,19 @@
 </template>
 
 <script>
+  import { getPodList } from '@kubegems/api/direct';
   import {
     N_GPU_MEMORY_USAGE_PROMQL,
     N_GPU_POWER_PROMQL,
     N_GPU_TEMP_PROMQL,
     N_GPU_USAGE_PROMQL,
   } from '@kubegems/libs/constants/prometheus';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getPodList } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import { convertResponse2List } from '@/types/base';
+  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'NvidiaGpuMonitor',

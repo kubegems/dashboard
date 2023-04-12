@@ -152,13 +152,14 @@
 </template>
 
 <script>
+  import BaseResource from '@kubegems/mixins/resource';
+
   import messages from '../../../../i18n';
   import Configmap from './Configmap';
   import EmptyDir from './EmptyDir';
   import HostPath from './HostPath';
   import PersistentVolumeClaim from './PersistentVolumeClaim';
   import Secret from './Secret';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'StorageMountItem',

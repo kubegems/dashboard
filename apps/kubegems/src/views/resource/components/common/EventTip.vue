@@ -75,10 +75,11 @@
 </template>
 
 <script>
+  import { getEventList } from '@kubegems/api/direct';
+  import BaseResource from '@kubegems/mixins/resource';
+
   import messages from '../i18n';
-  import { getEventList } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import { convertResponse2List } from '@/types/base';
+  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'EventTip',

@@ -266,7 +266,9 @@
 </template>
 
 <script>
+  import { getAppRelatedServices, postStrategyDeployEnvironmentAppsControl } from '@kubegems/api/direct';
   import { ARGO_ROLLOUT_STATUS_COLOR } from '@kubegems/libs/constants/resource';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
@@ -274,8 +276,6 @@
   import DeployPodTip from './DeployPodTip';
   import DeployStepPanel from './DeployStepPanel';
   import DeployStepStatus from './DeployStepStatus';
-  import { getAppRelatedServices, postStrategyDeployEnvironmentAppsControl } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'DeployControlCenter',

@@ -84,15 +84,15 @@
 </template>
 
 <script>
+  import { patchAppResourceFile } from '@kubegems/api/direct';
   import { APP_MENIFEST_TAG } from '@kubegems/libs/constants/resource';
   import schemaValidates from '@kubegems/libs/schema';
   import { deepCopy, randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';
   import AppResourceBaseForm from './AppResourceBaseForm';
-  import { patchAppResourceFile } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'UpdateResourceFile',

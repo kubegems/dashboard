@@ -49,13 +49,13 @@
 </template>
 
 <script>
+  import { postAddIssuer } from '@kubegems/api/direct';
   import IssuerSchema from '@kubegems/libs/schema/issuer';
   import { randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import IssuerBaseForm from './IssuerBaseForm';
-  import { postAddIssuer } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AddIssuer',

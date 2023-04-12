@@ -44,11 +44,11 @@
 
 <script>
   import { required } from '@kubegems/extension/ruler';
+  import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../../../../i18n';
   import VolumeMount from './VolumeMount';
   import VolumeMountForInitContainer from './VolumeMountForInitContainer';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'EmptyDirMount',

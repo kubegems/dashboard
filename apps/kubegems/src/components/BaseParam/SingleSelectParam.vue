@@ -52,8 +52,8 @@
   import { required } from '@kubegems/extension/ruler';
   import { ComputedRef, computed, onMounted, ref, watch } from 'vue';
 
-  import { convertResponse2List } from '@/types/base';
-  import { StorageClass } from '@/types/storageclass';
+  import { convertResponse2List } from '@kubegems/api/utils';
+  import { StorageClass } from '@kubegems/api/typed/storageclass';
 
   const props = withDefaults(
     defineProps<{

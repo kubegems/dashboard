@@ -127,18 +127,18 @@
 </template>
 
 <script>
+  import { deleteRegistry, getRegistryAllList, getRegistryList, patchSetDefaultRegistry } from '@kubegems/api/direct';
   import { convertStrToNum } from '@kubegems/libs/utils/helpers';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseTable from '@kubegems/mixins/table';
   import { mapGetters, mapState } from 'vuex';
 
   import AddRegistry from './components/AddRegistry';
   import UpdateRegistry from './components/UpdateRegistry';
   import messages from './i18n';
-  import { deleteRegistry, getRegistryAllList, getRegistryList, patchSetDefaultRegistry } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseTable from '@/mixins/table';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
 
   export default {
     name: 'Registry',

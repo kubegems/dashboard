@@ -94,7 +94,7 @@ export const K8S_RESOURCE_ICON: { [key: string]: string } = {
   ControllerRevision: 'controllerrevision',
 };
 
-export const ANNOTATION_IGNORE_ARRAY: string[] = [
+export const ANNOTATION_IGNORE_ARRAY: any[] = [
   'kubectl.kubernetes.io/last-applied-configuration',
   'banzaicloud.com/last-applied',
 ];

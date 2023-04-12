@@ -172,8 +172,8 @@
   import { onMounted, reactive } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { useNodePagination } from '@/composition/node';
-  import { Node } from '@/types/node';
+  import { useNodePagination } from '@kubegems/api/hooks/node';
+  import { Node } from '@kubegems/api/typed/node';
 
   onMounted(() => {
     getNodeList();
@@ -287,7 +287,7 @@
       },
       param: { item },
       doFunc: async (param) => {
-        await new Node(param.item).patchCordonNode(routeParams.value.name, true);
+        await new Node(param.item).cordonNode(routeParams.value.name, true);
         getNodeList();
       },
     });
@@ -301,7 +301,7 @@
       },
       param: { item },
       doFunc: async (param) => {
-        await new Node(param.item).patchCordonNode(routeParams.value.name, false);
+        await new Node(param.item).cordonNode(routeParams.value.name, false);
         getNodeList();
       },
     });

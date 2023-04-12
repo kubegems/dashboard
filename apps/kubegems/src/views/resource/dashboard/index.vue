@@ -49,7 +49,10 @@
 </template>
 
 <script>
+  import { getTenantStatistics } from '@kubegems/api/direct';
   import { TENANT_ROLE } from '@kubegems/libs/constants/platform';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import AuditList from './components/AuditList';
@@ -58,9 +61,6 @@
   import ManageUser from './components/ManageUser';
   import ProjectList from './components/ProjectList';
   import ResourceList from './components/ResourceList';
-  import { getTenantStatistics } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'Dashboard',

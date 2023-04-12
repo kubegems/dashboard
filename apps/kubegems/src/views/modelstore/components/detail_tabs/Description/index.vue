@@ -26,7 +26,7 @@
   import { ComputedRef, computed, ref, watch } from 'vue';
 
   import Markdown from './Markdown.vue';
-  import { AIModel } from '@/types/ai_model';
+  import { AIModel } from '@kubegems/api/typed/ai_model';
 
   const props = withDefaults(
     defineProps<{

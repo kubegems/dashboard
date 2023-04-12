@@ -110,9 +110,9 @@
 
 <script>
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../i18n';
-  import BaseResource from '@/mixins/resource';
   import DetailContainer from '@/views/resource/components/common/DetailContainer';
   import DetailEnv from '@/views/resource/components/common/DetailEnv';
   import DetailVolume from '@/views/resource/components/common/DetailVolume';

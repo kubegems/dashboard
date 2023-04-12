@@ -51,14 +51,14 @@
 </template>
 
 <script lang="jsx">
+  import { deleteAppResource, getAppRunningResourceDetail, postSyncAppResource } from '@kubegems/api/direct';
   import { K8S_RESOURCE_ICON } from '@kubegems/libs/constants/resource';
+  import BaseResource from '@kubegems/mixins/resource';
   import { VueOkrTree } from 'vue-okr-tree';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../../i18n';
   import DeployLive from './DeployLive';
-  import { deleteAppResource, getAppRunningResourceDetail, postSyncAppResource } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   import 'vue-okr-tree/dist/vue-okr-tree.css';
 

@@ -89,10 +89,10 @@
 </template>
 
 <script>
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters } from 'vuex';
 
   import messages from '../i18n';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'ResourceInfo',

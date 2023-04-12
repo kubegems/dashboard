@@ -1,0 +1,13 @@
+{
+  "tip": {
+    "real_time": "The specific time",
+    "datetime": "Time",
+    "label": "Label",
+    "annotation": "Annotation"
+  },
+  "table": {
+    "first_trigger_at": "First Time",
+    "last_trigger_at": "Last Time",
+    "message": "Message"
+  }
+}

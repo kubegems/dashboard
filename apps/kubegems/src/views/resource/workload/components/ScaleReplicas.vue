@@ -54,11 +54,11 @@
 </template>
 
 <script>
+  import { patchScaleWorkloadReplicas } from '@kubegems/api/direct';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { patchScaleWorkloadReplicas } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'ScaleReplicas',

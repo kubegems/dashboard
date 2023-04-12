@@ -159,13 +159,13 @@
 </template>
 
 <script>
+  import { getClusterPluginsList, getEventListFromLoki } from '@kubegems/api/direct';
   import { EVENT_STATUS_COLOR } from '@kubegems/libs/constants/resource';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getClusterPluginsList, getEventListFromLoki } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'EventList',

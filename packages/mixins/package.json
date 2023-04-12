@@ -1,0 +1,16 @@
+{
+  "name": "@kubegems/mixins",
+  "version": "1.23.8",
+  "description": "mixin for kubegems ()",
+  "main": "index.ts",
+  "scripts": {
+    "lint": "eslint ./ --ext .ts,.tsx,.vue,.js,.jsx --fix"
+  },
+  "author": "kubegems",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@kubegems/api": "workspace:*",
+    "@kubegems/libs": "workspace:*",
+    "@kubegems/extension": "workspace:*"
+  }
+}

@@ -16,8 +16,8 @@
 import yaml from 'js-yaml';
 import Vue from 'vue';
 
-import { useStore } from '../store';
 import { useGlobalI18n } from '../i18n';
+import { useStore } from '../store';
 
 const store = useStore();
 const i18n = useGlobalI18n();

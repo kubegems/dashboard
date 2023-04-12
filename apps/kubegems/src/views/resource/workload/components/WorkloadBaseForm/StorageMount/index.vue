@@ -123,7 +123,9 @@
 </template>
 
 <script>
+  import { getAppResourceFileMetas, getPersistentVolumeClaimDetail } from '@kubegems/api/direct';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../../../i18n';
   import StorageMountItem from './StorageMountItem';
@@ -134,8 +136,6 @@
   import SecretMount from './volume_section/SecretMount';
   import VolumeClaimTemplateMount from './volume_section/VolumeClaimTemplateMount';
   import VolumeClaimTemplateItem from './VolumeClaimTemplateItem';
-  import { getAppResourceFileMetas, getPersistentVolumeClaimDetail } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'StorageMount',

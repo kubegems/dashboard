@@ -54,7 +54,10 @@
 </template>
 
 <script>
+  import { putUpdateEnvironment } from '@kubegems/api/direct';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
@@ -62,9 +65,6 @@
   import LimitRangeCard from './base/LimitRangeCard';
   import ResourceChart from './base/ResourceChart';
   import ResourceQuota from './base/ResourceQuota';
-  import { putUpdateEnvironment } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'ScaleResource',

@@ -89,11 +89,11 @@
 </template>
 
 <script>
+  import { getAppImageSecurityReportDetail } from '@kubegems/api/direct';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { getAppImageSecurityReportDetail } from '@/api';
 
   export default {
     name: 'AppImageSecurityReportDetail',

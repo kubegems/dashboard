@@ -204,7 +204,9 @@
 </template>
 
 <script>
+  import { deleteConfigItems, getConfigBaseInfo, getConfigItemsList, postPubConfigItems } from '@kubegems/api/direct';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseFilter from '@kubegems/mixins/base_filter';
   import { mapGetters, mapState } from 'vuex';
 
   import ConfigEditor from './components/ConfigEditor';
@@ -214,8 +216,6 @@
   import DeleteItem from './components/DeleteItem';
   import HistoryView from './components/HistoryView';
   import messages from './i18n';
-  import { deleteConfigItems, getConfigBaseInfo, getConfigItemsList, postPubConfigItems } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
 
   export default {
     name: 'ConfigeUI',
@@ -421,10 +421,12 @@
           const citem = this.items.find((item) => {
             return item.key === editItem.key;
           });
-          citem.value = editItem.value;
-          citem.lastModifiedTime = res.lastModifiedTime;
-          citem.createdTime = res.createdTime;
-          citem.lastUpdateUser = res.lastUpdateUser;
+          if (citem) {
+            citem.value = editItem.value;
+            citem.lastModifiedTime = res.lastModifiedTime;
+            citem.createdTime = res.createdTime;
+            citem.lastUpdateUser = res.lastUpdateUser;
+          }
         }
         this.closeEditDialog();
       },

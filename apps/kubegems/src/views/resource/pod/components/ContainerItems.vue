@@ -187,11 +187,11 @@
 <script>
   import { CONTAINER_STATUS_COLOR } from '@kubegems/libs/constants/resource';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import ContainerLog from '@/views/resource/components/common/ContainerLog';
   import ProbeTip from '@/views/resource/components/common/ProbeTip';
   import Terminal from '@/views/resource/components/common/Terminal';

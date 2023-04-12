@@ -113,17 +113,17 @@
 </template>
 
 <script>
+  import { deleteCluster, getClusterList, getClusterStatus } from '@kubegems/api/direct';
   import intro from '@kubegems/extension/tool/guide';
   import { sleep } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
   import AddCluster from './AddCluster';
   import UpdateCluster from './UpdateCluster';
-  import { deleteCluster, getClusterList, getClusterStatus } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
-  import { convertResponse2List } from '@/types/base';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import Terminal from '@/views/resource/components/common/Terminal';
 
   export default {

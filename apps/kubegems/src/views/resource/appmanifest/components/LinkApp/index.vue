@@ -34,11 +34,11 @@
 </template>
 
 <script>
+  import { postAddApp } from '@kubegems/api/direct';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import LinkAppBaseForm from './LinkAppBaseForm';
-  import { postAddApp } from '@/api';
 
   export default {
     name: 'LinkApp',

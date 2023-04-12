@@ -65,11 +65,11 @@
 </template>
 
 <script>
+  import { getWorkloadVersionList, postRollbackWorkload } from '@kubegems/api/direct';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getWorkloadVersionList, postRollbackWorkload } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'Rollingback',

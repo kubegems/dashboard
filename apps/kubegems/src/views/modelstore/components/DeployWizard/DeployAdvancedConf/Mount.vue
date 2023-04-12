@@ -115,12 +115,12 @@
 </template>
 
 <script>
+  import { getConfigMapList, getPersistentVolumeClaimList } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
 
   import messages from '../../../i18n';
-  import { getConfigMapList, getPersistentVolumeClaimList } from '@/api';
-  import { convertResponse2List } from '@/types/base';
+  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'Mount',

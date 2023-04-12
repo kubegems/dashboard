@@ -143,13 +143,13 @@
 </template>
 
 <script>
+  import { getClusterQuota, putUpdateCluster } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy, sizeOfCpu, sizeOfStorage } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getClusterQuota, putUpdateCluster } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'OverScaleResource',

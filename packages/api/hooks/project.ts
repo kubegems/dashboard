@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { User } from 'typed/user';
+
 import { Environment } from '../typed/environment';
 import { Project } from '../typed/project';
+import { User } from '../typed/user';
 import { convertResponse2List, convertResponse2Pagination } from '../utils';
 
 export const useProjectList = async (project: Project): Promise<Project[]> => {

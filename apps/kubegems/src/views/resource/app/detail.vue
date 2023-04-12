@@ -139,6 +139,15 @@
 </template>
 
 <script>
+  import {
+    deleteApp,
+    deleteAppStoreApp,
+    deleteModelRuntime,
+    getAppRunningDetail,
+    getModelRuntimeDetail,
+  } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import ModelMonitor from './components/ModelMonitor';
@@ -149,15 +158,12 @@
   import UpdateModelRuntime from './components/UpdateModelRuntime';
   import UpgradeModel from './components/UpgradeModel';
   import messages from './i18n';
-  import { deleteApp, deleteAppStoreApp, deleteModelRuntime, getAppRunningDetail, getModelRuntimeDetail } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import AppDeployList from '@/views/resource/appmanifest/components/AppDeployList';
   import AppImageSecurityReportList from '@/views/resource/appmanifest/components/AppImageSecurityReportList';
   import AppResourceFileList from '@/views/resource/appmanifest/components/AppResourceFileList';
   import NvidiaGpuMonitor from '@/views/resource/components/common/NvidiaGpuMonitor';
   import PodList from '@/views/resource/components/common/PodList';
-  import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
+  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
   import TkeGpuMonitor from '@/views/resource/components/common/TkeGpuMonitor';
   import DeployControlCenter from '@/views/resource/deploy/components/DeployControlCenter';
   import DeployStatus from '@/views/resource/deploy/components/DeployStatus';

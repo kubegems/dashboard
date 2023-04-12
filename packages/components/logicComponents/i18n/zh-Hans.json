@@ -1,0 +1,13 @@
+{
+  "tip": {
+    "real_time": "具体时间",
+    "datetime": "时间",
+    "label": "标签",
+    "annotation": "注解"
+  },
+  "table": {
+    "first_trigger_at": "首次发生时间",
+    "last_trigger_at": "最近发生时间",
+    "message": "消息"
+  }
+}

@@ -49,14 +49,14 @@
 </template>
 
 <script>
+  import { postAddService } from '@kubegems/api/direct';
   import ServiceSchema from '@kubegems/libs/schema/service';
   import { randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
   import ServiceBaseForm from './ServiceBaseForm';
-  import { postAddService } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AddService',

@@ -101,10 +101,10 @@
     ISTIO_WORKLOAD_RESPONSE_DURATION_SECONDS_P95_PROMQL,
     ISTIO_WORKLOAD_RESPONSE_DURATION_SECONDS_P99_PROMQL,
   } from '@kubegems/libs/constants/prometheus';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../../i18n';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'DeployCard',

@@ -184,10 +184,10 @@
 
 <script>
   import { deepCopy, sleep } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'ContainerLog',

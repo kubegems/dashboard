@@ -116,6 +116,8 @@
 <script>
   import { k8sName, required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { Base64 } from 'js-base64';
   import { mapGetters, mapState } from 'vuex';
 
@@ -124,8 +126,6 @@
   import SecretDataItem from './SecretDataItem';
   import SecretDockerconfigForm from './SecretDockerconfigForm';
   import SecretTlsForm from './SecretTlsForm';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'SecretBaseForm',

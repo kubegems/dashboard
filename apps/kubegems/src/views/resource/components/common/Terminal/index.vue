@@ -92,6 +92,7 @@
 
 <script>
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
   import 'xterm/css/xterm.css';
   import { Terminal } from 'xterm';
@@ -99,7 +100,6 @@
 
   import messages from '../../i18n';
   import FileViewer from './FileViewer';
-  import BaseResource from '@/mixins/resource';
 
   const bindTerminalResize = (term, websocket) => {
     const onTermResize = () => {

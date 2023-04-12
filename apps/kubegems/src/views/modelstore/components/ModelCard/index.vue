@@ -107,8 +107,8 @@
   import { ComputedRef, computed, reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../../i18n';
-  import { useAiModelPagination } from '@/composition/ai_model';
-  import { AIModel, AIModelRegistry } from '@/types/ai_model';
+  import { useAiModelPagination } from '@kubegems/api/hooks/ai_model';
+  import { AIModel, AIModelRegistry } from '@kubegems/api/typed/ai_model';
 
   const props = withDefaults(
     defineProps<{

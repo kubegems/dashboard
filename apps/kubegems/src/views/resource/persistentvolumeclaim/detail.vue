@@ -104,6 +104,13 @@
 </template>
 
 <script>
+  import {
+    deletePersistentVolumeClaim,
+    getPersistentVolumeClaimDetail,
+    postAddVolumeSnapshot,
+  } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import PersistentVolumeClaimMonitor from './components/PersistentVolumeClaimMonitor';
@@ -111,13 +118,10 @@
   import ScalePersistentVolumeClaim from './components/ScalePersistentVolumeClaim';
   import UpdatePersistentVolumeClaim from './components/UpdatePersistentVolumeClaim';
   import messages from './i18n';
-  import { deletePersistentVolumeClaim, getPersistentVolumeClaimDetail, postAddVolumeSnapshot } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
-  import EventList from '@/views/resource/components/common/EventList';
-  import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
-  import Metadata from '@/views/resource/components/metadata/Metadata';
+  import BasicResourceInfo from '@kubegems/components/logicComponents/BasicResourceInfo';
+  import EventList from '@kubegems/components/logicComponents/EventList';
+  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
+  import Metadata from '@kubegems/components/logicComponents/Metadata';
 
   export default {
     name: 'PersistentVolumeClaimDetail',

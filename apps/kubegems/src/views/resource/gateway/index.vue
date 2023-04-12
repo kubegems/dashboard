@@ -108,15 +108,15 @@
 </template>
 
 <script>
+  import { deleteGateway, getGatewayList } from '@kubegems/api/direct';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import AddGateway from './components/AddGateway';
   import UpdateGateway from './components/UpdateGateway';
   import messages from './i18n';
-  import { deleteGateway, getGatewayList } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'Gateway',

@@ -36,11 +36,11 @@
 </template>
 
 <script>
+  import { getModelRuntimeDetail, putModelRuntime } from '@kubegems/api/direct';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getModelRuntimeDetail, putModelRuntime } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'UpdateModelRuntime',

@@ -221,8 +221,10 @@
 </template>
 
 <script>
+  import { getAppResourceFileMetas, getConfigMapList, getSecretList } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../../../../../i18n';
   import Configmap from './Configmap';
@@ -230,9 +232,7 @@
   import DownwardPod from './DownwardPod';
   import KeyValue from './KeyValue';
   import Secret from './Secret';
-  import { getAppResourceFileMetas, getConfigMapList, getSecretList } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import { convertResponse2List } from '@/types/base';
+  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'ContainerEnv',

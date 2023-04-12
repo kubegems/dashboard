@@ -74,10 +74,11 @@
 </template>
 
 <script>
+  import { getIngressList } from '@kubegems/api/direct';
+  import BaseResource from '@kubegems/mixins/resource';
+
   import messages from '../i18n';
-  import { getIngressList } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
 
   export default {
     name: 'IngressList',

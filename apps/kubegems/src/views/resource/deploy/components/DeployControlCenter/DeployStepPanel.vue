@@ -104,11 +104,11 @@
 </template>
 
 <script>
+  import { postStrategyDeployEnvironmentAppsControl } from '@kubegems/api/direct';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { postStrategyDeployEnvironmentAppsControl } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'DeployStepPanel',

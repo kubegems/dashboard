@@ -76,12 +76,12 @@
 </template>
 
 <script>
+  import { getEventList } from '@kubegems/api/direct';
   import { EVENT_STATUS_COLOR } from '@kubegems/libs/constants/resource';
+  import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../../../../i18n';
-  import { getEventList } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
 
   export default {
     name: 'DeployEvent',

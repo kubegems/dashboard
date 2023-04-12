@@ -59,14 +59,14 @@
 </template>
 
 <script>
+  import { getAppResourceFileMetas, getPersistentVolumeClaimList } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
+  import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../../../../i18n';
   import VolumeMount from './VolumeMount';
   import VolumeMountForInitContainer from './VolumeMountForInitContainer';
-  import { getAppResourceFileMetas, getPersistentVolumeClaimList } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import { convertResponse2List } from '@/types/base';
+  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'PersistentVolumeClaimMount',

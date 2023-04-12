@@ -34,10 +34,10 @@
 </template>
 
 <script>
+  import { getManifestDetail, putUpdateManifest } from '@kubegems/api/direct';
   import { mapState } from 'vuex';
 
   import AppBaseForm from './AppBaseForm';
-  import { getManifestDetail, putUpdateManifest } from '@/api';
 
   export default {
     name: 'UpdateAppManifest',

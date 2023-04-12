@@ -41,11 +41,11 @@
 
 <script>
   import { PVC_USAGE_INODE_PROMQL, PVC_USAGE_PROMQL } from '@kubegems/libs/constants/prometheus';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'PersistentVolumeClaimMonitor',

@@ -1,0 +1,13 @@
+{
+  "tip": {
+    "real_time": "特定の時間",
+    "datetime": "時間",
+    "label": "タグ",
+    "annotation": "コメント"
+  },
+  "table": {
+    "first_trigger_at": "最初の発生時間",
+    "last_trigger_at": "最近の回",
+    "message": "メッセージ"
+  }
+}

@@ -155,17 +155,17 @@
 </template>
 
 <script>
+  import { deleteIngress, getGatewayList, getIngressList } from '@kubegems/api/direct';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseTable from '@kubegems/mixins/table';
   import { mapState } from 'vuex';
 
   import AddIngress from './components/AddIngress';
   import UpdateIngress from './components/UpdateIngress';
   import messages from './i18n';
-  import { deleteIngress, getGatewayList, getIngressList } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseTable from '@/mixins/table';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
 
   export default {

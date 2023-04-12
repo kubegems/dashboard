@@ -119,7 +119,7 @@
 
   import { useI18n } from '../../i18n';
   import VersionSelect from './VersionSelect.vue';
-  import { AIModel } from '@/types/ai_model';
+  import { AIModel } from '@kubegems/api/typed/ai_model';
 
   withDefaults(
     defineProps<{

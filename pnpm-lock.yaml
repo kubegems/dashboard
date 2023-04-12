@@ -43,6 +43,9 @@ importers:
       vue:
         specifier: ^2.7.14
         version: 2.7.14
+      vue-i18n:
+        specifier: ^8.27.2
+        version: 8.28.2(vue@2.7.14)
       vue-meta:
         specifier: ^2.4.0
         version: 2.4.0
@@ -188,6 +191,15 @@ importers:
       '@kubegems/libs':
         specifier: workspace:*
         version: link:../../packages/libs
+      '@kubegems/mixins':
+        specifier: workspace:*
+        version: link:../../packages/mixins
+      '@kubegems/observability':
+        specifier: workspace:*
+        version: link:../observability
+      '@kubegems/servicemesh':
+        specifier: workspace:*
+        version: link:../servicemesh
       '@kubernetes/client-node':
         specifier: ^0.18.0
         version: 0.18.0
@@ -231,6 +243,175 @@ importers:
         specifier: ^0.7.0
         version: 0.7.0(xterm@5.1.0)
 
+  apps/observability:
+    dependencies:
+      '@iconify-json/logos':
+        specifier: ^1.1.17
+        version: 1.1.18
+      '@iconify-json/mdi':
+        specifier: ^1.1.34
+        version: 1.1.34
+      '@kubegems/api':
+        specifier: workspace:*
+        version: link:../../packages/api
+      '@kubegems/components':
+        specifier: workspace:*
+        version: link:../../packages/components
+      '@kubegems/extension':
+        specifier: workspace:*
+        version: link:../../packages/extension
+      '@kubegems/libs':
+        specifier: workspace:*
+        version: link:../../packages/libs
+      '@kubegems/mixins':
+        specifier: workspace:*
+        version: link:../../packages/mixins
+      '@kubegems/platform':
+        specifier: workspace:*
+        version: link:../../packages/platform
+      ajv:
+        specifier: ^8.6.3
+        version: 8.11.0
+      axios:
+        specifier: ^0.27.2
+        version: 0.27.2
+      brace:
+        specifier: ^0.11.1
+        version: 0.11.1
+      fast-json-patch:
+        specifier: ^3.1.1
+        version: 3.1.1
+      js-yaml:
+        specifier: ^4.1.0
+        version: 4.1.0
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
+      qs:
+        specifier: ^6.11.0
+        version: 6.11.0
+      vue:
+        specifier: ^2.7.14
+        version: 2.7.14
+      vue-router:
+        specifier: ^3.6.5
+        version: 3.6.5(vue@2.7.14)
+      vuetify:
+        specifier: ^2.6.14
+        version: 2.6.14(vue@2.7.14)
+      vuex:
+        specifier: ^3.6.2
+        version: 3.6.2(vue@2.7.14)
+      yaml:
+        specifier: ^2.1.3
+        version: 2.1.3
+    devDependencies:
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.42.1
+        version: 5.42.1(@typescript-eslint/parser@5.42.1)(eslint@7.32.0)(typescript@4.6.3)
+      '@typescript-eslint/parser':
+        specifier: ^5.42.1
+        version: 5.42.1(eslint@7.32.0)(typescript@4.6.3)
+      '@vitejs/plugin-vue2':
+        specifier: ^2.0.0
+        version: 2.0.0(vite@4.2.0)(vue@2.7.14)
+      '@vitejs/plugin-vue2-jsx':
+        specifier: ^1.0.3
+        version: 1.0.3(vite@4.2.0)(vue@2.7.14)
+      '@volar-plugins/vetur':
+        specifier: ^0.1.0
+        version: 0.1.0
+      '@vueuse/core':
+        specifier: ^9.5.0
+        version: 9.5.0(vue@2.7.14)
+      commitizen:
+        specifier: ^4.2.4
+        version: 4.2.5
+      commitlint:
+        specifier: ^13.2.0
+        version: 13.2.1
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      cz-conventional-changelog:
+        specifier: ^3.3.0
+        version: 3.3.0
+      eslint:
+        specifier: ^7.27.0
+        version: 7.32.0
+      eslint-config-prettier:
+        specifier: ^8.5.0
+        version: 8.5.0(eslint@7.32.0)
+      eslint-define-config:
+        specifier: ^1.5.1
+        version: 1.11.0
+      eslint-import-resolver-alias:
+        specifier: ^1.1.2
+        version: 1.1.2(eslint-plugin-import@2.26.0)
+      eslint-import-resolver-typescript:
+        specifier: ^3.5.2
+        version: 3.5.2(eslint-plugin-import@2.26.0)(eslint@7.32.0)
+      eslint-plugin-import:
+        specifier: ^2.26.0
+        version: 2.26.0(@typescript-eslint/parser@5.42.1)(eslint-import-resolver-typescript@3.5.2)(eslint@7.32.0)
+      eslint-plugin-prettier:
+        specifier: ^3.1.4
+        version: 3.1.4(eslint@7.32.0)(prettier@2.7.1)
+      eslint-plugin-vue:
+        specifier: ^8.4.1
+        version: 8.7.1(eslint@7.32.0)
+      eslint-plugin-vuetify:
+        specifier: ^1.1.0
+        version: 1.1.0(eslint@7.32.0)(vuetify@2.6.14)
+      happy-dom:
+        specifier: ^7.4.0
+        version: 7.6.6
+      husky:
+        specifier: ^7.0.2
+        version: 7.0.4
+      lint-staged:
+        specifier: ^11.0.0
+        version: 11.2.6
+      prettier:
+        specifier: ^2.6.2
+        version: 2.7.1
+      right-pad:
+        specifier: ^1.0.1
+        version: 1.0.1
+      sass:
+        specifier: ~1.26.5
+        version: 1.26.11
+      stylelint:
+        specifier: ^13.13.1
+        version: 13.13.1
+      stylelint-config-standard:
+        specifier: ^22.0.0
+        version: 22.0.0(stylelint@13.13.1)
+      stylelint-scss:
+        specifier: ^3.19.0
+        version: 3.21.0(stylelint@13.13.1)
+      typescript:
+        specifier: ~4.6.3
+        version: 4.6.3
+      unplugin-vue-components:
+        specifier: ^0.22.8
+        version: 0.22.9(vue@2.7.14)
+      vite:
+        specifier: ^4.2.0
+        version: 4.2.0(@types/node@14.18.33)(sass@1.26.11)
+      vite-plugin-chunk-split:
+        specifier: ^0.4.7
+        version: 0.4.7(vite@4.2.0)
+      vite-plugin-vue-setup-extend:
+        specifier: ^0.4.0
+        version: 0.4.0(vite@4.2.0)
+      vite-plugin-vue-setup-inherit-attrs:
+        specifier: ^1.0.7
+        version: 1.0.7(vite@4.2.0)
+
   apps/pai:
     dependencies:
       '@iconify-json/logos':
@@ -251,6 +432,175 @@ importers:
       '@kubegems/libs':
         specifier: workspace:*
         version: link:../../packages/libs
+      '@kubegems/platform':
+        specifier: workspace:*
+        version: link:../../packages/platform
+      ajv:
+        specifier: ^8.6.3
+        version: 8.11.0
+      axios:
+        specifier: ^0.27.2
+        version: 0.27.2
+      brace:
+        specifier: ^0.11.1
+        version: 0.11.1
+      fast-json-patch:
+        specifier: ^3.1.1
+        version: 3.1.1
+      js-yaml:
+        specifier: ^4.1.0
+        version: 4.1.0
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      moment:
+        specifier: ^2.29.4
+        version: 2.29.4
+      qs:
+        specifier: ^6.11.0
+        version: 6.11.0
+      vue:
+        specifier: ^2.7.14
+        version: 2.7.14
+      vue-router:
+        specifier: ^3.6.5
+        version: 3.6.5(vue@2.7.14)
+      vuetify:
+        specifier: ^2.6.14
+        version: 2.6.14(vue@2.7.14)
+      vuex:
+        specifier: ^3.6.2
+        version: 3.6.2(vue@2.7.14)
+      yaml:
+        specifier: ^2.1.3
+        version: 2.1.3
+    devDependencies:
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.42.1
+        version: 5.42.1(@typescript-eslint/parser@5.42.1)(eslint@7.32.0)(typescript@4.6.3)
+      '@typescript-eslint/parser':
+        specifier: ^5.42.1
+        version: 5.42.1(eslint@7.32.0)(typescript@4.6.3)
+      '@vitejs/plugin-vue2':
+        specifier: ^2.0.0
+        version: 2.0.0(vite@4.2.0)(vue@2.7.14)
+      '@vitejs/plugin-vue2-jsx':
+        specifier: ^1.0.3
+        version: 1.0.3(vite@4.2.0)(vue@2.7.14)
+      '@volar-plugins/vetur':
+        specifier: ^0.1.0
+        version: 0.1.0
+      '@vueuse/core':
+        specifier: ^9.5.0
+        version: 9.5.0(vue@2.7.14)
+      commitizen:
+        specifier: ^4.2.4
+        version: 4.2.5
+      commitlint:
+        specifier: ^13.2.0
+        version: 13.2.1
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      cz-conventional-changelog:
+        specifier: ^3.3.0
+        version: 3.3.0
+      eslint:
+        specifier: ^7.27.0
+        version: 7.32.0
+      eslint-config-prettier:
+        specifier: ^8.5.0
+        version: 8.5.0(eslint@7.32.0)
+      eslint-define-config:
+        specifier: ^1.5.1
+        version: 1.11.0
+      eslint-import-resolver-alias:
+        specifier: ^1.1.2
+        version: 1.1.2(eslint-plugin-import@2.26.0)
+      eslint-import-resolver-typescript:
+        specifier: ^3.5.2
+        version: 3.5.2(eslint-plugin-import@2.26.0)(eslint@7.32.0)
+      eslint-plugin-import:
+        specifier: ^2.26.0
+        version: 2.26.0(@typescript-eslint/parser@5.42.1)(eslint-import-resolver-typescript@3.5.2)(eslint@7.32.0)
+      eslint-plugin-prettier:
+        specifier: ^3.1.4
+        version: 3.1.4(eslint@7.32.0)(prettier@2.7.1)
+      eslint-plugin-vue:
+        specifier: ^8.4.1
+        version: 8.7.1(eslint@7.32.0)
+      eslint-plugin-vuetify:
+        specifier: ^1.1.0
+        version: 1.1.0(eslint@7.32.0)(vuetify@2.6.14)
+      happy-dom:
+        specifier: ^7.4.0
+        version: 7.6.6
+      husky:
+        specifier: ^7.0.2
+        version: 7.0.4
+      lint-staged:
+        specifier: ^11.0.0
+        version: 11.2.6
+      prettier:
+        specifier: ^2.6.2
+        version: 2.7.1
+      right-pad:
+        specifier: ^1.0.1
+        version: 1.0.1
+      sass:
+        specifier: ~1.26.5
+        version: 1.26.11
+      stylelint:
+        specifier: ^13.13.1
+        version: 13.13.1
+      stylelint-config-standard:
+        specifier: ^22.0.0
+        version: 22.0.0(stylelint@13.13.1)
+      stylelint-scss:
+        specifier: ^3.19.0
+        version: 3.21.0(stylelint@13.13.1)
+      typescript:
+        specifier: ~4.6.3
+        version: 4.6.3
+      unplugin-vue-components:
+        specifier: ^0.22.8
+        version: 0.22.9(vue@2.7.14)
+      vite:
+        specifier: ^4.2.0
+        version: 4.2.0(@types/node@14.18.33)(sass@1.26.11)
+      vite-plugin-chunk-split:
+        specifier: ^0.4.7
+        version: 0.4.7(vite@4.2.0)
+      vite-plugin-vue-setup-extend:
+        specifier: ^0.4.0
+        version: 0.4.0(vite@4.2.0)
+      vite-plugin-vue-setup-inherit-attrs:
+        specifier: ^1.0.7
+        version: 1.0.7(vite@4.2.0)
+
+  apps/servicemesh:
+    dependencies:
+      '@iconify-json/logos':
+        specifier: ^1.1.17
+        version: 1.1.18
+      '@iconify-json/mdi':
+        specifier: ^1.1.34
+        version: 1.1.34
+      '@kubegems/api':
+        specifier: workspace:*
+        version: link:../../packages/api
+      '@kubegems/components':
+        specifier: workspace:*
+        version: link:../../packages/components
+      '@kubegems/extension':
+        specifier: workspace:*
+        version: link:../../packages/extension
+      '@kubegems/libs':
+        specifier: workspace:*
+        version: link:../../packages/libs
+      '@kubegems/mixins':
+        specifier: workspace:*
+        version: link:../../packages/mixins
       '@kubegems/platform':
         specifier: workspace:*
         version: link:../../packages/platform
@@ -453,6 +803,9 @@ importers:
       vue-filepond:
         specifier: ^7.0.3
         version: 7.0.3(filepond@4.30.4)(vue@2.7.14)
+      vue-i18n:
+        specifier: ^8.27.2
+        version: 8.28.2(vue@2.7.14)
       vuetify:
         specifier: ^2.6.14
         version: 2.6.14(vue@2.7.14)
@@ -539,6 +892,18 @@ importers:
         version: 3.6.2(vue@2.7.14)
 
   packages/libs: {}
+
+  packages/mixins:
+    dependencies:
+      '@kubegems/api':
+        specifier: workspace:*
+        version: link:../api
+      '@kubegems/extension':
+        specifier: workspace:*
+        version: link:../extension
+      '@kubegems/libs':
+        specifier: workspace:*
+        version: link:../libs
 
   packages/platform:
     dependencies:
@@ -945,12 +1310,12 @@ packages:
       '@commitlint/execute-rule': 13.2.0
       '@commitlint/resolve-extends': 13.2.0
       '@commitlint/types': 13.2.0
-      '@endemolshinegroup/cosmiconfig-typescript-loader': 3.0.2(cosmiconfig@7.0.1)(typescript@4.6.3)
+      '@endemolshinegroup/cosmiconfig-typescript-loader': 3.0.2(cosmiconfig@7.0.1)(typescript@4.6.4)
       chalk: 4.1.2
       cosmiconfig: 7.0.1
       lodash: 4.17.21
       resolve-from: 5.0.0
-      typescript: 4.6.3
+      typescript: 4.6.4
     dev: true
 
   /@commitlint/load@17.2.0:
@@ -1069,7 +1434,7 @@ packages:
     dev: true
     optional: true
 
-  /@endemolshinegroup/cosmiconfig-typescript-loader@3.0.2(cosmiconfig@7.0.1)(typescript@4.6.3):
+  /@endemolshinegroup/cosmiconfig-typescript-loader@3.0.2(cosmiconfig@7.0.1)(typescript@4.6.4):
     resolution: {integrity: sha512-QRVtqJuS1mcT56oHpVegkKBlgtWjXw/gHNWO3eL9oyB5Sc7HBoc2OLG/nYpVfT/Jejvo3NUrD0Udk7XgoyDKkA==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
@@ -1078,7 +1443,7 @@ packages:
       cosmiconfig: 7.0.1
       lodash.get: 4.4.2
       make-error: 1.3.6
-      ts-node: 9.1.1(typescript@4.6.3)
+      ts-node: 9.1.1(typescript@4.6.4)
       tslib: 2.4.1
     transitivePeerDependencies:
       - typescript
@@ -3514,7 +3879,7 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.42.1(eslint@7.32.0)(typescript@4.6.3)
+      '@typescript-eslint/parser': 5.42.1(eslint@7.32.0)(typescript@4.6.4)
       debug: 3.2.7
       eslint: 7.32.0
       eslint-import-resolver-node: 0.3.6
@@ -3533,7 +3898,7 @@ packages:
       '@typescript-eslint/parser':
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.42.1(eslint@7.32.0)(typescript@4.6.3)
+      '@typescript-eslint/parser': 5.42.1(eslint@7.32.0)(typescript@4.6.4)
       array-includes: 3.1.5
       array.prototype.flat: 1.3.1
       debug: 2.6.9
@@ -6687,7 +7052,7 @@ packages:
     dev: true
     optional: true
 
-  /ts-node@9.1.1(typescript@4.6.3):
+  /ts-node@9.1.1(typescript@4.6.4):
     resolution: {integrity: sha512-hPlt7ZACERQGf03M253ytLY3dHbGNGrAq9qIHWUY9XHYl1z7wYngSr3OQ5xmui8o2AaxsONxIzjafLUiWBo1Fg==}
     engines: {node: '>=10.0.0'}
     hasBin: true
@@ -6699,7 +7064,7 @@ packages:
       diff: 4.0.2
       make-error: 1.3.6
       source-map-support: 0.5.21
-      typescript: 4.6.3
+      typescript: 4.6.4
       yn: 3.1.1
     dev: true
 
@@ -6718,7 +7083,7 @@ packages:
   /tslib@2.4.1:
     resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
 
-  /tslint@6.1.3(typescript@4.6.3):
+  /tslint@6.1.3(typescript@4.6.4):
     resolution: {integrity: sha512-IbR4nkT96EQOvKE2PW/djGz8iGNeJ4rF2mBfiYaR/nvUWYKJhLwimoJKgjIFEIDibBtOevj7BqCRL4oHeWWUCg==}
     engines: {node: '>=4.8.0'}
     deprecated: TSLint has been deprecated in favor of ESLint. Please see https://github.com/palantir/tslint/issues/4534 for more information.
@@ -6738,17 +7103,17 @@ packages:
       resolve: 1.22.1
       semver: 5.7.1
       tslib: 1.14.1
-      tsutils: 2.29.0(typescript@4.6.3)
-      typescript: 4.6.3
+      tsutils: 2.29.0(typescript@4.6.4)
+      typescript: 4.6.4
     dev: true
 
-  /tsutils@2.29.0(typescript@4.6.3):
+  /tsutils@2.29.0(typescript@4.6.4):
     resolution: {integrity: sha512-g5JVHCIJwzfISaXpXE1qvNalca5Jwob6FjI4AoPlqMusJ6ftFE7IkkFoMhVLRgK+4Kx3gkzb8UZK5t5yTTvEmA==}
     peerDependencies:
       typescript: '>=2.1.0 || >=2.1.0-dev || >=2.2.0-dev || >=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev || >= 3.0.0-dev || >= 3.1.0-dev'
     dependencies:
       tslib: 1.14.1
-      typescript: 4.6.3
+      typescript: 4.6.4
     dev: true
 
   /tsutils@3.21.0(typescript@4.6.3):
@@ -7093,8 +7458,8 @@ packages:
       eslint-plugin-vue: 7.20.0(eslint@7.32.0)
       prettier: 2.7.1
       pug-lexer: 5.0.1
-      tslint: 6.1.3(typescript@4.6.3)
-      typescript: 4.6.3
+      tslint: 6.1.3(typescript@4.6.4)
+      typescript: 4.6.4
     transitivePeerDependencies:
       - supports-color
     dev: true

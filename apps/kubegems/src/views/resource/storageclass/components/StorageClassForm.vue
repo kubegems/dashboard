@@ -43,9 +43,9 @@
   import yaml from 'js-yaml';
   import { reactive, ref } from 'vue';
 
-  import { useCluster } from '@/composition/cluster';
-  import { useBeautifyData, useCheckDataWithOutNS } from '@/composition/environment';
-  import { StorageClass } from '@/types/storageclass';
+  import { useCluster } from '@kubegems/extension/resource';
+  import { useBeautifyData, useCheckDataWithOutNS } from '@kubegems/extension/resource';
+  import { StorageClass } from '@kubegems/api/typed/storageclass';
 
   const i18n = useGlobalI18n();
   const store = useStore();

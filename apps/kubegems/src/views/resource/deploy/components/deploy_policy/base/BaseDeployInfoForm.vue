@@ -114,11 +114,11 @@
 </template>
 
 <script>
+  import { getAppImageTags } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../../i18n';
-  import { getAppImageTags } from '@/api';
 
   export default {
     name: 'BaseDeployInfoForm',

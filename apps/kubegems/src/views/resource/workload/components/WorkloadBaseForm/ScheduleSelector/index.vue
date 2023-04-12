@@ -104,13 +104,13 @@
 
 <script>
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../../../i18n';
   import DNSConfigForm from './DNSConfigForm';
   import DNSConfigItem from './DNSConfigItem';
   import SelectorForm from './SelectorForm';
   import SelectorItem from './SelectorItem';
-  import BaseResource from '@/mixins/resource';
   import AnnotationForm from '@/views/resource/components/annotation/AnnotationForm';
   import AnnotationItem from '@/views/resource/components/annotation/AnnotationItem';
   import LabelForm from '@/views/resource/components/label/LabelForm';

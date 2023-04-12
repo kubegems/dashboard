@@ -106,15 +106,15 @@
 </template>
 
 <script>
+  import { getTenantResourceQuota, getTenantResourceQuotaList } from '@kubegems/api/direct';
   import { sizeOfCpu, sizeOfStorage, sizeOfTke } from '@kubegems/libs/utils/helpers';
+  import BasePermission from '@kubegems/mixins/permission';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import Pagination from '../Pagination';
   import ScaleResource from './ScaleResource';
-  import { getTenantResourceQuota, getTenantResourceQuotaList } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import GpuTip from '@/views/resource/components/common/GpuTip';
 
   export default {

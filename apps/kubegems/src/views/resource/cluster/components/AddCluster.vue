@@ -54,13 +54,13 @@
 </template>
 
 <script>
+  import { postAddCluster } from '@kubegems/api/direct';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
   import ClusterBaseForm from './ClusterBaseForm';
-  import { postAddCluster } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'AddCluster',

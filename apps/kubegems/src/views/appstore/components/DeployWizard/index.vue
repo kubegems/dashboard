@@ -188,10 +188,14 @@
 </template>
 
 <script>
+  import { getAppStoreFiles, postDeployAppStore, postImportPrometheusRule } from '@kubegems/api/direct';
   import { k8sName, required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import { retrieveFromSchema } from '@kubegems/libs/utils/schema';
   import { deleteValue, setValue, setYamlValue } from '@kubegems/libs/utils/yaml';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { Base64 } from 'js-base64';
   import { FormWizard, TabContent } from 'vue-form-wizard';
   import { mapGetters, mapState } from 'vuex';
@@ -200,10 +204,6 @@
   import AppStoreComplete from './AppStoreComplete';
   import AppStoreDeployLoading from './AppStoreDeployLoading';
   import Tips from './Tips';
-  import { getAppStoreFiles, postDeployAppStore, postImportPrometheusRule } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
 
   import 'vue-form-wizard/dist/vue-form-wizard.min.css';
 

@@ -75,9 +75,9 @@
 
 <script>
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../i18n';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'ResourceInfo',

@@ -44,7 +44,7 @@
   import { reactive, ref } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { Application } from '@/types/argocd';
+  import { Application } from '@kubegems/api/typed/argocd';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

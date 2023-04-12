@@ -1,0 +1,8 @@
+.*/*
+dist/*
+build/*.js
+node_modules/*
+components.d.ts
+tsconfig.json
+apps/*
+BasePluginPass.vue

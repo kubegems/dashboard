@@ -50,13 +50,13 @@
 </template>
 
 <script>
+  import { postAddConfigMap } from '@kubegems/api/direct';
   import ConfigmapSchema from '@kubegems/libs/schema/configmap';
   import { randomString } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import ConfigMapBaseForm from './ConfigMapBaseForm';
-  import { postAddConfigMap } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AddConfigMap',

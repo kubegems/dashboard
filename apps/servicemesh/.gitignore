@@ -1,0 +1,17 @@
+*.log
+*.log.*
+
+# editor
+.idea/
+.DS_Store
+
+node_modules
+.env.local
+.git/
+package-lock.json
+.sentryclirc
+dist/
+
+*.py
+*.pyc
+.vite

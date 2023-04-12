@@ -13,11 +13,6 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "outDir": "./",
-    "paths": {
-      "@": ["./src/"],
-      "@/*": ["src/*"],
-      "src": ["./src/"]
-    },
     "resolveJsonModule": true,
     "typeRoots": ["./types"],
     "allowSyntheticDefaultImports": true
@@ -26,6 +21,6 @@
     "target": 2.7,
     "extensions": [".vue"]
   },
-  "include": ["src/**/*", "packages/**/*"],
+  "include": ["packages/**/*"],
   "exclude": ["node_modules", "logs", "dist", "vite.config.ts", "volar.config.ts", "components.d.ts"]
 }

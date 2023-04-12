@@ -91,15 +91,15 @@
 </template>
 
 <script>
+  import { getAppResourceFileMetas, getSecretDetail, getSecretList } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../../../../i18n';
   import VolumeMount from './VolumeMount';
   import VolumeMountForInitContainer from './VolumeMountForInitContainer';
-  import { getAppResourceFileMetas, getSecretDetail, getSecretList } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import { convertResponse2List } from '@/types/base';
+  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'SecretMount',

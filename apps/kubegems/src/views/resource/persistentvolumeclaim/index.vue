@@ -185,19 +185,23 @@
 </template>
 
 <script>
+  import {
+    deletePersistentVolumeClaim,
+    getPersistentVolumeClaimList,
+    postAddVolumeSnapshot,
+  } from '@kubegems/api/direct';
   import { PVC_STATUS_COLOR } from '@kubegems/libs/constants/resource';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseTable from '@kubegems/mixins/table';
   import { mapState } from 'vuex';
 
   import AddPersistentVolumeClaim from './components/AddPersistentVolumeClaim';
   import ScalePersistentVolumeClaim from './components/ScalePersistentVolumeClaim';
   import UpdatePersistentVolumeClaim from './components/UpdatePersistentVolumeClaim';
   import messages from './i18n';
-  import { deletePersistentVolumeClaim, getPersistentVolumeClaimList, postAddVolumeSnapshot } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseTable from '@/mixins/table';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
 
   export default {

@@ -1,35 +1,12 @@
-/*
- * Copyright 2022 The kubegems.io Authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-import axios from 'axios';
-
-export const getBroadcastlist = (query: { [key: string]: any } = {}): Promise<{ [key: string]: any }> =>
-  axios.get('announcement', { params: query });
-
-export const getClusterPluginsList = (
-  clusterName: string,
-  query: { [key: string]: any } = {},
-): Promise<{ [key: string]: any }> =>
-  axios(`proxy/cluster/${clusterName}/plugins`, {
-    params: query,
-  });
-
-export const getPluginsList = (query: { [key: string]: any } = {}): Promise<{ [key: string]: any }> =>
-  axios(`plugins`, {
-    params: query,
-  });
-
-export const getRESTMapping = (clusterName: string, params = {}): Promise<{ [key: string]: any }> =>
-  axios(`proxy/cluster/${clusterName}/api-resources`, { params: params });
+export * from './log/index';
+export * from './authentication/index';
+export * from './tenant/index';
+export * from './appstore/index';
+export * from './resource/index';
+export * from './system/index';
+export * from './microservice/index';
+export * from './metrics/index';
+export * from './visualization/index';
+export * from './integrated/index';
+export * from './modelstore/index';
+export * from './rule/index';

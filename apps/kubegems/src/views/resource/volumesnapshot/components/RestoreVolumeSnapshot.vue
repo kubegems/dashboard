@@ -42,14 +42,14 @@
 </template>
 
 <script>
+  import { postRestoreVolumeSnapshot } from '@kubegems/api/direct';
   import { k8sName, required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { postRestoreVolumeSnapshot } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'RestoreVolumeSnapshot',

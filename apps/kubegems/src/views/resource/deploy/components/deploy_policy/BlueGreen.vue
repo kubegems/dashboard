@@ -140,20 +140,20 @@
 </template>
 
 <script>
+  import {
+    getAppResourceFileMetas,
+    getStrategyDeployEnvironmentAppsDetail,
+    postStrategyDeployEnvironmentApps,
+  } from '@kubegems/api/direct';
   import { positiveInteger, required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import AnalysisTemplateForm from './analysis_template/AnalysisTemplateForm';
   import AnalysisTemplateItem from './analysis_template/AnalysisTemplateItem';
   import BaseDeployInfoForm from './base/BaseDeployInfoForm';
-  import {
-    getAppResourceFileMetas,
-    getStrategyDeployEnvironmentAppsDetail,
-    postStrategyDeployEnvironmentApps,
-  } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'BlueGreen',

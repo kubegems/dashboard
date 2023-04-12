@@ -68,10 +68,9 @@
 </template>
 
 <script>
+  import { getAppRunningResourceDetail } from '@kubegems/api/direct';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters } from 'vuex';
-
-  import { getAppRunningResourceDetail } from '@/api';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AppStatusTip',

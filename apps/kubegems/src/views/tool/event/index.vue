@@ -144,7 +144,7 @@
   import { ComputedRef, computed, onMounted, reactive, ref, watch } from 'vue';
 
   import { useI18n } from './i18n';
-  import { Log } from '@/types/log';
+  import { Log } from '@kubegems/api/typed/log';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

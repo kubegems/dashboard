@@ -70,6 +70,8 @@
 </template>
 
 <script>
+  import { postDeployModel } from '@kubegems/api/direct';
+  import BaseSelect from '@kubegems/mixins/select';
   import { FormWizard, TabContent } from 'vue-form-wizard';
   import { mapGetters, mapState } from 'vuex';
 
@@ -77,8 +79,6 @@
   import DeployAdvancedConf from './DeployAdvancedConf';
   import DeployBaseConf from './DeployBaseConf';
   import DeployStatus from './DeployStatus';
-  import { postDeployModel } from '@/api';
-  import BaseSelect from '@/mixins/select';
 
   import 'vue-form-wizard/dist/vue-form-wizard.min.css';
 

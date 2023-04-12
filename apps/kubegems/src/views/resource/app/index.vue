@@ -313,15 +313,6 @@
 </template>
 
 <script>
-  import { ARGO_STATUS_COLOR, POD_STATUS_COLOR } from '@kubegems/libs/constants/resource';
-  import { Base64 } from 'js-base64';
-  import { mapGetters, mapState } from 'vuex';
-
-  import AppStatusTip from './components/AppStatusTip';
-  import TaskStatusTip from './components/TaskStatusTip';
-  import UpdateAppFromStore from './components/UpdateAppFromStore';
-  import UpdateModelRuntime from './components/UpdateModelRuntime';
-  import messages from './i18n';
   import {
     deleteApp,
     deleteAppStoreApp,
@@ -331,12 +322,21 @@
     getAppTaskList,
     getModelRuntimePodList,
     getModelStoreDetail,
-  } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseTable from '@/mixins/table';
-  import { convertResponse2Pagination } from '@/types/base';
+  } from '@kubegems/api/direct';
+  import { ARGO_STATUS_COLOR, POD_STATUS_COLOR } from '@kubegems/libs/constants/resource';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseTable from '@kubegems/mixins/table';
+  import { Base64 } from 'js-base64';
+  import { mapGetters, mapState } from 'vuex';
+
+  import AppStatusTip from './components/AppStatusTip';
+  import TaskStatusTip from './components/TaskStatusTip';
+  import UpdateAppFromStore from './components/UpdateAppFromStore';
+  import UpdateModelRuntime from './components/UpdateModelRuntime';
+  import messages from './i18n';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import ModelExperience from '@/views/modelstore/components/detail_tabs/Runtime/components/ModelExperience';
   import DeployApp from '@/views/resource/appmanifest/components/DeployApp';
   import LinkApp from '@/views/resource/appmanifest/components/LinkApp';

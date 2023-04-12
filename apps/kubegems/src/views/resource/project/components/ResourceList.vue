@@ -49,9 +49,9 @@
 
 <script>
   import { RESOURCE_EN, RESOURCE_ICON } from '@kubegems/libs/constants/resource';
+  import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../i18n';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'ResourceList',

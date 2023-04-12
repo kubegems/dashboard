@@ -159,21 +159,21 @@
 </template>
 
 <script>
-  import { METATYPE_CN } from '@kubegems/libs/constants/platform';
-  import { sizeOfCpu, sizeOfStorage } from '@kubegems/libs/utils/helpers';
-  import { mapGetters, mapState } from 'vuex';
-
-  import messages from '../i18n';
   import {
     getNetworkPolicyDetail,
     getProjectEnvironmentAggregation,
     postUpdateEnvironmentNetworkPolicy,
     postUpdateProjectNetworkPolicy,
-  } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
+  } from '@kubegems/api/direct';
+  import { METATYPE_CN } from '@kubegems/libs/constants/platform';
+  import { sizeOfCpu, sizeOfStorage } from '@kubegems/libs/utils/helpers';
+  import BaseFilter from '@kubegems/mixins/base_filter';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
+  import { mapGetters, mapState } from 'vuex';
+
+  import messages from '../i18n';
 
   export default {
     name: 'EnvironmentList',

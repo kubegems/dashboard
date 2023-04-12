@@ -47,11 +47,11 @@
 </template>
 
 <script>
+  import { postAddEnvironment, postAddEnvironmentUser } from '@kubegems/api/direct';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import EnvironmentBaseForm from './EnvironmentBaseForm';
-  import { postAddEnvironment, postAddEnvironmentUser } from '@/api';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'AddEnvironment',

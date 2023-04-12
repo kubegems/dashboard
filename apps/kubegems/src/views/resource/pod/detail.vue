@@ -74,22 +74,22 @@
 </template>
 
 <script>
+  import { deletePod, getPodDetail } from '@kubegems/api/direct';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
   import ContainerList from './components/ContainerList';
   import PodMonitor from './components/PodMonitor';
   import ResourceInfo from './components/ResourceInfo';
   import messages from './i18n';
-  import { deletePod, getPodDetail } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
-  import EventList from '@/views/resource/components/common/EventList';
+  import BasicResourceInfo from '@kubegems/components/logicComponents/BasicResourceInfo';
+  import EventList from '@kubegems/components/logicComponents/EventList';
   import NvidiaGpuMonitor from '@/views/resource/components/common/NvidiaGpuMonitor';
   import PodList from '@/views/resource/components/common/PodList';
-  import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
+  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
   import TkeGpuMonitor from '@/views/resource/components/common/TkeGpuMonitor';
-  import Metadata from '@/views/resource/components/metadata/Metadata';
+  import Metadata from '@kubegems/components/logicComponents/Metadata';
 
   export default {
     name: 'PodDetail',

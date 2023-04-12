@@ -75,7 +75,7 @@
 
   import ConfigAuthSource from './components/ConfigAuthSource.vue';
   import { useI18n } from './i18n';
-  import { convertResponse2List } from '@/types/base';
+  import { convertResponse2List } from '@kubegems/api/utils';
 
   const i18nLocal = useI18n();
   const store = useStore();

@@ -75,8 +75,8 @@
   import BaseResourceInfo from './components/BaseResourceInfo.vue';
   import ModelList from './components/ModelList/index.vue';
   import ModelRegistryForm from './components/ModelRegistryForm/index.vue';
-  import { useEnvironmentAllow } from '@/composition/permission';
-  import { AIModelRegistry } from '@/types/ai_model';
+  import { useEnvironmentAllow } from '@kubegems/extension/permission';
+  import { AIModelRegistry } from '@kubegems/api/typed/ai_model';
 
   const i18n = useGlobalI18n();
   const store = useStore();

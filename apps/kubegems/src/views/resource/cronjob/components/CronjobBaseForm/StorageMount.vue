@@ -79,11 +79,11 @@
 </template>
 
 <script>
+  import { getAppResourceFileMetas, getPersistentVolumeClaimDetail } from '@kubegems/api/direct';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../../i18n';
-  import { getAppResourceFileMetas, getPersistentVolumeClaimDetail } from '@/api';
-  import BaseResource from '@/mixins/resource';
   import StorageMountItem from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount/StorageMountItem';
   import ConfigMapMount from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount/volume_section/ConfigMapMount';
   import HostPathMount from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount/volume_section/HostPathMount';

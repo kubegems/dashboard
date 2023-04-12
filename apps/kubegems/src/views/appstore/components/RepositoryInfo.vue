@@ -48,13 +48,13 @@
 </template>
 
 <script>
+  import { postAddRepository } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { postAddRepository } from '@/api';
-  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'RepositoryInfo',

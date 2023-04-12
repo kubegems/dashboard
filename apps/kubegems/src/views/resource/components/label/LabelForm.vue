@@ -57,8 +57,7 @@
 <script>
   import { k8sLabel, k8sName, required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
-
-  import BaseResource from '@/mixins/resource';
+  import BaseResource from '@kubegems/mixins/resource';
 
   export default {
     name: 'LabelForm',

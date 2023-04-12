@@ -1,0 +1,40 @@
+{
+  "message": {
+    "message": "消息",
+    "approval": "審批",
+    "no_message": "暫無未讀消息",
+    "no_approval": "暫無未處理審批",
+    "unread_c": "未讀{0}",
+    "clear": "清除未讀"
+  },
+  "about": {
+    "api_version": "Api版本",
+    "api_release_time": "Api版本日期",
+    "go_version": "go版本",
+    "compile": "編譯",
+    "compile_platform": "編譯平臺",
+    "dashboard_version": "Dashboard版本",
+    "dashboard_release_time": "Dashboard版本日期",
+    "timezone": "時區"
+  },
+  "status": {
+    "enabled": "啟用",
+    "disabled": "禁用"
+  },
+  "table": {
+    "tenant": "租戶",
+    "status": "狀態"
+  },
+  "operate": {
+    "approve": "通過",
+    "reject": "拒絕"
+  },
+  "tip": {
+    "tenant": "當前租戶",
+    "resource_scale": "資源調整",
+    "project_address": "項目位址",
+    "issue": "問題反饋",
+    "star": "標星",
+    "openresource": "開源/第三方許可協議"
+  }
+}

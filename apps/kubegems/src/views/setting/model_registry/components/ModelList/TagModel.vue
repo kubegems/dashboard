@@ -64,7 +64,7 @@
   import { reactive, ref } from 'vue';
 
   import { useI18n } from '../../i18n';
-  import { AIModel } from '@/types/ai_model';
+  import { AIModel } from '@kubegems/api/typed/ai_model';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

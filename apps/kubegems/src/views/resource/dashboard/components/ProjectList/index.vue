@@ -200,6 +200,7 @@
 </template>
 
 <script>
+  import { getProjectEnvironmentList, getProjectEnvironmentQuotaList, getProjectList } from '@kubegems/api/direct';
   import { METATYPE_CN } from '@kubegems/libs/constants/platform';
   import {
     ENVIRONMENT_CPU_USAGE_PROMQL,
@@ -208,15 +209,14 @@
     ENVIRONMENT_NETWORK_OUT_PROMQL,
   } from '@kubegems/libs/constants/prometheus';
   import { beautifyCpuUnit, beautifyNetworkUnit, beautifyStorageUnit } from '@kubegems/libs/utils/helpers';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import Pagination from '../Pagination';
-  import { getProjectEnvironmentList, getProjectEnvironmentQuotaList, getProjectList } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
-  import { convertResponse2List, convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2List, convertResponse2Pagination } from '@kubegems/api/utils';
   import AddEnvironment from '@/views/resource/environment/components/AddEnvironment';
   import AddProject from '@/views/resource/project/components/AddProject';
 

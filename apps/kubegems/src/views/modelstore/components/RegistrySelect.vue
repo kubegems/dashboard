@@ -88,7 +88,7 @@
   import { useQuery } from '@kubegems/extension/router';
   import { onMounted, reactive, ref, watch } from 'vue';
 
-  import { AIModelRegistry } from '@/types/ai_model';
+  import { AIModelRegistry } from '@kubegems/api/typed/ai_model';
 
   const props = withDefaults(
     defineProps<{

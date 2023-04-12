@@ -247,13 +247,13 @@
 </template>
 
 <script>
+  import { getNodeResourceAllocated } from '@kubegems/api/direct';
   import { NODE_ONE_POD_RUNNING_COUNT_PROMQL } from '@kubegems/libs/constants/prometheus';
   import { deepCopy, sizeOfCpu, sizeOfStorage } from '@kubegems/libs/utils/helpers';
+  import BasePermission from '@kubegems/mixins/permission';
+  import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../i18n';
-  import { getNodeResourceAllocated } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'ResourceInfo',

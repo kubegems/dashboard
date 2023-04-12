@@ -78,7 +78,7 @@
 
   import ManageUser from './ManageUser.vue';
   import ModelBaseInfo from './ModelBaseInfo/index.vue';
-  import { AIModelRegistry } from '@/types/ai_model';
+  import { AIModelRegistry } from '@kubegems/api/typed/ai_model';
 
   const i18n = useGlobalI18n();
   const store = useStore();

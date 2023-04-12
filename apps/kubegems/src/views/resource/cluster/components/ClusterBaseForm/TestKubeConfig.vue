@@ -40,11 +40,11 @@
 </template>
 
 <script>
+  import { postValidateClusterKubeConfig } from '@kubegems/api/direct';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { postValidateClusterKubeConfig } from '@/api';
 
   export default {
     name: 'TestKubeConfig',

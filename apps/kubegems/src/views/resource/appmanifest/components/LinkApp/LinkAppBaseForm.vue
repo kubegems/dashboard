@@ -45,13 +45,13 @@
 </template>
 
 <script>
+  import { getAppRunningList, getManifestList } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
+  import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { getAppRunningList, getManifestList } from '@/api';
-  import BaseSelect from '@/mixins/select';
-  import { convertResponse2List } from '@/types/base';
+  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'LinkAppBaseForm',

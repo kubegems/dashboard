@@ -98,7 +98,7 @@
   import RepositoryInfo from './components/RepositoryInfo.vue';
   import StatusTip from './components/StatusTip.vue';
   import { useI18n } from './i18n';
-  import { HelmRepository } from '@/types/helm';
+  import { HelmRepository } from '@kubegems/api/typed/helm';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

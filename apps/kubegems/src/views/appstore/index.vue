@@ -150,12 +150,12 @@
 </template>
 
 <script>
+  import { getAppStoreList, getRepositoryList } from '@kubegems/api/direct';
   import { mapState } from 'vuex';
 
   import AppStoreCard from './components/AppStoreCard';
   import messages from './i18n';
-  import { getAppStoreList, getRepositoryList } from '@/api';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import Breadcrumb from '@/views/modelstore/components/Breadcrumb';
 
   export default {
