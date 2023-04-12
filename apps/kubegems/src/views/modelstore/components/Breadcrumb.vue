@@ -65,7 +65,7 @@
   import { onUnmounted, reactive, watch } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { AIModelRegistry } from '@/types/ai_model';
+  import { AIModelRegistry } from '@kubegems/api/typed/ai_model';
 
   const props = withDefaults(
     defineProps<{

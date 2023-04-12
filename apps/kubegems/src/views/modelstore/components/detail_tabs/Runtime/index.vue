@@ -117,9 +117,9 @@
 
   import { useI18n } from '../../../i18n';
   import ModelExperience from './components/ModelExperience.vue';
-  import { useAiModelRuntimePagination } from '@/composition/ai_model';
-  import { useEnvironmentAllow, useProjectAllow, useTenantAllow } from '@/composition/permission';
-  import { AIModel, AIModelRuntime } from '@/types/ai_model';
+  import { useAiModelRuntimePagination } from '@kubegems/api/hooks/ai_model';
+  import { useEnvironmentAllow, useProjectAllow, useTenantAllow } from '@kubegems/extension/permission';
+  import { AIModel, AIModelRuntime } from '@kubegems/api/typed/ai_model';
 
   withDefaults(
     defineProps<{

@@ -87,7 +87,7 @@
   import messages from '../i18n';
   import AddCR from './AddCR';
   import UpdateCR from './UpdateCR';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
 
   export default {
     name: 'CRList',

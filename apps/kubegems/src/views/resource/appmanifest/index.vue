@@ -138,7 +138,7 @@
   import AddApp from './components/AddApp';
   import UpdateApp from './components/UpdateApp';
   import messages from './i18n';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
 
   export default {
     name: 'AppManifest',

@@ -70,8 +70,8 @@
   import { onMounted, reactive } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { useNamespacePagination } from '@/composition/namespace';
-  import { Namespace } from '@/types/namespace';
+  import { useNamespacePagination } from '@kubegems/api/hooks/namespace';
+  import { Namespace } from '@kubegems/api/typed/namespace';
 
   onMounted(() => {
     getNamespaceList();

@@ -81,9 +81,9 @@
   import CRList from './components/CRList';
   import ResourceInfo from './components/ResourceInfo';
   import messages from './i18n';
-  import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
-  import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
-  import Metadata from '@/views/resource/components/metadata/Metadata';
+  import BasicResourceInfo from '@kubegems/components/logicComponents/BasicResourceInfo';
+  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
+  import Metadata from '@kubegems/components/logicComponents/Metadata';
 
   export default {
     name: 'CRDDetail',

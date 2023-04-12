@@ -122,10 +122,10 @@
   import ResourceInfo from './components/ResourceInfo';
   import UpdateGateway from './components/UpdateGateway';
   import messages from './i18n';
-  import EventList from '@/views/resource/components/common/EventList';
+  import EventList from '@kubegems/components/logicComponents/EventList';
   import PodList from '@/views/resource/components/common/PodList';
-  import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
-  import Metadata from '@/views/resource/components/metadata/Metadata';
+  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
+  import Metadata from '@kubegems/components/logicComponents/Metadata';
 
   export default {
     name: 'GatewayDetail',

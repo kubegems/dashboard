@@ -75,7 +75,7 @@
 
 <script lang="ts" setup>
   import { useI18n } from '../i18n';
-  import { MonitorTemplate } from '@/types/monitor_template';
+  import { MonitorTemplate } from '@kubegems/api/typed/monitor_template';
 
   const i18nLocal = useI18n();
 

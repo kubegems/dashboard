@@ -3,14 +3,13 @@ import { useRouter } from '@kubegems/extension/router';
 import { useStore } from '@kubegems/extension/store';
 import { PLATFORM } from '@kubegems/libs/constants/platform';
 import { microService, entryMicroService } from '@kubegems/servicemesh/export';
+import { adminObserve, observe } from '@kubegems/observability/export';
 
-import { adminObserve } from './admin_observe';
 import { adminWorkspace } from './admin_workspace';
 import { appStore } from './app_store';
 import { dashboard } from './dashboard';
 import { global } from './global';
 import { modelStore } from './model_store';
-import { observe } from './observe';
 import { platform } from './platform';
 import { projectWorkspace } from './project_workspace';
 import { tool } from './tool';
@@ -27,8 +26,24 @@ const originalRoutes = global
   .concat(projectWorkspace) // 项目工作台
   .concat(workspace) // 租户工作台
   .concat(dashboard) // 首页
-  .concat(adminObserve) // 管理员可观测性
-  .concat(observe) // 租户可观测性
+  .concat([
+    {
+      path: '/admin-observe',
+      name: 'admin-observe',
+      component: () => import('@/layouts/Layout.vue'),
+      redirect: { name: 'observe-overview' },
+      children: adminObserve,
+    },
+  ]) // 管理员可观测性
+  .concat([
+    {
+      path: '/observe',
+      name: 'observe',
+      component: () => import('@/layouts/Layout.vue'),
+      redirect: { name: 'observe-overview' },
+      children: observe,
+    },
+  ]) // 租户可观测性
   .concat([
     {
       path: '/microservice',

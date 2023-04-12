@@ -336,7 +336,7 @@
   import UpdateAppFromStore from './components/UpdateAppFromStore';
   import UpdateModelRuntime from './components/UpdateModelRuntime';
   import messages from './i18n';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import ModelExperience from '@/views/modelstore/components/detail_tabs/Runtime/components/ModelExperience';
   import DeployApp from '@/views/resource/appmanifest/components/DeployApp';
   import LinkApp from '@/views/resource/appmanifest/components/LinkApp';

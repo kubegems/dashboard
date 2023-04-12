@@ -162,13 +162,13 @@
   import UpdateWorkload from './components/UpdateWorkload';
   import WorkloadMonitor from './components/WorkloadMonitor';
   import messages from './i18n';
-  import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
-  import EventList from '@/views/resource/components/common/EventList';
+  import BasicResourceInfo from '@kubegems/components/logicComponents/BasicResourceInfo';
+  import EventList from '@kubegems/components/logicComponents/EventList';
   import NvidiaGpuMonitor from '@/views/resource/components/common/NvidiaGpuMonitor';
   import PodList from '@/views/resource/components/common/PodList';
-  import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
+  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
   import TkeGpuMonitor from '@/views/resource/components/common/TkeGpuMonitor';
-  import Metadata from '@/views/resource/components/metadata/Metadata';
+  import Metadata from '@kubegems/components/logicComponents/Metadata';
 
   export default {
     name: 'WorkloadDetail',

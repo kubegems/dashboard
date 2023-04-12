@@ -79,7 +79,7 @@
   import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../i18n';
-  import { convertResponse2List } from '@/types/base';
+  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'EventTip',

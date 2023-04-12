@@ -198,7 +198,7 @@
 
   import GpuScheduleForm from './components/GpuScheduleForm';
   import messages from './i18n';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import GpuTip from '@/views/resource/components/common/GpuTip';
 
   export default {

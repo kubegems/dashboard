@@ -19,14 +19,14 @@ import Vue from 'vue';
 
 import App from './App.vue';
 import '@kubegems/extension/icon';
-import '@/plugins/base';
-import vuetify from '@/plugins/vuetify';
-import router from '@/router';
+import './plugins/base';
+import vuetify from './plugins/vuetify';
+import router from './router';
 import '@kubegems/extension/tool';
 
-import '@/assets/styles/index.scss';
-import '@/types/axios';
+import './assets/styles/index.scss';
 import '@kubegems/api/response';
+import './request';
 
 const store = useStore();
 

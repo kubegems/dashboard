@@ -40,7 +40,7 @@
 
   import DeployWizard from './DeployWizard/index.vue';
   import ModelInfo from './ModelInfo/index.vue';
-  import { AIModel } from '@/types/ai_model';
+  import { AIModel } from '@kubegems/api/typed/ai_model';
 
   withDefaults(
     defineProps<{

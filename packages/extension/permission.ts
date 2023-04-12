@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Matrix, Vector } from '@kubegems/api/typed/prometheus';
+
 import { useStore } from './store';
+
 const store = useStore();
 
 export const useEnvironmentRole = (): string => {
@@ -115,4 +118,20 @@ export const useVirtualSpaceAllow = (virtualspace = ''): boolean => {
       }
     }) > -1 || store.state.Admin
   );
+};
+
+export const useMatrixWhitPermission = async (cluster: string, query: KubeRequest = {}): Promise<any> => {
+  if (store.state.Plugins?.['monitoring'] || query.pass) {
+    const data = await new Matrix().getMatrix(cluster, query);
+    return data;
+  }
+  return [];
+};
+
+export const useVectorWhitPermission = async (cluster: string, query: KubeRequest = {}): Promise<any> => {
+  if (store.state.Plugins?.['monitoring'] || query.pass) {
+    const data = await new Vector().getVector(cluster, query);
+    return data;
+  }
+  return [];
 };

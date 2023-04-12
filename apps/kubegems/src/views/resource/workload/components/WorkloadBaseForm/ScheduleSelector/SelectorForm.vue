@@ -72,7 +72,7 @@
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import BaseResource from '@kubegems/mixins/resource';
 
-  import { convertResponse2List } from '@/types/base';
+  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'SelectorForm',

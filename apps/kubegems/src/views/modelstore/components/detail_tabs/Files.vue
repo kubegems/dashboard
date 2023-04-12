@@ -32,7 +32,7 @@
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { ref, watch } from 'vue';
 
-  import { AIModel } from '@/types/ai_model';
+  import { AIModel } from '@kubegems/api/typed/ai_model';
 
   const props = withDefaults(
     defineProps<{

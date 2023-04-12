@@ -250,7 +250,7 @@
   import ResourceLimit from './components/ResourceLimit';
   import UpdateWorkload from './components/UpdateWorkload';
   import messages from './i18n';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import EventTip from '@/views/resource/components/common/EventTip';
   import GpuTip from '@/views/resource/components/common/GpuTip';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';

@@ -123,7 +123,7 @@
   import messages from '../i18n';
   import AddCluster from './AddCluster';
   import UpdateCluster from './UpdateCluster';
-  import { convertResponse2List } from '@/types/base';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import Terminal from '@/views/resource/components/common/Terminal';
 
   export default {

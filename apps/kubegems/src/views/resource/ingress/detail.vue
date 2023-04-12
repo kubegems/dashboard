@@ -86,10 +86,10 @@
 
   import ResourceInfo from './components/ResourceInfo';
   import UpdateIngress from './components/UpdateIngress';
-  import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
-  import EventList from '@/views/resource/components/common/EventList';
-  import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
-  import Metadata from '@/views/resource/components/metadata/Metadata';
+  import BasicResourceInfo from '@kubegems/components/logicComponents/BasicResourceInfo';
+  import EventList from '@kubegems/components/logicComponents/EventList';
+  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
+  import Metadata from '@kubegems/components/logicComponents/Metadata';
 
   export default {
     name: 'IngressDetail',

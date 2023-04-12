@@ -1,7 +1,7 @@
 {
   "tip": {
-    "label": "Tags",
-    "annotation": "Note",
+    "label": "Label",
+    "annotation": "Annotation",
     "log": "Logs",
     "count": "Number of lines",
     "count_placehold": "Enter number of lines manually",

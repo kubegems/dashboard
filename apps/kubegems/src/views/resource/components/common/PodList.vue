@@ -262,7 +262,7 @@
   import ContainerLog from './ContainerLog';
   import EventTip from './EventTip';
   import Terminal from './Terminal';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import ContainerItems from '@/views/resource/pod/components/ContainerItems';
 
   export default {

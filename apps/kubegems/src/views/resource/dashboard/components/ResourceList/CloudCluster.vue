@@ -114,7 +114,7 @@
   import messages from '../../i18n';
   import Pagination from '../Pagination';
   import ScaleResource from './ScaleResource';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import GpuTip from '@/views/resource/components/common/GpuTip';
 
   export default {

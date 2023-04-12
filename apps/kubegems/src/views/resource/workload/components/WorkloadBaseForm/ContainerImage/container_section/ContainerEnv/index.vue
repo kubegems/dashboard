@@ -232,7 +232,7 @@
   import DownwardPod from './DownwardPod';
   import KeyValue from './KeyValue';
   import Secret from './Secret';
-  import { convertResponse2List } from '@/types/base';
+  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'ContainerEnv',

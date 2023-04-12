@@ -44,7 +44,7 @@
   import { reactive, ref } from 'vue';
 
   import TemplateBaseForm from './TemplateBaseForm.vue';
-  import { PrometheusTemplate } from '@/types/prometheus_template';
+  import { PrometheusTemplate } from '@kubegems/api/typed/prometheus_template';
 
   const i18n = useGlobalI18n();
   const store = useStore();

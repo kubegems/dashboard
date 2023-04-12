@@ -40,7 +40,7 @@
   import { reactive, ref } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { MonitorTemplate } from '@/types/monitor_template';
+  import { MonitorTemplate } from '@kubegems/api/typed/monitor_template';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

@@ -71,7 +71,7 @@
   import Runtime from './components/detail_tabs/Runtime/index.vue';
   import ModelInfo from './components/ModelInfo/index.vue';
   import { useI18n } from './i18n';
-  import { AIModel } from '@/types/ai_model';
+  import { AIModel } from '@kubegems/api/typed/ai_model';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();

@@ -184,7 +184,7 @@
 
   import messages from '../../i18n';
   import AppImageSecurityReportDetail from './AppImageSecurityReportDetail';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
 
   export default {
     name: 'AppImageSecurityReportList',

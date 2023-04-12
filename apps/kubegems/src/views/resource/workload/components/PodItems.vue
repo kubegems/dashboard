@@ -154,12 +154,12 @@
   import { nextTick, ref } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { usePodStatus } from '@/composition/pod';
-  import { convertResponse2List } from '@/types/base';
-  import { DaemonSet } from '@/types/daemonset';
-  import { Deployment } from '@/types/deployment';
-  import { Pod } from '@/types/pod';
-  import { StatefulSet } from '@/types/statefulset';
+  import { usePodStatus } from '@kubegems/api/hooks/pod';
+  import { convertResponse2List } from '@kubegems/api/utils';
+  import { DaemonSet } from '@kubegems/api/typed/daemonset';
+  import { Deployment } from '@kubegems/api/typed/deployment';
+  import { Pod } from '@kubegems/api/typed/pod';
+  import { StatefulSet } from '@kubegems/api/typed/statefulset';
   import EventTip from '@/views/resource/components/common/EventTip.vue';
   import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip.vue';
 

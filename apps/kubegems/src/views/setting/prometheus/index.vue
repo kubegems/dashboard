@@ -96,8 +96,8 @@
   import ScopeResourceLayout from './components/ScopeResourceLayout.vue';
   import TemplateForm from './components/TemplateForm.vue';
   import { useI18n } from './i18n';
-  import { usePrometheusTemplatePagination } from '@/composition/prometheus';
-  import { PrometheusTemplate } from '@/types/prometheus_template';
+  import { usePrometheusTemplatePagination } from '@kubegems/api/hooks/prometheus';
+  import { PrometheusTemplate } from '@kubegems/api/typed/prometheus_template';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

@@ -195,7 +195,7 @@
   import UpdateCertificate from './components/UpdateCertificate';
   import UpdateIssuer from './components/UpdateIssuer';
   import messages from './i18n';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import EventTip from '@/views/resource/components/common/EventTip';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
 

@@ -216,7 +216,7 @@
 
   import messages from '../../i18n';
   import Pagination from '../Pagination';
-  import { convertResponse2List, convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2List, convertResponse2Pagination } from '@kubegems/api/utils';
   import AddEnvironment from '@/views/resource/environment/components/AddEnvironment';
   import AddProject from '@/views/resource/project/components/AddProject';
 

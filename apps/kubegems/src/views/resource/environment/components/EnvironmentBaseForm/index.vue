@@ -262,7 +262,7 @@
 
   import messages from '../../i18n';
   import AddNamespace from './AddNamespace';
-  import { convertResponse2List } from '@/types/base';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import LimitRange from '@/views/resource/environment/components/base/LimitRange';
   import LimitRangeCard from '@/views/resource/environment/components/base/LimitRangeCard';
   import ResourceChart from '@/views/resource/environment/components/base/ResourceChart';

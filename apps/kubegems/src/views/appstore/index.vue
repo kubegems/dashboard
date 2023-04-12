@@ -155,7 +155,7 @@
 
   import AppStoreCard from './components/AppStoreCard';
   import messages from './i18n';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import Breadcrumb from '@/views/modelstore/components/Breadcrumb';
 
   export default {

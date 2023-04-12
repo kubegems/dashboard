@@ -22,7 +22,7 @@
   import { useParams, useQuery } from '@kubegems/extension/router';
   import { nextTick, onMounted, ref } from 'vue';
 
-  import { Pod } from '@/types/pod';
+  import { Pod } from '@kubegems/api/typed/pod';
   import Terminal from '@/views/resource/components/common/Terminal/index.vue';
 
   const query = useQuery();

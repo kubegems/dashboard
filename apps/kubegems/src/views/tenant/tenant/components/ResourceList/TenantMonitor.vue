@@ -68,7 +68,7 @@
   import { onUnmounted, reactive, ref } from 'vue';
 
   import { useI18n } from '../../i18n';
-  import { Matrix } from '@/types/prometheus';
+  import { Matrix } from '@kubegems/api/typed/prometheus';
 
   const i18nLocal = useI18n();
   const store = useStore();

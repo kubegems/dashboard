@@ -129,7 +129,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import { SIDEBAR_ITEMS } from './sidebar_items';
-  import { useRoutes } from '@/router';
+  import { useRoutes } from '../../router';
 
   export default {
     name: 'Sidebar',

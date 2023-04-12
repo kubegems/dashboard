@@ -87,7 +87,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { useResourceBeatiful } from '@/composition/environment';
+  import { useResourceBeatiful } from '@kubegems/extension/resource';
 
   export default {
     name: 'ResourceUseList',

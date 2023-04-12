@@ -165,7 +165,7 @@
   import AddIngress from './components/AddIngress';
   import UpdateIngress from './components/UpdateIngress';
   import messages from './i18n';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
 
   export default {

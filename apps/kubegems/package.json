@@ -21,6 +21,7 @@
     "@kubegems/extension": "workspace:*",
     "@kubegems/libs": "workspace:*",
     "@kubegems/mixins": "workspace:*",
+    "@kubegems/observability": "workspace:*",
     "@kubegems/servicemesh": "workspace:*",
     "@kubernetes/client-node": "^0.18.0",
     "@sentry/browser": "^7.38.0",

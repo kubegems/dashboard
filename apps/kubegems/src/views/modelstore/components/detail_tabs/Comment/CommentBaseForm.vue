@@ -50,7 +50,7 @@
   import { reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../../../i18n';
-  import { AIModelComment } from '@/types/ai_model';
+  import { AIModelComment } from '@kubegems/api/typed/ai_model';
 
   const props = withDefaults(
     defineProps<{

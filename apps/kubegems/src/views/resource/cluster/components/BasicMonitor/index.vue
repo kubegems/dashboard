@@ -184,7 +184,7 @@
 
   import messages from '../../i18n';
   import Tips from './Tips';
-  import { convertResponse2List } from '@/types/base';
+  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'BasicMonitor',

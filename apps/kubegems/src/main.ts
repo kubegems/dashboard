@@ -29,7 +29,7 @@ import router from '@/router';
 import '@kubegems/extension/tool';
 
 import '@/assets/styles/index.scss';
-import '@/types/axios';
+import './request';
 import '@kubegems/api/response';
 
 const store = useStore();
@@ -47,10 +47,6 @@ if (import.meta.env.VUE_APP_SENTRY === 'true') {
     router: router,
   });
 }
-
-// 加载其他包中路由
-
-// 加载sidebar
 
 const timeout: NodeJS.Timeout = setTimeout((): void => {
   // eslint-disable-next-line vue/require-name-property

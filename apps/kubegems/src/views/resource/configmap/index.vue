@@ -149,7 +149,7 @@
   import AddConfigMap from './components/AddConfigMap';
   import UpdateConfigMap from './components/UpdateConfigMap';
   import messages from './i18n';
-  import { convertResponse2Pagination } from '@/types/base';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
 
   export default {

@@ -194,6 +194,9 @@ importers:
       '@kubegems/mixins':
         specifier: workspace:*
         version: link:../../packages/mixins
+      '@kubegems/observability':
+        specifier: workspace:*
+        version: link:../observability
       '@kubegems/servicemesh':
         specifier: workspace:*
         version: link:../servicemesh
@@ -260,6 +263,9 @@ importers:
       '@kubegems/libs':
         specifier: workspace:*
         version: link:../../packages/libs
+      '@kubegems/mixins':
+        specifier: workspace:*
+        version: link:../../packages/mixins
       '@kubegems/platform':
         specifier: workspace:*
         version: link:../../packages/platform

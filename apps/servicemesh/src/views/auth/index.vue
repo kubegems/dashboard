@@ -73,7 +73,7 @@
   import { validateJWT } from '@kubegems/libs/utils/helpers';
   import { onMounted, reactive, ref } from 'vue';
 
-  import router from '@/router';
+  import router from '../../router';
 
   const store = useStore();
   const i18n = useGlobalI18n();

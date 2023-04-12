@@ -96,8 +96,8 @@
 
   import UpdateSecret from './components/UpdateSecret';
   import messages from './i18n';
-  import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
-  import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
+  import BasicResourceInfo from '@kubegems/components/logicComponents/BasicResourceInfo';
+  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
 
   export default {
     name: 'SecretDetail',

@@ -42,6 +42,14 @@
       "pnpm -C apps/kubegems stylelint --fix",
       "git add"
     ],
+    "apps/observability/*.{ts,js,jsx,vue}": [
+      "pnpm -C apps/observability lint --fix",
+      "git add"
+    ],
+    "apps/observability/*.{html,vue,css,sass,scss}": [
+      "pnpm -C apps/observability stylelint --fix",
+      "git add"
+    ],
     "apps/servicemesh/*.{ts,js,jsx,vue}": [
       "pnpm -C apps/servicemesh lint --fix",
       "git add"
