@@ -68,11 +68,10 @@
 
 <script>
   import { getNodeList } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import BaseResource from '@kubegems/mixins/resource';
-
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'SelectorForm',

@@ -197,6 +197,7 @@
 
 <script>
   import { getGatewayOriginList, getModelSourceDetail } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import { mapGetters, mapState } from 'vuex';
@@ -208,7 +209,6 @@
   import Mount from './Mount';
   import Port from './Port';
   import ResourceConf from './ResourceConf';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'DeployAdvancedConf',

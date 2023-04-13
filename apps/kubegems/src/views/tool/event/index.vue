@@ -135,6 +135,7 @@
   import { useClusterList } from '@kubegems/api/hooks/cluster';
   import { useClusterListInTenant, useEnvironmentListInTenant } from '@kubegems/api/hooks/tenant';
   import { Cluster } from '@kubegems/api/typed/cluster';
+  import { Log } from '@kubegems/api/typed/log';
   import { Tenant } from '@kubegems/api/typed/tenant';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
@@ -144,7 +145,6 @@
   import { ComputedRef, computed, onMounted, reactive, ref, watch } from 'vue';
 
   import { useI18n } from './i18n';
-  import { Log } from '@kubegems/api/typed/log';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

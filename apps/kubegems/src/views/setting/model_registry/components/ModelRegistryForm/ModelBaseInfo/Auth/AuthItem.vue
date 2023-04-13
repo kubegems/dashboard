@@ -44,8 +44,9 @@
 </template>
 
 <script lang="ts" setup>
-  import { useI18n } from '../../../../i18n';
   import { AIModelRegistry } from '@kubegems/api/typed/ai_model';
+
+  import { useI18n } from '../../../../i18n';
 
   const props = withDefaults(
     defineProps<{

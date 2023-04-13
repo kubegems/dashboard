@@ -109,6 +109,10 @@
     getPersistentVolumeClaimDetail,
     postAddVolumeSnapshot,
   } from '@kubegems/api/direct';
+  import BasicResourceInfo from '@kubegems/components/logicComponents/BasicResourceInfo';
+  import EventList from '@kubegems/components/logicComponents/EventList';
+  import Metadata from '@kubegems/components/logicComponents/Metadata';
+  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
@@ -118,10 +122,6 @@
   import ScalePersistentVolumeClaim from './components/ScalePersistentVolumeClaim';
   import UpdatePersistentVolumeClaim from './components/UpdatePersistentVolumeClaim';
   import messages from './i18n';
-  import BasicResourceInfo from '@kubegems/components/logicComponents/BasicResourceInfo';
-  import EventList from '@kubegems/components/logicComponents/EventList';
-  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
-  import Metadata from '@kubegems/components/logicComponents/Metadata';
 
   export default {
     name: 'PersistentVolumeClaimDetail',

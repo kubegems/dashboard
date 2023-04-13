@@ -83,12 +83,11 @@
 </template>
 
 <script lang="ts" setup>
+  import { AIModelRegistry } from '@kubegems/api/typed/ai_model';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useQuery } from '@kubegems/extension/router';
   import { onMounted, reactive, ref, watch } from 'vue';
-
-  import { AIModelRegistry } from '@kubegems/api/typed/ai_model';
 
   const props = withDefaults(
     defineProps<{

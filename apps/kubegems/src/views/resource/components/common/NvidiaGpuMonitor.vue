@@ -48,6 +48,7 @@
 
 <script>
   import { getPodList } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import {
     N_GPU_MEMORY_USAGE_PROMQL,
     N_GPU_POWER_PROMQL,
@@ -59,7 +60,6 @@
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'NvidiaGpuMonitor',

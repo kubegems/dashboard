@@ -222,6 +222,7 @@
 
 <script>
   import { getAppResourceFileMetas, getConfigMapList, getSecretList } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import BaseResource from '@kubegems/mixins/resource';
@@ -232,7 +233,6 @@
   import DownwardPod from './DownwardPod';
   import KeyValue from './KeyValue';
   import Secret from './Secret';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'ContainerEnv',

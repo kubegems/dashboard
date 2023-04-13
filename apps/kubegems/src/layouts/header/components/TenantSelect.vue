@@ -79,6 +79,7 @@
 <script lang="ts" setup>
   import { Tenant } from '@kubegems/api/typed/tenant';
   import { User } from '@kubegems/api/typed/user';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useStore } from '@kubegems/extension/store';
@@ -86,7 +87,6 @@
   import { inject, reactive, ref } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

@@ -17,7 +17,7 @@
 <template>
   <Layout>
     <template #header>
-      <Header v-model="expandOnHover" small-title="Service Mesh" />
+      <Header v-model="expandOnHover" small-title="微服务" />
     </template>
     <template #sidebar>
       <Sidebar :key="store.state.SidebarKey" :expand-on-hover.sync="expandOnHover" />

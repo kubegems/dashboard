@@ -34,13 +34,13 @@
 </template>
 
 <script lang="ts" setup>
+  import { MonitorTemplate } from '@kubegems/api/typed/monitor_template';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
   import yaml from 'js-yaml';
   import { reactive, ref } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { MonitorTemplate } from '@kubegems/api/typed/monitor_template';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

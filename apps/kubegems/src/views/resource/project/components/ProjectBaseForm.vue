@@ -125,6 +125,7 @@
 
 <script>
   import { deleteProjectUser, getProjectUserList, getTenantUserList, postAddProjectUser } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import { k8sName, required } from '@kubegems/extension/ruler';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
@@ -132,7 +133,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'ProjectBaseForm',

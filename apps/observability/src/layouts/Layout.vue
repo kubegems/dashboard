@@ -17,7 +17,7 @@
 <template>
   <Layout>
     <template #header>
-      <Header v-model="expandOnHover" small-title="Observability" />
+      <Header v-model="expandOnHover" small-title="可观测性" />
     </template>
     <template #sidebar>
       <Sidebar :key="store.state.SidebarKey" :expand-on-hover.sync="expandOnHover" />

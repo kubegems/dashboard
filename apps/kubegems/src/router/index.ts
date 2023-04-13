@@ -2,8 +2,8 @@ import { useGlobalI18n } from '@kubegems/extension/i18n';
 import { useRouter } from '@kubegems/extension/router';
 import { useStore } from '@kubegems/extension/store';
 import { PLATFORM } from '@kubegems/libs/constants/platform';
-import { microService, entryMicroService } from '@kubegems/servicemesh/export';
 import { adminObserve, observe } from '@kubegems/observability/export';
+import { entryMicroService, microService } from '@kubegems/servicemesh/export';
 
 import { adminWorkspace } from './admin_workspace';
 import { appStore } from './app_store';

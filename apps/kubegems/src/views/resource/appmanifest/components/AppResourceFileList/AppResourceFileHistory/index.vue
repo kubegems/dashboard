@@ -68,11 +68,11 @@
 
 <script>
   import { getAppResourceFileHistorys, postRollbackAppResourceFile } from '@kubegems/api/direct';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../../../i18n';
   import AppResourceFileDiff from './AppResourceFileDiff';
-  import { convertResponse2Pagination } from '@kubegems/api/utils';
 
   export default {
     name: 'AppResourceFileHistory',

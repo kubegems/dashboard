@@ -37,6 +37,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { Application } from '@kubegems/api/typed/argocd';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
@@ -44,7 +45,6 @@
   import { reactive, ref } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { Application } from '@kubegems/api/typed/argocd';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

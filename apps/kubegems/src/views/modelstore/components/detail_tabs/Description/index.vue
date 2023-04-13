@@ -21,12 +21,12 @@
 </template>
 
 <script lang="ts" setup>
+  import { AIModel } from '@kubegems/api/typed/ai_model';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
   import { ComputedRef, computed, ref, watch } from 'vue';
 
   import Markdown from './Markdown.vue';
-  import { AIModel } from '@kubegems/api/typed/ai_model';
 
   const props = withDefaults(
     defineProps<{

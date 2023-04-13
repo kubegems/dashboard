@@ -128,6 +128,7 @@
 
 <script>
   import { deleteRegistry, getRegistryAllList, getRegistryList, patchSetDefaultRegistry } from '@kubegems/api/direct';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import { convertStrToNum } from '@kubegems/libs/utils/helpers';
   import BaseFilter from '@kubegems/mixins/base_filter';
   import BasePermission from '@kubegems/mixins/permission';
@@ -138,7 +139,6 @@
   import AddRegistry from './components/AddRegistry';
   import UpdateRegistry from './components/UpdateRegistry';
   import messages from './i18n';
-  import { convertResponse2Pagination } from '@kubegems/api/utils';
 
   export default {
     name: 'Registry',

@@ -95,6 +95,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { MonitorTemplate } from '@kubegems/api/typed/monitor_template';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useParams } from '@kubegems/extension/router';
@@ -104,7 +105,6 @@
   import MonitorTemplateForm from './components/MonitorTemplateForm.vue';
   import ResourceInfo from './components/ResourceInfo.vue';
   import { useI18n } from './i18n';
-  import { MonitorTemplate } from '@kubegems/api/typed/monitor_template';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

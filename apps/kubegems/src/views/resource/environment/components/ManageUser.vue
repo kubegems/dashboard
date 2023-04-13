@@ -113,10 +113,9 @@
     getProjectUserList,
     postAddEnvironmentUser,
   } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
-
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'ManageUser',

@@ -178,13 +178,13 @@
 
 <script>
   import { getAppImageSecurityReportList, putSetPublishAppImage } from '@kubegems/api/direct';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters } from 'vuex';
 
   import messages from '../../i18n';
   import AppImageSecurityReportDetail from './AppImageSecurityReportDetail';
-  import { convertResponse2Pagination } from '@kubegems/api/utils';
 
   export default {
     name: 'AppImageSecurityReportList',

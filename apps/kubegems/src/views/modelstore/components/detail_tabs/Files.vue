@@ -29,10 +29,9 @@
 </template>
 
 <script lang="ts" setup>
+  import { AIModel } from '@kubegems/api/typed/ai_model';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { ref, watch } from 'vue';
-
-  import { AIModel } from '@kubegems/api/typed/ai_model';
 
   const props = withDefaults(
     defineProps<{

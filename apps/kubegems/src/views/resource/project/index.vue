@@ -160,6 +160,7 @@
 
 <script>
   import { deleteProject, getProjectList, getTenantProjectQuotaList } from '@kubegems/api/direct';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import { convertStrToNum, sizeOfCpu, sizeOfStorage } from '@kubegems/libs/utils/helpers';
   import BaseFilter from '@kubegems/mixins/base_filter';
   import BasePermission from '@kubegems/mixins/permission';
@@ -168,7 +169,6 @@
 
   import UpdateProject from './components/UpdateProject';
   import messages from './i18n';
-  import { convertResponse2Pagination } from '@kubegems/api/utils';
 
   export default {
     name: 'Project',

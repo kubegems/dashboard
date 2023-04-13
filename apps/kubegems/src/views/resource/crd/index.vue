@@ -120,6 +120,7 @@
 
 <script>
   import { deleteCRD, getCrdList } from '@kubegems/api/direct';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import { convertStrToNum } from '@kubegems/libs/utils/helpers';
   import BaseFilter from '@kubegems/mixins/base_filter';
   import BasePermission from '@kubegems/mixins/permission';
@@ -128,7 +129,6 @@
   import { mapState } from 'vuex';
 
   import messages from './i18n';
-  import { convertResponse2Pagination } from '@kubegems/api/utils';
 
   export default {
     name: 'CRD',

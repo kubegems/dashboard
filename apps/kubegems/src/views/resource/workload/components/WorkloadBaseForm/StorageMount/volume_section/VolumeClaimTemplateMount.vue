@@ -98,13 +98,13 @@
 
 <script>
   import { getStorageClassList } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../../../../i18n';
   import VolumeMount from './VolumeMount';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'VolumeClaimTemplateMount',

@@ -34,13 +34,13 @@
 </template>
 
 <script lang="ts" setup>
+  import { AIModel } from '@kubegems/api/typed/ai_model';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
   import { ComputedRef, computed, reactive, ref } from 'vue';
 
   import DeployWizard from './DeployWizard/index.vue';
   import ModelInfo from './ModelInfo/index.vue';
-  import { AIModel } from '@kubegems/api/typed/ai_model';
 
   withDefaults(
     defineProps<{

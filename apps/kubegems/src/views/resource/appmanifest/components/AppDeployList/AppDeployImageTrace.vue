@@ -62,11 +62,11 @@
 
 <script>
   import { getDeployEnvironmentAppImageTrace } from '@kubegems/api/direct';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { convertResponse2Pagination } from '@kubegems/api/utils';
 
   export default {
     name: 'AppDeployImageTrace',

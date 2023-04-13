@@ -135,6 +135,7 @@
 
 <script>
   import { deleteVolumeSnapshot, getVolumeSnapshotList } from '@kubegems/api/direct';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import BaseFilter from '@kubegems/mixins/base_filter';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
@@ -143,7 +144,6 @@
 
   import RestoreVolumeSnapshot from './components/RestoreVolumeSnapshot';
   import messages from './i18n';
-  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
 
   export default {

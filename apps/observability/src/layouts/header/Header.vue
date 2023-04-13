@@ -47,7 +47,6 @@
 </template>
 
 <script lang="ts" setup>
-  import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useVuetify } from '@kubegems/extension/proxy';
   import { useStore } from '@kubegems/extension/store';
   import { LOGO_WHITE } from '@kubegems/libs/constants/platform';
@@ -67,7 +66,6 @@
     },
   );
 
-  const i18n = useGlobalI18n();
   const store = useStore();
   const vuetify = useVuetify();
 

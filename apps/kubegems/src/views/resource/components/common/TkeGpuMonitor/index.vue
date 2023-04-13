@@ -43,6 +43,7 @@
 
 <script>
   import { getPodList } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import { T_GPU_MEMORY_USAGE_PROMQL, T_GPU_USAGE_PROMQL } from '@kubegems/libs/constants/prometheus';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
@@ -50,7 +51,6 @@
 
   import messages from '../../i18n';
   import DashboardCard from './DashboardCard';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'TkeGpuMonitor',

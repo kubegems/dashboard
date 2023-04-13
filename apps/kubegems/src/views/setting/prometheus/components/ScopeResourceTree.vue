@@ -56,13 +56,13 @@
 </template>
 
 <script lang="ts" setup>
+  import { useRuleResourceList, useRuleScopeList } from '@kubegems/api/hooks/prometheus';
+  import { RuleResource, RuleScope } from '@kubegems/api/typed/prometheus_template';
   import { useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
   import { onMounted, reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { useRuleResourceList, useRuleScopeList } from '@kubegems/api/hooks/prometheus';
-  import { RuleResource, RuleScope } from '@kubegems/api/typed/prometheus_template';
 
   const i18nLocal = useI18n();
   const store = useStore();

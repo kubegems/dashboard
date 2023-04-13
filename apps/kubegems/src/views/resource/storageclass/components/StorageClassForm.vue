@@ -37,15 +37,13 @@
 </template>
 
 <script lang="ts" setup>
+  import { StorageClass } from '@kubegems/api/typed/storageclass';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
+  import { useBeautifyData, useCheckDataWithOutNS, useCluster } from '@kubegems/extension/resource';
   import { useStore } from '@kubegems/extension/store';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import yaml from 'js-yaml';
   import { reactive, ref } from 'vue';
-
-  import { useCluster } from '@kubegems/extension/resource';
-  import { useBeautifyData, useCheckDataWithOutNS } from '@kubegems/extension/resource';
-  import { StorageClass } from '@kubegems/api/typed/storageclass';
 
   const i18n = useGlobalI18n();
   const store = useStore();

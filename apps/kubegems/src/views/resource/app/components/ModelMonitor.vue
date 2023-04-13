@@ -30,6 +30,7 @@
 
 <script>
   import { getPodList } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import {
     MODEL_WORKLOAD_CPU_USAGE_CORE_PROMQL,
     MODEL_WORKLOAD_MEMORY_USAGE_BYTE_PROMQL,
@@ -39,7 +40,6 @@
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'ModelMonitor',

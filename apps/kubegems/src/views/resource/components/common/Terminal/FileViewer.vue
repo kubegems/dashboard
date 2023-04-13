@@ -111,6 +111,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { File } from '@kubegems/api/typed/file';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useQuery } from '@kubegems/extension/router';
   import { beautifyFileUnit, deepCopy } from '@kubegems/libs/utils/helpers';
@@ -120,7 +121,6 @@
   import { useI18n } from '../../i18n';
   import FileDownloader from './FileDownloader.vue';
   import FileUploader from './FileUploader.vue';
-  import { File } from '@kubegems/api/typed/file';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

@@ -79,6 +79,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { AIModelRegistry } from '@kubegems/api/typed/ai_model';
   import { useQuery } from '@kubegems/extension/router';
   import { LOGO_BLUE } from '@kubegems/libs/constants/platform';
   import moment from 'moment';
@@ -86,7 +87,6 @@
   import VueI18n from 'vue-i18n';
 
   import { useI18n } from '../i18n';
-  import { AIModelRegistry } from '@kubegems/api/typed/ai_model';
 
   const props = withDefaults(
     defineProps<{

@@ -88,6 +88,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { HelmRepository } from '@kubegems/api/typed/helm';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
   import { LOGO_BLUE } from '@kubegems/libs/constants/platform';
@@ -98,7 +99,6 @@
   import RepositoryInfo from './components/RepositoryInfo.vue';
   import StatusTip from './components/StatusTip.vue';
   import { useI18n } from './i18n';
-  import { HelmRepository } from '@kubegems/api/typed/helm';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

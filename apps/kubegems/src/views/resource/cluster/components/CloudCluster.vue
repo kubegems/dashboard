@@ -114,6 +114,7 @@
 
 <script>
   import { deleteCluster, getClusterList, getClusterStatus } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import intro from '@kubegems/extension/tool/guide';
   import { sleep } from '@kubegems/libs/utils/helpers';
   import BaseResource from '@kubegems/mixins/resource';
@@ -123,7 +124,6 @@
   import messages from '../i18n';
   import AddCluster from './AddCluster';
   import UpdateCluster from './UpdateCluster';
-  import { convertResponse2List } from '@kubegems/api/utils';
   import Terminal from '@/views/resource/components/common/Terminal';
 
   export default {

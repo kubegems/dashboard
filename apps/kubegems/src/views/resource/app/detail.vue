@@ -146,6 +146,7 @@
     getAppRunningDetail,
     getModelRuntimeDetail,
   } from '@kubegems/api/direct';
+  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
@@ -163,7 +164,6 @@
   import AppResourceFileList from '@/views/resource/appmanifest/components/AppResourceFileList';
   import NvidiaGpuMonitor from '@/views/resource/components/common/NvidiaGpuMonitor';
   import PodList from '@/views/resource/components/common/PodList';
-  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
   import TkeGpuMonitor from '@/views/resource/components/common/TkeGpuMonitor';
   import DeployControlCenter from '@/views/resource/deploy/components/DeployControlCenter';
   import DeployStatus from '@/views/resource/deploy/components/DeployStatus';
