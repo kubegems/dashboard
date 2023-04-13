@@ -229,6 +229,8 @@ export const getIconName = (name: string, def = 'kubernetes'): string => {
   if (name.indexOf('mlflow') > -1) return 'img:mlflow.svg';
   if (name.indexOf('xgboost') > -1) return 'img:xgboost.svg';
 
+  if (name.startsWith('mdi')) return name;
+
   // if (name.indexOf('selfhosted') > -1) return 'img:kubegems.svg';
 
   switch (def) {

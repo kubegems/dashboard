@@ -50,7 +50,6 @@
         </v-menu>
       </v-card-title>
       <v-data-table
-        calculate-widths
         class="mx-4 kubegems__table-row-pointer"
         :headers="headers"
         hide-default-footer
@@ -79,7 +78,7 @@
         <template #[`item.name`]="{ item }">
           <v-flex class="float-left">
             <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="podDetail(item)">
-              <BaseCopyItem :item="item.metadata.name" :max-width="AdminViewport ? 270 : 450" />
+              <BaseCopyItem :item="item.metadata.name" :max-width="podNameWidth" />
             </a>
           </v-flex>
           <v-flex v-if="isTke(item) || isNvidia(item)" class="float-left">
@@ -283,6 +282,8 @@
           page: 1,
           size: 10,
         },
+        podNameWidth: 0,
+        tickNum: 0,
       };
     },
     computed: {
@@ -294,6 +295,7 @@
             text: this.$t('table.name'),
             value: 'name',
             align: 'start',
+            class: 'pod__name',
           },
           { text: this.$t('table.status'), value: 'status', align: 'start', width: 180 },
           { text: this.$t('table.container_count'), value: 'container', align: 'start', sortable: false },
@@ -333,8 +335,6 @@
             sortable: false,
             width: 220,
           });
-        } else {
-          items[0].width = 478;
         }
         items.push({ text: '', value: 'data-table-expand' });
         return items;
@@ -413,6 +413,7 @@
     },
     mounted() {
       this.$nextTick(() => {
+        this.dynamicWidth();
         if (this.ThisCluster === '') {
           this.$store.commit('SET_SNACKBAR', {
             text: this.$root.$t('tip.select_cluster'),
@@ -425,6 +426,15 @@
       });
     },
     methods: {
+      dynamicWidth() {
+        const interval = setInterval(() => {
+          this.podNameWidth = document.querySelector('.pod__name').clientWidth;
+          this.tickNum += 1;
+          if (this.tickNum >= 10) {
+            clearInterval(interval);
+          }
+        }, 100);
+      },
       async podList(noprocess = false) {
         const data = await getPodList(
           this.ThisCluster,

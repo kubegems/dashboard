@@ -40,7 +40,7 @@
         <template #[`item.name`]="{ item }">
           <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="nodeDetail(item)">
             <v-flex class="float-left">
-              <BaseCopyItem :item="item.metadata.name" />
+              <BaseCopyItem :item="item.metadata.name" :max-width="nodeNameWidth" />
             </v-flex>
             <v-flex
               v-if="
@@ -123,7 +123,14 @@
           {{ item.metadata.creationTimestamp ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}
         </template>
         <template #[`item.taint`]="{ item }">
-          <BaseCollapseChips :chips="getDistinctTaints(item.spec.taints) || {}" icon="mdi-label-variant" single-line />
+          <BaseTipChips
+            :chips="getDistinctTaints(item.spec.taints) || {}"
+            icon="mdi:liquid-spot"
+            single-line
+            color="#efefef"
+            show-length
+            extension-icon
+          />
         </template>
         <template #[`item.role`]="{ item }">
           <span
@@ -221,6 +228,8 @@
         },
 
         interval: null,
+        nodeNameWidth: 0,
+        tickNum: 0,
       };
     },
     computed: {
@@ -230,15 +239,15 @@
       },
       headers() {
         return [
-          { text: this.$t('table.name'), value: 'name', align: 'start', width: 195 },
+          { text: this.$t('table.name'), value: 'name', align: 'start', class: 'node__name' },
           { text: 'IP', value: 'ip', align: 'start' },
           { text: this.$t('table.status'), value: 'status', align: 'start', width: 145 },
           { text: this.$t('table.role'), value: 'role', align: 'start' },
-          { text: this.$t('table.taint'), value: 'taint', align: 'start', class: 'table__taint' },
+          { text: this.$t('table.taint'), value: 'taint', align: 'start' },
           { text: this.$t('table.load'), value: 'load', align: 'start', width: 80 },
-          { text: this.$root.$t('resource.cpu'), value: 'cpu', align: 'start', width: 135 },
-          { text: this.$root.$t('resource.memory'), value: 'memory', align: 'start', width: 135 },
-          { text: this.$root.$t('resource.pod'), value: 'pod', align: 'start', width: 135 },
+          { text: this.$root.$t('resource.cpu'), value: 'cpu', align: 'start', width: 150 },
+          { text: this.$root.$t('resource.memory'), value: 'memory', align: 'start', width: 150 },
+          { text: this.$root.$t('resource.pod'), value: 'pod', align: 'start', width: 150 },
           { text: this.$t('table.join_at'), value: 'createAt', align: 'start' },
           { text: '', value: 'action', align: 'center', width: 20 },
         ];
@@ -246,6 +255,7 @@
     },
     mounted() {
       this.$nextTick(() => {
+        this.dynamicWidth();
         if (this.ThisCluster === '') {
           this.$store.commit('SET_SNACKBAR', {
             text: this.$root.$t('tip.select_cluster'),
@@ -263,6 +273,15 @@
       }
     },
     methods: {
+      dynamicWidth() {
+        const interval = setInterval(() => {
+          this.nodeNameWidth = document.querySelector('.node__name').clientWidth;
+          this.tickNum += 1;
+          if (this.tickNum >= 10) {
+            clearInterval(interval);
+          }
+        }, 100);
+      },
       loadMetrics() {
         if (this.Edge && !this.Plugins['monitoring']) return;
         this.nodeCPUUsage(true);
@@ -473,9 +492,3 @@
     },
   };
 </script>
-
-<style lang="scss" scoped>
-  .table__taint {
-    max-width: 350px;
-  }
-</style>
