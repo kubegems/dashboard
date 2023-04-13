@@ -52,7 +52,7 @@
       item?: string;
     }>(),
     {
-      maxWidth: 130,
+      maxWidth: 500,
       item: '',
     },
   );

@@ -25,6 +25,7 @@
       :height="`${width}px`"
       :icon="getIconName(iconName, defaultLogo)"
       :width="`${width}px`"
+      :color="color"
     />
     <img
       v-else
@@ -47,6 +48,7 @@
       mt?: number | string;
       absolute?: boolean;
       width?: number;
+      color?: string;
     }>(),
     {
       defaultLogo: '',
@@ -56,6 +58,7 @@
       mt: 0,
       absolute: false,
       width: 20,
+      color: '',
     },
   );
 </script>

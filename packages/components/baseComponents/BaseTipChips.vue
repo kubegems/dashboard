@@ -28,8 +28,15 @@
       open-on-hover
     >
       <template #activator="{ on }">
-        <v-flex v-on="on">
-          <v-icon v-if="icon" :color="color" left :small="small"> {{ icon }} </v-icon>
+        <v-flex v-on="on" :class="{ 'mt-2': extensionIcon }">
+          <div class="float-left">
+            <v-icon v-if="icon && !extensionIcon" :color="color" left :small="small"> {{ icon }} </v-icon>
+            <BaseLogo v-if="icon && extensionIcon" :icon-name="icon" class="mr-1" :mt="1"></BaseLogo>
+          </div>
+          <div class="float-left" :style="{ lineHeight: extensionIcon ? '30px' : '24px' }" v-if="showLength">
+            {{ items.length }}
+          </div>
+          <div class="kubegems__clear-float" />
         </v-flex>
       </template>
 
@@ -37,14 +44,31 @@
         <template v-if="singleLine">
           <div v-for="item in items" :key="item[itemValue]">
             <v-flex
+              v-if="icon && !extensionIcon"
               :class="{ 'ma-1': true, 'text-caption': true, kubegems__text: true, kubegems__pointer: linked }"
               small
             >
-              <v-icon v-if="icon" :color="color" left small> {{ icon }} </v-icon>
+              <v-icon :color="color" left small> {{ icon }} </v-icon>
               <strong v-if="dataType === 'object'" class="mr-1">
                 {{ item[itemValue] }}
               </strong>
               <slot :item="item">{{ item[itemText] }}</slot>
+            </v-flex>
+            <v-flex
+              v-if="icon && extensionIcon"
+              :class="{ 'ma-1': true, 'text-caption': true, kubegems__text: true, kubegems__pointer: linked }"
+              small
+            >
+              <div class="float-left">
+                <BaseLogo :icon-name="icon" class="mr-1" width="16"></BaseLogo>
+              </div>
+              <div class="float-left" v-if="showLength">
+                <strong v-if="dataType === 'object'" class="mr-1">
+                  {{ item[itemValue] }}
+                </strong>
+                <slot :item="item">{{ item[itemText] }}</slot>
+              </div>
+              <div class="kubegems__clear-float" />
             </v-flex>
           </div>
         </template>
@@ -74,6 +98,8 @@
       maxWidth?: string;
       singleLine?: boolean;
       small?: boolean;
+      showLength?: boolean;
+      extensionIcon?: boolean;
     }>(),
     {
       chips: [],
@@ -87,6 +113,8 @@
       maxWidth: undefined,
       singleLine: false,
       small: false,
+      showLength: false,
+      extensionIcon: false,
     },
   );
 
