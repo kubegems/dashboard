@@ -111,6 +111,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { AIModel } from '@kubegems/api/typed/ai_model';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useParams, useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
@@ -119,7 +120,6 @@
 
   import { useI18n } from '../../i18n';
   import VersionSelect from './VersionSelect.vue';
-  import { AIModel } from '@kubegems/api/typed/ai_model';
 
   withDefaults(
     defineProps<{

@@ -76,10 +76,10 @@
 
 <script>
   import { getEventList } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../i18n';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'EventTip',

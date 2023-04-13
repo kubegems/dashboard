@@ -144,6 +144,13 @@
 </template>
 
 <script lang="ts" setup>
+  import { usePodStatus } from '@kubegems/api/hooks/pod';
+  import { DaemonSet } from '@kubegems/api/typed/daemonset';
+  import { Deployment } from '@kubegems/api/typed/deployment';
+  import { Pod } from '@kubegems/api/typed/pod';
+  import { StatefulSet } from '@kubegems/api/typed/statefulset';
+  import { convertResponse2List } from '@kubegems/api/utils';
+  import RealDatetimeTip from '@kubegems/components/logicComponents/RealDatetimeTip.vue';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useParams } from '@kubegems/extension/router';
@@ -154,14 +161,7 @@
   import { nextTick, ref } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { usePodStatus } from '@kubegems/api/hooks/pod';
-  import { convertResponse2List } from '@kubegems/api/utils';
-  import { DaemonSet } from '@kubegems/api/typed/daemonset';
-  import { Deployment } from '@kubegems/api/typed/deployment';
-  import { Pod } from '@kubegems/api/typed/pod';
-  import { StatefulSet } from '@kubegems/api/typed/statefulset';
   import EventTip from '@/views/resource/components/common/EventTip.vue';
-  import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip.vue';
 
   const store = useStore();
   const i18n = useGlobalI18n();

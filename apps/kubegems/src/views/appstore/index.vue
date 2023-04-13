@@ -151,11 +151,11 @@
 
 <script>
   import { getAppStoreList, getRepositoryList } from '@kubegems/api/direct';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import { mapState } from 'vuex';
 
   import AppStoreCard from './components/AppStoreCard';
   import messages from './i18n';
-  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import Breadcrumb from '@/views/modelstore/components/Breadcrumb';
 
   export default {

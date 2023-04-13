@@ -60,6 +60,7 @@
 
 <script lang="ts" setup>
   import { Cluster } from '@kubegems/api/typed/cluster';
+  import { Matrix } from '@kubegems/api/typed/prometheus';
   import { Tenant } from '@kubegems/api/typed/tenant';
   import { useStore } from '@kubegems/extension/store';
   import { TENANT_CPU_USAGE_PROMQL, TENANT_MEMORY_USAGE_PROMQL } from '@kubegems/libs/constants/prometheus';
@@ -68,7 +69,6 @@
   import { onUnmounted, reactive, ref } from 'vue';
 
   import { useI18n } from '../../i18n';
-  import { Matrix } from '@kubegems/api/typed/prometheus';
 
   const i18nLocal = useI18n();
   const store = useStore();

@@ -44,13 +44,13 @@
 </template>
 
 <script lang="ts" setup>
+  import { AIModelComment } from '@kubegems/api/typed/ai_model';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import { reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../../../i18n';
-  import { AIModelComment } from '@kubegems/api/typed/ai_model';
 
   const props = withDefaults(
     defineProps<{

@@ -170,6 +170,8 @@
 </template>
 
 <script lang="ts" setup>
+  import { useAiModelPagination } from '@kubegems/api/hooks/ai_model';
+  import { AIModel, AIModelRegistry } from '@kubegems/api/typed/ai_model';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useParams, useQuery } from '@kubegems/extension/router';
@@ -182,8 +184,6 @@
   import Recommend from './Recommend.vue';
   import RecommendContent from './RecommendContent.vue';
   import TagModel from './TagModel.vue';
-  import { useAiModelPagination } from '@kubegems/api/hooks/ai_model';
-  import { AIModel, AIModelRegistry } from '@kubegems/api/typed/ai_model';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

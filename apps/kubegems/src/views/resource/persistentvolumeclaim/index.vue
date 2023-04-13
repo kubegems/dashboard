@@ -190,6 +190,7 @@
     getPersistentVolumeClaimList,
     postAddVolumeSnapshot,
   } from '@kubegems/api/direct';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import { PVC_STATUS_COLOR } from '@kubegems/libs/constants/resource';
   import BaseFilter from '@kubegems/mixins/base_filter';
   import BasePermission from '@kubegems/mixins/permission';
@@ -201,7 +202,6 @@
   import ScalePersistentVolumeClaim from './components/ScalePersistentVolumeClaim';
   import UpdatePersistentVolumeClaim from './components/UpdatePersistentVolumeClaim';
   import messages from './i18n';
-  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
 
   export default {

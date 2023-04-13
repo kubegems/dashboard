@@ -1,7 +1,6 @@
 import { postModelApi, postModelApidev } from '@kubegems/api/direct';
-import { jsonParse } from '@kubegems/libs/utils/helpers';
-
 import { Conversation, InferenceResponse } from '@kubegems/api/typed/modelstore';
+import { jsonParse } from '@kubegems/libs/utils/helpers';
 
 const ParamsMixin: { [key: string]: any } = {
   props: {

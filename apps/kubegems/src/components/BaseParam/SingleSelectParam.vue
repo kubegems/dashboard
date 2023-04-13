@@ -49,11 +49,10 @@
 </template>
 
 <script lang="ts" setup>
+  import { StorageClass } from '@kubegems/api/typed/storageclass';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import { required } from '@kubegems/extension/ruler';
   import { ComputedRef, computed, onMounted, ref, watch } from 'vue';
-
-  import { convertResponse2List } from '@kubegems/api/utils';
-  import { StorageClass } from '@kubegems/api/typed/storageclass';
 
   const props = withDefaults(
     defineProps<{

@@ -181,6 +181,9 @@
 </template>
 
 <script lang="ts" setup>
+  import { useAiModelCommentPagination } from '@kubegems/api/hooks/ai_model';
+  import { AIModelComment } from '@kubegems/api/typed/ai_model';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useParams, useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
@@ -190,9 +193,6 @@
 
   import { useI18n } from '../../../i18n';
   import Reply from './Reply.vue';
-  import { useAiModelCommentPagination } from '@kubegems/api/hooks/ai_model';
-  import { AIModelComment } from '@kubegems/api/typed/ai_model';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

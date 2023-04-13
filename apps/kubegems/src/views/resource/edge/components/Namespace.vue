@@ -63,6 +63,8 @@
 </template>
 
 <script lang="ts" setup>
+  import { useNamespacePagination } from '@kubegems/api/hooks/namespace';
+  import { Namespace } from '@kubegems/api/typed/namespace';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useParams, useQuery } from '@kubegems/extension/router';
@@ -70,8 +72,6 @@
   import { onMounted, reactive } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { useNamespacePagination } from '@kubegems/api/hooks/namespace';
-  import { Namespace } from '@kubegems/api/typed/namespace';
 
   onMounted(() => {
     getNamespaceList();

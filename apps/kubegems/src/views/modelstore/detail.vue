@@ -56,6 +56,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { AIModel } from '@kubegems/api/typed/ai_model';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useParams, useQuery } from '@kubegems/extension/router';
@@ -71,7 +72,6 @@
   import Runtime from './components/detail_tabs/Runtime/index.vue';
   import ModelInfo from './components/ModelInfo/index.vue';
   import { useI18n } from './i18n';
-  import { AIModel } from '@kubegems/api/typed/ai_model';
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();

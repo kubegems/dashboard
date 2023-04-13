@@ -27,13 +27,13 @@
 </template>
 
 <script lang="ts" setup>
+  import { AIModelComment } from '@kubegems/api/typed/ai_model';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useParams, useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
   import { reactive, ref } from 'vue';
 
   import CommentBaseForm from './CommentBaseForm.vue';
-  import { AIModelComment } from '@kubegems/api/typed/ai_model';
 
   const i18n = useGlobalI18n();
   const store = useStore();

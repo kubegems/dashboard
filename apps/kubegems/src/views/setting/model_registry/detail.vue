@@ -66,7 +66,9 @@
 </template>
 
 <script lang="ts" setup>
+  import { AIModelRegistry } from '@kubegems/api/typed/ai_model';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
+  import { useEnvironmentAllow } from '@kubegems/extension/permission';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useParams } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
@@ -75,8 +77,6 @@
   import BaseResourceInfo from './components/BaseResourceInfo.vue';
   import ModelList from './components/ModelList/index.vue';
   import ModelRegistryForm from './components/ModelRegistryForm/index.vue';
-  import { useEnvironmentAllow } from '@kubegems/extension/permission';
-  import { AIModelRegistry } from '@kubegems/api/typed/ai_model';
 
   const i18n = useGlobalI18n();
   const store = useStore();

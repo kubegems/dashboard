@@ -99,14 +99,14 @@
 </template>
 
 <script lang="ts" setup>
+  import { getUnitItems } from '@kubegems/api/hooks/metrics';
+  import { PrometheusTemplate } from '@kubegems/api/typed/prometheus_template';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import { reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../i18n';
-  import { getUnitItems } from '@kubegems/api/hooks/metrics';
-  import { PrometheusTemplate } from '@kubegems/api/typed/prometheus_template';
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();

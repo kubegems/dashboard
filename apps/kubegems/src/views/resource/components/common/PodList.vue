@@ -249,6 +249,7 @@
 
 <script>
   import { deletePod, getPodList } from '@kubegems/api/direct';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import RealDatetimeTip from '@kubegems/components/logicComponents/RealDatetimeTip';
   import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@kubegems/libs/constants/prometheus';
   import { POD_STATUS_COLOR } from '@kubegems/libs/constants/resource';
@@ -262,7 +263,6 @@
   import ContainerLog from './ContainerLog';
   import EventTip from './EventTip';
   import Terminal from './Terminal';
-  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import ContainerItems from '@/views/resource/pod/components/ContainerItems';
 
   export default {

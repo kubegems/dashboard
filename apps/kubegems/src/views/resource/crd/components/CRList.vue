@@ -81,13 +81,13 @@
 
 <script>
   import { deleteCr, getCrList } from '@kubegems/api/direct';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
 
   import messages from '../i18n';
   import AddCR from './AddCR';
   import UpdateCR from './UpdateCR';
-  import { convertResponse2Pagination } from '@kubegems/api/utils';
 
   export default {
     name: 'CRList',

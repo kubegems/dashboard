@@ -108,7 +108,10 @@
 </template>
 
 <script lang="ts" setup>
+  import { useAiModelRuntimePagination } from '@kubegems/api/hooks/ai_model';
+  import { AIModel, AIModelRuntime } from '@kubegems/api/typed/ai_model';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
+  import { useEnvironmentAllow, useProjectAllow, useTenantAllow } from '@kubegems/extension/permission';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useParams, useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
@@ -117,9 +120,6 @@
 
   import { useI18n } from '../../../i18n';
   import ModelExperience from './components/ModelExperience.vue';
-  import { useAiModelRuntimePagination } from '@kubegems/api/hooks/ai_model';
-  import { useEnvironmentAllow, useProjectAllow, useTenantAllow } from '@kubegems/extension/permission';
-  import { AIModel, AIModelRuntime } from '@kubegems/api/typed/ai_model';
 
   withDefaults(
     defineProps<{

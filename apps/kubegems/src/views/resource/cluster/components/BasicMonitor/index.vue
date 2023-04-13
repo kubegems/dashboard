@@ -177,6 +177,7 @@
 
 <script>
   import { getClusterCertInfo, getClusterComponentStatus } from '@kubegems/api/direct';
+  import { convertResponse2List } from '@kubegems/api/utils';
   import { CLUSTER_API_SERVER_SUCCESS_RATE_PROMQL } from '@kubegems/libs/constants/prometheus';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
@@ -184,7 +185,6 @@
 
   import messages from '../../i18n';
   import Tips from './Tips';
-  import { convertResponse2List } from '@kubegems/api/utils';
 
   export default {
     name: 'BasicMonitor',

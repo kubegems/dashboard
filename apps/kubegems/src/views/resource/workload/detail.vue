@@ -149,6 +149,10 @@
     getDeploymentDetail,
     getStatefulSetDetail,
   } from '@kubegems/api/direct';
+  import BasicResourceInfo from '@kubegems/components/logicComponents/BasicResourceInfo';
+  import EventList from '@kubegems/components/logicComponents/EventList';
+  import Metadata from '@kubegems/components/logicComponents/Metadata';
+  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
   import { WORKLOAD_CPU_USAGE_PROMQL, WORKLOAD_MEMORY_USAGE_PROMQL } from '@kubegems/libs/constants/prometheus';
   import { beautifyCpuUnit, beautifyStorageUnit, sizeOfCpu, sizeOfStorage } from '@kubegems/libs/utils/helpers';
   import BasePermission from '@kubegems/mixins/permission';
@@ -162,13 +166,9 @@
   import UpdateWorkload from './components/UpdateWorkload';
   import WorkloadMonitor from './components/WorkloadMonitor';
   import messages from './i18n';
-  import BasicResourceInfo from '@kubegems/components/logicComponents/BasicResourceInfo';
-  import EventList from '@kubegems/components/logicComponents/EventList';
   import NvidiaGpuMonitor from '@/views/resource/components/common/NvidiaGpuMonitor';
   import PodList from '@/views/resource/components/common/PodList';
-  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
   import TkeGpuMonitor from '@/views/resource/components/common/TkeGpuMonitor';
-  import Metadata from '@kubegems/components/logicComponents/Metadata';
 
   export default {
     name: 'WorkloadDetail',

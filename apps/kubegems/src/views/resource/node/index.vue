@@ -184,6 +184,7 @@
 
 <script>
   import { getNodeList, patchCordonNode } from '@kubegems/api/direct';
+  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import {
     NODE_ALL_CPU_USAGE_PROMQL,
     NODE_ALL_MEMORY_USAGE_PROMQL,
@@ -198,7 +199,6 @@
 
   import GpuScheduleForm from './components/GpuScheduleForm';
   import messages from './i18n';
-  import { convertResponse2Pagination } from '@kubegems/api/utils';
   import GpuTip from '@/views/resource/components/common/GpuTip';
 
   export default {

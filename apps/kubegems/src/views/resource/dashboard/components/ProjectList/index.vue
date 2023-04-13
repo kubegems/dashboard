@@ -201,6 +201,7 @@
 
 <script>
   import { getProjectEnvironmentList, getProjectEnvironmentQuotaList, getProjectList } from '@kubegems/api/direct';
+  import { convertResponse2List, convertResponse2Pagination } from '@kubegems/api/utils';
   import { METATYPE_CN } from '@kubegems/libs/constants/platform';
   import {
     ENVIRONMENT_CPU_USAGE_PROMQL,
@@ -216,7 +217,6 @@
 
   import messages from '../../i18n';
   import Pagination from '../Pagination';
-  import { convertResponse2List, convertResponse2Pagination } from '@kubegems/api/utils';
   import AddEnvironment from '@/views/resource/environment/components/AddEnvironment';
   import AddProject from '@/views/resource/project/components/AddProject';
 

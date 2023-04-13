@@ -88,6 +88,8 @@
 
 <script>
   import { deleteSecret, getSecretDetail } from '@kubegems/api/direct';
+  import BasicResourceInfo from '@kubegems/components/logicComponents/BasicResourceInfo';
+  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
   import BaseFilter from '@kubegems/mixins/base_filter';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
@@ -96,8 +98,6 @@
 
   import UpdateSecret from './components/UpdateSecret';
   import messages from './i18n';
-  import BasicResourceInfo from '@kubegems/components/logicComponents/BasicResourceInfo';
-  import ResourceYaml from '@kubegems/components/logicComponents/ResourceYaml';
 
   export default {
     name: 'SecretDetail',
