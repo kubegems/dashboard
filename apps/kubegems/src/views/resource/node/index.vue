@@ -32,11 +32,11 @@
         disable-sort
         :headers="headers"
         hide-default-footer
+        item-key="metadata.name"
         :items="items"
         :items-per-page="params.size"
         :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
-        item-key="metadata.name"
       >
         <template #[`item.name`]="{ item }">
           <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="nodeDetail(item)">
@@ -44,7 +44,7 @@
               <BaseCopyItem :item="item.metadata.name" :max-width="nodeNameWidth - 30" />
             </v-flex>
             <div class="float-left">
-              <v-icon color="primary" class="mx-1">{{ getOSIcon(item) }}</v-icon>
+              <v-icon class="mx-1" color="primary">{{ getOSIcon(item) }}</v-icon>
             </div>
             <v-flex
               v-if="
@@ -129,10 +129,10 @@
         <template #[`item.taint`]="{ item }">
           <BaseCollapseChips
             :chips="getDistinctTaints(item.spec.taints) || {}"
-            icon="mdi-label-variant"
-            single-line
             :collapse="taintWidth"
+            icon="mdi-label-variant"
             :show-length="0"
+            single-line
           />
         </template>
         <template #[`item.role`]="{ item }">
@@ -174,9 +174,6 @@
               </v-card-text>
             </v-card>
           </v-menu>
-        </template>
-        <template #expanded-item="{ headers, item }">
-          <td class="my-2 py-2" :colspan="headers.length"> </td>
         </template>
       </v-data-table>
 

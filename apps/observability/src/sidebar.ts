@@ -21,5 +21,6 @@ export const SIDEBAR_ITEMS: { [key: string]: string | boolean | string[] }[] = [
     sidebar: 'workspaceobserve',
     value: 'observe',
     icon: 'mdi:camera-timer',
+    admin: true,
   },
 ].concat(management as any[]);
