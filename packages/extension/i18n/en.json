@@ -198,6 +198,7 @@
     "audit": "Audit",
     "event": "Event",
     "usercenter": "User Center",
+    "pai": "PAI",
     "user": {
       "tenant": "Tenant",
       "usercenter": "User Center",
@@ -276,7 +277,8 @@
     "runtime": "Kubernetes",
     "microservice": "Mesh",
     "observability": "Observability",
-    "administration": "Management"
+    "administration": "Management",
+    "pai": "Schedule"
   },
   "routerbar": {
     "cluster": {
@@ -416,6 +418,21 @@
       "h_space": "Space",
       "h_security": "Security",
       "h_integrated": "Integrated"
+    },
+    "pai": {
+      "h_dashboard": "Dashboard",
+      "h_task": "Task",
+
+      "g_dashboard": "Dashboard",
+      "g_task": "Task",
+      "g_asset": "Asset",
+
+      "dashboard": "Dashboard",
+      "train_task": "Train",
+      "dataset": "Dataset",
+      "framework": "Framework",
+      "cluster": "Cluster",
+      "instance": "Instance"
     }
   },
   "breadcrumb": {
@@ -487,7 +504,7 @@
     "alert_overview": "Alert Dashboard allows you to view recent alert trends, summary and comparison of alert indicators.",
     "alert_history": "Alert History allows you to view the history of alerts by condition.",
     "alert_blacklist": "Alert Blacklist allows you to silence some alerts that you do not need to receive.",
-    "config-monitor": "The Monitor Config Center allows you to configure collectors, alarms, receivers and other monitoring indicators.",
+    "config_monitor": "The Monitor Config Center allows you to configure collectors, alarms, receivers and other monitoring indicators.",
     "log_monitor": "The Log Config Center allows you to configure log collectors, alarms, receivers and other log metrics, as well as log flow filtering and other configurations.",
     "service_monitor": "ServiceMonitor defines monitoring for a set of services, which is automatically discovered by Prometheus and becomes the target of its indicator pull.",
     "prometheus_rule": "PrometheusRule are usually Prometheus alert rules set for monitoring indicators.",
@@ -496,7 +513,14 @@
     "dash_app": "App monitor from Jaeger",
     "alert_channel": "The alert channel provides a variety of alert message sending methods to notify users, including (email, Feishu, webhook, etc.)",
     "edge": "A highly available and certified Kubernetes distribution designed for production workloads in unattended, resource-constrained, remote locations, or inside IoT devices.",
-    "dash_probe": "Prometheus probe is to monitor and analyze key performance indicators such as service loading speed, CDN acceleration, and DNS resolution."
+    "dash_probe": "Prometheus probe is to monitor and analyze key performance indicators such as service loading speed, CDN acceleration, and DNS resolution.",
+
+    "pai": "",
+    "pai_framework": "",
+    "pai_dataset": "",
+    "pai_train": "",
+    "pai_cluster": "",
+    "pai_instance": ""
   },
 
   "metadata": {

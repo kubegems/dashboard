@@ -22,11 +22,11 @@
         getIconName(iconName, defaultLogo) !== 'undefined' && getIconName(iconName, defaultLogo).indexOf('img:') === -1
       "
       :class="`ml-${ml} mt-${mt}`"
+      :color="color"
       :height="`${width}px`"
       :icon="getIconName(iconName, defaultLogo)"
-      :width="`${width}px`"
-      :color="color"
       :style="{ marginTop: top ? `${top}px !important` : '' }"
+      :width="`${width}px`"
     />
     <img
       v-else

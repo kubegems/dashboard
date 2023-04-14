@@ -116,7 +116,6 @@
   import { Tenant, TenantResourceQuota } from '@kubegems/api/typed/tenant';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
-  import { sleep } from '@kubegems/libs/utils/helpers';
   import _ from 'lodash';
   import { ComputedRef, computed, reactive, ref, watch } from 'vue';
 

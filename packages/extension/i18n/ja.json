@@ -190,6 +190,7 @@
     "audit": "監査",
     "event": "イベント",
     "usercenter": "サマリ",
+    "pai": "PAI",
     "user": {
       "tenant": "テナント",
       "usercenter": "サマリ",
@@ -268,7 +269,8 @@
     "runtime": "Kubernetes",
     "microservice": "仕える",
     "observability": "観察",
-    "administration": "システム"
+    "administration": "システム",
+    "pai": "スケジューリング"
   },
   "routerbar": {
     "cluster": {
@@ -401,6 +403,21 @@
       "h_space": "スペース",
       "h_security": "セキュリティ設定",
       "h_integrated": "連携"
+    },
+    "pai": {
+      "h_dashboard": "概要",
+      "h_task": "タスク",
+
+      "g_dashboard": "概要",
+      "g_task": "タスクセンター",
+      "g_asset": "資産運用管理",
+
+      "dashboard": "リソースの概要",
+      "train_task": "トレーニング タスク",
+      "dataset": "データ管理",
+      "framework": "フレーム",
+      "cluster": "集まる",
+      "instance": "インスタンス仕様"
     }
   },
   "breadcrumb": {
@@ -465,7 +482,7 @@
     "alert_overview": "サイレンスバルト (Alert Dashboard) では、Qualcomm Newsを最後に警告ポイントを表示することができます。",
     "alert_history": "アラートの歴史の中で、通知を表示することでより詳細な情報を見ることができるかもしれません。",
     "alert_blacklist": "Alert Blacklistは、受信要求なしでの通知を受諾する必要が生じます。",
-    "config-monitor": "収集設定センター(Monitor Config Center)では、サポーター、通知、受信器などの監視指標に関連する構成をモニタリングします。",
+    "config_monitor": "収集設定センター(Monitor Config Center)では、サポーター、通知、受信器などの監視指標に関連する構成をモニタリングします。",
     "log_monitor": "ログキャプチャ設定センター(Log ConfigCenter)では、収集チェッカーや、通知、受信器などのログチェッカーに関連する設定やログフローフィルターなどの設定をログ収集できます。",
     "service_monitor": "ServiceMonitorは、サービス定義モニタリングのセットを自動的に用いて、Prometheusに評価されたPrometheus から自動的に見つけるように指示されます。",
     "prometheus_rule": "警報規則 (PrometheusRule) は、指標を設定したPrometheus警告規則である。",
@@ -474,7 +491,14 @@
     "dash_app": "ジャガーアプリケーション化",
     "alert_channel": "アラート チャネルは、ユーザーに通知するためのさまざまなアラート メッセージ送信方法を提供します。",
     "edge": "無人、リソースに制約のあるリモート ロケーション、または IoT デバイス内での実稼働ワークロード向けに設計された、可用性が高く認定された Kubernetes ディストリビューションです。",
-    "dash_probe": "クラウド ダイヤル テストは、サービスの読み込み速度、CDN アクセラレーション、DNS 解決などの主要なパフォーマンス指標を監視および分析することです。"
+    "dash_probe": "クラウド ダイヤル テストは、サービスの読み込み速度、CDN アクセラレーション、DNS 解決などの主要なパフォーマンス指標を監視および分析することです。",
+
+    "pai": "",
+    "pai_framework": "",
+    "pai_dataset": "",
+    "pai_train": "",
+    "pai_cluster": "",
+    "pai_instance": ""
   },
   "metadata": {
     "description": "より簡単に、クラウドベースでお届けします",

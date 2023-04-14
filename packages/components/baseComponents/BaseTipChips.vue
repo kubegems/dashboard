@@ -28,12 +28,12 @@
       open-on-hover
     >
       <template #activator="{ on }">
-        <v-flex v-on="on" :class="{ 'mt-2': extensionIcon }">
+        <v-flex :class="{ 'mt-2': extensionIcon }" v-on="on">
           <div class="float-left">
             <v-icon v-if="icon && !extensionIcon" :color="color" left :small="small"> {{ icon }} </v-icon>
-            <BaseLogo v-if="icon && extensionIcon" :icon-name="icon" class="mr-1" :mt="1"></BaseLogo>
+            <BaseLogo v-if="icon && extensionIcon" class="mr-1" :icon-name="icon" :mt="1" />
           </div>
-          <div class="float-left" :style="{ lineHeight: extensionIcon ? '30px' : '24px' }" v-if="showLength">
+          <div v-if="showLength" class="float-left" :style="{ lineHeight: extensionIcon ? '30px' : '24px' }">
             {{ items.length }}
           </div>
           <div class="kubegems__clear-float" />
@@ -60,9 +60,9 @@
               small
             >
               <div class="float-left">
-                <BaseLogo :icon-name="icon" class="mr-1" width="16"></BaseLogo>
+                <BaseLogo class="mr-1" :icon-name="icon" width="16" />
               </div>
-              <div class="float-left" v-if="showLength">
+              <div v-if="showLength" class="float-left">
                 <strong v-if="dataType === 'object'" class="mr-1">
                   {{ item[itemValue] }}
                 </strong>

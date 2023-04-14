@@ -28,7 +28,7 @@
     >
       <template #activator="{ on }">
         <span class="kubegems__pointer" v-on="on">
-          <BaseLogo icon-name="gpu" :top="top" :ml="1" />
+          <BaseLogo icon-name="gpu" :ml="1" :top="top" />
         </span>
       </template>
       <v-card flat>

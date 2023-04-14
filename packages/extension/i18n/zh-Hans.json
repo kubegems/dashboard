@@ -198,6 +198,7 @@
     "audit": "审计",
     "event": "事件",
     "usercenter": "用户中心",
+    "pai": "PAI",
     "user": {
       "tenant": "租户",
       "usercenter": "用户中心",
@@ -278,7 +279,8 @@
     "runtime": "容器服务",
     "microservice": "服务治理",
     "observability": "可观测性",
-    "administration": "平台管理"
+    "administration": "平台管理",
+    "pai": "算力调度"
   },
   "routerbar": {
     "cluster": {
@@ -418,6 +420,21 @@
       "h_space": "空间",
       "h_security": "安全配置",
       "h_integrated": "集成"
+    },
+    "pai": {
+      "h_dashboard": "概览",
+      "h_task": "任务",
+
+      "g_dashboard": "概览",
+      "g_task": "任务中心",
+      "g_asset": "资产管理",
+
+      "dashboard": "资源概览",
+      "train_task": "训练任务",
+      "dataset": "数据管理",
+      "framework": "训练框架",
+      "cluster": "算力集群",
+      "instance": "实例规格"
     }
   },
   "breadcrumb": {
@@ -489,7 +506,7 @@
     "alert_overview": "告警大盘(Alert Dashboard)允许您查看最近告警趋势，告警指标汇总及对比值。",
     "alert_history": "告警历史(Alert History)允许您按照条件查看告警的历史信息。",
     "alert_blacklist": "告警黑名单(Alert Blacklist)允许您将部分不需要接收的告警进行静默。",
-    "config-monitor": "监控采集配置中心(Monitor Config Center)允许您进行采集器，告警，接收器等监控指标相关的配置。",
+    "config_monitor": "监控采集配置中心(Monitor Config Center)允许您进行采集器，告警，接收器等监控指标相关的配置。",
     "log_monitor": "日志采集配置中心(Log Config Center)允许您进行日志采集器，告警，接收器等日志指标相关的配置以及日志流转过滤等配置。",
     "service_monitor": "采集器 (ServiceMonitor) 为一组服务定义监控, 自动被Prometheus发现, 成为其指标拉取目标Target。",
     "prometheus_rule": "告警规则 (PrometheusRule) 通常是针对监控指标设置的Prometheus告警规则。",
@@ -498,7 +515,14 @@
     "dash_app": "应用监控(OpenTelemetry)",
     "alert_channel": "告警渠道提供多种告警消息发送方式通知用户，包括(邮箱，飞书，webhook等)",
     "edge": "一种高度可用且经过认证的 Kubernetes 发行版，专为无人值守、资源受限、远程位置或物联网设备内部的生产工作负载而设计。",
-    "dash_probe": "云拨测是监测并分析服务加载速度、CDN加速、DNS解析等关键性能指标。"
+    "dash_probe": "云拨测是监测并分析服务加载速度、CDN加速、DNS解析等关键性能指标。",
+
+    "pai": "",
+    "pai_framework": "",
+    "pai_dataset": "",
+    "pai_train": "",
+    "pai_cluster": "",
+    "pai_instance": ""
   },
   "metadata": {
     "description": "更便捷的云原生管理平台",

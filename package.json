@@ -26,35 +26,35 @@
     }
   },
   "lint-staged": {
-    "packages/*.{ts,js,jsx,vue}": [
+    "packages/**/*.{ts,js,jsx,vue}": [
       "eslint ./ --ext .ts,.tsx,.vue,.js,.jsx --fix",
       "git add"
     ],
-    "packages/*.{html,vue,css,sass,scss}": [
+    "packages/**/*.{html,vue,css,sass,scss}": [
       "stylelint **/*.vue --fix",
       "git add"
     ],
-    "apps/kubegems/*.{ts,js,jsx,vue}": [
+    "apps/kubegems/**/*.{ts,js,jsx,vue}": [
       "pnpm -C apps/kubegems lint --fix",
       "git add"
     ],
-    "apps/kubegems/*.{html,vue,css,sass,scss}": [
+    "apps/kubegems/**/*.{html,vue,css,sass,scss}": [
       "pnpm -C apps/kubegems stylelint --fix",
       "git add"
     ],
-    "apps/observability/*.{ts,js,jsx,vue}": [
+    "apps/observability/**/*.{ts,js,jsx,vue}": [
       "pnpm -C apps/observability lint --fix",
       "git add"
     ],
-    "apps/observability/*.{html,vue,css,sass,scss}": [
+    "apps/observability/**/*.{html,vue,css,sass,scss}": [
       "pnpm -C apps/observability stylelint --fix",
       "git add"
     ],
-    "apps/servicemesh/*.{ts,js,jsx,vue}": [
+    "apps/servicemesh/**/*.{ts,js,jsx,vue}": [
       "pnpm -C apps/servicemesh lint --fix",
       "git add"
     ],
-    "apps/servicemesh/*.{html,vue,css,sass,scss}": [
+    "apps/servicemesh/**/*.{html,vue,css,sass,scss}": [
       "pnpm -C apps/servicemesh stylelint --fix",
       "git add"
     ]

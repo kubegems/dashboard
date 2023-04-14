@@ -19,7 +19,7 @@
     <v-container>
       <div class="pa-7 pa-sm-12">
         <v-row>
-          <v-col cols="3" lg="3" xl="3"></v-col>
+          <v-col cols="3" lg="3" xl="3" />
           <v-col class="login" cols="6" lg="6" xl="6">
             <div class="login__content primary--text">KubeGems Observability</div>
             <h2 class="font-weight-bold mt-4 blue-grey--text text--darken-2 text-center">
@@ -111,6 +111,7 @@
     const data = await new Auth().getLoginUser();
     store.commit('SET_USER', data);
     store.commit('SET_ADMIN', data.SystemRole.RoleCode === 'sysadmin');
+    store.commit('SET_ADMIN_VIEWPORT', true);
     router.push({ name: 'observe-overview' });
   };
 
