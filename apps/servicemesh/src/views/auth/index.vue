@@ -15,12 +15,14 @@
 -->
 
 <template>
-  <div class="login__third d-flex align-center" :style="{ height: `100% !important`, width: '100vw' }">
+  <div class="login__third d-flex align-center" :style="{ height: `100% !important` }">
     <v-container>
       <div class="pa-7 pa-sm-12">
         <v-row>
+          <v-col class="login" cols="3" lg="3" xl="3"></v-col>
           <v-col class="login" cols="12" lg="6" xl="6">
-            <h2 class="font-weight-bold mt-4 blue-grey--text text--darken-2">
+            <div class="login__content primary--text">KubeGems Service Mesh</div>
+            <h2 class="font-weight-bold mt-4 blue-grey--text text--darken-2 text-center">
               {{ i18n.t('login') }}
             </h2>
             <v-form ref="loginForm" v-model="state.valid" action="/" lazy-validation>
@@ -127,3 +129,13 @@
     init();
   });
 </script>
+
+<style lang="scss" scoped>
+  .login {
+    &__content {
+      text-align: center;
+      font-size: 36px;
+      font-family: 'kubegems-sample';
+    }
+  }
+</style>

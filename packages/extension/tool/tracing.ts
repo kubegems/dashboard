@@ -24,7 +24,7 @@ import { BatchSpanProcessor, WebTracerProvider } from '@opentelemetry/sdk-trace-
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 import { Store } from 'vuex';
 
-const integratedOpenTelemetry = (options: {
+const _integratedOpenTelemetry = (options: {
   release: string;
   collector: string;
   store: Store<{ [key: string]: any }>;
@@ -58,4 +58,4 @@ const integratedOpenTelemetry = (options: {
   });
 };
 
-export default integratedOpenTelemetry;
+export const integratedOpenTelemetry = _integratedOpenTelemetry;

@@ -428,7 +428,10 @@
     methods: {
       dynamicWidth() {
         const interval = setInterval(() => {
-          this.podNameWidth = document.querySelector('.pod__name').clientWidth;
+          const w = document.querySelector('.pod__name')?.clientWidth || undefined;
+          if (w) {
+            this.podNameWidth = w;
+          }
           this.tickNum += 1;
           if (this.tickNum >= 10) {
             clearInterval(interval);

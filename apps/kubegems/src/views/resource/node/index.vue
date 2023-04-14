@@ -36,12 +36,16 @@
         :items-per-page="params.size"
         :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
+        item-key="metadata.name"
       >
         <template #[`item.name`]="{ item }">
           <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="nodeDetail(item)">
             <v-flex class="float-left">
-              <BaseCopyItem :item="item.metadata.name" :max-width="nodeNameWidth" />
+              <BaseCopyItem :item="item.metadata.name" :max-width="nodeNameWidth - 30" />
             </v-flex>
+            <div class="float-left">
+              <v-icon color="primary" class="mx-1">{{ getOSIcon(item) }}</v-icon>
+            </div>
             <v-flex
               v-if="
                 (item.metadata.labels &&
@@ -49,9 +53,9 @@
                   item.metadata.labels['tencent.com/vcuda'] === 'true') ||
                 (item.metadata.labels['nvidia.com/gpu'] && item.metadata.labels['nvidia.com/gpu'] === 'true')
               "
-              class="float-left ml-2"
+              class="float-left"
             >
-              <GpuTip :allocated="false" :item="item" />
+              <GpuTip :allocated="false" :item="item" :top="2" />
             </v-flex>
 
             <div class="kubegems__clear-float" />
@@ -123,13 +127,12 @@
           {{ item.metadata.creationTimestamp ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}
         </template>
         <template #[`item.taint`]="{ item }">
-          <BaseTipChips
+          <BaseCollapseChips
             :chips="getDistinctTaints(item.spec.taints) || {}"
-            icon="mdi:liquid-spot"
+            icon="mdi-label-variant"
             single-line
-            color="#efefef"
-            show-length
-            extension-icon
+            :collapse="taintWidth"
+            :show-length="0"
           />
         </template>
         <template #[`item.role`]="{ item }">
@@ -171,6 +174,9 @@
               </v-card-text>
             </v-card>
           </v-menu>
+        </template>
+        <template #expanded-item="{ headers, item }">
+          <td class="my-2 py-2" :colspan="headers.length"> </td>
         </template>
       </v-data-table>
 
@@ -229,7 +235,9 @@
 
         interval: null,
         nodeNameWidth: 0,
-        tickNum: 0,
+        tickNodeNameNum: 0,
+        taintWidth: 0,
+        tickTaintNum: 0,
       };
     },
     computed: {
@@ -241,21 +249,22 @@
         return [
           { text: this.$t('table.name'), value: 'name', align: 'start', class: 'node__name' },
           { text: 'IP', value: 'ip', align: 'start' },
-          { text: this.$t('table.status'), value: 'status', align: 'start', width: 145 },
+          { text: this.$t('table.status'), value: 'status', align: 'start', width: 120 },
           { text: this.$t('table.role'), value: 'role', align: 'start' },
-          { text: this.$t('table.taint'), value: 'taint', align: 'start' },
+          { text: this.$t('table.taint'), value: 'taint', align: 'start', class: 'table__taint' },
           { text: this.$t('table.load'), value: 'load', align: 'start', width: 80 },
           { text: this.$root.$t('resource.cpu'), value: 'cpu', align: 'start', width: 150 },
           { text: this.$root.$t('resource.memory'), value: 'memory', align: 'start', width: 150 },
           { text: this.$root.$t('resource.pod'), value: 'pod', align: 'start', width: 150 },
-          { text: this.$t('table.join_at'), value: 'createAt', align: 'start' },
+          { text: this.$t('table.join_at'), value: 'createAt', align: 'start', width: 165 },
           { text: '', value: 'action', align: 'center', width: 20 },
         ];
       },
     },
     mounted() {
       this.$nextTick(() => {
-        this.dynamicWidth();
+        this.dynamicNodeNameWidth();
+        this.dynamicTaintWidth();
         if (this.ThisCluster === '') {
           this.$store.commit('SET_SNACKBAR', {
             text: this.$root.$t('tip.select_cluster'),
@@ -273,11 +282,26 @@
       }
     },
     methods: {
-      dynamicWidth() {
+      dynamicNodeNameWidth() {
         const interval = setInterval(() => {
-          this.nodeNameWidth = document.querySelector('.node__name').clientWidth;
-          this.tickNum += 1;
-          if (this.tickNum >= 10) {
+          const w = document.querySelector('.node__name')?.clientWidth || undefined;
+          if (w) {
+            this.nodeNameWidth = w;
+          }
+          this.tickNodeNameNum += 1;
+          if (this.tickNodeNameNum >= 10) {
+            clearInterval(interval);
+          }
+        }, 100);
+      },
+      dynamicTaintWidth() {
+        const interval = setInterval(() => {
+          const w = document.querySelector('.table__taint')?.clientWidth || undefined;
+          if (w) {
+            this.taintWidth = w;
+          }
+          this.tickTaintNum += 1;
+          if (this.tickTaintNum >= 10) {
             clearInterval(interval);
           }
         }, 100);
@@ -488,6 +512,14 @@
       },
       getColor(percentage) {
         return percentage ? (percentage < 60 ? 'primary' : percentage < 80 ? 'warning' : 'red darken-1') : 'primary';
+      },
+      getOSIcon(item) {
+        const os = item?.status?.nodeInfo?.osImage?.toLocaleLowerCase();
+        if (os.indexOf('ubuntu') > -1) return 'mdi-ubuntu';
+        if (os.indexOf('debian') > -1) return 'mdi-debian';
+        if (os.indexOf('windows') > -1) return 'mdi-microsoft-windows';
+        if (os.indexOf('centos') > -1) return 'mdi-centos';
+        if (os.indexOf('redhat') > -1) return 'mdi-redhat';
       },
     },
   };

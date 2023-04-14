@@ -36,38 +36,9 @@
 </template>
 
 <script lang="ts" setup>
-  import { useStore } from '@kubegems/extension/store';
-  import intro from '@kubegems/extension/tool/guide';
-  import { nextTick, onMounted } from 'vue';
-
   import { useI18n } from './i18n';
 
   const i18nLocal = useI18n();
-  const store = useStore();
-
-  onMounted(() => {
-    nextTick(() => {
-      if (store.state.Guided) {
-        intro
-          .setOptions({
-            steps: [
-              {
-                intro: i18nLocal.t('intro.welcome'),
-              },
-              {
-                element: document.querySelector('#intro_tool'),
-                intro: i18nLocal.t('intro.enter'),
-              },
-            ],
-          })
-          .start();
-
-        intro.onexit(() => {
-          store.commit('SET_GUIDED', true);
-        });
-      }
-    });
-  });
 </script>
 
 <style lang="scss" scoped>

@@ -9,7 +9,7 @@
     "start": "vite --force --cors -l info",
     "preview": "vite preview -l info -d",
     "build": "vite build",
-    "build:inner": "cross-env VUE_APP_SENTRY=true NODE_ENV=production VUE_APP_API_TIMEOUT=15 VUE_APP_ENVIRONMENT=production vite build"
+    "build:inner": "cross-env VUE_APP_SENTRY=true NODE_ENV=production VUE_APP_API_TIMEOUT=15 VUE_APP_ENVIRONMENT=production VUE_APP_TRACING=true vite build"
   },
   "author": "kubegems",
   "license": "Apache-2.0",
