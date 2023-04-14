@@ -38,7 +38,7 @@
           </span>
         </template>
         <template #action>
-          <v-btn id="intro_add_cluster" class="float-right" color="primary" small text @click="addResource">
+          <v-btn class="float-right" color="primary" small text @click="addResource">
             <v-icon left small> mdi-server-plus </v-icon>
             {{ i18n.t('operate.add_c', [i18n.t('resource.cluster')]) }}
           </v-btn>
@@ -107,7 +107,6 @@
   import { Tenant, TenantResourceQuota } from '@kubegems/api/typed/tenant';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
-  import intro from '@kubegems/extension/tool/guide';
   import { sleep } from '@kubegems/libs/utils/helpers';
   import _ from 'lodash';
   import { ComputedRef, computed, reactive, ref, watch } from 'vue';
@@ -190,23 +189,6 @@
     async (newValue) => {
       if (newValue) {
         getResourceQuotaList();
-        if (!store.state.Guided && pagination.items?.length > 0) {
-          await sleep(500);
-          intro
-            .setOptions({
-              steps: [
-                {
-                  element: document.querySelector('#intro_add_cluster'),
-                  intro: i18nLocal.t('intro.add_cluster'),
-                },
-              ],
-            })
-            .start();
-
-          intro.onexit(() => {
-            store.commit('SET_GUIDED', true);
-          });
-        }
       }
     },
     {
@@ -218,7 +200,6 @@
   const addResource = (): void => {
     add.value.init(props.tenant);
     add.value.open();
-    intro.exit();
   };
 
   const scale = ref(null);

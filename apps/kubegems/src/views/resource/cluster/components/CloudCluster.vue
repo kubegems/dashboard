@@ -91,7 +91,7 @@
         </v-hover>
       </v-col>
       <v-col class="pt-0" cols="3">
-        <v-card id="intro_add_cluster" class="kubegems__full-height" flat min-height="168">
+        <v-card class="kubegems__full-height" flat min-height="168">
           <v-card-text class="pa-0 kubegems__full-height">
             <v-list-item class="kubegems__full-height" three-line>
               <v-list-item-content>
@@ -115,7 +115,6 @@
 <script>
   import { deleteCluster, getClusterList, getClusterStatus } from '@kubegems/api/direct';
   import { convertResponse2List } from '@kubegems/api/utils';
-  import intro from '@kubegems/extension/tool/guide';
   import { sleep } from '@kubegems/libs/utils/helpers';
   import BaseResource from '@kubegems/mixins/resource';
   import BaseSelect from '@kubegems/mixins/select';
@@ -158,26 +157,6 @@
         this.syncClusterStatus();
         this.$store.commit('SET_NAMESPACE_FILTER', null);
         await sleep(500);
-        if (!this.Guided && this.items?.length === 0) {
-          intro
-            .setOptions({
-              steps: [
-                {
-                  element: document.querySelector('#intro_add_cluster'),
-                  intro: this.$t('intro.add_cluster'),
-                },
-                {
-                  element: document.querySelector('#intro_nav'),
-                  intro: this.$t('intro.add_tenant'),
-                },
-              ],
-            })
-            .start();
-
-          intro.onexit(() => {
-            this.$store.commit('SET_GUIDED', true);
-          });
-        }
       });
     },
     methods: {
@@ -227,7 +206,6 @@
       },
       addCluster() {
         this.$refs.addCluster.open();
-        intro.exit();
       },
       updateCluster(item) {
         this.$refs.updateCluster.init(item);

@@ -23,7 +23,7 @@
       v-if="items.length"
       :close-delay="200"
       :close-on-content-click="false"
-      :disabled="items.length === 1"
+      :disabled="items.length <= showLength"
       :max-width="maxWidth"
       :min-width="minWidth"
       open-on-hover
@@ -38,7 +38,10 @@
 
           <div v-for="item in visibleItems" :key="item[itemValue]" class="mr-2 my-1">
             <div class="success white--text float-left collapse__left text-caption">
-              <div :class="`${color} pl-2 pr-1 collapse__front`">
+              <div
+                :class="`${color} pl-2 pr-1 collapse__front ${collapse ? 'collapse__collapse' : ''}`"
+                :style="{ maxWidth: collapse ? `${collapse - 50}px` : '' }"
+              >
                 <v-icon v-if="icon" class="mr-1" color="white" small> {{ icon }} </v-icon>
                 <strong v-if="dataType === 'object'" class="mr-1"> {{ item[itemValue] }} </strong>
               </div>
@@ -99,6 +102,8 @@
       maxWidth?: string;
       minWidth?: string;
       singleLine?: boolean;
+      collapse?: number;
+      showLength?: number;
     }>(),
     {
       chips: [],
@@ -113,6 +118,8 @@
       maxWidth: undefined,
       minWidth: undefined,
       singleLine: false,
+      collapse: 0,
+      showLength: 1,
     },
   );
 
@@ -189,6 +196,13 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: auto;
+    }
+
+    &__collapse {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-break: break-all;
     }
   }
 </style>

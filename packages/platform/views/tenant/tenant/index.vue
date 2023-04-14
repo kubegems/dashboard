@@ -23,7 +23,7 @@
         <v-spacer />
         <v-menu left>
           <template #activator="{ on }">
-            <v-btn id="intro_add_tenant" icon>
+            <v-btn icon>
               <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
             </v-btn>
           </template>
@@ -168,7 +168,6 @@
   import { useRouter } from '@kubegems/extension/proxy';
   import { useParams, useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
-  import intro from '@kubegems/extension/tool/guide';
   import moment from 'moment';
   import { reactive, ref, watch } from 'vue';
 
@@ -236,22 +235,6 @@
         pagination.search = '';
       }
       await getTenantList();
-      if (!store.state.Guided && pagination.item?.length === 0) {
-        intro
-          .setOptions({
-            steps: [
-              {
-                element: document.querySelector('#intro_add_tenant'),
-                intro: i18nLocal.t('intro.add_tenant'),
-              },
-            ],
-          })
-          .start();
-
-        intro.onexit(() => {
-          store.commit('SET_GUIDED', true);
-        });
-      }
     },
     {
       immediate: true,
@@ -271,7 +254,6 @@
   const tenant = ref(null);
   const addTenant = (): void => {
     tenant.value.open();
-    intro.exit();
   };
 
   const updateTenant = (item: Tenant): void => {

@@ -28,7 +28,7 @@
     >
       <template #activator="{ on }">
         <span class="kubegems__pointer" v-on="on">
-          <BaseLogo icon-name="gpu" />
+          <BaseLogo icon-name="gpu" :top="top" :ml="1" />
         </span>
       </template>
       <v-card flat>
@@ -128,10 +128,12 @@
     defineProps<{
       allocated?: boolean;
       item?: any;
+      top?: number;
     }>(),
     {
       allocated: true,
       item: undefined,
+      top: 0,
     },
   );
 

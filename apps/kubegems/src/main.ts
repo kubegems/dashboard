@@ -17,6 +17,7 @@
 import i18n from '@kubegems/extension/i18n';
 import { useStore } from '@kubegems/extension/store';
 import { integratedSentry } from '@kubegems/extension/tool/sentry';
+import { integratedOpenTelemetry } from '@kubegems/extension/tool/tracing';
 import Vue from 'vue';
 
 import App from './App.vue';
@@ -45,6 +46,15 @@ if (import.meta.env.VUE_APP_SENTRY === 'true') {
     env: import.meta.env.VUE_APP_ENVIRONMENT,
     store: store,
     router: router,
+  });
+}
+
+// 集成opentelemetry
+if (import.meta.env.VUE_APP_TRACING === 'true') {
+  integratedOpenTelemetry({
+    release: import.meta.env.VUE_APP_RELEASE,
+    collector: import.meta.env.VUE_APP_OTEL_COLLECTOR,
+    store: store,
   });
 }
 

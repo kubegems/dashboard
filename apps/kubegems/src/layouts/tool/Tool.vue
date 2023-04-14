@@ -26,19 +26,7 @@
     transition="scale-transition"
   >
     <template #activator="{ on, attrs }">
-      <v-btn
-        id="intro_tool"
-        bottom
-        v-bind="attrs"
-        class="tool__btn"
-        color="primary"
-        dark
-        fab
-        fixed
-        right
-        small
-        v-on="on"
-      >
+      <v-btn bottom v-bind="attrs" class="tool__btn" color="primary" dark fab fixed right small v-on="on">
         <v-icon>mdi-wrench</v-icon>
       </v-btn>
     </template>

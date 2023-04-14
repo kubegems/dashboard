@@ -26,12 +26,18 @@
       :icon="getIconName(iconName, defaultLogo)"
       :width="`${width}px`"
       :color="color"
+      :style="{ marginTop: top ? `${top}px !important` : '' }"
     />
     <img
       v-else
       :class="`${large ? 'logo__largeimg' : 'logo__img'} ml-${ml} mt-${mt}`"
       :src="`/icon/${getIconName(iconName, defaultLogo).replaceAll('img:', '')}`"
-      :style="{ width: `${width}px`, height: `${width}px`, position: absolute ? 'absolute' : 'relative' }"
+      :style="{
+        width: `${width}px`,
+        height: `${width}px`,
+        position: absolute ? 'absolute' : 'relative',
+        marginTop: top ? `${top}px !important` : '',
+      }"
     />
   </span>
 </template>
@@ -49,6 +55,7 @@
       absolute?: boolean;
       width?: number;
       color?: string;
+      top?: number;
     }>(),
     {
       defaultLogo: '',
@@ -59,6 +66,7 @@
       absolute: false,
       width: 20,
       color: '',
+      top: 0,
     },
   );
 </script>
