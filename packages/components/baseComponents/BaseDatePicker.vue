@@ -26,7 +26,14 @@
     transition="scale-transition"
   >
     <template #activator="{ on }">
-      <v-btn class="white--text" color="primary" depressed :text="text" v-on="on">
+      <v-btn
+        :class="revert ? 'primary--text' : 'white--text'"
+        :color="revert ? 'white' : 'primary'"
+        depressed
+        :small="small"
+        :text="text"
+        v-on="on"
+      >
         {{ currentDate }}
         <v-icon v-if="state.menu" right>mdi-chevron-up</v-icon>
         <v-icon v-else right>mdi-chevron-down</v-icon>
@@ -50,10 +57,14 @@
     defineProps<{
       text?: boolean;
       yesterday?: boolean;
+      small?: boolean;
+      revert?: boolean;
     }>(),
     {
       text: false,
       yesterday: true,
+      small: false,
+      revert: false,
     },
   );
 

@@ -407,17 +407,22 @@
     "pai": {
       "h_dashboard": "概覽",
       "h_task": "任務",
+      "h_asset": "資產",
 
       "g_dashboard": "概覽",
       "g_task": "任務中心",
-      "g_asset": "資產管理",
+      "g_asset": "算力資源",
+      "g_ai_asset": "算法資產",
 
       "dashboard": "資源概覽",
       "train_task": "訓練任務",
-      "dataset": "數據管理",
-      "framework": "訓練框架",
+      "dataset": "數據集",
+      "image": "鏡像",
+      "model": "模型",
+      "code": "代碼集",
       "cluster": "算力集群",
-      "instance": "實例規格"
+      "instance": "實例規格",
+      "develop": "模型開發"
     }
   },
   "breadcrumb": {
@@ -498,7 +503,8 @@
     "pai_dataset": "",
     "pai_train": "",
     "pai_cluster": "",
-    "pai_instance": ""
+    "pai_instance": "",
+    "pai_develop": ""
   },
   "metadata": {
     "description": "更便捷的雲原生管理平臺",

@@ -407,17 +407,22 @@
     "pai": {
       "h_dashboard": "概要",
       "h_task": "タスク",
+      "h_asset": "資産",
 
       "g_dashboard": "概要",
       "g_task": "タスクセンター",
-      "g_asset": "資産運用管理",
+      "g_asset": "コンピューティング リソース",
+      "g_ai_asset": "アルゴリズム資産",
 
       "dashboard": "リソースの概要",
       "train_task": "トレーニング タスク",
-      "dataset": "データ管理",
-      "framework": "フレーム",
+      "dataset": "データセット",
+      "image": "鏡像",
+      "model": "モデル",
+      "code": "コード",
       "cluster": "集まる",
-      "instance": "インスタンス仕様"
+      "instance": "インスタンス仕様",
+      "develop": "モデル開発"
     }
   },
   "breadcrumb": {
@@ -498,7 +503,8 @@
     "pai_dataset": "",
     "pai_train": "",
     "pai_cluster": "",
-    "pai_instance": ""
+    "pai_instance": "",
+    "pai_develop": ""
   },
   "metadata": {
     "description": "より簡単に、クラウドベースでお届けします",
