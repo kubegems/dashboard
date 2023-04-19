@@ -62,6 +62,7 @@
               <VueSlider
                 v-model="sliderItems[obj.name].memory.value"
                 adsorb
+                :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
                 :enable-cross="false"
                 :marks="sliderItems[obj.name].memory.marks"
                 :max="sliderItems[obj.name].memory.max"

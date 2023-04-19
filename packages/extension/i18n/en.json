@@ -422,17 +422,22 @@
     "pai": {
       "h_dashboard": "Dashboard",
       "h_task": "Task",
+      "h_asset": "Asset",
 
       "g_dashboard": "Dashboard",
       "g_task": "Task",
-      "g_asset": "Asset",
+      "g_asset": "AI Resource",
+      "g_ai_asset": "AI Asset",
 
       "dashboard": "Dashboard",
       "train_task": "Train",
       "dataset": "Dataset",
-      "framework": "Framework",
+      "image": "Image",
+      "model": "Model",
+      "code": "Codeset",
       "cluster": "Cluster",
-      "instance": "Instance"
+      "instance": "Instance",
+      "develop": "Develop"
     }
   },
   "breadcrumb": {
@@ -520,7 +525,8 @@
     "pai_dataset": "",
     "pai_train": "",
     "pai_cluster": "",
-    "pai_instance": ""
+    "pai_instance": "",
+    "pai_develop": ""
   },
 
   "metadata": {

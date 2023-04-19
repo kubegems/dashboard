@@ -120,10 +120,10 @@
         <v-expand-transition>
           <v-flex v-show="view.chartShow">
             <v-flex v-if="view.resultType === 'streams'">
-              <LogBar :chart="view.chart" class="pb-1" />
+              <LogBar v-if="view.chart" :chart="view.chart" class="pb-1" />
             </v-flex>
             <v-flex v-else-if="view.resultType === 'matrix'">
-              <LogLine :chart="view.chart" />
+              <LogLine v-if="view.chart" :chart="view.chart" />
             </v-flex>
           </v-flex>
         </v-expand-transition>

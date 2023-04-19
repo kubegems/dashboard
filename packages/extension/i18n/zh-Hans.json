@@ -424,17 +424,22 @@
     "pai": {
       "h_dashboard": "概览",
       "h_task": "任务",
+      "h_asset": "资产",
 
       "g_dashboard": "概览",
       "g_task": "任务中心",
-      "g_asset": "资产管理",
+      "g_asset": "算力资源",
+      "g_ai_asset": "算法资产",
 
       "dashboard": "资源概览",
       "train_task": "训练任务",
-      "dataset": "数据管理",
-      "framework": "训练框架",
+      "dataset": "数据集",
+      "image": "镜像",
+      "model": "模型",
+      "code": "代码集",
       "cluster": "算力集群",
-      "instance": "实例规格"
+      "instance": "实例规格",
+      "develop": "模型开发"
     }
   },
   "breadcrumb": {
@@ -522,7 +527,8 @@
     "pai_dataset": "",
     "pai_train": "",
     "pai_cluster": "",
-    "pai_instance": ""
+    "pai_instance": "",
+    "pai_develop": ""
   },
   "metadata": {
     "description": "更便捷的云原生管理平台",
