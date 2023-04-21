@@ -423,11 +423,13 @@
       "h_dashboard": "Dashboard",
       "h_task": "Task",
       "h_asset": "Asset",
+      "h_cost": "Cost",
 
       "g_dashboard": "Dashboard",
       "g_task": "Task",
       "g_asset": "AI Resource",
       "g_ai_asset": "AI Asset",
+      "g_cost": "Cost",
 
       "dashboard": "Dashboard",
       "train_task": "Train",
@@ -437,7 +439,9 @@
       "code": "Codeset",
       "cluster": "Cluster",
       "instance": "Instance",
-      "develop": "Develop"
+      "develop": "Develop",
+      "cost_dash": "Dashboard",
+      "cost_analysis": "Analysis"
     }
   },
   "breadcrumb": {
@@ -521,12 +525,16 @@
     "dash_probe": "Prometheus probe is to monitor and analyze key performance indicators such as service loading speed, CDN acceleration, and DNS resolution.",
 
     "pai": "",
-    "pai_framework": "",
+    "pai_image": "",
     "pai_dataset": "",
     "pai_train": "",
     "pai_cluster": "",
     "pai_instance": "",
-    "pai_develop": ""
+    "pai_develop": "",
+    "pai_model": "",
+    "pai_code": "",
+    "pai_cost_dash": "",
+    "pai_cost_analysis": ""
   },
 
   "metadata": {

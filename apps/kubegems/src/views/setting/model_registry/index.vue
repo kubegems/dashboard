@@ -299,14 +299,17 @@
       const statusData = await new AIModelRegistry({ name: item.name }).getRegistryStatusByAdmin({
         noprocessing: true,
       });
-      registryItems.value[index] = { ...registryItems.value[index], ...statusData };
+      // todo: vue2.7.x 特殊处理ref相应问题，vue3之后无需处理
+      registryItems.value[index] = Object.assign(item, statusData);
+      registryItems.value = registryItems.value.slice();
     });
     interval = setInterval(() => {
       registryItems.value.forEach(async (item, index) => {
         const statusData = await new AIModelRegistry({ name: item.name }).getRegistryStatusByAdmin({
           noprocessing: true,
         });
-        registryItems.value[index] = { ...registryItems.value[index], ...statusData };
+        registryItems.value[index] = Object.assign(item, statusData);
+        registryItems.value = registryItems.value.slice();
       });
     }, 1000 * 10);
   };

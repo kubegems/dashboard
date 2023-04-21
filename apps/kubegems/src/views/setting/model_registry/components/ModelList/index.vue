@@ -51,7 +51,7 @@
         disable-sort
         :headers="headers"
         hide-default-footer
-        item-key="name"
+        item-key="id"
         :items="pagination.items"
         :items-per-page="pagination.size"
         :no-data-text="i18n.t('data.no_data')"
@@ -170,7 +170,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { useAiModelPagination } from '@kubegems/api/hooks/ai_model';
+  import { useAdminAiModelPagination } from '@kubegems/api/hooks/ai_model';
   import { AIModel, AIModelRegistry } from '@kubegems/api/typed/ai_model';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
@@ -253,7 +253,7 @@
 
   const getModelList = async (params: KubePaginationRequest = pagination): Promise<void> => {
     params.request = Object.assign(params.request, useQuery().value);
-    const data: Pagination<AIModel> = await useAiModelPagination(
+    const data: Pagination<AIModel> = await useAdminAiModelPagination(
       new AIModel({ source: props.item.name }),
       params.page,
       params.size,

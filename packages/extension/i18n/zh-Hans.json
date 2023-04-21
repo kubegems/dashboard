@@ -425,11 +425,13 @@
       "h_dashboard": "概览",
       "h_task": "任务",
       "h_asset": "资产",
+      "h_cost": "成本",
 
       "g_dashboard": "概览",
       "g_task": "任务中心",
       "g_asset": "算力资源",
       "g_ai_asset": "算法资产",
+      "g_cost": "成本中心",
 
       "dashboard": "资源概览",
       "train_task": "训练任务",
@@ -439,7 +441,9 @@
       "code": "代码集",
       "cluster": "算力集群",
       "instance": "实例规格",
-      "develop": "模型开发"
+      "develop": "在线开发",
+      "cost_dash": "成本概览",
+      "cost_analysis": "成本分析"
     }
   },
   "breadcrumb": {
@@ -523,12 +527,16 @@
     "dash_probe": "云拨测是监测并分析服务加载速度、CDN加速、DNS解析等关键性能指标。",
 
     "pai": "",
-    "pai_framework": "",
+    "pai_image": "",
     "pai_dataset": "",
     "pai_train": "",
     "pai_cluster": "",
     "pai_instance": "",
-    "pai_develop": ""
+    "pai_develop": "",
+    "pai_model": "",
+    "pai_code": "",
+    "pai_cost_dash": "",
+    "pai_cost_analysis": ""
   },
   "metadata": {
     "description": "更便捷的云原生管理平台",

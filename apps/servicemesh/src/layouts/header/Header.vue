@@ -28,9 +28,8 @@
       <div
         class="pl-2 text-h6 float-left header__line-height"
         :style="{
-          fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`,
-          fontWeight: `bold`,
-          fontSize: `1.1rem !important`,
+          fontFamily: 'kubegems-sample !important',
+          fontSize: `1.5rem !important`,
           marginLeft: `140px`,
         }"
       >

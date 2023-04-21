@@ -34,6 +34,23 @@ export const useAiModelPagination = async (
   return convertResponse2Pagination<AIModel>(_data);
 };
 
+export const useAdminAiModelPagination = async (
+  model: AIModel,
+  page = 1,
+  size = 10,
+  search = '',
+  request: KubeRequest = {},
+): Promise<Pagination<AIModel>> => {
+  const _data: KubePaginationResponse<AIModel[]> = await model.getModelListByAdmin(model.source, {
+    page: page,
+    size: size,
+    search: search,
+    ...request,
+  });
+
+  return convertResponse2Pagination<AIModel>(_data);
+};
+
 export const useRegistryUserList = async (registry: AIModelRegistry): Promise<string[]> => {
   const _data: string[] = await registry.getUserList({
     noprocessing: true,

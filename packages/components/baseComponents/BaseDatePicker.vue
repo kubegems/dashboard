@@ -27,7 +27,7 @@
   >
     <template #activator="{ on }">
       <v-btn
-        :class="revert ? 'primary--text' : 'white--text'"
+        :class="revert ? `primary--text pl-${pl}` : `white--text pl-${pl}`"
         :color="revert ? 'white' : 'primary'"
         depressed
         :small="small"
@@ -59,12 +59,14 @@
       yesterday?: boolean;
       small?: boolean;
       revert?: boolean;
+      pl?: number;
     }>(),
     {
       text: false,
       yesterday: true,
       small: false,
       revert: false,
+      pl: undefined,
     },
   );
 
