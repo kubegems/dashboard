@@ -465,9 +465,6 @@ importers:
       vue-router:
         specifier: ^3.6.5
         version: 3.6.5(vue@2.7.14)
-      vue-slider-component:
-        specifier: ^2.8.16
-        version: 2.8.16
       vuetify:
         specifier: ^2.6.14
         version: 2.6.14(vue@2.7.14)

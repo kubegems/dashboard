@@ -1,4 +1,4 @@
-# 1.23.8 (2023-4-14)
+# 1.23.8 (2023-4-19)
 
 ### 🌟 新功能
 
@@ -14,6 +14,7 @@
 | - | [fix: 🐛 fix create resource occured namespace error in tanent edge space bug] | [6565d2b](https://github.com/chenshunliang/dashboard/commit/6565d2bc0dfee1809eee58b65c236c0a567b578e) |
 | - | [fix: 🐛 fix base dialog component height style not render correct bug] | [dff71c2](https://github.com/chenshunliang/dashboard/commit/dff71c229cb87ac3094a0c55397a8775ad1c8526) |
 | - | [fix: 🐛 fix dynamic width calculate bug] | [29de3f9](https://github.com/chenshunliang/dashboard/commit/29de3f94d0ffa1c4948d38adced18e75c50d80de) |
+| - | [fix: 🐛 fix log viewer charts not show bug] | [398439d](https://github.com/chenshunliang/dashboard/commit/398439d1613240c53d3d882d123528bd9510492f) |
 
 ### Styles
 

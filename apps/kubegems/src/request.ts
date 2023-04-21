@@ -71,6 +71,9 @@ axios.interceptors.request.use(
       });
     }
     if (config.method.toLocaleLowerCase() === 'get' && config.url.indexOf('callback') === -1) {
+      if (config?.params?.search) {
+        config.params.search = config?.params?.search?.trim();
+      }
       if (!(config.params && config.params.noprocessing)) {
         store.commit('SET_PROGRESS', true);
       }

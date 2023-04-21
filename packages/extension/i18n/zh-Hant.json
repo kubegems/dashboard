@@ -408,11 +408,13 @@
       "h_dashboard": "概覽",
       "h_task": "任務",
       "h_asset": "資產",
+      "h_cost": "成本",
 
       "g_dashboard": "概覽",
       "g_task": "任務中心",
       "g_asset": "算力資源",
       "g_ai_asset": "算法資產",
+      "g_cost": "成本",
 
       "dashboard": "資源概覽",
       "train_task": "訓練任務",
@@ -422,7 +424,9 @@
       "code": "代碼集",
       "cluster": "算力集群",
       "instance": "實例規格",
-      "develop": "模型開發"
+      "develop": "在線開發",
+      "cost_dash": "成本概覽",
+      "cost_analysis": "成本分析"
     }
   },
   "breadcrumb": {
@@ -499,12 +503,16 @@
     "dash_probe": "雲撥測是監測並分析服務加載速度、CDN加速、DNS解析等關鍵性能指標。",
 
     "pai": "",
-    "pai_framework": "",
+    "pai_image": "",
     "pai_dataset": "",
     "pai_train": "",
     "pai_cluster": "",
     "pai_instance": "",
-    "pai_develop": ""
+    "pai_develop": "",
+    "pai_model": "",
+    "pai_code": "",
+    "pai_cost_dash": "",
+    "pai_cost_analysis": ""
   },
   "metadata": {
     "description": "更便捷的雲原生管理平臺",
