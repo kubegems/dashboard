@@ -27,6 +27,7 @@
                 :default-val="quota ? maxCpu : 0"
                 :extend-height="180"
                 :metrics="cpuSeries"
+                :theme-conifg="config.theme"
                 :title="$root.$t('resource.cpu')"
                 tooltip-external
                 :total="quota ? maxCpu : 0"
@@ -35,7 +36,7 @@
             </v-sheet>
             <v-sheet>
               <v-sheet v-if="showTenant">
-                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#00bcd4` }">
+                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.success }">
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span>
@@ -45,7 +46,7 @@
                 </span>
               </v-sheet>
               <v-sheet>
-                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#1e88e5` }">
+                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.primary }">
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span>
@@ -55,7 +56,7 @@
                 </span>
               </v-sheet>
               <v-sheet>
-                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#fb8c00` }">
+                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR_OTHER.warning }">
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span>
@@ -79,6 +80,7 @@
                 :default-val="quota ? maxMemory : 0"
                 :extend-height="180"
                 :metrics="memorySeries"
+                :theme-conifg="config.theme"
                 :title="$root.$t('resource.memory')"
                 tooltip-external
                 :total="quota ? maxMemory : 0"
@@ -87,7 +89,7 @@
             </v-sheet>
             <v-sheet>
               <v-sheet v-if="showTenant">
-                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#00bcd4` }">
+                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.success }">
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span>
@@ -97,7 +99,7 @@
                 </span>
               </v-sheet>
               <v-sheet>
-                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#1e88e5` }">
+                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.primary }">
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span>
@@ -107,7 +109,7 @@
                 </span>
               </v-sheet>
               <v-sheet>
-                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#fb8c00` }">
+                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR_OTHER.warning }">
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span>
@@ -131,6 +133,7 @@
                 :default-val="quota ? maxStorage : 0"
                 :extend-height="180"
                 :metrics="storageSeries"
+                :theme-conifg="config.theme"
                 :title="$root.$t('resource.storage')"
                 tooltip-external
                 :total="quota ? maxStorage : 0"
@@ -139,7 +142,7 @@
             </v-sheet>
             <v-sheet>
               <v-sheet v-if="showTenant">
-                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#00bcd4` }">
+                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.success }">
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span>
@@ -149,7 +152,7 @@
                 </span>
               </v-sheet>
               <v-sheet>
-                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#1e88e5` }">
+                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.primary }">
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span>
@@ -159,7 +162,7 @@
                 </span>
               </v-sheet>
               <v-sheet>
-                <v-avatar class="mr-2" size="0" :style="{ backgroundColor: `#607d8b` }">
+                <v-avatar class="mr-2" size="0" :style="{ backgroundColor: config.theme.THEME_COLOR_OTHER.grey }">
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span />
@@ -178,13 +181,14 @@
                 :default-val="quota ? parseFloat(quota.capacity['limits.pods']) : 0"
                 :extend-height="180"
                 :metrics="podSeries"
+                :theme-conifg="config.theme"
                 :title="$root.$t('resource.pod')"
                 unit=""
               />
             </v-sheet>
             <v-sheet>
               <v-sheet>
-                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#00bcd4` }">
+                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.success }">
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span>
@@ -193,13 +197,13 @@
                 </span>
               </v-sheet>
               <v-sheet>
-                <v-avatar class="mr-2" size="0" :style="{ backgroundColor: `#00bcd4` }">
+                <v-avatar class="mr-2" size="0" :style="{ backgroundColor: config.theme.THEME_COLOR.success }">
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span />
               </v-sheet>
               <v-sheet v-if="showTenant">
-                <v-avatar class="mr-2" size="0" :style="{ backgroundColor: `#607d8b` }">
+                <v-avatar class="mr-2" size="0" :style="{ backgroundColor: config.theme.THEME_COLOR_OTHER.grey }">
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span />
@@ -222,6 +226,7 @@
                     :default-val="quota ? maxNvidia : 0"
                     :extend-height="180"
                     :metrics="nvidiaSeries"
+                    :theme-conifg="config.theme"
                     :title="`Nvidia ${$root.$t('resource.gpu')}`"
                     tooltip-external
                     :total="quota ? maxNvidia : 0"
@@ -230,7 +235,7 @@
                 </v-sheet>
                 <v-sheet>
                   <v-sheet v-if="showTenant">
-                    <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#00bcd4` }">
+                    <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.success }">
                       <span class="white--text text-h5" />
                     </v-avatar>
                     <span>
@@ -239,7 +244,7 @@
                     </span>
                   </v-sheet>
                   <v-sheet>
-                    <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#1e88e5` }">
+                    <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.primary }">
                       <span class="white--text text-h5" />
                     </v-avatar>
                     <span>
@@ -248,7 +253,7 @@
                     </span>
                   </v-sheet>
                   <v-sheet>
-                    <v-avatar class="mr-2" size="0" :style="{ backgroundColor: `#607d8b` }">
+                    <v-avatar class="mr-2" size="0" :style="{ backgroundColor: config.theme.THEME_COLOR_OTHER.grey }">
                       <span class="white--text text-h5" />
                     </v-avatar>
                     <span />
@@ -269,6 +274,7 @@
                       :default-val="quota ? maxTkeGpu : 0"
                       :extend-height="180"
                       :metrics="tkeGpuSeries"
+                      :theme-conifg="config.theme"
                       :title="`Tke ${$root.$t('resource.gpu')}`"
                       tooltip-external
                       :total="quota ? maxTkeGpu : 0"
@@ -277,7 +283,7 @@
                   </v-sheet>
                   <v-sheet>
                     <v-sheet v-if="showTenant">
-                      <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#00bcd4` }">
+                      <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.success }">
                         <span class="white--text text-h5" />
                       </v-avatar>
                       <span>
@@ -290,7 +296,7 @@
                       </span>
                     </v-sheet>
                     <v-sheet>
-                      <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#1e88e5` }">
+                      <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.primary }">
                         <span class="white--text text-h5" />
                       </v-avatar>
                       <span>
@@ -303,7 +309,7 @@
                       </span>
                     </v-sheet>
                     <v-sheet>
-                      <v-avatar class="mr-2" size="0" :style="{ backgroundColor: `#607d8b` }">
+                      <v-avatar class="mr-2" size="0" :style="{ backgroundColor: config.theme.THEME_COLOR_OTHER.grey }">
                         <span class="white--text text-h5" />
                       </v-avatar>
                       <span />
@@ -323,6 +329,7 @@
                       :default-val="quota ? maxTkeMemory : 0"
                       :extend-height="180"
                       :metrics="tkeMemorySeries"
+                      :theme-conifg="config.theme"
                       :title="`Tke ${$root.$t('resource.video_memory')}`"
                       tooltip-external
                       :total="quota ? maxTkeMemory : 0"
@@ -331,7 +338,7 @@
                   </v-sheet>
                   <v-sheet>
                     <v-sheet v-if="showTenant">
-                      <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#00bcd4` }">
+                      <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.success }">
                         <span class="white--text text-h5" />
                       </v-avatar>
                       <span>
@@ -348,7 +355,7 @@
                       </span>
                     </v-sheet>
                     <v-sheet>
-                      <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#1e88e5` }">
+                      <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.primary }">
                         <span class="white--text text-h5" />
                       </v-avatar>
                       <span>
@@ -365,7 +372,7 @@
                       </span>
                     </v-sheet>
                     <v-sheet>
-                      <v-avatar class="mr-2" size="0" :style="{ backgroundColor: `#607d8b` }">
+                      <v-avatar class="mr-2" size="0" :style="{ backgroundColor: config.theme.THEME_COLOR_OTHER.grey }">
                         <span class="white--text text-h5" />
                       </v-avatar>
                       <span />
@@ -392,6 +399,7 @@
   import { sizeOfCpu, sizeOfStorage } from '@kubegems/libs/utils/helpers';
   import { mapGetters, mapState } from 'vuex';
 
+  import config from '../../../../config.json';
   import messages from '../i18n';
 
   export default {
@@ -424,6 +432,8 @@
       },
     },
     data() {
+      this.config = config;
+
       return {
         showMore: false,
       };

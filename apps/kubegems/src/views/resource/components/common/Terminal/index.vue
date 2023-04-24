@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="dialog" icon="mdi-console" :title="$t('tip.terminal')" @dispose="dispose">
+  <BaseFullScreenDialog
+    v-model="dialog"
+    icon="mdi-console"
+    :logo="config.layout.LOGO_WHITE"
+    :title="$t('tip.terminal')"
+    @dispose="dispose"
+  >
     <template #header>
       <v-flex class="ml-2 text-h6 mt-n1 terminal__title">
         {{ item ? item.name : '' }}
@@ -69,7 +75,7 @@
                     :key="index"
                     class="text-body-2 text-center mx-2"
                     link
-                    :style="{ color: con.text === container ? `#1e88e5 !important` : `` }"
+                    :style="{ color: con.text === container ? `var(--primary-color) !important` : `` }"
                     @click="setContainer(con)"
                   >
                     <v-list-item-content>
@@ -98,6 +104,7 @@
   import { Terminal } from 'xterm';
   import { FitAddon } from 'xterm-addon-fit';
 
+  import config from '../../../../../config.json';
   import messages from '../../i18n';
   import FileViewer from './FileViewer';
 
@@ -161,6 +168,8 @@
     },
     mixins: [BaseResource],
     data() {
+      this.config = config;
+
       return {
         dialog: false,
         containers: [],

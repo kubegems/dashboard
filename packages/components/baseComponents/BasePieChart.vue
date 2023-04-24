@@ -105,7 +105,15 @@
       {
         data: props.metrics,
         backgroundColor:
-          props.color?.length > 0 ? props.color : props.colorful ? LINE_THEME_FUL_COLORS : LINE_THEME_COLORS,
+          props.color?.length > 0
+            ? props.color
+            : props.colorful
+            ? LINE_THEME_FUL_COLORS
+            : LINE_THEME_COLORS.map((item) => {
+                return getComputedStyle(document.documentElement)
+                  .getPropertyValue(item.replaceAll('var(', '').replaceAll(')', ''))
+                  ?.trim();
+              }),
         hoverOffset: 4,
       },
     ];

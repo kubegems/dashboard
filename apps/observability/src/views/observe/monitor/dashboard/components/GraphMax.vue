@@ -19,6 +19,7 @@
     v-model="dialog"
     :action-top="4"
     icon="mdi-chart-areaspline-variant"
+    :logo="config.layout.LOGO_WHITE"
     :title="`${$t('tip.monitor_panel')}--${graph.name}`"
     @dispose="dispose"
   >
@@ -70,6 +71,7 @@
   } from '@kubegems/api/direct';
   import { mapGetters, mapState } from 'vuex';
 
+  import config from '../../../../../config.json';
   import messages from '../../i18n';
 
   export default {
@@ -88,6 +90,8 @@
       },
     },
     data() {
+      this.config = config;
+
       return {
         dialog: false,
         graph: {},

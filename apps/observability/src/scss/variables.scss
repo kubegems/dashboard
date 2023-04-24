@@ -1,11 +1,11 @@
 // Globals
-$body-font-family: ZCOOL QingKe HuangYou, Microsoft YaHei, PingFang SC !default;
+$body-font-family: zcool qingke huangyou, microsoft yahei, pingfang sc !default;
 $border-radius-root: 8px;
 
 // Custom variables
 $subtitle-color: #a1aab2;
 
-$info: #1e88e5;
+$info: var(--primary-color);
 $gray-500: #a1aab2;
 
 $light-primary: #e6ecfc;
@@ -15,8 +15,8 @@ $light-danger: #f9e7eb;
 
 $box-shadow: 0 0 1px 0 rgba(27, 19, 19, 0.1);
 
-$primary: #1e88e5;
-$info: #1e88e5;
+$primary: var(--primary-color);
+$info: var(--primary-color);
 $success: #00bcd4;
 $accent: #fc4b6c;
 $default: #563dea;

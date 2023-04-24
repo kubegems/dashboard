@@ -66,7 +66,7 @@
                 :key="`v${index}`"
                 class="text-body-2 text-center font-weight-medium px-0"
                 link
-                :style="{ color: v === version ? `#1e88e5 !important` : `` }"
+                :style="{ color: v === version ? `var(--primary-color) !important` : `` }"
                 @click="setVersion(v)"
               >
                 <v-list-item-content class="text-body-2 font-weight-medium text-start">

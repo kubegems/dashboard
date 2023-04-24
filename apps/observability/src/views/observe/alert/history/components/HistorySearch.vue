@@ -382,7 +382,7 @@
       }
 
       &--selected {
-        background-color: #00bcd4 !important;
+        background-color: var(--success-color) !important;
         color: white;
       }
     }

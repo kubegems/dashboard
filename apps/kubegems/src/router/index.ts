@@ -1,10 +1,10 @@
 import { useGlobalI18n } from '@kubegems/extension/i18n';
 import { useRouter } from '@kubegems/extension/router';
 import { useStore } from '@kubegems/extension/store';
-import { PLATFORM } from '@kubegems/libs/constants/platform';
 import { adminObserve, observe } from '@kubegems/observability/export';
 import { entryMicroService, microService } from '@kubegems/servicemesh/export';
 
+import config from '../config.json';
 import { adminWorkspace } from './admin_workspace';
 import { appStore } from './app_store';
 import { dashboard } from './dashboard';
@@ -83,7 +83,7 @@ originalRoutes.forEach((r) => {
 
 router.beforeResolve((to, from, next): void => {
   if (window) {
-    window.document.title = `${i18n.t(to.meta.title)} - ${PLATFORM}`;
+    window.document.title = `${i18n.t(to.meta.title)} - ${config.layout.PLATFORM}`;
   }
   next();
 });

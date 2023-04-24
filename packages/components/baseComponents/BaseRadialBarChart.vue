@@ -39,6 +39,7 @@
       total?: number;
       unit?: string;
       val?: number;
+      themeConifg?: any;
     }>(),
     {
       id: '',
@@ -52,12 +53,17 @@
       total: 0,
       unit: '',
       val: 0,
+      themeConifg: undefined,
     },
   );
 
   const chart = ref<any>(undefined);
   const chartId = ref<string>('');
-  const colorful = ['#00BCD4', '#1e88e5', '#fb8c00'];
+  const colorful = [
+    props.themeConifg.THEME_COLOR.primary,
+    props.themeConifg.THEME_COLOR.success,
+    props.themeConifg.THEME_COLOR_OTHER.warning,
+  ];
   const triggerVal = ref<number>(0);
 
   const loadChart = (): void => {
@@ -80,7 +86,7 @@
                 labels: [
                   {
                     text: props.title,
-                    color: '#00BCD4',
+                    color: props.themeConifg.THEME_COLOR.success,
                     font: {
                       size: 16,
                       weight: 'bold',

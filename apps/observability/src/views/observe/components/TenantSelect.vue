@@ -56,7 +56,7 @@
                   :key="index"
                   class="text-body-2 text-center font-weight-medium kubegems__text mx-2"
                   link
-                  :style="{ color: ten.text === tenant.TenantName ? `#1e88e5 !important` : `` }"
+                  :style="{ color: ten.text === tenant.TenantName ? `var(--primary-color) !important` : `` }"
                   @click="setTenant(ten)"
                 >
                   <v-list-item-content>

@@ -145,10 +145,10 @@
   import { useRoute } from '@kubegems/extension/proxy';
   import { email, password, phone, required } from '@kubegems/extension/ruler';
   import { useStore } from '@kubegems/extension/store';
-  import { PLATFORM } from '@kubegems/libs/constants/platform';
   import moment from 'moment';
   import { inject, nextTick, onMounted, reactive, ref, watch } from 'vue';
 
+  import config from '../../../../config.json';
   import { useI18n } from '../i18n';
 
   const i18nLocal = useI18n();
@@ -215,7 +215,7 @@
     iii.locale = language.value;
     moment.locale(language.value === 'zh-Hans' ? 'zh-cn' : language.value);
     if (window) {
-      window.document.title = `${i18nLocal.t(route.meta.title)} - ${PLATFORM}`;
+      window.document.title = `${i18nLocal.t(route.meta.title)} - ${config.layout.PLATFORM}`;
     }
     store.commit('SET_LOCALE', language.value);
     reload();

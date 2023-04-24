@@ -15,12 +15,18 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="visible" icon="mdi-note-text" :title="$t('tip.log_context')" @dispose="handleDispose">
+  <BaseFullScreenDialog
+    v-model="visible"
+    icon="mdi-note-text"
+    :logo="config.layout.LOGO_WHITE"
+    :title="$t('tip.log_context')"
+    @dispose="handleDispose"
+  >
     <template #content>
       <v-card id="log__context" class="log-context" flat>
         <div v-scroll:#log__context="$_.debounce(onScroll, 50)">
           <div v-if="loading.preview" class="text-center py-3 log-context__loading">
-            <BaseDropProgress />
+            <BaseDropProgress :progress="config.layout.PLATFORM" />
           </div>
 
           <div id="log__pre" class="my-3" />
@@ -32,7 +38,7 @@
           <LogTable :items="items.next" mode="context" />
 
           <div v-if="loading.next" class="text-center py-3 log-context__loading">
-            <BaseDropProgress />
+            <BaseDropProgress :progress="config.layout.PLATFORM" />
           </div>
         </div>
       </v-card>
@@ -44,6 +50,7 @@
   import { getLogContext } from '@kubegems/api/direct';
   import { sleep } from '@kubegems/libs/utils/helpers';
 
+  import config from '../../../../../config.json';
   import messages from '../../i18n';
   import LogTable from './LogTable';
 
@@ -56,6 +63,8 @@
       LogTable,
     },
     data() {
+      this.config = config;
+
       return {
         visible: false,
         items: {

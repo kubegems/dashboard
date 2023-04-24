@@ -181,13 +181,17 @@
             ? props.color[index % props.color.length]
             : props.colorful
             ? LINE_THEME_FUL_COLORS[index % 10]
-            : LINE_THEME_COLORS[index % 12],
+            : getComputedStyle(document.documentElement)
+                .getPropertyValue(LINE_THEME_COLORS[index % 10].replaceAll('var(', '').replaceAll(')', ''))
+                ?.trim(),
         backgroundColor:
           props.color?.length > 0
             ? props.color[index % props.color.length]
             : props.colorful
             ? LINE_THEME_FUL_COLORS[index % 10]
-            : LINE_THEME_COLORS[index % 12],
+            : getComputedStyle(document.documentElement)
+                .getPropertyValue(LINE_THEME_COLORS[index % 10].replaceAll('var(', '').replaceAll(')', ''))
+                ?.trim(),
       };
     });
 

@@ -73,7 +73,7 @@
           {{ item.spec.targets.staticConfig.static.join(',') }}
         </template>
         <template #item.status>
-          <BaseStatus bg-color="#00BCD4" status="Running" />
+          <BaseStatus bg-color="var(--success-color)" status="Running" />
         </template>
         <template #item.action="{ item }">
           <v-flex :id="`r${item.metadata.resourceVersion}`" />

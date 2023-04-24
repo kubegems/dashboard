@@ -21,6 +21,7 @@
         <BaseRadialBarChart
           class="my-3"
           :metrics="cpuSeries"
+          :theme-conifg="config.theme"
           :title="$root.$t('resource.cpu')"
           :total="statistics ? statistics.Cpu : 0"
           unit="core"
@@ -31,6 +32,7 @@
         <BaseRadialBarChart
           class="my-3"
           :metrics="memorySeries"
+          :theme-conifg="config.theme"
           :title="$root.$t('resource.memory')"
           :total="statistics ? statistics.Memory : 0"
           unit="Gi"
@@ -41,6 +43,7 @@
         <BaseRadialBarChart
           class="my-3"
           :metrics="storageSeries"
+          :theme-conifg="config.theme"
           :title="$root.$t('resource.storage')"
           :total="statistics ? statistics.Storage : 0"
           unit="Gi"
@@ -51,6 +54,7 @@
         <BaseRadialBarChart
           class="my-3"
           :metrics="podSeries"
+          :theme-conifg="config.theme"
           :title="$root.$t('resource.pod')"
           :total="statistics ? statistics.Pod : 0"
           unit=""
@@ -65,6 +69,7 @@
           <BaseRadialBarChart
             class="my-3"
             :metrics="nvidiaGpuSeries"
+            :theme-conifg="config.theme"
             :title="`Nvidia ${$root.$t('resource.gpu')}`"
             :total="statistics ? statistics.NvidiaGpu : 0"
             unit="gpu"
@@ -77,6 +82,7 @@
             <BaseRadialBarChart
               class="my-3"
               :metrics="tkeGpuSeries"
+              :theme-conifg="config.theme"
               :title="`Tke ${$root.$t('resource.gpu')}`"
               :total="statistics ? statistics.TkeGpu : 0"
               unit=""
@@ -87,6 +93,7 @@
             <BaseRadialBarChart
               class="my-3"
               :metrics="tkeMemorySeries"
+              :theme-conifg="config.theme"
               :title="`Tke ${$root.$t('resource.video_memory')}`"
               :total="statistics ? statistics.TkeMemory : 0"
               unit=""
@@ -106,6 +113,7 @@
 </template>
 
 <script>
+  import config from '../../../../../config.json';
   import messages from '../../i18n';
 
   export default {
@@ -120,6 +128,8 @@
       },
     },
     data() {
+      this.config = config;
+
       return {
         showMore: false,
       };

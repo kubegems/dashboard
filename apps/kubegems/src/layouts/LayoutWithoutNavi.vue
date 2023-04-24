@@ -17,7 +17,7 @@
 <template>
   <LayoutWithoutNavi>
     <template #header>
-      <Header v-model="expandOnHover" :show-app-bar-nav-icon="false" :small-title="route.meta.smallTitle" />
+      <Header v-model="expandOnHover" :show-app-bar-nav-icon="false" :small-title="meta.smallTitle" />
     </template>
     <template #tool>
       <Tool v-if="store.state.Admin" />
@@ -27,7 +27,7 @@
 
 <script lang="ts" setup>
   import LayoutWithoutNavi from '@kubegems/components/layouts/LayoutWithoutNavi.vue';
-  import { useRoute } from '@kubegems/extension/proxy';
+  import { useMeta } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
   import { ref } from 'vue';
 
@@ -35,7 +35,7 @@
   import Tool from './tool/Tool.vue';
 
   const store = useStore();
-  const route = useRoute();
+  const meta = useMeta();
 
   const expandOnHover = ref(false);
 </script>

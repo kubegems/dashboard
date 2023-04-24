@@ -16,9 +16,9 @@
 import { useGlobalI18n } from '@kubegems/extension/i18n';
 import { useRouter } from '@kubegems/extension/router';
 import { useStore } from '@kubegems/extension/store';
-import { PLATFORM } from '@kubegems/libs/constants/platform';
 import { platform } from '@kubegems/platform/router';
 
+import config from '../config.json';
 import { entryMicroService } from './entry_microservice';
 import { global } from './global';
 import { microService } from './microservice';
@@ -51,7 +51,7 @@ originalRoutes.forEach((r) => {
 
 router.beforeResolve((to, from, next): void => {
   if (window) {
-    window.document.title = `${i18n.t(to.meta.title)} - ${PLATFORM}`;
+    window.document.title = `${i18n.t(to.meta.title)} - ${config.layout.PLATFORM}`;
   }
   next();
 });

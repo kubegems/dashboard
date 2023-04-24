@@ -40,10 +40,10 @@
           size="10"
           :style="`background-color: ${
             getStatus(item.status.conditions).join(',') === 'Ready'
-              ? '#00BCD4'
+              ? config.theme.THEME_COLOR.success
               : getStatus(item.status.conditions).join(',') === 'Unknown'
-              ? '#607D8B'
-              : '#ff5252'
+              ? config.theme.THEME_COLOR_OTHER.grey
+              : config.theme.THEME_COLOR_OTHER.error
           };`"
         >
           <span class="white--text text-h5" />
@@ -173,6 +173,7 @@
   import moment from 'moment';
   import { onMounted, reactive } from 'vue';
 
+  import config from '../../../../config.json';
   import { useI18n } from '../i18n';
 
   onMounted(() => {

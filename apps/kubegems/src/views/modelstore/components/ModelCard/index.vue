@@ -77,7 +77,7 @@
     </v-row>
 
     <div v-if="state.loading" class="my-3 py-2 text-center card__scroll__loading">
-      <BaseDropProgress />
+      <BaseDropProgress :progress="config.layout.PLATFORM" />
     </div>
 
     <v-btn
@@ -108,6 +108,7 @@
   import moment from 'moment';
   import { ComputedRef, computed, reactive, ref, watch } from 'vue';
 
+  import config from '../../../../config.json';
   import { useI18n } from '../../i18n';
 
   const props = withDefaults(
@@ -277,7 +278,7 @@
       transform: rotate(47deg);
       top: -46px;
       right: -55px;
-      background-color: #1e88e5;
+      background-color: var(--primary-color);
       padding: 0;
     }
 

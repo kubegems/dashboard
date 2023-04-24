@@ -41,7 +41,7 @@
                     height: '10px',
                     minWidth: '10px',
                     width: '10px',
-                    backgroundColor: `${require.message ? '#fb8c00' : '#00BCD4'}`,
+                    backgroundColor: `${require.message ? 'var(--warning-color)' : 'var(--success-color)'}`,
                   }"
                 />
                 <span class="mr-1">{{ require.name }}</span> {{ require.expr }}

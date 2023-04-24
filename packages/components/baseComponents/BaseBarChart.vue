@@ -99,11 +99,11 @@
                     return props.horizontal
                       ? props.type === 'time'
                         ? beautifyTime(
-                            (tooltipItem.dataset.data[tooltipItem.dataIndex] as ScatterDataPoint).x.toString(),
+                            (tooltipItem.dataset.data[tooltipItem.dataIndex] as ScatterDataPoint).x?.toString(),
                             1000000,
                           )
-                        : (tooltipItem.dataset.data[tooltipItem.dataIndex] as ScatterDataPoint).x.toFixed(1)
-                      : (tooltipItem.dataset.data[tooltipItem.dataIndex] as ScatterDataPoint).y.toString();
+                        : (tooltipItem.dataset.data[tooltipItem.dataIndex] as ScatterDataPoint).x?.toFixed(1)
+                      : (tooltipItem.dataset.data[tooltipItem.dataIndex] as ScatterDataPoint).y?.toString();
                   },
                 },
               },
@@ -171,13 +171,17 @@
             ? props.color[index % props.color.length]
             : props.colorful
             ? LINE_THEME_FUL_COLORS[index % 10]
-            : LINE_THEME_COLORS[index % 12],
+            : getComputedStyle(document.documentElement)
+                .getPropertyValue(LINE_THEME_COLORS[index % 10].replaceAll('var(', '').replaceAll(')', ''))
+                ?.trim(),
         backgroundColor:
           props.color?.length > 0
             ? props.color[index % props.color.length]
             : props.colorful
             ? LINE_THEME_FUL_COLORS[index % 10]
-            : LINE_THEME_COLORS[index % 12],
+            : getComputedStyle(document.documentElement)
+                .getPropertyValue(LINE_THEME_COLORS[index % 10].replaceAll('var(', '').replaceAll(')', ''))
+                ?.trim(),
         datalabels: {
           labels: {
             name: {

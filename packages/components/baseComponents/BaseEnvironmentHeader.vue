@@ -250,11 +250,11 @@
     },
   );
 
-  enum edgeStatus {
-    Online = '#00BCD4',
-    Offline = '#9e9e9e',
-    Waiting = '#fb8c00',
-  }
+  const edgeStatus = {
+    Online: 'var(--success-color)',
+    Offline: 'var(--grey-light-color)',
+    Waiting: 'var(--warning-color)',
+  };
 
   const i18n = useGlobalI18n();
   const store = useStore();

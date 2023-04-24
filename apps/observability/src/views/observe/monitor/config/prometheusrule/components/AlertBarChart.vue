@@ -17,7 +17,7 @@
 <template>
   <BaseBarChart
     :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-    :color="['#ff5252', '#673ab7']"
+    :color="['var(--warning-color)', 'var(--purple-color)']"
     :height="`${extendHeight}px`"
     :metrics="series"
   />

@@ -23,6 +23,7 @@
           <BaseRadialBarChart
             class="my-3"
             :metrics="cpuSeries"
+            :theme-conifg="config.theme"
             :title="$root.$t('resource.cpu')"
             :total="quota ? quota.Cpu : 0"
             unit="core"
@@ -33,6 +34,7 @@
           <BaseRadialBarChart
             class="my-3"
             :metrics="memorySeries"
+            :theme-conifg="config.theme"
             :title="$root.$t('resource.memory')"
             :total="quota ? quota.Memory : 0"
             unit="Gi"
@@ -43,6 +45,7 @@
           <BaseRadialBarChart
             class="my-3"
             :metrics="storageSeries"
+            :theme-conifg="config.theme"
             :title="$root.$t('resource.storage')"
             :total="quota ? quota.Storage : 0"
             unit="Gi"
@@ -53,6 +56,7 @@
           <BaseRadialBarChart
             class="my-3"
             :metrics="podSeries"
+            :theme-conifg="config.theme"
             :title="$root.$t('resource.pod')"
             :total="quota ? quota.Pod : 0"
             unit=""
@@ -67,6 +71,7 @@
             <BaseRadialBarChart
               class="my-3"
               :metrics="nvidiaGpuSeries"
+              :theme-conifg="config.theme"
               :title="`Nvidia ${$root.$t('resource.gpu')}`"
               :total="quota ? quota.NvidiaGpu : 0"
               unit="gpu"
@@ -78,6 +83,7 @@
               <BaseRadialBarChart
                 class="my-3"
                 :metrics="tkeGpuSeries"
+                :theme-conifg="config.theme"
                 :title="`Tke ${$root.$t('resource.gpu')}`"
                 :total="quota ? quota.TkeGpu : 0"
                 unit=""
@@ -88,6 +94,7 @@
               <BaseRadialBarChart
                 class="my-3"
                 :metrics="tkeMemorySeries"
+                :theme-conifg="config.theme"
                 :title="`Tke ${$root.$t('resource.video_memory')}`"
                 :total="quota ? quota.TkeMemory : 0"
                 unit=""
@@ -113,6 +120,7 @@
   import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
+  import config from '../../../../config.json';
   import messages from '../i18n';
 
   export default {
@@ -122,6 +130,8 @@
     },
     mixins: [BaseResource],
     data() {
+      this.config = config;
+
       return {
         quota: null,
         nvidia: false,

@@ -65,7 +65,7 @@
                   :key="index"
                   class="text-body-2 text-center font-weight-medium mx-2"
                   link
-                  :style="{ color: ver.name === selectVersion ? `#1e88e5 !important` : `` }"
+                  :style="{ color: ver.name === selectVersion ? `var(--primary-color) !important` : `` }"
                   @click="setVersion(ver)"
                 >
                   <v-list-item-content>

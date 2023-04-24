@@ -22,6 +22,7 @@
           class="my-3"
           :extend-height="180"
           :metrics="cpuSeries"
+          :theme-conifg="config.theme"
           :title="i18n.t('resource.cpu')"
           :total="quota ? quota.Cpu : 0"
           unit="core"
@@ -33,6 +34,7 @@
           class="my-3"
           :extend-height="180"
           :metrics="memorySeries"
+          :theme-conifg="config.theme"
           :title="i18n.t('resource.memory')"
           :total="quota ? quota.Memory : 0"
           unit="Gi"
@@ -44,6 +46,7 @@
           class="my-3"
           :extend-height="180"
           :metrics="storageSeries"
+          :theme-conifg="config.theme"
           :title="i18n.t('resource.storage')"
           :total="quota ? quota.Storage : 0"
           unit="Gi"
@@ -59,6 +62,7 @@
             class="my-3"
             :extend-height="180"
             :metrics="nvidiaSeries"
+            :theme-conifg="config.theme"
             :title="`Nvidia ${i18n.t('resource.gpu')}`"
             :total="quota ? quota.NvidiaGpu : 0"
             unit="gpu"
@@ -72,6 +76,7 @@
               class="my-3"
               :extend-height="180"
               :metrics="tkeSeries"
+              :theme-conifg="config.theme"
               :title="`Tke ${i18n.t('resource.gpu')}`"
               :total="quota ? quota.TkeGpu : 0"
               unit=""
@@ -83,6 +88,7 @@
               class="my-3"
               :extend-height="180"
               :metrics="tkeMemorySeries"
+              :theme-conifg="config.theme"
               :title="`Tke ${i18n.t('resource.video_memory')}`"
               :total="quota ? quota.TkeMemory : 0"
               unit=""
@@ -104,6 +110,8 @@
 <script lang="ts" setup>
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { ComputedRef, computed, reactive } from 'vue';
+
+  import config from '../../../../../../config.json';
 
   const i18n = useGlobalI18n();
 

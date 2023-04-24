@@ -27,6 +27,7 @@
               :default-val="quota ? quota.AllocatedCpu : 0"
               :extend-height="180"
               :metrics="cpuSeries"
+              :theme-conifg="config.theme"
               :title="$root.$t('resource.cpu')"
               tooltip-external
               :total="quota ? quota.AllocatedCpu : 0"
@@ -40,6 +41,7 @@
               :default-val="quota ? quota.AllocatedMemory : 0"
               :extend-height="180"
               :metrics="memorySeries"
+              :theme-conifg="config.theme"
               :title="$root.$t('resource.memory')"
               tooltip-external
               :total="quota ? quota.AllocatedMemory : 0"
@@ -53,6 +55,7 @@
               :default-val="quota ? quota.AllocatedStorage : 0"
               :extend-height="180"
               :metrics="storageSeries"
+              :theme-conifg="config.theme"
               :title="$root.$t('resource.storage')"
               tooltip-external
               :total="quota ? quota.AllocatedStorage : 0"
@@ -149,6 +152,7 @@
   import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
+  import config from '../../../../config.json';
   import messages from '../i18n';
 
   export default {
@@ -158,6 +162,8 @@
     },
     mixins: [BaseResource],
     data() {
+      this.config = config;
+
       return {
         dialog: false,
         valid: false,

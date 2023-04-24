@@ -76,6 +76,7 @@
   import { EDGE_DEVICEID_KEY, PROJECT_KEY, TENANT_KEY } from '@kubegems/libs/constants/label';
   import { onMounted, reactive } from 'vue';
 
+  import config from '../../../../../config.json';
   import { useI18n } from '../../i18n';
   import Pagination from '../Pagination.vue';
 
@@ -83,16 +84,16 @@
     getEdgeClusterList();
   });
 
-  enum edgeStatus {
-    Online = '#00BCD4',
-    Offline = '#9e9e9e',
-    Waiting = '#fb8c00',
-  }
+  const edgeStatus = {
+    Online: config.theme.THEME_COLOR.success,
+    Offline: config.theme.THEME_COLOR_OTHER.greyLight,
+    Waiting: config.theme.THEME_COLOR_OTHER.warning,
+  };
 
-  enum tunnelStatus {
-    Online = '#00BCD4',
-    Offline = '#9e9e9e',
-  }
+  const tunnelStatus = {
+    Online: config.theme.THEME_COLOR.success,
+    Offline: config.theme.THEME_COLOR_OTHER.greyLight,
+  };
 
   const i18nLocal = useI18n();
   const i18n = useGlobalI18n();

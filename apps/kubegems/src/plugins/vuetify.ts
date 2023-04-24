@@ -15,17 +15,13 @@
  */
 import Vue from 'vue';
 import Vuetify from 'vuetify';
+
 import '@/scss/vuetify/overrides.scss';
+import config from '../config.json';
 
 Vue.use(Vuetify);
 
-const theme: { [key: string]: string } = {
-  primary: '#1e88e5',
-  info: '#1e88e5',
-  success: '#00BCD4',
-  accent: '#fc4b6c',
-  default: '#563dea',
-};
+const theme: { [key: string]: string } = config.theme.THEME_COLOR;
 
 export default new Vuetify({
   theme: {

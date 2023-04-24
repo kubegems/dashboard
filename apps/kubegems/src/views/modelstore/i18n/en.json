@@ -8,7 +8,7 @@
     "chartmuseum": "ChartMuseum is an open-source, easily deployable and Helm Chart repository server.",
     "pytorch": "Discover the model and publish it to a repository of pre-training models designed specifically for research exploration.",
     "paddlepaddle": "Open source depth learning platform derived from industry practice.",
-    "kubegems": "Kubegems built-in algorithm store.",
+    "kubegems": "built-in algorithm store.",
     "banzaicloud": "Building the operating system for your containers and clouds",
     "hashicorp": "HashiCorp delivers consistent workflows to provision, secure, connect, and run any infrastructure for any application.",
     "cloudminds": "Algorithmic model from CloudMinds",

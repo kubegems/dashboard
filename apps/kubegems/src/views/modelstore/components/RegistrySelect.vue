@@ -61,7 +61,9 @@
                 :key="index"
                 class="text-body-2 text-start font-weight-medium mx-2"
                 link
-                :style="{ color: selectRegistry && repo.value === selectRegistry.name ? `#1e88e5 !important` : `` }"
+                :style="{
+                  color: selectRegistry && repo.value === selectRegistry.name ? `var(--primary-color) !important` : ``,
+                }"
                 @click="setRepo(repo)"
               >
                 <v-list-item-content>

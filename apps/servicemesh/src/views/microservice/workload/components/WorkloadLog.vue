@@ -57,7 +57,7 @@
                       :key="index"
                       class="text-body-2 text-center"
                       link
-                      :style="{ color: con.text === container ? `#1e88e5 !important` : `` }"
+                      :style="{ color: con.text === container ? `var(--primary-color) !important` : `` }"
                       @click="setContainer(con)"
                     >
                       <v-list-item-content>
@@ -108,7 +108,7 @@
                       :key="index"
                       class="text-body-2 text-center"
                       link
-                      :style="{ color: p.metadata.name === pod.metadata.name ? `#1e88e5 !important` : `` }"
+                      :style="{ color: p.metadata.name === pod.metadata.name ? `var(--primary-color) !important` : `` }"
                       @click="setPod(p)"
                     >
                       <v-list-item-content>

@@ -70,7 +70,7 @@
                       :style="{
                         color:
                           virtualspace.VirtualSpaceName === store.getters.VirtualSpace().VirtualSpaceName
-                            ? `#1e88e5 !important`
+                            ? `var(--primary-color) !important`
                             : ``,
                       }"
                       @click="setVirtualSpace(virtualspace)"

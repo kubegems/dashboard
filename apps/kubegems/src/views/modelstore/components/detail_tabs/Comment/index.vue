@@ -144,7 +144,7 @@
     </div>
 
     <div v-if="loading" class="my-3 py-2 text-center card__scroll__loading">
-      <BaseDropProgress />
+      <BaseDropProgress :progress="config.layout.PLATFORM" />
     </div>
 
     <v-btn
@@ -191,6 +191,7 @@
   import moment from 'moment';
   import { ComputedRef, computed, onMounted, reactive, ref } from 'vue';
 
+  import config from '../../../../../config.json';
   import { useI18n } from '../../../i18n';
   import Reply from './Reply.vue';
 

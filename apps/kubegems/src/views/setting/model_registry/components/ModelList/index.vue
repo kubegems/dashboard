@@ -51,7 +51,7 @@
         disable-sort
         :headers="headers"
         hide-default-footer
-        item-key="id"
+        item-key="name"
         :items="pagination.items"
         :items-per-page="pagination.size"
         :no-data-text="i18n.t('data.no_data')"
@@ -107,7 +107,7 @@
         </template>
         <template #item.tags="{ item }">
           <BaseCollapseChips id="m_tag" :chips="item.tags || []" icon="mdi-label" single-line />
-          <v-btn v-if="item && !item.online" color="orange" icon @click="tagModel(item)">
+          <v-btn v-if="item && !item.online" class="float-right" color="orange" icon @click="tagModel(item)">
             <v-icon small>mdi-circle-edit-outline</v-icon>
           </v-btn>
         </template>

@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="dialog" icon="mdi-eye" :title="$t('tip.experience')" @dispose="dispose">
+  <BaseFullScreenDialog
+    v-model="dialog"
+    icon="mdi-eye"
+    :logo="config.layout.LOGO_WHITE"
+    :title="$t('tip.experience')"
+    @dispose="dispose"
+  >
     <template #header>
       <v-flex class="ml-2 text-h6 mt-n1">
         <div class="float-left">
@@ -51,6 +57,7 @@
 </template>
 
 <script>
+  import config from '../../../../../../config.json';
   import messages from '../../../../i18n';
   import Conversation from './tasks/ConversationText';
   import FileInputs from './tasks/FileInputs';
@@ -92,6 +99,8 @@
       },
     },
     data() {
+      this.config = config;
+
       return {
         dialog: false,
         currentTask: '',

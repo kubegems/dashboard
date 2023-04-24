@@ -115,7 +115,7 @@
     </v-row>
 
     <div v-if="loading" class="my-3 py-2 text-center card__scroll__loading">
-      <BaseDropProgress />
+      <BaseDropProgress :progress="config.layout.PLATFORM" />
     </div>
 
     <v-btn
@@ -145,6 +145,7 @@
   import BasePermission from '@kubegems/mixins/permission';
   import { mapGetters, mapState } from 'vuex';
 
+  import config from '../../../../config.json';
   import messages from '../i18n';
   import AddChannel from './AddChannel';
   import ChannelUpdateTip from './ChannelUpdateTip.vue';
@@ -162,6 +163,8 @@
     },
     mixins: [BasePermission],
     data() {
+      this.config = config;
+
       return {
         items: [],
         pageCount: 0,
@@ -322,7 +325,7 @@
       transform: rotate(47deg);
       top: -46px;
       right: -55px;
-      background-color: #1e88e5;
+      background-color: var(--primary-color);
       padding: 0;
     }
 

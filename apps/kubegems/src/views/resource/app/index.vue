@@ -204,7 +204,7 @@
                 height: '10px',
                 minWidth: '10px',
                 width: '10px',
-                backgroundColor: `${POD_STATUS_COLOR[item.status.phase] || '#ff5252'}`,
+                backgroundColor: `${POD_STATUS_COLOR[item.status.phase] || config.theme.THEME_COLOR_OTHER.error}`,
               }"
             />
             <span>
@@ -332,6 +332,7 @@
   import { Base64 } from 'js-base64';
   import { mapGetters, mapState } from 'vuex';
 
+  import config from '../../../config.json';
   import AppStatusTip from './components/AppStatusTip';
   import TaskStatusTip from './components/TaskStatusTip';
   import UpdateAppFromStore from './components/UpdateAppFromStore';
@@ -366,6 +367,7 @@
       };
       this.ARGO_STATUS_COLOR = ARGO_STATUS_COLOR;
       this.POD_STATUS_COLOR = POD_STATUS_COLOR;
+      this.config = config;
 
       return {
         items: [],
