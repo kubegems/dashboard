@@ -162,6 +162,8 @@ export const getIconName = (name: string, def = 'kubernetes'): string => {
   if (name.indexOf('gitlab') > -1) return 'logos:gitlab';
   if (name.indexOf('oauth') > -1) return 'logos:oauth';
   if (name.indexOf('ldap') > -1) return 'img:/icon/openldap.svg';
+  if (name.toLocaleLowerCase() === 'opencsg') return `img:/opencsg.svg`;
+  if (name.toLocaleLowerCase() === 'modelx') return `img:/${getPlatfom()}.svg`;
   if (name === 'kubegems') return `img:/${getPlatfom()}.svg`;
   if (name.startsWith('kubegems')) return `img:/${getPlatfom()}.svg`;
   if (name.indexOf('gke') > -1) return 'logos:google-cloud';

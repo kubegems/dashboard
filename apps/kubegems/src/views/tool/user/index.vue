@@ -77,7 +77,7 @@
         <v-card flat>
           <v-card-text class="pa-0">
             <v-tabs v-model="tab" class="rounded-t pa-3" height="30">
-              <v-tab v-for="item in tabItems" :key="item.value">
+              <v-tab v-for="item in tabItems" :key="item.tab">
                 {{ item.text }}
               </v-tab>
             </v-tabs>
@@ -109,10 +109,10 @@
 
   const tab = ref<number>(0);
   const tabItems = ref([
-    { text: i18nLocal.t('tab.setting'), value: OwnerSetting },
-    { text: i18nLocal.t('tab.audit'), value: AuditList },
-    { text: i18nLocal.t('tab.message'), value: MessageBox },
-    { text: i18nLocal.t('tab.auth'), value: AccessToken },
+    { text: i18nLocal.t('tab.setting'), value: OwnerSetting, tab: 'setting' },
+    { text: i18nLocal.t('tab.audit'), value: AuditList, tab: 'audit' },
+    { text: i18nLocal.t('tab.message'), value: MessageBox, tab: 'message' },
+    { text: i18nLocal.t('tab.auth'), value: AccessToken, tab: 'access' },
   ]);
 
   const getLoginUser = async (): Promise<void> => {
