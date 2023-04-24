@@ -148,7 +148,7 @@
 
 <style lang="scss" scoped>
   .vendor {
-    border: 2px solid #1e88e5;
+    border: 2px solid var(--primary-color);
 
     &__pos {
       position: relative;
@@ -165,7 +165,7 @@
       transform: rotate(47deg);
       top: -46px;
       right: -55px;
-      background-color: #1e88e5;
+      background-color: var(--primary-color);
       padding: 0;
     }
 

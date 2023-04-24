@@ -128,12 +128,12 @@
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useStore } from '@kubegems/extension/store';
-  import { LOGO_BLUE } from '@kubegems/libs/constants/platform';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import moment from 'moment';
   import { onMounted, onUnmounted, ref } from 'vue';
   import VueI18n from 'vue-i18n';
 
+  import config from '../../../config.json';
   import ModelRegistryForm from './components/ModelRegistryForm/index.vue';
   import { useI18n } from './i18n';
 
@@ -186,7 +186,7 @@
         };
       default:
         return {
-          imgSrc: LOGO_BLUE,
+          imgSrc: config.layout.LOGO_BLUE,
           tip: i18nLocal.t('tip.kubegems'),
           address: '',
         };
@@ -357,7 +357,7 @@
       transform: rotate(47deg);
       top: -46px;
       right: -55px;
-      background-color: #1e88e5;
+      background-color: var(--primary-color);
       padding: 0;
     }
 

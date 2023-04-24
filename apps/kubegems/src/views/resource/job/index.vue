@@ -87,19 +87,19 @@
         </template>
         <template #[`item.status`]="{ item }">
           <span v-if="item.status.succeeded !== undefined">
-            <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#1e88e5` }">
+            <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.primary }">
               <span class="white--text text-h5" />
             </v-avatar>
             Succeeded
           </span>
           <span v-else-if="item.status.failed !== undefined">
-            <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#ff5252` }">
+            <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR_OTHER.error }">
               <span class="white--text text-h5" />
             </v-avatar>
             Failed
           </span>
           <span v-else-if="item.status.active !== undefined">
-            <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#00bcd4` }">
+            <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.success }">
               <span class="white--text text-h5" />
             </v-avatar>
             Active
@@ -157,6 +157,7 @@
   import BaseTable from '@kubegems/mixins/table';
   import { mapGetters, mapState } from 'vuex';
 
+  import config from '../../../config.json';
   import AddJob from './components/AddJob';
   import UpdateJob from './components/UpdateJob';
   import messages from './i18n';
@@ -174,6 +175,8 @@
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data() {
+      this.config = config;
+
       return {
         items: [],
         pageCount: 0,

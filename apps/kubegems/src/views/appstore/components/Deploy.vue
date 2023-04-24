@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="dialog" kubegems-logo :title="$root.$t('header.app_store')" @dispose="dispose">
+  <BaseFullScreenDialog
+    v-model="dialog"
+    kubegems-logo
+    :logo="config.layout.LOGO_WHITE"
+    :title="$root.$t('header.app_store')"
+    @dispose="dispose"
+  >
     <template #content>
       <v-flex :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
         <v-row class="mt-0 ma-0">
@@ -56,6 +62,7 @@
   import BaseSelect from '@kubegems/mixins/select';
   import { mapState } from 'vuex';
 
+  import config from '../../../config.json';
   import AppInfo from './AppInfo';
 
   export default {
@@ -89,6 +96,8 @@
       },
     },
     data() {
+      this.config = config;
+
       return {
         dialog: false,
       };

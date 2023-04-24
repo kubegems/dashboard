@@ -38,7 +38,7 @@
               height: '10px',
               minWidth: '10px',
               width: '10px',
-              backgroundColor: `${POD_STATUS_COLOR[item.phase] || '#ff5252'}`,
+              backgroundColor: `${POD_STATUS_COLOR[item.phase] || config.theme.THEME_COLOR_OTHER.error}`,
             }"
           />
           <span>
@@ -118,6 +118,7 @@
   import { POD_STATUS_COLOR } from '@kubegems/libs/constants/resource';
   import { onMounted, reactive, ref } from 'vue';
 
+  import config from '../../../../../config.json';
   import { useI18n } from '../../../i18n';
   import ModelExperience from './components/ModelExperience.vue';
 

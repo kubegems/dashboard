@@ -111,7 +111,9 @@
                   height: '10px',
                   minWidth: '10px',
                   width: '10px',
-                  backgroundColor: `${POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'}`,
+                  backgroundColor: `${
+                    POD_STATUS_COLOR[m_resource_getPodStatus(item)] || config.theme.THEME_COLOR_OTHER.error
+                  }`,
                 }"
               />
               <span>
@@ -169,7 +171,7 @@
             auto-draw
             :auto-draw-duration="200"
             auto-line-width
-            color="rgba(29, 136, 229, 0.6)"
+            :color="config.theme.THEME_COLOR.primary"
             fill
             :line-width="5"
             smooth
@@ -185,7 +187,7 @@
             auto-draw
             :auto-draw-duration="200"
             auto-line-width
-            color="rgba(29, 136, 229, 0.6)"
+            :color="config.theme.THEME_COLOR.primary"
             fill
             :line-width="5"
             smooth
@@ -251,6 +253,7 @@
   import BaseTable from '@kubegems/mixins/table';
   import { mapGetters, mapState } from 'vuex';
 
+  import config from '../../../config.json';
   import ContainerItems from './components/ContainerItems';
   import RestartTip from './components/RestartTip';
   import messages from './i18n';
@@ -274,6 +277,7 @@
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data() {
       this.POD_STATUS_COLOR = POD_STATUS_COLOR;
+      this.config = config;
 
       return {
         items: [],

@@ -149,7 +149,7 @@
 }
 
 .v-tabs .v-tab--active {
-  background-color: #1e88e5;
+  background-color: var(--primary-color);
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   color: white !important;
@@ -162,7 +162,7 @@
 }
 
 .v-tabs--vertical .v-tab--active {
-  background-color: #1e88e5;
+  background-color: var(--primary-color);
   border-top-left-radius: 0;
   border-bottom-right-radius: 8px;
   border-top-right-radius: 8px;
@@ -176,7 +176,7 @@
 .v-tabs--default .v-tab--active {
   border-radius: 0 !important;
   background: none !important;
-  color: #1e88e5 !important;
+  color: var(--primary-color) !important;
 }
 
 .v-treeview-node__prepend .chip {
@@ -188,7 +188,7 @@
 }
 
 .v-data-table__selected .v-data-table__checkbox .v-input--selection-controls__input i {
-  color: #1e88e5 !important;
+  color: var(--primary-color) !important;
 }
 
 .v-treeview-node__label {

@@ -60,7 +60,7 @@
                         :key="index"
                         class="text-body-2 text-center font-weight-medium mx-2"
                         link
-                        :style="{ color: repo === selectRepo ? `#1e88e5 !important` : `` }"
+                        :style="{ color: repo === selectRepo ? `var(--primary-color) !important` : `` }"
                         @click="setRepo(repo)"
                       >
                         <v-list-item-content>

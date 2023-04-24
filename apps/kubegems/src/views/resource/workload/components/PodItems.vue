@@ -56,7 +56,9 @@
                           height: '10px',
                           minWidth: '10px',
                           width: '10px',
-                          backgroundColor: `${POD_STATUS_COLOR[usePodStatus(pod)] || '#ff5252'}`,
+                          backgroundColor: `${
+                            POD_STATUS_COLOR[usePodStatus(pod)] || config.theme.THEME_COLOR_OTHER.error
+                          }`,
                         }"
                       />
                       <span>
@@ -160,6 +162,7 @@
   import moment from 'moment';
   import { nextTick, ref } from 'vue';
 
+  import config from '../../../../config.json';
   import { useI18n } from '../i18n';
   import EventTip from '@/views/resource/components/common/EventTip.vue';
 

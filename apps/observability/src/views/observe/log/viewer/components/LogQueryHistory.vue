@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="dialog" icon="mdi-history" :title="$t('tip.query_history')" @dispose="handleDispose">
+  <BaseFullScreenDialog
+    v-model="dialog"
+    icon="mdi-history"
+    :logo="config.layout.LOGO_WHITE"
+    :title="$t('tip.query_history')"
+    @dispose="handleDispose"
+  >
     <template #action>
       <ProjectEnvSelectCascade
         :key="selectKey"
@@ -109,6 +115,7 @@
   import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters } from 'vuex';
 
+  import config from '../../../../../config.json';
   import ProjectEnvSelectCascade from '../../../components/ProjectEnvSelectCascade';
   import messages from '../../i18n';
 
@@ -123,6 +130,8 @@
     mixins: [BaseSelect],
     inject: ['reload'],
     data() {
+      this.config = config;
+
       return {
         dialog: false,
         clusterid: undefined,

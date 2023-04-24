@@ -68,7 +68,10 @@
                       class="text-body-2 text-center font-weight-medium px-2"
                       link
                       :style="{
-                        color: project.ProjectName === store.getters.Project().ProjectName ? `#1e88e5 !important` : ``,
+                        color:
+                          project.ProjectName === store.getters.Project().ProjectName
+                            ? `var(--primary-color) !important`
+                            : ``,
                       }"
                       @click="setProject(project)"
                     >

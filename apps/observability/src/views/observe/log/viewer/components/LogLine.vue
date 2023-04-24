@@ -62,7 +62,11 @@
       },
     },
     data() {
-      this.LINE_THEME_COLORS = LINE_THEME_COLORS;
+      this.LINE_THEME_COLORS = LINE_THEME_COLORS.map((item) => {
+        return getComputedStyle(document.documentElement)
+          .getPropertyValue(item.replaceAll('var(', '').replaceAll(')', ''))
+          ?.trim();
+      });
 
       return {};
     },

@@ -90,7 +90,7 @@
         </template>
         <template #[`item.status`]="{ item }">
           <span v-if="!item.spec.suspend">
-            <v-avatar class="mr-2" size="10" :style="{ backgroundcolor: `#00bcd4` }">
+            <v-avatar class="mr-2" size="10" :style="{ backgroundcolor: `var(--success-color)` }">
               <span class="white--text text-h5" />
             </v-avatar>
             Active

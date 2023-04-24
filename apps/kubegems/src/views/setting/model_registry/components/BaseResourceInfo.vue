@@ -81,11 +81,11 @@
 <script lang="ts" setup>
   import { AIModelRegistry } from '@kubegems/api/typed/ai_model';
   import { useQuery } from '@kubegems/extension/router';
-  import { LOGO_BLUE } from '@kubegems/libs/constants/platform';
   import moment from 'moment';
   import { onUnmounted, ref, watch } from 'vue';
   import VueI18n from 'vue-i18n';
 
+  import config from '../../../../config.json';
   import { useI18n } from '../i18n';
 
   const props = withDefaults(
@@ -142,7 +142,7 @@
         };
       default:
         return {
-          imgSrc: LOGO_BLUE,
+          imgSrc: config.layout.LOGO_BLUE,
           tip: i18nLocal.t('tip.kubegems'),
           address: '',
         };

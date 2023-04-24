@@ -14,7 +14,13 @@
  * limitations under the License. 
 -->
 <template>
-  <BaseFullScreenDialog v-model="state.dialog" kubegems-logo :title="i18n.t('header.model_store')" @dispose="dispose">
+  <BaseFullScreenDialog
+    v-model="state.dialog"
+    kubegems-logo
+    :logo="config.layout.LOGO_WHITE"
+    :title="i18n.t('header.model_store')"
+    @dispose="dispose"
+  >
     <template #content>
       <v-flex>
         <v-row class="mt-0 ma-0">
@@ -39,6 +45,7 @@
   import { useStore } from '@kubegems/extension/store';
   import { ComputedRef, computed, reactive, ref } from 'vue';
 
+  import config from '../../../config.json';
   import DeployWizard from './DeployWizard/index.vue';
   import ModelInfo from './ModelInfo/index.vue';
 

@@ -110,7 +110,7 @@
                   auto-draw
                   :auto-draw-duration="200"
                   auto-line-width
-                  color="rgba(29, 136, 229, 0.6)"
+                  :color="config.theme.THEME_COLOR.primary"
                   fill
                   :line-width="5"
                   smooth
@@ -126,7 +126,7 @@
                   auto-draw
                   :auto-draw-duration="200"
                   auto-line-width
-                  color="rgba(29, 136, 229, 0.6)"
+                  :color="config.theme.THEME_COLOR.primary"
                   fill
                   :line-width="5"
                   smooth
@@ -142,7 +142,7 @@
                   auto-draw
                   :auto-draw-duration="200"
                   auto-line-width
-                  color="rgba(29, 136, 229, 0.6)"
+                  :color="config.theme.THEME_COLOR.primary"
                   fill
                   :line-width="5"
                   smooth
@@ -158,7 +158,7 @@
                   auto-draw
                   :auto-draw-duration="200"
                   auto-line-width
-                  color="rgba(29, 136, 229, 0.6)"
+                  :color="config.theme.THEME_COLOR.primary"
                   fill
                   :line-width="5"
                   smooth
@@ -215,6 +215,7 @@
   import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
+  import config from '../../../../../config.json';
   import messages from '../../i18n';
   import Pagination from '../Pagination';
   import AddEnvironment from '@/views/resource/environment/components/AddEnvironment';
@@ -233,6 +234,7 @@
     mixins: [BasePermission, BaseResource, BaseSelect],
     data() {
       this.METATYPE_CN = METATYPE_CN;
+      this.config = config;
 
       return {
         projectItems: [],

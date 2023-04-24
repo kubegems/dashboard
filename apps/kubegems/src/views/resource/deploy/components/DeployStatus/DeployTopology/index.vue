@@ -344,7 +344,7 @@
     min-height: 548px;
   }
   .crrent-active-class {
-    color: #1e88e5;
+    color: var(--primary-color);
   }
   .tree-label {
     font-size: 14px;
@@ -391,7 +391,7 @@
 
   @keyframes animate-flash {
     from {
-      color: #00bcd4;
+      color: var(--success-color);
     }
     to {
       color: white;

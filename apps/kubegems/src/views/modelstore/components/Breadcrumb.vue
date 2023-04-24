@@ -61,10 +61,10 @@
 <script lang="ts" setup>
   import { AIModelRegistry } from '@kubegems/api/typed/ai_model';
   import { useQuery } from '@kubegems/extension/router';
-  import { LOGO_BLUE } from '@kubegems/libs/constants/platform';
   import moment from 'moment';
   import { onUnmounted, reactive, watch } from 'vue';
 
+  import config from '../../../config.json';
   import { useI18n } from '../i18n';
 
   const props = withDefaults(
@@ -160,7 +160,7 @@
           state.tip = i18nLocal.t('tip.cloudminds').toString();
           break;
         default:
-          state.imgSrc = LOGO_BLUE;
+          state.imgSrc = config.layout.LOGO_BLUE;
           state.tip = i18nLocal.t('tip.kubegems').toString();
           break;
       }

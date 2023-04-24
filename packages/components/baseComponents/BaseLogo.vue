@@ -31,7 +31,7 @@
     <img
       v-else
       :class="`${large ? 'logo__largeimg' : 'logo__img'} ml-${ml} mt-${mt}`"
-      :src="`/icon/${getIconName(iconName, defaultLogo).replaceAll('img:', '')}`"
+      :src="`${getIconName(iconName, defaultLogo).replaceAll('img:', '')}`"
       :style="{
         width: `${width}px`,
         height: `${width}px`,

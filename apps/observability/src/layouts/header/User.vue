@@ -132,9 +132,10 @@
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useStore } from '@kubegems/extension/store';
-  import { MANUAL, VENDOR } from '@kubegems/libs/constants/platform';
+  import { VENDOR } from '@kubegems/libs/constants/platform';
   import { reactive, ref } from 'vue';
 
+  import config from '../../config.json';
   import About from './components/About.vue';
   import TenantSelect from './components/TenantSelect.vue';
 
@@ -167,7 +168,7 @@
   };
 
   const toBook = (): void => {
-    window.open(MANUAL);
+    window.open(config.layout.MANUAL);
     closeUserMenu();
   };
   const closeUserMenu = (): void => {

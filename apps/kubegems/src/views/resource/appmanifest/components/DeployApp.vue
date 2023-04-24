@@ -111,7 +111,7 @@
                             :key="index"
                             class="text-body-2 text-center"
                             link
-                            :style="{ color: tag.image === value.publish ? `#1e88e5 !important` : `` }"
+                            :style="{ color: tag.image === value.publish ? `var(--primary-color) !important` : `` }"
                             @click="setTag(tag.image, key, item.name, tag.unpublishable, item.index)"
                           >
                             <v-list-item-content class="tag__item">

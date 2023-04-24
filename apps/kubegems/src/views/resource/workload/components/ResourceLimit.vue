@@ -43,7 +43,7 @@
                   :interval="sliderItems[obj.name].cpu.interval"
                   :marks="sliderItems[obj.name].cpu.marks"
                   :max="sliderItems[obj.name].cpu.max"
-                  :process-style="{ backgroundColor: '#1e88e5' }"
+                  :process-style="{ backgroundColor: 'var(--primary-color)' }"
                   tooltip="always"
                 >
                   <template #tooltip="props">
@@ -66,7 +66,7 @@
                 :enable-cross="false"
                 :marks="sliderItems[obj.name].memory.marks"
                 :max="sliderItems[obj.name].memory.max"
-                :process-style="{ backgroundColor: '#1e88e5' }"
+                :process-style="{ backgroundColor: 'var(--primary-color)' }"
                 tooltip="always"
               >
                 <template #tooltip="props">
@@ -525,7 +525,7 @@
 
   /* process style */
   .vue-slider-process {
-    background-color: #1e88e5;
+    background-color: var(--primary-color);
     border-radius: 15px;
   }
 

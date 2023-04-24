@@ -56,7 +56,7 @@
               :key="index"
               class="text-caption text-center font-weight-medium mx-2"
               link
-              :style="{ color: dur.value === duration ? `#1e88e5 !important` : `` }"
+              :style="{ color: dur.value === duration ? `var(--primary-color) !important` : `` }"
               @click="setDuration(dur)"
             >
               <v-list-item-content>

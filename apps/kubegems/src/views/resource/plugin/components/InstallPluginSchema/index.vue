@@ -14,7 +14,13 @@
  * limitations under the License. 
 -->
 <template>
-  <BaseFullScreenDialog v-model="dialog" kubegems-logo :title="$t('tip.plugin_params')" @dispose="dispose">
+  <BaseFullScreenDialog
+    v-model="dialog"
+    kubegems-logo
+    :logo="config.layout.LOGO_WHITE"
+    :title="$t('tip.plugin_params')"
+    @dispose="dispose"
+  >
     <template #content>
       <v-flex>
         <v-row class="mt-0 ma-0">
@@ -43,6 +49,7 @@
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import { mapGetters, mapState } from 'vuex';
 
+  import config from '../../../../../config.json';
   import messages from '../../i18n';
   import PluginInfo from './PluginInfo';
   import SchemaRender from './SchemaRender';
@@ -56,10 +63,14 @@
       PluginInfo,
       SchemaRender,
     },
-    data: () => ({
-      dialog: false,
-      plugin: undefined,
-    }),
+    data() {
+      this.config = config;
+
+      return {
+        dialog: false,
+        plugin: undefined,
+      };
+    },
     computed: {
       ...mapState(['Scale', 'Circular']),
       ...mapGetters(['Cluster']),

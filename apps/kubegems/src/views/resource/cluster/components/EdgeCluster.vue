@@ -216,6 +216,7 @@
   import moment from 'moment';
   import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 
+  import config from '../../../../config.json';
   import { useI18n } from '../i18n';
   import EdgeClusterForm from './EdgeClusterForm/index.vue';
   import EdgeManufactureTip from './EdgeManufactureTip.vue';
@@ -223,16 +224,16 @@
   import LabelEdgeCluster from './LabelEdgeCluster/index.vue';
   import Terminal from '@/views/resource/components/common/Terminal/index.vue';
 
-  enum edgeStatus {
-    Online = '#00BCD4',
-    Offline = '#9e9e9e',
-    Waiting = '#fb8c00',
-  }
+  const edgeStatus = {
+    Online: config.theme.THEME_COLOR.success,
+    Offline: config.theme.THEME_COLOR_OTHER.greyLight,
+    Waiting: config.theme.THEME_COLOR_OTHER.warning,
+  };
 
-  enum tunnelStatus {
-    Online = '#00BCD4',
-    Offline = '#9e9e9e',
-  }
+  const tunnelStatus = {
+    Online: config.theme.THEME_COLOR.success,
+    Offline: config.theme.THEME_COLOR_OTHER.greyLight,
+  };
 
   const store = useStore();
   const i18n = useGlobalI18n();

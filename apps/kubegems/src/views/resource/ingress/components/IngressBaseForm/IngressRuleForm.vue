@@ -173,7 +173,8 @@
                               class="text-body-2 text-center"
                               link
                               :style="{
-                                color: pType.value === ruler.paths[index].portType ? `#1e88e5 !important` : ``,
+                                color:
+                                  pType.value === ruler.paths[index].portType ? `var(--primary-color) !important` : ``,
                               }"
                               @click="setPortType(pType, index)"
                             >

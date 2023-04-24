@@ -29,7 +29,7 @@
       <v-flex class="px-4 py-3 primary white--text full-screen__position">
         <div v-if="kubegemsLogo" class="justify-center float-left text-h6 py-1">
           <span class="hidden-sm-and-down float-left">
-            <v-img class="kubegems__absolute-middle" contain :src="LOGO_WHITE" width="140" />
+            <v-img class="kubegems__absolute-middle" contain :src="logo" width="140" />
           </span>
           <span
             class="pl-2 text-h6"
@@ -77,7 +77,6 @@
 <script lang="ts" setup>
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
-  import { LOGO_WHITE } from '@kubegems/libs/constants/platform';
   import { ref, watch } from 'vue';
 
   const props = withDefaults(
@@ -87,6 +86,7 @@
       title?: string;
       kubegemsLogo?: boolean;
       value: boolean;
+      logo?: string;
     }>(),
     {
       icon: '',
@@ -94,6 +94,7 @@
       title: '',
       kubegemsLogo: false,
       value: false,
+      logo: '',
     },
   );
 

@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="dialog" icon="mdi-list-box" :title="$t('tip.log')" @dispose="dispose">
+  <BaseFullScreenDialog
+    v-model="dialog"
+    icon="mdi-list-box"
+    :logo="config.layout.LOGO_WHITE"
+    :title="$t('tip.log')"
+    @dispose="dispose"
+  >
     <template #header>
       <v-flex class="ml-2 text-h6 mt-n1">
         {{ item ? item.name : '' }}
@@ -56,7 +62,7 @@
                     :key="index"
                     class="text-body-2 text-center"
                     link
-                    :style="{ color: cou.text === count ? `#1e88e5 !important` : `` }"
+                    :style="{ color: cou.text === count ? `var(--primary-color) !important` : `` }"
                     @click="updateCount(cou)"
                   >
                     <v-list-item-content>
@@ -144,7 +150,10 @@
                     class="text-body-2 text-center"
                     link
                     :style="{
-                      color: con.text === container || con.text === `${container} (init)` ? `#1e88e5 !important` : ``,
+                      color:
+                        con.text === container || con.text === `${container} (init)`
+                          ? `var(--primary-color) !important`
+                          : ``,
                     }"
                     @click="setContainer(con)"
                   >
@@ -187,6 +196,7 @@
   import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
+  import config from '../../../../config.json';
   import messages from '../i18n';
 
   export default {
@@ -196,6 +206,8 @@
     },
     mixins: [BaseResource],
     data() {
+      this.config = config;
+
       return {
         dialog: false,
         container: '',

@@ -505,7 +505,7 @@
     transform: rotate(47deg);
     top: -46px;
     right: -55px;
-    background-color: #1e88e5;
+    background-color: var(--primary-color);
     padding: 0;
   }
 

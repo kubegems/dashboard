@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="dialog" icon="mdi-list-box" :title="$t('tip.history')" @dispose="dispose">
+  <BaseFullScreenDialog
+    v-model="dialog"
+    icon="mdi-list-box"
+    :logo="config.layout.LOGO_WHITE"
+    :title="$t('tip.history')"
+    @dispose="dispose"
+  >
     <template #header>
       <div>
         {{ $root.$t('resource.tenant') }}: {{ historyItem.tenant }} {{ $root.$t('resource.project') }}:
@@ -93,6 +99,7 @@
   import { CodeDiff } from 'v-code-diff';
   import { mapState } from 'vuex';
 
+  import config from '../../../../config.json';
   import messages from '../i18n';
 
   export default {
@@ -123,6 +130,8 @@
       },
     },
     data() {
+      this.config = config;
+
       return {
         dialog: false,
         history: [],

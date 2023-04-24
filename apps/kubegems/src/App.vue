@@ -17,7 +17,7 @@
 <template>
   <v-app id="kubegems" :class="`${!vuetify.breakpoint.smAndDown ? 'full-sidebar' : 'mini-sidebar'}`">
     <router-view v-if="isReloadAlive" />
-    <BaseProgress />
+    <BaseProgress :progress="config.layout.PLATFORM" />
     <BaseSnackBar />
     <BaseConfirm />
   </v-app>
@@ -28,6 +28,8 @@
   import { useMeta, useRouter, useVuetify } from '@kubegems/extension/proxy';
   import { useStore } from '@kubegems/extension/store';
   import { nextTick, onMounted, provide, ref } from 'vue';
+
+  import config from './config.json';
 
   const store = useStore();
   const i18n = useGlobalI18n();

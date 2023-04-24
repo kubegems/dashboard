@@ -28,30 +28,30 @@
 
 @keyframes img-change {
   0% {
-    content: url(/logo-blue.svg);
+    content: var(--primary-bg-img);
     width: 400px;
   }
   45% {
-    content: url(/logo-white.svg);
+    content: var(--white-bg-img);
     width: 400px;
   }
   75% {
-    content: url(/logo-white.svg);
+    content: var(--white-bg-img);
     width: 400px;
   }
   100% {
-    content: url(/logo-white.svg);
+    content: var(--white-bg-img);
     width: 18vw;
   }
 }
 
 .skeleton__img {
   width: 400px;
-  content: url(/logo-blue.svg);
+  content: var(--primary-bg-img);
 }
 
 .skeleton__img__small {
-  content: url(/logo-white.svg);
+  content: var(--white-bg-img);
   width: 18vw;
 }
 
@@ -76,7 +76,7 @@
 }
 
 .skeleton__loading__color {
-  background-color: #1e88e5;
+  background-color: var(--primary-color);
 }
 
 .skeleton__loading__left__box {

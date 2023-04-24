@@ -56,7 +56,7 @@
                       :key="index"
                       class="text-body-2 text-center mx-2"
                       link
-                      :style="{ color: select.value === podUsageMode ? `#1e88e5 !important` : `` }"
+                      :style="{ color: select.value === podUsageMode ? `var(--primary-color) !important` : `` }"
                       @click="setPodUsageMode(select)"
                     >
                       <v-list-item-content>

@@ -25,26 +25,62 @@
       <v-card-text>
         <div class="text-center primary--text progress__loading" :style="{ fontFamily: 'kubegems-sample' }">
           <span
-            v-for="(char, index) in PLATFORM"
+            v-for="(char, index) in progress"
             :key="index"
             class="progress__loading__span"
-            :style="{ animationDelay: `${index * 70}ms`, left: `${charWidth[index]}px` }"
+            :style="{ animationDelay: `${index * 70}ms`, left: `${getWidthOffset(index)}px` }"
           >
             {{ char }}
           </span>
         </div>
-        <div class="text-subtitle-2 text-center grey--text" :style="{ marginTop: '50px' }">{{ $t('loading') }}...</div>
+        <div class="text-subtitle-2 text-center grey--text" :style="{ marginTop: '50px' }"
+          >{{ i18n.t('loading') }}...</div
+        >
       </v-card-text>
     </v-card>
   </v-overlay>
 </template>
 
 <script lang="ts" setup>
+  import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
-  import { PLATFORM } from '@kubegems/libs/constants/platform';
+
+  const props = withDefaults(
+    defineProps<{
+      progress?: string;
+    }>(),
+    {
+      progress: '',
+    },
+  );
 
   const store = useStore();
-  const charWidth: number[] = [0, 13, 24, 36, 46, 60, 70, 86, 98, 110, 122, 134, 146];
+  const i18n = useGlobalI18n();
+
+  const keyMap = {
+    K: 13,
+    u: 11,
+    b: 12,
+    e: 10,
+    G: 14,
+    m: 16,
+    s: 12,
+    O: 14,
+    p: 12,
+    n: 12,
+    C: 14,
+    S: 14,
+  };
+
+  const getWidthOffset = (index: number): number => {
+    let s = 0;
+    props.progress.split('').forEach((char, i) => {
+      if (i < index) {
+        s += keyMap[char];
+      }
+    });
+    return s;
+  };
 </script>
 
 <style lang="scss" scoped>

@@ -200,6 +200,9 @@ importers:
       '@kubegems/servicemesh':
         specifier: workspace:*
         version: link:../servicemesh
+      '@kubegems/theme':
+        specifier: workspace:*
+        version: link:../../packages/theme
       '@kubernetes/client-node':
         specifier: ^0.18.0
         version: 0.18.0
@@ -906,6 +909,21 @@ importers:
         version: link:../libs
 
   packages/platform:
+    dependencies:
+      '@kubegems/api':
+        specifier: workspace:*
+        version: link:../api
+      '@kubegems/components':
+        specifier: workspace:*
+        version: link:../components
+      '@kubegems/extension':
+        specifier: workspace:*
+        version: link:../extension
+      '@kubegems/libs':
+        specifier: workspace:*
+        version: link:../libs
+
+  packages/theme:
     dependencies:
       '@kubegems/api':
         specifier: workspace:*

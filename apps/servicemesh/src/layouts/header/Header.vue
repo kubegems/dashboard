@@ -23,7 +23,7 @@
 
     <div>
       <div class="hidden-sm-and-down float-left">
-        <v-img class="kubegems__absolute-middle" contain :src="LOGO_WHITE" width="140" />
+        <v-img class="kubegems__absolute-middle" contain :src="config.layout.LOGO_WHITE" width="140" />
       </div>
       <div
         class="pl-2 text-h6 float-left header__line-height"
@@ -48,8 +48,8 @@
 <script lang="ts" setup>
   import { useVuetify } from '@kubegems/extension/proxy';
   import { useStore } from '@kubegems/extension/store';
-  import { LOGO_WHITE } from '@kubegems/libs/constants/platform';
 
+  import config from '../../config.json';
   import User from './User.vue';
 
   withDefaults(
@@ -96,7 +96,7 @@
     }
 
     &__highlight {
-      color: #1e88e5 !important;
+      color: var(--primary-color) !important;
     }
   }
 </style>

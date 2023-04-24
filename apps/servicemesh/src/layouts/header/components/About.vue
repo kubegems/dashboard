@@ -19,7 +19,7 @@
     <v-card>
       <v-card-text class="pa-0">
         <div>
-          <v-img class="ma-2" contain :src="LOGO_BLUE" width="200" />
+          <v-img class="ma-2" contain :src="config.layout.LOGO_BLUE" width="200" />
           <div class="kubegems__clear-float" />
         </div>
         <v-divider />
@@ -76,10 +76,10 @@
   import { Version } from '@kubegems/api/typed/version';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
-  import { LOGO_BLUE } from '@kubegems/libs/constants/platform';
   import moment from 'moment';
   import { reactive, ref } from 'vue';
 
+  import config from '../../../config.json';
   import { useI18n } from '../i18n';
 
   const i18nLocal = useI18n();

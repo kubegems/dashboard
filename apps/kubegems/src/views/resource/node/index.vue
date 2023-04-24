@@ -67,10 +67,10 @@
             size="10"
             :style="`background-color: ${
               getStatus(item.status.conditions).join(',') === 'Ready'
-                ? '#00BCD4'
+                ? config.theme.THEME_COLOR.success
                 : getStatus(item.status.conditions).join(',') === 'Unknown'
-                ? '#607D8B'
-                : '#ff5252'
+                ? config.theme.THEME_COLOR_OTHER.grey
+                : config.theme.THEME_COLOR_OTHER.error
             };`"
           >
             <span class="white--text text-h5" />
@@ -207,6 +207,7 @@
   import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
+  import config from '../../../config.json';
   import GpuScheduleForm from './components/GpuScheduleForm';
   import messages from './i18n';
   import GpuTip from '@/views/resource/components/common/GpuTip';
@@ -222,6 +223,8 @@
     },
     mixins: [BaseFilter, BasePermission, BaseResource],
     data() {
+      this.config = config;
+
       return {
         items: [],
         pageCount: 0,

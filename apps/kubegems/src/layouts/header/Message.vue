@@ -279,10 +279,10 @@
   const getStatusColor = (data: Approve | Message): string => {
     return tabItems[state.tab].value === 'approve'
       ? data.Status === 'pending'
-        ? 'color: #1e88e5 !important;'
+        ? 'color: var(--primary-color) !important;'
         : ''
       : !data.IsRead
-      ? 'color: #1e88e5 !important;'
+      ? 'color: var(--primary-color) !important;'
       : '';
   };
 

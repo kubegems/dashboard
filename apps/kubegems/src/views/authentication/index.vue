@@ -55,8 +55,8 @@
           :style="{ opacity: `${SelfOut ? 1 : 0}` }"
         >
           <strong>
-            更便捷的云原生管理平台
-            <div class="login__second__desc__en">Let cloudnative management more easily</div>
+            {{ config.layout.SLOGAN_CN }}
+            <div class="login__second__desc__en">{{ config.layout.SLOGAN_EN }}</div>
           </strong>
         </div>
       </div>
@@ -137,7 +137,7 @@
                             :key="index"
                             class="text-caption text-start font-weight-medium mx-2"
                             link
-                            :style="{ color: ln.locale === locale ? `#1e88e5 !important` : `` }"
+                            :style="{ color: ln.locale === locale ? `var(--primary-color) !important` : `` }"
                             @click="setLocale(ln)"
                           >
                             <v-list-item-content>
@@ -194,8 +194,11 @@
           </v-row>
         </div>
       </v-container>
-      <h6 class="px-12 text-body-2 mt-4 login__copyright font-weight-medium kubegems__text">
-        © 2023 — {{ PLATFORM }} by Kubegems.io
+      <h6
+        v-if="config.layout.PLATFORM.toLocaleLowerCase() === 'kubegems'"
+        class="px-12 text-body-2 mt-4 login__copyright font-weight-medium kubegems__text"
+      >
+        © 2023 — {{ config.layout.PLATFORM }} by Kubegems.io
       </h6>
     </div>
   </div>
@@ -209,14 +212,16 @@
     getSystemAuthSource,
     postLogin,
   } from '@kubegems/api/direct';
+  import { useGlobalI18n } from '@kubegems/extension/i18n';
   import locales from '@kubegems/extension/i18n/locales';
   import { required } from '@kubegems/extension/ruler';
-  import { PLATFORM, VENDOR } from '@kubegems/libs/constants/platform';
+  import { VENDOR } from '@kubegems/libs/constants/platform';
   import { validateJWT } from '@kubegems/libs/utils/helpers';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
+  import config from '../../config.json';
   import messages from './i18n';
 
   export default {
@@ -228,7 +233,7 @@
     data() {
       this.locales = locales;
       this.VENDOR = VENDOR;
-      this.PLATFORM = PLATFORM;
+      this.config = config;
 
       return {
         valid: true,
@@ -380,10 +385,10 @@
       setLocale(locale) {
         this.locale = locale.locale;
         if (this.Locale === this.locale) return;
-        this.$_i18n.locale = this.locale;
+        useGlobalI18n().locale = this.locale;
         this.$moment.locale(this.locale === 'zh-Hans' ? 'zh-cn' : this.locale);
         if (window) {
-          window.document.title = `${this.$t(this.$route.meta.title)} - ${PLATFORM}`;
+          window.document.title = `${this.$t(this.$route.meta.title)} - ${config.layout.PLATFORM}`;
         }
         this.$store.commit('SET_LOCALE', this.locale);
       },

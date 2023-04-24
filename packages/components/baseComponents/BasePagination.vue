@@ -57,7 +57,7 @@
                       :key="index"
                       class="text-body-2 text-center"
                       link
-                      :style="{ color: s === size ? `#1e88e5 !important` : `` }"
+                      :style="{ color: s === size ? `var(--primary-color) !important` : `` }"
                       @click="setSize(s)"
                     >
                       <v-list-item-content>

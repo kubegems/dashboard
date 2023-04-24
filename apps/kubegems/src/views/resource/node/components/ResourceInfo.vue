@@ -24,6 +24,7 @@
             class="my-3"
             :extend-height="200"
             :metrics="cpuSeries"
+            :theme-conifg="config.theme"
             :title="$root.$t('resource.cpu')"
             :total="totalRequests['cpu'] ? sizeOfCpu(item.status.capacity['cpu']) : 0"
             unit="core"
@@ -35,6 +36,7 @@
             class="my-3"
             :extend-height="200"
             :metrics="memorySeries"
+            :theme-conifg="config.theme"
             :title="$root.$t('resource.memory')"
             :total="totalRequests['memory'] ? sizeOfStorage(item.status.capacity['memory']) : 0"
             unit="Gi"
@@ -46,6 +48,7 @@
             class="my-3"
             :extend-height="200"
             :metrics="podSeries"
+            :theme-conifg="config.theme"
             :title="$root.$t('resource.pod')"
             :total="item ? parseInt(item.status.capacity.pods) : 0"
             unit=""
@@ -61,6 +64,7 @@
               class="my-3"
               :extend-height="200"
               :metrics="gpuTkeSeries"
+              :theme-conifg="config.theme"
               :title="`Tke ${$root.$t('resource.gpu')}`"
               :total="
                 totalRequests['tencent.com/vcuda-core'] ? parseInt(item.status.capacity['tencent.com/vcuda-core']) : 0
@@ -74,6 +78,7 @@
               class="my-3"
               :extend-height="200"
               :metrics="gpuTkeMemorySeries"
+              :theme-conifg="config.theme"
               :title="`Tke ${$root.$t('resource.video_memory')}`"
               :total="
                 totalRequests['tencent.com/vcuda-memory']
@@ -94,6 +99,7 @@
               class="my-3"
               :extend-height="200"
               :metrics="gpuNvidiaSeries"
+              :theme-conifg="config.theme"
               :title="`Nvidia ${$root.$t('resource.gpu')}`"
               :total="totalRequests['nvidia.com/gpu'] ? parseInt(item.status.capacity['nvidia.com/gpu']) : 0"
               unit=""
@@ -253,6 +259,7 @@
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
 
+  import config from '../../../../config.json';
   import messages from '../i18n';
 
   export default {
@@ -268,6 +275,8 @@
       },
     },
     data() {
+      this.config = config;
+
       return {
         totalLimits: {},
         totalRequests: {},

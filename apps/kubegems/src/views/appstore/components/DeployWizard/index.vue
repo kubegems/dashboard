@@ -19,7 +19,7 @@
     ref="deploy"
     :back-button-text="$root.$t('operate.previous')"
     :class="`px-8 pt-8`"
-    color="#1e88e5"
+    color="var(--primary-color)"
     error-color="#e74c3c"
     :finish-button-text="$root.$t('operate.deploy')"
     :next-button-text="$root.$t('operate.next')"

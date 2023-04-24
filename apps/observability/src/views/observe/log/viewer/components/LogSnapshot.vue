@@ -18,6 +18,7 @@
   <BaseFullScreenDialog
     v-model="visible"
     icon="mdi-camera"
+    :logo="config.layout.LOGO_WHITE"
     :title="$t('operate.view_snapshot')"
     @dispose="handleDispose"
   >
@@ -106,6 +107,7 @@
   import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
+  import config from '../../../../../config.json';
   import ProjectEnvSelectCascade from '../../../components/ProjectEnvSelectCascade';
   import messages from '../../i18n';
 
@@ -119,6 +121,8 @@
     },
     mixins: [BaseSelect],
     data() {
+      this.config = config;
+
       return {
         visible: false,
         items: [],

@@ -23,7 +23,7 @@
           <v-card-text class="pa-7">
             <div class="d-flex justify-center my-3">
               <div class="text-center">
-                <Icon height="120px" icon="mdi:account" :style="{ color: `#1e88e5` }" width="120px" />
+                <Icon height="120px" icon="mdi:account" :style="{ color: `var(--primary-color)` }" width="120px" />
                 <h3 class="mt-2 text-h6 font-weight-regular">
                   {{ store.state.User.Username }}
                   <v-chip class="mr-1 mt-n1" pill small>

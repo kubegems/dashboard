@@ -96,7 +96,9 @@
                   height: '10px',
                   minWidth: '10px',
                   width: '10px',
-                  backgroundColor: `${POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'}`,
+                  backgroundColor: `${
+                    POD_STATUS_COLOR[m_resource_getPodStatus(item)] || config.theme.THEME_OTHER.error
+                  }`,
                 }"
               />
               <span> {{ m_resource_getPodStatus(item) }}</span>
@@ -259,6 +261,7 @@
   import BaseTable from '@kubegems/mixins/table';
   import { mapState } from 'vuex';
 
+  import config from '../../../../config.json';
   import messages from '../i18n';
   import ContainerLog from './ContainerLog';
   import EventTip from './EventTip';
@@ -290,6 +293,7 @@
     },
     data() {
       this.POD_STATUS_COLOR = POD_STATUS_COLOR;
+      this.config = config;
 
       return {
         items: [],
