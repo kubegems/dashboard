@@ -103,6 +103,7 @@
     }
   },
   "resource": {
+    "region": "區域",
     "resource": "資源",
     "cpu": "CPU",
     "cpu_c": "{0}CPU",
@@ -420,7 +421,7 @@
       "train_task": "訓練任務",
       "dataset": "數據集",
       "image": "鏡像",
-      "model": "模型",
+      "modelset": "模型集",
       "code": "代碼集",
       "cluster": "算力集群",
       "instance": "實例規格",
@@ -577,7 +578,8 @@
     "label_file_processing": "上傳中",
     "label_file_processing_error": "上傳失敗",
     "file_upload": "<span class=\"filepond--label-action\">請點擊上傳文件</span>",
-    "copyed": "已複製到粘貼板"
+    "copyed": "已複製到粘貼板",
+    "select_one_region": "選擇一個區域"
   },
   "tab": {
     "overview": "概覽",

@@ -6,8 +6,11 @@ const chartlineBaseColor = colorRgbArray(config.theme.THEME_COLOR.success);
 const styleCover =
   `
 :root {
+  --root-font-family: ` +
+  `${config.theme.FONT_FAMILY}` +
+  `;
   --primary-bg-img: url(` +
-  `${config.layout.LOGO_BLUE}` +
+  `${config.layout.LOGO_PRIMARY}` +
   `);
   --white-bg-img: url(` +
   `${config.layout.LOGO_WHITE}` +
@@ -19,19 +22,25 @@ const styleCover =
   `${config.theme.THEME_COLOR.success}` +
   `;
   --error-color: ` +
-  `${config.theme.THEME_COLOR_OTHER.error}` +
+  `${config.theme.THEME_COLOR_EXTEND.error}` +
   `;
   --warning-color: ` +
-  `${config.theme.THEME_COLOR_OTHER.warning}` +
+  `${config.theme.THEME_COLOR_EXTEND.warning}` +
   `;
   --grey-color: ` +
-  `${config.theme.THEME_COLOR_OTHER.grey}` +
+  `${config.theme.THEME_COLOR_EXTEND.grey}` +
   `;
   --grey-light-color: ` +
-  `${config.theme.THEME_COLOR_OTHER.greyLight}` +
+  `${config.theme.THEME_COLOR_EXTEND.greyLight}` +
+  `;
+  --accent-color: ` +
+  `${config.theme.THEME_COLOR.accent}` +
+  `;
+  --default-color: ` +
+  `${config.theme.THEME_COLOR.default}` +
   `;
   --purple-color: ` +
-  `${config.theme.THEME_COLOR_OTHER.critical}` +
+  `${config.theme.THEME_COLOR_EXTEND.critical}` +
   `;
   ` +
   `${Array.from('0123456789')

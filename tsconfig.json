@@ -21,6 +21,6 @@
     "target": 2.7,
     "extensions": [".vue"]
   },
-  "include": ["packages/**/*"],
+  "include": ["packages/**/*", "packages/extension/store/vuex/modules/status/.ts"],
   "exclude": ["node_modules", "logs", "dist", "vite.config.ts", "volar.config.ts", "components.d.ts"]
 }

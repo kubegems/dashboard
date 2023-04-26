@@ -42,8 +42,8 @@
             getStatus(item.status.conditions).join(',') === 'Ready'
               ? config.theme.THEME_COLOR.success
               : getStatus(item.status.conditions).join(',') === 'Unknown'
-              ? config.theme.THEME_COLOR_OTHER.grey
-              : config.theme.THEME_COLOR_OTHER.error
+              ? config.theme.THEME_COLOR_EXTEND.grey
+              : config.theme.THEME_COLOR_EXTEND.error
           };`"
         >
           <span class="white--text text-h5" />

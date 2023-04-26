@@ -187,6 +187,7 @@ export const getIconName = (name: string, def = 'kubernetes'): string => {
   if (name.indexOf('rust') > -1) return 'logos:rust';
   if (name.indexOf('swift') > -1) return 'logos:swift';
   if (name.indexOf('kubevela') > -1) return 'img:/icon/kubevela.svg';
+  if (name.indexOf('region') > -1) return 'img:/icon/region.svg';
   if (name.indexOf('gateway') > -1) return 'logos:nginx';
   if (name.indexOf('tracing') > -1) return 'img:/icon/jaeger.svg';
   if (name.indexOf('log collect') > -1) return `img:/${getPlatfom()}.svg`;

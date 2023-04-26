@@ -2,7 +2,7 @@
   "layout": {
     "PLATFORM": "OpenCSG",
     "MANUAL": "https://www.kubegems.io/docs/concepts/what-is-kubegems",
-    "LOGO_BLUE": "/open-csg-color.png",
+    "LOGO_PRIMARY": "/open-csg-color.png",
     "LOGO_WHITE": "/open-csg-white.png",
     "SLOGAN_CN": "OpenCSG 用自然语言重新定义软件",
     "SLOGAN_EN": "OpenCSG redefines software with natural language"
@@ -15,7 +15,7 @@
       "accent": "#fc4b6c",
       "default": "#563dea"
     },
-    "THEME_COLOR_OTHER": {
+    "THEME_COLOR_EXTEND": {
       "warning": "#fb8c00",
       "error": "#ff5252",
       "grey": "#607d8b",

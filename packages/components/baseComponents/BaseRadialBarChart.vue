@@ -62,7 +62,7 @@
   const colorful = [
     props.themeConifg.THEME_COLOR.primary,
     props.themeConifg.THEME_COLOR.success,
-    props.themeConifg.THEME_COLOR_OTHER.warning,
+    props.themeConifg.THEME_COLOR_EXTEND.warning,
   ];
   const triggerVal = ref<number>(0);
 

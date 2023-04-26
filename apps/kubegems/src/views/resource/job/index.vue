@@ -93,7 +93,7 @@
             Succeeded
           </span>
           <span v-else-if="item.status.failed !== undefined">
-            <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR_OTHER.error }">
+            <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR_EXTEND.error }">
               <span class="white--text text-h5" />
             </v-avatar>
             Failed

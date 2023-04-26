@@ -142,7 +142,7 @@
         };
       default:
         return {
-          imgSrc: config.layout.LOGO_BLUE,
+          imgSrc: config.layout.LOGO_PRIMARY,
           tip: i18nLocal.t('tip.kubegems'),
           address: '',
         };

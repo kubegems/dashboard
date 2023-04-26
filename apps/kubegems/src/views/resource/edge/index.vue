@@ -181,13 +181,13 @@
 
   const edgeStatus = {
     Online: config.theme.THEME_COLOR.success,
-    Offline: config.theme.THEME_COLOR_OTHER.greyLight,
-    Waiting: config.theme.THEME_COLOR_OTHER.warning,
+    Offline: config.theme.THEME_COLOR_EXTEND.greyLight,
+    Waiting: config.theme.THEME_COLOR_EXTEND.warning,
   };
 
   const tunnelStatus = {
     Online: config.theme.THEME_COLOR.success,
-    Offline: config.theme.THEME_COLOR_OTHER.greyLight,
+    Offline: config.theme.THEME_COLOR_EXTEND.greyLight,
   };
 
   const store = useStore();

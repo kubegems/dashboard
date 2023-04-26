@@ -109,6 +109,7 @@
   },
 
   "resource": {
+    "region": "区域",
     "resource": "资源",
     "cpu": "CPU",
     "cpu_c": "{0}CPU",
@@ -437,7 +438,7 @@
       "train_task": "训练任务",
       "dataset": "数据集",
       "image": "镜像",
-      "model": "模型",
+      "modelset": "模型集",
       "code": "代码集",
       "cluster": "算力集群",
       "instance": "实例规格",
@@ -601,7 +602,8 @@
     "label_file_processing": "上传中",
     "label_file_processing_error": "上传失败",
     "file_upload": "<span class=\"filepond--label-action\">请点击上传文件</span>",
-    "copyed": "已复制到粘贴板"
+    "copyed": "已复制到粘贴板",
+    "select_one_region": "选择一个区域"
   },
   "tab": {
     "overview": "概览",
