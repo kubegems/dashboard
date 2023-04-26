@@ -19,7 +19,7 @@
     <v-card>
       <v-card-text class="pa-0">
         <div>
-          <v-img class="ma-2" contain :src="config.layout.LOGO_BLUE" width="200" />
+          <v-img class="ma-2" contain :src="config.layout.LOGO_PRIMARY" width="200" />
           <div class="kubegems__clear-float" />
         </div>
         <v-divider />

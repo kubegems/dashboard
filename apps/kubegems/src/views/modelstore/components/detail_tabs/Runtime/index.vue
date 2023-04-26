@@ -38,7 +38,7 @@
               height: '10px',
               minWidth: '10px',
               width: '10px',
-              backgroundColor: `${POD_STATUS_COLOR[item.phase] || config.theme.THEME_COLOR_OTHER.error}`,
+              backgroundColor: `${POD_STATUS_COLOR[item.phase] || config.theme.THEME_COLOR_EXTEND.error}`,
             }"
           />
           <span>

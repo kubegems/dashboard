@@ -112,7 +112,7 @@
                   minWidth: '10px',
                   width: '10px',
                   backgroundColor: `${
-                    POD_STATUS_COLOR[m_resource_getPodStatus(item)] || config.theme.THEME_COLOR_OTHER.error
+                    POD_STATUS_COLOR[m_resource_getPodStatus(item)] || config.theme.THEME_COLOR_EXTEND.error
                   }`,
                 }"
               />

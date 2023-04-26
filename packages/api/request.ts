@@ -16,6 +16,7 @@
 
 import axios from 'axios';
 import qs from 'qs';
+import './response';
 
 axios.defaults.baseURL = `${window.location.origin}/api/v1`;
 axios.defaults.timeout = 1000 * 15;

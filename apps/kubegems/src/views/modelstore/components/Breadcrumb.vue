@@ -126,7 +126,7 @@
           state.tip = i18nLocal.t('tip.tensorflow').toString();
           break;
         case 'kubegems-charts':
-          state.imgSrc = LOGO_BLUE;
+          state.imgSrc = LOGO_PRIMARY;
           state.tip = i18nLocal.t('tip.kubegems_chart').toString();
           break;
         case 'bitnami':
@@ -160,7 +160,7 @@
           state.tip = i18nLocal.t('tip.cloudminds').toString();
           break;
         default:
-          state.imgSrc = config.layout.LOGO_BLUE;
+          state.imgSrc = config.layout.LOGO_PRIMARY;
           state.tip = i18nLocal.t('tip.kubegems').toString();
           break;
       }

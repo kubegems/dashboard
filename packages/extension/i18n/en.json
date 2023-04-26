@@ -109,6 +109,7 @@
   },
 
   "resource": {
+    "region": "Region",
     "resource": "Resource",
     "cpu": "CPU",
     "cpu_c": "{0} CPU",
@@ -435,7 +436,7 @@
       "train_task": "Train",
       "dataset": "Dataset",
       "image": "Image",
-      "model": "Model",
+      "modelset": "Modelset",
       "code": "Codeset",
       "cluster": "Cluster",
       "instance": "Instance",
@@ -600,7 +601,8 @@
     "label_file_processing": "uploading",
     "label_file_processing_error": "error during upload",
     "file_upload": "<span class=\"filepond--label-action\">Click to upload file</span>",
-    "copyed": "Copied to Clipboard"
+    "copyed": "Copied to Clipboard",
+    "select_one_region": "Select a region"
   },
   "tab": {
     "overview": "Overview",

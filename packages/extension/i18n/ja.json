@@ -103,6 +103,7 @@
     }
   },
   "resource": {
+    "region": "エリア",
     "resource": "リソース",
     "cpu": "CPU",
     "cpu_c": "{0}CPU",
@@ -420,7 +421,7 @@
       "train_task": "トレーニング タスク",
       "dataset": "データセット",
       "image": "鏡像",
-      "model": "モデル",
+      "modelset": "モデル",
       "code": "コード",
       "cluster": "集まる",
       "instance": "インスタンス仕様",
@@ -577,7 +578,8 @@
     "label_file_processing": "アップロード中",
     "label_file_processing_error": "アップロードに失敗しました",
     "file_upload": "<span class=\"filepond--label-action\">クリックしてファイルをアップロードしてください</span>",
-    "copyed": "クリップボードにコピーしました"
+    "copyed": "クリップボードにコピーしました",
+    "select_one_region": "地域を選択"
   },
   "tab": {
     "overview": "概要",

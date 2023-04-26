@@ -2,7 +2,7 @@
   "layout": {
     "PLATFORM": "KubeGems",
     "MANUAL": "https://www.kubegems.io/docs/concepts/what-is-kubegems",
-    "LOGO_BLUE": "/logo-blue.svg",
+    "LOGO_PRIMARY": "/logo-blue.svg",
     "LOGO_WHITE": "/logo-white.svg",
     "SLOGAN_CN": "更便捷的云原生管理平台",
     "SLOGAN_EN": "Let cloudnative management more easily"
@@ -15,7 +15,7 @@
       "accent": "#fc4b6c",
       "default": "#563dea"
     },
-    "THEME_COLOR_OTHER": {
+    "THEME_COLOR_EXTEND": {
       "warning": "#fb8c00",
       "error": "#ff5252",
       "grey": "#607d8b"

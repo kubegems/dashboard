@@ -1,5 +1,5 @@
 // Globals
-$body-font-family: zcool qingke huangyou, microsoft yahei, pingfang sc !default;
+$body-font-family: var(--root-font-family);
 $border-radius-root: 8px;
 
 // Custom variables
@@ -18,8 +18,8 @@ $box-shadow: 0 0 1px 0 rgba(27, 19, 19, 0.1);
 $primary: var(--primary-color);
 $info: var(--primary-color);
 $success: var(--success-color);
-$accent: #fc4b6c;
-$default: #563dea;
+$accent: var(--accent-color);
+$default: var(--default-color);
 
 $snackbar-color: hsla(0, 100%, 100%, 1) !default;
 

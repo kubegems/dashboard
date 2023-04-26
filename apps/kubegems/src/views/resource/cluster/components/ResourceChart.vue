@@ -56,7 +56,7 @@
                 </span>
               </v-sheet>
               <v-sheet>
-                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR_OTHER.warning }">
+                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR_EXTEND.warning }">
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span>
@@ -109,7 +109,7 @@
                 </span>
               </v-sheet>
               <v-sheet>
-                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR_OTHER.warning }">
+                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR_EXTEND.warning }">
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span>
@@ -162,7 +162,7 @@
                 </span>
               </v-sheet>
               <v-sheet>
-                <v-avatar class="mr-2" size="0" :style="{ backgroundColor: config.theme.THEME_COLOR_OTHER.grey }">
+                <v-avatar class="mr-2" size="0" :style="{ backgroundColor: config.theme.THEME_COLOR_EXTEND.grey }">
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span />
@@ -203,7 +203,7 @@
                 <span />
               </v-sheet>
               <v-sheet v-if="showTenant">
-                <v-avatar class="mr-2" size="0" :style="{ backgroundColor: config.theme.THEME_COLOR_OTHER.grey }">
+                <v-avatar class="mr-2" size="0" :style="{ backgroundColor: config.theme.THEME_COLOR_EXTEND.grey }">
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span />
@@ -253,7 +253,7 @@
                     </span>
                   </v-sheet>
                   <v-sheet>
-                    <v-avatar class="mr-2" size="0" :style="{ backgroundColor: config.theme.THEME_COLOR_OTHER.grey }">
+                    <v-avatar class="mr-2" size="0" :style="{ backgroundColor: config.theme.THEME_COLOR_EXTEND.grey }">
                       <span class="white--text text-h5" />
                     </v-avatar>
                     <span />
@@ -309,7 +309,11 @@
                       </span>
                     </v-sheet>
                     <v-sheet>
-                      <v-avatar class="mr-2" size="0" :style="{ backgroundColor: config.theme.THEME_COLOR_OTHER.grey }">
+                      <v-avatar
+                        class="mr-2"
+                        size="0"
+                        :style="{ backgroundColor: config.theme.THEME_COLOR_EXTEND.grey }"
+                      >
                         <span class="white--text text-h5" />
                       </v-avatar>
                       <span />
@@ -372,7 +376,11 @@
                       </span>
                     </v-sheet>
                     <v-sheet>
-                      <v-avatar class="mr-2" size="0" :style="{ backgroundColor: config.theme.THEME_COLOR_OTHER.grey }">
+                      <v-avatar
+                        class="mr-2"
+                        size="0"
+                        :style="{ backgroundColor: config.theme.THEME_COLOR_EXTEND.grey }"
+                      >
                         <span class="white--text text-h5" />
                       </v-avatar>
                       <span />

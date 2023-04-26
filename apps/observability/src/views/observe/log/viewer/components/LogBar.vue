@@ -62,9 +62,9 @@
         return [
           config.theme.THEME_COLOR.success,
           config.theme.THEME_COLOR.primary,
-          config.theme.THEME_COLOR_OTHER.warning,
-          config.theme.THEME_COLOR_OTHER.error,
-          config.theme.THEME_COLOR_OTHER.grey,
+          config.theme.THEME_COLOR_EXTEND.warning,
+          config.theme.THEME_COLOR_EXTEND.error,
+          config.theme.THEME_COLOR_EXTEND.grey,
         ];
       },
       series() {
