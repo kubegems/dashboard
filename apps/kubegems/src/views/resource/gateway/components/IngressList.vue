@@ -198,6 +198,9 @@
       onPageIndexChange(page) {
         this.params.page = page;
       },
+      toAddress(address) {
+        window.open(address);
+      },
     },
   };
 </script>

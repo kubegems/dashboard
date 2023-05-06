@@ -83,8 +83,8 @@
         <v-card-text class="pa-0 py-1">
           <v-tabs v-model="tab" class="rounded-t pl-4 py-2" height="35" @change="onTabChange">
             <v-tab v-for="item in items" :key="item.id">
-              <BaseLogo class="mr-2" :icon-name="item.name" :ml="0" :mt="1" :width="20" />
-              {{ item.name }}
+              <BaseLogo class="mr-2" :icon-name="item ? item.name : ''" :ml="0" :mt="1" :width="20" />
+              {{ item ? item.name : '' }}
             </v-tab>
           </v-tabs>
         </v-card-text>
@@ -121,7 +121,7 @@
                 :label-show="false"
                 :metrics="metrics[`c${index}`]"
                 single-tooptip
-                :title="graph.name"
+                :title="graph ? graph.name : ''"
                 type=""
                 :unit="getUnit(graph.unit)"
               />
@@ -283,7 +283,7 @@
         const dashboard = this.items[this.tab];
         if (dashboard?.variables && Object.keys(dashboard?.variables || {}).length > 0) {
           if (init) {
-            this.variable = Object.keys(dashboard.variables)[0];
+            this.variable = Object.keys(dashboard?.variables || {})[0];
             this.variableValues = dashboard.variables[this.variable].split(',').filter((v) => {
               return Boolean(v);
             });
