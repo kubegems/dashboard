@@ -136,7 +136,7 @@
         if (this.$refs[this.formComponent].validate()) {
           let data = {};
           if (this.formComponent === 'BaseYamlForm') {
-            data = this.$refs[this.formComponent].getYaml();
+            data = this.$refs[this.formComponent]?.getYaml();
             data = this.$yamlload(data);
             if (!this.m_resource_validateJsonSchema(WorkloadSchema, data)) {
               return;

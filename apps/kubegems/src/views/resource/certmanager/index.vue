@@ -449,8 +449,8 @@
       },
       getStatus(conditions) {
         const tmpConditions = [];
-        if (conditions && conditions.length === 0) return ['Unknown'];
-        conditions.forEach((con) => {
+        if (conditions && conditions?.length === 0) return ['Unknown'];
+        conditions?.forEach((con) => {
           if (con.type === 'Ready') {
             if (con.status === 'True') {
               tmpConditions.push(con.type);

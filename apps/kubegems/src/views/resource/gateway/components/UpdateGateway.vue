@@ -129,7 +129,7 @@
           data &&
           data.spec &&
           data.spec.configMapData &&
-          data.spec.configMapData['use-http2'].toLocaleLowerCase() === 'false'
+          data.spec.configMapData['use-http2']?.toLocaleLowerCase() === 'false'
         ) {
           this.$refs[this.formComponent].protocol = 'http/1.1';
         } else {
