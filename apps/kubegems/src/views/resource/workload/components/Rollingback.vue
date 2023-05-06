@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-redo-variant" :title="$t('operate.rollback')" :width="800" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-redo-variant" :title="$t('operate.rollback')" :width="1000" @reset="reset">
     <template #content>
       <BaseSubTitle :title="$root.$t('form.definition', [$t('tip.version')])" />
       <v-card-text class="px-2 pb-0">

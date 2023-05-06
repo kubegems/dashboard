@@ -257,10 +257,6 @@
         type: String,
         default: () => '',
       },
-      edit: {
-        type: Boolean,
-        default: () => false,
-      },
       obj: {
         type: Object,
         default: () => null,
@@ -287,6 +283,7 @@
           paths: [{ path: '', pathType: '', serviceName: '', servicePort: '', portType: 'name', portTypeMenu: false }],
         },
         needTlsSecret: false,
+        edit: false,
       };
     },
     computed: {
@@ -340,6 +337,7 @@
     },
     methods: {
       init(data) {
+        this.edit = true;
         this.ruler = data;
         this.ruler.paths.forEach(() => {
           this.rulerRules.pathsRule.push({
@@ -349,6 +347,10 @@
             pathTypeRule: [required],
           });
         });
+        this.expand = true;
+      },
+      open() {
+        this.edit = false;
         this.expand = true;
       },
       randomHost() {

@@ -22,7 +22,7 @@
 .ace_editor.ace-chrome .ace_variable,
 .ace_editor.ace-chrome .ace_identifier,
 .ace_editor.ace-chrome .ace_meta.ace_tag {
-  color: #1d88e5;
+  color: var(--primary-color);
 }
 
 .ace_editor.ace-chrome .ace_keyword {

@@ -31,7 +31,7 @@ const originalRoutes = global
       path: '/admin-observe',
       name: 'admin-observe',
       component: () => import('@/layouts/Layout.vue'),
-      redirect: { name: 'observe-overview' },
+      redirect: { name: 'admin-observe-overview' },
       children: adminObserve,
     },
   ]) // 管理员可观测性

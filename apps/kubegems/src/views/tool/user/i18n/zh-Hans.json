@@ -42,7 +42,9 @@
       "confirm_passwd": "确认新密码",
       "i18n": "语言",
       "auth": "认证信息",
-      "exprie": "过期时间(秒)"
+      "exprie": "过期时间(秒)",
+      "theme_color": "主题色",
+      "now_theme_color": "当前主题色"
     }
   },
   "operate": {

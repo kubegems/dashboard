@@ -27,7 +27,7 @@
       </v-list-item-icon>
 
       <v-list-item-content>
-        <v-list-item-title v-text="$t(item.meta.title)" />
+        <v-list-item-title v-text="i18n.t(item.meta.title)" />
       </v-list-item-content>
     </template>
 
@@ -47,12 +47,14 @@
 </template>
 
 <script lang="ts" setup inherit-attrs="false">
+  import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useName, useParams, useRouter } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
   import { ref, watch } from 'vue';
 
   const store = useStore();
   const router = useRouter();
+  const i18n = useGlobalI18n();
 
   type ItemGroup = {
     avatar: string;

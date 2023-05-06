@@ -18,7 +18,7 @@
     v-model="dialog"
     icon="mdi-arrow-up-bold"
     :title="`${$t('operate.upgrade_model')} ${obj.spec.model.name}`"
-    :width="800"
+    :width="1000"
     @reset="reset"
   >
     <template #content>

@@ -171,7 +171,7 @@
             auto-draw
             :auto-draw-duration="200"
             auto-line-width
-            :color="config.theme.THEME_COLOR.primary"
+            :color="ThemeColor || config.theme.THEME_COLOR.primary"
             fill
             :line-width="5"
             smooth
@@ -187,7 +187,7 @@
             auto-draw
             :auto-draw-duration="200"
             auto-line-width
-            :color="config.theme.THEME_COLOR.primary"
+            :color="ThemeColor || config.theme.THEME_COLOR.primary"
             fill
             :line-width="5"
             smooth
@@ -291,7 +291,7 @@
       };
     },
     computed: {
-      ...mapState(['JWT', 'AdminViewport', 'MessageStreamWS', 'Plugins']),
+      ...mapState(['JWT', 'AdminViewport', 'MessageStreamWS', 'Plugins', 'ThemeColor']),
       ...mapGetters(['Environment']),
       headers() {
         const items = [

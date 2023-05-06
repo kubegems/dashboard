@@ -180,7 +180,8 @@
     "host": "ホスト",
     "cloud_cluster": "クラウドクラスター",
     "edge_cluster": "エッジ クラスタ",
-    "prometheus_probe": "探知ミッション"
+    "prometheus_probe": "探知ミッション",
+    "queue": "列"
   },
   "header": {
     "workspace": "作業台",
@@ -427,7 +428,8 @@
       "instance": "インスタンス仕様",
       "develop": "モデル開発",
       "cost_dash": "費用の概要",
-      "cost_analysis": "コスト分析"
+      "cost_analysis": "コスト分析",
+      "queue": "タスク キュー"
     }
   },
   "breadcrumb": {
@@ -513,7 +515,8 @@
     "pai_model": "",
     "pai_code": "",
     "pai_cost_dash": "",
-    "pai_cost_analysis": ""
+    "pai_cost_analysis": "",
+    "pai_queue": ""
   },
   "metadata": {
     "description": "より簡単に、クラウドベースでお届けします",

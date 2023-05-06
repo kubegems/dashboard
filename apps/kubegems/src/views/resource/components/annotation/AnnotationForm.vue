@@ -124,6 +124,9 @@
         this.oldKey = null;
         this.$emit('closeOverlay');
       },
+      open() {
+        this.expand = true;
+      },
     },
   };
 </script>

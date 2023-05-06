@@ -46,7 +46,11 @@
                 </span>
               </v-sheet>
               <v-sheet>
-                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.primary }">
+                <v-avatar
+                  class="mr-2"
+                  size="10"
+                  :style="{ backgroundColor: ThemeColor || config.theme.THEME_COLOR.primary }"
+                >
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span>
@@ -99,7 +103,11 @@
                 </span>
               </v-sheet>
               <v-sheet>
-                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.primary }">
+                <v-avatar
+                  class="mr-2"
+                  size="10"
+                  :style="{ backgroundColor: ThemeColor || config.theme.THEME_COLOR.primary }"
+                >
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span>
@@ -152,7 +160,11 @@
                 </span>
               </v-sheet>
               <v-sheet>
-                <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.primary }">
+                <v-avatar
+                  class="mr-2"
+                  size="10"
+                  :style="{ backgroundColor: ThemeColor || config.theme.THEME_COLOR.primary }"
+                >
                   <span class="white--text text-h5" />
                 </v-avatar>
                 <span>
@@ -244,7 +256,11 @@
                     </span>
                   </v-sheet>
                   <v-sheet>
-                    <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.primary }">
+                    <v-avatar
+                      class="mr-2"
+                      size="10"
+                      :style="{ backgroundColor: ThemeColor || config.theme.THEME_COLOR.primary }"
+                    >
                       <span class="white--text text-h5" />
                     </v-avatar>
                     <span>
@@ -296,7 +312,11 @@
                       </span>
                     </v-sheet>
                     <v-sheet>
-                      <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.primary }">
+                      <v-avatar
+                        class="mr-2"
+                        size="10"
+                        :style="{ backgroundColor: ThemeColor || config.theme.THEME_COLOR.primary }"
+                      >
                         <span class="white--text text-h5" />
                       </v-avatar>
                       <span>
@@ -359,7 +379,11 @@
                       </span>
                     </v-sheet>
                     <v-sheet>
-                      <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.primary }">
+                      <v-avatar
+                        class="mr-2"
+                        size="10"
+                        :style="{ backgroundColor: ThemeColor || config.theme.THEME_COLOR.primary }"
+                      >
                         <span class="white--text text-h5" />
                       </v-avatar>
                       <span>
@@ -447,7 +471,7 @@
       };
     },
     computed: {
-      ...mapState(['JWT']),
+      ...mapState(['JWT', 'ThemeColor']),
       ...mapGetters(['Cluster']),
       maxCpu() {
         return this.cluster

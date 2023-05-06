@@ -243,6 +243,7 @@ export const getIconName = (name: string, def = 'kubernetes'): string => {
   if (name.indexOf('sklearn') > -1) return 'img:/icon/sklearn.svg';
   if (name.indexOf('mlflow') > -1) return 'img:/icon/mlflow.svg';
   if (name.indexOf('xgboost') > -1) return 'img:/icon/xgboost.svg';
+  if (name.indexOf('git') > -1) return 'logos:git-icon';
 
   if (name.startsWith('mdi')) return name;
 
