@@ -39,13 +39,13 @@ export const port = (v: string): boolean | string =>
   (!!new RegExp('^[1-9]\\d*|0$').test(v) && Number(v) <= 65533) || i18n.t('ruler.port').toString();
 
 export const k8sLabel = (v: string): boolean | string =>
-  !!new RegExp('^([A-Za-z0-9][-A-Za-z0-9_./]*)?[A-Za-z0-9]{0,63}$').test(v) || i18n.t('ruler.k8s_label').toString();
+  !!new RegExp('^(?!-)([-A-Za-z0-9]{0,63}(?<!-)$').test(v) || i18n.t('ruler.k8s_label').toString();
 
 export const k8sAnnotation = (v: string): boolean | string =>
-  !!new RegExp('([A-Za-z0-9][-A-Za-z0-9_./]*)?[A-Za-z0-9]').test(v) || i18n.t('ruler.k8s_annotation').toString();
+  !!new RegExp('^(?!-)([-A-Za-z0-9](?<!-)$').test(v) || i18n.t('ruler.k8s_annotation').toString();
 
 export const k8sName = (v: string): boolean | string =>
-  !!new RegExp('^([a-z0-9]([-a-z0-9./]*[a-z0-9])?){0,253}$').test(v) || i18n.t('ruler.k8s_name').toString();
+  !!new RegExp('^(?!-)([-a-z0-9]){0,253}(?<!-)$').test(v) || i18n.t('ruler.k8s_name').toString();
 
 export const email = (v: string): boolean | string =>
   !!new RegExp('^[\\.a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$').test(v) || i18n.t('ruler.email').toString();
