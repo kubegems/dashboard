@@ -187,7 +187,8 @@
     "host": "Host",
     "cloud_cluster": "Cloud Cluster",
     "edge_cluster": "Edge Cluster",
-    "prometheus_probe": "Prometheus Probe"
+    "prometheus_probe": "Prometheus Probe",
+    "queue": "Queue"
   },
 
   "header": {
@@ -442,7 +443,8 @@
       "instance": "Instance",
       "develop": "Develop",
       "cost_dash": "Dashboard",
-      "cost_analysis": "Analysis"
+      "cost_analysis": "Analysis",
+      "queue": "Queue"
     }
   },
   "breadcrumb": {
@@ -535,7 +537,8 @@
     "pai_model": "",
     "pai_code": "",
     "pai_cost_dash": "",
-    "pai_cost_analysis": ""
+    "pai_cost_analysis": "",
+    "pai_queue": ""
   },
 
   "metadata": {

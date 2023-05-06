@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-rocket" :title="$t('tip.resource_limit')" :width="800" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-rocket" :title="$t('tip.resource_limit')" :width="1000" @reset="reset">
     <template #content>
       <v-card v-if="adviseItem && item" flat>
         <v-card-text v-for="obj in item.spec.template.spec.containers" :key="obj.name" class="pa-0 mb-8">

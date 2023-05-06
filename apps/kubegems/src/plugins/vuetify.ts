@@ -13,20 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { useStore } from '@kubegems/extension/store';
 import Vue from 'vue';
 import Vuetify from 'vuetify';
 
 import '@/scss/vuetify/overrides.scss';
 import config from '../config.json';
 
+const store = useStore();
+
 Vue.use(Vuetify);
 
 const theme: { [key: string]: string } = config.theme.THEME_COLOR;
+if (store.state.ThemeColor) {
+  theme.primary = store.state.ThemeColor;
+}
 
 export default new Vuetify({
   theme: {
     themes: {
-      dark: theme,
       light: theme,
     },
   },

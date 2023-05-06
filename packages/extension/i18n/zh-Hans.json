@@ -187,7 +187,8 @@
     "host": "主机",
     "cloud_cluster": "云端集群",
     "edge_cluster": "边缘集群",
-    "prometheus_probe": "探测任务"
+    "prometheus_probe": "探测任务",
+    "queue": "队列"
   },
 
   "header": {
@@ -444,7 +445,8 @@
       "instance": "实例规格",
       "develop": "在线开发",
       "cost_dash": "成本概览",
-      "cost_analysis": "成本分析"
+      "cost_analysis": "成本分析",
+      "queue": "任务队列"
     }
   },
   "breadcrumb": {
@@ -528,16 +530,17 @@
     "dash_probe": "云拨测是监测并分析服务加载速度、CDN加速、DNS解析等关键性能指标。",
 
     "pai": "",
-    "pai_image": "",
-    "pai_dataset": "",
-    "pai_train": "",
-    "pai_cluster": "",
-    "pai_instance": "",
-    "pai_develop": "",
-    "pai_model": "",
-    "pai_code": "",
+    "pai_image": "容器内运行的镜像",
+    "pai_dataset": "训练时的数据输入",
+    "pai_train": "实际的Job批处理负载，用于进行模型训练",
+    "pai_cluster": "从Kubegems导入托管集群",
+    "pai_instance": "算力资源实例，相当于实际的一张gpu卡",
+    "pai_develop": "运行一个实例，通过webshell / jyputer notebook 来进行开发",
+    "pai_model": "预训练模型或强化模型，在创建时通过异步任务同步预训练模型的来源",
+    "pai_code": "训练时运行的代码",
     "pai_cost_dash": "",
-    "pai_cost_analysis": ""
+    "pai_cost_analysis": "",
+    "pai_queue": "容纳一组pod的队列，也是该组pod获取集群资源的划分依据"
   },
   "metadata": {
     "description": "更便捷的云原生管理平台",
@@ -559,6 +562,7 @@
     "save_data": "请保存数据",
     "parse_error": "数据解析错误",
     "select_tenant": "请选择租户",
+    "select_region": "请选择区域",
     "select_environment": "请选择环境",
     "select_project_environment": "请选择项目环境",
     "condition": "状况",

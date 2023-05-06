@@ -180,7 +180,8 @@
     "host": "主機",
     "cloud_cluster": "雲端集群",
     "edge_cluster": "邊緣集群",
-    "prometheus_probe": "探測任務"
+    "prometheus_probe": "探測任務",
+    "queue": "隊列"
   },
   "header": {
     "workspace": "工作臺",
@@ -427,7 +428,8 @@
       "instance": "實例規格",
       "develop": "在線開發",
       "cost_dash": "成本概覽",
-      "cost_analysis": "成本分析"
+      "cost_analysis": "成本分析",
+      "queue": "任務隊列"
     }
   },
   "breadcrumb": {
@@ -513,7 +515,8 @@
     "pai_model": "",
     "pai_code": "",
     "pai_cost_dash": "",
-    "pai_cost_analysis": ""
+    "pai_cost_analysis": "",
+    "pai_queue": ""
   },
   "metadata": {
     "description": "更便捷的雲原生管理平臺",

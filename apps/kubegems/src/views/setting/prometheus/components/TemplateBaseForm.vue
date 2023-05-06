@@ -65,7 +65,7 @@
               @keydown.enter="createLabel"
             >
               <template #selection="{ item }">
-                <v-chip close close-icon="mdi-close-circle" color="primary" small @click.close="removeLabel(item)">
+                <v-chip close close-icon="mdi-close-circle" color="primary" small @click:close="removeLabel(item)">
                   <span>
                     {{ item.text }}
                   </span>

@@ -315,6 +315,21 @@
           cluster: store.getters.Cluster().ClusterName,
         },
       });
+    } else if (module.value.sidebar === 'workspacepai') {
+      router.push({
+        name: module.value.value,
+        params: {
+          region: store.getters.Region().RegionName,
+          tenant: store.getters.Tenant().TenantName,
+        },
+      });
+    } else if (module.value.sidebar === 'pai') {
+      router.push({
+        name: module.value.value,
+        params: {
+          region: store.getters.Region().RegionName,
+        },
+      });
     } else {
       router.push({
         name: module.value.value,

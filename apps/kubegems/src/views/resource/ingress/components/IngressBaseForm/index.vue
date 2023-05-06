@@ -123,7 +123,6 @@
         ref="ingressRuleForm"
         class="kubegems__forminform"
         :domain="baseDomain"
-        :edit="edit"
         :obj="obj"
         @addData="addRulerData"
         @closeOverlay="closeExpand"
@@ -390,7 +389,7 @@
       },
       expandCard(formComponent) {
         this.$nextTick(() => {
-          this.$refs[formComponent].expand = true;
+          this.$refs[formComponent].open();
           this.$refs[formComponent].$refs.form.resetValidation();
           this.expand = true;
         });

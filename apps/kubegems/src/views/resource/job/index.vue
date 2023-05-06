@@ -87,7 +87,11 @@
         </template>
         <template #[`item.status`]="{ item }">
           <span v-if="item.status.succeeded !== undefined">
-            <v-avatar class="mr-2" size="10" :style="{ backgroundColor: config.theme.THEME_COLOR.primary }">
+            <v-avatar
+              class="mr-2"
+              size="10"
+              :style="{ backgroundColor: ThemeColor || config.theme.THEME_COLOR.primary }"
+            >
               <span class="white--text text-h5" />
             </v-avatar>
             Succeeded
@@ -187,7 +191,7 @@
       };
     },
     computed: {
-      ...mapState(['JWT', 'AdminViewport', 'MessageStreamWS']),
+      ...mapState(['JWT', 'AdminViewport', 'MessageStreamWS', 'ThemeColor']),
       ...mapGetters(['Environment']),
       headers() {
         const items = [

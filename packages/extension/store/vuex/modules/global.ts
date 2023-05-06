@@ -16,6 +16,7 @@ const Locale = 'locale';
 const Broadcast = 'broadcast';
 const Edge = 'edge';
 const Guided = 'guided';
+const ThemeColor = 'themecolor';
 
 const global = {
   state: {
@@ -38,6 +39,7 @@ const global = {
     Broadcast: JSON.parse(window.localStorage.getItem(Broadcast) as string) || [],
     Edge: window.localStorage.getItem(Edge) || '',
     Guided: [true, 'true'].includes(window.localStorage.getItem(Guided) as string) || false,
+    ThemeColor: window.localStorage.getItem(ThemeColor) || '',
   },
   mutations: {
     SET_BROADCAST(state: { [key: string]: any }, payload: { [key: string]: any }[]): void {
@@ -48,7 +50,10 @@ const global = {
       state.Edge = payload;
       window.localStorage.setItem(Edge, payload);
     },
-
+    SET_THEME_COLOR(state: { [key: string]: any }, payload: string): void {
+      state.ThemeColor = payload;
+      window.localStorage.setItem(ThemeColor, payload);
+    },
     SET_STORE(state: { [key: string]: any }, payload: string): void {
       state.StoreMode = payload;
       window.localStorage.setItem(StoreMode, payload);
