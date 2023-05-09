@@ -446,7 +446,8 @@
       "develop": "在线开发",
       "cost_dash": "成本概览",
       "cost_analysis": "成本分析",
-      "queue": "任务队列"
+      "queue": "任务队列",
+      "workspace": "工作空间"
     }
   },
   "breadcrumb": {
@@ -540,7 +541,8 @@
     "pai_code": "训练时运行的代码",
     "pai_cost_dash": "",
     "pai_cost_analysis": "",
-    "pai_queue": "容纳一组pod的队列，也是该组pod获取集群资源的划分依据"
+    "pai_queue": "容纳一组pod的队列，也是该组pod获取集群资源的划分依据",
+    "pai_workspace": "用户的个人数据，可在任何阶段被挂载在任何实例中"
   },
   "metadata": {
     "description": "更便捷的云原生管理平台",
