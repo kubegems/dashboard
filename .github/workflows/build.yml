@@ -108,3 +108,13 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build and push Docker image for arm64
+        if: github.event_name != 'pull_request'
+        uses: docker/build-push-action@v2.9.0
+        with:
+          context: ./apps/kubegems
+          file: ./apps/kubegems/arm64.Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}-arm64
+          labels: ${{ steps.meta.outputs.labels }}-arm64
