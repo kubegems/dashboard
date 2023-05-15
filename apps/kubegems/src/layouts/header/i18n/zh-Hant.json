@@ -36,5 +36,17 @@
     "issue": "問題反饋",
     "star": "標星",
     "openresource": "開源/第三方許可協議"
+  },
+  "theme": {
+    "default": "默認",
+    "navy_blue": "藏青",
+    "rock_blue": "石青",
+    "cyanine": "花青",
+    "fei_hong": "妃紅",
+    "b_orange": "美人焦橙",
+    "b_green": "竹青",
+    "p_green": "松綠",
+    "p_blue": "紫藍",
+    "brown": "玄色"
   }
 }

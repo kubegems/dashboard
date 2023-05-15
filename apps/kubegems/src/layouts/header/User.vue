@@ -75,6 +75,29 @@
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
+      <div>
+        <v-menu
+          v-for="(item, index) in themeItems"
+          :key="index"
+          :close-delay="200"
+          left
+          :nudge-top="22"
+          open-on-hover
+          top
+        >
+          <template #activator="{ on }">
+            <div
+              class="float-left kubegems__pointer"
+              :style="{ backgroundColor: item.value, width: '10%', height: '22px' }"
+              v-on="on"
+              @click="changeTheme(item.value)"
+            />
+          </template>
+          <v-card>
+            <v-card-text class="pa-2 text-caption"> {{ i18nLocal.t(`theme.${item.text}`) }} </v-card-text>
+          </v-card>
+        </v-menu>
+      </div>
       <v-divider class="mb-2" />
       <v-list class="pt-0 px-2">
         <v-list-item @click="showTenantSelect">
@@ -144,18 +167,21 @@
 
 <script lang="ts" setup>
   import { useGlobalI18n } from '@kubegems/extension/i18n';
-  import { useRouter } from '@kubegems/extension/proxy';
+  import { useRouter, useVuetify } from '@kubegems/extension/proxy';
   import { useStore } from '@kubegems/extension/store';
   import { VENDOR } from '@kubegems/libs/constants/platform';
   import { reactive, ref } from 'vue';
 
   import config from '../../config.json';
+  import { refreshColor } from '../../loadConfig';
   import About from './components/About.vue';
   import TenantSelect from './components/TenantSelect.vue';
+  import { useI18n } from './i18n';
 
   const store = useStore();
   const router = useRouter();
   const i18n = useGlobalI18n();
+  const i18nLocal = useI18n();
 
   const state = reactive({
     menu: false,
@@ -193,6 +219,26 @@
   const closeUserMenu = (): void => {
     state.menu = false;
     state.expand = false;
+  };
+
+  const themeItems = [
+    { text: 'default', value: '#1E88E5' },
+    { text: 'navy_blue', value: '#2E4E7E' },
+    { text: 'rock_blue', value: '#1685A9' },
+    { text: 'cyanine', value: '#003472' },
+    { text: 'fei_hong', value: '#ED5736' },
+    { text: 'b_orange', value: '#FA7E23' },
+    { text: 'b_green', value: '#789262' },
+    { text: 'p_green', value: '#1C8B7C' },
+    { text: 'p_blue', value: '#512DA8' },
+    { text: 'brown', value: '#622A1D' },
+  ];
+
+  const vuetify = useVuetify();
+  const changeTheme = (theme: string): void => {
+    store.commit('SET_THEME_COLOR', theme);
+    refreshColor();
+    vuetify.theme.themes.light.primary = theme;
   };
 </script>
 

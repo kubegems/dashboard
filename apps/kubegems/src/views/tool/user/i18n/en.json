@@ -3,7 +3,8 @@
     "message": "Message Box",
     "audit": "Action History",
     "setting": "Personal Settings",
-    "auth": "Authenticate"
+    "auth": "Authenticate",
+    "theme": "Theme"
   },
   "table": {
     "email": "Email",

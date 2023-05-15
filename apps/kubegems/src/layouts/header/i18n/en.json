@@ -36,5 +36,17 @@
     "issue": "Issues",
     "star": "Star",
     "openresource": "Open Source/Third Party License Agreement"
+  },
+  "theme": {
+    "default": "Default",
+    "navy_blue": "Navy Blue",
+    "rock_blue": "Rock Blue",
+    "cyanine": "Cyanine",
+    "fei_hong": "Fei Hong",
+    "b_orange": "Beauty Burnt Orange",
+    "b_green": "Bamboo Green",
+    "p_green": "Pine Green",
+    "p_blue": "Purple Blue",
+    "brown": "Brown"
   }
 }
