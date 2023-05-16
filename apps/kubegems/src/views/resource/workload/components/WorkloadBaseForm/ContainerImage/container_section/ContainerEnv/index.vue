@@ -347,11 +347,11 @@
           this.items = convertResponse2List(data);
         }
         this.items.forEach((v) => {
-          v.text = v.secret.metadata.name;
-          v.value = v.secret.metadata.name;
+          v.text = v.secret ? v.secret.metadata.name : v.metadata.name;
+          v.value = v.secret ? v.secret.metadata.name : v.metadata.name;
           v.keys = [];
-          if (v.secret.data) {
-            Object.keys(v.secret.data).forEach((d) => {
+          if (v.secret?.data || v.data) {
+            Object.keys(v.secret?.data || v.data).forEach((d) => {
               v.keys.push({ text: d, value: d });
             });
           }
