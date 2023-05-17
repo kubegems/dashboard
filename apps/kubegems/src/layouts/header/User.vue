@@ -235,10 +235,13 @@
   ];
 
   const vuetify = useVuetify();
+  // type reloadHandler = () => void;
+  // const reload: reloadHandler = inject('reload');
   const changeTheme = (theme: string): void => {
     store.commit('SET_THEME_COLOR', theme);
     refreshColor();
     vuetify.theme.themes.light.primary = theme;
+    // reload();
   };
 </script>
 

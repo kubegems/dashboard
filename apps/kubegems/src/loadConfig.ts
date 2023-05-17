@@ -6,7 +6,7 @@ import config from './config.json';
 const store = useStore();
 
 const _initColor = () => {
-  const chartlineBaseColor = colorRgbArray(config.theme.THEME_COLOR.success);
+  const chartlineBaseColor = colorRgbArray(store.state.ThemeColor || config.theme.THEME_COLOR.primary);
   const styleCover =
     `
 :root {
