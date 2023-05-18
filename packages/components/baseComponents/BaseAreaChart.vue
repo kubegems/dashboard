@@ -618,4 +618,14 @@
     },
     { deep: true },
   );
+
+  watch(
+    () => store.state.ThemeColor,
+    async (newValue) => {
+      if (newValue && newValue?.length >= 0 && document.getElementById(chartId.value)) {
+        loadChart();
+      }
+    },
+    { deep: true },
+  );
 </script>

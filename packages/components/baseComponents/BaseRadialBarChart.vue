@@ -63,7 +63,7 @@
   const chart = ref<any>(undefined);
   const chartId = ref<string>('');
   const colorful = [
-    props.themeConifg.THEME_COLOR.primary,
+    store.state.ThemeColor || props.themeConifg.THEME_COLOR.primary,
     props.themeConifg.THEME_COLOR.success,
     props.themeConifg.THEME_COLOR_EXTEND.warning,
   ];
@@ -203,6 +203,16 @@
 
   watch(
     () => props.metrics,
+    async (newValue) => {
+      if (newValue && newValue?.length >= 0 && document.getElementById(chartId.value)) {
+        loadChart();
+      }
+    },
+    { deep: true },
+  );
+
+  watch(
+    () => store.state.ThemeColor,
     async (newValue) => {
       if (newValue && newValue?.length >= 0 && document.getElementById(chartId.value)) {
         loadChart();
