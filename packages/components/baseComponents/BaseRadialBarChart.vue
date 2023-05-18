@@ -21,6 +21,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { useStore } from '@kubegems/extension/store';
   import { randomString } from '@kubegems/libs/utils/helpers';
   import Chart from 'chart.js/auto';
   import DoughnutLabel from 'chartjs-plugin-doughnutlabel-v3';
@@ -57,10 +58,12 @@
     },
   );
 
+  const store = useStore();
+
   const chart = ref<any>(undefined);
   const chartId = ref<string>('');
   const colorful = [
-    props.themeConifg.THEME_COLOR.primary,
+    store.state.ThemeColor || props.themeConifg.THEME_COLOR.primary,
     props.themeConifg.THEME_COLOR.success,
     props.themeConifg.THEME_COLOR_EXTEND.warning,
   ];
@@ -86,7 +89,7 @@
                 labels: [
                   {
                     text: props.title,
-                    color: props.themeConifg.THEME_COLOR.success,
+                    color: store.state.ThemeColor || props.themeConifg.THEME_COLOR.primary,
                     font: {
                       size: 16,
                       weight: 'bold',
@@ -200,6 +203,16 @@
 
   watch(
     () => props.metrics,
+    async (newValue) => {
+      if (newValue && newValue?.length >= 0 && document.getElementById(chartId.value)) {
+        loadChart();
+      }
+    },
+    { deep: true },
+  );
+
+  watch(
+    () => store.state.ThemeColor,
     async (newValue) => {
       if (newValue && newValue?.length >= 0 && document.getElementById(chartId.value)) {
         loadChart();

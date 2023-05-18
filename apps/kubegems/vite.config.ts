@@ -62,7 +62,7 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 3000,
-    strictPort: true,
+    strictPort: false,
     proxy: {
       '/api/v1/edge-': {
         target: 'http://172.16.23.231:30001',

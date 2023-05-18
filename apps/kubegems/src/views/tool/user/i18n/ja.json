@@ -3,7 +3,8 @@
     "message": "メッセージボックス",
     "audit": "操作履歴",
     "setting": "パーソナル設定",
-    "auth": "認証"
+    "auth": "認証",
+    "theme": "テーマ"
   },
   "table": {
     "email": "メール",

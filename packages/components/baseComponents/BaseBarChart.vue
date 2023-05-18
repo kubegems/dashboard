@@ -21,6 +21,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { useStore } from '@kubegems/extension/store';
   import { LINE_THEME_COLORS, LINE_THEME_FUL_COLORS } from '@kubegems/libs/constants/chart';
   import { beautifyTime, randomString } from '@kubegems/libs/utils/helpers';
   import Chart, { ScatterDataPoint } from 'chart.js/auto';
@@ -54,6 +55,7 @@
     },
   );
 
+  const store = useStore();
   const chart = ref<any>(undefined);
   const chartId = ref<string>('');
 
@@ -223,6 +225,16 @@
 
   watch(
     () => props.metrics,
+    async (newValue) => {
+      if (newValue && newValue?.length >= 0 && document.getElementById(chartId.value)) {
+        loadChart();
+      }
+    },
+    { deep: true },
+  );
+
+  watch(
+    () => store.state.ThemeColor,
     async (newValue) => {
       if (newValue && newValue?.length >= 0 && document.getElementById(chartId.value)) {
         loadChart();

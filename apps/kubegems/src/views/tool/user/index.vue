@@ -101,6 +101,7 @@
   import AuditList from './components/AuditList.vue';
   import MessageBox from './components/MessageBox.vue';
   import OwnerSetting from './components/OwnerSetting.vue';
+  import ThemeColor from './components/ThemeColor.vue';
   import { useI18n } from './i18n';
 
   const store = useStore();
@@ -113,6 +114,7 @@
     { text: i18nLocal.t('tab.audit'), value: AuditList, tab: 'audit' },
     { text: i18nLocal.t('tab.message'), value: MessageBox, tab: 'message' },
     { text: i18nLocal.t('tab.auth'), value: AccessToken, tab: 'access' },
+    { text: i18nLocal.t('tab.theme'), value: ThemeColor, tab: 'theme' },
   ]);
 
   const getLoginUser = async (): Promise<void> => {

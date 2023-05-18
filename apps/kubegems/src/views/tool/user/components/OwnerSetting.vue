@@ -132,43 +132,6 @@
             </v-form>
           </v-card-text>
         </v-card>
-
-        <v-card class="mt-3" flat>
-          <v-card-text class="pa-2">
-            <BaseSubTitle :divider="false" :title="i18nLocal.t('setting.tip.theme_color')" />
-            <v-form ref="infoForm" v-model="localeState.valid" class="px-4" lazy-validation @submit.prevent>
-              <v-row class="mt-0">
-                <v-col cols="12">
-                  <div class="ml-6 mb-2">
-                    {{ i18nLocal.t('setting.tip.now_theme_color') }}
-                    <div
-                      :style="{
-                        backgroundColor: store.state.ThemeColor || config.theme.THEME_COLOR.primary,
-                        width: '46px',
-                        height: '20px',
-                        borderRadius: '3px',
-                      }"
-                    />
-                  </div>
-                  <div class="ml-6">{{ themeColor }}</div>
-                  <v-color-picker
-                    v-model="themeColor"
-                    hide-canvas
-                    hide-inputs
-                    hide-sliders
-                    mode="hexa"
-                    show-swatches
-                    swatches-max-height="200"
-                    width="100%"
-                  />
-                </v-col>
-              </v-row>
-              <v-btn class="my-4" color="primary" small @click="updateThemeColor">
-                {{ i18n.t('operate.update_c', [i18nLocal.t('setting.tip.theme_color')]) }}
-              </v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card>
       </v-col>
     </v-row>
   </div>
@@ -179,14 +142,13 @@
   import { User } from '@kubegems/api/typed/user';
   import iii, { useGlobalI18n } from '@kubegems/extension/i18n';
   import locales from '@kubegems/extension/i18n/locales';
-  import { useRoute, useVuetify } from '@kubegems/extension/proxy';
+  import { useRoute } from '@kubegems/extension/proxy';
   import { email, password, phone, required } from '@kubegems/extension/ruler';
   import { useStore } from '@kubegems/extension/store';
   import moment from 'moment';
   import { inject, nextTick, onMounted, reactive, ref, watch } from 'vue';
 
   import config from '../../../../config.json';
-  import { refreshColor } from '../../../../loadConfig';
   import { useI18n } from '../i18n';
 
   const i18nLocal = useI18n();
@@ -298,12 +260,4 @@
       language.value = store.state.Locale;
     });
   });
-
-  const vuetify = useVuetify();
-  const themeColor = ref(store.state.ThemeColor || config.theme.THEME_COLOR.primary);
-  const updateThemeColor = (): void => {
-    store.commit('SET_THEME_COLOR', themeColor.value);
-    refreshColor();
-    vuetify.theme.themes.light.primary = themeColor.value;
-  };
 </script>

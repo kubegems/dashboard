@@ -159,7 +159,7 @@
                 <v-btn
                   block
                   class="mr-4"
-                  color="info"
+                  color="primary"
                   :disabled="!valid"
                   :loading="Circular"
                   submit

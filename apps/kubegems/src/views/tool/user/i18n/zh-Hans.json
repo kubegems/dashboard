@@ -3,7 +3,8 @@
     "message": "消息盒子",
     "audit": "操作历史",
     "setting": "个人设置",
-    "auth": "认证"
+    "auth": "认证",
+    "theme": "主题"
   },
   "table": {
     "email": "邮箱",

@@ -37,7 +37,9 @@ axios.interceptors.request.use(
     ) {
       store.commit('CLEARALL');
       store.commit('SET_VERSION', import.meta.env.VUE_APP_RELEASE);
+      const themeColor = store.state.themeColor;
       window.localStorage.clear();
+      store.commit('SET_THEME_COLOR', themeColor);
       router.push({
         name: 'login',
         query: {
