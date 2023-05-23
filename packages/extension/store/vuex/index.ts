@@ -39,7 +39,7 @@ const store: Store<{ [key: string]: any }> = new Store({
     CLEARALL(state: { [key: string]: any }): void {
       delAllCookie();
       const locale = window.localStorage.getItem(Locale) || 'zh-Hans';
-      const themeColor = store.state.themeColor;
+      const themeColor = store.state.ThemeColor;
       window.localStorage.clear();
       store.commit('SET_THEME_COLOR', themeColor);
       state.JWT = '';
