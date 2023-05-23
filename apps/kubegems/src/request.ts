@@ -35,9 +35,9 @@ axios.interceptors.request.use(
         window.location.pathname,
       ) === -1
     ) {
+      const themeColor = store.state.ThemeColor;
       store.commit('CLEARALL');
       store.commit('SET_VERSION', import.meta.env.VUE_APP_RELEASE);
-      const themeColor = store.state.themeColor;
       window.localStorage.clear();
       store.commit('SET_THEME_COLOR', themeColor);
       router.push({
