@@ -137,6 +137,7 @@
   import { getClusterOutputsData, getOutputsData } from '@kubegems/api/direct';
   import { convertResponse2List } from '@kubegems/api/utils';
   import { required } from '@kubegems/extension/ruler';
+  import { SERVICE_LOGGING_NS } from '@kubegems/libs/constants/namespace';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import BaseSelect from '@kubegems/mixins/select';
   import { mapState } from 'vuex';
@@ -261,7 +262,7 @@
         });
       },
       async clusterOutputList() {
-        const data = await getClusterOutputsData(this.$route.query.cluster, this.$route.query.namespace, {
+        const data = await getClusterOutputsData(this.$route.query.cluster, SERVICE_LOGGING_NS, {
           size: 1000,
         });
         this.globalOutputRefsItems = convertResponse2List(data).map((d) => {
