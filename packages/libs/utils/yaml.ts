@@ -62,7 +62,7 @@ export const getValueSchema = (values: { [key: string]: any }, path: string, def
   const splittedPath = parsePath(path);
   const value = doc.getIn(splittedPath);
 
-  return value || defaultValue;
+  return value === undefined || value === null ? defaultValue : value;
 };
 
 export const parsePath = (path: string): string[] => {
