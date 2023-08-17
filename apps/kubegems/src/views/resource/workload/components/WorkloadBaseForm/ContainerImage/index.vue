@@ -152,6 +152,9 @@
       back(data) {
         this.$nextTick(() => {
           this.obj = deepCopy(data);
+          if (this.obj.spec.template.spec.imagePullSecrets && this.obj.spec.template.spec.imagePullSecrets.length > 0) {
+            this.imagePullSecret = this.obj.spec.template.spec.imagePullSecrets[0].name;
+          }
         });
       },
       reset() {

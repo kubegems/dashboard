@@ -192,17 +192,16 @@
         },
         deep: true,
       },
-      imagePullSecret() {
-        this.imageRegistry = this.imagePullSecret;
-      },
-      namespace: {
+      imagePullSecret: {
         handler(newValue) {
-          if (newValue) {
-            this.onRegistrySelectFocus();
-          }
+          if (newValue) this.imageRegistry = newValue;
         },
         deep: true,
+        immediate: true,
       },
+    },
+    mounted() {
+      this.onRegistrySelectFocus();
     },
     methods: {
       init() {
