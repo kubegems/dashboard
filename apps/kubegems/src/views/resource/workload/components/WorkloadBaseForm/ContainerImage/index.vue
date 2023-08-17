@@ -144,15 +144,19 @@
       init(data) {
         this.$nextTick(() => {
           this.obj = this.$_.merge(deepCopy(data), this.obj);
-          if (this.obj.spec.template.spec.imagePullSecrets && this.obj.spec.template.spec.imagePullSecrets.length > 0) {
-            this.imagePullSecret = this.obj.spec.template.spec.imagePullSecrets[0].name;
-          }
+          this.initData();
         });
       },
       back(data) {
         this.$nextTick(() => {
           this.obj = deepCopy(data);
+          this.initData();
         });
+      },
+      initData() {
+        if (this.obj.spec.template.spec.imagePullSecrets && this.obj.spec.template.spec.imagePullSecrets.length > 0) {
+          this.imagePullSecret = this.obj.spec.template.spec.imagePullSecrets[0].name;
+        }
       },
       reset() {
         this.$refs.form.reset();
