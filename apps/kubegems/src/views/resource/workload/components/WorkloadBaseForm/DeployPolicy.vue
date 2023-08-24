@@ -222,7 +222,7 @@
       },
       init(data) {
         this.$nextTick(() => {
-          this.obj = this.$_.merge(deepCopy(data), this.obj);
+          this.obj = deepCopy(data);
           this.generateData();
         });
       },
@@ -281,10 +281,15 @@
           this.$delete(this.obj.spec.template.spec, 'affinity');
         } else {
           this.obj.spec.affinity = {};
-          this.affinityPolicy.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.matchLabels = deepCopy(
-            this.obj.spec.selector.matchLabels,
-          );
+          this.affinityPolicy.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels =
+            deepCopy(this.obj.spec.selector.matchLabels);
+          if (!this.obj.spec.template.spec.affinity) this.obj.spec.template.spec.affinity = {};
           this.$set(this.obj.spec.template.spec.affinity, this.affinity, this.affinityPolicy);
+        }
+        if (this.affinity === 'podAffinity') {
+          this.$delete(this.obj.spec.template.spec.affinity, 'podAntiAffinity');
+        } else if (this.affinity === 'podAntiAffinity') {
+          this.$delete(this.obj.spec.template.spec.affinity, 'podAffinity');
         }
       },
       generateData() {
