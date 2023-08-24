@@ -234,7 +234,7 @@
             name: '',
             namespace: '',
             annotations: {
-              'nginx.ingress.kubernetes.io/backend-protocol': 'HTTP',
+              // 'nginx.ingress.kubernetes.io/backend-protocol': 'HTTP',
             },
           },
           spec: {
@@ -444,7 +444,7 @@
         return this.obj;
       },
       onProtocolChange() {
-        this.obj.metadata.annotations['nginx.ingress.kubernetes.io/backend-protocol'] = this.protocol;
+        // this.obj.metadata.annotations['nginx.ingress.kubernetes.io/backend-protocol'] = this.protocol;
       },
     },
   };

@@ -94,8 +94,8 @@ module.exports = defineConfig({
     'vue/max-len': [
       'error',
       {
-        code: 120,
-        template: 120,
+        code: 125,
+        template: 125,
         tabWidth: 2,
         comments: 80,
         ignorePattern: '^`.*`$',
