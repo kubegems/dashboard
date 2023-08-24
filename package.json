@@ -114,7 +114,7 @@
     "prettier": "^2.6.2",
     "right-pad": "^1.0.1",
     "sass": "~1.26.5",
-    "stylelint": "^13.13.1",
+    "stylelint": "^15.10.1",
     "stylelint-config-standard": "^22.0.0",
     "stylelint-scss": "^3.19.0",
     "unplugin-vue-components": "^0.22.8",
