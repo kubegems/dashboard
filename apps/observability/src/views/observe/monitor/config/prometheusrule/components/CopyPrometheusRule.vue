@@ -48,7 +48,7 @@
     </template>
     <template #action>
       <v-btn class="float-right mx-2" color="primary" :loading="store.state.Circular" text @click="copyPrometheusRule">
-        {{ $root.$t('operate.confirm') }}
+        {{ i18n.t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>
@@ -63,7 +63,7 @@
   import { useQuery } from '@kubegems/extension/router';
   import { required } from '@kubegems/extension/ruler';
   import { useStore } from '@kubegems/extension/store';
-  import { nextTick, onMounted, reactive, ref } from 'vue';
+  import { reactive, ref } from 'vue';
 
   import { useI18n } from '../../../i18n';
 
@@ -85,23 +85,17 @@
     dialog: false,
     valid: false,
   });
-
-  let environmentItems = ref<Environment[]>([]);
-  onMounted(() => {
-    nextTick(async () => {
-      if (query.value.projid && query.value.proj) {
-        environmentItems.value = await useEnvironmentListInProject(
-          new Project({ ID: query.value.projid, ProjectName: query.value.proj }),
-        );
-      }
-    });
-  });
-
   const obj = reactive({ namespace: '' });
   const objRule = reactive({ envRules: [required] });
 
-  const open = (): void => {
+  let environmentItems = ref<Environment[]>([]);
+  const open = async (): Promise<void> => {
     state.dialog = true;
+    if (query.value.projid && query.value.proj) {
+      environmentItems.value = await useEnvironmentListInProject(
+        new Project({ ID: query.value.projid, ProjectName: query.value.proj }),
+      );
+    }
   };
 
   const form = ref(null);

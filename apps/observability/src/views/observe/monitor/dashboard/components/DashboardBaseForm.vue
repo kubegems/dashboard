@@ -15,260 +15,305 @@
 -->
 
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <BaseSubTitle :title="$root.$t('form.definition', [$t('tip.minitor_dashboard')])" />
-    <v-card-text class="pa-2">
-      <v-row>
-        <v-col cols="12">
-          <v-text-field v-model="obj.name" class="my-0" :label="$t('tip.name')" required :rules="objRules.nameRule" />
-        </v-col>
-
-        <v-col cols="12">
-          <v-switch v-model="template" hide-details :label="$t('tip.from_template')" :readonly="edit" />
-        </v-col>
-        <v-col v-if="template" cols="12">
-          <v-autocomplete
-            v-model="obj.template"
-            class="my-0"
-            color="primary"
-            hide-selected
-            :items="templateItems"
-            :label="$t('tip.template')"
-            :no-data-text="$root.$t('data.no_data')"
-            :readonly="edit"
-            :rules="objRules.templateRule"
-            @change="onTemplateChange"
-          >
-            <template #item="{ item }">
-              <BaseLogo class="mr-2" :icon-name="item.value" :ml="0" :mt="1" :width="20" />
-              {{ item.text }}
-            </template>
-            <template #selection="{ item }">
-              <v-chip color="primary" small>
-                <BaseLogo class="mr-2" :icon-name="item.value" :ml="0" :mt="1" :width="20" />
-                {{ item.text }}
-              </v-chip>
-            </template>
-          </v-autocomplete>
-        </v-col>
-
-        <v-col cols="12">
-          <v-switch v-model="globalVariable" class="float-left" hide-details :label="$t('tip.global_var')" />
-          <span class="orange--text ml-2">
-            <v-icon color="orange" right small> mdi-information-variant </v-icon>
-            {{ $t('tip.global_var_tip') }}
-          </span>
-        </v-col>
-
-        <template v-if="globalVariable">
-          <v-col cols="12">
-            <v-autocomplete
-              v-model="variables"
-              class="my-0"
-              color="primary"
-              hide-selected
-              :items="variableItems"
-              :label="$t('tip.global_var')"
-              :no-data-text="$root.$t('data.no_data')"
-              :search-input.sync="variableText"
-              @change="onVariableChange"
-              @keyup.enter="inputVariable"
-            >
-              <template #selection="{ item }">
-                <v-chip color="primary" small>
-                  <span>{{ item.text }}</span>
-                </v-chip>
-              </template>
-            </v-autocomplete>
-          </v-col>
-          <v-col cols="12">
-            <VariableSelect
-              v-model="variableVal"
-              :edit="edit"
-              :form-variables="variableVal"
-              in-form
-              :variable-select-items="variableSelectItems"
-              :width="400"
-            />
-          </v-col>
+  <v-menu
+    v-model="menu"
+    bottom
+    :close-on-content-click="false"
+    max-height="450px"
+    max-width="450px"
+    :min-width="`${width}px`"
+    nudge-bottom="15px"
+    nudge-right="60px"
+    offset-y
+    origin="top center"
+    right
+    transition="scale-transition"
+  >
+    <template #activator="{ on }">
+      <v-autocomplete
+        v-if="inForm"
+        class="my-0"
+        color="primary"
+        hide-no-data
+        hide-selected
+        :items="[{ text: showText(), value: showText() }]"
+        :label="$t('tip.global_var_val')"
+        multiple
+        :no-data-text="$root.$t('data.no_data')"
+        :value="showText()"
+        v-on="on"
+        @change="setLabelPairs"
+      >
+        <template #selection>
+          <v-chip v-if="showText()" color="primary" small>
+            <span>{{ showText() }}</span>
+          </v-chip>
         </template>
-      </v-row>
-    </v-card-text>
-  </v-form>
+      </v-autocomplete>
+      <div v-else class="float-left">
+        <v-btn
+          class="mr-2 mt-1 font-weight-medium primary--text"
+          color="white"
+          dark
+          depressed
+          small
+          :style="{ marginTop: `${offsetY}px` }"
+          v-on="on"
+        >
+          {{ $t('tip.global_var') }}{{ variable }} {{ showText() }}
+          <v-icon v-if="menu" right> mdi-chevron-up </v-icon>
+          <v-icon v-else right> mdi-chevron-down </v-icon>
+        </v-btn>
+        <div class="kubegems__clear-float" />
+      </div>
+    </template>
+    <v-card class="pa-2 py-3" flat height="450px">
+      <div class="text-subtitle-2 mx-2 kubegems__text select__title">
+        <div class="float-left"> {{ $t('tip.global_var') }} </div>
+        <div class="float-right">
+          <v-btn class="mx-1" color="primary" small @click="reset">{{ $root.$t('operate.reset') }}</v-btn>
+          <v-btn v-if="inForm" class="mx-1" color="primary" small @click="selectAll">{{ $t('operate.all') }}</v-btn>
+          <v-btn class="ml-1" color="primary" small @click="setLabelPairs">
+            {{ $root.$t('operate.confirm') }}
+          </v-btn>
+        </div>
+        <div class="kubegems__clear-float" />
+      </div>
+      <div class="select__div" :style="{ width: '100%' }">
+        <v-text-field
+          v-model="search"
+          class="mt-2"
+          dense
+          flat
+          hide-details
+          prepend-inner-icon="mdi-magnify"
+          solo
+          @keyup="onSearch"
+        />
+        <div class="text-caption pa-1 mt-2">{{ variable }}</div>
+        <v-divider class="mb-2" />
+        <v-list class="pa-0" dense max-height="300" nav :style="{ overflowY: 'auto' }">
+          <v-list-item-group color="primary">
+            <v-list-item v-for="(item, index) in variableItemsCopy" :key="item.value" dense>
+              <v-list-item-action class="mx-2">
+                <v-checkbox v-model="item.active" />
+              </v-list-item-action>
+              <v-list-item-content @click="selectItem(item, index)">
+                <v-list-item-title class="select__list__title pl-2">
+                  {{ item.value }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </div>
+      <div class="kubegems__clear-float" />
+    </v-card>
+  </v-menu>
 </template>
 
 <script>
-  import { getMetricsLabelValues, getMonitorDashboardTemplate } from '@kubegems/api/direct';
-  import { convertResponse2List } from '@kubegems/api/utils';
-  import { required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
 
   import messages from '../../i18n';
-  import VariableSelect from './VariableSelect';
 
   export default {
-    name: 'DashboardBaseForm',
+    name: 'VariableSelect',
     i18n: {
       messages: messages,
     },
-    components: {
-      VariableSelect,
-    },
     props: {
-      edit: {
+      formVariables: {
+        type: Array,
+        default: () => [],
+      },
+      inForm: {
         type: Boolean,
         default: () => false,
       },
-      env: {
+      lp: {
         type: Object,
-        default: () => null,
+        default: () => ({}),
       },
-      item: {
-        type: Object,
-        default: () => null,
+      offsetY: {
+        type: Number,
+        default: () => 0,
+      },
+      variable: {
+        type: String,
+        default: () => '',
+      },
+      variableSelectItems: {
+        type: Array,
+        default: () => [],
+      },
+      variableValues: {
+        type: Array,
+        default: () => [],
+      },
+      width: {
+        type: Number,
+        default: () => 275,
       },
     },
     data() {
       return {
-        valid: false,
-        template: false,
-        templateItems: [],
-        varItems: [],
-        variables: '',
-        variableVal: [],
-        variableText: '',
-        obj: {
-          name: '',
-          template: '',
-          variables: {},
-        },
-        objRules: {
-          nameRule: [required],
-          templateRule: [required],
-        },
-        inputTimeout: null,
-        globalVariable: false,
+        menu: false,
+        variableItems: [],
+        variableItemsCopy: [],
+        labelpairs: {},
+        search: '',
       };
     },
     computed: {
-      variableItems() {
-        let t = null;
-        if (this.template) {
-          t = this.templateItems.find((t) => {
-            return t.name === this.obj.template;
-          });
-        } else {
-          t = {
-            variables: {},
-          };
-        }
-        if (t) {
-          const variableItems = t.variables ? Object.keys(t?.variables || {}) : [];
-          return variableItems.concat(this.variables ? [this.variables] : []).map((v) => {
-            return { text: v, value: v };
-          });
-        }
-        return [];
-      },
-      variableSelectItems() {
-        return this.varItems.map((v) => {
-          return v.value;
+      selectedItems() {
+        return this.variableItemsCopy.filter((v) => {
+          return v.active;
         });
       },
     },
     watch: {
-      item: {
+      variable: {
         handler(newValue) {
           if (newValue) {
-            this.obj = deepCopy(newValue);
-            if (this.obj.template) {
-              this.template = true;
-            }
-            this.globalVariable = this.obj.variables && Object.keys(this.obj?.variables || {}).length > 0;
-            const keys = this.obj.variables ? Object.keys(this.obj?.variables || {}) : [];
-            if (keys.length > 0) {
-              this.variables = keys[0];
-              this.variableVal = this.obj.variables[this.variables].split(',').filter((v) => {
-                return Boolean(v);
+            const lps = Object.values(this.lp).map((l) => {
+              return l.split('|');
+            });
+            const items = this.variableValues.map((d) => {
+              const active = lps.some((l) => {
+                return l.some((sl) => {
+                  return sl === d;
+                });
               });
-              this.monitorGlobalVariable();
+              return {
+                text: d,
+                value: d,
+                active: active,
+              };
+            });
+            this.variableItems = items;
+            this.variableItemsCopy = items;
+          } else {
+            this.variableItems = [];
+            this.variableItemsCopy = [];
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+      variableSelectItems: {
+        handler(newValue) {
+          if (newValue && newValue.length > 0) {
+            const items = newValue.map((d) => {
+              return {
+                text: d,
+                value: d,
+                active: false,
+              };
+            });
+            this.variableItems = items;
+            this.variableItemsCopy = items;
+            if (this.formVariables) {
+              this.variableItemsCopy.forEach((v, index) => {
+                if (this.formVariables.indexOf(v.value) > -1) {
+                  v.active = true;
+                  this.$set(this.variableItemsCopy, index, v);
+                }
+              });
             }
           }
         },
         deep: true,
+        immediate: true,
       },
-    },
-    mounted() {
-      this.$nextTick(() => {
-        this.monitorDashboardTemplateList();
-      });
     },
     methods: {
-      async monitorDashboardTemplateList() {
-        const data = await getMonitorDashboardTemplate({ size: 1000 });
-        if (data) {
-          this.templateItems = convertResponse2List(data).map((d) => {
-            return { text: d.name, value: d.name, ...d };
+      onSearch() {
+        if (this.search) {
+          this.variableItemsCopy = this.variableItems.filter((v) => {
+            return v.value.indexOf(this.search) > -1;
           });
-        }
-      },
-      inputVariable() {
-        if (
-          this.variableItems.findIndex((v) => {
-            return v.value === this.variableText?.trim() || [];
-          }) === -1
-        ) {
-          this.variables = this.variableText?.trim() || [];
-          this.onVariableChange();
-        }
-      },
-      onVariableChange() {
-        if (this.inputTimeout) {
-          clearTimeout(this.inputTimeout);
-        }
-        this.inputTimeout = setTimeout(() => {
-          this.variableVal = [];
-          this.monitorGlobalVariable();
-          clearTimeout(this.inputTimeout);
-        }, 200);
-      },
-      async monitorGlobalVariable() {
-        const data = await getMetricsLabelValues(this.env?.clusterName, this.env?.namespace, {
-          noprocessing: true,
-          label: this.variables,
-          expr: `{namespace="${this.env?.namespace}"}`,
-        });
-        const items = data.map((d) => {
-          return {
-            text: d,
-            value: d,
-          };
-        });
-        this.varItems = items;
-      },
-      validate() {
-        return this.$refs.form.validate(true);
-      },
-      getData() {
-        if (this.globalVariable && this.variables) {
-          this.obj.variables = {};
-          this.obj.variables[this.variables] = this.variableVal.join(',');
         } else {
-          this.obj.variables = null;
+          this.variableItemsCopy = this.variableItems;
         }
-        return this.obj;
+      },
+      setLabelPairs() {
+        if (this.inForm) {
+          const items = this.selectedItems.map((i) => {
+            return i.value;
+          });
+          this.$emit('input', items);
+          this.$emit('change', items);
+        } else {
+          this.labelpairs[`labelpairs[${this.variable}]`] = this.selectedItems.reduce(
+            (pre, current, index, arr) =>
+              (pre?.value || pre) + (current?.value || current) + `${index === arr.length - 1 ? '' : '|'}`,
+            '',
+          );
+          this.$emit('input', this.labelpairs);
+          this.$emit('change', this.labelpairs);
+          this.$emit('loadMetrics');
+        }
+        this.menu = false;
       },
       reset() {
-        this.$refs.form.resetValidation();
-        this.obj = this.$options.data().obj;
-        this.variableVal = [];
-        this.variables = '';
-        this.globalVariable = false;
-        this.template = false;
+        this.variableItems.forEach((v, index) => {
+          v.active = false;
+          this.$set(this.variableItems, index, v);
+        });
+        this.variableItemsCopy = deepCopy(this.variableItems);
+        this.labelpairs = {};
       },
-      onTemplateChange() {
-        this.globalVariable = this.variableItems.length > 0;
+      showText() {
+        if (this.selectedItems.length > 1) {
+          return `${this.selectedItems[0].value} (+${this.selectedItems.length - 1})`;
+        } else if (this.selectedItems.length > 0) {
+          return `${this.selectedItems[0].value}`;
+        }
+        return '';
+      },
+      selectAll() {
+        this.variableItems.forEach((v, index) => {
+          v.active = !v.active;
+          this.$set(this.variableItems, index, v);
+        });
+        this.variableItemsCopy = deepCopy(this.variableItems);
+      },
+      selectItem(item, index) {
+        this.variableItemsCopy.forEach((item, index) => {
+          item.active = false;
+          this.$set(this.variableItemsCopy, index, item);
+        });
+        item.active = true;
+        this.$set(this.variableItemsCopy, index, item);
       },
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .select {
+    &__div {
+      float: left;
+      width: 50%;
+      padding: 8px;
+    }
+
+    &__title {
+      line-height: 28px;
+      font-weight: 500 !important;
+    }
+
+    &__divider {
+      min-height: 93%;
+      max-height: 93%;
+    }
+
+    &__list {
+      &__title {
+        white-space: inherit !important;
+        word-break: break-all !important;
+      }
+    }
+  }
+</style>
