@@ -170,13 +170,13 @@
         this.topN = [];
         let promql = '';
         if (this.podUsageMode === 'cpuavg') {
-          promql = TOP_15_POD_CPU_AVG_PROMQL;
+          promql = TOP_15_POD_CPU_AVG_PROMQL.replaceAll('%', '');
         } else if (this.podUsageMode === 'cpumax') {
-          promql = TOP_15_POD_CPU_MAX_PROMQL;
+          promql = TOP_15_POD_CPU_MAX_PROMQL.replaceAll('%', '');
         } else if (this.podUsageMode === 'memoryavg') {
-          promql = TOP_15_POD_MEMORY_AVG_PROMQL;
+          promql = TOP_15_POD_MEMORY_AVG_PROMQL.replaceAll('%', '');
         } else if (this.podUsageMode === 'memorymax') {
-          promql = TOP_15_POD_MEMORY_MAX_PROMQL;
+          promql = TOP_15_POD_MEMORY_MAX_PROMQL.replaceAll('%', '');
         }
         const data = await this.m_permission_vector(this.ThisCluster, {
           query: promql.replaceAll('$1', this.Environment().Namespace),

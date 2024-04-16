@@ -154,6 +154,7 @@
       if (provisioner.indexOf('gce') > -1) return 'logos:google-cloud';
       if (provisioner.indexOf('longhorn') > -1) return 'img:longhorn.svg';
       if (provisioner.indexOf('carina') > -1) return 'img:carina.svg';
+      if (provisioner.indexOf('juicefs') > -1) return 'img:juicefs.svg';
     }
     return 'img:storage.svg';
   };

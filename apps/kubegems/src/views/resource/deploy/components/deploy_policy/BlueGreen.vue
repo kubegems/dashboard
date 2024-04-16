@@ -30,7 +30,6 @@
                   v-model="obj.strategy.blueGreen.activeService"
                   class="my-0"
                   color="primary"
-                  hide-selected
                   :items="activeServiceItems"
                   :label="$t('tip.blue')"
                   :no-data-text="$root.$t('data.no_data')"
@@ -50,7 +49,6 @@
                   v-model="obj.strategy.blueGreen.previewService"
                   class="my-0"
                   color="primary"
-                  hide-selected
                   :items="previewServiceItems"
                   :label="$t('tip.green')"
                   :no-data-text="$root.$t('data.no_data')"
@@ -76,7 +74,6 @@
                   v-model="updatePolicy"
                   class="my-0"
                   color="primary"
-                  hide-selected
                   :items="updatePolicyitems"
                   :label="$t('tip.upgrade_policy')"
                   :no-data-text="$root.$t('data.no_data')"

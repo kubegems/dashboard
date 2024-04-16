@@ -9,6 +9,7 @@
     "pytorch": "Discover the model and publish it to a repository of pre-training models designed specifically for research exploration.",
     "paddlepaddle": "Open source depth learning platform derived from industry practice.",
     "kubegems": "built-in algorithm store.",
+    "kubegems_app": "Built-in application store.",
     "banzaicloud": "Building the operating system for your containers and clouds",
     "hashicorp": "HashiCorp delivers consistent workflows to provision, secure, connect, and run any infrastructure for any application.",
     "cloudminds": "Algorithmic model from CloudMinds",

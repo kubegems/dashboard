@@ -29,7 +29,6 @@
                 v-model="env"
                 class="my-0"
                 color="primary"
-                hide-selected
                 :items="envTypes"
                 :label="$root.$t('resource.type')"
                 :no-data-text="$root.$t('data.no_data')"
@@ -75,7 +74,6 @@
                     v-model="obj.fromName"
                     class="my-0"
                     color="primary"
-                    hide-selected
                     :items="items"
                     :label="env === 'secret' ? $root.$t('resource.secret') : $root.$t('resource.configmap')"
                     :no-data-text="$root.$t('data.no_data')"
@@ -96,7 +94,6 @@
                     v-model="obj.value"
                     class="my-0"
                     color="primary"
-                    hide-selected
                     :items="keys"
                     :label="$root.$t('form.key')"
                     :no-data-text="$root.$t('data.no_data')"
@@ -122,7 +119,6 @@
                     v-model="obj.fromName"
                     class="my-0"
                     color="primary"
-                    hide-selected
                     :items="sources"
                     :label="$t('tip.source')"
                     :no-data-text="$root.$t('data.no_data')"

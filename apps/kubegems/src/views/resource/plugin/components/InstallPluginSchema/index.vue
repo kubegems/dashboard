@@ -46,10 +46,10 @@
 
 <script>
   import { postEnablePlugin } from '@kubegems/api/direct';
+  import config from '@kubegems/libs/constants/global';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import { mapGetters, mapState } from 'vuex';
 
-  import config from '../../../../../config.json';
   import messages from '../../i18n';
   import PluginInfo from './PluginInfo';
   import SchemaRender from './SchemaRender';

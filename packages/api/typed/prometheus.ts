@@ -20,6 +20,20 @@ export class Matrix {
   values?: (number | string)[][];
 
   public async getMatrix(cluster: string, params: KubeRequest): Promise<Matrix[]> {
+    const start = params.start;
+    const end = params.end;
+
+    if (start && end) {
+      const millseconds = (new Date(end as string) as any) - (new Date(start as string) as any);
+      if (millseconds < 1000 * 60 * 60 * 24) {
+        params.step = millseconds / 1000 / 60;
+      } else if (millseconds > 1000 * 60 * 60 * 24) {
+        params.step = millseconds / 1000 / 900;
+        if (params.step > 600) params.step = 600;
+      } else {
+        params.step = millseconds / 1000 / 300;
+      }
+    }
     const data: { [key: string]: any } = await axios(`proxy/cluster/${cluster}/custom/prometheus/v1/matrix`, {
       params: params,
     });

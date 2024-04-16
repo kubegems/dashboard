@@ -29,6 +29,11 @@
       hide-selected
       :items="items"
       :label="$t('filter.placehold')"
+      :menu-props="{
+        bottom: true,
+        left: true,
+        origin: `top center`,
+      }"
       multiple
       :no-data-text="$root.$t('data.no_data')"
       prepend-inner-icon="mdi-magnify"

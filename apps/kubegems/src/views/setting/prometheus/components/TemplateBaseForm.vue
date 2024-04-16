@@ -57,6 +57,7 @@
               v-model="label.labels"
               height="32"
               hide-no-data
+              hide-selected
               :items="[]"
               :label="i18nLocal.t('form.label')"
               multiple
@@ -78,7 +79,6 @@
               v-model="obj.unit"
               class="my-0"
               color="primary"
-              hide-selected
               :items="getUnitItems()"
               :label="i18nLocal.t('form.unit')"
               :no-data-text="i18n.t('data.no_data')"
@@ -140,7 +140,7 @@
     name: [required],
     showName: [required],
     expr: [required],
-    description: [required],
+    description: [],
   };
 
   const label = reactive({

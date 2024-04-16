@@ -73,10 +73,10 @@
   import { EdgeCluster } from '@kubegems/api/typed/edge_cluster';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useParams } from '@kubegems/extension/router';
+  import config from '@kubegems/libs/constants/global';
   import { EDGE_DEVICEID_KEY, PROJECT_KEY, TENANT_KEY } from '@kubegems/libs/constants/label';
   import { onMounted, reactive } from 'vue';
 
-  import config from '../../../../../config.json';
   import { useI18n } from '../../i18n';
   import Pagination from '../Pagination.vue';
 

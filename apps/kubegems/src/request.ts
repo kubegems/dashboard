@@ -37,7 +37,7 @@ axios.interceptors.request.use(
     ) {
       const themeColor = store.state.ThemeColor;
       store.commit('CLEARALL');
-      store.commit('SET_VERSION', import.meta.env.VUE_APP_RELEASE);
+      store.commit('SET_VERSION', (import.meta as any).env.VUE_APP_RELEASE);
       window.localStorage.clear();
       store.commit('SET_THEME_COLOR', themeColor);
       router.push({
@@ -74,7 +74,7 @@ axios.interceptors.request.use(
     }
     if (config.method.toLocaleLowerCase() === 'get' && config.url.indexOf('callback') === -1) {
       if (config?.params?.search) {
-        config.params.search = config?.params?.search?.trim();
+        config.params.search = config.params.search.trim();
       }
       if (!(config.params && config.params.noprocessing)) {
         store.commit('SET_PROGRESS', true);
@@ -129,7 +129,7 @@ axios.interceptors.response.use(
           });
         }
       }
-      return response.data.Data || response.data.data;
+      return response.data.Data || response.data.data || response.data;
     } else {
       store.commit('SET_PROGRESS', false);
       store.commit('SET_CIRCULAR', false);
@@ -142,6 +142,7 @@ axios.interceptors.response.use(
   (error: any): Promise<unknown> => {
     store.commit('SET_PROGRESS', false);
     store.commit('SET_CIRCULAR', false);
+    console.log(error.response);
     if (!(error && error.response)) {
       if (error.toString().indexOf('timeout') > -1) {
         store.commit('SET_SNACKBAR', {
@@ -170,7 +171,7 @@ axios.interceptors.response.use(
           break;
         case 401:
           if (
-            import.meta.env.VUE_APP_SENTRY === 'true' &&
+            (import.meta as any).env.VUE_APP_SENTRY === 'true' &&
             TRACK_API.some((api) => {
               return new RegExp(api, 'g').test(error?.config?.url || '');
             })
@@ -182,7 +183,7 @@ axios.interceptors.response.use(
             color: 'warning',
           });
           store.commit('CLEARALL');
-          store.commit('SET_VERSION', import.meta.env.VUE_APP_RELEASE);
+          store.commit('SET_VERSION', (import.meta as any).env.VUE_APP_RELEASE);
           if (
             ['/login', '/403', '/404', '/white/page', '/white/tenant', '/whitecluster/cluster'].indexOf(
               window.location.pathname,

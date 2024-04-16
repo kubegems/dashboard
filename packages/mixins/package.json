@@ -1,6 +1,6 @@
 {
   "name": "@kubegems/mixins",
-  "version": "1.23.8",
+  "version": "1.24.2",
   "description": "mixin for kubegems ()",
   "main": "index.ts",
   "scripts": {

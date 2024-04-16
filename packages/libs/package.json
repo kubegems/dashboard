@@ -1,6 +1,6 @@
 {
   "name": "@kubegems/libs",
-  "version": "1.23.8",
+  "version": "1.24.1-19ba7352",
   "description": "libs api for kubegems",
   "main": "index.ts",
   "scripts": {

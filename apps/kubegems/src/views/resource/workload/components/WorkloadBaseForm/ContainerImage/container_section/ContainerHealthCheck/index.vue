@@ -30,7 +30,6 @@
                   v-model="obj.checkType"
                   class="my-0"
                   color="primary"
-                  hide-selected
                   :items="checkTypes"
                   :label="$t('tip.health_check_type')"
                   :no-data-text="$root.$t('data.no_data')"
@@ -54,7 +53,6 @@
                   v-model="obj.checkMethod"
                   class="my-0"
                   color="primary"
-                  hide-selected
                   :items="checkMethods"
                   :label="$t('tip.health_check_method')"
                   :no-data-text="$root.$t('data.no_data')"
@@ -79,7 +77,6 @@
                   v-model="obj.httpGet.scheme"
                   class="my-0"
                   color="primary"
-                  hide-selected
                   :items="[
                     { text: 'HTTP', value: 'HTTP' },
                     { text: 'HTTPS', value: 'HTTPS' },
@@ -112,7 +109,6 @@
                   :label="$t('tip.port')"
                   required
                   :rules="objRules.portRule"
-                  type="number"
                 />
               </v-flex>
               <div class="kubegems__clear-float" />
@@ -146,7 +142,6 @@
                   :label="$t('tip.port')"
                   required
                   :rules="objRules.portRule"
-                  type="number"
                 />
               </v-flex>
               <div class="kubegems__clear-float" />
@@ -273,7 +268,7 @@
 </template>
 
 <script>
-  import { port, positiveInteger, required } from '@kubegems/extension/ruler';
+  import { positiveInteger, required } from '@kubegems/extension/ruler';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
 
   import messages from '../../../../../i18n';
@@ -338,11 +333,11 @@
         if (this.obj.checkMethod === 'httpGet') {
           ruler['schemeRule'] = [required];
           ruler['pathRule'] = [required];
-          ruler['portRule'] = [port];
+          ruler['portRule'] = [required];
         } else if (this.obj.checkMethod === 'exec') {
           ruler['commandRule'] = [required];
         } else if (this.obj.checkMethod === 'tcpSocket') {
-          ruler['portRule'] = [port];
+          ruler['portRule'] = [required];
         }
         return ruler;
       },

@@ -139,7 +139,8 @@
           <span
             v-if="
               item.metadata.labels[`node-role.kubernetes.io/master`] === '' ||
-              item.metadata.labels[`kubernetes.io/role`] === 'master'
+              item.metadata.labels[`kubernetes.io/role`] === 'master' ||
+              item.metadata.labels[`node-role.kubernetes.io/control-plane`] === ''
             "
           >
             Master
@@ -195,6 +196,7 @@
 <script>
   import { getNodeList, patchCordonNode } from '@kubegems/api/direct';
   import { convertResponse2Pagination } from '@kubegems/api/utils';
+  import config from '@kubegems/libs/constants/global';
   import {
     NODE_ALL_CPU_USAGE_PROMQL,
     NODE_ALL_MEMORY_USAGE_PROMQL,
@@ -207,7 +209,6 @@
   import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
-  import config from '../../../config.json';
   import GpuScheduleForm from './components/GpuScheduleForm';
   import messages from './i18n';
   import GpuTip from '@/views/resource/components/common/GpuTip';
@@ -331,7 +332,7 @@
       },
       async nodeLoad5(noprocess = false) {
         const data = await this.m_permission_vector(this.ThisCluster, {
-          query: NODE_LOAD_PROMQL,
+          query: NODE_LOAD_PROMQL.replaceAll('%', ''),
           noprocessing: noprocess,
         });
         data.forEach((d) => {
@@ -347,7 +348,7 @@
       },
       async nodeCPUUsage(noprocess = false) {
         const data = await this.m_permission_vector(this.ThisCluster, {
-          query: NODE_ALL_CPU_USAGE_PROMQL,
+          query: NODE_ALL_CPU_USAGE_PROMQL.replaceAll('%', ''),
           noprocessing: noprocess,
         });
         data.forEach((d) => {
@@ -364,7 +365,7 @@
       },
       async nodeMemoryUsage(noprocess = false) {
         const data = await this.m_permission_vector(this.ThisCluster, {
-          query: NODE_ALL_MEMORY_USAGE_PROMQL,
+          query: NODE_ALL_MEMORY_USAGE_PROMQL.replaceAll('%', ''),
           noprocessing: noprocess,
         });
         data.forEach((d) => {
@@ -399,7 +400,7 @@
       },
       async nodePodCount(noprocess = false) {
         const data = await this.m_permission_vector(this.ThisCluster, {
-          query: NODE_POD_RUNNING_COUNT_PROMQL,
+          query: NODE_POD_RUNNING_COUNT_PROMQL.replaceAll('%', ''),
           noprocessing: noprocess,
         });
         data.forEach((d) => {

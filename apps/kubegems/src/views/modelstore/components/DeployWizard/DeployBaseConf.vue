@@ -29,7 +29,6 @@
           v-model="obj.project"
           class="my-4"
           color="primary"
-          hide-selected
           item-text="text"
           item-value="text"
           :items="m_select_tenantProjectItems"
@@ -55,7 +54,6 @@
           v-model="obj.version"
           class="my-4"
           color="primary"
-          hide-selected
           :items="versionItems"
           :label="$t('tip.version')"
           :menu-props="{
@@ -77,7 +75,6 @@
           v-model="obj.environment"
           class="my-4"
           color="primary"
-          hide-selected
           item-value="environmentName"
           :items="m_select_projectEnvironmentItems"
           :label="$root.$t('resource.environment')"

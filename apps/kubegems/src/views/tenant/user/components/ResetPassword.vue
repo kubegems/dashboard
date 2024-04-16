@@ -28,7 +28,7 @@
         <v-form ref="form" v-model="state.valid" lazy-validation @submit.prevent>
           <v-sheet>
             <v-text-field
-              v-model="obj.password"
+              v-model.trim="obj.password"
               class="my-0"
               :label="i18nLocal.t('form.new_passwd')"
               required

@@ -155,13 +155,13 @@
 <script>
   import { deleteJob, getJobList } from '@kubegems/api/direct';
   import { convertResponse2Pagination } from '@kubegems/api/utils';
+  import config from '@kubegems/libs/constants/global';
   import BaseFilter from '@kubegems/mixins/base_filter';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
   import BaseTable from '@kubegems/mixins/table';
   import { mapGetters, mapState } from 'vuex';
 
-  import config from '../../../config.json';
   import AddJob from './components/AddJob';
   import UpdateJob from './components/UpdateJob';
   import messages from './i18n';

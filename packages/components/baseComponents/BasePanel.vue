@@ -51,7 +51,7 @@
       <div class="kubegems__clear-float" />
     </v-flex>
     <v-divider />
-    <v-container class="pa-0">
+    <v-container class="pa-0" :style="{ backgroundColor: bgColor }">
       <slot name="content" />
     </v-container>
   </v-navigation-drawer>
@@ -68,12 +68,14 @@
       title?: string;
       width?: string;
       value: boolean;
+      bgColor?: string;
     }>(),
     {
       icon: '',
       title: '',
       width: '50%',
       value: false,
+      bgColor: 'white',
     },
   );
 

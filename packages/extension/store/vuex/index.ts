@@ -62,6 +62,10 @@ const store: Store<{ [key: string]: any }> = new Store({
       state.LatestEnvoronment = { environment: '' };
       state.LatestCluster = { cluster: '' };
       state.ApiResources = {};
+      state.RefreshToken = '';
+      state.AccessToken = '';
+      state.IdToken = '';
+      state.TokenType = '';
       state.SelfOut = true;
       state.Locale = locale;
       window.localStorage.setItem(Locale, locale);

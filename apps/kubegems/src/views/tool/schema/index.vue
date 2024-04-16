@@ -18,12 +18,19 @@
   <div :style="{ height: `${height}px`, overflowY: 'auto' }">
     <v-row>
       <v-col cols="6">
-        <ACEEditor
+        <BaseACEEditor
           v-model="jsonSchema"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded-0`"
+          :height="`${height - 120}px`"
           lang="yaml"
-          :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
-          :style="{ height: `${height - 120}px !important` }"
+          :options="{
+            tabSize: 2,
+            fontSize: 12,
+            printMarginColumn: 100,
+            showPrintMargin: false,
+            wrap: true,
+            readOnly: false,
+          }"
           theme="chrome"
           @keydown.stop
         />

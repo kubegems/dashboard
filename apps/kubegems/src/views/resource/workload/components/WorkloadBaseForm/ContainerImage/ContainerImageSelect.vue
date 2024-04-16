@@ -50,7 +50,6 @@
         <v-autocomplete
           v-model="containerType"
           color="primary"
-          hide-selected
           :items="containerTypes"
           :label="$t('tip.container_type')"
           :no-data-text="$root.$t('data.no_data')"
@@ -75,7 +74,6 @@
         <v-autocomplete
           v-model="imageRegistry"
           color="primary"
-          hide-selected
           item-text="value"
           :items="m_select_registryItems"
           :label="$t('tip.image_secret')"
@@ -93,7 +91,6 @@
         <v-autocomplete
           v-model="obj.imagePullPolicy"
           color="primary"
-          hide-selected
           :items="imagePullPolicys"
           :label="$t('tip.image_policy')"
           :no-data-text="$root.$t('data.no_data')"

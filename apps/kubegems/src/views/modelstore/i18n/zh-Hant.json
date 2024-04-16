@@ -12,6 +12,7 @@
     "hashicorp": "HashiCorp 提供一致的工作流程來為任何應用程序配置、保護、連接和運行任何基礎設施。",
     "cloudminds": "來自達闥機器人的算法模型",
     "kubegems": "內置演算法模型商店。",
+    "kubegems_app": "內置應用商店。",
     "platform_recomment": "平台推薦",
     "user_comment": "用戶評分",
     "comment": "評論",

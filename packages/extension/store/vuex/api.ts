@@ -75,6 +75,7 @@ export async function useProject(tenantid: number): Promise<{ [key: string]: str
     tenantProjectSelect.push({
       ProjectName: p.ProjectName,
       ID: p.ID,
+      TenantID: p.TenantID,
     });
   });
   return tenantProjectSelect;

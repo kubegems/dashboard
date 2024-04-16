@@ -12,6 +12,7 @@
     "hashicorp": "HashiCorp は、あらゆるアプリケーションのあらゆるインフラストラクチャを構成、保護、接続、および実行するための一貫したワークフローを提供します。",
     "cloudminds": "CloudMinds のアルゴリズム モデル",
     "kubegems": "ビルトインアルゴリズムモデル",
+    "kubegems_app": "内蔵アプリストア。",
     "platform_recomment": "プラットフォームの提案",
     "user_comment": "ユーザースコア",
     "comment": "コメント",

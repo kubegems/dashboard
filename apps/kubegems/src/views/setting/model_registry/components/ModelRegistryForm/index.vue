@@ -101,6 +101,7 @@
   };
 
   const init = async (item: AIModelRegistry): Promise<void> => {
+    state.edit = true;
     const data = await new AIModelRegistry({ name: item.name }).getRegistryByAdmin();
     registry.value = deepCopy(data);
   };

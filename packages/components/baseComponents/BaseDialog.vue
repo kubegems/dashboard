@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <v-dialog v-model="dialog" height="100%" :max-width="width" :overlay-opacity="0.3" persistent scrollable>
+  <v-dialog v-model="dialog" height="100%" :max-width="dialogWidth" :overlay-opacity="0.3" persistent scrollable>
     <v-card :min-height="minHeight">
       <v-sheet class="px-4 py-2 primary">
         <div class="justify-center float-left text-h6 py-1 white--text">
@@ -38,8 +38,13 @@
         <div class="kubegems__clear-float" />
       </v-sheet>
       <v-card-text class="pa-0">
-        <v-container class="cover__container">
-          <slot name="content" />
+        <v-container class="cover__container" :style="{ display: intro ? 'flex' : 'block' }">
+          <div :style="{ width: intro ? `${width}px` : '' }">
+            <slot name="content" />
+          </div>
+          <div v-if="intro" :style="{ width: `${introWidth}px`, maxHeight: '700px', overflowY: 'auto' }">
+            <slot name="intro" />
+          </div>
         </v-container>
       </v-card-text>
       <div class="px-4 py-2">
@@ -56,7 +61,7 @@
 <script lang="ts" setup>
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
-  import { ref, watch } from 'vue';
+  import { computed, ref, watch } from 'vue';
 
   const props = withDefaults(
     defineProps<{
@@ -65,6 +70,8 @@
       title?: string;
       width?: number;
       value: boolean;
+      intro?: boolean;
+      introWidth?: number;
     }>(),
     {
       icon: '',
@@ -72,11 +79,20 @@
       title: '',
       width: 800,
       value: false,
+      intro: false,
+      introWidth: 500,
     },
   );
 
   const store = useStore();
   const i18n = useGlobalI18n();
+
+  const dialogWidth = computed(() => {
+    if (props.intro) {
+      return props.width + props.introWidth;
+    }
+    return props.width;
+  });
 
   const dialog = ref<boolean>(false);
   const emit = defineEmits(['reset', 'input']);

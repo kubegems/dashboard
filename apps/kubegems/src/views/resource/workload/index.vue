@@ -205,7 +205,7 @@
           </template>
           <template #expanded-item="{ headers, item }">
             <td class="my-2 py-2" :colspan="headers.length">
-              <PodItems :workload="item.workload" />
+              <PodItems :key="k" :workload="item.workload" />
             </td>
           </template>
         </v-data-table>
@@ -238,7 +238,9 @@
     getWorkloadResourcesList,
   } from '@kubegems/api/direct';
   import { convertResponse2Pagination } from '@kubegems/api/utils';
+  import EventTip from '@kubegems/components/logicComponents/EventTip.vue';
   import { WORKLOAD_STATUS_COLOR } from '@kubegems/libs/constants/resource';
+  import { randomString } from '@kubegems/libs/utils/helpers';
   import BaseFilter from '@kubegems/mixins/base_filter';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
@@ -251,7 +253,6 @@
   import ResourceLimit from './components/ResourceLimit';
   import UpdateWorkload from './components/UpdateWorkload';
   import messages from './i18n';
-  import EventTip from '@/views/resource/components/common/EventTip';
   import GpuTip from '@/views/resource/components/common/GpuTip';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
 
@@ -278,6 +279,7 @@
         daemonset: 2,
       };
       this.WORKLOAD_STATUS_COLOR = WORKLOAD_STATUS_COLOR;
+      this.k = randomString(6);
 
       return {
         tab: this.tabMap[this.$route.query.tab] || 0,
@@ -634,6 +636,7 @@
         return gpu;
       },
       onRowClick(item, { expand, isExpanded }) {
+        this.k = randomString(6);
         expand(!isExpanded);
       },
     },

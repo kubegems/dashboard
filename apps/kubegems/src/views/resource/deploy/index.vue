@@ -461,7 +461,7 @@
     margin: auto;
     top: 0;
     bottom: 0;
-    border-radius: 3px;
+    border-radius: 8px;
   }
 
   .deploy-left-1 {

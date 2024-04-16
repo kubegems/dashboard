@@ -13,14 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import { icons as logosIconSet } from '@iconify-json/logos';
 import { icons as mdiIconSet } from '@iconify-json/mdi';
-import { Icon, addCollection } from '@iconify/vue2/dist/offline';
+import { Icon as OnlineIcon } from '@iconify/vue2';
+import { Icon as OfflineIcon, addCollection } from '@iconify/vue2/dist/offline';
 import Vue from 'vue';
 
-addCollection(logosIconSet);
-addCollection(mdiIconSet);
+const online = (import.meta as any).env.VUE_APP_ICON_ONLINE === 'true';
 
-Vue.component('Icon', Icon);
+if (online) {
+  Vue.component('Icon', OnlineIcon);
+} else {
+  addCollection(logosIconSet);
+  addCollection(mdiIconSet);
 
-export default Icon;
+  Vue.component('Icon', OfflineIcon);
+}
+
+export default online ? OnlineIcon : OfflineIcon;

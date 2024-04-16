@@ -115,10 +115,10 @@
   import { useRouter } from '@kubegems/extension/proxy';
   import { useParams, useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
+  import config from '@kubegems/libs/constants/global';
   import { POD_STATUS_COLOR } from '@kubegems/libs/constants/resource';
   import { onMounted, reactive, ref } from 'vue';
 
-  import config from '../../../../../config.json';
   import { useI18n } from '../../../i18n';
   import ModelExperience from './components/ModelExperience.vue';
 

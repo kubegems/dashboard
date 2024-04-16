@@ -73,6 +73,11 @@ export class Auth implements AccessTokenOperator {
     const data: { [key: string]: any } = await axios(`/oauth/callback`, { params: params });
     return data;
   }
+
+  public async getAuthSource(params: KubeRequest): Promise<any> {
+    const data: { [key: string]: any } = await axios(`system/authsource`, { params: params });
+    return data;
+  }
 }
 
 export class AccessToken {

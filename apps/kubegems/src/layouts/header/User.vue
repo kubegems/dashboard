@@ -97,16 +97,17 @@
             <v-card-text class="pa-2 text-caption"> {{ i18nLocal.t(`theme.${item.text}`) }} </v-card-text>
           </v-card>
         </v-menu>
+        <div class="kubegems__clear-float" />
       </div>
       <v-divider class="mb-2" />
       <v-list class="pt-0 px-2">
-        <v-list-item @click="showTenantSelect">
+        <v-list-item>
           <v-list-item-avatar height="25" min-width="25" width="25">
-            <v-icon color="primary">mdi-account-multiple</v-icon>
+            <v-icon color="primary">mdi-account-group</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__text user__list__title">
-              {{ i18n.t('header.user.tenant') }}
+              {{ i18n.t('resource.tenant') }}
               <v-flex class="float-right white--text blue-grey lighten-2 px-1 user__item">
                 {{ store.getters.Tenant().TenantName }}
               </v-flex>
@@ -161,7 +162,6 @@
     </v-card>
 
     <About ref="about" />
-    <TenantSelect ref="tenantSelect" />
   </v-menu>
 </template>
 
@@ -169,13 +169,12 @@
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter, useVuetify } from '@kubegems/extension/proxy';
   import { useStore } from '@kubegems/extension/store';
+  import config from '@kubegems/libs/constants/global';
   import { VENDOR } from '@kubegems/libs/constants/platform';
   import { reactive, ref } from 'vue';
 
-  import config from '../../config.json';
   import { refreshColor } from '../../loadConfig';
   import About from './components/About.vue';
-  import TenantSelect from './components/TenantSelect.vue';
   import { useI18n } from './i18n';
 
   const store = useStore();
@@ -202,12 +201,6 @@
     closeUserMenu();
   };
 
-  const tenantSelect = ref(null);
-  const showTenantSelect = (): void => {
-    tenantSelect.value.init();
-    tenantSelect.value.open();
-    closeUserMenu();
-  };
   const toBook = (): void => {
     window.open(config.layout.MANUAL);
     closeUserMenu();
@@ -222,7 +215,7 @@
   };
 
   const themeItems = [
-    { text: 'default', value: '#1E88E5' },
+    { text: 'default', value: '#1e88e5' },
     { text: 'navy_blue', value: '#2E4E7E' },
     { text: 'rock_blue', value: '#1685A9' },
     { text: 'cyanine', value: '#003472' },

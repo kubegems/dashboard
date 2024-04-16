@@ -113,13 +113,14 @@
         </v-card>
         <component
           :is="tabItems[tab].value"
+          v-if="tabItems[tab]"
           :ref="tabItems[tab].value"
           :app="app"
           class="mt-3"
           :item="app"
           :selector="{
             topkind: 'ModelDeployment',
-            topname: app ? app.name || app.metadata.name : '',
+            topname: appName,
           }"
           type="ModelDeployment"
         />
@@ -229,6 +230,9 @@
           return items;
         }
         return [];
+      },
+      appName() {
+        return this.app?.name || this.app?.metadata?.name || '';
       },
     },
     watch: {

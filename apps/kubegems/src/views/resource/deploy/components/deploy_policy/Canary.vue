@@ -30,7 +30,6 @@
                   v-model="trafficRouting"
                   class="my-0"
                   color="primary"
-                  hide-selected
                   :items="trafficRoutingItems"
                   :label="$t('tip.traffic_route')"
                   :no-data-text="$root.$t('data.no_data')"
@@ -63,7 +62,6 @@
                     v-model="obj.strategy.canary.canaryService"
                     class="my-0"
                     color="primary"
-                    hide-selected
                     :items="canaryServiceItems"
                     :label="$t('tip.canary_service')"
                     :no-data-text="$root.$t('data.no_data')"
@@ -84,7 +82,6 @@
                     v-model="obj.strategy.canary.stableService"
                     class="my-0"
                     color="primary"
-                    hide-selected
                     :items="stableServiceItems"
                     :label="$t('tip.online_service')"
                     :no-data-text="$root.$t('data.no_data')"

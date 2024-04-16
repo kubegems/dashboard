@@ -20,6 +20,7 @@
     :close-on-content-click="false"
     :max-width="300"
     nudge-bottom="30px"
+    nudge-right="50px"
     open-on-hover
     right
   >

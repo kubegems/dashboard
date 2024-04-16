@@ -187,11 +187,11 @@
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useParams, useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
+  import config from '@kubegems/libs/constants/global';
   import _ from 'lodash';
   import moment from 'moment';
   import { ComputedRef, computed, onMounted, reactive, ref } from 'vue';
 
-  import config from '../../../../../config.json';
   import { useI18n } from '../../../i18n';
   import Reply from './Reply.vue';
 

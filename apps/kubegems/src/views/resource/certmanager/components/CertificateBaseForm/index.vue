@@ -37,7 +37,6 @@
               v-model="obj.metadata.namespace"
               class="my-0"
               color="primary"
-              hide-selected
               :items="m_select_namespaceItems"
               :label="$root.$t('resource.namespace')"
               :no-data-text="$root.$t('data.no_data')"
@@ -58,7 +57,6 @@
               v-model="obj.spec.issuerRef.name"
               class="my-0"
               color="primary"
-              hide-selected
               :items="m_select_issuerItems"
               :label="$t('table.issuer')"
               :no-data-text="$root.$t('data.no_data')"
@@ -76,7 +74,6 @@
               v-model="obj.spec.duration"
               class="my-0"
               color="primary"
-              hide-selected
               :items="durationItems"
               :label="$t('form.expire_at')"
               :no-data-text="$root.$t('data.no_data')"
@@ -96,7 +93,6 @@
             <v-autocomplete
               v-model="obj.spec.usages"
               class="my-0"
-              hide-selected
               :items="keyUsage"
               :label="$t('form.cert_use')"
               multiple

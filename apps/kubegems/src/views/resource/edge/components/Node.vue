@@ -167,13 +167,13 @@
   import { useRouter } from '@kubegems/extension/proxy';
   import { useParams, useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
+  import config from '@kubegems/libs/constants/global';
   import { sizeOfStorage } from '@kubegems/libs/utils/helpers';
   import { V1NodeCondition } from '@kubernetes/client-node/dist/gen/model/v1NodeCondition';
   import { V1Taint } from '@kubernetes/client-node/dist/gen/model/v1Taint';
   import moment from 'moment';
   import { onMounted, reactive } from 'vue';
 
-  import config from '../../../../config.json';
   import { useI18n } from '../i18n';
 
   onMounted(() => {

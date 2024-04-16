@@ -164,20 +164,20 @@
 <script lang="ts" setup>
   import { useEdgeClusterPagination } from '@kubegems/api/hooks/cluster';
   import { EdgeCluster } from '@kubegems/api/typed/edge_cluster';
+  import Terminal from '@kubegems/components/logicComponents/Terminal/index.vue';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useParams, useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
+  import config from '@kubegems/libs/constants/global';
   import { EDGE_DEVICEID_KEY, ENVIRONMENT_KEY, PROJECT_KEY, TENANT_KEY } from '@kubegems/libs/constants/label';
   import moment from 'moment';
   import { onUnmounted, reactive, ref, watch } from 'vue';
 
-  import config from '../../../config.json';
   import { useI18n } from './i18n';
   import EdgeClusterForm from '@/views/resource/cluster/components/EdgeClusterForm/index.vue';
   import EdgeManufactureTip from '@/views/resource/cluster/components/EdgeManufactureTip.vue';
   import EdgeStatusTip from '@/views/resource/cluster/components/EdgeStatusTip.vue';
-  import Terminal from '@/views/resource/components/common/Terminal/index.vue';
 
   const edgeStatus = {
     Online: config.theme.THEME_COLOR.success,

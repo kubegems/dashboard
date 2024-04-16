@@ -8,7 +8,6 @@
           dense
           flat
           hide-details
-          hide-selected
           :items="tagItems"
           label="tag"
           multiple

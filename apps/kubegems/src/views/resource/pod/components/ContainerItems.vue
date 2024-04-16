@@ -185,6 +185,9 @@
 </template>
 
 <script>
+  import ContainerLog from '@kubegems/components/logicComponents/ContainerLog.vue';
+  import FileViewer from '@kubegems/components/logicComponents/Terminal/FileViewer.vue';
+  import Terminal from '@kubegems/components/logicComponents/Terminal/index.vue';
   import { CONTAINER_STATUS_COLOR } from '@kubegems/libs/constants/resource';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import BasePermission from '@kubegems/mixins/permission';
@@ -192,10 +195,7 @@
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import ContainerLog from '@/views/resource/components/common/ContainerLog';
   import ProbeTip from '@/views/resource/components/common/ProbeTip';
-  import Terminal from '@/views/resource/components/common/Terminal';
-  import FileViewer from '@/views/resource/components/common/Terminal/FileViewer';
 
   export default {
     name: 'ContainerItems',
@@ -318,7 +318,7 @@
         const item = {
           namespace: pod.metadata.namespace,
           name: pod.metadata.name,
-          containers: pod.status.containerStatuses.concat(
+          containers: pod.status.containerStatuses?.concat(
             pod.spec.initContainers
               ? pod.spec.initContainers.map((i) => {
                   return { ...i, showName: `${i.name} (init)` };

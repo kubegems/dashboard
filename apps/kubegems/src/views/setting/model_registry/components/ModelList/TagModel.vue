@@ -26,7 +26,6 @@
                   v-model="obj.tags"
                   class="my-0"
                   color="primary"
-                  hide-selected
                   :items="tag.tagItems"
                   :label="i18nLocal.t('tip.label')"
                   multiple

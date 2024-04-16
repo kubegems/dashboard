@@ -54,13 +54,13 @@
   import { deleteAppResource, getAppRunningResourceDetail, postSyncAppResource } from '@kubegems/api/direct';
   import { K8S_RESOURCE_ICON } from '@kubegems/libs/constants/resource';
   import BaseResource from '@kubegems/mixins/resource';
-  import { VueOkrTree } from 'vue-okr-tree';
+  import { VueOkrTree } from 'vue-okr-tree/lib/vue-okr-tree.umd.min.js';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../../i18n';
   import DeployLive from './DeployLive';
 
-  import 'vue-okr-tree/dist/vue-okr-tree.css';
+  import 'vue-okr-tree/lib/vue-okr-tree.css';
 
   export default {
     name: 'DeployTopology',

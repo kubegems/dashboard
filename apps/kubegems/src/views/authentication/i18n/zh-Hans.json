@@ -7,7 +7,17 @@
     "other": "其他登录方式",
     "nav": "您可以从右上角工作台进入首页访问",
     "permission": "您可以联系某个租户的管理员或系统管理员为您添加访问权限",
-    "i18n": "语言"
+    "i18n": "语言",
+
+    "enter": "进入",
+    "open_soon": "即将开放",
+    "welcome": "欢迎使用{0}",
+    "setting": "平台管理",
+    "last_login": "上次登录",
+    "now_tenant": "当前租户",
+    "no_tenant": "联系我们, 开通资源",
+    "nil": "无",
+    "theme": "主题"
   },
   "status": {
     "success": "登录成功",
@@ -18,5 +28,17 @@
   },
   "form": {
     "passwordRule": "多于20位"
+  },
+  "theme": {
+    "default": "默认",
+    "navy_blue": "藏青",
+    "rock_blue": "石青",
+    "cyanine": "花青",
+    "fei_hong": "妃红",
+    "b_orange": "美人焦橙",
+    "b_green": "竹青",
+    "p_green": "松绿",
+    "p_blue": "紫蓝",
+    "brown": "玄色"
   }
 }

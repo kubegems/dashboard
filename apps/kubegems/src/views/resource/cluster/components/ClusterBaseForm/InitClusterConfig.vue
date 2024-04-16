@@ -35,7 +35,6 @@
           <v-autocomplete
             v-model="obj.ImageRepo"
             color="primary"
-            hide-selected
             :items="imageRepoItems"
             :label="$root.$t('resource.image_registry')"
             :no-data-text="$root.$t('data.no_data')"
@@ -54,7 +53,6 @@
           <v-autocomplete
             v-model="obj.DefaultStorageClass"
             color="primary"
-            hide-selected
             :items="storageClassItems"
             :label="$root.$t('resource.storageclass')"
             :no-data-text="$root.$t('data.no_data')"

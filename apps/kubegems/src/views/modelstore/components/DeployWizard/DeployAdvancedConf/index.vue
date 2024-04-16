@@ -37,7 +37,6 @@
           <v-autocomplete
             v-model="obj.server.kind"
             hide-no-data
-            hide-selected
             :items="implementationItems"
             :label="$t('tip.runtime')"
             :menu-props="{
@@ -64,7 +63,6 @@
             v-if="obj.server.kind !== ''"
             v-model="obj.server.protocol"
             hide-no-data
-            hide-selected
             :items="protocolItems"
             :label="$t('tip.protocol')"
             :menu-props="{
@@ -109,7 +107,6 @@
           <v-autocomplete
             v-model="obj.server.upgradeStrategy"
             hide-no-data
-            hide-selected
             :items="upgradeStrategyItems"
             :label="$t('tip.upgrage_strategy')"
             :menu-props="{
@@ -143,7 +140,6 @@
             <v-autocomplete
               v-model="gateway"
               hide-no-data
-              hide-selected
               :items="gatewayItems"
               :label="$t('tip.gateway')"
               :menu-props="{

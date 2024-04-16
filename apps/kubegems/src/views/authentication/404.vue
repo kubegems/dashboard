@@ -26,7 +26,7 @@
                 <h6 class="text-subtitle-1 mt-4 primary--text op-5 font-weight-regular">
                   {{ i18nLocal.t('tip.nav') }}
                 </h6>
-                <v-btn color="info mt-4" @click="toDashboard">
+                <v-btn color="primary mt-4" @click="toDashboard">
                   <v-icon left>mdi-undo-variant</v-icon>
                   {{ i18n.t('operate.return') }}
                 </v-btn>

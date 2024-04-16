@@ -16,11 +16,19 @@
 
 <template>
   <v-card>
-    <v-card-title class="py-1">
+    <v-card-title class="py-3">
       <v-flex>
         <v-flex class="float-right">
           <v-sheet class="text-body-2 text--darken-1">
-            <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
+            <BaseAggChartOperator v-model="operator" />
+            <BaseDatetimePicker
+              v-model="date"
+              :default-value="30"
+              default-value-for-query
+              query-end-time-key="end"
+              query-start-time-key="start"
+              @change="onDatetimeChange(undefined)"
+            />
           </v-sheet>
         </v-flex>
         <div class="kubegems__clear-float" />
@@ -59,6 +67,7 @@
     WORKLOAD_NETWORK_IN_PROMQL,
     WORKLOAD_NETWORK_OUT_PROMQL,
   } from '@kubegems/libs/constants/prometheus';
+  import { constructPromQLByOperator } from '@kubegems/libs/utils/prometheus';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
@@ -90,10 +99,16 @@
           noprocessing: true,
         },
         timeinterval: null,
+        operator: 'default',
       };
     },
     computed: {
       ...mapState(['Scale']),
+    },
+    watch: {
+      operator() {
+        this.loadMetrics();
+      },
     },
     destroyed() {
       if (this.timeinterval) clearInterval(this.timeinterval);
@@ -120,40 +135,52 @@
         this.workloadNetworkOut();
       },
       async workloadCPUUsage() {
-        const query = WORKLOAD_CPU_USAGE_CORE_PROMQL.replaceAll(
+        let query = WORKLOAD_CPU_USAGE_CORE_PROMQL.replaceAll(
           '$1',
           `${this.item.kind}:${this.item.metadata.name}`,
         ).replaceAll('$2', this.item.metadata.namespace);
+        query = constructPromQLByOperator(this.operator, query, this.params.start, this.params.end);
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
         if (data) this.cpu = data;
       },
       async workloadMemoryUsage() {
-        const query = WORKLOAD_MEMORY_USAGE_BYTE_PROMQL.replaceAll(
+        let query = WORKLOAD_MEMORY_USAGE_BYTE_PROMQL.replaceAll(
           '$1',
           `${this.item.kind}:${this.item.metadata.name}`,
         ).replaceAll('$2', this.item.metadata.namespace);
+        query = constructPromQLByOperator(this.operator, query, this.params.start, this.params.end);
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
         if (data) this.memory = data;
       },
       async workloadNetworkIn() {
-        const query = WORKLOAD_NETWORK_IN_PROMQL.replaceAll(
+        let query = WORKLOAD_NETWORK_IN_PROMQL.replaceAll(
           '$1',
           `${this.item.kind}:${this.item.metadata.name}`,
         ).replaceAll('$2', this.item.metadata.namespace);
+        query = constructPromQLByOperator(this.operator, query, this.params.start, this.params.end);
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
         if (data) this.networkin = data;
       },
       async workloadNetworkOut() {
-        const query = WORKLOAD_NETWORK_OUT_PROMQL.replaceAll(
+        let query = WORKLOAD_NETWORK_OUT_PROMQL.replaceAll(
           '$1',
           `${this.item.kind}:${this.item.metadata.name}`,
         ).replaceAll('$2', this.item.metadata.namespace);
+        query = constructPromQLByOperator(this.operator, query, this.params.start, this.params.end);
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
         if (data) this.networkout = data;
       },
       onDatetimeChange() {
         this.params.start = this.$moment(this.date[0]).utc().format();
         this.params.end = this.$moment(this.date[1]).utc().format();
+        this.$router.replace({
+          params: this.$route.params,
+          query: {
+            ...this.$route.query,
+            start: this.$moment(this.params.start).utc().format(),
+            end: this.$moment(this.params.end).utc().format(),
+          },
+        });
         this.loadMetrics();
       },
     },

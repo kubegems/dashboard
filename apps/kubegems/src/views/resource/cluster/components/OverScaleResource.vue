@@ -148,11 +148,11 @@
 <script>
   import { getClusterQuota, putUpdateCluster } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
+  import config from '@kubegems/libs/constants/global';
   import { deepCopy, sizeOfCpu, sizeOfStorage } from '@kubegems/libs/utils/helpers';
   import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
 
-  import config from '../../../../config.json';
   import messages from '../i18n';
 
   export default {

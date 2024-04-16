@@ -25,7 +25,6 @@
           v-model="obj.ProjectID"
           class="my-0"
           color="primary"
-          hide-selected
           :items="m_select_projectItems"
           :label="$root.$t('resource.project')"
           :no-data-text="$root.$t('data.no_data')"
@@ -56,7 +55,6 @@
               v-model="obj.kind"
               class="my-0"
               color="primary"
-              hide-selected
               :items="kindItems"
               :label="$t('table.kind')"
               :no-data-text="$root.$t('data.no_data')"

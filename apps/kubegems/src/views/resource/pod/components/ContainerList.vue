@@ -83,7 +83,7 @@
           auto-draw
           :auto-draw-duration="200"
           auto-line-width
-          color="rgba(29, 136, 229, 0.6)"
+          :color="ThemeColor || config.theme.THEME_COLOR.primary"
           fill
           :line-width="5"
           smooth
@@ -99,7 +99,7 @@
           auto-draw
           :auto-draw-duration="200"
           auto-line-width
-          color="rgba(29, 136, 229, 0.6)"
+          :color="ThemeColor || config.theme.THEME_COLOR.primary"
           fill
           :line-width="5"
           smooth
@@ -182,7 +182,7 @@
           auto-draw
           :auto-draw-duration="200"
           auto-line-width
-          color="rgba(29, 136, 229, 0.6)"
+          :color="ThemeColor || config.theme.THEME_COLOR.primary"
           fill
           :line-width="5"
           smooth
@@ -198,7 +198,7 @@
           auto-draw
           :auto-draw-duration="200"
           auto-line-width
-          color="rgba(29, 136, 229, 0.6)"
+          :color="ThemeColor || config.theme.THEME_COLOR.primary"
           fill
           :line-width="5"
           smooth
@@ -214,7 +214,10 @@
 </template>
 
 <script>
+  import ContainerLog from '@kubegems/components/logicComponents/ContainerLog.vue';
   import RealDatetimeTip from '@kubegems/components/logicComponents/RealDatetimeTip';
+  import Terminal from '@kubegems/components/logicComponents/Terminal/index.vue';
+  import config from '@kubegems/libs/constants/global';
   import { CONTAINER_CPU_USAGE_PROMQL, CONTAINER_MEMORY_USAGE_PROMQL } from '@kubegems/libs/constants/prometheus';
   import { CONTAINER_STATUS_COLOR } from '@kubegems/libs/constants/resource';
   import { beautifyCpuUnit, beautifyStorageUnit, deepCopy } from '@kubegems/libs/utils/helpers';
@@ -223,8 +226,6 @@
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import ContainerLog from '@/views/resource/components/common/ContainerLog';
-  import Terminal from '@/views/resource/components/common/Terminal';
 
   export default {
     name: 'ContainerList',
@@ -245,6 +246,7 @@
     },
     data() {
       this.CONTAINER_STATUS_COLOR = CONTAINER_STATUS_COLOR;
+      this.config = config;
 
       return {
         status: '',
@@ -252,7 +254,7 @@
       };
     },
     computed: {
-      ...mapState(['AdminViewport', 'Edge']),
+      ...mapState(['AdminViewport', 'Edge', 'ThemeColor']),
       headers() {
         return [
           { text: this.$t('table.container_name'), value: 'name', align: 'start' },
@@ -318,9 +320,10 @@
             CpuLatest[container.name] = 0;
             containers.push(container.name);
           });
-          const query = CONTAINER_CPU_USAGE_PROMQL.replaceAll('$1', containers.join('|'))
+          let query = CONTAINER_CPU_USAGE_PROMQL.replaceAll('$1', containers.join('|'))
             .replaceAll('$2', this.item.metadata.name)
             .replaceAll('$3', this.item.metadata.namespace);
+          query = query.replaceAll('%', '');
           const data = await this.m_permission_matrix(this.ThisCluster, {
             query: query,
             start: this.$moment(new Date(new Date().setMinutes(new Date().getMinutes() - 15)))
@@ -357,9 +360,10 @@
             MemoryLatest[container.name] = 0;
             containers.push(container.name);
           });
-          const query = CONTAINER_MEMORY_USAGE_PROMQL.replaceAll('$1', containers.join('|'))
+          let query = CONTAINER_MEMORY_USAGE_PROMQL.replaceAll('$1', containers.join('|'))
             .replaceAll('$2', this.item.metadata.name)
             .replaceAll('$3', this.item.metadata.namespace);
+          query = query.replaceAll('%', '');
           const data = await this.m_permission_matrix(this.ThisCluster, {
             query: query,
             start: this.$moment(new Date(new Date().setMinutes(new Date().getMinutes() - 15)))

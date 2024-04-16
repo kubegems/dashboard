@@ -26,7 +26,6 @@
               v-model="resourceKind"
               class="my-0"
               color="primary"
-              hide-selected
               :items="kinds"
               :label="$root.$t('resource.kind')"
               :no-data-text="$root.$t('data.no_data')"
@@ -58,7 +57,6 @@
               v-model="obj.metadata.namespace"
               class="my-0"
               color="primary"
-              hide-selected
               :items="m_select_namespaceItems"
               :label="$root.$t('resource.namespace')"
               :no-data-text="$root.$t('data.no_data')"
@@ -78,7 +76,6 @@
               v-model="obj.spec.storageClassName"
               class="my-0"
               color="primary"
-              hide-selected
               :items="m_select_storageClassItems"
               :label="$root.$t('resource.storageclass')"
               :no-data-text="$root.$t('data.no_data')"
@@ -97,7 +94,6 @@
               v-model="accessMode"
               class="my-0"
               color="primary"
-              hide-selected
               :items="accessModes"
               :label="$t('table.access_mode')"
               :no-data-text="$root.$t('data.no_data')"
@@ -337,7 +333,7 @@
           if (!this.obj.metadata.annotations) {
             this.obj.metadata.annotations = {};
           }
-          if (this.obj.spec.accessModes.length > 0) {
+          if (this.obj.spec.accessModes?.length > 0) {
             this.accessMode = this.obj.spec.accessModes[0];
           }
           if (this.obj.spec.resources.requests.storage && !isNaN(this.obj.spec.resources.requests.storage)) {

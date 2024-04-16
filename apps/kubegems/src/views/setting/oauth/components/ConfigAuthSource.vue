@@ -39,7 +39,14 @@
             </v-col>
           </v-row>
         </v-card-text>
-        <component :is="components[obj.vendor]" ref="typeForm" :edit="state.edit" :item="obj" :vendor="obj.vendor" />
+        <component
+          :is="components[obj.vendor]"
+          :key="obj.key"
+          ref="typeForm"
+          :edit="state.edit"
+          :item="obj"
+          :vendor="obj.vendor"
+        />
       </v-form>
     </template>
     <template #action>
@@ -55,7 +62,7 @@
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { required } from '@kubegems/extension/ruler';
   import { useStore } from '@kubegems/extension/store';
-  import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import { deepCopy, randomString } from '@kubegems/libs/utils/helpers';
   import { reactive, ref } from 'vue';
 
   import { useI18n } from '../i18n';
@@ -83,6 +90,7 @@
     name: '',
     kind: 'OAUTH',
     vendor: '',
+    key: randomString(4),
   });
   const objRules = {
     name: [required],
@@ -119,6 +127,7 @@
   };
 
   const reset = () => {
+    obj.key = randomString(4);
     state.dialog = false;
     typeForm.value.reset();
   };

@@ -23,7 +23,6 @@
             v-model="obj.kind"
             class="my-0"
             color="primary"
-            hide-selected
             :items="registryItems"
             :label="i18nLocal.t('tip.source')"
             :no-data-text="i18n.t('data.no_data')"

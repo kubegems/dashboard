@@ -23,7 +23,6 @@
       dense
       flat
       hide-details
-      hide-selected
       :items="fileName"
       :label="$root.$t('resource.file')"
       :no-data-text="$root.$t('data.no_data')"
@@ -31,12 +30,19 @@
       :style="{ width: `500px` }"
       @change="onFileChange"
     />
-    <ACEEditor
+    <BaseACEEditor
       v-model="code"
       :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
+      :height="`${height}px`"
       lang="yaml"
-      :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
-      :style="{ height: `${height}px !important` }"
+      :options="{
+        tabSize: 2,
+        fontSize: 12,
+        printMarginColumn: 100,
+        showPrintMargin: false,
+        wrap: true,
+        readOnly: true,
+      }"
       theme="chrome"
       @keydown.stop
     />

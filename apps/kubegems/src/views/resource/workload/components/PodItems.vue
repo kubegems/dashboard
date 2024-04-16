@@ -152,19 +152,19 @@
   import { Pod } from '@kubegems/api/typed/pod';
   import { StatefulSet } from '@kubegems/api/typed/statefulset';
   import { convertResponse2List } from '@kubegems/api/utils';
+  import EventTip from '@kubegems/components/logicComponents/EventTip.vue';
   import RealDatetimeTip from '@kubegems/components/logicComponents/RealDatetimeTip.vue';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useParams } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
+  import config from '@kubegems/libs/constants/global';
   import { POD_STATUS_COLOR } from '@kubegems/libs/constants/resource';
   import { V1ContainerStatus } from '@kubernetes/client-node/dist/gen/model/v1ContainerStatus';
   import moment from 'moment';
   import { nextTick, ref } from 'vue';
 
-  import config from '../../../../config.json';
   import { useI18n } from '../i18n';
-  import EventTip from '@/views/resource/components/common/EventTip.vue';
 
   const store = useStore();
   const i18n = useGlobalI18n();

@@ -30,7 +30,6 @@
                 v-model="obj.spec.model.version"
                 class="my-0"
                 color="primary"
-                hide-selected
                 :items="versionItems"
                 :label="$t('tip.version')"
                 :no-data-text="$root.$t('data.no_data')"

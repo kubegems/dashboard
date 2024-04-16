@@ -185,15 +185,11 @@
         this.environmentAppList();
       },
       splitImage(image, type) {
-        const match = new RegExp('([\\w|/|\\.|-]+)?[:|@]?([\\w|\\.|-]+)?', 'g').exec(image);
-
-        if (match) {
-          if (type === 'image') {
-            return match[1];
-          } else if (type === 'tag') {
-            return match[2];
-          }
-          return '';
+        const index = image.lastIndexOf(':');
+        if (type === 'image') {
+          return image.substr(0, index);
+        } else if (type === 'tag') {
+          return image.substr(index + 1);
         }
         return '';
       },

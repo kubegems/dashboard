@@ -24,7 +24,6 @@
             v-model="obj"
             class="my-0"
             color="primary"
-            hide-selected
             :items="items"
             :label="$root.$t('resource.app')"
             multiple

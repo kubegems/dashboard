@@ -28,22 +28,6 @@ export const SIDEBAR_ITEMS: { [key: string]: string | boolean | string[] }[] = [
     required: ['tenant', 'project', 'environment'],
   },
   {
-    text: 'microservice',
-    sidebar: 'microservice',
-    value: 'microservice',
-    icon: 'mdi:arrow-decision',
-    dependencies: ['istio'],
-    admin: 'all',
-  },
-  {
-    text: 'microservice',
-    sidebar: 'virtualspace',
-    value: 'microservice',
-    icon: 'mdi:arrow-decision',
-    required: ['virtualspace'],
-    dependencies: ['istio'],
-  },
-  {
     text: 'observability',
     sidebar: 'observe',
     value: 'admin-observe',

@@ -18,7 +18,7 @@
   <v-flex class="text-center pa-4">
     <v-flex class="pagination-height">
       <v-flex id="smallpagination" class="pagination">
-        <v-pagination v-model="p" class="float-right" :length="pageCount" :total-visible="2" @input="onPageInput" />
+        <v-pagination v-model="p" class="float-right" :length="pageCount" :total-visible="5" @input="onPageInput" />
         <div class="kubegems__clear-float" />
       </v-flex>
     </v-flex>

@@ -204,7 +204,7 @@
         this.tabItems[this.tab].callBack(this, timeParam);
       },
       async clusterEtcdRT(timeParam) {
-        const query = CLUSTER_ETCD_RT_PROMQL;
+        const query = CLUSTER_ETCD_RT_PROMQL.replaceAll('%', '');
         const data = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
@@ -218,7 +218,7 @@
         }
       },
       async clusterApiServerRT(timeParam) {
-        const query = CLUSTER_API_SERVER_RT_PROMQL;
+        const query = CLUSTER_API_SERVER_RT_PROMQL.replaceAll('%', '');
         const data = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
@@ -242,7 +242,7 @@
         const data1 = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
-            query: CLUSTER_API_SERVER_QPS_PROMQL.replaceAll('$1', '2.*'),
+            query: CLUSTER_API_SERVER_QPS_PROMQL.replaceAll('$1', '2.*').replaceAll('%', ''),
             noprocessing: true,
           }),
         );
@@ -250,7 +250,7 @@
         const data2 = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
-            query: CLUSTER_API_SERVER_QPS_PROMQL.replaceAll('$1', '4.*'),
+            query: CLUSTER_API_SERVER_QPS_PROMQL.replaceAll('$1', '4.*').replaceAll('%', ''),
             noprocessing: true,
           }),
         );
@@ -258,7 +258,7 @@
         const data3 = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
-            query: CLUSTER_API_SERVER_QPS_PROMQL.replaceAll('$1', '5.*'),
+            query: CLUSTER_API_SERVER_QPS_PROMQL.replaceAll('$1', '5.*').replaceAll('%', ''),
             noprocessing: true,
           }),
         );
@@ -275,7 +275,7 @@
         const data = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
-            query: CLUSTER_ETCD_QPS_PROMQL,
+            query: CLUSTER_ETCD_QPS_PROMQL.replaceAll('%', ''),
             noprocessing: true,
           }),
         );
@@ -285,7 +285,7 @@
         }
       },
       async clusterCPUUsage(timeParam) {
-        const query = CLUSTER_CPU_USAGE_PROMQL;
+        const query = CLUSTER_CPU_USAGE_PROMQL.replaceAll('%', '');
         const data = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
@@ -299,7 +299,7 @@
         }
       },
       async clusterMemoryUsage(timeParam) {
-        const query = CLUSTER_MEMORY_USAGE_PROMQL;
+        const query = CLUSTER_MEMORY_USAGE_PROMQL.replaceAll('%', '');
         const data = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
@@ -313,7 +313,7 @@
         }
       },
       async clusterDiskSize(timeParam) {
-        const query = CLUSTER_DISK_USAGE_PROMQL;
+        const query = CLUSTER_DISK_USAGE_PROMQL.replaceAll('%', '');
         const data = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
@@ -327,7 +327,7 @@
         }
       },
       async clusterPodUsage(timeParam) {
-        const query = CLUSTER_POD_RUNNING_COUNT_PROMQL;
+        const query = CLUSTER_POD_RUNNING_COUNT_PROMQL.replaceAll('%', '');
         const data = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {

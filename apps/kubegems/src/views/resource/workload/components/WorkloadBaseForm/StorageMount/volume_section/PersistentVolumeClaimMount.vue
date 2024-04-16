@@ -23,7 +23,6 @@
           v-model="volumeName"
           class="my-0"
           color="primary"
-          hide-selected
           :items="items"
           :label="$root.$t('resource.persistentvolumeclaim')"
           :no-data-text="$root.$t('data.no_data')"

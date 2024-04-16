@@ -46,7 +46,6 @@
           <v-autocomplete
             v-model="obj.spec.register.image"
             color="primary"
-            hide-selected
             :items="imageItems"
             :label="i18nLocal.t('form.image')"
             :no-data-text="i18n.t('data.no_data')"

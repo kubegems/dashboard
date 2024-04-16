@@ -32,7 +32,6 @@
                 v-model="obj.match"
                 class="my-0"
                 color="primary"
-                hide-selected
                 :items="[
                   { text: 'exact', valeu: 'exact' },
                   { text: 'prefix', valeu: 'prefix' },

@@ -91,6 +91,7 @@
             v-model="scope.scopeItmes"
             class="my-0"
             hide-no-data
+            hide-selected
             :items="[]"
             label="Scope"
             multiple

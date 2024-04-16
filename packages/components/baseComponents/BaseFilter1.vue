@@ -29,6 +29,11 @@
       hide-selected
       :items="combobox.items"
       :label="i18n.t('filter.placehold')"
+      :menu-props="{
+        bottom: true,
+        left: true,
+        origin: `top center`,
+      }"
       multiple
       :no-data-text="i18n.t('data.no_data')"
       prepend-inner-icon="mdi-magnify"
@@ -63,8 +68,10 @@
 <script lang="ts" setup>
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useName, useParams, useQuery, useRouter } from '@kubegems/extension/router';
-  import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import { deepCopy, sleep } from '@kubegems/libs/utils/helpers';
   import { reactive, ref, watch } from 'vue';
+
+  const i18n = useGlobalI18n();
 
   const props = withDefaults(
     defineProps<{
@@ -79,7 +86,6 @@
     },
   );
 
-  const i18n = useGlobalI18n();
   const query = useQuery();
   const router = useRouter();
   const routeName = useName();
@@ -109,7 +115,7 @@
     }
   };
 
-  const emit = defineEmits(['filter']);
+  const emit = defineEmits(['filter', 'loadData']);
   const filter = ref<any>(null);
   const filterConditionChanged = async (
     item: { items: any[]; text: string; value: string; parent?: string },
@@ -210,8 +216,10 @@
     resetFilterCondition();
   };
 
-  const filterConditionFocusd = (): void => {
-    resetFilterCondition();
+  const filterConditionFocusd = async (): Promise<void> => {
+    emit('loadData');
+    await sleep(500);
+    // resetFilterCondition();
   };
 
   const resetFilterCondition = (): void => {
@@ -228,10 +236,11 @@
   const getFilterList = async (params): Promise<void> => {
     // 处理多tab列表
     const tab = query.value.tab || null;
+    const module = query.value.module || null;
     await router.replace({
       params: routeParams.value,
       name: routeName.value,
-      query: Object.assign({ tab: tab, ...query.value, ...{ page: 1 } }, params),
+      query: Object.assign({ module: module, tab: tab, ...query.value, ...{ page: 1 } }, params),
     });
   };
 

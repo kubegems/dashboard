@@ -78,7 +78,7 @@
 
 <script lang="ts" setup>
   import { useGlobalI18n } from '@kubegems/extension/i18n';
-  import { reactive, ref } from 'vue';
+  import { reactive, ref, watch } from 'vue';
 
   const i18n = useGlobalI18n();
 
@@ -91,6 +91,7 @@
       showSize?: boolean;
       size?: number;
       visibleNum?: number;
+      value: number;
     }>(),
     {
       frontPage: false,
@@ -100,6 +101,7 @@
       showSize: true,
       size: 10,
       visibleNum: 6,
+      value: 1,
     },
   );
   const state = reactive({
@@ -125,6 +127,14 @@
     emit('changesize', size);
     emit('loaddata');
   };
+
+  watch(
+    () => props.value,
+    () => {
+      page.value = props.value;
+    },
+    { immediate: true },
+  );
 </script>
 
 <style lang="scss">

@@ -6,7 +6,15 @@
         <v-flex>
           <v-flex class="float-right">
             <v-sheet class="text-body-2 text--darken-1">
-              <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
+              <BaseAggChartOperator v-model="operator" />
+              <BaseDatetimePicker
+                v-model="date"
+                :default-value="30"
+                default-value-for-query
+                query-end-time-key="end"
+                query-start-time-key="start"
+                @change="onDatetimeChange(undefined)"
+              />
             </v-sheet>
           </v-flex>
           <div class="float-right logo kubegems__text"> tke-gpu-manager </div>
@@ -45,6 +53,7 @@
   import { getPodList } from '@kubegems/api/direct';
   import { convertResponse2List } from '@kubegems/api/utils';
   import { T_GPU_MEMORY_USAGE_PROMQL, T_GPU_USAGE_PROMQL } from '@kubegems/libs/constants/prometheus';
+  import { constructPromQLByOperator } from '@kubegems/libs/utils/prometheus';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
@@ -83,10 +92,16 @@
         },
         timeinterval: null,
         pods: [],
+        operator: 'default',
       };
     },
     computed: {
       ...mapState(['Scale']),
+    },
+    watch: {
+      operator() {
+        this.loadMetrics();
+      },
     },
     destroyed() {
       if (this.timeinterval) clearInterval(this.timeinterval);
@@ -127,24 +142,34 @@
         this.gpuMemoryUsage();
       },
       async gpuUsage() {
-        const query = T_GPU_USAGE_PROMQL.replaceAll('$1', this.pods.join('|')).replaceAll(
+        let query = T_GPU_USAGE_PROMQL.replaceAll('$1', this.pods.join('|')).replaceAll(
           '$2',
           this.$route.query.namespace,
         );
+        query = constructPromQLByOperator(this.operator, query, this.params.start, this.params.end);
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
         if (data) this.gpu = data;
       },
       async gpuMemoryUsage() {
-        const query = T_GPU_MEMORY_USAGE_PROMQL.replaceAll('$1', this.pods.join('|')).replaceAll(
+        let query = T_GPU_MEMORY_USAGE_PROMQL.replaceAll('$1', this.pods.join('|')).replaceAll(
           '$2',
           this.$route.query.namespace,
         );
+        query = constructPromQLByOperator(this.operator, query, this.params.start, this.params.end);
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
         if (data) this.gpuMemory = data;
       },
       onDatetimeChange() {
         this.params.start = this.$moment(this.date[0]).utc().format();
         this.params.end = this.$moment(this.date[1]).utc().format();
+        this.$router.replace({
+          params: this.$route.params,
+          query: {
+            ...this.$route.query,
+            start: this.$moment(this.params.start).utc().format(),
+            end: this.$moment(this.params.end).utc().format(),
+          },
+        });
         this.loadMetrics();
       },
     },

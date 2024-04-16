@@ -29,12 +29,19 @@
             </v-row>
           </v-form>
         </v-card-text>
-        <ACEEditor
+        <BaseACEEditor
           v-model="sdkContent"
           :class="`rounded-0 clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+          :height="`${height}px`"
           :lang="lang"
-          :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
-          :style="{ height: `${height}px !important` }"
+          :options="{
+            tabSize: 2,
+            fontSize: 12,
+            printMarginColumn: 100,
+            showPrintMargin: false,
+            wrap: true,
+            readOnly: true,
+          }"
           @keydown.stop
         />
       </v-card>

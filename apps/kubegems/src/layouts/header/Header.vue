@@ -22,103 +22,117 @@
     />
 
     <div>
-      <div class="hidden-sm-and-down float-left">
-        <v-img class="kubegems__absolute-middle" contain :src="config.layout.LOGO_WHITE" width="140" />
+      <div v-if="config.layout.LOGO_WHITE" class="hidden-sm-and-down float-left">
+        <v-img class="kubegems__absolute-middle" contain :src="config.layout.LOGO_WHITE" width="45" />
       </div>
       <div
         class="pl-2 text-h6 float-left header__line-height"
         :style="{
-          fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`,
-          fontWeight: `bold`,
-          fontSize: `1.1rem !important`,
-          marginLeft: `140px`,
+          fontFamily: `kubegems-sample !important`,
+          fontSize: `1.5rem !important`,
+          marginLeft: config.layout.LOGO_WHITE ? `45px` : 0,
         }"
       >
-        {{ i18n.t(smallTitle) }}
+        {{ module.title }}
       </div>
 
       <div class="kubegems__clear-float" />
     </div>
 
-    <v-spacer />
-
-    <v-btn v-if="!store.state.GlobalPlugins['kubegems-models']" color="primary" dark depressed @click="toAppStore">
-      <v-icon class="header__icon-line-height" left> mdi-shopping </v-icon>
+    <v-btn class="ml-4" color="primary" dark depressed @click="toHome">
+      <v-icon class="header__icon-line-height" left> mdi-home </v-icon>
       <span
         class="header__span-line-height"
         :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`, fontWeight: `bold` }"
       >
-        {{ i18n.t('header.app_store') }}
+        {{ i18n.t('header.home') }}
       </span>
     </v-btn>
 
-    <v-menu
-      v-else
-      v-model="state.menu"
-      bottom
-      content-class="header__bg"
-      left
-      nudge-bottom="5px"
-      offset-y
-      origin="top center"
-      transition="scale-transition"
-    >
-      <template #activator="{ on }">
-        <v-btn color="primary" dark depressed v-on="on">
-          <v-icon v-if="store.state.StoreMode === 'app'" class="header__icon-line-height" left> mdi-shopping </v-icon>
-          <v-icon v-else class="header__icon-line-height" left> mdi-cube </v-icon>
-          <span
-            class="header__span-line-height"
-            :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important;`, fontWeight: `bold` }"
-          >
-            {{ store.state.StoreMode === 'app' ? i18n.t('header.app_store') : i18n.t('header.model_store') }}
-          </span>
-          <v-icon v-if="state.menu" right>mdi-chevron-up</v-icon>
-          <v-icon v-else right>mdi-chevron-down</v-icon>
-        </v-btn>
-      </template>
-      <v-data-iterator hide-default-footer :items="[{ text: '', values: stores }]">
-        <template #default="props">
-          <v-card v-for="item in props.items" :key="item.text" flat>
-            <v-list dense>
-              <v-list-item
-                v-for="(sto, index) in item.values"
-                :key="index"
-                class="text-body-2 text-start font-weight-medium pl-2 mx-2"
-                link
-                :style="{
-                  color:
-                    sto.value === store.state.StoreMode
-                      ? 'var(--primary-color) !important'
-                      : 'rgba(0, 0, 0, 0.7) !important',
-                }"
-                @click="goStore(sto)"
-              >
-                <v-list-item-content class="text-body-2 font-weight-medium">
-                  <span>
-                    <v-icon
-                      v-if="sto.value === 'app'"
-                      :class="{ header__highlight: sto.value === store.state.StoreMode }"
-                      left
-                      small
-                    >
-                      mdi-shopping
-                    </v-icon>
-                    <v-icon v-else :class="{ header__highlight: sto.value === store.state.StoreMode }" left small>
-                      mdi-cube
-                    </v-icon>
-                    {{ sto.text }}
-                  </span>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-card>
-        </template>
-      </v-data-iterator>
-    </v-menu>
+    <v-spacer />
 
-    <v-btn color="primary" dark depressed @click="toWorkspace">
-      <v-icon class="header__icon-line-height" left> mdi-home </v-icon>
+    <template v-if="module.title === 'KubeGems' || module.title === 'KubeGems Admin'">
+      <v-btn v-if="!store.state.GlobalPlugins['kubegems-models']" color="primary" dark depressed @click="toAppStore">
+        <v-icon class="header__icon-line-height" left> mdi-shopping </v-icon>
+        <span
+          class="header__span-line-height"
+          :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`, fontWeight: `bold` }"
+        >
+          {{ i18n.t('header.app_store') }}
+        </span>
+      </v-btn>
+
+      <v-menu
+        v-else
+        v-model="state.menu"
+        bottom
+        content-class="header__bg"
+        left
+        nudge-bottom="5px"
+        offset-y
+        origin="top center"
+        transition="scale-transition"
+      >
+        <template #activator="{ on }">
+          <v-btn color="primary" dark depressed v-on="on">
+            <v-icon v-if="store.state.StoreMode === 'app'" class="header__icon-line-height" left> mdi-shopping </v-icon>
+            <v-icon v-else class="header__icon-line-height" left> mdi-cube </v-icon>
+            <span
+              class="header__span-line-height"
+              :style="{
+                fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important;`,
+                fontWeight: `bold`,
+              }"
+            >
+              {{ store.state.StoreMode === 'app' ? i18n.t('header.app_store') : i18n.t('header.model_store') }}
+            </span>
+            <v-icon v-if="state.menu" right>mdi-chevron-up</v-icon>
+            <v-icon v-else right>mdi-chevron-down</v-icon>
+          </v-btn>
+        </template>
+        <v-data-iterator hide-default-footer :items="[{ text: '', values: stores }]">
+          <template #default="props">
+            <v-card v-for="item in props.items" :key="item.text" flat>
+              <v-list dense>
+                <v-list-item
+                  v-for="(sto, index) in item.values"
+                  :key="index"
+                  class="text-body-2 text-start font-weight-medium pl-2 mx-2"
+                  link
+                  :style="{
+                    color:
+                      sto.value === store.state.StoreMode
+                        ? 'var(--primary-color) !important'
+                        : 'rgba(0, 0, 0, 0.7) !important',
+                  }"
+                  @click="goStore(sto)"
+                >
+                  <v-list-item-content class="text-body-2 font-weight-medium">
+                    <span>
+                      <v-icon
+                        v-if="sto.value === 'app'"
+                        :class="{ header__highlight: sto.value === store.state.StoreMode }"
+                        left
+                        small
+                      >
+                        mdi-shopping
+                      </v-icon>
+                      <v-icon v-else :class="{ header__highlight: sto.value === store.state.StoreMode }" left small>
+                        mdi-cube
+                      </v-icon>
+                      {{ sto.text }}
+                    </span>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </template>
+        </v-data-iterator>
+      </v-menu>
+    </template>
+
+    <v-btn v-if="hasWorkspace" color="primary" dark depressed @click="toWorkspace">
+      <v-icon class="header__icon-line-height" left> mdi-monitor </v-icon>
       <span
         class="header__span-line-height"
         :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`, fontWeight: `bold` }"
@@ -135,22 +149,21 @@
 <script lang="ts" setup>
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRoute, useRouter, useVuetify } from '@kubegems/extension/proxy';
+  import { useMeta } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
-  import { nextTick, onMounted, reactive } from 'vue';
+  import config from '@kubegems/libs/constants/global';
+  import { computed, nextTick, onMounted, reactive } from 'vue';
 
-  import config from '../../config.json';
   import Message from './Message.vue';
   import User from './User.vue';
 
   withDefaults(
     defineProps<{
       showAppBarNavIcon?: boolean;
-      smallTitle?: string;
       value?: boolean;
     }>(),
     {
       showAppBarNavIcon: true,
-      smallTitle: '',
       value: false,
     },
   );
@@ -160,6 +173,34 @@
   const router = useRouter();
   const route = useRoute();
   const vuetify = useVuetify();
+  const meta = useMeta();
+
+  const hasWorkspace = computed(() => {
+    return (
+      ['app-store', 'model-store', 'admin-workspace', 'admin-observe', 'admin-modelhub'].indexOf(meta.value.rootName) >
+      -1
+    );
+  });
+
+  const module = computed(() => {
+    if (['dashboard', 'workspace', 'project'].indexOf(meta.value.rootName) > -1) {
+      return { title: config.product.KUBEGEMS, logo: '/logo/KubeGems-white.svg' };
+    } else if (['app-store', 'model-store'].indexOf(meta.value.rootName) > -1) {
+      return { title: config.product.KUBEGEMS + ' ' + i18n.t(meta.value.smallTitle), logo: '/logo/KubeGems-white.svg' };
+    } else if (['admin-workspace'].indexOf(meta.value.rootName) > -1) {
+      return { title: config.product.KUBEGEMS + ' ' + 'Admin', logo: '/logo/KubeGems-white.svg' };
+    } else if (['observe'].indexOf(meta.value.rootName) > -1) {
+      return { title: config.product.OBSERVEGEMS, logo: '/logo/ObserGems-white.svg' };
+    } else if (['admin-observe'].indexOf(meta.value.rootName) > -1) {
+      return { title: config.product.OBSERVEGEMS + ' ' + 'Admin', logo: '/logo/ObserGems-white.svg' };
+    } else if (['admin-modelhub'].indexOf(meta.value.rootName) > -1) {
+      return { title: config.product.MODELHUB + ' ' + 'Admin', logo: '/logo/GemsHub-white.svg' };
+    } else if (['modelhub'].indexOf(meta.value.rootName) > -1) {
+      return { title: config.product.MODELHUB, logo: '/logo/GemsHub-white.svg' };
+    } else {
+      return { title: 'Admin', logo: '/logo/OpenGems-white.svg' };
+    }
+  });
 
   const state = reactive({
     menu: false,
@@ -198,21 +239,34 @@
   };
 
   const toWorkspace = async (): Promise<void> => {
-    store.commit('CLEAR_VIRTUAL_SPACE');
-    if (store.getters.Tenant().ID === 0) {
-      await store.dispatch('UPDATE_TENANT_DATA');
-    }
-    if (store.getters.Tenant().ID > 0 || store.state.Admin) {
+    if (module.value.title.indexOf(config.product.KUBEGEMS) > -1) {
+      store.commit('CLEAR_VIRTUAL_SPACE');
+      if (store.getters.Tenant().ID === 0) {
+        await store.dispatch('UPDATE_TENANT_DATA');
+      }
+      if (store.getters.Tenant().ID > 0 || store.state.Admin) {
+        store.commit('SET_ADMIN_VIEWPORT', false);
+        store.commit('SET_EDGE', '');
+        store.commit('CLEAR_RESOURCE');
+        router.push({
+          name: 'resource-dashboard',
+          params: { tenant: store.getters.Tenant().TenantName },
+        });
+      } else {
+        router.push({ name: 'whitepage' });
+      }
+    } else if (module.value.title.indexOf(config.product.OBSERVEGEMS) > -1) {
       store.commit('SET_ADMIN_VIEWPORT', false);
-      store.commit('SET_EDGE', '');
-      store.commit('CLEAR_RESOURCE');
       router.push({
-        name: 'resource-dashboard',
+        name: 'observe',
         params: { tenant: store.getters.Tenant().TenantName },
       });
-    } else {
-      router.push({ name: 'whitepage' });
     }
+  };
+
+  const toHome = () => {
+    store.commit('SET_EDGE', '');
+    router.push({ name: 'home' });
   };
 
   const setSidebarDrawer = (sidebar: any): void => {
@@ -252,6 +306,10 @@
 
     &__highlight {
       color: var(--primary-color) !important;
+    }
+
+    &__home {
+      margin-left: 180px;
     }
   }
 </style>

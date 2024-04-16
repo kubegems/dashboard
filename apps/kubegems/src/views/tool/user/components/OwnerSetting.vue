@@ -145,10 +145,10 @@
   import { useRoute } from '@kubegems/extension/proxy';
   import { email, password, phone, required } from '@kubegems/extension/ruler';
   import { useStore } from '@kubegems/extension/store';
+  import config from '@kubegems/libs/constants/global';
   import moment from 'moment';
   import { inject, nextTick, onMounted, reactive, ref, watch } from 'vue';
 
-  import config from '../../../../config.json';
   import { useI18n } from '../i18n';
 
   const i18nLocal = useI18n();

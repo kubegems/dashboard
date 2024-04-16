@@ -39,7 +39,6 @@
           v-model="obj.spec.storageClassName"
           class="my-0"
           color="primary"
-          hide-selected
           :items="storageClasses"
           :label="$root.$t('resource.storageclass')"
           :no-data-text="$root.$t('data.no_data')"
@@ -62,7 +61,6 @@
           v-model="obj.spec.accessModes[0]"
           class="my-0"
           color="primary"
-          hide-selected
           :items="accessModes"
           :label="$t('tip.access_mode')"
           :no-data-text="$root.$t('data.no_data')"

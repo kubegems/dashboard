@@ -1,10 +1,9 @@
 import { useGlobalI18n } from '@kubegems/extension/i18n';
 import { useRouter } from '@kubegems/extension/router';
 import { useStore } from '@kubegems/extension/store';
-import { adminObserve, observe } from '@kubegems/observability/export';
-import { entryMicroService, microService } from '@kubegems/servicemesh/export';
+import config from '@kubegems/libs/constants/global';
+import { adminObserve, observe } from '@kubegems/observability/router';
 
-import config from '../config.json';
 import { adminWorkspace } from './admin_workspace';
 import { appStore } from './app_store';
 import { dashboard } from './dashboard';
@@ -44,28 +43,6 @@ const originalRoutes = global
       children: observe,
     },
   ]) // 租户可观测性
-  .concat([
-    {
-      path: '/microservice',
-      name: 'entry-microservice',
-      component: () => import('@/layouts/Layout.vue'),
-      redirect: {
-        name: 'virtualspace-list',
-      },
-      children: entryMicroService,
-    },
-  ]) // 微服务入口
-  .concat([
-    {
-      path: '/microservice',
-      name: 'microservice',
-      component: () => import('@/layouts/Layout.vue'),
-      redirect: {
-        name: 'virtualspace-list',
-      },
-      children: microService,
-    },
-  ]) // 微服务工作台
   .concat(tool) // 租户工具箱
   .concat(appStore) // 应用商店
   .concat(userCenter) // 用户中心
@@ -103,10 +80,6 @@ router.beforeEach(async (to, from, next): Promise<void> => {
   } else {
     store.state.ReconnectCount = 0;
     store.dispatch('INIT_MESSAGE_STREAM');
-    // 虚拟空间
-    if (to.params.virtualspace && store.state.VirtualSpaceStore.length === 0) {
-      await store.dispatch('UPDATE_VIRTUALSPACE_DATA');
-    }
     // 集群
     if (to.params.cluster) {
       if (store.state.Admin) {
@@ -135,12 +108,16 @@ router.beforeEach(async (to, from, next): Promise<void> => {
         next({ name: '403' });
         return;
       }
-      store.commit('SET_LATEST_TENANT', { tenant: tenant.TenantName });
+      store.commit('SET_LATEST_TENANT', { tenant: tenant.TenantName, id: tenant.ID });
       currentTenant = tenant;
     }
     let currentProject: { [key: string]: string | number } = null;
     if (to.params.project) {
-      if (store.state.ProjectStore?.length === 0 || store.state.LatestProject?.project !== to.params.project) {
+      if (
+        store.state.ProjectStore?.length === 0 ||
+        store.state.LatestProject?.project !== to.params.project ||
+        store.state.LatestProject?.tenantId !== store.state.LatestTenant?.id
+      ) {
         await store.dispatch('UPDATE_PROJECT_DATA', currentTenant.ID);
       }
       const project: { [key: string]: string | number } =
@@ -152,13 +129,14 @@ router.beforeEach(async (to, from, next): Promise<void> => {
         next({ name: '403' });
         return;
       }
-      store.commit('SET_LATEST_PROJECT', { project: project.ProjectName });
+      store.commit('SET_LATEST_PROJECT', { project: project.ProjectName, tenantId: project.TenantID, id: project.ID });
       currentProject = project;
     }
     if (to.params.environment) {
       if (
         store.state.EnvironmentStore?.length === 0 ||
-        store.state.LatestEnvironment?.environment !== to.params.environment
+        store.state.LatestEnvironment?.environment !== to.params.environment ||
+        store.state.LatestEnvironment?.projectId !== store.state.LatestProject?.id
       ) {
         await store.dispatch('UPDATE_ENVIRONMENT_DATA', currentProject?.ID);
       }
@@ -181,6 +159,7 @@ router.beforeEach(async (to, from, next): Promise<void> => {
       store.commit('SET_LATEST_ENVIRONMENT', {
         environment: environment.EnvironmentName,
         cluster: store.state.Edge || environment.ClusterName,
+        projectId: environment.ProjectID,
       });
     }
     store.dispatch('INIT_GLOBAL_PLUGINS');

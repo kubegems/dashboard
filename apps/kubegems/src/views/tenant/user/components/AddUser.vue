@@ -28,14 +28,14 @@
         <v-form ref="form" v-model="state.valid" lazy-validation @submit.prevent>
           <v-sheet>
             <v-text-field
-              v-model="obj.Username"
+              v-model.trim="obj.Username"
               class="my-0"
               :label="i18nLocal.t('form.username')"
               required
               :rules="objRule.username"
             />
             <v-text-field
-              v-model="obj.Password"
+              v-model.trim="obj.Password"
               class="my-0"
               :label="i18nLocal.t('form.passwd')"
               required
@@ -49,7 +49,7 @@
               </template>
             </v-text-field>
             <v-text-field
-              v-model="obj.Email"
+              v-model.trim="obj.Email"
               class="my-0"
               :label="i18nLocal.t('form.email')"
               required

@@ -20,8 +20,7 @@
 
 <script>
   import { getPodDetail } from '@kubegems/api/direct';
-
-  import ContainerLog from '@/views/resource/components/common/ContainerLog';
+  import ContainerLog from '@kubegems/components/logicComponents/ContainerLog.vue';
 
   export default {
     name: 'Log',

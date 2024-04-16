@@ -17,10 +17,11 @@
 <template>
   <div>
     <v-card>
-      <v-card-title class="py-4">
+      <v-card-title class="py-3">
         <v-flex>
           <v-flex class="float-right">
             <v-sheet class="text-body-2 text--darken-1">
+              <BaseAggChartOperator v-model="operator" />
               <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
             </v-sheet>
           </v-flex>
@@ -79,6 +80,7 @@
     WORKLOAD_NETWORK_IN_PROMQL,
     WORKLOAD_NETWORK_OUT_PROMQL,
   } from '@kubegems/libs/constants/prometheus';
+  import { constructPromQLByOperator } from '@kubegems/libs/utils/prometheus';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
@@ -115,6 +117,7 @@
           end: '',
         },
         timeinterval: null,
+        operator: 'default',
       };
     },
     computed: {
@@ -122,6 +125,9 @@
     },
     watch: {
       item() {
+        this.loadMetrics();
+      },
+      operator() {
         this.loadMetrics();
       },
     },
@@ -152,54 +158,62 @@
         this.workloadNetworkOut();
       },
       async gatewayQPS() {
+        let query = GATEWAY_QPS_PROMQL.replaceAll('$1', this.selector.topname);
+        query = constructPromQLByOperator(this.operator, query, this.params.start, this.params.end);
         const data = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: GATEWAY_QPS_PROMQL.replaceAll('$1', this.selector.topname),
+            query: query,
             noprocessing: true,
           }),
         );
         if (data) this.qps = data;
       },
       async gatewayConnections() {
+        let query = GATEWAY_CONNECTIONS_PROMQL.replaceAll('$1', this.selector.topname);
+        query = constructPromQLByOperator(this.operator, query, this.params.start, this.params.end);
         const data = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: GATEWAY_CONNECTIONS_PROMQL.replaceAll('$1', this.selector.topname),
+            query: query,
             noprocessing: true,
           }),
         );
         if (data) this.connections = data;
       },
       async workloadCPUUsage() {
-        const query = WORKLOAD_CPU_USAGE_CORE_PROMQL.replaceAll(
-          '$1',
-          `Deployment:${this.$route.params.name}`,
-        ).replaceAll('$2', SERVICE_GATEWAY_NS);
+        let query = WORKLOAD_CPU_USAGE_CORE_PROMQL.replaceAll('$1', `Deployment:${this.$route.params.name}`).replaceAll(
+          '$2',
+          SERVICE_GATEWAY_NS,
+        );
+        query = constructPromQLByOperator(this.operator, query, this.params.start, this.params.end);
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
         if (data) this.cpu = data;
       },
       async workloadMemoryUsage() {
-        const query = WORKLOAD_MEMORY_USAGE_BYTE_PROMQL.replaceAll(
+        let query = WORKLOAD_MEMORY_USAGE_BYTE_PROMQL.replaceAll(
           '$1',
           `Deployment:${this.$route.params.name}`,
         ).replaceAll('$2', SERVICE_GATEWAY_NS);
+        query = constructPromQLByOperator(this.operator, query, this.params.start, this.params.end);
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
         if (data) this.memory = data;
       },
       async workloadNetworkIn() {
-        const query = WORKLOAD_NETWORK_IN_PROMQL.replaceAll('$1', `Deployment:${this.$route.params.name}`).replaceAll(
+        let query = WORKLOAD_NETWORK_IN_PROMQL.replaceAll('$1', `Deployment:${this.$route.params.name}`).replaceAll(
           '$2',
           SERVICE_GATEWAY_NS,
         );
+        query = constructPromQLByOperator(this.operator, query, this.params.start, this.params.end);
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
         if (data) this.networkin = data;
       },
       async workloadNetworkOut() {
-        const query = WORKLOAD_NETWORK_OUT_PROMQL.replaceAll('$1', `Deployment:${this.$route.params.name}`).replaceAll(
+        let query = WORKLOAD_NETWORK_OUT_PROMQL.replaceAll('$1', `Deployment:${this.$route.params.name}`).replaceAll(
           '$2',
           SERVICE_GATEWAY_NS,
         );
+        query = constructPromQLByOperator(this.operator, query, this.params.start, this.params.end);
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
         if (data) this.networkout = data;
       },

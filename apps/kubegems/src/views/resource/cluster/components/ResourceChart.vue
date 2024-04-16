@@ -428,10 +428,10 @@
 </template>
 
 <script>
+  import config from '@kubegems/libs/constants/global';
   import { sizeOfCpu, sizeOfStorage } from '@kubegems/libs/utils/helpers';
   import { mapGetters, mapState } from 'vuex';
 
-  import config from '../../../../config.json';
   import messages from '../i18n';
 
   export default {

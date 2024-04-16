@@ -52,8 +52,7 @@
                 v-model="ruler.secretName"
                 class="my-0"
                 color="primary"
-                hide-selected
-                :items="m_select_secretItems"
+                :items="manifest ? secretItems : m_select_secretItems"
                 :label="$root.$t('resource.secret')"
                 :no-data-text="$root.$t('data.no_data')"
                 :rules="rulerRules.secretNameRule"
@@ -98,7 +97,6 @@
                 v-model="ruler.paths[index].pathType"
                 class="my-0"
                 color="primary"
-                hide-selected
                 :items="pathTypeItems"
                 label="PathType"
                 :no-data-text="$root.$t('data.no_data')"
@@ -117,8 +115,7 @@
                 v-model="ruler.paths[index].serviceName"
                 class="my-0"
                 color="primary"
-                hide-selected
-                :items="m_select_serviceItems"
+                :items="manifest ? serviceItems : m_select_serviceItems"
                 :label="$root.$t('resource.service')"
                 :no-data-text="$root.$t('data.no_data')"
                 :rules="rulerRules.pathsRule[index].serviceNameRule"
@@ -195,11 +192,22 @@
                     v-model="ruler.paths[index].servicePort"
                     class="my-0"
                     color="primary"
-                    hide-selected
                     :items="
-                      m_select_serviceItems.find((s) => {
-                        return s.text === ruler.paths[index].serviceName;
-                      })
+                      manifest
+                        ? serviceItems.find((s) => {
+                            return s.text === ruler.paths[index].serviceName;
+                          })
+                          ? ruler.paths[index].portType === 'name'
+                            ? serviceItems.find((s) => {
+                                return s.text === ruler.paths[index].serviceName;
+                              }).portNames
+                            : serviceItems.find((s) => {
+                                return s.text === ruler.paths[index].serviceName;
+                              }).ports
+                          : []
+                        : m_select_serviceItems.find((s) => {
+                            return s.text === ruler.paths[index].serviceName;
+                          })
                         ? ruler.paths[index].portType === 'name'
                           ? m_select_serviceItems.find((s) => {
                               return s.text === ruler.paths[index].serviceName;
@@ -239,6 +247,7 @@
 </template>
 
 <script>
+  import { getAppResourceFileMetas } from '@kubegems/api/direct';
   import { required } from '@kubegems/extension/ruler';
   import { deepCopy, randomString } from '@kubegems/libs/utils/helpers';
   import BaseResource from '@kubegems/mixins/resource';
@@ -260,6 +269,10 @@
       obj: {
         type: Object,
         default: () => null,
+      },
+      manifest: {
+        type: Boolean,
+        default: () => false,
       },
     },
     data() {
@@ -284,6 +297,8 @@
         },
         needTlsSecret: false,
         edit: false,
+        serviceItems: [],
+        secretItems: [],
       };
     },
     computed: {
@@ -293,7 +308,7 @@
           secretNameRule: [required],
           pathsRule: [
             {
-              pathRule: [required],
+              pathRule: [],
               serviceNameRule: [required],
               servicePortRule: [required],
               pathTypeRule: [required],
@@ -318,8 +333,8 @@
       obj: {
         handler: function (newValue) {
           if (newValue?.metadata?.namespace !== this.objCopy.metadata.namespace && newValue?.metadata?.namespace) {
-            this.m_select_serviceSelectData(this.ThisCluster, newValue?.metadata?.namespace);
-            this.m_select_secretSelectData(this.ThisCluster, newValue?.metadata?.namespace, 'kubernetes.io/tls');
+            this.onServiceSelectFocus(this.ThisCluster, newValue?.metadata?.namespace);
+            this.onSecretSelectFocus(this.ThisCluster, newValue?.metadata?.namespace, 'kubernetes.io/tls');
           }
           this.objCopy = deepCopy(newValue);
         },
@@ -328,7 +343,7 @@
       hasTLS: {
         handler(newValue) {
           if (newValue) {
-            this.m_select_secretSelectData(this.ThisCluster, this.obj?.metadata?.namespace, 'kubernetes.io/tls');
+            this.onSecretSelectFocus(this.ThisCluster, this.obj?.metadata?.namespace, 'kubernetes.io/tls');
           }
         },
         deep: true,
@@ -341,7 +356,7 @@
         this.ruler = data;
         this.ruler.paths.forEach(() => {
           this.rulerRules.pathsRule.push({
-            pathRule: [required],
+            pathRule: [],
             serviceNameRule: [required],
             servicePortRule: [required],
             pathTypeRule: [required],
@@ -373,7 +388,7 @@
           portTypeMenu: false,
         });
         this.rulerRules.pathsRule.push({
-          pathRule: [required],
+          pathRule: [],
           serviceNameRule: [required],
           servicePortRule: [required],
           pathTypeRule: [required],
@@ -430,17 +445,21 @@
             if (!this.objCopy.spec.tls) {
               this.objCopy.spec.tls = [];
             }
-            if (
-              this.objCopy.spec.tls.findIndex((tls) => {
-                return tls.hosts.find((h) => {
-                  return h === this.ruler.host;
-                });
-              }) === -1
-            ) {
+            const tlsIndex = this.objCopy.spec.tls.findIndex((tls) => {
+              return tls.hosts.find((h) => {
+                return h === this.ruler.host;
+              });
+            });
+            if (tlsIndex === -1) {
               this.objCopy.spec.tls.push({
                 hosts: [this.ruler.host],
                 secretName: this.ruler.secretName,
               });
+            } else {
+              this.objCopy.spec.tls[tlsIndex] = {
+                hosts: [this.ruler.host],
+                secretName: this.ruler.secretName,
+              };
             }
           }
           if (this.ruler.index === -1) {
@@ -476,7 +495,7 @@
         this.expand = false;
         this.rulerRules.pathsRule = [
           {
-            pathRule: [required],
+            pathRule: [],
             serviceNameRule: [required],
             servicePortRule: [required],
             pathTypeRule: [required],
@@ -487,11 +506,65 @@
         this.needTlsSecret = false;
         this.$emit('closeOverlay');
       },
-      onServiceSelectFocus(clusterName, namespace) {
-        this.m_select_serviceSelectData(clusterName, namespace);
+      async onServiceSelectFocus(clusterName, namespace) {
+        if (this.manifest) {
+          const data = await getAppResourceFileMetas(
+            this.$route.query.tenantid,
+            this.$route.query.projectid,
+            this.ThisAppEnvironmentID,
+            this.$route.params.name,
+            {
+              kind: 'Service',
+            },
+          );
+          this.serviceItems = data.map((d) => {
+            const ports = [];
+            const portNames = [];
+            if (d.spec.ports) {
+              d.spec.ports.forEach((p) => {
+                ports.push({ text: p.port, value: p.port });
+              });
+              d.spec.ports.forEach((p) => {
+                if (p.name) {
+                  portNames.push({ text: p.name, value: p.name });
+                }
+              });
+            }
+            return {
+              text: d.metadata.name,
+              value: d.metadata.name,
+              ports: ports,
+              portNames: portNames,
+              labels: d.metadata.labels,
+            };
+          });
+        } else {
+          this.m_select_serviceSelectData(clusterName, namespace);
+        }
       },
-      onSecretSelectFocus(clusterName, namespace, type) {
-        this.m_select_secretSelectData(clusterName, namespace, type);
+      async onSecretSelectFocus(clusterName, namespace, type) {
+        if (this.manifest) {
+          this.secretItems = [];
+          const data = await getAppResourceFileMetas(
+            this.$route.query.tenantid,
+            this.$route.query.projectid,
+            this.ThisAppEnvironmentID,
+            this.$route.params.name,
+            {
+              kind: 'Secret',
+            },
+          );
+          data.forEach((d) => {
+            if (d.type === 'kubernetes.io/tls') {
+              this.secretItems.push({
+                text: d.metadata.name,
+                value: d.metadata.name,
+              });
+            }
+          });
+        } else {
+          this.m_select_secretSelectData(clusterName, namespace, type);
+        }
       },
       setPortType(portType, index) {
         this.ruler.paths[index].portType = portType.value;

@@ -128,12 +128,12 @@
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useStore } from '@kubegems/extension/store';
+  import config from '@kubegems/libs/constants/global';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
   import moment from 'moment';
   import { onMounted, onUnmounted, ref } from 'vue';
   import VueI18n from 'vue-i18n';
 
-  import config from '../../../config.json';
   import ModelRegistryForm from './components/ModelRegistryForm/index.vue';
   import { useI18n } from './i18n';
 

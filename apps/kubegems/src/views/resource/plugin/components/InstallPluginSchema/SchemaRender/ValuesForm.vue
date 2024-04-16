@@ -15,12 +15,19 @@
 -->
 
 <template>
-  <ACEEditor
+  <BaseACEEditor
     v-model="values"
     :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
+    :height="`${height}px`"
     lang="yaml"
-    :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
-    :style="{ height: `${height}px !important` }"
+    :options="{
+      tabSize: 2,
+      fontSize: 12,
+      printMarginColumn: 100,
+      showPrintMargin: false,
+      wrap: true,
+      readOnly: false,
+    }"
     theme="chrome"
     @init="$aceinit"
     @keydown.stop

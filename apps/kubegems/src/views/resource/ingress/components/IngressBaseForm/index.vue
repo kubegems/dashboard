@@ -26,7 +26,6 @@
               v-model="resourceKind"
               class="my-0"
               color="primary"
-              hide-selected
               :items="kinds"
               :label="$root.$t('resource.kind')"
               :no-data-text="$root.$t('data.no_data')"
@@ -58,7 +57,6 @@
               v-model="obj.metadata.namespace"
               class="my-0"
               color="primary"
-              hide-selected
               :items="m_select_namespaceItems"
               :label="$root.$t('resource.namespace')"
               :no-data-text="$root.$t('resource.resource')"
@@ -83,7 +81,6 @@
               v-model="obj.spec.ingressClassName"
               class="my-0"
               color="primary"
-              hide-selected
               :items="m_select_gatewayItems"
               :label="$t('tip.gateway')"
               :no-data-text="$root.$t('resource.resource')"
@@ -102,7 +99,6 @@
               v-model="protocol"
               class="my-0"
               color="primary"
-              hide-selected
               :items="protocolItems"
               :label="$t('tip.protocol')"
               :no-data-text="$root.$t('resource.resource')"
@@ -123,6 +119,7 @@
         ref="ingressRuleForm"
         class="kubegems__forminform"
         :domain="baseDomain"
+        :manifest="manifest"
         :obj="obj"
         @addData="addRulerData"
         @closeOverlay="closeExpand"
