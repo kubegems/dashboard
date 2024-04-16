@@ -254,12 +254,12 @@
 
 <script>
   import { getNodeResourceAllocated } from '@kubegems/api/direct';
+  import config from '@kubegems/libs/constants/global';
   import { NODE_ONE_POD_RUNNING_COUNT_PROMQL } from '@kubegems/libs/constants/prometheus';
   import { deepCopy, sizeOfCpu, sizeOfStorage } from '@kubegems/libs/utils/helpers';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
 
-  import config from '../../../../config.json';
   import messages from '../i18n';
 
   export default {
@@ -431,7 +431,7 @@
       },
       async nodePodCountOne() {
         const data = await this.m_permission_vector(this.ThisCluster, {
-          query: NODE_ONE_POD_RUNNING_COUNT_PROMQL.replaceAll('$1', this.item.metadata.name),
+          query: NODE_ONE_POD_RUNNING_COUNT_PROMQL.replaceAll('$1', this.item.metadata.name).replaceAll('%', ''),
           noprocessing: true,
         });
         data.forEach((d) => {

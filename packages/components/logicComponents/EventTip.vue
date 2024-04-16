@@ -79,6 +79,7 @@
   import { convertResponse2List } from '@kubegems/api/utils';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useCluster } from '@kubegems/extension/resource';
+  import { useStore } from '@kubegems/extension/store';
   import moment from 'moment';
   import { reactive, ref } from 'vue';
 
@@ -90,17 +91,20 @@
       top?: boolean;
       item?: any;
       kind?: string;
+      for?: string;
     }>(),
     {
       disabled: false,
       top: false,
       item: void 0,
       kind: 'Pod',
+      for: 'kubegems',
     },
   );
 
   const i18n = useGlobalI18n();
   const i18nLocal = useI18n();
+  const store = useStore();
 
   const state = reactive({
     eventLoad: false,
@@ -112,13 +116,17 @@
     event.value = void 0;
     state.timeout = setTimeout(async () => {
       state.eventLoad = true;
-      const data = await getEventList(useCluster(), props.item?.metadata?.namespace, {
-        topkind: props.kind,
-        topname: props.item?.metadata?.name,
-        page: 1,
-        size: 1,
-        noprocessing: true,
-      });
+      const data = await getEventList(
+        props.for === 'pai' ? store.getters.Region().ClusterName : useCluster(),
+        props.item?.metadata?.namespace,
+        {
+          topkind: props.kind,
+          topname: props.item?.metadata?.name,
+          page: 1,
+          size: 1,
+          noprocessing: true,
+        },
+      );
       const d = convertResponse2List(data as any);
       if (d.length > 0) {
         event.value = d[0];

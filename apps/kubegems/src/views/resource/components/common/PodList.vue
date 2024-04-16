@@ -97,7 +97,7 @@
                   minWidth: '10px',
                   width: '10px',
                   backgroundColor: `${
-                    POD_STATUS_COLOR[m_resource_getPodStatus(item)] || config.theme.THEME_OTHER.error
+                    POD_STATUS_COLOR[m_resource_getPodStatus(item)] || config.theme.THEME_COLOR_EXTEND.error
                   }`,
                 }"
               />
@@ -140,7 +140,7 @@
             auto-draw
             :auto-draw-duration="200"
             auto-line-width
-            color="rgba(29, 136, 229, 0.6)"
+            :color="ThemeColor || config.theme.THEME_COLOR.primary"
             fill
             :line-width="5"
             smooth
@@ -156,7 +156,7 @@
             auto-draw
             :auto-draw-duration="200"
             auto-line-width
-            color="rgba(29, 136, 229, 0.6)"
+            :color="ThemeColor || config.theme.THEME_COLOR.primary"
             fill
             :line-width="5"
             smooth
@@ -252,7 +252,11 @@
 <script>
   import { deletePod, getPodList } from '@kubegems/api/direct';
   import { convertResponse2Pagination } from '@kubegems/api/utils';
+  import ContainerLog from '@kubegems/components/logicComponents/ContainerLog.vue';
+  import EventTip from '@kubegems/components/logicComponents/EventTip.vue';
   import RealDatetimeTip from '@kubegems/components/logicComponents/RealDatetimeTip';
+  import Terminal from '@kubegems/components/logicComponents/Terminal/index.vue';
+  import config from '@kubegems/libs/constants/global';
   import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@kubegems/libs/constants/prometheus';
   import { POD_STATUS_COLOR } from '@kubegems/libs/constants/resource';
   import { beautifyCpuUnit, beautifyStorageUnit } from '@kubegems/libs/utils/helpers';
@@ -261,11 +265,7 @@
   import BaseTable from '@kubegems/mixins/table';
   import { mapState } from 'vuex';
 
-  import config from '../../../../config.json';
   import messages from '../i18n';
-  import ContainerLog from './ContainerLog';
-  import EventTip from './EventTip';
-  import Terminal from './Terminal';
   import ContainerItems from '@/views/resource/pod/components/ContainerItems';
 
   export default {
@@ -306,7 +306,7 @@
       };
     },
     computed: {
-      ...mapState(['MessageStreamWS', 'AdminViewport', 'Edge']),
+      ...mapState(['MessageStreamWS', 'AdminViewport', 'Edge', 'ThemeColor']),
       headers() {
         return [
           { text: this.$t('table.name'), value: 'name', align: 'start' },
@@ -419,7 +419,7 @@
           parallelPods.push(this.items.slice(index * 20, (index + 1) * 20));
         }
         parallelPods.forEach(async (pods) => {
-          const query = POD_CPU_USAGE_PROMQL.replaceAll(
+          let query = POD_CPU_USAGE_PROMQL.replaceAll(
             '$1',
             pods
               .map((pod) => {
@@ -434,6 +434,7 @@
               })
               .join('|'),
           );
+          query = query.replaceAll('%', '');
           const data = await this.m_permission_matrix(this.$route.query.cluster || this.ThisCluster, {
             query: query,
             start: this.$moment(new Date(new Date().setMinutes(new Date().getMinutes() - 15)))
@@ -468,7 +469,7 @@
           parallelPods.push(this.items.slice(index * 20, (index + 1) * 20));
         }
         parallelPods.forEach(async (pods) => {
-          const query = POD_MEMORY_USAGE_PROMQL.replaceAll(
+          let query = POD_MEMORY_USAGE_PROMQL.replaceAll(
             '$1',
             pods
               .map((pod) => {
@@ -483,6 +484,7 @@
               })
               .join('|'),
           );
+          query = query.replaceAll('%', '');
           const data = await this.m_permission_matrix(this.$route.query.cluster || this.ThisCluster, {
             query: query,
             start: this.$moment(new Date(new Date().setMinutes(new Date().getMinutes() - 15)))
@@ -498,9 +500,9 @@
               });
               if (index > -1) {
                 const MemoryUsed = [];
-                const latest = d.values.length > 0 ? parseFloat(d.values[d.values.length - 1][1]) : null;
+                const latest = d.values.length > 0 ? parseFloat(d.values[d.values.length - 1][1]) * 1024 * 1024 : null;
                 d.values.forEach((v) => {
-                  MemoryUsed.push(parseFloat(v[1]));
+                  MemoryUsed.push(parseFloat(v[1]) * 1024 * 1024);
                 });
                 const item = this.items[index];
                 item.LatestMemory = latest ? beautifyStorageUnit(latest) : 0;

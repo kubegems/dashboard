@@ -30,6 +30,7 @@
     <template #action>
       <v-flex>
         <v-sheet class="text-body-1 text--darken-1 primary white--text">
+          <BaseAggChartOperator v-model="operator" reverse />
           <BaseDatetimePicker v-model="date" color="primary" :default-value="30" @change="datetimeChanged" />
         </v-sheet>
       </v-flex>
@@ -65,8 +66,9 @@
   import { useStore } from '@kubegems/extension/store';
   import { TENANT_CPU_USAGE_PROMQL, TENANT_MEMORY_USAGE_PROMQL } from '@kubegems/libs/constants/prometheus';
   import { deepCopy } from '@kubegems/libs/utils/helpers';
+  import { constructPromQLByOperator } from '@kubegems/libs/utils/prometheus';
   import moment from 'moment';
-  import { onUnmounted, reactive, ref } from 'vue';
+  import { onUnmounted, reactive, ref, watch } from 'vue';
 
   import { useI18n } from '../../i18n';
 
@@ -85,9 +87,21 @@
   const tenant = ref<Tenant>(undefined);
   const cluster = ref<Cluster>(undefined);
 
+  const operator = ref('default');
+  watch(
+    () => operator.value,
+    () => {
+      loadMetrics();
+    },
+    {
+      deep: true,
+    },
+  );
+
   const cpu = ref([]);
   const tenantCPUUsage = async () => {
-    const query = TENANT_CPU_USAGE_PROMQL.replaceAll('$1', tenant?.value?.TenantName);
+    let query = TENANT_CPU_USAGE_PROMQL.replaceAll('$1', tenant?.value?.TenantName);
+    query = constructPromQLByOperator(operator.value, query, params.value.start, params.value.end);
     const data = await new Matrix().getMatrix(cluster?.value?.ClusterName, {
       query: query,
       start: params.value.start,
@@ -98,7 +112,8 @@
 
   const memory = ref([]);
   const tenantMemoryUsage = async () => {
-    const query = TENANT_MEMORY_USAGE_PROMQL.replaceAll('$1', tenant?.value?.TenantName);
+    let query = TENANT_MEMORY_USAGE_PROMQL.replaceAll('$1', tenant?.value?.TenantName);
+    query = constructPromQLByOperator(operator.value, query, params.value.start, params.value.end);
     const data = await new Matrix().getMatrix(cluster?.value?.ClusterName, {
       query: query,
       start: params.value.start,

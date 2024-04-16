@@ -16,10 +16,11 @@
 
 <template>
   <v-card>
-    <v-card-title class="py-4">
+    <v-card-title class="py-3">
       <v-flex>
         <v-flex class="float-right">
           <v-sheet class="text-body-2 text--darken-1">
+            <BaseAggChartOperator v-model="operator" />
             <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
           </v-sheet>
         </v-flex>
@@ -77,6 +78,7 @@
     NODE_NETWORK_IN_PROMQL,
     NODE_NETWORK_OUT_PROMQL,
   } from '@kubegems/libs/constants/prometheus';
+  import { constructPromQLByOperator } from '@kubegems/libs/utils/prometheus';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
@@ -111,6 +113,7 @@
           noprocessing: true,
         },
         timeinterval: null,
+        operator: 'default',
       };
     },
     computed: {
@@ -119,6 +122,9 @@
     watch: {
       item() {
         this.loadMetrics();
+      },
+      operator() {
+        this.loadData();
       },
     },
     destroyed() {
@@ -152,28 +158,48 @@
         const data1 = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: NODE_MEMORY_TOTAL_PROMQL.replaceAll('$1', this.item.metadata.name),
+            query: constructPromQLByOperator(
+              this.operator,
+              NODE_MEMORY_TOTAL_PROMQL.replaceAll('$1', this.item.metadata.name),
+              this.params.start,
+              this.params.end,
+            ),
           }),
         );
         if (data1?.length > 0) data1[0].metric['name'] = this.$t('tip.total_memory');
         const data2 = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: NODE_MEMORY_USED_PROMQL.replaceAll('$1', this.item.metadata.name),
+            query: constructPromQLByOperator(
+              this.operator,
+              NODE_MEMORY_USED_PROMQL.replaceAll('$1', this.item.metadata.name),
+              this.params.start,
+              this.params.end,
+            ),
           }),
         );
         if (data2?.length > 0) data2[0].metric['name'] = this.$t('tip.used_memory');
         const data3 = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: NODE_MEMORY_BUFFER_PROMQL.replaceAll('$1', this.item.metadata.name),
+            query: constructPromQLByOperator(
+              this.operator,
+              NODE_MEMORY_BUFFER_PROMQL.replaceAll('$1', this.item.metadata.name),
+              this.params.start,
+              this.params.end,
+            ),
           }),
         );
         if (data3?.length > 0) data3[0].metric['name'] = this.$t('tip.buffer_memory');
         const data4 = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: NODE_MEMORY_CACHED_PROMQL.replaceAll('$1', this.item.metadata.name),
+            query: constructPromQLByOperator(
+              this.operator,
+              NODE_MEMORY_CACHED_PROMQL.replaceAll('$1', this.item.metadata.name),
+              this.params.start,
+              this.params.end,
+            ),
           }),
         );
         if (data4?.length > 0) data4[0].metric['name'] = this.$t('tip.cached_memory');
@@ -188,21 +214,36 @@
         const data1 = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: NODE_LOAD1_PROMQL.replaceAll('$1', this.item.metadata.name),
+            query: constructPromQLByOperator(
+              this.operator,
+              NODE_LOAD1_PROMQL.replaceAll('$1', this.item.metadata.name),
+              this.params.start,
+              this.params.end,
+            ),
           }),
         );
         if (data1?.length > 0) data1[0].metric['name'] = this.$t('tip.load_1');
         const data2 = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: NODE_LOAD5_PROMQL.replaceAll('$1', this.item.metadata.name),
+            query: constructPromQLByOperator(
+              this.operator,
+              NODE_LOAD5_PROMQL.replaceAll('$1', this.item.metadata.name),
+              this.params.start,
+              this.params.end,
+            ),
           }),
         );
         if (data2?.length > 0) data2[0].metric['name'] = this.$t('tip.load_5');
         const data3 = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: NODE_LOAD15_PROMQL.replaceAll('$1', this.item.metadata.name),
+            query: constructPromQLByOperator(
+              this.operator,
+              NODE_LOAD15_PROMQL.replaceAll('$1', this.item.metadata.name),
+              this.params.start,
+              this.params.end,
+            ),
           }),
         );
         if (data3?.length > 0) data3[0].metric['name'] = this.$t('tip.load_15');
@@ -216,7 +257,12 @@
         const data = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: NODE_CPU_USAGE_PROMQL.replaceAll('$1', this.item.metadata.name),
+            query: constructPromQLByOperator(
+              this.operator,
+              NODE_CPU_USAGE_PROMQL.replaceAll('$1', this.item.metadata.name),
+              this.params.start,
+              this.params.end,
+            ),
           }),
         );
         if (data) this.cpu = data;
@@ -225,7 +271,12 @@
         const data = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: NODE_MEMORY_USAGE_PROMQL.replaceAll('$1', this.item.metadata.name),
+            query: constructPromQLByOperator(
+              this.operator,
+              NODE_MEMORY_USAGE_PROMQL.replaceAll('$1', this.item.metadata.name),
+              this.params.start,
+              this.params.end,
+            ),
           }),
         );
         if (data) this.memory = data;
@@ -234,14 +285,24 @@
         const data1 = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: NODE_NETWORK_IN_PROMQL.replaceAll('$1', this.item.metadata.name),
+            query: constructPromQLByOperator(
+              this.operator,
+              NODE_NETWORK_IN_PROMQL.replaceAll('$1', this.item.metadata.name),
+              this.params.start,
+              this.params.end,
+            ),
           }),
         );
         if (data1?.length > 0) data1[0].metric['name'] = this.$t('tip.in_traffic');
         const data2 = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: NODE_NETWORK_OUT_PROMQL.replaceAll('$1', this.item.metadata.name),
+            query: constructPromQLByOperator(
+              this.operator,
+              NODE_NETWORK_OUT_PROMQL.replaceAll('$1', this.item.metadata.name),
+              this.params.start,
+              this.params.end,
+            ),
           }),
         );
         if (data2?.length > 0) data2[0].metric['name'] = this.$t('tip.out_traffic');
@@ -254,7 +315,12 @@
         const data = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: NODE_DISK_AVAILABLE_SIZE_PROMQL.replaceAll('$1', this.item.metadata.name),
+            query: constructPromQLByOperator(
+              this.operator,
+              NODE_DISK_AVAILABLE_SIZE_PROMQL.replaceAll('$1', this.item.metadata.name),
+              this.params.start,
+              this.params.end,
+            ),
           }),
         );
         if (data) this.disk = data;
@@ -263,14 +329,24 @@
         const data1 = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: NODE_DISK_WRITE_IOPS_PROMQL.replaceAll('$1', this.item.metadata.name),
+            query: constructPromQLByOperator(
+              this.operator,
+              NODE_DISK_WRITE_IOPS_PROMQL.replaceAll('$1', this.item.metadata.name),
+              this.params.start,
+              this.params.end,
+            ),
           }),
         );
         if (data1?.length > 0) data1[0].metric['name'] = this.$t('tip.write_iops');
         const data2 = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: NODE_DISK_READ_IOPS_PROMQL.replaceAll('$1', this.item.metadata.name),
+            query: constructPromQLByOperator(
+              this.operator,
+              NODE_DISK_READ_IOPS_PROMQL.replaceAll('$1', this.item.metadata.name),
+              this.params.start,
+              this.params.end,
+            ),
           }),
         );
         if (data2?.length > 0) data2[0].metric['name'] = this.$t('tip.read_iops');

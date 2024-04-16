@@ -19,12 +19,19 @@
     :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
     :style="{ height: `${height}px !important`, overflow: 'auto' }"
   >
-    <ACEEditor
+    <BaseACEEditor
       ref="log"
       v-model="log"
       class="rounded-0"
       lang="yaml"
-      :options="Object.assign($aceOptions, { readOnly: true, wrap: false })"
+      :options="{
+        tabSize: 2,
+        fontSize: 12,
+        printMarginColumn: 100,
+        showPrintMargin: false,
+        wrap: false,
+        readOnly: true,
+      }"
       theme="chrome"
       @keydown.stop
     />
@@ -83,10 +90,10 @@
         this.logWebsocket.binaryType = 'arraybuffer';
         this.logWebsocket.onmessage = this.onWebsocketMessage;
         this.logWebsocket.onerror = this.onWebsocketError;
-        if (this.$refs.log && this.$refs.log.editor) {
-          this.$refs.log.editor.setOptions({ wrap: true });
-          this.$refs.log.editor.session.on('change', () => {
-            this.$refs.log.editor.renderer.scrollToLine(Number.POSITIVE_INFINITY);
+        if (this.$refs.log?.$refs?.log && this.$refs.log?.$refs?.log.editor) {
+          this.$refs.log?.$refs?.log.editor.setOptions({ wrap: true });
+          this.$refs.log?.$refs?.log.editor.session.on('change', () => {
+            this.$refs.log?.$refs?.log.editor.renderer.scrollToLine(Number.POSITIVE_INFINITY);
           });
         }
       },

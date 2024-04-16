@@ -63,10 +63,10 @@
             </v-row>
           </v-form>
         </v-card-text>
-        <ACEEditor
+        <BaseACEEditor
           v-model="editItem.value"
           :class="`rounded-b mb-4 clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-          :height="550"
+          height="550px"
           :lang="suffix"
           @keydown.stop
         />

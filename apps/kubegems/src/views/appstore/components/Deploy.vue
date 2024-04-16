@@ -59,10 +59,10 @@
 </template>
 
 <script>
+  import config from '@kubegems/libs/constants/global';
   import BaseSelect from '@kubegems/mixins/select';
   import { mapState } from 'vuex';
 
-  import config from '../../../config.json';
   import AppInfo from './AppInfo';
 
   export default {

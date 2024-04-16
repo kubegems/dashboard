@@ -26,7 +26,6 @@
     <v-autocomplete
       :id="id"
       class="my-2"
-      hide-selected
       :items="items"
       :label="pathLevel === 1 ? '' : label"
       :menu-props="{

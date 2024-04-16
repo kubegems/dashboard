@@ -6,26 +6,30 @@
         <v-form class="px-4" lazy-validation @submit.prevent>
           <v-row class="mt-0">
             <v-col :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')}`" cols="12">
-              <div class="ml-6 mb-2">
-                {{ i18nLocal.t('setting.tip.now_theme_color') }}
-                <div
-                  :style="{
-                    backgroundColor: store.state.ThemeColor || config.theme.THEME_COLOR.primary,
-                    width: '46px',
-                    height: '20px',
-                    borderRadius: '3px',
-                  }"
-                />
+              <div :style="{ paddingLeft: '70px' }">
+                <div class="mb-2">
+                  {{ i18nLocal.t('setting.tip.now_theme_color') }}
+                  <div
+                    :style="{
+                      backgroundColor: store.state.ThemeColor || config.theme.THEME_COLOR.primary,
+                      width: '46px',
+                      height: '20px',
+                      borderRadius: '3px',
+                    }"
+                  />
+                </div>
+                <div>{{ themeColor }}</div>
               </div>
-              <div class="ml-6">{{ themeColor }}</div>
               <v-color-picker
                 v-model="themeColor"
                 class="mx-2"
                 hide-canvas
                 hide-inputs
                 hide-mode-switch
+                hide-sliders
                 mode="hexa"
-                swatches-max-height="200"
+                show-swatches
+                swatches-max-height="250"
                 width="100%"
               />
             </v-col>
@@ -43,9 +47,9 @@
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useVuetify } from '@kubegems/extension/proxy';
   import { useStore } from '@kubegems/extension/store';
+  import config from '@kubegems/libs/constants/global';
   import { ref } from 'vue';
 
-  import config from '../../../../config.json';
   import { refreshColor } from '../../../../loadConfig';
   import { useI18n } from '../i18n';
 

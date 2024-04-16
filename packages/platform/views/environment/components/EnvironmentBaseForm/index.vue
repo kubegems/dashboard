@@ -45,7 +45,6 @@
                 v-model="obj.MetaType"
                 class="my-0"
                 color="primary"
-                hide-selected
                 :items="environmentTypeItems"
                 :label="i18n.t('resource.type')"
                 :no-data-text="i18n.t('data.no_data')"
@@ -63,7 +62,6 @@
                 v-model="obj.DeletePolicy"
                 class="my-0"
                 color="primary"
-                hide-selected
                 :items="deletePolicyItems"
                 :label="i18nLocal.t('form.delete_policy')"
                 :no-data-text="i18n.t('data.no_data')"
@@ -87,7 +85,6 @@
                 v-model="obj.ClusterID"
                 class="my-0"
                 color="primary"
-                hide-selected
                 :items="clusterItems"
                 :label="i18n.t('resource.cluster')"
                 :no-data-text="i18n.t('data.no_data')"

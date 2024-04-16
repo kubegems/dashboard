@@ -30,7 +30,6 @@
                   v-model="volumeType"
                   class="my-0"
                   color="primary"
-                  hide-selected
                   :items="volumeTypes"
                   :label="$root.$t('resource.type')"
                   :no-data-text="$root.$t('data.no_data')"

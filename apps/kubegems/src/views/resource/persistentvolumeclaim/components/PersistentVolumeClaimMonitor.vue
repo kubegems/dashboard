@@ -16,10 +16,11 @@
 
 <template>
   <v-card>
-    <v-card-title class="pt-2 pb-0">
+    <v-card-title class="py-3">
       <v-flex>
         <v-flex class="float-right">
           <v-sheet class="text-body-2 text--darken-1">
+            <BaseAggChartOperator v-model="operator" />
             <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
           </v-sheet>
         </v-flex>
@@ -41,6 +42,7 @@
 
 <script>
   import { PVC_USAGE_INODE_PROMQL, PVC_USAGE_PROMQL } from '@kubegems/libs/constants/prometheus';
+  import { constructPromQLByOperator } from '@kubegems/libs/utils/prometheus';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
   import { mapState } from 'vuex';
@@ -70,6 +72,7 @@
           noprocessing: true,
         },
         timeinterval: null,
+        operator: 'default',
       };
     },
     computed: {
@@ -77,6 +80,9 @@
     },
     watch: {
       item() {
+        this.loadMetrics();
+      },
+      operator() {
         this.loadMetrics();
       },
     },
@@ -103,10 +109,11 @@
         this.pvcInodeUsage();
       },
       async pvcUsage() {
-        const query = PVC_USAGE_PROMQL.replaceAll('$1', this.item.metadata.namespace).replaceAll(
+        let query = PVC_USAGE_PROMQL.replaceAll('$1', this.item.metadata.namespace).replaceAll(
           '$2',
           this.item.metadata.name,
         );
+        query = constructPromQLByOperator(this.operator, query, this.params.start, this.params.end);
         const data = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, { query: query, noprocessing: true }),
@@ -114,10 +121,11 @@
         if (data) this.used = data;
       },
       async pvcInodeUsage() {
-        const query = PVC_USAGE_INODE_PROMQL.replaceAll('$1', this.item.metadata.namespace).replaceAll(
+        let query = PVC_USAGE_INODE_PROMQL.replaceAll('$1', this.item.metadata.namespace).replaceAll(
           '$2',
           this.item.metadata.name,
         );
+        query = constructPromQLByOperator(this.operator, query, this.params.start, this.params.end);
         const data = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, { query: query, noprocessing: true }),

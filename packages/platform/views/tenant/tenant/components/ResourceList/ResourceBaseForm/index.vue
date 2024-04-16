@@ -28,7 +28,6 @@
             v-model="obj.ClusterID"
             class="my-0"
             color="primary"
-            hide-selected
             item-text="ClusterName"
             item-value="ID"
             :items="clusterItems"

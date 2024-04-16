@@ -1,5 +1,4 @@
-import './ace_editor';
-import './guide';
+// import './guide';
 import './moment';
 import './sentry';
 import './tracing';

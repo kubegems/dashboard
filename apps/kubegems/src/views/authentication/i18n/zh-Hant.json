@@ -7,7 +7,17 @@
     "other": "其他登錄方式",
     "nav": "您可以從右上角工作台進入首頁訪問",
     "permission": "您可以聯繫某個租戶的管理員或系統管理員為您添加訪問許可權",
-    "i18n": "語言"
+    "i18n": "語言",
+
+    "enter": "進入",
+    "open_soon": "即將開放",
+    "welcome": "歡迎使用{0}",
+    "setting": "平台管理",
+    "last_login": "上次登錄",
+    "now_tenant": "當前租戶",
+    "no_tenant": "聯繫我們, 開通資源",
+    "nil": "無",
+    "theme": "主題"
   },
   "status": {
     "success": "登錄成功",
@@ -18,5 +28,17 @@
   },
   "form": {
     "passwordRule": "多於20位"
+  },
+  "theme": {
+    "default": "默認",
+    "navy_blue": "藏青",
+    "rock_blue": "石青",
+    "cyanine": "花青",
+    "fei_hong": "妃紅",
+    "b_orange": "美人焦橙",
+    "b_green": "竹青",
+    "p_green": "松綠",
+    "p_blue": "紫藍",
+    "brown": "玄色"
   }
 }

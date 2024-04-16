@@ -8,7 +8,6 @@
           dense
           flat
           hide-details
-          hide-selected
           :items="tagItems"
           label="tag"
           multiple
@@ -32,12 +31,19 @@
           </template>
         </v-autocomplete>
         <div class="text-subtitle-1 mb-3">{{ $t('tip.input') }}</div>
-        <ACEEditor
+        <BaseACEEditor
           v-model="obj.textContent"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} kubegems__rounded_small`"
+          :height="`${height - 68}px`"
           lang="yaml"
-          :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
-          :style="{ height: `${height - 68}px !important` }"
+          :options="{
+            tabSize: 2,
+            fontSize: 12,
+            printMarginColumn: 100,
+            showPrintMargin: false,
+            wrap: true,
+            readOnly: false,
+          }"
           theme="chrome"
           @keydown.stop
         />

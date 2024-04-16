@@ -46,9 +46,9 @@
             >
               {{ content }}
               <template v-if="Object.prototype.hasOwnProperty.call(store.state.Confirm.content.status, content)">
-                <v-icon v-if="store.state.Confirm.content.status[content]" color="success" right small
-                  >mdi-check</v-icon
-                >
+                <v-icon v-if="store.state.Confirm.content.status[content]" color="success" right small>
+                  mdi-check-circle
+                </v-icon>
                 <v-icon v-else color="error" right small>mdi-close</v-icon>
               </template>
             </div>
@@ -65,6 +65,7 @@
             </v-btn>
             <input id="copyed" type="hidden" :value="store.state.Confirm.content.name" />
             <div class="kubegems__clear-float" />
+            <div class="error--text text-body-2">{{ store.state.Confirm.content.warning || '' }}</div>
           </template>
         </v-alert>
         <v-form ref="form" v-model="state.valid" lazy-validation @submit.prevent>

@@ -51,7 +51,7 @@
   import { Node } from '@kubegems/api/typed/node';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useCluster } from '@kubegems/extension/resource';
-  import { k8sLabel, k8sName, required } from '@kubegems/extension/ruler';
+  import { k8sLabel, required } from '@kubegems/extension/ruler';
   import { useStore } from '@kubegems/extension/store';
   import { reactive, ref, watch } from 'vue';
 
@@ -80,7 +80,7 @@
     value: '',
   });
   const objRules = {
-    key: [required, k8sName],
+    key: [required, k8sLabel],
     value: [required, k8sLabel],
   };
 

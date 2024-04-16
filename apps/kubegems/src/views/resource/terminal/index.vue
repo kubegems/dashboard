@@ -20,10 +20,9 @@
 
 <script lang="ts" setup>
   import { Pod } from '@kubegems/api/typed/pod';
+  import Terminal from '@kubegems/components/logicComponents/Terminal/index.vue';
   import { useParams, useQuery } from '@kubegems/extension/router';
   import { nextTick, onMounted, ref } from 'vue';
-
-  import Terminal from '@/views/resource/components/common/Terminal/index.vue';
 
   const query = useQuery();
   const params = useParams();
@@ -48,7 +47,7 @@
       };
       let container = pod.value.spec.containers[0].name;
       if (query.value.container) container = query.value.container as string;
-      terminal.value.init(container, item, query.value.type);
+      terminal.value.init(container, item, query.value.type, query.value.isEdge === '1', query.value.isPAI === '1');
       terminal.value.open();
     });
   });

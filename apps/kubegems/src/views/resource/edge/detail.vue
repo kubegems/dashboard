@@ -61,6 +61,7 @@
 
 <script lang="ts" setup>
   import { EdgeCluster } from '@kubegems/api/typed/edge_cluster';
+  import Terminal from '@kubegems/components/logicComponents/Terminal/index.vue';
   import { useRouter } from '@kubegems/extension/proxy';
   import { useParams, useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
@@ -71,7 +72,6 @@
   import Node from './components/Node.vue';
   import { useI18n } from './i18n';
   import EdgeClusterForm from '@/views/resource/cluster/components/EdgeClusterForm/index.vue';
-  import Terminal from '@/views/resource/components/common/Terminal/index.vue';
 
   const router = useRouter();
   const i18nLocal = useI18n();

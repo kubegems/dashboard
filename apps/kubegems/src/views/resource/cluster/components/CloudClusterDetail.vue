@@ -83,6 +83,7 @@
 </template>
 <script>
   import { deleteCluster, getClusterDetail, getClusterQuota } from '@kubegems/api/direct';
+  import Terminal from '@kubegems/components/logicComponents/Terminal/index.vue';
   import { CLUSTER_POD_CAPACITY_PROMQL } from '@kubegems/libs/constants/prometheus';
   import { RESOURCE_CN, RESOURCE_EN, RESOURCE_ICON } from '@kubegems/libs/constants/resource';
   import BasePermission from '@kubegems/mixins/permission';
@@ -97,7 +98,6 @@
   import ResourceChart from './ResourceChart';
   import ResourceInfo from './ResourceInfo';
   import UpdateCluster from './UpdateCluster';
-  import Terminal from '@/views/resource/components/common/Terminal';
 
   export default {
     name: 'ClusterDetail',
@@ -165,7 +165,8 @@
         this.$store.commit('SET_LATEST_CLUSTER', { cluster: data.ClusterName });
       },
       async getPods(data) {
-        const query = CLUSTER_POD_CAPACITY_PROMQL;
+        let query = CLUSTER_POD_CAPACITY_PROMQL;
+        query = query.replaceAll('%', '');
         const pods = await this.m_permission_vector(this.cluster.ClusterName, {
           query: query,
           noprocessing: true,

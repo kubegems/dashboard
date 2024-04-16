@@ -53,7 +53,6 @@
                   v-model="obj.protocol"
                   class="my-0"
                   color="primary"
-                  hide-selected
                   :items="protocolItems"
                   :label="$t('tip.protocol')"
                   :no-data-text="$root.$t('data.no_data')"

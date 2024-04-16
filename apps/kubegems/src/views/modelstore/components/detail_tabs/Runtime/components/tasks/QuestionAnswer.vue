@@ -3,23 +3,37 @@
     <v-row>
       <v-col class="pr-8" cols="12" md="6">
         <div class="text-subtitle-1 mb-3">{{ $t('tip.input') }}</div>
-        <ACEEditor
+        <BaseACEEditor
           v-model="obj.context"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} kubegems__rounded_small`"
+          :height="`${height / 2 - 22}px`"
           lang="plain_text"
-          :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
-          :style="{ height: `${height / 2 - 22}px !important` }"
+          :options="{
+            tabSize: 2,
+            fontSize: 12,
+            printMarginColumn: 100,
+            showPrintMargin: false,
+            wrap: true,
+            readOnly: false,
+          }"
           theme="chrome"
           @keydown.stop
         />
 
         <div class="text-subtitle-1 mb-3">{{ $t('tip.question') }}</div>
-        <ACEEditor
+        <BaseACEEditor
           v-model="obj.question"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} kubegems__rounded_small`"
+          :height="`${height / 2 - 22}px`"
           lang="plain_text"
-          :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
-          :style="{ height: `${height / 2 - 22}px !important` }"
+          :options="{
+            tabSize: 2,
+            fontSize: 12,
+            printMarginColumn: 100,
+            showPrintMargin: false,
+            wrap: true,
+            readOnly: false,
+          }"
           theme="chrome"
           @keydown.stop
         />

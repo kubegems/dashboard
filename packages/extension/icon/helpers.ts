@@ -29,6 +29,15 @@ export const getIconName = (name: string, def = 'kubernetes'): string => {
   name = name.toLowerCase().trim();
   if (name.startsWith('mm')) return '';
 
+  if (name.indexOf('jupyter') > -1) return 'logos:jupyter';
+  if (name.indexOf('code-server') > -1) return 'logos:visual-studio-code';
+  if (name === 'im') return 'img:/icon/im.svg';
+  if (name === 'modelx') return 'img:/icon/modelx.svg';
+  if (name.indexOf('nvidia_tesla') > -1) return 'img:/icon/nvidia_tesla.svg';
+  if (name.indexOf('nvidia_geforce') > -1) return 'img:/icon/nvidia_geforce.svg';
+  if (name.indexOf('juicefs') > -1) return 'img:/icon/juicefs.svg';
+  if (name.indexOf('modelgeneric') > -1) return 'img:/icon/modelset.svg';
+  if (name === 'generic') return 'mdi:database';
   if (name.indexOf('aliyun') > -1) return 'img:/icon/aliyun.svg';
   if (name.indexOf('dingding') > -1) return 'img:/icon/dingding.svg';
   if (name.indexOf('volume-snapshoter') > -1) return 'logos:kubernetes';
@@ -102,7 +111,7 @@ export const getIconName = (name: string, def = 'kubernetes'): string => {
   if (name.indexOf('nodejs') > -1) return 'logos:nodemon';
   if (name.indexOf('grafana') > -1) return 'logos:grafana';
   if (name.indexOf('phpbb') > -1) return 'logos:php';
-  if (name.indexOf('pytorch') > -1) return 'logos:pytorch-icon';
+  if (name.indexOf('torch') > -1) return 'logos:pytorch-icon';
   if (name.indexOf('concourse') > -1) return 'logos:concourse';
   if (name.indexOf('discourse') > -1) return 'logos:discourse';
   if (name.indexOf('spark') > -1) return 'logos:spark';
@@ -164,7 +173,7 @@ export const getIconName = (name: string, def = 'kubernetes'): string => {
   if (name.indexOf('ldap') > -1) return 'img:/icon/openldap.svg';
   if (name.toLocaleLowerCase() === 'opencsg') return `img:/opencsg.svg`;
   if (name.toLocaleLowerCase() === 'modelx') return `img:/${getPlatfom()}.svg`;
-  if (name === 'kubegems') return `img:/${getPlatfom()}.svg`;
+  if (name === 'kubegems') return `img:/favicon.ico`;
   if (name.startsWith('kubegems')) return `img:/${getPlatfom()}.svg`;
   if (name.indexOf('gke') > -1) return 'logos:google-cloud';
   if (name === 'ack') return 'img:/icon/aliyun.svg';
@@ -198,6 +207,8 @@ export const getIconName = (name: string, def = 'kubernetes'): string => {
   if (name.indexOf('ai-model') > -1) return 'img:/icon/ai-model.svg';
   if (name.indexOf('transformers') > -1) return 'img:/icon/transform.svg';
   if (name.indexOf('huggingface') > -1) return 'img:/icon/transform.svg';
+  if (name.indexOf('tranformers') > -1) return 'img:/icon/transform.svg';
+  if (name.indexOf('ray') > -1) return 'img:/icon/ray.svg';
   if (name.indexOf('gitea') > -1) return 'img:/icon/gitea.svg';
   if (name.indexOf('chartmuseum') > -1) return 'img:/icon/chartmuseum.svg';
   if (name.indexOf('ceph') > -1) return 'img:/icon/ceph.svg';
@@ -216,6 +227,7 @@ export const getIconName = (name: string, def = 'kubernetes'): string => {
   if (name.indexOf('espnet') > -1) return 'img:/icon/espnet.svg';
   if (name.indexOf('diffusers') > -1) return 'img:/icon/diffusers.svg';
   if (name.indexOf('core ml') > -1) return 'img:/icon/core ml.svg';
+  if (name.indexOf('caffe') > -1) return 'img:/icon/caffe.svg';
 
   if (name.indexOf('audio') > -1) return 'mdi:microphone';
   if (name.indexOf('text') > -1) return 'mdi:format-text-variant-outline';
@@ -244,6 +256,17 @@ export const getIconName = (name: string, def = 'kubernetes'): string => {
   if (name.indexOf('mlflow') > -1) return 'img:/icon/mlflow.svg';
   if (name.indexOf('xgboost') > -1) return 'img:/icon/xgboost.svg';
   if (name.indexOf('git') > -1) return 'logos:git-icon';
+  if (name === 'pai-task') return 'img:/icon/pai-task.svg';
+  if (name === 'pai-output') return 'img:/icon/output.svg';
+  if (name.indexOf('ubuntu') > -1) return 'mdi:ubuntu';
+  if (name.indexOf('debian') > -1) return 'mdi:debian';
+  if (name.indexOf('windows') > -1) return 'mdi:microsoft-windows';
+  if (name.indexOf('centos') > -1) return 'mdi:centos';
+  if (name.indexOf('redhat') > -1) return 'mdi:redhat';
+  if (name === 'intel') return 'img:/icon/intel.svg';
+  if (name === 'amd') return 'img:/icon/amd.svg';
+  if (name === 'lfs') return 'img:/icon/lfs.svg';
+  if (name.indexOf('oneflow') > -1) return 'img:/icon/oneflow.svg';
 
   if (name.startsWith('mdi')) return name;
 
@@ -254,12 +277,20 @@ export const getIconName = (name: string, def = 'kubernetes'): string => {
       return 'mdi:alert-circle-check-outline';
     case 'framework':
       return '';
+    case 'tags':
+      return 'mdi:label-outline';
     case 'license':
       return 'mdi:bank-outline';
     case 'kubegems':
       return `img:/${getPlatfom()}.svg`;
     case 'model':
       return 'img:/icon/ai-model.svg';
+    case 'pai':
+      return 'img:/icon/modelset.svg';
+    case 'image':
+      return 'logos:docker-icon';
+    case 'none':
+      return 'mdi:help-rhombus';
     default:
       return 'logos:kubernetes';
   }

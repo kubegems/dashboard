@@ -7,7 +7,17 @@
     "other": "Other login channel",
     "nav": "You can access the homepage from the workbench in the upper right corner",
     "permission": "You can contact a tenant's administrator or system administrator to add access for you",
-    "i18n": "Languages"
+    "i18n": "Languages",
+
+    "enter": "Enter",
+    "open_soon": "Open Soon",
+    "welcome": "Welcome to {0}",
+    "setting": "Platform management",
+    "last_login": "Last login",
+    "now_tenant": "Current tenant",
+    "no_tenant": "Contact us, open resources",
+    "nil": "none",
+    "theme": "Theme"
   },
   "status": {
     "success": "Login successful",
@@ -18,5 +28,17 @@
   },
   "form": {
     "passwordRule": "More than 20"
+  },
+  "theme": {
+    "default": "Default",
+    "navy_blue": "Navy Blue",
+    "rock_blue": "Rock Blue",
+    "cyanine": "Cyanine",
+    "fei_hong": "Fei Hong",
+    "b_orange": "Beauty Burnt Orange",
+    "b_green": "Bamboo Green",
+    "p_green": "Pine Green",
+    "p_blue": "Purple Blue",
+    "brown": "Brown"
   }
 }

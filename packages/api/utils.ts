@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import _ from 'lodash';
+
 export const initDefaultValueFromKModel = (
   attributeTypeMap: Array<{
     name: string;
@@ -58,4 +60,18 @@ export const convertResponse2List = <T>(resData: KubePaginationResponse<T[]>): T
   if (resData.List) return resData.List as T[];
   else if (resData.list) return resData.list as T[];
   else return [];
+};
+
+const _customizer = (objValue: any, srcValue: any): any => {
+  if (_.isArray(srcValue)) {
+    return srcValue;
+  } else if (_.isObject(srcValue)) {
+    return srcValue;
+  } else {
+    if (srcValue !== undefined) return srcValue;
+    else return objValue;
+  }
+};
+export const deepMerge = <T>(target: T, source: T): T => {
+  return _.mergeWith(target, source, _customizer);
 };

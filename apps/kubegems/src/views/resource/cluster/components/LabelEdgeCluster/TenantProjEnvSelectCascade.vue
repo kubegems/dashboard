@@ -31,7 +31,6 @@
         class="my-0"
         color="primary"
         hide-no-data
-        hide-selected
         :items="[
           {
             text: labels && labels[ENVIRONMENT_KEY] ? labels[ENVIRONMENT_KEY] : '',

@@ -38,7 +38,7 @@
   "eslint.format.enable": true,
   "eslint.packageManager": "yarn",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "eslint.validate": ["javascript", "vue", "html", "jsx", "typescript", "tsx", "json", "js", "ts"],
   "terminal.integrated.fontFamily": "Hack Nerd Font Mono",

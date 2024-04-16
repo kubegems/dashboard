@@ -24,7 +24,6 @@
         <v-autocomplete
           v-model="mounts[container.name].readOnly"
           color="primary"
-          hide-selected
           :items="readModes"
           :label="$t('tip.mount_type')"
           :no-data-text="$root.$t('data.no_data')"

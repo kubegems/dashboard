@@ -28,8 +28,8 @@ declare global {
   };
 
   type KubePaginationRequest = {
-    size: number;
-    page: number;
+    size: number | string;
+    page: number | string;
     [params: string]: any;
   };
 

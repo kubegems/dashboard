@@ -17,7 +17,6 @@
   <v-autocomplete
     v-model="args"
     hide-no-data
-    hide-selected
     :items="argsItems"
     :label="i18nLocal.t('tip.params')"
     :menu-props="{

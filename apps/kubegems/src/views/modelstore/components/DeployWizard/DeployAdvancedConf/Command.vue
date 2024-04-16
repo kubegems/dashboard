@@ -18,7 +18,6 @@
     <v-autocomplete
       v-model="command"
       hide-no-data
-      hide-selected
       :items="commandItems"
       :label="i18nLocal.t('tip.run_command')"
       :menu-props="{

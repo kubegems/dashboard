@@ -48,7 +48,6 @@
               <v-autocomplete
                 v-model="obj.kind"
                 hide-no-data
-                hide-selected
                 :items="kindItems"
                 :label="$t('tip.volume_type')"
                 :menu-props="{
@@ -67,7 +66,6 @@
               <v-autocomplete
                 v-model="obj.source"
                 hide-no-data
-                hide-selected
                 :items="persistentVolumeClaimItems"
                 :label="$t('tip.volume_name')"
                 :menu-props="{
@@ -82,7 +80,6 @@
               <v-autocomplete
                 v-model="obj.source"
                 hide-no-data
-                hide-selected
                 :items="configMapItems"
                 :label="$t('tip.configmap_name')"
                 :menu-props="{

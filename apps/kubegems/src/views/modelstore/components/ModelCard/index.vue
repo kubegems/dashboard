@@ -104,11 +104,11 @@
   import { useRouter } from '@kubegems/extension/proxy';
   import { useQuery } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
+  import config from '@kubegems/libs/constants/global';
   import _ from 'lodash';
   import moment from 'moment';
   import { ComputedRef, computed, reactive, ref, watch } from 'vue';
 
-  import config from '../../../../config.json';
   import { useI18n } from '../../i18n';
 
   const props = withDefaults(

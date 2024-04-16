@@ -23,7 +23,6 @@
             v-model="traffic"
             class="my-0"
             color="primary"
-            hide-selected
             :items="trafficItems"
             :label="$t('tip.traffic_weight')"
             :no-data-text="$root.$t('data.no_data')"

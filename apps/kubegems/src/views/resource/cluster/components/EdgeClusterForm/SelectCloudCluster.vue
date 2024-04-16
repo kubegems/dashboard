@@ -23,7 +23,6 @@
           <v-autocomplete
             v-model="obj.spec.register.hubName"
             color="primary"
-            hide-selected
             :items="edgeHubItems"
             :label="i18nLocal.t('tip.register_cluster')"
             :no-data-text="i18n.t('data.no_data')"

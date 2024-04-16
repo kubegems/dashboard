@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <v-app id="kubegems" :class="`${!vuetify.breakpoint.smAndDown ? 'full-sidebar' : 'mini-sidebar'}`">
+  <v-app id="opengems" :class="`${!vuetify.breakpoint.smAndDown ? 'full-sidebar' : 'mini-sidebar'}`">
     <router-view v-if="isReloadAlive" />
     <BaseProgress :progress="config.layout.PLATFORM" />
     <BaseSnackBar />
@@ -27,9 +27,8 @@
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useMeta, useRouter, useVuetify } from '@kubegems/extension/proxy';
   import { useStore } from '@kubegems/extension/store';
+  import config from '@kubegems/libs/constants/global';
   import { nextTick, onMounted, provide, ref } from 'vue';
-
-  import config from './config.json';
 
   const store = useStore();
   const i18n = useGlobalI18n();
@@ -49,18 +48,18 @@
     let scale = 1.0;
     if (vuetify.breakpoint.name === 'lg') {
       if (window.innerWidth > 1440 && window.innerWidth < 1920) {
-        scale = 0.9;
+        scale = 0.86;
       } else if (window.innerWidth > 1280 && window.innerWidth <= 1440) {
-        scale = 0.85;
+        scale = 0.8;
       }
     } else if (vuetify.breakpoint.name === 'xl') {
-      scale = 0.95;
+      scale = 0.92;
     }
     document.getElementsByTagName('body')[0].style.cssText = `zoom: ${scale}`;
     store.commit('SET_SCALE', scale);
   };
 
-  const latestVersion: string = import.meta.env.VUE_APP_RELEASE;
+  const latestVersion: string = (import.meta as any).env.VUE_APP_RELEASE;
   const clearLocalStorage = async (): Promise<void> => {
     if (store.state.Version && store.state.Version !== latestVersion) {
       store.commit('CLEARALL');
@@ -70,6 +69,9 @@
         color: 'warning',
       });
       if (latestVersion) store.commit('SET_VERSION', latestVersion);
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     }
   };
 

@@ -26,14 +26,13 @@
                 <span>{{ $t('tab.run_command') }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__long-width">
-                <v-combobox
+                <v-autocomplete
                   v-model="obj.commands"
                   hide-no-data
                   hide-selected
-                  :items="[]"
+                  :items="commands"
                   multiple
                   :search-input.sync="commandText"
-                  @change="onCommandChange"
                   @keydown.enter="createCommand"
                 >
                   <template #selection="{ item }">
@@ -46,11 +45,11 @@
                       @click:close="removeCommand(item)"
                     >
                       <span>
-                        {{ item.text }}
+                        {{ item }}
                       </span>
                     </v-chip>
                   </template>
-                </v-combobox>
+                </v-autocomplete>
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-sheet>
@@ -59,14 +58,13 @@
                 <span>{{ $t('tip.params') }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__long-width">
-                <v-combobox
+                <v-autocomplete
                   v-model="obj.args"
                   hide-no-data
                   hide-selected
-                  :items="[]"
+                  :items="args"
                   multiple
                   :search-input.sync="argsText"
-                  @change="onArgsChange"
                   @keydown.enter="createArgs"
                 >
                   <template #selection="{ item }">
@@ -79,11 +77,11 @@
                       @click:close="removeArgs(item)"
                     >
                       <span>
-                        {{ item.text }}
+                        {{ item }}
                       </span>
                     </v-chip>
                   </template>
-                </v-combobox>
+                </v-autocomplete>
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-sheet>
@@ -178,6 +176,8 @@
           commands: [],
           args: [],
         },
+        args: [],
+        commands: [],
         containerCopy: null,
       };
     },
@@ -192,47 +192,27 @@
       else this.containerCopy = {};
     },
     methods: {
-      onCommandChange() {
-        const commands = this.obj.commands.filter((cmd) => {
-          return cmd !== '' && typeof cmd === 'object';
-        });
-        this.obj.commands = commands;
-      },
       createCommand() {
-        if (!this.commandText) return;
-        const index = this.obj.commands.length;
-        this.obj.commands.push({
-          text: this.commandText,
-          value: index,
-        });
+        if (!this.commandText.trim() || this.commands.indexOf(this.commandText.trim()) > -1) return;
+        this.commands.push(this.commandText.trim());
+        this.obj.commands.push(this.commandText.trim());
         this.commandText = '';
       },
       removeCommand(item) {
-        const commands = this.obj.commands.filter((cmd) => {
-          return cmd.value !== item.value;
-        });
-        this.obj.commands = commands;
-      },
-      onArgsChange() {
-        const args = this.obj.args.filter((args) => {
-          return args !== '' && typeof args === 'object';
-        });
-        this.obj.args = args;
+        const index = this.obj.commands.indexOf(item);
+        this.obj.commands.splice(index, 1);
+        this.commands.splice(index, 1);
       },
       createArgs() {
-        if (!this.argsText) return;
-        const index = this.obj.args.length;
-        this.obj.args.push({
-          text: this.argsText,
-          value: index,
-        });
+        if (!this.argsText.trim() || this.args.indexOf(this.argsText.trim()) > -1) return;
+        this.args.push(this.argsText.trim());
+        this.obj.args.push(this.argsText.trim());
         this.argsText = '';
       },
       removeArgs(item) {
-        const args = this.obj.args.filter((args) => {
-          return args.value !== item.value;
-        });
-        this.obj.args = args;
+        const index = this.obj.args.indexOf(item);
+        this.obj.args.splice(index, 1);
+        this.args.splice(index, 1);
       },
       expandCard() {
         this.expand = true;
@@ -247,28 +227,22 @@
         this.$emit('updateComponentData', this.containerCopy);
       },
       updateData() {
-        this.obj.commands = this.containerCopy.command
-          ? this.containerCopy.command.map((cmd, index) => {
-              return { text: cmd, value: index };
-            })
-          : [];
-        this.obj.args = this.containerCopy.args
-          ? this.containerCopy.args.map((cmd, index) => {
-              return { text: cmd, value: index };
-            })
-          : [];
+        this.obj.commands = this.containerCopy.command || [];
+        this.commands = this.containerCopy.command || [];
+        this.obj.args = this.containerCopy.args || [];
+        this.args = this.containerCopy.args || [];
         this.expandCard();
       },
       addData() {
         if (this.$refs.form.validate(true)) {
           const commands = [];
           this.obj.commands.forEach((cmd) => {
-            commands.push(cmd.text);
+            commands.push(cmd);
           });
           this.$set(this.containerCopy, 'command', commands);
           const args = [];
           this.obj.args.forEach((arg) => {
-            args.push(arg.text);
+            args.push(arg);
           });
           this.$set(this.containerCopy, 'args', args);
           this.$emit('updateComponentData', this.containerCopy);

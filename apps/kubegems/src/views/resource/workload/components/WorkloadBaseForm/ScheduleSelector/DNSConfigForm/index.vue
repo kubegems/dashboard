@@ -29,6 +29,7 @@
                 v-model="nameservers"
                 height="32"
                 hide-no-data
+                hide-selected
                 :items="[]"
                 label="nameservers"
                 multiple
@@ -64,6 +65,7 @@
                 v-model="searches"
                 height="32"
                 hide-no-data
+                hide-selected
                 :items="[]"
                 label="searches"
                 multiple

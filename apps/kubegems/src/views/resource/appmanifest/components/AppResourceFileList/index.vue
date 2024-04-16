@@ -97,12 +97,19 @@
       </v-col>
       <v-col class="pr-6" cols="8">
         <AppResourceFileHistory v-if="historyView" :app="app" @refresh="refresh" />
-        <ACEEditor
+        <BaseACEEditor
           v-else
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
-          :height="height"
+          :height="`${height}px`"
           lang="yaml"
-          :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
+          :options="{
+            tabSize: 2,
+            fontSize: 12,
+            printMarginColumn: 100,
+            showPrintMargin: false,
+            wrap: true,
+            readOnly: true,
+          }"
           theme="chrome"
           :value="manifest"
           @keydown.stop

@@ -23,7 +23,6 @@
           v-model="volumeName"
           class="my-0"
           color="primary"
-          hide-selected
           :items="items"
           :label="$root.$t('resource.secret')"
           :no-data-text="$root.$t('data.no_data')"
@@ -51,7 +50,6 @@
           v-model="volumeCopy.secret.items[index].key"
           class="my-0"
           color="primary"
-          hide-selected
           :items="secrets"
           :label="$root.$t('resource.secret_key')"
           :no-data-text="$root.$t('data.no_data')"

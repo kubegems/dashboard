@@ -37,7 +37,6 @@
               v-model="obj.metadata.namespace"
               class="my-0"
               color="primary"
-              hide-selected
               :items="m_select_namespaceItems"
               :label="$root.$t('resource.namespace')"
               :no-data-text="$root.$t('data.no_data')"
@@ -58,7 +57,6 @@
               v-model="issuer"
               class="my-0"
               color="primary"
-              hide-selected
               :items="issuerItems"
               :label="$t('form.issuer_type')"
               :no-data-text="$root.$t('data.no_data')"
@@ -79,7 +77,6 @@
               v-model="obj.spec.acme.server"
               class="my-0"
               color="primary"
-              hide-selected
               :items="serverItems"
               label="Server"
               :no-data-text="$root.$t('data.no_data')"
@@ -99,7 +96,6 @@
               v-model="obj.spec.acme.solvers[0].http01.ingress.name"
               class="my-0"
               color="primary"
-              hide-selected
               :items="ingressItems"
               :label="$t('form.ingress')"
               :no-data-text="$root.$t('data.no_data')"

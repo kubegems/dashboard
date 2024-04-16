@@ -19,6 +19,7 @@
     <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.resource_monitor')">
       <template #selector>
         <v-sheet class="text-body-2 text--darken-1">
+          <BaseAggChartOperator v-model="operator" />
           <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
         </v-sheet>
       </template>
@@ -75,6 +76,7 @@
     ENVIRONMENT_NETWORK_IN_PROMQL,
     ENVIRONMENT_NETWORK_OUT_PROMQL,
   } from '@kubegems/libs/constants/prometheus';
+  import { constructPromQLByOperator } from '@kubegems/libs/utils/prometheus';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
@@ -105,6 +107,7 @@
           end: '',
         },
         timeinterval: null,
+        operator: 'default',
       };
     },
     computed: {
@@ -116,6 +119,9 @@
         if (this.ready) {
           this.loadMetrics();
         }
+      },
+      operator() {
+        this.loadMetrics();
       },
     },
     destroyed() {
@@ -143,40 +149,48 @@
         this.environmentNetworkOut();
       },
       async environmentCPUUsage() {
+        let query = ENVIRONMENT_CPU_USAGE_PROMQL.replaceAll('$1', this.Environment().EnvironmentName);
+        query = constructPromQLByOperator(this.operator, query, this.params.start, this.params.end);
         const data = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: ENVIRONMENT_CPU_USAGE_PROMQL.replaceAll('$1', this.Environment().EnvironmentName),
+            query: query,
             noprocessing: true,
           }),
         );
         if (data) this.cpu = data;
       },
       async environmentMemoryUsage() {
+        let query = ENVIRONMENT_MEMORY_USAGE_PROMQL.replaceAll('$1', this.Environment().EnvironmentName);
+        query = constructPromQLByOperator(this.operator, query, this.params.start, this.params.end);
         const data = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: ENVIRONMENT_MEMORY_USAGE_PROMQL.replaceAll('$1', this.Environment().EnvironmentName),
+            query: query,
             noprocessing: true,
           }),
         );
         if (data) this.memory = data;
       },
       async environmentNetworkIn() {
+        let query = ENVIRONMENT_NETWORK_IN_PROMQL.replaceAll('$1', this.Environment().EnvironmentName);
+        query = constructPromQLByOperator(this.operator, query, this.params.start, this.params.end);
         const data = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: ENVIRONMENT_NETWORK_IN_PROMQL.replaceAll('$1', this.Environment().EnvironmentName),
+            query: query,
             noprocessing: true,
           }),
         );
         if (data) this.networkin = data;
       },
       async environmentNetworkOut() {
+        let query = ENVIRONMENT_NETWORK_OUT_PROMQL.replaceAll('$1', this.Environment().EnvironmentName);
+        query = constructPromQLByOperator(this.operator, query, this.params.start, this.params.end);
         const data = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: ENVIRONMENT_NETWORK_OUT_PROMQL.replaceAll('$1', this.Environment().EnvironmentName),
+            query: query,
             noprocessing: true,
           }),
         );

@@ -45,7 +45,6 @@
               v-model="obj.effect"
               class="my-0"
               color="primary"
-              hide-selected
               :items="effectSelect"
               :label="$t('tip.policy')"
               :no-data-text="$root.$t('data.no_data')"

@@ -91,11 +91,11 @@
   import { HelmRepository } from '@kubegems/api/typed/helm';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
+  import config from '@kubegems/libs/constants/global';
   import moment from 'moment';
   import { onMounted, ref } from 'vue';
   import VueI18n from 'vue-i18n';
 
-  import config from '../../config.json';
   import RepositoryInfo from './components/RepositoryInfo.vue';
   import StatusTip from './components/StatusTip.vue';
   import { useI18n } from './i18n';

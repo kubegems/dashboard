@@ -29,7 +29,6 @@
                   v-model="authType"
                   class="my-0"
                   color="primary"
-                  hide-selected
                   :items="authTypeItems"
                   :label="i18nLocal.t('tip.auth_type')"
                   :no-data-text="i18n.t('data.no_data')"

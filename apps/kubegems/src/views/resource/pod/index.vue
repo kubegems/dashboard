@@ -242,7 +242,9 @@
 <script>
   import { deletePod, getPodList } from '@kubegems/api/direct';
   import { convertResponse2Pagination } from '@kubegems/api/utils';
+  import EventTip from '@kubegems/components/logicComponents/EventTip.vue';
   import RealDatetimeTip from '@kubegems/components/logicComponents/RealDatetimeTip';
+  import config from '@kubegems/libs/constants/global';
   import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@kubegems/libs/constants/prometheus';
   import { POD_STATUS_COLOR } from '@kubegems/libs/constants/resource';
   import { beautifyCpuUnit, beautifyStorageUnit } from '@kubegems/libs/utils/helpers';
@@ -253,11 +255,9 @@
   import BaseTable from '@kubegems/mixins/table';
   import { mapGetters, mapState } from 'vuex';
 
-  import config from '../../../config.json';
   import ContainerItems from './components/ContainerItems';
   import RestartTip from './components/RestartTip';
   import messages from './i18n';
-  import EventTip from '@/views/resource/components/common/EventTip';
   import GpuTip from '@/views/resource/components/common/GpuTip';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
 
@@ -486,7 +486,7 @@
           parallelPods.push(this.items.slice(index * 20, (index + 1) * 20));
         }
         parallelPods.forEach(async (pods) => {
-          const query = POD_CPU_USAGE_PROMQL.replaceAll(
+          let query = POD_CPU_USAGE_PROMQL.replaceAll(
             '$1',
             pods
               .map((pod) => {
@@ -501,6 +501,7 @@
               })
               .join('|'),
           );
+          query = query.replaceAll('%', '');
           const data = await this.m_permission_matrix(this.ThisCluster, {
             query: query,
             start: this.$moment(new Date(new Date().setMinutes(new Date().getMinutes() - 15)))
@@ -535,7 +536,7 @@
           parallelPods.push(this.items.slice(index * 20, (index + 1) * 20));
         }
         parallelPods.forEach(async (pods) => {
-          const query = POD_MEMORY_USAGE_PROMQL.replaceAll(
+          let query = POD_MEMORY_USAGE_PROMQL.replaceAll(
             '$1',
             pods
               .map((pod) => {
@@ -550,6 +551,7 @@
               })
               .join('|'),
           );
+          query = query.replaceAll('%', '');
           const data = await this.m_permission_matrix(this.ThisCluster, {
             query: query,
             start: this.$moment(new Date(new Date().setMinutes(new Date().getMinutes() - 15)))
@@ -565,9 +567,9 @@
               });
               if (index > -1) {
                 const MemoryUsed = [];
-                const latest = d.values.length > 0 ? parseFloat(d.values[d.values.length - 1][1]) : null;
+                const latest = d.values.length > 0 ? parseFloat(d.values[d.values.length - 1][1]) * 1024 * 1024 : null;
                 d.values.forEach((v) => {
-                  MemoryUsed.push(parseFloat(v[1]));
+                  MemoryUsed.push(parseFloat(v[1]) * 1024 * 1024);
                 });
                 const item = this.items[index];
                 item.LatestMemory = latest ? beautifyStorageUnit(latest) : 0;

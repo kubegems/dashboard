@@ -37,6 +37,8 @@ export class Pod extends V1Pod implements PodExtend {
     if (pod) Object.assign(this, pod);
   }
 
+  [others: string]: any;
+
   public async getPodList(cluster: string, params: KubePaginationRequest): Promise<KubePaginationResponse<Pod[]>> {
     const apiVersion: string = getApiVersion('pod');
     const data: { [key: string]: any } = await axios(

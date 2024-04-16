@@ -19,7 +19,18 @@
     <v-card>
       <v-card-text class="pa-0">
         <div>
-          <v-img class="ma-2" contain :src="config.layout.LOGO_PRIMARY" width="200" />
+          <v-img v-if="config.layout.LOGO_PRIMARY" class="ma-2" contain :src="config.layout.LOGO_PRIMARY" width="50" />
+          <div
+            v-else
+            class="ma-3 primary--text"
+            :style="{
+              fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`,
+              fontWeight: `bold`,
+              fontSize: `1.1rem !important`,
+            }"
+          >
+            Cloud Platform
+          </div>
           <div class="kubegems__clear-float" />
         </div>
         <v-divider />
@@ -76,10 +87,10 @@
   import { Version } from '@kubegems/api/typed/version';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useRouter } from '@kubegems/extension/proxy';
+  import config from '@kubegems/libs/constants/global';
   import moment from 'moment';
   import { reactive, ref } from 'vue';
 
-  import config from '../../../config.json';
   import { useI18n } from '../i18n';
 
   const i18nLocal = useI18n();

@@ -51,7 +51,6 @@
               v-model="obj.TenantProjectId"
               class="my-4"
               color="primary"
-              hide-selected
               item-text="text"
               :items="m_select_tenantProjectItems"
               :label="$root.$t('resource.project')"
@@ -76,7 +75,6 @@
               v-model="obj.selectVersion"
               class="my-4"
               color="primary"
-              hide-selected
               :items="versions"
               :label="$t('form.version')"
               :menu-props="{
@@ -99,7 +97,6 @@
               v-model="obj.EnvironmentId"
               class="my-4"
               color="primary"
-              hide-selected
               :items="m_select_projectEnvironmentItems"
               :label="$root.$t('resource.environment')"
               :menu-props="{
@@ -144,12 +141,19 @@
         />
       </div>
       <div v-else class="py-2">
-        <ACEEditor
+        <BaseACEEditor
           v-model="appValuesYaml"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
+          :height="`${height * Scale - 50}px`"
           lang="yaml"
-          :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
-          :style="{ height: `${height * Scale - 50}px !important` }"
+          :options="{
+            tabSize: 2,
+            fontSize: 12,
+            printMarginColumn: 100,
+            showPrintMargin: false,
+            wrap: true,
+            readOnly: false,
+          }"
           theme="chrome"
           @keydown.stop
         />

@@ -7,7 +7,17 @@
     "other": "その他のログイン方法",
     "nav": "右上のワークベンチからホームページに掲載することができます",
     "permission": "テナント管理者またはシステム管理者に連絡してください",
-    "i18n": "言語"
+    "i18n": "言語",
+
+    "enter": "入力",
+    "open_soon": "もうすぐオープンします",
+    "welcome": "いらっしゃいませ{0}",
+    "setting": "プラットフォーム管理",
+    "last_login": "前回のログイン",
+    "now_tenant": "現在のテナント",
+    "no_tenant": "お問い合わせいただくか、リソースをオープンしてください",
+    "nil": "なし",
+    "theme": "テーマ"
   },
   "status": {
     "success": "ログイン成功",
@@ -18,5 +28,17 @@
   },
   "form": {
     "passwordRule": "20人"
+  },
+  "theme": {
+    "default": "Default",
+    "navy_blue": "Navy Blue",
+    "rock_blue": "Rock Blue",
+    "cyanine": "Cyanine",
+    "fei_hong": "Fei Hong",
+    "b_orange": "Beauty Burnt Orange",
+    "b_green": "Bamboo Green",
+    "p_green": "Pine Green",
+    "p_blue": "Purple Blue",
+    "brown": "Brown"
   }
 }

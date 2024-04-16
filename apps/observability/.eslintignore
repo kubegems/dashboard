@@ -1,5 +1,0 @@
-.*/*
-dist/*
-build/*.js
-node_modules/*
-tsconfig.json

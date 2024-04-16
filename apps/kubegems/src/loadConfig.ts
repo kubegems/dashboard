@@ -1,7 +1,6 @@
 import { useStore } from '@kubegems/extension/store';
+import config from '@kubegems/libs/constants/global';
 import { colorRgbArray, deepCopy } from '@kubegems/libs/utils/helpers';
-
-import config from './config.json';
 
 const store = useStore();
 

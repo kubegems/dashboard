@@ -16,14 +16,38 @@
 
 <template>
   <div
+    id="login_page"
     :class="`page clear-zoom-${Scale.toString().replaceAll('.', '-')} ${SelfOut || vertical ? '' : 'page__ani'}`"
-    :style="{ height: `${height}px !important`, left: `${SelfOut ? '-40vw' : 0}`, width: `${vertical ? '100vw' : ''}` }"
+    :style="{
+      height: `${height}px !important`,
+      left: `${SelfOut ? '-33.3vw' : 0}`,
+      width: `${vertical ? '100vw' : ''}`,
+    }"
   >
     <div
       v-show="!vertical"
       :class="{ skeleton__title: true, skeleton__title__ani: !SelfOut, skeleton__title__small: SelfOut || vertical }"
     >
-      <img :class="{ skeleton__img: true, skeleton__img__ani: !SelfOut, skeleton__img__small: SelfOut || vertical }" />
+      <div>
+        <img
+          :class="{
+            skeleton__img: true,
+            skeleton__img__ani: !SelfOut,
+            skeleton__img__small: SelfOut || vertical,
+            'float-left': true,
+          }"
+        />
+        <div
+          :class="{
+            'float-left': true,
+            login__second__logo__img__title: true,
+            skeleton__img__title__ani: !SelfOut,
+            skeleton__img__title__small: SelfOut || vertical,
+          }"
+        >
+          {{ config.layout.PLATFORM }}
+        </div>
+      </div>
       <div
         :class="{ skeleton__loading: true, skeleton__loading__ani: !SelfOut }"
         :style="{ opacity: SelfOut ? '0 !important' : '' }"
@@ -79,7 +103,7 @@
               </h2>
               <v-form ref="loginForm" v-model="valid" action="/" lazy-validation>
                 <v-text-field
-                  v-model="username"
+                  v-model.trim="username"
                   class="mt-4"
                   :label="$t('username')"
                   outlined
@@ -88,7 +112,7 @@
                   @keyup.enter="login(source)"
                 />
                 <v-text-field
-                  v-model="password"
+                  v-model.trim="password"
                   :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                   :counter="32"
                   :label="$t('password')"
@@ -198,7 +222,7 @@
         v-if="config.layout.PLATFORM.toLocaleLowerCase() === 'kubegems'"
         class="px-12 text-body-2 mt-4 login__copyright font-weight-medium kubegems__text"
       >
-        © 2023 — {{ config.layout.PLATFORM }} by Kubegems.io
+        © {{ new Date().getFullYear() }} — {{ config.layout.PLATFORM }} by Kubegems.io
       </h6>
     </div>
   </div>
@@ -215,13 +239,13 @@
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import locales from '@kubegems/extension/i18n/locales';
   import { required } from '@kubegems/extension/ruler';
+  import config from '@kubegems/libs/constants/global';
   import { VENDOR } from '@kubegems/libs/constants/platform';
-  import { validateJWT } from '@kubegems/libs/utils/helpers';
+  import { sleep, validateJWT } from '@kubegems/libs/utils/helpers';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
-  import config from '../../config.json';
   import messages from './i18n';
 
   export default {
@@ -342,18 +366,19 @@
           if (this.$route.query.redirect !== undefined) {
             this.$router.push({ path: this.$route.query.redirect });
           } else {
-            this.$router.push({ name: 'cluster-center' });
+            document.getElementById('login_page').classList.add('Fadeout');
+            await sleep(900);
+            this.$router.push({ name: 'home' });
           }
         } else {
           await this.$store.dispatch('UPDATE_TENANT_DATA');
           if (this.$route.query.redirect !== undefined) {
             this.$router.push({ path: this.$route.query.redirect });
           } else {
+            document.getElementById('login_page').classList.add('Fadeout');
+            await sleep(900);
             this.$router.push({
-              name: 'resource-dashboard',
-              params: {
-                tenant: this.Tenant().TenantName,
-              },
+              name: 'home',
             });
           }
         }
@@ -386,6 +411,7 @@
         this.locale = locale.locale;
         if (this.Locale === this.locale) return;
         useGlobalI18n().locale = this.locale;
+        useI18n().locale = this.locale;
         this.$moment.locale(this.locale === 'zh-Hans' ? 'zh-cn' : this.locale);
         if (window) {
           window.document.title = `${this.$t(this.$route.meta.title)} - ${config.layout.PLATFORM}`;
@@ -423,7 +449,7 @@
       left: -100vw;
     }
     100% {
-      left: -140vw;
+      left: -133.3vw;
     }
   }
 
@@ -441,10 +467,10 @@
 
   @keyframes img-small {
     0% {
-      width: 400px;
+      width: 5vw;
     }
     100% {
-      width: 18vw;
+      width: 5vw;
     }
   }
 
@@ -471,9 +497,9 @@
       }
 
       &__small {
-        top: 43%;
+        top: 42%;
         transform: none;
-        left: 60vw;
+        left: 55vw;
       }
     }
 
@@ -507,8 +533,8 @@
       transform: translate(-50%, -50%);
     }
     100% {
-      left: 160vw;
-      top: 43%;
+      left: 155vw;
+      top: 42%;
       transform: none;
     }
   }
@@ -558,6 +584,14 @@
             animation-delay: 3.1s;
             animation-fill-mode: forwards;
           }
+
+          &__title {
+            font-size: 3rem;
+            font-family: 'kubegems-sample';
+            line-height: 84px;
+            margin-left: 10px;
+            color: #1e88e5;
+          }
         }
       }
 
@@ -566,7 +600,7 @@
         line-height: 1.5;
         font-size: 24px;
         position: absolute;
-        left: 48%;
+        left: 42%;
         top: 50%;
         opacity: 0;
 
@@ -587,7 +621,7 @@
 
     &__third {
       float: left;
-      width: 40vw;
+      width: 33.3vw;
       position: relative;
     }
 
@@ -639,6 +673,24 @@
 
     &__icon {
       margin-top: 2px;
+    }
+  }
+
+  .Fadeout {
+    animation-name: _Fadeout;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-delay: 0s;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes _Fadeout {
+    0% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
     }
   }
 </style>

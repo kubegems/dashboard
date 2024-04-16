@@ -38,7 +38,6 @@
                 v-model="obj.value"
                 class="my-0"
                 color="primary"
-                hide-selected
                 :items="nodeItems"
                 :label="$root.$t('form.value')"
                 :no-data-text="$root.$t('data.no_data')"

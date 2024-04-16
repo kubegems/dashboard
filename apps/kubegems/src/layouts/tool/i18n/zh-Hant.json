@@ -2,6 +2,8 @@
   "tip": {
     "management": "平臺管理",
     "management_desc": "以管理員身份查看操作所有資源。",
-    "tool_box": "工具箱"
+    "tool_box": "工具箱",
+    "cluster_manage": "集群管理",
+    "pai_manage": "平台設置"
   }
 }

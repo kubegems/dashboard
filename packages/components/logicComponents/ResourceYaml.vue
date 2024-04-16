@@ -23,12 +23,12 @@
     </template>
     <template #content>
       <v-card-text class="ma-0 pa-0">
-        <ACEEditor
+        <BaseACEEditor
           v-model="kubeyaml"
           :class="`clear-zoom-${store.state.Scale.toString().replaceAll('.', '-')} rounded-0`"
-          lang="yaml"
+          :height="`${height}px`"
+          :lang="lang"
           :options="aceOptions"
-          :style="{ height: `${height}px !important` }"
           theme="chrome"
           @keydown.stop
         />
@@ -47,9 +47,11 @@
   const props = withDefaults(
     defineProps<{
       item?: any;
+      lang?: string;
     }>(),
     {
       item: undefined,
+      lang: 'yaml',
     },
   );
 

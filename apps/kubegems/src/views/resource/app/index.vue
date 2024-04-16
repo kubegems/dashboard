@@ -162,20 +162,20 @@
             {{ item.spec ? item.spec.model.name : '' }}
           </template>
           <template #[`item.modelVersion`]="{ item }">
-            {{ item.spec.model.version }}
+            {{ item.spec ? item.spec.model.version : '' }}
           </template>
           <template #[`item.source`]="{ item }">
             <div class="float-left">
               <BaseLogo
                 class="mr-1"
-                :icon-name="item.spec.model.source"
+                :icon-name="item.spec ? item.spec.model.source : ''"
                 :ml="0"
                 :style="{ marginTop: '0px' }"
                 :width="18"
               />
             </div>
             <div class="float-left">
-              {{ item.spec.model.source }}
+              {{ item.spec ? item.spec.model.source : '' }}
             </div>
           </template>
           <template #[`item.task`]="{ item }">
@@ -183,14 +183,14 @@
               <BaseLogo
                 class="mr-1"
                 default-logo="task"
-                :icon-name="item.spec.model.task"
+                :icon-name="item.spec ? item.spec.model.task : ''"
                 :ml="0"
                 :style="{ marginTop: '0px' }"
                 :width="18"
               />
             </div>
             <div class="float-left">
-              {{ item.spec.model.task }}
+              {{ item.spec ? item.spec.model.task : '' }}
             </div>
           </template>
           <template #[`item.phase`]="{ item }">
@@ -246,7 +246,7 @@
             </div>
           </template>
           <template #[`item.replicas`]="{ item }">
-            {{ item.spec.replicas }}
+            {{ item.spec ? item.spec.replicas : 0 }}
           </template>
           <template #[`item.creationTimestamp`]="{ item }">
             {{ $moment(item.metadata.creationTimestamp).format('lll') }}
@@ -279,6 +279,7 @@
             <v-btn
               v-if="
                 item &&
+                item.spec &&
                 item.status.phase === 'Running' &&
                 (item.spec.model.source === 'huggingface' || item.spec.model.source === 'openmmlab')
               "
@@ -324,6 +325,7 @@
     getModelStoreDetail,
   } from '@kubegems/api/direct';
   import { convertResponse2Pagination } from '@kubegems/api/utils';
+  import config from '@kubegems/libs/constants/global';
   import { ARGO_STATUS_COLOR, POD_STATUS_COLOR } from '@kubegems/libs/constants/resource';
   import BaseFilter from '@kubegems/mixins/base_filter';
   import BasePermission from '@kubegems/mixins/permission';
@@ -332,7 +334,6 @@
   import { Base64 } from 'js-base64';
   import { mapGetters, mapState } from 'vuex';
 
-  import config from '../../../config.json';
   import AppStatusTip from './components/AppStatusTip';
   import TaskStatusTip from './components/TaskStatusTip';
   import UpdateAppFromStore from './components/UpdateAppFromStore';

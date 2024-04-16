@@ -14,13 +14,19 @@
         </div>
 
         <div class="text-subtitle-1 my-3">{{ $t('tip.question') }}</div>
-        <ACEEditor
+        <BaseACEEditor
           v-model="obj.question"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} kubegems__rounded_small`"
+          :height="`${height / 2}px`"
           lang="plain_text"
-          :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
-          :style="{ height: `${height / 2}px !important` }"
-          theme="chrome"
+          :options="{
+            tabSize: 2,
+            fontSize: 12,
+            printMarginColumn: 100,
+            showPrintMargin: false,
+            wrap: true,
+            readOnly: false,
+          }"
           @keydown.stop
         />
       </v-col>

@@ -62,11 +62,6 @@
 
   const chart = ref<any>(undefined);
   const chartId = ref<string>('');
-  const colorful = [
-    store.state.ThemeColor || props.themeConifg.THEME_COLOR.primary,
-    props.themeConifg.THEME_COLOR.success,
-    props.themeConifg.THEME_COLOR_EXTEND.warning,
-  ];
   const triggerVal = ref<number>(0);
 
   const loadChart = (): void => {
@@ -145,7 +140,14 @@
     const datasets = props?.metrics.map((m, index) => {
       return {
         data: m,
-        backgroundColor: [colorful[index % 3], '#f4f4f4'],
+        backgroundColor: [
+          [
+            store.state.ThemeColor || props.themeConifg.THEME_COLOR.primary,
+            props.themeConifg.THEME_COLOR.success,
+            props.themeConifg.THEME_COLOR_EXTEND.warning,
+          ][index % 3],
+          '#f4f4f4',
+        ],
         cutout: `${props.cutout}%`,
       };
     });

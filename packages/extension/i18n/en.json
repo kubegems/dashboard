@@ -7,7 +7,10 @@
   "username": "Username",
   "passwd": "Password",
   "query": "Query",
-
+  "home": "Home",
+  "license": "License",
+  "used": "Used",
+  "docs": "Document Center",
   "status": {
     "success": "Success",
     "failure": "Failure"
@@ -67,7 +70,8 @@
     "lt_min_value": "Less then minimum",
     "gt_max_value": "More then maximum",
     "gt_max_item": "More then max items {0}",
-    "lt_min_item": "Less then min items {0}"
+    "lt_min_item": "Less then min items {0}",
+    "name": "Error (1 to 20 digits string containing numbers starting with lower case mother)"
   },
 
   "role": {
@@ -200,6 +204,7 @@
     "audit": "Audit",
     "event": "Event",
     "usercenter": "User Center",
+    "home": "Home",
     "pai": "PAI",
     "user": {
       "tenant": "Tenant",
@@ -210,7 +215,8 @@
     "blank": "Blank"
   },
   "filter": {
-    "placehold": "Enter query criteria to filter result"
+    "placehold": "Enter query criteria to filter result",
+    "name": "Name"
   },
   "data": {
     "unknown": "Unknown",
@@ -218,7 +224,8 @@
     "no_cluster": "No Cluster",
     "no_tenant": "No Tenant",
     "data": "Data",
-    "welcome": "Welcome"
+    "welcome": "Welcome",
+    "loading": "loading..."
   },
   "operate": {
     "add": "Add",
@@ -227,6 +234,10 @@
     "batch": "Batch",
     "delete": "Delete",
     "batch_delete_c": "Batch Delete {0}",
+    "batch_start_c": "Batch Start {0}",
+    "batch_stop_c": "Batch Stop {0}",
+    "batch_start": "Batch Start",
+    "batch_stop": "Batch Stop",
     "confirm": "Confirm",
     "cancel": "Cancel",
     "close": "Close",
@@ -259,7 +270,14 @@
     "upload": "Upload files",
     "download": "Download",
     "allocate": "Allocate",
-    "allocate_c": "Allocate {0}"
+    "allocate_c": "Allocate {0}",
+    "restart": "Restart",
+    "view": "View",
+    "stop": "Stop",
+    "restart_c": "Restart {0}",
+    "stop_c": "Stop {0}",
+    "start": "Start",
+    "start_c": "Start {0}"
   },
   "form": {
     "definition": "{0} Definition",
@@ -280,7 +298,7 @@
     "microservice": "Mesh",
     "observability": "Observability",
     "administration": "Management",
-    "pai": "Schedule"
+    "pai": "ML"
   },
   "routerbar": {
     "cluster": {
@@ -423,15 +441,19 @@
     },
     "pai": {
       "h_dashboard": "Dashboard",
-      "h_task": "Task",
+      "h_task": "Training",
       "h_asset": "Asset",
       "h_cost": "Cost",
+      "h_setting": "Setting",
+      "h_async_task": "Task",
 
       "g_dashboard": "Dashboard",
-      "g_task": "Task",
-      "g_asset": "AI Resource",
+      "g_task": "Model Training",
+      "g_setting": "Management",
       "g_ai_asset": "AI Asset",
       "g_cost": "Cost",
+      "g_cluster_setting": "Cluster",
+      "g_async_task": "Async Task",
 
       "dashboard": "Dashboard",
       "train_task": "Train",
@@ -441,10 +463,18 @@
       "code": "Codeset",
       "cluster": "Cluster",
       "instance": "Instance",
-      "develop": "Develop",
+      "develop": "IM",
       "cost_dash": "Dashboard",
       "cost_analysis": "Analysis",
-      "queue": "Queue"
+      "queue": "Queue",
+      "output": "Output",
+      "catalog": "Catalog",
+      "workspace": "Workspace",
+      "hub": "Model Hub",
+      "inference": "Inference Sservice",
+      "quota": "Tenant Resource",
+      "management_modelx": "Data management",
+      "management_job": "Async Task"
     }
   },
   "breadcrumb": {
@@ -528,17 +558,23 @@
     "dash_probe": "Prometheus probe is to monitor and analyze key performance indicators such as service loading speed, CDN acceleration, and DNS resolution.",
 
     "pai": "",
-    "pai_image": "",
-    "pai_dataset": "",
-    "pai_train": "",
+    "pai_image": "Image is a collection of images provided by the machine training framework.",
+    "pai_dataset": "Dataset is a collection of data samples provided for machine learning. Support storage through local upload and asynchronous tasks (ETL, crawl), etc.",
+    "pai_train": "Deep Learning KubeGems provides you with a flexible, stable, easy-to-use and extreme performance deep learning training environment. You can quickly submit training tasks through the following configurations",
     "pai_cluster": "",
     "pai_instance": "",
-    "pai_develop": "",
-    "pai_model": "",
-    "pai_code": "",
+    "pai_develop": "Interactive Modeling is a cloud machine learning interactive development IDE tailored for AI developers, open Notebook anytime, anywhere to quickly read data, develop algorithms, and train",
+    "pai_model": "Modelset is a model mart provided for pre-training and reinforcement learning, which supports asynchronously caching public models locally",
+    "pai_code": "Codeset A collection of codes for machine learning",
     "pai_cost_dash": "",
     "pai_cost_analysis": "",
-    "pai_queue": ""
+    "pai_queue": "",
+    "pai_workspace": "Workspace is used to store user's personal data on the cloud",
+    "pai_output": "",
+    "pai_hub": "Model Hub",
+    "pai_inference": "Inference Service",
+    "pai_quota": "",
+    "pai_job": ""
   },
 
   "metadata": {
@@ -605,7 +641,11 @@
     "label_file_processing_error": "error during upload",
     "file_upload": "<span class=\"filepond--label-action\">Click to upload file</span>",
     "copyed": "Copied to Clipboard",
-    "select_one_region": "Select a region"
+    "select_one_region": "Select a region",
+    "file_read_error": "File read failed",
+    "missing_queue": "The tenant has not activated the function of this area, please contact the platform administrator",
+    "operator": "Operate",
+    "server_token_error": "Server authentication exception, please check server configuration"
   },
   "tab": {
     "overview": "Overview",
@@ -621,5 +661,11 @@
     "previous": "Previous",
     "over": "Jump over",
     "done": "Done"
+  },
+  "agg": {
+    "default": "No aggregation",
+    "max": "Aggregate by maximum",
+    "min": "Aggregate by minimum",
+    "avg": "Aggregate by mean"
   }
 }

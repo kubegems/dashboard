@@ -7,6 +7,10 @@
   "username": "使用者名",
   "passwd": "密碼",
   "query": "搜索",
+  "home": "主頁",
+  "license": "License",
+  "used": "已使用",
+  "docs": "文件中心",
   "status": {
     "success": "成功",
     "failure": "失敗"
@@ -63,7 +67,8 @@
     "lt_min_value": "小於最小值",
     "gt_max_value": "大於最大值",
     "gt_max_item": "超過最大條目數 {0}",
-    "lt_min_item": "低於最小條目數 {0}"
+    "lt_min_item": "低於最小條目數 {0}",
+    "name": "格式錯誤(1到20位以小寫母親開頭包含數字的字符串)"
   },
   "role": {
     "system": {
@@ -192,6 +197,7 @@
     "audit": "審計",
     "event": "事件",
     "usercenter": "使用者中心",
+    "home": "首頁",
     "pai": "PAI",
     "user": {
       "tenant": "租戶",
@@ -202,7 +208,8 @@
     "blank": "空白"
   },
   "filter": {
-    "placehold": "輸入查詢條件進行過濾"
+    "placehold": "輸入查詢條件進行過濾",
+    "name": "名稱"
   },
   "data": {
     "unknown": "未知",
@@ -210,7 +217,8 @@
     "no_cluster": "暫無集群",
     "no_tenant": "暫無租戶",
     "data": "數據",
-    "welcome": "歡迎"
+    "welcome": "歡迎",
+    "loading": "加載中..."
   },
   "operate": {
     "add": "添加",
@@ -219,6 +227,10 @@
     "batch": "批量",
     "delete": "刪除",
     "batch_delete_c": "批次刪除{0}",
+    "batch_start_c": "批次啟動{0}",
+    "batch_stop_c": "批次停止{0}",
+    "batch_start": "批次啟動",
+    "batch_stop": "批次停止",
     "confirm": "確定",
     "cancel": "取消",
     "close": "關閉",
@@ -251,7 +263,14 @@
     "upload": "上傳文件",
     "download": "下載",
     "allocate": "分配",
-    "allocate_c": "分配{0}"
+    "allocate_c": "分配{0}",
+    "restart": "重啟",
+    "view": "查看",
+    "stop": "停止",
+    "restart_c": "重啟{0}",
+    "stop_c": "停止{0}",
+    "start": "啟動",
+    "start_c": "啟動{0}"
   },
   "form": {
     "definition": "{0}定義",
@@ -272,7 +291,7 @@
     "microservice": "服務治理",
     "observability": "可觀測性",
     "administration": "平臺管理",
-    "pai": "算力調度"
+    "pai": "機器學習"
   },
   "routerbar": {
     "cluster": {
@@ -408,28 +427,39 @@
     },
     "pai": {
       "h_dashboard": "概覽",
-      "h_task": "任務",
+      "h_task": "訓練",
       "h_asset": "資產",
       "h_cost": "成本",
+      "h_setting": "設置",
+      "h_async_task": "任務",
 
       "g_dashboard": "概覽",
-      "g_task": "任務中心",
-      "g_asset": "算力資源",
-      "g_ai_asset": "算法資產",
+      "g_task": "模型訓練",
+      "g_setting": "平台設置",
+      "g_ai_asset": "AI資產管理",
       "g_cost": "成本",
+      "g_cluster_setting": "叢集管理",
+      "g_async_task": "非同步任務",
 
       "dashboard": "資源概覽",
-      "train_task": "訓練任務",
-      "dataset": "數據集",
+      "train_task": "訓練任務(DLK)",
+      "dataset": "數據集(DS)",
       "image": "鏡像",
-      "modelset": "模型集",
+      "modelset": "模型集(MS)",
       "code": "代碼集",
       "cluster": "算力集群",
       "instance": "實例規格",
-      "develop": "在線開發",
+      "develop": "交互式建模(IM)",
       "cost_dash": "成本概覽",
       "cost_analysis": "成本分析",
-      "queue": "任務隊列"
+      "queue": "任務隊列",
+      "workspace": "工作空間(PWD)",
+      "output": "輸出",
+      "hub": "Model Hub",
+      "inference": "推理服務(IS)",
+      "quota": "租戶資源",
+      "management_modelx": "資料管理",
+      "management_job": "工作管理"
     }
   },
   "breadcrumb": {
@@ -506,17 +536,23 @@
     "dash_probe": "雲撥測是監測並分析服務加載速度、CDN加速、DNS解析等關鍵性能指標。",
 
     "pai": "",
-    "pai_image": "",
-    "pai_dataset": "",
-    "pai_train": "",
+    "pai_image": "Image 為機器訓練框架提供的鏡像集合。",
+    "pai_dataset": "Dataset 為機器學習提供的數據樣本集合。支持通過本地上傳和異步任務（ETL、craw）等方式存儲",
+    "pai_train": "Deep Learning KubeGems 為您提供靈活、穩定、易用和極致性能的深度學習訓練環境，您可通過如下配置快速提交訓練任務",
     "pai_cluster": "",
     "pai_instance": "",
-    "pai_develop": "",
-    "pai_model": "",
-    "pai_code": "",
+    "pai_develop": "Interactive Modeling 為AI開發者量身定制的雲端機器學習交互式開發IDE，隨時隨地開啟Notebook快速讀取數據、開發算法、訓練。",
+    "pai_model": "Modelset 為預訓練和強化學習提供的模型集市，支持異步方式將公開模型緩存至本地",
+    "pai_code": "Codeset 為機器學習提供的代碼集合。",
     "pai_cost_dash": "",
     "pai_cost_analysis": "",
-    "pai_queue": ""
+    "pai_queue": "",
+    "pai_workspace": "Workspace 用於存儲用戶在雲上的個人數據",
+    "pai_output": "",
+    "pai_hub": "",
+    "pai_inference": "",
+    "pai_quota": "",
+    "pai_job": ""
   },
   "metadata": {
     "description": "更便捷的雲原生管理平臺",
@@ -582,7 +618,11 @@
     "label_file_processing_error": "上傳失敗",
     "file_upload": "<span class=\"filepond--label-action\">請點擊上傳文件</span>",
     "copyed": "已複製到粘貼板",
-    "select_one_region": "選擇一個區域"
+    "select_one_region": "選擇一個區域",
+    "file_read_error": "文件讀取失敗",
+    "missing_queue": "該租戶尚未開通此區域功能，請聯繫平台管理員",
+    "operator": "操作",
+    "server_token_error": "伺服器認證異常，請檢查伺服器配置"
   },
   "tab": {
     "overview": "概覽",
@@ -598,5 +638,11 @@
     "previous": "上一步",
     "over": "不再提示",
     "done": "完成"
+  },
+  "agg": {
+    "default": "不聚合",
+    "max": "按最大值聚合",
+    "min": "按最小值聚合",
+    "avg": "以平均值聚合"
   }
 }

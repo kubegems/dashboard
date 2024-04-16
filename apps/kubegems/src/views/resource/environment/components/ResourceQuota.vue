@@ -116,11 +116,11 @@
 
 <script>
   import { getEnvironmentQuota } from '@kubegems/api/direct';
+  import config from '@kubegems/libs/constants/global';
   import { sizeOfCpu, sizeOfStorage, sizeOfTke } from '@kubegems/libs/utils/helpers';
   import BaseResource from '@kubegems/mixins/resource';
   import { mapGetters, mapState } from 'vuex';
 
-  import config from '../../../../config.json';
   import messages from '../i18n';
 
   export default {

@@ -96,10 +96,10 @@
 
 <script>
   import { getItemDetail, getItemHistory, postPubConfigItems } from '@kubegems/api/direct';
+  import config from '@kubegems/libs/constants/global';
   import { CodeDiff } from 'v-code-diff';
   import { mapState } from 'vuex';
 
-  import config from '../../../../config.json';
   import messages from '../i18n';
 
   export default {

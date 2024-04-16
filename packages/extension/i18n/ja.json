@@ -7,6 +7,10 @@
   "username": "ユーザー名",
   "passwd": "パスワード",
   "query": "検索",
+  "home": "ホームページ",
+  "license": "License",
+  "used": "使用済み",
+  "docs": "ドキュメントセンター",
   "status": {
     "success": "成功しました。",
     "failure": "失敗"
@@ -63,7 +67,8 @@
     "lt_min_value": "最小未満",
     "gt_max_value": "最大値より大きい",
     "gt_max_item": "エントリの最大数を超えました {0}",
-    "lt_min_item": "最小エントリ数未満 {0}"
+    "lt_min_item": "最小エントリ数未満 {0}",
+    "name": "不正な形式 (小文字の mother で始まる数字を含む 1 ～ 20 桁の文字列)"
   },
   "role": {
     "system": {
@@ -192,6 +197,7 @@
     "audit": "監査",
     "event": "イベント",
     "usercenter": "サマリ",
+    "home": "表紙",
     "pai": "PAI",
     "user": {
       "tenant": "テナント",
@@ -202,7 +208,8 @@
     "blank": "空欄"
   },
   "filter": {
-    "placehold": "クエリをフィルタリング"
+    "placehold": "クエリをフィルタリング",
+    "name": "名前"
   },
   "data": {
     "unknown": "不明",
@@ -210,7 +217,8 @@
     "no_cluster": "クラスターがありません",
     "no_tenant": "テナントがありません",
     "data": "データ",
-    "welcome": "いらっしゃいませ"
+    "welcome": "いらっしゃいませ",
+    "loading": "読み込み中..."
   },
   "operate": {
     "add": "追加",
@@ -219,6 +227,10 @@
     "batch": "一括",
     "delete": "削除",
     "batch_delete_c": "一括削除{0}",
+    "batch_start_c": "バッチスタート{0}",
+    "batch_stop_c": "バッチ停止{0}",
+    "batch_start": "バッチスタート",
+    "batch_stop": "バッチ停止",
     "confirm": "はい",
     "cancel": "キャンセル",
     "close": "閉じる",
@@ -251,7 +263,14 @@
     "upload": "ファイルをアップロードする",
     "download": "ダウンロード",
     "allocate": "分配します",
-    "allocate_c": "分配します {0}"
+    "allocate_c": "分配します {0}",
+    "restart": "再起動",
+    "view": "チェック",
+    "stop": "停止",
+    "restart_c": "再起動{0}",
+    "stop_c": "停止{0}",
+    "start": "起動する",
+    "start_c": "起動する{0}"
   },
   "form": {
     "definition": "{0}の定義",
@@ -272,7 +291,7 @@
     "microservice": "仕える",
     "observability": "観察",
     "administration": "システム",
-    "pai": "スケジューリング"
+    "pai": "機械学習"
   },
   "routerbar": {
     "cluster": {
@@ -411,12 +430,16 @@
       "h_task": "タスク",
       "h_asset": "資産",
       "h_cost": "料金",
+      "h_setting": "設定",
+      "h_async_task": "タスク",
 
       "g_dashboard": "概要",
       "g_task": "タスクセンター",
-      "g_asset": "コンピューティング リソース",
+      "g_setting": "プラットフォーム設定",
       "g_ai_asset": "アルゴリズム資産",
       "g_cost": "料金",
+      "g_cluster_setting": "クラスター管理",
+      "g_async_task": "非同期タスク",
 
       "dashboard": "リソースの概要",
       "train_task": "トレーニング タスク",
@@ -426,10 +449,16 @@
       "code": "コード",
       "cluster": "集まる",
       "instance": "インスタンス仕様",
-      "develop": "モデル開発",
+      "develop": "IM",
       "cost_dash": "費用の概要",
       "cost_analysis": "コスト分析",
-      "queue": "タスク キュー"
+      "queue": "タスク キュー",
+      "output": "出力",
+      "hub": "Model Hub",
+      "inference": "推論サービス",
+      "quota": "テナントのリソース",
+      "management_modelx": "データ管理",
+      "management_job": "タスク管理"
     }
   },
   "breadcrumb": {
@@ -516,7 +545,12 @@
     "pai_code": "",
     "pai_cost_dash": "",
     "pai_cost_analysis": "",
-    "pai_queue": ""
+    "pai_queue": "",
+    "pai_output": "",
+    "pai_hub": "Model Hub",
+    "pai_inference": "",
+    "pai_quota": "",
+    "pai_job": ""
   },
   "metadata": {
     "description": "より簡単に、クラウドベースでお届けします",
@@ -582,7 +616,11 @@
     "label_file_processing_error": "アップロードに失敗しました",
     "file_upload": "<span class=\"filepond--label-action\">クリックしてファイルをアップロードしてください</span>",
     "copyed": "クリップボードにコピーしました",
-    "select_one_region": "地域を選択"
+    "select_one_region": "地域を選択",
+    "file_read_error": "ファイルの読み取りに失敗しました",
+    "missing_queue": "テナントはこのエリアの機能をアクティブ化していません。プラットフォーム管理者に問い合わせてください。",
+    "operator": "操作する",
+    "server_token_error": "サーバー認証例外。サーバー構成を確認してください。"
   },
   "tab": {
     "overview": "概要",
@@ -598,5 +636,11 @@
     "previous": "前のステップ",
     "over": "再度通知しない",
     "done": "終了"
+  },
+  "agg": {
+    "default": "集計なし",
+    "max": "最大値で集計",
+    "min": "最小値による集計",
+    "avg": "平均値による集計"
   }
 }

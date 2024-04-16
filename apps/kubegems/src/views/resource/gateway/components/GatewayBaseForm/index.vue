@@ -26,7 +26,6 @@
               v-model="obj.spec.tenant"
               class="my-0"
               color="primary"
-              hide-selected
               item-value="text"
               :items="m_select_tenantItems"
               :label="$root.$t('resource.tenant')"
@@ -57,7 +56,6 @@
               v-model="obj.spec.type"
               class="my-0"
               color="primary"
-              hide-selected
               :items="gatewayTypes"
               :label="$t('tip.type')"
               :no-data-text="$root.$t('data.no_data')"
@@ -75,7 +73,6 @@
               v-model="protocol"
               class="my-0"
               color="primary"
-              hide-selected
               :items="protocolTypes"
               :label="$t('tip.protocol')"
               :no-data-text="$root.$t('data.no_data')"
@@ -339,15 +336,11 @@
         return this.obj;
       },
       splitImage(image, type) {
-        const match = new RegExp('([\\w|/|\\.|-]+)?[:|@]?([\\w|\\.|-]+)?', 'g').exec(image);
-
-        if (match) {
-          if (type === 'image') {
-            return match[1];
-          } else if (type === 'tag') {
-            return match[2];
-          }
-          return '';
+        const index = image.lastIndexOf(':');
+        if (type === 'image') {
+          return image.substr(0, index);
+        } else if (type === 'tag') {
+          return image.substr(index + 1);
         }
         return '';
       },

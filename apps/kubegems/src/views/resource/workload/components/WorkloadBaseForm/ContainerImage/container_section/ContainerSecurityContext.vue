@@ -30,7 +30,6 @@
                   v-model="securityContext"
                   class="my-0"
                   color="primary"
-                  hide-selected
                   :items="modes"
                   :label="$t('tip.access_control')"
                   multiple

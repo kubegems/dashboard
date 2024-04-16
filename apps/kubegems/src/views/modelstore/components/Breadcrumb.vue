@@ -60,11 +60,12 @@
 
 <script lang="ts" setup>
   import { AIModelRegistry } from '@kubegems/api/typed/ai_model';
+  import { useRoute } from '@kubegems/extension/proxy';
   import { useQuery } from '@kubegems/extension/router';
+  import config from '@kubegems/libs/constants/global';
   import moment from 'moment';
   import { onUnmounted, reactive, watch } from 'vue';
 
-  import config from '../../../config.json';
   import { useI18n } from '../i18n';
 
   const props = withDefaults(
@@ -78,6 +79,7 @@
 
   const i18nLocal = useI18n();
   const query = useQuery();
+  const route = useRoute();
 
   const state = reactive({
     imgSrc: '',
@@ -126,7 +128,7 @@
           state.tip = i18nLocal.t('tip.tensorflow').toString();
           break;
         case 'kubegems-charts':
-          state.imgSrc = LOGO_PRIMARY;
+          state.imgSrc = config.layout.LOGO_PRIMARY;
           state.tip = i18nLocal.t('tip.kubegems_chart').toString();
           break;
         case 'bitnami':
@@ -161,7 +163,10 @@
           break;
         default:
           state.imgSrc = config.layout.LOGO_PRIMARY;
-          state.tip = i18nLocal.t('tip.kubegems').toString();
+          state.tip =
+            route.name.indexOf('appstore-') > -1
+              ? i18nLocal.t('tip.kubegems_app').toString()
+              : i18nLocal.t('tip.kubegems').toString();
           break;
       }
       if (props.syncStatus && newValue) {

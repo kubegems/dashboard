@@ -57,7 +57,8 @@
 </template>
 
 <script>
-  import config from '../../../../../../config.json';
+  import config from '@kubegems/libs/constants/global';
+
   import messages from '../../../../i18n';
   import Conversation from './tasks/ConversationText';
   import FileInputs from './tasks/FileInputs';

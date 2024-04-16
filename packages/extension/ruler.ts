@@ -39,10 +39,10 @@ export const port = (v: string): boolean | string =>
   (!!new RegExp('^[1-9]\\d*|0$').test(v) && Number(v) <= 65533) || i18n.t('ruler.port').toString();
 
 export const k8sLabel = (v: string): boolean | string =>
-  !!new RegExp('^(?!-)([-A-Za-z0-9]){0,63}(?<!-)$').test(v) || i18n.t('ruler.k8s_label').toString();
+  !!new RegExp('^(?!-)([-A-Za-z0-9/.]){0,63}(?<!-)$').test(v) || i18n.t('ruler.k8s_label').toString();
 
 export const k8sAnnotation = (v: string): boolean | string =>
-  !!new RegExp('^(?!-)([-A-Za-z0-9]){0,253}(?<!-)$').test(v) || i18n.t('ruler.k8s_annotation').toString();
+  !!new RegExp('^(?!-)([-A-Za-z0-9/.]){0,253}(?<!-)$').test(v) || i18n.t('ruler.k8s_annotation').toString();
 
 export const k8sName = (v: string): boolean | string =>
   !!new RegExp('^(?!-)([-a-z0-9]){0,253}(?<!-)$').test(v) || i18n.t('ruler.k8s_name').toString();
@@ -57,3 +57,6 @@ export const phone = (v: string): boolean | string =>
 export const password = (v: string): boolean | string =>
   !!new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!\\.@#$%~])[A-Za-z\\d!\\.@#$%~]{8,32}', 'g').test(v) ||
   i18n.t('ruler.password').toString();
+
+export const name = (v: string): boolean | string =>
+  (new RegExp('^[a-zA-Z]{1}[-a-zA-Z0-9/_\\.]{0,50}$').test(v) && v?.length <= 50) || i18n.t('ruler.name').toString();

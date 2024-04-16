@@ -24,7 +24,6 @@
             v-model="strategy"
             class="my-0"
             color="primary"
-            hide-selected
             :items="updateStrategys"
             :label="$t('tip.update_type')"
             :no-data-text="$root.$t('data.no_data')"
@@ -107,7 +106,6 @@
             v-model="affinity"
             class="my-0"
             color="primary"
-            hide-selected
             :items="affinitys"
             :label="$t('tip.deploy_type')"
             :no-data-text="$root.$t('data.no_data')"

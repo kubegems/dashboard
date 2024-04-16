@@ -115,6 +115,7 @@
 <script>
   import { deleteCluster, getClusterList, getClusterStatus } from '@kubegems/api/direct';
   import { convertResponse2List } from '@kubegems/api/utils';
+  import Terminal from '@kubegems/components/logicComponents/Terminal/index.vue';
   import { sleep } from '@kubegems/libs/utils/helpers';
   import BaseResource from '@kubegems/mixins/resource';
   import BaseSelect from '@kubegems/mixins/select';
@@ -123,7 +124,6 @@
   import messages from '../i18n';
   import AddCluster from './AddCluster';
   import UpdateCluster from './UpdateCluster';
-  import Terminal from '@/views/resource/components/common/Terminal';
 
   export default {
     name: 'CloudCluster',
@@ -227,7 +227,6 @@
           doFunc: async (param) => {
             await deleteCluster(param.item.ID);
             this.$store.commit('CLEAR_CLUSTER');
-            this.$store.dispatch('UPDATE_VIRTUALSPACE_DATA');
             this.clusterList(true);
           },
         });

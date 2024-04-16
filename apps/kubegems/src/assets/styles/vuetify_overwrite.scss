@@ -194,3 +194,7 @@
 .v-treeview-node__label {
   white-space: break-spaces;
 }
+
+.v-autocomplete__content.v-menu__content .v-select-list {
+  border-radius: 0;
+}

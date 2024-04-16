@@ -185,6 +185,7 @@
 <script>
   import { deleteCertificate, deleteIssuer, getCertificateList, getIssuerList } from '@kubegems/api/direct';
   import { convertResponse2Pagination } from '@kubegems/api/utils';
+  import EventTip from '@kubegems/components/logicComponents/EventTip.vue';
   import BaseFilter from '@kubegems/mixins/base_filter';
   import BasePermission from '@kubegems/mixins/permission';
   import BaseResource from '@kubegems/mixins/resource';
@@ -196,7 +197,6 @@
   import UpdateCertificate from './components/UpdateCertificate';
   import UpdateIssuer from './components/UpdateIssuer';
   import messages from './i18n';
-  import EventTip from '@/views/resource/components/common/EventTip';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
 
   export default {

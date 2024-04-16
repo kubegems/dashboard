@@ -26,7 +26,6 @@
               v-model="resourceKind"
               class="my-0"
               color="primary"
-              hide-selected
               :items="kinds"
               :label="$root.$t('resource.kind')"
               :no-data-text="$root.$t('data.no_data')"
@@ -58,7 +57,6 @@
               v-model="obj.metadata.namespace"
               class="my-0"
               color="primary"
-              hide-selected
               :items="m_select_namespaceItems"
               :label="$root.$t('resource.namespace')"
               :no-data-text="$root.$t('data.no_data')"
@@ -78,7 +76,6 @@
               v-model="selector"
               class="my-0"
               color="primary"
-              hide-selected
               :items="workloads"
               :label="$t('tip.link_workload')"
               :no-data-text="$root.$t('data.no_data')"
@@ -98,7 +95,6 @@
               v-model="obj.spec.clusterIP"
               class="my-0"
               color="primary"
-              hide-selected
               :items="types"
               :label="$t('tip.access_type')"
               :no-data-text="$root.$t('data.no_data')"
@@ -116,7 +112,6 @@
               v-model="obj.spec.type"
               class="my-0"
               color="primary"
-              hide-selected
               :items="externaltypes"
               :label="$t('tip.extend_access')"
               :no-data-text="$root.$t('data.no_data')"

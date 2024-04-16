@@ -54,7 +54,8 @@
     "real_time": "具体时间",
     "datetime": "时间",
     "file_viewer": "文件浏览器",
-    "file_tree": "文件树"
+    "file_tree": "文件树",
+    "connect_closed": "连接已关闭或无法打开"
   },
   "table": {
     "container_name": "容器名",

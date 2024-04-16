@@ -202,6 +202,7 @@
 <script>
   import { getProjectEnvironmentList, getProjectEnvironmentQuotaList, getProjectList } from '@kubegems/api/direct';
   import { convertResponse2List, convertResponse2Pagination } from '@kubegems/api/utils';
+  import config from '@kubegems/libs/constants/global';
   import { METATYPE_CN } from '@kubegems/libs/constants/platform';
   import {
     ENVIRONMENT_CPU_USAGE_PROMQL,
@@ -215,7 +216,6 @@
   import BaseSelect from '@kubegems/mixins/select';
   import { mapGetters, mapState } from 'vuex';
 
-  import config from '../../../../../config.json';
   import messages from '../../i18n';
   import Pagination from '../Pagination';
   import AddEnvironment from '@/views/resource/environment/components/AddEnvironment';
@@ -397,10 +397,12 @@
         });
       },
       async environmentCPUUsage(cluster, environments) {
+        let query = ENVIRONMENT_CPU_USAGE_PROMQL.replaceAll('$1', environments);
+        query = query.replaceAll('%', '');
         const data = await this.m_permission_matrix(
           cluster,
           Object.assign(this.params, {
-            query: ENVIRONMENT_CPU_USAGE_PROMQL.replaceAll('$1', environments),
+            query: query,
             noprocessing: true,
             pass: true,
           }),
@@ -422,10 +424,12 @@
         });
       },
       async environmentMemoryUsage(cluster, environments) {
+        let query = ENVIRONMENT_MEMORY_USAGE_PROMQL.replaceAll('$1', environments);
+        query = query.replaceAll('%', '');
         const data = await this.m_permission_matrix(
           cluster,
           Object.assign(this.params, {
-            query: ENVIRONMENT_MEMORY_USAGE_PROMQL.replaceAll('$1', environments),
+            query: query,
             noprocessing: true,
             pass: true,
           }),
@@ -447,10 +451,12 @@
         });
       },
       async environmentNetworkIn(cluster, environments) {
+        let query = ENVIRONMENT_NETWORK_IN_PROMQL.replaceAll('$1', environments);
+        query = query.replaceAll('%', '');
         const data = await this.m_permission_matrix(
           cluster,
           Object.assign(this.params, {
-            query: ENVIRONMENT_NETWORK_IN_PROMQL.replaceAll('$1', environments),
+            query: query,
             noprocessing: true,
             pass: true,
           }),
@@ -472,10 +478,12 @@
         });
       },
       async environmentNetworkOut(cluster, environments) {
+        let query = ENVIRONMENT_NETWORK_OUT_PROMQL.replaceAll('$1', environments);
+        query = query.replaceAll('%', '');
         const data = await this.m_permission_matrix(
           cluster,
           Object.assign(this.params, {
-            query: ENVIRONMENT_NETWORK_OUT_PROMQL.replaceAll('$1', environments),
+            query: query,
             noprocessing: true,
             pass: true,
           }),

@@ -148,6 +148,7 @@ export const POD_STATUS_COLOR: { [key: string]: string } = {
   Completed: 'var(--grey-color)',
   Evicted: 'var(--grey-light-color)',
   Pending: 'var(--warning-color)',
+  Queued: 'var(--warning-color)',
   Failed: 'var(--error-color)',
   Terminating: 'var(--warning-color)',
   CrashLoopBackOff: 'var(--error-color)',
@@ -158,6 +159,7 @@ export const POD_STATUS_COLOR: { [key: string]: string } = {
   ErrImageNeverPull: 'var(--error-color)',
   Error: 'var(--error-color)',
   CreateContainerConfigError: 'var(--error-color)',
+  InDelete: 'var(--error-color)',
 };
 export const CONTAINER_STATUS_COLOR: { [key: string]: string } = {
   Running: 'var(--success-color)',

@@ -51,6 +51,7 @@
     "pytorch": "发现模型并将其发布到专为研究探索而设计的预训练模型存储库。",
     "paddlepaddle": "源于产业实践的开源深度学习平台。",
     "kubegems": "Kubegems内置算法模型商店。",
+    "kubegems_app": "内置应用商店。",
     "status": "同步状态",
     "update_at": "更新时间",
     "address": "地址",

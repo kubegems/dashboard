@@ -34,7 +34,6 @@
             flat
             full-width
             hide-details
-            hide-selected
             :items="tenantItems"
             :label="i18n.t('resource.tenant')"
             :no-data-text="i18n.t('data.no_data')"

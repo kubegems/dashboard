@@ -108,18 +108,20 @@
         this.modelMemoryUsage();
       },
       async modelCPUUsage() {
-        const query = MODEL_WORKLOAD_CPU_USAGE_CORE_PROMQL.replaceAll('$1', this.pods).replaceAll(
+        let query = MODEL_WORKLOAD_CPU_USAGE_CORE_PROMQL.replaceAll('$1', this.pods).replaceAll(
           '$2',
           this.item.metadata.namespace,
         );
+        query = query.replaceAll('%', '');
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
         if (data) this.cpu = data;
       },
       async modelMemoryUsage() {
-        const query = MODEL_WORKLOAD_MEMORY_USAGE_BYTE_PROMQL.replaceAll('$1', this.pods).replaceAll(
+        let query = MODEL_WORKLOAD_MEMORY_USAGE_BYTE_PROMQL.replaceAll('$1', this.pods).replaceAll(
           '$2',
           this.item.metadata.namespace,
         );
+        query = query.replaceAll('%', '');
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
         if (data) this.memory = data;
       },

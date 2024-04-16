@@ -24,12 +24,19 @@
               <span class="ml-2">{{ $t('form.crt') }}</span>
             </v-flex>
             <v-flex class="ml-2">
-              <ACEEditor
+              <BaseACEEditor
                 v-model="tls['tls.crt']"
                 :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
-                height="200"
+                height="200px"
                 lang="yaml"
-                :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
+                :options="{
+                  tabSize: 2,
+                  fontSize: 12,
+                  printMarginColumn: 100,
+                  showPrintMargin: false,
+                  wrap: true,
+                  readOnly: false,
+                }"
                 theme="chrome"
                 @keydown.stop
               />
@@ -41,12 +48,19 @@
               <span class="ml-2">{{ $t('form.key') }}</span>
             </v-flex>
             <v-flex class="ml-2">
-              <ACEEditor
+              <BaseACEEditor
                 v-model="tls['tls.key']"
                 :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded mb-4`"
-                height="200"
+                height="200px"
                 lang="yaml"
-                :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
+                :options="{
+                  tabSize: 2,
+                  fontSize: 12,
+                  printMarginColumn: 100,
+                  showPrintMargin: false,
+                  wrap: true,
+                  readOnly: false,
+                }"
                 theme="chrome"
                 @keydown.stop
               />

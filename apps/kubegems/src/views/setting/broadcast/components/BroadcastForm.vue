@@ -37,7 +37,6 @@
                 auto-grow
                 class="my-0"
                 :label="i18nLocal.t('table.message')"
-                :readonly="obj.id > 0"
                 required
                 :rules="objRules.message"
               />

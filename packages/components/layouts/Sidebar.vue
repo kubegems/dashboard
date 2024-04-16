@@ -32,55 +32,6 @@
     @transitionend="transitionend"
     @update:mini-variant="updateSidebar"
   >
-    <v-list class="ma-0 pa-0">
-      <v-list-item-group color="white" @change="navChanged">
-        <v-list-item class="py-3" @click="state.expand = !state.expand">
-          <v-list-item-content class="primary--text">
-            <v-list-item-title class="text-subtitle-1 text-center title-font-weight">
-              <v-flex class="float-left">
-                <Icon :icon="module.icon" :style="{ width: `2.2rem`, height: `2.2rem`, fontSize: `2.2rem` }" />
-              </v-flex>
-              <v-flex v-if="!state.hide" class="float-left title-line-height ml-3">
-                {{ i18n.t(`sidebar.${module.text}`) }}
-              </v-flex>
-            </v-list-item-title>
-          </v-list-item-content>
-          <v-list-item-action class="ml-0">
-            <v-btn v-if="!state.expand" icon>
-              <v-icon color="primary lighten-1"> mdi-chevron-down </v-icon>
-            </v-btn>
-            <v-btn v-else icon>
-              <v-icon color="primary lighten-1"> mdi-chevron-up </v-icon>
-            </v-btn>
-          </v-list-item-action>
-        </v-list-item>
-      </v-list-item-group>
-    </v-list>
-
-    <v-expand-transition>
-      <v-list v-show="state.expand" id="expand_list" class="ma-0 pa-0" dense>
-        <v-list-item-group color="primary">
-          <v-list-item
-            v-for="item in modules"
-            :key="item.value"
-            :class="{ 'px-9': true, primary: item.value === module.value }"
-            exact
-            :style="{
-              color: item.value === module.value ? 'white !important' : 'rgba(0, 0, 0, 0.7) !important',
-            }"
-            @click="switchModule(item)"
-          >
-            <v-list-item-icon>
-              <Icon :icon="item.icon" :style="{ width: `1.5rem`, height: `1.5rem`, fontSize: `1.5rem` }" />
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title v-text="i18n.t(`sidebar.${item.text}`)" />
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-expand-transition>
-
     <v-divider />
 
     <v-list class="mt-0" dense expand nav :style="`max-height: ${height}px;overflow-y: auto;`">
@@ -128,7 +79,7 @@
 <script lang="ts" setup>
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useVuetify } from '@kubegems/extension/proxy';
-  import { useMeta, useParams, usePath, useRouter } from '@kubegems/extension/router';
+  import { useMeta, useParams, usePath } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
   import { computed, reactive, ref, watch } from 'vue';
 
@@ -153,7 +104,6 @@
   const meta = useMeta();
   const routeParams = useParams();
   const path = usePath();
-  const router = useRouter();
   const vuetify = useVuetify();
 
   const state = reactive({
@@ -180,22 +130,6 @@
   const height = computed(() => {
     return window.innerHeight / store.state.Scale;
   });
-
-  const navChanged = () => {
-    if (state.expand) {
-      // v-item--active v-list-item--active
-      // 导航栏样式优化，vuetify bug 后续升级
-      const listItems = document.querySelectorAll('#expand_list .v-list-item');
-      if (listItems && listItems.length > 0) {
-        for (const index in listItems) {
-          if (listItems[index].classList) {
-            listItems[index].classList.remove('v-item--active');
-            listItems[index].classList.remove('v-list-item--active');
-          }
-        }
-      }
-    }
-  };
 
   const required = (required: string[]): boolean => {
     let pass = true;
@@ -272,7 +206,9 @@
                   })
                   .sort()
                   .join('')) ||
-            ((meta.value.rootName === 'entry-microservice' || meta.value.rootName === 'microservice') &&
+            ((meta.value.rootName === 'entry-microservice' ||
+              meta.value.rootName === 'microservice' ||
+              meta.value.rootName === 'pai') &&
               item.required.sort().join('') === ['tenant'].join(''))
           );
         })
@@ -281,60 +217,6 @@
         });
     }
     return sidebar;
-  };
-
-  const switchModule = (mod: any): void => {
-    module.value = mod;
-    state.expand = !state.expand;
-    if (module.value.sidebar === 'dashboard' || module.value.sidebar === 'workspaceobserve') {
-      router.push({
-        name: module.value.value,
-        params: { tenant: store.getters.Tenant().TenantName },
-      });
-    } else if (module.value.sidebar === 'projectspace') {
-      router.push({
-        name: module.value.value,
-        params: {
-          tenant: store.getters.Tenant().TenantName,
-          project: store.getters.Project().ProjectName,
-        },
-      });
-    } else if (module.value.sidebar === 'workspace') {
-      router.push({
-        name: module.value.value,
-        params: {
-          tenant: store.getters.Tenant().TenantName,
-          project: store.getters.Project().ProjectName,
-          environment: store.getters.Environment().EnvironmentName,
-        },
-      });
-    } else if (module.value.sidebar === 'cluster') {
-      router.push({
-        name: module.value.value,
-        params: {
-          cluster: store.getters.Cluster().ClusterName,
-        },
-      });
-    } else if (module.value.sidebar === 'workspacepai') {
-      router.push({
-        name: module.value.value,
-        params: {
-          region: store.getters.Region().RegionName,
-          tenant: store.getters.Tenant().TenantName,
-        },
-      });
-    } else if (module.value.sidebar === 'pai') {
-      router.push({
-        name: module.value.value,
-        params: {
-          region: store.getters.Region().RegionName,
-        },
-      });
-    } else {
-      router.push({
-        name: module.value.value,
-      });
-    }
   };
 
   const updateSidebar = () => {
@@ -431,5 +313,11 @@
   }
   .dot {
     margin: 0 auto;
+  }
+  .setting {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translate(-50%, 0%);
   }
 </style>

@@ -9,6 +9,7 @@
     "pytorch": "发现模型并将其发布到专为研究探索而设计的预训练模型存储库。",
     "paddlepaddle": "源于产业实践的开源深度学习平台。",
     "kubegems": "内置算法模型商店。",
+    "kubegems_app": "内置应用商店。",
     "banzaicloud": "构建操作系统用于您的容器和云",
     "hashicorp": "HashiCorp 提供一致的工作流程来为任何应用程序配置、保护、连接和运行任何基础设施。",
     "cloudminds": "来自达闼机器人的算法模型",

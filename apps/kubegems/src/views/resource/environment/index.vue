@@ -38,7 +38,6 @@
             flat
             full-width
             hide-details
-            hide-selected
             :items="m_select_tenantItems"
             :label="$root.$t('resource.tenant')"
             :no-data-text="$root.$t('data.no_data')"

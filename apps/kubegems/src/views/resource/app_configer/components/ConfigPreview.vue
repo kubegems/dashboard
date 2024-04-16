@@ -36,12 +36,19 @@
     </template>
     <template #content>
       <v-card-text class="ma-0 pa-0">
-        <ACEEditor
+        <BaseACEEditor
           v-model="content"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded-0`"
+          :height="`${height}px`"
           :lang="suffix"
-          :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
-          :style="{ height: `${height}px !important` }"
+          :options="{
+            tabSize: 2,
+            fontSize: 12,
+            printMarginColumn: 100,
+            showPrintMargin: false,
+            wrap: true,
+            readOnly: true,
+          }"
           theme="chrome"
           @keydown.stop
         />

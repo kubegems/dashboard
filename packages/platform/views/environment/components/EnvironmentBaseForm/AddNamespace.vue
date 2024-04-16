@@ -27,7 +27,6 @@
               v-model="namespace"
               class="my-0"
               color="primary"
-              hide-selected
               :items="namespaceItems"
               :label="i18n.t('resource.namespace')"
               :no-data-text="i18n.t('data.no_data')"

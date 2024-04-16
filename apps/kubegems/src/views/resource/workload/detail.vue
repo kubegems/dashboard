@@ -289,11 +289,10 @@
         }
       },
       async cpuUsed(trend = true) {
-        const data = await this.m_permission_vector(this.ThisCluster, {
-          query: WORKLOAD_CPU_USAGE_PROMQL.replaceAll('$1', `${this.workload?.metadata?.namespace}`).replaceAll(
-            '$2',
-            `${this.$route.query.type}:${this.workload?.metadata?.name}`,
-          ),
+        let data = await this.m_permission_vector(this.ThisCluster, {
+          query: WORKLOAD_CPU_USAGE_PROMQL.replaceAll('$1', `${this.workload?.metadata?.namespace}`)
+            .replaceAll('$2', `${this.$route.query.type}:${this.workload?.metadata?.name}`)
+            .replaceAll('%', ''),
           noprocessing: true,
         });
         if (data && data.length > 0) {
@@ -312,11 +311,10 @@
         }
       },
       async memoryUsed(trend = true) {
-        const data = await this.m_permission_vector(this.ThisCluster, {
-          query: WORKLOAD_MEMORY_USAGE_PROMQL.replaceAll('$1', `${this.workload?.metadata?.namespace}`).replaceAll(
-            '$2',
-            `${this.$route.query.type}:${this.workload?.metadata?.name}`,
-          ),
+        let data = await this.m_permission_vector(this.ThisCluster, {
+          query: WORKLOAD_MEMORY_USAGE_PROMQL.replaceAll('$1', `${this.workload?.metadata?.namespace}`)
+            .replaceAll('$2', `${this.$route.query.type}:${this.workload?.metadata?.name}`)
+            .replaceAll('%', ''),
           noprocessing: true,
         });
         if (data && data.length > 0) {

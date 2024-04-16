@@ -5,11 +5,9 @@ import vueJsx from '@vitejs/plugin-vue2-jsx';
 import { VuetifyResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
-import { chunkSplitPlugin } from 'vite-plugin-chunk-split';
 import Markdown from 'vite-plugin-vue-markdown';
 import VueSetupExtend from 'vite-plugin-vue-setup-extend';
 import inheritAttrs from 'vite-plugin-vue-setup-inherit-attrs';
-
 export default defineConfig({
   resolve: {
     alias: {
@@ -18,31 +16,15 @@ export default defineConfig({
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
   },
   plugins: [
-    vue({ include: [/\.vue$/, /\.md$/] }),
+    vue({ include: [/\.vue$/, /\.md$/, /\.mdx$/] }),
     inheritAttrs() as any,
     Markdown(),
     Components({
       resolvers: [VuetifyResolver()],
-      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+      include: [/\.vue$/, /\.vue\?vue/, /\.md$/, /\.mdx$/],
       dts: false,
     }),
     vueJsx(),
-    chunkSplitPlugin({
-      strategy: 'default',
-      customSplitting: {
-        'vuetify-vendor': ['vuetify'],
-        xterm: ['xterm', 'xterm-addon-fit'],
-        'base-tool': ['js-yaml', 'js-base64', 'ajv', 'vuedraggable', 'brace'],
-        highlight: ['highlight.js'],
-        'vue-slider-component': ['vue-slider-component'],
-        moment: ['moment'],
-        'vue-table-dynamic': ['vue-table-dynamic'],
-        'vue-i18n': ['vue-i18n'],
-        '@kubegems': ['@kubegems/api', '@kubegems/extension', '@kubegems/libs'],
-        '@iconify-json/logos': ['@iconify-json/logos'],
-        '@iconify-json/mdi': ['@iconify-json/mdi'],
-      },
-    }),
     VueSetupExtend(),
   ],
   envPrefix: 'VUE_APP_',
@@ -57,7 +39,17 @@ export default defineConfig({
     },
   },
   build: {
-    chunkSizeWarningLimit: 2048,
+    chunkSizeWarningLimit: 1024,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          // /Users/leonchen/code/kubegems/dashboard/node_modules/.pnpm/yaml@2.1.3/node_modules/yaml/browser/dist/compose/util-contains-newline.js
+          if (id.includes('node_modules')) {
+            return id.toString().split('node_modules/.pnpm/')[1].split('/')[0].toString();
+          }
+        },
+      },
+    },
   },
   server: {
     host: '0.0.0.0',
@@ -69,17 +61,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/v1/, '/v1'),
       },
-      '/api/v1/pai': {
-        target: 'http://172.16.23.238:32460',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/v1\/pai/, '/v1'),
-        ws: true,
-      },
       '/api/v1': {
         // target: 'http://10.12.32.41:8020',
-        target: 'http://local.kubegems.io:30939',
+        target: 'http://demo.xiaoshiai.cn:30080',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/v1/, '/v1'),
+        rewrite: (path) => path.replace(/^\/api\/v1/, '/api/v1'),
         ws: true,
       },
       '/realtime/': {

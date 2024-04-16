@@ -94,6 +94,9 @@
             data = this.$refs[this.formComponent].getData();
           }
           data = this.m_resource_beautifyData(data);
+          if (this.item.metadata.name === 'default-gateway') {
+            this.item.spec.tenant = 'notenant';
+          }
           await putUpdateGateway(this.Tenant().ID, this.ThisClusterID, this.item.metadata.name, data);
           this.reset();
           this.$emit('refresh');

@@ -56,7 +56,6 @@
               <v-autocomplete
                 v-model="obj.protocol"
                 hide-no-data
-                hide-selected
                 :items="protocolItems"
                 :label="$t('tip.protocol')"
                 :menu-props="{

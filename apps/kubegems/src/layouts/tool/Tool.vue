@@ -38,7 +38,7 @@
             <v-flex class="float-left">
               <v-icon color="primary" left> mdi-cog </v-icon>
             </v-flex>
-            <v-flex class="text-subtitle-2 primary--text">{{ i18nLocal.t('tip.management') }}</v-flex>
+            <v-flex class="text-subtitle-2 primary--text">{{ smallTitle }} </v-flex>
             <v-flex class="text-caption"> {{ i18nLocal.t('tip.management_desc') }} </v-flex>
             <div class="kubegems__clear-float" />
           </v-card-text>
@@ -50,26 +50,52 @@
 
 <script lang="ts" setup>
   import { useRouter } from '@kubegems/extension/proxy';
+  import { useParams, useQuery, useMeta } from '@kubegems/extension/router';
   import { useStore } from '@kubegems/extension/store';
+  import config from '@kubegems/libs/constants/global';
+  import { computed } from 'vue';
 
   import { useI18n } from './i18n';
 
   const store = useStore();
   const i18nLocal = useI18n();
   const router = useRouter();
+  const routeParams = useParams();
+  const query = useQuery();
+  const meta = useMeta();
+
+  const smallTitle = computed(() => {
+    if (
+      ['workspace', 'project', 'dashboard', 'admin-workspace', 'app-store', 'model-store'].indexOf(
+        meta.value.rootName,
+      ) > -1
+    ) {
+      return config.product.KUBEGEMS + i18nLocal.t('tip.cluster_manage');
+    } else if (['observe', 'admin-observe'].indexOf(meta.value.rootName) > -1) {
+      return config.product.OBSERVEGEMS + i18nLocal.t('tip.management');
+    } else if (['modelhub', 'admin-modelhub'].indexOf(meta.value.rootName) > -1) {
+      return config.product.MODELHUB + i18nLocal.t('tip.management');
+    }
+    return i18nLocal.t('tip.management');
+  });
 
   const toAdminViewport = async (): Promise<void> => {
     store.commit('CLEAR_VIRTUAL_SPACE');
     store.commit('CLEAR_PLUGINS_INTERVAL');
-    store.commit('SET_ADMIN_VIEWPORT', true);
     if (store.getters.Cluster().ID === 0) {
       await store.dispatch('UPDATE_CLUSTER_DATA');
     }
     store.commit('SET_EDGE', '');
-    router.push({
-      name: 'cluster-center',
-      params: { cluster: store.getters.Cluster().ClusterName },
-    });
+    if (['workspace', 'project', 'dashboard', 'app-store', 'model-store'].indexOf(meta.value.rootName) > -1) {
+      await router.push({
+        name: 'admin-workspace',
+        params: { cluster: store.getters.Cluster().ClusterName },
+        query: query.value,
+      });
+    } else if (['observe'].indexOf(meta.value.rootName) > -1) {
+      await router.push({ name: 'admin-observe' });
+    }
+    store.commit('SET_ADMIN_VIEWPORT', true);
   };
 </script>
 

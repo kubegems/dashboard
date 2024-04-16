@@ -5,7 +5,7 @@ export const global: RouteConfig[] = [
     path: '/',
     name: 'index',
     redirect: {
-      name: 'resource-dashboard',
+      name: 'home',
     },
   },
   {
@@ -24,6 +24,23 @@ export const global: RouteConfig[] = [
     meta: { requireAuth: false },
   },
   {
+    path: '/home',
+    name: 'home',
+    component: () => import('@/layouts/LayoutForProduct.vue'),
+    redirect: { name: 'chome' },
+    children: [
+      {
+        path: '',
+        name: 'chome',
+        component: () => import('@/views/authentication/Product/index.vue'),
+        meta: {
+          requireAuth: true,
+          title: 'home',
+        },
+      },
+    ],
+  },
+  {
     path: '/license',
     name: 'license',
     component: () => import('@/layouts/LayoutWithoutNavi.vue'),
@@ -35,7 +52,7 @@ export const global: RouteConfig[] = [
         component: () => import('@/layouts/License.vue'),
         meta: {
           requireAuth: false,
-          title: 'License',
+          title: 'license',
         },
       },
     ],

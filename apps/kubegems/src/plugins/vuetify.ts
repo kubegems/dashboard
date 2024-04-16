@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 import { useStore } from '@kubegems/extension/store';
+import config from '@kubegems/libs/constants/global';
 import Vue from 'vue';
 import Vuetify from 'vuetify';
 
 import '@/scss/vuetify/overrides.scss';
-import config from '../config.json';
 
 const store = useStore();
 

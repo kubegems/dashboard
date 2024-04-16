@@ -2,6 +2,8 @@
   "tip": {
     "management": "プラットフォーム管理",
     "management_desc": "管理者としてすべての実行に必要なリソースを参照します。",
-    "tool_box": "ツールボックス"
+    "tool_box": "ツールボックス",
+    "cluster_manage": "クラスタ管理",
+    "pai_manage": "プラットフォーム設定"
   }
 }

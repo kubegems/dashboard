@@ -43,7 +43,6 @@
               v-model="obj.data.MetaType"
               class="my-0"
               color="primary"
-              hide-selected
               :items="m_select_environmentTypeItems"
               :label="$root.$t('resource.type')"
               :no-data-text="$root.$t('data.no_data')"
@@ -61,7 +60,6 @@
               v-model="obj.data.DeletePolicy"
               class="my-0"
               color="primary"
-              hide-selected
               :items="environmentDeletePolicySelect"
               :label="$t('form.delete_policy')"
               :no-data-text="$root.$t('data.no_data')"
@@ -85,7 +83,6 @@
               v-model="obj.data.ClusterID"
               class="my-0"
               color="primary"
-              hide-selected
               :items="m_select_tenantClusterItems"
               :label="$root.$t('resource.cluster')"
               :no-data-text="$root.$t('data.no_data')"

@@ -160,11 +160,13 @@
         this.istioWorkloadNetworkEgressSum(true);
       },
       async istioWorkloadRequestCountNow(noprocess = false) {
+        let query = ISTIO_WORKLOAD_QPS_PROMQL.replaceAll('$1', this.$route.params.name).replaceAll(
+          '$2',
+          this.$route.query.namespace,
+        );
+        query = query.replaceAll('%', '');
         const data = await this.m_permission_vector(this.ThisCluster, {
-          query: ISTIO_WORKLOAD_QPS_PROMQL.replaceAll('$1', this.$route.params.name).replaceAll(
-            '$2',
-            this.$route.query.namespace,
-          ),
+          query: query,
           noprocessing: noprocess,
         });
         data.forEach((d) => {
@@ -172,11 +174,13 @@
         });
       },
       async istioWorkloadRequestSumOverTime(noprocess = false) {
+        let query = ISTIO_WORKLOAD_REQUEST_LAST_24H_PROMQL.replaceAll('$1', this.$route.params.name).replaceAll(
+          '$2',
+          this.$route.query.namespace,
+        );
+        query = query.replaceAll('%', '');
         const data = await this.m_permission_vector(this.ThisCluster, {
-          query: ISTIO_WORKLOAD_REQUEST_LAST_24H_PROMQL.replaceAll('$1', this.$route.params.name).replaceAll(
-            '$2',
-            this.$route.query.namespace,
-          ),
+          query: query,
           noprocessing: noprocess,
         });
         data.forEach((d) => {
@@ -185,11 +189,13 @@
       },
 
       async istioWorkloadResponseDurationSecondsP99(noprocess = false) {
+        let query = ISTIO_WORKLOAD_RESPONSE_DURATION_SECONDS_P99_PROMQL.replaceAll(
+          '$1',
+          this.$route.params.name,
+        ).replaceAll('$2', this.$route.query.namespace);
+        query = query.replaceAll('%', '');
         const data = await this.m_permission_vector(this.ThisCluster, {
-          query: ISTIO_WORKLOAD_RESPONSE_DURATION_SECONDS_P99_PROMQL.replaceAll(
-            '$1',
-            this.$route.params.name,
-          ).replaceAll('$2', this.$route.query.namespace),
+          query: query,
           noprocessing: noprocess,
         });
         data.forEach((d) => {
@@ -197,11 +203,13 @@
         });
       },
       async istioWorkloadResponseDurationSecondsP95(noprocess = false) {
+        let query = ISTIO_WORKLOAD_RESPONSE_DURATION_SECONDS_P95_PROMQL.replaceAll(
+          '$1',
+          this.$route.params.name,
+        ).replaceAll('$2', this.$route.query.namespace);
+        query = query.replaceAll('%', '');
         const data = await this.m_permission_vector(this.ThisCluster, {
-          query: ISTIO_WORKLOAD_RESPONSE_DURATION_SECONDS_P95_PROMQL.replaceAll(
-            '$1',
-            this.$route.params.name,
-          ).replaceAll('$2', this.$route.query.namespace),
+          query: query,
           noprocessing: noprocess,
         });
         data.forEach((d) => {
@@ -210,11 +218,13 @@
       },
 
       async istioWorkloadErrResponseSum(noprocess = false) {
+        let query = ISTIO_WORKLOAD_ERR_QPS_PROMQL.replaceAll('$1', this.$route.params.name).replaceAll(
+          '$2',
+          this.$route.query.namespace,
+        );
+        query = query.replaceAll('%', '');
         const data = await this.m_permission_vector(this.ThisCluster, {
-          query: ISTIO_WORKLOAD_ERR_QPS_PROMQL.replaceAll('$1', this.$route.params.name).replaceAll(
-            '$2',
-            this.$route.query.namespace,
-          ),
+          query: query,
           noprocessing: noprocess,
         });
         data.forEach((d) => {
@@ -222,11 +232,13 @@
         });
       },
       async istioWorkloadErrResponseSumOverTime(noprocess = false) {
+        let query = ISTIO_WORKLOAD_ERR_REQUEST_LAST_24H_PROMQL.replaceAll('$1', this.$route.params.name).replaceAll(
+          '$2',
+          this.$route.query.namespace,
+        );
+        query = query.replaceAll('%', '');
         const data = await this.m_permission_vector(this.ThisCluster, {
-          query: ISTIO_WORKLOAD_ERR_REQUEST_LAST_24H_PROMQL.replaceAll('$1', this.$route.params.name).replaceAll(
-            '$2',
-            this.$route.query.namespace,
-          ),
+          query: query,
           noprocessing: noprocess,
         });
         data.forEach((d) => {
@@ -235,11 +247,13 @@
       },
 
       async istioWorkloadNetworkIngressSum(noprocess = false) {
+        let query = ISTIO_INGRESS_NETWORK_PROMQL.replaceAll('$1', this.$route.params.name).replaceAll(
+          '$2',
+          this.$route.query.namespace,
+        );
+        query = query.replaceAll('%', '');
         const data = await this.m_permission_vector(this.ThisCluster, {
-          query: ISTIO_INGRESS_NETWORK_PROMQL.replaceAll('$1', this.$route.params.name).replaceAll(
-            '$2',
-            this.$route.query.namespace,
-          ),
+          query: query,
           noprocessing: noprocess,
         });
         data.forEach((d) => {
@@ -247,11 +261,13 @@
         });
       },
       async istioWorkloadNetworkEgressSum(noprocess = false) {
+        let query = ISTIO_EGRESS_NETWORK_PROMQL.replaceAll('$1', this.$route.params.name).replaceAll(
+          '$2',
+          this.$route.query.namespace,
+        );
+        query = query.replaceAll('%', '');
         const data = await this.m_permission_vector(this.ThisCluster, {
-          query: ISTIO_EGRESS_NETWORK_PROMQL.replaceAll('$1', this.$route.params.name).replaceAll(
-            '$2',
-            this.$route.query.namespace,
-          ),
+          query: query,
           noprocessing: noprocess,
         });
         data.forEach((d) => {

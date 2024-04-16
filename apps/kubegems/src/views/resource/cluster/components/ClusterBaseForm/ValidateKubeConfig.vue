@@ -55,12 +55,19 @@
 
     <BaseSubTitle title="Kubeconfig" />
     <v-card-text class="pa-2">
-      <ACEEditor
+      <BaseACEEditor
         v-model="obj.KubeConfig"
         :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
-        height="500"
+        height="500px"
         lang="yaml"
-        :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
+        :options="{
+          tabSize: 2,
+          fontSize: 12,
+          printMarginColumn: 100,
+          showPrintMargin: false,
+          wrap: true,
+          readOnly: false,
+        }"
         theme="chrome"
         @keydown.stop
       />

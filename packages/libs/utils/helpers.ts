@@ -1,8 +1,12 @@
 export function validateJWT(jwt: string): boolean {
   if (!jwt) return false;
-  const jwtInfo: any = JSON.parse(window.atob(jwt.split('.')[1]));
-  const now: number = Date.parse(new Date().toString()) / 1000;
-  return jwtInfo.exp > now;
+  try {
+    const jwtInfo: any = JSON.parse(window.atob(jwt.split('.')[1]));
+    const now: number = Date.parse(new Date().toString()) / 1000;
+    return jwtInfo.exp > now;
+  } catch (e) {
+    return true;
+  }
 }
 
 export function formatDatetime(date: Date = new Date(), format = 'yyyy-MM-dd hh:mm:ss'): string | number {
@@ -121,16 +125,16 @@ export function sizeOfStorage(num: number | string, suffix = 'Gi'): number {
   return 0;
 }
 
-export function beautifyStorageUnit(num: number, decimal = 1): string {
-  let result: number = num;
+export function beautifyStorageUnit(num: number | string, decimal = 1): string {
+  let result: number = parseFloat(num.toString());
   const units: string[] = ['B', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi'];
   for (const index in units) {
     if (Math.abs(result) < 1024.0) {
-      return `${result.toFixed(decimal)} ${units[index]}`;
+      return `${result.toFixed(decimal)}${units[index]}`;
     }
     result /= 1024.0;
   }
-  return `${result.toFixed(decimal)} Yi`;
+  return `${result.toFixed(decimal)}Yi`;
 }
 
 export function beautifyFileUnit(num: number, decimal = 1): string {
@@ -138,11 +142,11 @@ export function beautifyFileUnit(num: number, decimal = 1): string {
   const units: string[] = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB'];
   for (const index in units) {
     if (Math.abs(result) < 1024.0) {
-      return `${result.toFixed(decimal)} ${units[index]}`;
+      return `${result.toFixed(decimal)}${units[index]}`;
     }
     result /= 1024.0;
   }
-  return `${result.toFixed(decimal)} Yi`;
+  return `${result.toFixed(decimal)}Yi`;
 }
 
 export function sizeOfCpu(num: number | string, suffix = 'core'): number {
@@ -413,4 +417,47 @@ export function colorRgbArray(color: string): number[] {
     return sColorChange;
   }
   return [];
+}
+
+export const beautifyFloatNum = (num: number | string, decimal = 1): string => {
+  let result = parseFloat(num.toString());
+  if (result > 1000) {
+    decimal = 1;
+  }
+  if (result > 1000000) {
+    decimal = 2;
+  }
+  const units = ['', 'K', 'M'];
+  for (const index in units) {
+    if (Math.abs(result) < 1000.0) {
+      return `${result.toFixed(decimal)}${units[index]}`;
+    }
+    result /= 1000.0;
+  }
+  return `${result.toFixed(decimal)}Yi`;
+};
+
+export const formatDuring = (millisecond: number): string => {
+  if (millisecond <= 0) return '0';
+  const days = parseInt((millisecond / (1000 * 60 * 60 * 24)).toString());
+  const hours = parseInt(((millisecond % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString());
+  const minutes = parseInt(((millisecond % (1000 * 60 * 60)) / (1000 * 60)).toString());
+  const seconds = parseInt(((millisecond % (1000 * 60)) / 1000).toString());
+  let s = ``;
+  if (days) s += days + 'd';
+  if (hours) s += hours + 'h';
+  if (minutes) s += minutes + 'm';
+  if (seconds) s += seconds + 's';
+  return s;
+};
+
+export function validateJWTExpiredSoon(jwt: string): boolean {
+  if (!jwt) return false;
+  try {
+    const jwtInfo: any = JSON.parse(window.atob(jwt.split('.')[1]));
+    const now: number = Date.parse(new Date().toString()) / 1000;
+    return jwtInfo.exp - 10 * 60 > now;
+  } catch (e) {
+    return true;
+  }
 }

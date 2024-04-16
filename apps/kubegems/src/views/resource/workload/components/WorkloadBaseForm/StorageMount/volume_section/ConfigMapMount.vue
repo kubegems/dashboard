@@ -23,7 +23,6 @@
           v-model="volumeName"
           class="my-0"
           color="primary"
-          hide-selected
           :items="items"
           :label="$root.$t('resource.configmap')"
           :no-data-text="$root.$t('data.no_data')"
@@ -51,7 +50,6 @@
           v-model="volumeCopy.configMap.items[index].key"
           class="my-0"
           color="primary"
-          hide-selected
           :items="configMapKeys"
           :label="$t('tip.configmap_key')"
           :no-data-text="$root.$t('data.no_data')"

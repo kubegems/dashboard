@@ -19,11 +19,18 @@
     :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
     :style="{ height: `${height}px !important`, overflow: 'auto' }"
   >
-    <ACEEditor
+    <BaseACEEditor
       v-model="kubeyaml"
       class="rounded-0"
       lang="yaml"
-      :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
+      :options="{
+        tabSize: 2,
+        fontSize: 12,
+        printMarginColumn: 100,
+        showPrintMargin: false,
+        wrap: true,
+        readOnly: true,
+      }"
       theme="chrome"
       @keydown.stop
     />

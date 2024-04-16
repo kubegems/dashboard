@@ -21,8 +21,9 @@
 </template>
 
 <script lang="ts" setup>
+  import { useStore } from '@kubegems/extension/store';
   import { LINE_THEME_COLORS, LINE_THEME_FUL_COLORS } from '@kubegems/libs/constants/chart';
-  import { randomString } from '@kubegems/libs/utils/helpers';
+  import { beautifyFloatNum, beautifyStorageUnit, randomString } from '@kubegems/libs/utils/helpers';
   import Chart from 'chart.js/auto';
   import { nextTick, onMounted, ref, watch } from 'vue';
 
@@ -35,6 +36,9 @@
       labels?: string[];
       metrics?: any[];
       title?: string;
+      legend?: boolean;
+      type?: string;
+      unitType?: string;
     }>(),
     {
       id: '',
@@ -44,11 +48,15 @@
       labels: undefined,
       metrics: undefined,
       title: '',
+      legend: true,
+      type: 'pie',
+      unitType: 'number',
     },
   );
 
   const chart = ref<any>(undefined);
   const chartId = ref<string>('');
+  const store = useStore();
 
   const loadChart = (): void => {
     if (!chart.value) {
@@ -56,7 +64,7 @@
       chart.value = new Chart(
         ctx as any,
         {
-          type: 'pie',
+          type: props.type,
           data: {
             labels: props.labels,
             datasets: loadDatasets(),
@@ -64,15 +72,19 @@
           options: {
             responsive: true,
             maintainAspectRatio: false,
+            cutout: props.type === 'pie' ? '0%' : '60%',
             plugins: {
               title: {
                 align: 'start',
-                display: true,
+                display: Boolean(props.title),
                 text: props.title,
+                font: {
+                  size: 15,
+                },
               },
               legend: {
-                display: true,
-                position: 'bottom',
+                display: props.legend,
+                position: 'right',
                 labels: {
                   usePointStyle: true,
                   pointStyleWidth: 10,
@@ -85,6 +97,13 @@
                 boxHeight: 8,
                 boxPadding: 4,
                 mode: 'index',
+                callbacks: {
+                  label: (tooltipItem) => {
+                    return `${props.labels[tooltipItem.dataIndex]} : ${getValue(
+                      tooltipItem.dataset.data[tooltipItem.dataIndex],
+                    )}`;
+                  },
+                },
               },
             },
             interaction: {
@@ -120,6 +139,16 @@
     return datasets;
   };
 
+  const getValue = (value: any): string => {
+    if (props.unitType === 'number') {
+      return beautifyFloatNum(value);
+    } else if (props.unitType === 'storage') {
+      return beautifyStorageUnit(value);
+    } else {
+      return value;
+    }
+  };
+
   onMounted(() => {
     nextTick(() => {
       if (props.id) {
@@ -138,6 +167,16 @@
 
   watch(
     () => props.metrics,
+    async (newValue) => {
+      if (newValue && newValue?.length >= 0 && document.getElementById(chartId.value)) {
+        loadChart();
+      }
+    },
+    { deep: true },
+  );
+
+  watch(
+    () => store.state.ThemeColor,
     async (newValue) => {
       if (newValue && newValue?.length >= 0 && document.getElementById(chartId.value)) {
         loadChart();

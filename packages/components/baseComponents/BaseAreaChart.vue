@@ -31,6 +31,7 @@
   import { randomString } from '@kubegems/libs/utils/helpers';
   import Chart, { Align, InteractionMode, ScatterDataPoint } from 'chart.js/auto';
   import 'chartjs-adapter-moment';
+  import zoomPlugin from 'chartjs-plugin-zoom';
   import moment from 'moment';
   import { ComputedRef, computed, nextTick, onMounted, ref, watch } from 'vue';
 
@@ -59,6 +60,8 @@
       type?: string;
       unit?: string;
       width?: string;
+      zoom?: boolean;
+      timeType?: string;
     }>(),
     {
       id: '',
@@ -84,6 +87,8 @@
       type: undefined,
       unit: '',
       width: '100%',
+      zoom: false,
+      timeType: 'timeseries',
     },
   );
 
@@ -117,131 +122,165 @@
     );
   });
 
+  const options = computed(() => {
+    const _option = {
+      plugins: [zoomPlugin],
+      type: 'line',
+      data: {
+        labels: props.labels,
+        datasets: loadDatasets(),
+      },
+      options: {
+        animation: props.animation,
+        spanGaps: true,
+        datasets: {
+          line: {
+            pointRadius: 0,
+          },
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          zoom: {
+            pan: {
+              enabled: props.zoom,
+              modifierKey: 'ctrl',
+            },
+            zoom: {
+              drag: {
+                enabled: props.zoom,
+                borderColor: 'rgb(54, 162, 235)',
+                borderWidth: 1,
+                backgroundColor: 'rgba(54, 162, 235, 0.3)',
+              },
+              mode: 'x',
+              onZoomComplete: ({ chart }) => {
+                const { min, max } = chart.scales.x;
+                emit('refresh', min, max);
+              },
+            },
+          },
+          title: {
+            align: 'start',
+            display: Boolean(props.title),
+            text: props.title,
+          },
+          legend: {
+            display: props.labelShow && !props.sample,
+            position: 'bottom',
+            labels: {
+              usePointStyle: true,
+              pointStyleWidth: 10,
+              boxHeight: 7,
+            },
+            align: props.legendAlign as Align,
+            onClick: (e, legendItem, legend) => {
+              const ci = legend.chart;
+              const index = legendItem.datasetIndex;
+              const legendIndex = legendIndexs.value.indexOf(index);
+              if (legendIndex > -1) {
+                legendIndexs.value.splice(legendIndex, 1);
+              } else {
+                legendIndexs.value.push(index);
+              }
+
+              const showAll = legendIndexs.value?.length === 0;
+
+              legend.legendItems.forEach((item) => {
+                const i = item.datasetIndex;
+                if (showAll) {
+                  ci.show(i);
+                  item.hidden = false;
+                } else {
+                  if (legendIndexs.value.indexOf(i) > -1) {
+                    ci.show(i);
+                    item.hidden = false;
+                  } else {
+                    ci.hide(i);
+                    item.hidden = true;
+                  }
+                }
+              });
+            },
+          },
+          tooltip: {
+            enabled: !props.singleTooptip,
+            usePointStyle: true,
+            boxWidth: 8,
+            boxHeight: 8,
+            boxPadding: 4,
+            callbacks: {
+              label: (tooltipItem) => {
+                return `${tooltipItem.dataset.label} : ${formatter(
+                  (tooltipItem.dataset.data[tooltipItem.dataIndex] as ScatterDataPoint).y,
+                )}`;
+              },
+            },
+            external: props.singleTooptip ? externalTooltipHandler : null,
+            mode: props.singleTooptip ? ('nearest' as InteractionMode) : (props.mode as InteractionMode),
+          },
+        },
+        radius: 0,
+        borderWidth: props.chartType === 'line' ? 2 : 1,
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            display: !props.sample,
+            grid: {
+              borderDash: [8, 8, 8],
+              drawBorder: false,
+            },
+            ticks: {
+              callback: (value) => {
+                return formatter(value);
+              },
+              maxTicksLimit: 8,
+            },
+            beginAtZero: props.beginAtZero,
+            min: props.type === 'percent' || ['0-100', '0.0-1.0'].indexOf(props.unit) > -1 ? 0 : null,
+            stacked: props.stacked,
+          },
+          x: {
+            display: !props.sample,
+            grid: {
+              display: false,
+            },
+            type: props.timeType,
+            time: {
+              unit: 'second',
+              displayFormats: {
+                second: props.timeDisplay,
+              },
+              tooltipFormat: 'YYYY-MM-DD HH:mm:ss',
+              stepSize: 200,
+            },
+          },
+        },
+      },
+    };
+    const min = getSuggestMinVal();
+    const max = getSuggestMaxVal();
+    if (
+      props.type !== '%' &&
+      props.type !== 'percent' &&
+      ['0-100', '0.0-1.0'].indexOf(props.unit) === -1 &&
+      (min || max)
+    ) {
+      (_option.options.scales.y as any).suggestedMin = min;
+      (_option.options.scales.y as any).suggestedMax = max;
+    }
+    return _option;
+  });
+
+  const emit = defineEmits(['refresh']);
   const loadChart = (): void => {
     if (!mustCheckPremission.value) return;
     if (!chart.value) {
       const ctx = (document.getElementById(chartId.value) as HTMLCanvasElement).getContext('2d');
-      chart.value = new Chart(
-        ctx as any,
-        {
-          type: 'line',
-          data: {
-            labels: props.labels,
-            datasets: loadDatasets(),
-          },
-          options: {
-            animation: props.animation,
-            spanGaps: true,
-            datasets: {
-              line: {
-                pointRadius: 0,
-              },
-            },
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              title: {
-                align: 'start',
-                display: Boolean(props.title),
-                text: props.title,
-              },
-              legend: {
-                display: props.labelShow && !props.sample,
-                position: 'bottom',
-                labels: {
-                  usePointStyle: true,
-                  pointStyleWidth: 10,
-                  boxHeight: 7,
-                },
-                align: props.legendAlign as Align,
-                onClick: (e, legendItem, legend) => {
-                  const ci = legend.chart;
-                  const index = legendItem.datasetIndex;
-                  const legendIndex = legendIndexs.value.indexOf(index);
-                  if (legendIndex > -1) {
-                    legendIndexs.value.splice(legendIndex, 1);
-                  } else {
-                    legendIndexs.value.push(index);
-                  }
-
-                  const showAll = legendIndexs.value?.length === 0;
-
-                  legend.legendItems.forEach((item) => {
-                    const i = item.datasetIndex;
-                    if (showAll) {
-                      ci.show(i);
-                      item.hidden = false;
-                    } else {
-                      if (legendIndexs.value.indexOf(i) > -1) {
-                        ci.show(i);
-                        item.hidden = false;
-                      } else {
-                        ci.hide(i);
-                        item.hidden = true;
-                      }
-                    }
-                  });
-                },
-              },
-              tooltip: {
-                enabled: !props.singleTooptip,
-                usePointStyle: true,
-                boxWidth: 8,
-                boxHeight: 8,
-                boxPadding: 4,
-                callbacks: {
-                  label: (tooltipItem) => {
-                    return `${tooltipItem.dataset.label} : ${formatter(
-                      (tooltipItem.dataset.data[tooltipItem.dataIndex] as ScatterDataPoint).y,
-                    )}`;
-                  },
-                },
-                external: props.singleTooptip ? externalTooltipHandler : null,
-                mode: props.singleTooptip ? ('nearest' as InteractionMode) : (props.mode as InteractionMode),
-              },
-            },
-            radius: 0,
-            borderWidth: props.chartType === 'line' ? 2 : 1,
-            interaction: {
-              intersect: false,
-              mode: 'index',
-            },
-            scales: {
-              y: {
-                display: !props.sample,
-                grid: {
-                  borderDash: [8, 8, 8],
-                  drawBorder: false,
-                },
-                ticks: {
-                  callback: (value) => {
-                    return formatter(value);
-                  },
-                  maxTicksLimit: 8,
-                },
-                beginAtZero: props.beginAtZero,
-                min: props.type === 'percent' || ['0-100', '0.0-1.0'].indexOf(props.unit) > -1 ? 0 : null,
-                stacked: props.stacked,
-              },
-              x: {
-                display: !props.sample,
-                grid: {
-                  display: false,
-                },
-                type: 'time',
-                time: {
-                  unit: 'second',
-                  displayFormats: {
-                    second: props.timeDisplay,
-                  },
-                  tooltipFormat: 'YYYY-MM-DD HH:mm:ss',
-                  stepSize: 200,
-                },
-              },
-            },
-          },
-        } as any,
-      );
+      chart.value = new Chart(ctx as any, options.value as any);
     } else {
       chart.value.data = { datasets: loadDatasets() };
       chart.value.update('none');
@@ -628,4 +667,46 @@
     },
     { deep: true },
   );
+
+  const getMinVal = () => {
+    const val = [];
+    props.metrics?.forEach((m) => {
+      m?.values?.forEach((v) => {
+        val.push(parseFloat(v?.[1] || 0));
+      });
+    });
+    return Math.min(...val);
+  };
+
+  const getMaxVal = () => {
+    const val = [];
+    props.metrics?.forEach((m) => {
+      m?.values?.forEach((v) => {
+        val.push(parseFloat(v?.[1] || 1));
+      });
+    });
+    return Math.max(...val);
+  };
+
+  const getSuggestMinVal = () => {
+    const _min = getMinVal();
+    const _max = getMaxVal();
+    if (_min < 100 && _max - _min < 2) return _min < 5 ? 0 : _min - 5;
+    if (_min < 1000 && _max - _min < 20) return _min < 50 ? 0 : _min - 50;
+    if (_min < 10000 && _max - _min < 200) return _min < 500 ? 0 : _min - 500;
+    if (_min < 100000 && _max - _min < 2000) return _min < 5000 ? 0 : _min - 5000;
+    if (_min < 1000000 && _max - _min < 20000) return _min < 50000 ? 0 : _min - 50000;
+    return null;
+  };
+
+  const getSuggestMaxVal = () => {
+    const _min = getMinVal();
+    const _max = getMaxVal();
+    if (_max < 100 && _max - _min < 2) return _max + 5;
+    if (_max < 1000 && _max - _min < 20) return _max + 50;
+    if (_max < 10000 && _max - _min < 200) return _max + 500;
+    if (_max < 100000 && _max - _min < 2000) return _max + 5000;
+    if (_max < 1000000 && _max - _min < 20000) return _max + 50000;
+    return null;
+  };
 </script>

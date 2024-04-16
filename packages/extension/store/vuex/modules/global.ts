@@ -17,11 +17,30 @@ const Broadcast = 'broadcast';
 const Edge = 'edge';
 const Guided = 'guided';
 const ThemeColor = 'themecolor';
+const RefreshToken = 'refresh_token';
+const ExpireAt = 'expire_at';
+const AccessToken = 'access_token';
+const TokenType = 'token_type';
+const IdToken = 'id_token';
 
 const global = {
   state: {
     Csrftoken: getCookie(CSRFTOKENNAME),
-    JWT: window.localStorage.getItem(JWTName),
+    JWT:
+      ['undefined', 'null'].indexOf(window.localStorage.getItem(JWTName)) > -1
+        ? ''
+        : window.localStorage.getItem(JWTName),
+    AccessToken:
+      ['undefined', 'null'].indexOf(window.localStorage.getItem(AccessToken)) > -1
+        ? ''
+        : window.localStorage.getItem(AccessToken),
+    IdToken:
+      ['undefined', 'null'].indexOf(window.localStorage.getItem(IdToken)) > -1
+        ? ''
+        : window.localStorage.getItem(IdToken),
+    TokenType: window.localStorage.getItem(TokenType),
+    ExpireAt: window.localStorage.getItem(ExpireAt),
+    RefreshToken: window.localStorage.getItem(RefreshToken),
     User: JSON.parse(window.localStorage.getItem(User) as string) || {},
     Auth: JSON.parse(window.localStorage.getItem(Auth) as string) || {
       environments: [],
@@ -88,6 +107,26 @@ const global = {
     SET_JWT(state: { [key: string]: any }, jwt: string): void {
       state.JWT = jwt;
       window.localStorage.setItem(JWTName, jwt);
+    },
+    SET_ACCESS_TOKEN(state: { [key: string]: any }, access_token: string): void {
+      state.AccessToken = access_token;
+      window.localStorage.setItem(AccessToken, access_token);
+    },
+    SET_ID_TOKEN(state: { [key: string]: any }, id_token: string): void {
+      state.IdToken = id_token;
+      window.localStorage.setItem(IdToken, id_token);
+    },
+    SET_TOKEN_TYPE(state: { [key: string]: any }, token_type: string): void {
+      state.TokenType = token_type;
+      window.localStorage.setItem(TokenType, token_type);
+    },
+    SET_EXPIRE_AT(state: { [key: string]: any }, expire: string): void {
+      state.ExpireAt = expire;
+      window.localStorage.setItem(ExpireAt, expire);
+    },
+    SET_REFRESH_TOKEN(state: { [key: string]: any }, refresh_token: string): void {
+      state.RefreshToken = refresh_token;
+      window.localStorage.setItem(RefreshToken, refresh_token);
     },
     SET_USER(state: { [key: string]: any }, user: { [key: string]: any }): void {
       state.User = user;

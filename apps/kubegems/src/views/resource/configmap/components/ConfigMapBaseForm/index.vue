@@ -26,7 +26,6 @@
               v-model="resourceKind"
               class="my-0"
               color="primary"
-              hide-selected
               :items="kinds"
               :label="$root.$t('resource.kind')"
               :no-data-text="$root.$t('data.no_data')"
@@ -59,7 +58,6 @@
               v-model="obj.metadata.namespace"
               class="my-0"
               color="primary"
-              hide-selected
               :items="m_select_namespaceItems"
               :label="$root.$t('resource.namespace')"
               :no-data-text="$root.$t('data.no_data')"

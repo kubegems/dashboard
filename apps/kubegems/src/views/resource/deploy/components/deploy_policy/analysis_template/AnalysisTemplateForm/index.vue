@@ -30,7 +30,6 @@
                   v-model="analysisTemplate"
                   class="my-0"
                   color="primary"
-                  hide-selected
                   :items="analysisTemplateItems"
                   :label="$t('tip.analysis_template')"
                   :no-data-text="$root.$t('data.no_data')"
@@ -55,7 +54,6 @@
                   v-model="clusterScope"
                   class="my-0"
                   color="primary"
-                  hide-selected
                   :items="clusterScopeItems"
                   :label="$t('tip.template_range')"
                   :no-data-text="$root.$t('data.no_data')"

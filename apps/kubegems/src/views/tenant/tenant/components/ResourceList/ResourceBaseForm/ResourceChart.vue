@@ -109,9 +109,8 @@
 
 <script lang="ts" setup>
   import { useGlobalI18n } from '@kubegems/extension/i18n';
+  import config from '@kubegems/libs/constants/global';
   import { ComputedRef, computed, reactive } from 'vue';
-
-  import config from '../../../../../../config.json';
 
   const i18n = useGlobalI18n();
 

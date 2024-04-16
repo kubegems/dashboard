@@ -17,13 +17,16 @@
 <template>
   <div :id="id" class="d-inline-block collapse">
     <!-- 无数据显示 -->
-    <span v-if="visibleItems.length === 0">{{ emptyText }}</span>
+    <div v-if="visibleItems.length === 0" :class="{ [`mb-${emptyLineSpace}`]: emptyLineSpace > 0 }">
+      {{ emptyText }}
+    </div>
 
     <v-menu
       v-if="items.length"
       :close-delay="200"
       :close-on-content-click="false"
       :disabled="items.length <= showLength"
+      max-height="350px"
       :max-width="maxWidth"
       :min-width="minWidth"
       open-on-hover
@@ -36,28 +39,28 @@
             <slot :item="item">{{ item[itemText] }}</slot>
           </v-chip> -->
 
-          <div v-for="item in visibleItems" :key="item[itemValue]" class="mr-2 my-1">
-            <div class="success white--text float-left collapse__left text-caption">
+          <div v-for="(item, index) in visibleItems" :key="index" class="mr-2 my-1">
+            <div class="success white--text float-left collapse__right text-caption pr-2">
               <div
-                :class="`${color} pl-2 pr-1 collapse__front ${collapse ? 'collapse__collapse' : ''}`"
+                :class="`${color} pl-2 pr-1 mr-1 collapse__front ${
+                  collapse ? 'collapse__collapse' : ''
+                } collapse__icon float-left`"
                 :style="{ maxWidth: collapse ? `${collapse - 50}px` : '' }"
               >
                 <v-icon v-if="icon" class="mr-1" color="white" small> {{ icon }} </v-icon>
-                <strong v-if="dataType === 'object'" class="mr-1"> {{ item[itemValue] }} </strong>
+                <strong v-if="dataType === 'object' || forceShow" class="mr-1"> {{ item[itemValue] }} </strong>
               </div>
-            </div>
-            <div class="success white--text float-left collapse__right text-caption px-2">
               <slot :item="item">
-                <strong>
-                  {{ item[itemText] }}
-                </strong>
+                <strong> {{ item[itemText] }} </strong>
+                <slot name="action" />
               </slot>
+              <div class="kubegems__clear-float" />
             </div>
             <div class="kubegems__clear-float" />
           </div>
 
           <div
-            v-if="items.length > 1"
+            v-if="items.length > 1 && !all"
             :class="`${color} white--text collapse__left collapse__right text-caption px-2 float-left`"
           >
             <strong>+ {{ items.length - 1 }}</strong>
@@ -65,18 +68,18 @@
         </v-flex>
       </template>
 
-      <v-card class="pa-2" flat>
+      <v-card v-if="!all" class="pa-2" flat>
         <template v-if="singleLine">
-          <div v-for="item in items" :key="item[itemValue]">
+          <div v-for="(item, index) in items" :key="index">
             <v-flex class="ma-1 text-caption kubegems__text collapse__chip" small>
               <v-icon v-if="icon" :color="color" left small> {{ icon }} </v-icon>
-              <strong v-if="dataType === 'object'" class="mr-1"> {{ item[itemValue] }} </strong>
+              <strong v-if="dataType === 'object' || forceShow" class="mr-1"> {{ item[itemValue] }} </strong>
               <slot :item="item">{{ item[itemText] }}</slot>
             </v-flex>
           </div>
         </template>
         <template v-else>
-          <v-chip v-for="item in items" :key="item[itemValue]" class="ma-1" :color="color" small>
+          <v-chip v-for="(item, index) in items" :key="index" class="ma-1" :color="color" small>
             <slot :item="item">{{ item[itemText] }}</slot>
           </v-chip>
         </template>
@@ -104,6 +107,9 @@
       singleLine?: boolean;
       collapse?: number;
       showLength?: number;
+      forceShow?: boolean;
+      emptyLineSpace?: number;
+      all?: boolean;
     }>(),
     {
       chips: [],
@@ -120,6 +126,9 @@
       singleLine: false,
       collapse: 0,
       showLength: 1,
+      forceShow: false,
+      emptyLineSpace: 0,
+      all: false,
     },
   );
 
@@ -157,7 +166,7 @@
       });
       dataType.value = 'object';
     }
-    visibleItems.value = items.value.slice(0, props.count);
+    visibleItems.value = props.all ? items.value.slice() : items.value.slice(0, props.count);
   };
 
   watch(
@@ -189,10 +198,9 @@
     }
 
     &__right {
-      border-top-right-radius: 20px;
-      border-bottom-right-radius: 20px;
+      border-radius: 20px;
       line-height: 22px;
-      max-width: 350px;
+      max-width: 435px;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: auto;
@@ -203,6 +211,12 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       word-break: break-all;
+    }
+
+    &__icon {
+      padding-top: 0;
+      padding-bottom: 0;
+      line-height: 22px;
     }
   }
 </style>

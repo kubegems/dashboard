@@ -237,7 +237,7 @@ const resource = {
           noprocessing: true,
         });
         const p = {};
-        data.forEach((d) => {
+        data?.forEach((d) => {
           p[d.name] = d.enabled;
         });
         if (p) commit('SET_GLOBAL_PLUGINS', p);
@@ -318,22 +318,21 @@ const resource = {
         state.MessageStreamWS.onmessage = (e: any): void => {
           state.MessageStream = e.data;
         };
-        state.MessageStreamWS.onerror = async (): Promise<void> => {
+        state.MessageStreamWS.onclose = async (): Promise<void> => {
           if (state.MessageStreamWS) state.MessageStreamWS.close();
           state.MessageStreamWS = null;
-          if (state.ReconnectCount <= 5) {
-            await sleep(1000);
+          if (state.ReconnectCount < 5) {
+            console.log(`message stream ws reconnecting..., ${(state.ReconnectCount + 1) * 2}s retry`);
+            await sleep(1000 * (state.ReconnectCount + 1) * 2);
             dispatch('INIT_MESSAGE_STREAM');
             state.ReconnectCount += 1;
           }
         };
-        state.MessageStreamWS.onclose = async (): Promise<void> => {
-          state.MessageStreamWS = null;
-          if (state.ReconnectCount <= 5) {
-            await sleep(1000);
-            dispatch('INIT_MESSAGE_STREAM');
-            state.ReconnectCount += 1;
-          }
+        state.MessageStreamWS.onopen = async (): Promise<void> => {
+          const _time = setInterval(() => {
+            if (state.MessageStreamWS) state.MessageStreamWS.send(JSON.stringify({ kind: 'keep-alive' }));
+            else clearInterval(_time);
+          }, 5 * 1000);
         };
       }
     },

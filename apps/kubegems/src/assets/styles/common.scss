@@ -3,6 +3,10 @@
   src: url('../fonts/kubegems-sample.ttf');
 }
 
+#opengems {
+  font-family: Poppins;
+}
+
 /**
  * 公共全局样式
  */
@@ -35,6 +39,13 @@ html::-webkit-scrollbar {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.kubegems__full-bottom {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translate(-50%, 0%);
 }
 
 .kubegems__fixed {
@@ -264,4 +275,8 @@ $i: 24;
 
 .kubegems__rounded_small {
   border-radius: 3px;
+}
+
+.kubegems__relative {
+  position: relative;
 }

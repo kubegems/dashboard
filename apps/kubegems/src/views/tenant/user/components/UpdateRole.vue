@@ -39,7 +39,6 @@
               v-model="obj.SystemRoleID"
               class="my-0"
               color="primary"
-              hide-selected
               :items="systemRoleItems"
               :label="i18n.t('resource.role')"
               :no-data-text="i18n.t('data.no_data')"

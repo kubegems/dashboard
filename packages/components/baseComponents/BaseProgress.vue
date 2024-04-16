@@ -33,9 +33,9 @@
             {{ char }}
           </span>
         </div>
-        <div class="text-subtitle-2 text-center grey--text" :style="{ marginTop: '50px' }"
-          >{{ i18n.t('loading') }}...</div
-        >
+        <div class="text-subtitle-2 text-center grey--text" :style="{ marginTop: '50px' }">
+          {{ i18n.t('loading') }}...
+        </div>
       </v-card-text>
     </v-card>
   </v-overlay>
@@ -70,6 +70,18 @@
     n: 12,
     C: 14,
     S: 14,
+    M: 17,
+    a: 12,
+    t: 11,
+    r: 12,
+    i: 8,
+    l: 11,
+    D: 13,
+    o: 12,
+    A: 14,
+    w: 16,
+    Z: 14,
+    B: 14,
   };
 
   const getWidthOffset = (index: number): number => {

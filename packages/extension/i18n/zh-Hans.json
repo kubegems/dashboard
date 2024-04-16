@@ -7,6 +7,10 @@
   "username": "用户名",
   "passwd": "密码",
   "query": "搜索",
+  "home": "主页",
+  "license": "License",
+  "used": "已使用",
+  "docs": "文档中心",
 
   "status": {
     "success": "成功",
@@ -25,7 +29,8 @@
     "end": "结束时间",
     "tip": {
       "start_end": "起止时间(格式: 1、12、12:30、12:30:30、1230、123030)",
-      "range": "请选择日期时间范围"
+      "range": "请选择日期时间范围",
+      "start_end_short": "起止时间"
     },
     "last": {
       "5": "最近5分钟",
@@ -67,7 +72,8 @@
     "lt_min_value": "小于最小值",
     "gt_max_value": "大于最大值",
     "gt_max_item": "超过最大条目数 {0}",
-    "lt_min_item": "低于最小条目数 {0}"
+    "lt_min_item": "低于最小条目数 {0}",
+    "name": "格式错误(1到50位由字母或数字下划线斜杠组成的字符串)"
   },
 
   "role": {
@@ -201,6 +207,7 @@
     "event": "事件",
     "usercenter": "用户中心",
     "pai": "PAI",
+    "home": "首页",
     "user": {
       "tenant": "租户",
       "usercenter": "用户中心",
@@ -212,7 +219,8 @@
     "blank": "空白"
   },
   "filter": {
-    "placehold": "输入查询条件进行过滤"
+    "placehold": "输入查询条件进行过滤",
+    "name": "名称"
   },
   "data": {
     "unknown": "未知",
@@ -220,7 +228,8 @@
     "no_cluster": "暂无集群",
     "no_tenant": "暂无租户",
     "data": "数据",
-    "welcome": "欢迎"
+    "welcome": "欢迎",
+    "loading": "加载中..."
   },
   "operate": {
     "add": "添加",
@@ -229,6 +238,10 @@
     "batch": "批量",
     "delete": "删除",
     "batch_delete_c": "批量删除{0}",
+    "batch_start_c": "批量启动{0}",
+    "batch_stop_c": "批量停止{0}",
+    "batch_start": "批量启动",
+    "batch_stop": "批量停止",
     "confirm": "确定",
     "cancel": "取消",
     "close": "关闭",
@@ -261,7 +274,14 @@
     "upload": "上传文件",
     "download": "下载",
     "allocate": "分配",
-    "allocate_c": "分配{0}"
+    "allocate_c": "分配{0}",
+    "restart": "重启",
+    "view": "查看",
+    "stop": "停止",
+    "restart_c": "重启{0}",
+    "stop_c": "停止{0}",
+    "start": "启动",
+    "start_c": "启动{0}"
   },
   "form": {
     "definition": "{0}定义",
@@ -282,7 +302,7 @@
     "microservice": "服务治理",
     "observability": "可观测性",
     "administration": "平台管理",
-    "pai": "算力调度"
+    "pai": "机器学习"
   },
   "routerbar": {
     "cluster": {
@@ -425,29 +445,46 @@
     },
     "pai": {
       "h_dashboard": "概览",
-      "h_task": "任务",
+      "h_task": "训练",
       "h_asset": "资产",
       "h_cost": "成本",
+      "h_setting": "设置",
+      "h_async_task": "任务",
 
       "g_dashboard": "概览",
-      "g_task": "任务中心",
-      "g_asset": "算力资源",
-      "g_ai_asset": "算法资产",
+      "g_task": "模型训练",
+      "g_setting": "平台设置",
+      "g_ai_asset": "AI资产管理",
       "g_cost": "成本中心",
+      "g_cluster_setting": "集群管理",
+      "g_async_task": "异步任务",
 
       "dashboard": "资源概览",
-      "train_task": "训练任务",
-      "dataset": "数据集",
+      "train_task": "训练任务(DLK)",
+      "dataset": "数据集(DS)",
       "image": "镜像",
-      "modelset": "模型集",
+      "modelset": "模型集(MS)",
       "code": "代码集",
       "cluster": "算力集群",
       "instance": "实例规格",
-      "develop": "在线开发",
+      "develop": "交互式建模(IM)",
       "cost_dash": "成本概览",
       "cost_analysis": "成本分析",
       "queue": "任务队列",
-      "workspace": "工作空间"
+      "workspace": "工作空间(PWD)",
+      "priority": "优先级",
+      "output": "输出",
+      "catalog": "模型目录",
+      "management": "运营管理",
+      "management_image": "开源镜像",
+      "management_index": "Index服务管理",
+      "management_dataset": "开源数据集管理",
+      "management_modelset": "开源模型集管理",
+      "management_modelx": "数据管理",
+      "hub": "Model Hub",
+      "inference": "推理服务(IS)",
+      "quota": "租户资源",
+      "management_job": "任务管理"
     }
   },
   "breadcrumb": {
@@ -531,18 +568,26 @@
     "dash_probe": "云拨测是监测并分析服务加载速度、CDN加速、DNS解析等关键性能指标。",
 
     "pai": "",
-    "pai_image": "容器内运行的镜像",
-    "pai_dataset": "训练时的数据输入",
-    "pai_train": "实际的Job批处理负载，用于进行模型训练",
+    "pai_image": "Image 为机器训练框架提供的镜像集合。",
+    "pai_dataset": "Dataset 为机器学习提供的数据样本集合。支持通过本地上传和异步任务（ETL、crawl）等方式存储",
+    "pai_train": "Deep Learning KubeGems 为您提供灵活、稳定、易用和极致性能的深度学习训练环境，您可通过如下配置快速提交训练任务",
     "pai_cluster": "从Kubegems导入托管集群",
     "pai_instance": "算力资源实例，相当于实际的一张gpu卡",
-    "pai_develop": "运行一个实例，通过webshell / jyputer notebook 来进行开发",
-    "pai_model": "预训练模型或强化模型，在创建时通过异步任务同步预训练模型的来源",
-    "pai_code": "训练时运行的代码",
+    "pai_develop": "Interactive Modeling 为AI开发者量身定制的云端机器学习交互式开发IDE，随时随地开启Notebook快速读取数据、开发算法、训练。",
+    "pai_model": "Modelset 为预训练和强化学习提供的模型集市，支持异步方式将公开模型缓存至本地",
+    "pai_code": "Codeset 为机器学习提供的代码集合。",
     "pai_cost_dash": "",
     "pai_cost_analysis": "",
     "pai_queue": "容纳一组pod的队列，也是该组pod获取集群资源的划分依据",
-    "pai_workspace": "用户的个人数据，可在任何阶段被挂载在任何实例中"
+    "pai_workspace": "Workspace 用于存储用户在云上的个人数据",
+    "pai_priority": "任务优先级可以区分任务重要程度，高优先级任务优先执行",
+    "pai_output": "",
+    "pai_catalog": "",
+    "pai_management": "",
+    "pai_hub": "Model Hub",
+    "pai_inference": "Inference Service将模型部署为一个在线服务或AI-Web应用",
+    "pai_quota": "该租户获取集群资源的划分依据",
+    "pai_job": ""
   },
   "metadata": {
     "description": "更便捷的云原生管理平台",
@@ -609,7 +654,11 @@
     "label_file_processing_error": "上传失败",
     "file_upload": "<span class=\"filepond--label-action\">请点击上传文件</span>",
     "copyed": "已复制到粘贴板",
-    "select_one_region": "选择一个区域"
+    "select_one_region": "选择一个区域",
+    "file_read_error": "文件读取失败",
+    "missing_queue": "该租户尚未开通此区域功能，请联系平台管理员",
+    "operator": "聚合操作",
+    "server_token_error": "服务器认证异常，请检查服务器配置"
   },
   "tab": {
     "overview": "概览",
@@ -625,5 +674,11 @@
     "previous": "上一步",
     "over": "不再提示",
     "done": "完成"
+  },
+  "agg": {
+    "default": "不聚合",
+    "max": "按最大值聚合",
+    "min": "按最小值聚合",
+    "avg": "按平均值聚合"
   }
 }

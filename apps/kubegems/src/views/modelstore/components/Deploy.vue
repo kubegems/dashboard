@@ -43,9 +43,9 @@
   import { AIModel } from '@kubegems/api/typed/ai_model';
   import { useGlobalI18n } from '@kubegems/extension/i18n';
   import { useStore } from '@kubegems/extension/store';
+  import config from '@kubegems/libs/constants/global';
   import { ComputedRef, computed, reactive, ref } from 'vue';
 
-  import config from '../../../config.json';
   import DeployWizard from './DeployWizard/index.vue';
   import ModelInfo from './ModelInfo/index.vue';
 
