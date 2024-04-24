@@ -130,7 +130,7 @@
           <Tips v-if="tab === 0 && selectRepo !== 'kubegems'" class="mx-1" :msg="$t('tip.third_registry_deploy')" />
         </v-tab>
       </v-tabs>
-      <div v-if="tab === 0" class="py-2" :style="{ height: `${height - 40}px` }">
+      <div v-if="tab === 0" class="py-2" :style="{ height: `${height * Scale - 50}px`, overflowY: 'auto' }">
         <JsonSchema
           ref="jsonSchema"
           :app-values="appValues"
@@ -530,9 +530,11 @@
       },
       onTabChange() {
         if (this.tab === 0) {
+          this.appValues = this.$yamlload(this.appValuesYaml);
           this.yamlMode = false;
           this.reRender();
         } else {
+          this.appValuesYaml = this.$yamldump(this.appValues);
           this.yamlMode = true;
         }
       },
